@@ -102217,7 +102217,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             ><span
                               class="esa-icon esa-icon--sm"
                               aria-hidden="true"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                               ><svg
                                 width="16"
                                 height="16"
@@ -102228,7 +102228,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 focusable="false"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                               >
                                 <path d="m9 18 6-6-6-6"></path></svg></span></span
                           ><span class="bcn-swot__name" data-swo-name="" data-astro-cid-cpcljfp4=""
@@ -102252,7 +102252,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102263,7 +102263,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102283,7 +102283,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102294,7 +102294,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102312,7 +102312,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102323,7 +102323,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="m7 15 5 5 5-5"></path>
                                     <path d="m7 9 5-5 5 5"></path></svg
@@ -102339,7 +102339,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102350,7 +102350,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="m7 20 5-5 5 5"></path>
                                     <path d="m7 4 5 5 5-5"></path></svg
@@ -102369,7 +102369,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102380,7 +102380,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M5 12h14"></path>
                                     <path d="M12 5v14"></path></svg
@@ -102411,7 +102411,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             ><span
                               class="esa-icon esa-icon--sm"
                               aria-hidden="true"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                               ><svg
                                 width="16"
                                 height="16"
@@ -102422,7 +102422,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 focusable="false"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                               >
                                 <path d="m9 18 6-6-6-6"></path></svg></span></span
                           ><span class="bcn-swot__name" data-swo-name="" data-astro-cid-cpcljfp4=""
@@ -102446,7 +102446,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102457,7 +102457,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102477,7 +102477,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102488,7 +102488,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102507,7 +102507,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102518,7 +102518,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M5 12h14"></path>
                                     <path d="M12 5v14"></path></svg
@@ -102568,7 +102568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102579,7 +102579,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <circle cx="9" cy="12" r="1"></circle>
                                     <circle cx="9" cy="5" r="1"></circle>
@@ -102598,7 +102598,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               ><span
                                 class="esa-icon esa-icon--sm"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="16"
                                   height="16"
@@ -102609,7 +102609,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <path d="m9 18 6-6-6-6"></path></svg></span></span
                             ><span
@@ -102644,7 +102644,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102655,7 +102655,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102675,7 +102675,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102686,7 +102686,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                                     <path
@@ -102704,7 +102704,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102715,7 +102715,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102872,7 +102872,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><span
                             class="esa-icon esa-icon--xs"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="14"
                               height="14"
@@ -102883,7 +102883,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="m9 18 6-6-6-6"></path></svg></span></span
                         ><span class="bcn-swo-edit__code" data-astro-cid-mj7n7ybv=""></span
@@ -102901,7 +102901,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102912,7 +102912,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                                   <path
@@ -102930,7 +102930,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102941,7 +102941,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <path d="M5 12h14"></path>
                                   <path d="m12 5 7 7-7 7"></path></svg
@@ -102957,7 +102957,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102968,7 +102968,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <path d="M18 6 6 18"></path>
                                   <path d="m6 6 12 12"></path></svg
@@ -114002,8 +114002,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -114013,19 +114013,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -114036,7 +114036,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -119819,27 +119819,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -119850,7 +119850,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -120042,6 +120042,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --form-error-color: #ce2c31;
   --form-help-color: #525252;
   --form-label-color: #525252;
+  --form-label-gap: 0.25rem;
   --form-placeholder-color: #525252;
   --form-text-color: #3d3d3d;
   --icon-size-md: 20px;
@@ -120088,6 +120089,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-label-md-font-weight: 500;
   --typography-label-md-letter-spacing: 0.01em;
   --typography-label-md-line-height: 1.6;
+  --typography-label-xs-font-family: "DM Sans", sans-serif;
+  --typography-label-xs-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --typography-label-xs-font-weight: 500;
+  --typography-label-xs-letter-spacing: 0.01em;
+  --typography-label-xs-line-height: 1.6;
   --typography-microcopy-2xs-font-family: "DM Sans", sans-serif;
   --typography-microcopy-2xs-font-size: clamp(0.5rem, 0.44rem + 0.3vw, 0.625rem);
   --typography-microcopy-2xs-font-weight: 500;
@@ -120115,24 +120121,365 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-subtle-line-height: 1;
 }
 
-:host {
-  display: contents;
-}
-dialog.esa-confirm-dialog {
-  position: relative;
-  border: none;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
   padding: 0;
-  margin: auto;
-  width: var(--confirm-dialog-width, 360px);
-  max-width: calc(100vw - 2rem);
-  background: var(--color-background-elevation-floating, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-lg, 0.75rem);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 0;
   overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+  --_pad-y: var(--spacing-300, 0.75rem);
+  --_padding-x: var(--spacing-300, 0.75rem);
+  --_radius: var(--radius-md, 0.5rem);
+  --_border-width: var(--form-border-width, 1px);
+  --_border-color: var(--form-border-color, #cecece);
+  --_icon-size: 18px;
+}
+:host([size="sm"]) {
+  --_pad-y: var(--spacing-250, 0.625rem);
+  --_padding-x: var(--spacing-250, 0.625rem);
+  --_radius: var(--radius-sm, 0.25rem);
+  --_icon-size: 16px;
+}
+.group {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 2px;
+  padding: 2px;
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+  border: var(--_border-width) solid var(--_border-color);
+  border-radius: var(--_radius);
+}
+.option {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150, 6px);
+  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+  padding: var(--_pad-y) var(--_padding-x);
+  color: var(--color-content-default-secondary, #646464);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--_radius) - 2px);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.option--selected {
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-brand, #2a7e3b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swot__foot {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border-default);
+  background: var(--color-background-default);
+  border-bottom-left-radius: var(--radius-200);
+  border-bottom-right-radius: var(--radius-200);
+  display: flex;
+}
+.bcn-swot__foot-verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-swot__foot-end {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+:host {
+  display: inline-block;
+}
+.esa-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.esa-dropdown__trigger {
+  display: inline-block;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+  display: block;
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--spacing-250, 0.625rem);
+  --_field-padding-x: var(--spacing-250, 0.625rem);
+  --_field-radius: var(--radius-sm, 0.25rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
+  margin: 0;
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.help {
+  color: var(--form-help-color, #838383);
+}
+.label {
+  color: var(--form-label-color, #646464);
+  margin-block-end: var(--form-label-gap, 4px);
+}
+.required {
+  color: var(--color-content-utility-danger, #ce2c31);
+  margin-inline-start: 2px;
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+:host {
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+.bcn-swsp {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  flex-shrink: 0;
+}
+.bcn-swsp__header {
+  padding: var(--spacing-400) var(--spacing-500);
+}
+.bcn-swsp__row {
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-swsp__num {
+  border-radius: var(--radius-full);
+  background: var(--_step);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-knockout);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+}
+.bcn-swsp__title {
+  align-items: center;
+  gap: var(--spacing-150);
+  font-family: var(--font-decorative);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  display: inline-flex;
+}
+.bcn-swsp__actions {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swsp__intro {
+  margin: var(--spacing-200) 0 0;
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
 .bcn-swf {
   flex-direction: column;
@@ -120292,107 +120639,65 @@ dialog.esa-confirm-dialog {
   flex: 1;
   min-width: 0;
 }
-:host {
-  display: inline-block;
+*,
+:before,
+:after {
+  box-sizing: border-box;
 }
-.esa-dropdown {
-  position: relative;
-  display: inline-block;
+body {
+  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--typography-font-weight-regular, 350);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
-.esa-dropdown__trigger {
-  display: inline-block;
-}
-:host {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-  --_pad-y: var(--spacing-300, 0.75rem);
-  --_padding-x: var(--spacing-300, 0.75rem);
-  --_radius: var(--radius-md, 0.5rem);
-  --_border-width: var(--form-border-width, 1px);
-  --_border-color: var(--form-border-color, #cecece);
-  --_icon-size: 18px;
-}
-:host([size="sm"]) {
-  --_pad-y: var(--spacing-250, 0.625rem);
-  --_padding-x: var(--spacing-250, 0.625rem);
-  --_radius: var(--radius-sm, 0.25rem);
-  --_icon-size: 16px;
-}
-.group {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  gap: 2px;
-  padding: 2px;
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-  border: var(--_border-width) solid var(--_border-color);
-  border-radius: var(--_radius);
-}
-.option {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-150, 6px);
-  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-  padding: var(--_pad-y) var(--_padding-x);
-  color: var(--color-content-default-secondary, #646464);
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--_radius) - 2px);
+button {
   cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
+  background: 0 0;
+  border: 0;
+  font-family: inherit;
 }
-.option--selected {
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-brand, #2a7e3b);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+a {
+  color: var(--color-content-link, #005862);
+  text-decoration: none;
 }
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
+img {
+  max-width: 100%;
+  display: block;
 }
-.bcn-swot__foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border-default);
-  background: var(--color-background-default);
-  border-bottom-left-radius: var(--radius-200);
-  border-bottom-right-radius: var(--radius-200);
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
   display: flex;
 }
-.bcn-swot__foot-verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
 }
-.bcn-swot__foot-end {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
 }
 .bcn-swot,
 .bcn-lot {
@@ -120508,183 +120813,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__cat:last-of-type {
   border-bottom: none;
 }
-.bcn-swsc__menu {
-  vertical-align: baseline;
-  display: inline-block;
-}
-.bcn-swsc {
-  align-items: center;
-  gap: var(--spacing-100);
-  padding: 2px var(--spacing-200);
-  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  line-height: inherit;
-  cursor: pointer;
-  border: 1px solid #0000;
-  border-radius: 6px;
-  transition: background 0.12s;
-  display: inline-flex;
-}
-.bcn-swsc__label {
-  text-align: left;
-  min-width: 0;
-}
-.bcn-swsc__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swfr {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-500);
-  border-top: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swfr__search {
-  flex: 180px;
-  max-width: 360px;
-}
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
-.bcn-swfr__verbs {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swsp {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-shrink: 0;
-}
-.bcn-swsp__header {
-  padding: var(--spacing-400) var(--spacing-500);
-}
-.bcn-swsp__row {
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-swsp__num {
-  border-radius: var(--radius-full);
-  background: var(--_step);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-knockout);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: inline-flex;
-}
-.bcn-swsp__title {
-  align-items: center;
-  gap: var(--spacing-150);
-  font-family: var(--font-decorative);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  display: inline-flex;
-}
-.bcn-swsp__actions {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swsp__intro {
-  margin: var(--spacing-200) 0 0;
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  line-height: 1.4;
-}
-:host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--spacing-250, 0.625rem);
-  --_field-padding-x: var(--spacing-250, 0.625rem);
-  --_field-radius: var(--radius-sm, 0.25rem);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
-}
 :host {
   --_width: var(--side-dialog-width, 400px);
 }
@@ -120719,325 +120847,114 @@ dialog.panel {
   right: var(--_inset);
   animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
+.sw-verb {
   align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
+  gap: var(--spacing-100);
   display: inline-flex;
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
+.bcn-swo-edit {
+  gap: var(--spacing-400);
+  flex-direction: column;
+  font-size: 0.8125rem;
+  display: flex;
 }
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
+.bcn-swo-edit__pair {
+  gap: var(--spacing-300);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
+  display: grid;
 }
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
+.bcn-swo-edit__section {
+  gap: var(--spacing-150);
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
+.bcn-swo-edit__label-row {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  display: flex;
 }
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
+.bcn-swo-edit__label {
+  color: var(--form-label-color, #646464);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
-.esa-button__label {
-  white-space: nowrap;
+.bcn-swo-edit__label-n {
+  color: var(--color-content-default-tertiary);
+  margin-left: var(--spacing-100);
+  font-weight: 400;
 }
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
+.bcn-swo-edit__verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
 }
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
+.bcn-swo-edit__reqs {
+  border-top: 1px solid var(--color-border-default-subtle);
+  flex-direction: column;
+  display: flex;
 }
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
+.bcn-swo-edit__reqs:empty {
+  border-top: none;
 }
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
+.bcn-swo-edit__empty {
+  color: var(--color-content-default-tertiary);
+  margin: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+.bcn-swo-edit__foot {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
+}
+.bcn-swo-edit__foot-left,
+.bcn-swo-edit__foot-right {
+  align-items: center;
+  gap: var(--spacing-200);
+  display: inline-flex;
+}
+.bcn-swo-pick {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swo-pick__meta {
+  color: var(--color-content-default-tertiary);
+  margin: 0;
+  font-size: 0.75rem;
+}
+.bcn-swo-pick__list {
+  border-top: 1px solid var(--color-border-default-subtle);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swo-edit__foot--end {
+  justify-content: flex-end;
 }
 :host {
-  all: initial;
+  display: contents;
 }
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
+dialog.esa-confirm-dialog {
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  border: none;
+  padding: 0;
+  margin: auto;
+  width: var(--confirm-dialog-width, 360px);
+  max-width: calc(100vw - 2rem);
+  background: var(--color-background-elevation-floating, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-lg, 0.75rem);
   box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
 :host {
   display: block;
@@ -121151,151 +121068,15 @@ dialog.panel {
 .field__help {
   color: var(--form-help-color, #838383);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
+.field__label {
+  /* Was the last reader of --form-label-font-size and one of two readers of
+         --form-label-font-weight. Both are retired with the rest of the size-only
+         ramp; the composite carries size and weight together. */
+  color: var(--form-label-color, #646464);
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-*,
-:before,
-:after {
-  box-sizing: border-box;
-}
-body {
-  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-  font-weight: var(--typography-font-weight-regular, 350);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-}
-button {
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  font-family: inherit;
-}
-a {
-  color: var(--color-content-link, #005862);
-  text-decoration: none;
-}
-img {
-  max-width: 100%;
-  display: block;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-[data-gap="md"] {
-  --gap: var(--spacing-400, 1rem);
-}
-:host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+.field__required {
+  color: var(--color-content-utility-danger, #ce2c31);
+  margin-left: 2px;
 }
 .modern-layout {
   flex-direction: column;
@@ -122106,95 +121887,137 @@ html,
 .modern-layout__content {
   scroll-behavior: smooth;
 }
-.sw-verb {
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
   align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-swo-edit {
-  gap: var(--spacing-400);
-  flex-direction: column;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swo-edit__pair {
-  gap: var(--spacing-300);
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-swo-edit__section {
-  gap: var(--spacing-150);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-swo-edit__label-row {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-200);
-  display: flex;
-}
-.bcn-swo-edit__label {
-  color: var(--form-label-color, #646464);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-.bcn-swo-edit__label-n {
-  color: var(--color-content-default-tertiary);
-  margin-left: var(--spacing-100);
-  font-weight: 400;
-}
-.bcn-swo-edit__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-swo-edit__reqs {
-  border-top: 1px solid var(--color-border-default-subtle);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swo-edit__reqs:empty {
-  border-top: none;
-}
-.bcn-swo-edit__empty {
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-size: 0.75rem;
-  font-style: italic;
-}
-.bcn-swo-edit__foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-200, 8px);
   width: 100%;
-  display: flex;
-}
-.bcn-swo-edit__foot-left,
-.bcn-swo-edit__foot-right {
-  align-items: center;
-  gap: var(--spacing-200);
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
   display: inline-flex;
 }
-.bcn-swo-pick {
-  gap: var(--spacing-200);
-  flex-direction: column;
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.bcn-swsc__menu {
+  vertical-align: baseline;
+  display: inline-block;
+}
+.bcn-swsc {
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: 2px var(--spacing-200);
+  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 6px;
+  transition: background 0.12s;
+  display: inline-flex;
+}
+.bcn-swsc__label {
+  text-align: left;
+  min-width: 0;
+}
+.bcn-swsc__chevron {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swfr {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-500);
+  border-top: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
   font-size: 0.8125rem;
   display: flex;
 }
-.bcn-swo-pick__meta {
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-size: 0.75rem;
+.bcn-swfr__search {
+  flex: 180px;
+  max-width: 360px;
 }
-.bcn-swo-pick__list {
-  border-top: 1px solid var(--color-border-default-subtle);
-  flex-direction: column;
-  display: flex;
+.bcn-swfr__picker {
+  flex: 0 180px;
+  min-width: 140px;
 }
-.bcn-swo-edit__foot--end {
-  justify-content: flex-end;
+.bcn-swfr__verbs {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
 }
 ```
 
@@ -122261,6 +122084,7 @@ html,
 | `--form-error-color` | `#ce2c31` | component |
 | `--form-help-color` | `#525252` | component |
 | `--form-label-color` | `#525252` | component |
+| `--form-label-gap` | `.25rem` | component |
 | `--form-placeholder-color` | `#525252` | component |
 | `--form-text-color` | `#3d3d3d` | component |
 | `--icon-size-md` | `20px` | primitive |
@@ -122307,6 +122131,11 @@ html,
 | `--typography-label-md-font-weight` | `500` | semantic |
 | `--typography-label-md-letter-spacing` | `.01em` | semantic |
 | `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-label-xs-font-weight` | `500` | semantic |
+| `--typography-label-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-label-xs-line-height` | `1.6` | semantic |
 | `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` | semantic |
 | `--typography-microcopy-2xs-font-weight` | `500` | semantic |

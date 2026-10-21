@@ -3896,8 +3896,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -3907,19 +3907,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -3930,7 +3930,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9713,27 +9713,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -9744,7 +9744,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9874,16 +9874,299 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-model-diagram {
+  color: var(--color-content-default);
+  font-size: var(--font-size-200);
+  flex-direction: column;
+  line-height: 1.5;
+  display: flex;
+}
+.bcn-model-diagram__band {
+  gap: var(--spacing-400);
+  padding: var(--spacing-500);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-raised, #fff);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-model-diagram__band-title {
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-semibold);
+  margin: 0;
+  line-height: 1.3;
+}
+.bcn-model-diagram__row {
+  gap: var(--spacing-400);
+  display: grid;
+}
+.bcn-model-diagram__row--pair {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+.bcn-model-diagram__card {
+  gap: var(--spacing-250);
+  padding: var(--spacing-400);
+  background: var(--color-background-elevation-raised, #fff);
+  border: 1px solid var(--color-border-default-strong);
+  border-radius: var(--radius-200);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-model-diagram__card[data-tone="external"] {
+  border-style: dashed;
+  border-color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 5%, white);
+}
+.bcn-model-diagram__card-head {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-model-diagram__card-name {
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
+  line-height: 1.3;
+}
+.bcn-model-diagram__chip {
+  font-family: var(--typography-font-family-mono);
+  color: var(--color-content-default-secondary);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  padding: 0 6px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.bcn-model-diagram__chip[data-tone="external"] {
+  color: var(--color-commitment);
+  border-color: var(--color-commitment);
+  background: 0 0;
+}
+.bcn-model-diagram__purpose {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-model-diagram__fields {
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-model-diagram__fields li {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) 0;
+  border-top: 1px solid var(--color-border-default-subtle);
+  font-size: var(--font-size-150);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-model-diagram__fname {
+  font-family: var(--typography-font-family-mono);
+  color: var(--color-content-default);
+  font-size: 0.75rem;
+}
+.bcn-model-diagram__fnote {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-model-diagram__flow {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-200) 0;
+  margin-inline: var(--spacing-600);
+  display: flex;
+}
+.bcn-model-diagram__flow-label {
+  padding-left: var(--spacing-500);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-tertiary);
+  position: relative;
+}
+.bcn-model-diagram__flow-label:before {
+  content: "";
+  left: var(--spacing-200);
+  background: var(--color-border-default-strong);
+  width: 2px;
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+}
+.bcn-model-diagram__flow-label:after {
+  content: "";
+  left: calc(var(--spacing-200) - 4px);
+  border-left: 5px solid #0000;
+  border-right: 5px solid #0000;
+  border-top: 7px solid var(--color-border-default-strong);
+  position: absolute;
+  bottom: -16px;
+}
+.bcn-model-diagram__band[data-tone="model"] {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default-strong);
+}
+.bcn-model-diagram__band-note {
+  margin: calc(-1 * var(--spacing-300)) 0 0;
+  max-width: 72ch;
+  color: var(--color-content-default-secondary);
+}
+.bcn-model-diagram__spine {
+  align-items: stretch;
+  gap: var(--spacing-200);
+  padding-bottom: var(--spacing-200);
+  display: flex;
+  overflow-x: auto;
+}
+.bcn-model-diagram__spine .bcn-model-diagram__card--tier {
+  flex: 1 1 0;
+  min-width: 240px;
+}
+.bcn-model-diagram__chip[data-tone="id"] {
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-color: #0000;
+}
+.bcn-model-diagram__fname[data-ref="commitment"],
+.bcn-model-diagram__fname[data-ref="milestone"] {
+  color: var(--color-commitment);
+}
+.bcn-model-diagram__link {
+  flex: none;
+  align-items: center;
+  width: 34px;
+  display: flex;
+  position: relative;
+}
+.bcn-model-diagram__link:before {
+  content: "";
+  background: var(--color-border-default-strong);
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 6px;
+}
+.bcn-model-diagram__link-label {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-tertiary);
+  white-space: nowrap;
+  position: absolute;
+  top: calc(50% - 26px);
+  left: 50%;
+  transform: translate(-50%);
+}
+.bcn-model-diagram__link:after {
+  content: "";
+  border-top: 5px solid #0000;
+  border-bottom: 5px solid #0000;
+  border-left: 7px solid var(--color-border-default-strong);
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.bcn-model-diagram__row--satellites {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.bcn-model-diagram__card--satellite {
+  border-color: var(--color-border-default);
+}
+.bcn-model-diagram__card--computed {
+  border-style: dashed;
+}
+.bcn-model-diagram__chip[data-tone="computed"] {
+  border-style: dashed;
+}
+.bcn-model-diagram__row--projections {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.bcn-model-diagram__card--projection {
+  gap: var(--spacing-150);
+  background: var(--color-background-elevation-sunken);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
 .modern-layout {
   flex-direction: column;
@@ -10671,50 +10954,6 @@ html,
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
 .page-layout {
   min-height: calc(100vh - 52px);
   padding: var(--spacing-600);
@@ -10788,251 +11027,12 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.bcn-model-diagram {
-  color: var(--color-content-default);
-  font-size: var(--font-size-200);
-  flex-direction: column;
-  line-height: 1.5;
-  display: flex;
-}
-.bcn-model-diagram__band {
-  gap: var(--spacing-400);
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-raised, #fff);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-model-diagram__band-title {
-  font-size: var(--font-size-400);
-  font-weight: var(--typography-font-weight-semibold);
-  margin: 0;
-  line-height: 1.3;
-}
-.bcn-model-diagram__row {
-  gap: var(--spacing-400);
-  display: grid;
-}
-.bcn-model-diagram__row--pair {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-}
-.bcn-model-diagram__card {
-  gap: var(--spacing-250);
-  padding: var(--spacing-400);
-  background: var(--color-background-elevation-raised, #fff);
-  border: 1px solid var(--color-border-default-strong);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-model-diagram__card[data-tone="external"] {
-  border-style: dashed;
-  border-color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 5%, white);
-}
-.bcn-model-diagram__card-head {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-model-diagram__card-name {
-  font-size: var(--font-size-300);
-  font-weight: var(--typography-font-weight-semibold);
-  line-height: 1.3;
-}
-.bcn-model-diagram__chip {
-  font-family: var(--typography-font-family-mono);
-  color: var(--color-content-default-secondary);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  padding: 0 6px;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.bcn-model-diagram__chip[data-tone="external"] {
-  color: var(--color-commitment);
-  border-color: var(--color-commitment);
-  background: 0 0;
-}
-.bcn-model-diagram__purpose {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-model-diagram__fields {
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-model-diagram__fields li {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  padding: var(--spacing-150) 0;
-  border-top: 1px solid var(--color-border-default-subtle);
-  font-size: var(--font-size-150);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-model-diagram__fname {
-  font-family: var(--typography-font-family-mono);
-  color: var(--color-content-default);
-  font-size: 0.75rem;
-}
-.bcn-model-diagram__fnote {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-model-diagram__flow {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-200) 0;
-  margin-inline: var(--spacing-600);
-  display: flex;
-}
-.bcn-model-diagram__flow-label {
-  padding-left: var(--spacing-500);
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-tertiary);
-  position: relative;
-}
-.bcn-model-diagram__flow-label:before {
-  content: "";
-  left: var(--spacing-200);
-  background: var(--color-border-default-strong);
-  width: 2px;
-  position: absolute;
-  top: -14px;
-  bottom: -14px;
-}
-.bcn-model-diagram__flow-label:after {
-  content: "";
-  left: calc(var(--spacing-200) - 4px);
-  border-left: 5px solid #0000;
-  border-right: 5px solid #0000;
-  border-top: 7px solid var(--color-border-default-strong);
-  position: absolute;
-  bottom: -16px;
-}
-.bcn-model-diagram__band[data-tone="model"] {
-  background: var(--color-background-elevation-sunken);
-  border-color: var(--color-border-default-strong);
-}
-.bcn-model-diagram__band-note {
-  margin: calc(-1 * var(--spacing-300)) 0 0;
-  max-width: 72ch;
-  color: var(--color-content-default-secondary);
-}
-.bcn-model-diagram__spine {
-  align-items: stretch;
-  gap: var(--spacing-200);
-  padding-bottom: var(--spacing-200);
-  display: flex;
-  overflow-x: auto;
-}
-.bcn-model-diagram__spine .bcn-model-diagram__card--tier {
-  flex: 1 1 0;
-  min-width: 240px;
-}
-.bcn-model-diagram__chip[data-tone="id"] {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-color: #0000;
-}
-.bcn-model-diagram__fname[data-ref="commitment"],
-.bcn-model-diagram__fname[data-ref="milestone"] {
-  color: var(--color-commitment);
-}
-.bcn-model-diagram__link {
-  flex: none;
-  align-items: center;
-  width: 34px;
-  display: flex;
-  position: relative;
-}
-.bcn-model-diagram__link:before {
-  content: "";
-  background: var(--color-border-default-strong);
-  height: 2px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 6px;
-}
-.bcn-model-diagram__link-label {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  position: absolute;
-  top: calc(50% - 26px);
-  left: 50%;
-  transform: translate(-50%);
-}
-.bcn-model-diagram__link:after {
-  content: "";
-  border-top: 5px solid #0000;
-  border-bottom: 5px solid #0000;
-  border-left: 7px solid var(--color-border-default-strong);
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-}
-.bcn-model-diagram__row--satellites {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-.bcn-model-diagram__card--satellite {
-  border-color: var(--color-border-default);
-}
-.bcn-model-diagram__card--computed {
-  border-style: dashed;
-}
-.bcn-model-diagram__chip[data-tone="computed"] {
-  border-style: dashed;
-}
-.bcn-model-diagram__row--projections {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-.bcn-model-diagram__card--projection {
-  gap: var(--spacing-150);
-  background: var(--color-background-elevation-sunken);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 ```
 

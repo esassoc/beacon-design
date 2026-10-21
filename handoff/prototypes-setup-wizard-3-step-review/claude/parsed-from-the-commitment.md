@@ -247,16 +247,16 @@ Everything parsed out of the commitment: its requirements in text order, each wi
   <!-- Keys the controller clones per row. --><template data-at-tpl="edit"
     ><span
       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-      data-astro-cid-4xhmycw5=""
+      data-astro-cid-5nhxdd72=""
       ><button
         class="esa-button__native typography-microcopy-2xs"
         type="button"
         aria-label="Edit requirement"
         title="Edit requirement"
         data-astro-cid-e4wmksru="true"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
       >
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
           ><svg
             width="14"
             height="14"
@@ -267,7 +267,7 @@ Everything parsed out of the commitment: its requirements in text order, each wi
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
           >
             <path
               d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
@@ -277,14 +277,14 @@ Everything parsed out of the commitment: its requirements in text order, each wi
   ><template data-at-tpl="track"
     ><span
       class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-      data-astro-cid-4xhmycw5=""
+      data-astro-cid-5nhxdd72=""
       ><button
         class="esa-button__native typography-microcopy-2xs"
         type="button"
         data-astro-cid-e4wmksru="true"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
       >
-        <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+        <span class="esa-button__label" data-astro-cid-5nhxdd72=""
           >Make a requirement</span
         >
       </button></span
@@ -292,40 +292,40 @@ Everything parsed out of the commitment: its requirements in text order, each wi
   ><template data-at-tpl="not-binding"
     ><span
       class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-      data-astro-cid-4xhmycw5=""
+      data-astro-cid-5nhxdd72=""
       ><button
         class="esa-button__native typography-microcopy-2xs"
         type="button"
         data-astro-cid-e4wmksru="true"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
       >
-        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Not binding</span>
+        <span class="esa-button__label" data-astro-cid-5nhxdd72="">Not binding</span>
       </button></span
     ></template
   ><template data-at-tpl="merge"
     ><span
       class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-      data-astro-cid-4xhmycw5=""
+      data-astro-cid-5nhxdd72=""
       ><button
         class="esa-button__native typography-microcopy-2xs"
         type="button"
         data-astro-cid-e4wmksru="true"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
       >
-        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Merge</span>
+        <span class="esa-button__label" data-astro-cid-5nhxdd72="">Merge</span>
       </button></span
     ></template
   ><template data-at-tpl="keep"
     ><span
       class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-      data-astro-cid-4xhmycw5=""
+      data-astro-cid-5nhxdd72=""
       ><button
         class="esa-button__native typography-microcopy-2xs"
         type="button"
         data-astro-cid-e4wmksru="true"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
       >
-        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Keep separate</span>
+        <span class="esa-button__label" data-astro-cid-5nhxdd72="">Keep separate</span>
       </button></span
     ></template
   >

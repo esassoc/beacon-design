@@ -1036,15 +1036,15 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
           ><li class="bcn-rn__item" data-astro-cid-q3ssrg2b="">
             <div
               class="esa-card esa-card--outlined esa-card--padding-compact"
-              data-astro-cid-t2d274gq=""
+              data-astro-cid-gctb7h5d=""
             >
-              <div class="esa-card__body typography-body-md" data-astro-cid-t2d274gq="">
+              <div class="esa-card__body typography-body-md" data-astro-cid-gctb7h5d="">
                 <div class="bcn-rn__card" data-astro-cid-q3ssrg2b="">
                   <span class="bcn-rn__num" data-rn-num="" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                      data-astro-cid-sh7ulwla=""
-                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                      data-astro-cid-yahmuvtj=""
+                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                         >1</span
                       ></span
                     ></span
@@ -1062,7 +1062,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   ><span class="bcn-rn__fold" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
@@ -1070,12 +1070,12 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                         title="Collapse Note"
                         data-rn-fold="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-c7ivvrtd=""
+                          data-astro-cid-wcwfib5m=""
                           ><svg
                             width="16"
                             height="16"
@@ -1086,7 +1086,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                           >
                             <path d="m6 9 6 6 6-6"></path></svg
                         ></span></button></span
@@ -1112,37 +1112,37 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   </div>
                 </div>
               </div>
-              <div class="esa-card__footer typography-meta" data-astro-cid-t2d274gq="">
+              <div class="esa-card__footer typography-meta" data-astro-cid-gctb7h5d="">
                 <div class="bcn-rn__acts" data-rn-acts="" data-astro-cid-q3ssrg2b="">
                   <span
                     class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                    data-astro-cid-4xhmycw5=""
+                    data-astro-cid-5nhxdd72=""
                     ><button
                       class="esa-button__native typography-microcopy-xs"
                       type="button"
                       data-rn-reply="true"
                       data-astro-cid-q3ssrg2b="true"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                     >
-                      <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                      <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                         >Reply</span
                       >
                     </button></span
                   ><span class="bcn-rn__end" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         data-rn-resolve="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-c7ivvrtd=""
+                          data-astro-cid-wcwfib5m=""
                           ><svg
                             width="16"
                             height="16"
@@ -1153,27 +1153,27 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                           >
                             <path d="M20 6 9 17l-5-5"></path></svg></span
-                        ><span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                        ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
                           >Resolve</span
                         >
                       </button></span
                     ><span
                       class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         data-rn-reopen="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-c7ivvrtd=""
+                          data-astro-cid-wcwfib5m=""
                           ><svg
                             width="16"
                             height="16"
@@ -1184,13 +1184,13 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                           >
                             <path
                               d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
                             ></path>
                             <path d="M3 3v5h5"></path></svg></span
-                        ><span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                        ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
                           >Reopen</span
                         >
                       </button></span
@@ -1206,8 +1206,8 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
               ><span
                 class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
                 style="--_avatar-hue: 332"
-                data-astro-cid-cgicqi4o=""
-                ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o=""
+                data-astro-cid-uz7u6efw=""
+                ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw=""
                   >ST</span
                 ></span
               ></span

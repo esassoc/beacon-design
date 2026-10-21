@@ -6823,19 +6823,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><span data-tpl-remove="" data-astro-cid-hxtgpcch=""
                             ><span
                               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                              data-astro-cid-4xhmycw5=""
+                              data-astro-cid-5nhxdd72=""
                               ><button
                                 class="esa-button__native typography-microcopy-xs"
                                 type="button"
                                 aria-label="Remove from selection"
                                 title="Remove from selection"
                                 data-astro-cid-hxtgpcch="true"
-                                data-astro-cid-4xhmycw5=""
+                                data-astro-cid-5nhxdd72=""
                               >
                                 <span
                                   class="esa-icon esa-icon--sm"
                                   aria-hidden="true"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                   ><svg
                                     width="16"
                                     height="16"
@@ -6846,7 +6846,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-c7ivvrtd=""
+                                    data-astro-cid-wcwfib5m=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -6854,10 +6854,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ></span></li></template
                       ><template data-triage-manual-template=""
                         ><div class="bcn-triage-sug" data-tier="manual" data-astro-cid-hxtgpcch="">
-                          <div class="esa-card" data-astro-cid-t2d274gq="">
+                          <div class="esa-card" data-astro-cid-gctb7h5d="">
                             <div
                               class="esa-card__body typography-body-md"
-                              data-astro-cid-t2d274gq=""
+                              data-astro-cid-gctb7h5d=""
                             >
                               <div class="bcn-ev-row" data-astro-cid-hxtgpcch="">
                                 <div class="bcn-ev-row__titlerow" data-astro-cid-hxtgpcch="">
@@ -6882,17 +6882,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     data-astro-cid-hxtgpcch=""
                                     ><span
                                       class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                                      data-astro-cid-sh7ulwla=""
+                                      data-astro-cid-yahmuvtj=""
                                       ><span
                                         class="esa-badge__text"
-                                        data-astro-cid-sh7ulwla=""
+                                        data-astro-cid-yahmuvtj=""
                                       ></span></span
                                     ><span
                                       class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                                      data-astro-cid-sh7ulwla=""
+                                      data-astro-cid-yahmuvtj=""
                                       ><span
                                         class="esa-badge__text"
-                                        data-astro-cid-sh7ulwla=""
+                                        data-astro-cid-yahmuvtj=""
                                       ></span></span
                                   ></span>
                                 </div>
@@ -6912,29 +6912,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     ></esa-button-toggle></span
                                   ><span
                                     class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-                                    data-astro-cid-4xhmycw5=""
+                                    data-astro-cid-5nhxdd72=""
                                     ><button
                                       class="esa-button__native typography-microcopy-xs"
                                       type="button"
                                       data-triage-sug-approve="true"
                                       data-astro-cid-hxtgpcch="true"
-                                      data-astro-cid-4xhmycw5=""
+                                      data-astro-cid-5nhxdd72=""
                                     >
-                                      <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                      <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                         >Approve</span
                                       >
                                     </button></span
                                   ><span
                                     class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
-                                    data-astro-cid-4xhmycw5=""
+                                    data-astro-cid-5nhxdd72=""
                                     ><button
                                       class="esa-button__native typography-microcopy-xs"
                                       type="button"
                                       data-triage-sug-dismiss="true"
                                       data-astro-cid-hxtgpcch="true"
-                                      data-astro-cid-4xhmycw5=""
+                                      data-astro-cid-5nhxdd72=""
                                     >
-                                      <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                      <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                         >Dismiss</span
                                       >
                                     </button></span
@@ -6949,8 +6949,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   <span data-triage-sug-verdict="" data-astro-cid-hxtgpcch=""
                                     ><span
                                       class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
-                                      data-astro-cid-sh7ulwla=""
-                                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                                      data-astro-cid-yahmuvtj=""
+                                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                                         >Attached</span
                                       ></span
                                     ></span
@@ -6960,22 +6960,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     data-astro-cid-hxtgpcch=""
                                     ><span
                                       class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                                      data-astro-cid-sh7ulwla=""
-                                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                                      data-astro-cid-yahmuvtj=""
+                                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                                         >Marked complete</span
                                       ></span
                                     ></span
                                   ><span
                                     class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
-                                    data-astro-cid-4xhmycw5=""
+                                    data-astro-cid-5nhxdd72=""
                                     ><button
                                       class="esa-button__native typography-microcopy-xs"
                                       type="button"
                                       data-triage-sug-undo="true"
                                       data-astro-cid-hxtgpcch="true"
-                                      data-astro-cid-4xhmycw5=""
+                                      data-astro-cid-5nhxdd72=""
                                     >
-                                      <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                      <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                         >Undo</span
                                       >
                                     </button></span
@@ -9988,8 +9988,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -9999,19 +9999,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -10022,7 +10022,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -15805,27 +15805,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -15836,7 +15836,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -15966,419 +15966,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.esa-button__label {
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
   white-space: nowrap;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
-}
-.bcn-triage-counts__chip {
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--typography-font-weight-medium);
-  --badge-bg: var(--color-background-elevation-sunken);
-  --badge-text-color: var(--color-content-default-secondary);
-}
-.bcn-triage-counts__showing {
-  color: var(--color-content-default-secondary);
-  font-size: 0.8125rem;
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  align-items: stretch;
-  height: clamp(32rem, 70vh, 58rem);
-}
-.bcn-triage-workspace__queue {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  flex-direction: column;
-  height: 100%;
-  min-height: 0;
-  display: flex;
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  min-height: 0;
-  padding-bottom: var(--spacing-500);
-  flex: 1;
-  overflow-y: auto;
-}
-.bcn-triage-queue__day {
-  z-index: 1;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-background-elevation-sunken);
-  border-block: 1px solid var(--color-border-default-subtle);
-  font-size: 0.875rem;
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.4;
-  position: sticky;
-  top: 0;
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  gap: var(--spacing-150);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-  background: var(--color-background-elevation-raised);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-triage-row__body {
-  gap: var(--spacing-150);
-  min-width: 0;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  flex-direction: column;
-  padding: 0;
-  display: flex;
-}
-.bcn-triage-row__line {
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--spacing-250);
-  min-width: 0;
-  display: flex;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-}
-.bcn-triage-row__date {
-  color: var(--color-content-default-secondary);
-  flex: none;
-  font-size: 0.8125rem;
-}
-.bcn-triage-row__meta {
-  color: var(--color-content-default-secondary);
-  font-size: 0.8125rem;
-}
-.bcn-triage-row__foot {
-  align-items: center;
-  min-width: 0;
-  display: flex;
-}
-.bcn-triage-row__match {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  display: flex;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-row__foot[hidden] {
-  display: none;
-}
-.bcn-triage-queue__list[hidden] {
-  display: none;
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__review {
-  align-self: start;
-  min-height: 0;
-  max-height: 100%;
-}
-.bcn-triage-review {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  flex-direction: column;
-  min-height: 0;
-  max-height: 100%;
-  display: flex;
-  overflow-y: auto;
-}
-.bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
-  background: 0 0;
-  border: 0;
-}
-.bcn-triage-review__prompt {
-  flex: 1;
-  align-items: stretch;
-  min-height: 22rem;
-  display: flex;
-}
-.bcn-triage-review__invite {
-  padding: var(--spacing-500);
-  border: 1px dashed var(--color-border-default);
-  border-radius: var(--radius-200);
-  color: var(--color-content-default-secondary);
-  background: 0 0;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  font-size: 0.8125rem;
-  font-style: italic;
-  display: flex;
-}
-.bcn-triage-review__panel {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
-}
-.bcn-file-preview {
-  min-height: 26rem;
-  padding: var(--spacing-400) 0;
-  background: var(--color-background-elevation-sunken);
-  border-radius: var(--radius-100);
-  justify-content: center;
-  display: flex;
-}
-.bcn-file-preview__page {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200);
-  width: min(20rem, 100%);
-  padding: var(--spacing-500);
-  text-align: center;
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-file-preview__page .esa-icon {
-  color: var(--color-content-default-secondary);
-}
-.bcn-file-preview__name {
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  overflow-wrap: anywhere;
-  margin: 0;
-}
-.bcn-file-preview__note {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  font-size: 0.875rem;
-}
-.bcn-triage-add {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  min-height: 20rem;
-  display: flex;
-}
-.bcn-triage-add__scope {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  font-size: 0.8125rem;
-}
-.bcn-triage-add__staged {
-  gap: var(--spacing-200);
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-default);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-triage-add__staged[hidden] {
-  display: none;
-}
-.bcn-triage-add__actions {
-  justify-content: flex-end;
-  gap: var(--spacing-250);
-  display: flex;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
 }
 .page-layout {
   min-height: calc(100vh - 52px);
@@ -16523,30 +16134,105 @@ html,
   flex-grow: 999;
   flex-basis: 0;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
-  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
   justify-content: center;
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .esa-filter-clear-button {
   --_clear-text: var(--color-content-default-secondary, #646464);
@@ -17364,6 +17050,320 @@ html,
   overflow: hidden;
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--typography-font-weight-medium);
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default-secondary);
+}
+.bcn-triage-counts__showing {
+  color: var(--color-content-default-secondary);
+  font-size: 0.8125rem;
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  align-items: stretch;
+  height: clamp(32rem, 70vh, 58rem);
+}
+.bcn-triage-workspace__queue {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.bcn-triage-queue__scroll {
+  min-height: 0;
+  padding-bottom: var(--spacing-500);
+  flex: 1;
+  overflow-y: auto;
+}
+.bcn-triage-queue__day {
+  z-index: 1;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-background-elevation-sunken);
+  border-block: 1px solid var(--color-border-default-subtle);
+  font-size: 0.875rem;
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.4;
+  position: sticky;
+  top: 0;
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-default-subtle);
+  background: var(--color-background-elevation-raised);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-triage-row__body {
+  gap: var(--spacing-150);
+  min-width: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  flex-direction: column;
+  padding: 0;
+  display: flex;
+}
+.bcn-triage-row__line {
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-250);
+  min-width: 0;
+  display: flex;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.bcn-triage-row__date {
+  color: var(--color-content-default-secondary);
+  flex: none;
+  font-size: 0.8125rem;
+}
+.bcn-triage-row__meta {
+  color: var(--color-content-default-secondary);
+  font-size: 0.8125rem;
+}
+.bcn-triage-row__foot {
+  align-items: center;
+  min-width: 0;
+  display: flex;
+}
+.bcn-triage-row__match {
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+  display: flex;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-background-utility-info-subtle);
+  --badge-text-color: var(--color-content-default);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  font-weight: var(--typography-font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-row__foot[hidden] {
+  display: none;
+}
+.bcn-triage-queue__list[hidden] {
+  display: none;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__review {
+  align-self: start;
+  min-height: 0;
+  max-height: 100%;
+}
+.bcn-triage-review {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  overflow-y: auto;
+}
+.bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
+  background: 0 0;
+  border: 0;
+}
+.bcn-triage-review__prompt {
+  flex: 1;
+  align-items: stretch;
+  min-height: 22rem;
+  display: flex;
+}
+.bcn-triage-review__invite {
+  padding: var(--spacing-500);
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--radius-200);
+  color: var(--color-content-default-secondary);
+  background: 0 0;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-style: italic;
+  display: flex;
+}
+.bcn-triage-review__panel {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
+}
+.bcn-file-preview {
+  min-height: 26rem;
+  padding: var(--spacing-400) 0;
+  background: var(--color-background-elevation-sunken);
+  border-radius: var(--radius-100);
+  justify-content: center;
+  display: flex;
+}
+.bcn-file-preview__page {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: min(20rem, 100%);
+  padding: var(--spacing-500);
+  text-align: center;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-file-preview__page .esa-icon {
+  color: var(--color-content-default-secondary);
+}
+.bcn-file-preview__name {
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.bcn-file-preview__note {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+  font-size: 0.875rem;
+}
+.bcn-triage-add {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  min-height: 20rem;
+  display: flex;
+}
+.bcn-triage-add__scope {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+  font-size: 0.8125rem;
+}
+.bcn-triage-add__staged {
+  gap: var(--spacing-200);
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-default);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-triage-add__staged[hidden] {
+  display: none;
+}
+.bcn-triage-add__actions {
+  justify-content: flex-end;
+  gap: var(--spacing-250);
+  display: flex;
 }
 ```
 
