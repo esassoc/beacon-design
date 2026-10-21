@@ -15,7 +15,9 @@
 // The info banner is gone by default (round 11): its sentence lives in You Are Here.
 // `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
 //
-// `?as=admin` is the ESA admin's view: draft dots show muted, the band above the Guidance
+// Roles (src/lib/help-role.ts, round 17d): `?as=esa-admin` (alias `?as=admin`) is the ESA
+// admin's view, everything below; `?as=tenant-admin` gets only the page description's
+// pencil in the drawer, as that text is the tenant's own. The ESA admin's view: draft dots show muted, the band above the Guidance
 // bar gains Add Dot and Edit Dots (round 16), and the drawer's On This Page list shows
 // drafts and lost dots with actions inline (round 17). Option/Alt-click anywhere adds one.
 import AppShell from '../../layouts/AppShell.astro';

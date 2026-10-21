@@ -10,7 +10,9 @@
 // page's own scroll container, so dots scroll with the page and need re-measuring only
 // when the layout moves. A dot whose spot is missing from the page is hidden.
 //
-// ADMIN (`?as=admin`, round 15). ESA admins also see draft dots, muted, and work the
+// ESA ADMIN ONLY (`?as=esa-admin`, alias `?as=admin`; round 15, roles split round 17d in
+// src/lib/help-role.ts). Dots are ESA-authored and the same for every tenant (BCN-1513), so
+// a tenant admin sees exactly what a reader sees here. ESA admins also see draft dots, muted, and work the
 // dots by hand on the page:
 //   - Add Dot (the drawer segment's header) or Option/Alt-click anywhere arms placement. A
 //     dot rides the pointer, the part under it is outlined with its name, a click drops the
@@ -81,14 +83,15 @@ const clientPage = {
 </div>
 
 <!-- The band above the Guidance bar while the dots are on. A reader gets Open Help &
-     Guidance. An admin also gets Add Dot and Edit Dots, set apart as admin tools; in a mode
+     Guidance. An ESA admin (only: dots are ESA-authored for every tenant, BCN-1513) also
+     gets Add Dot and Edit Dots, set apart as admin tools; in a mode
      the band says what a click does and carries its way out. -->
 <div class="bcn-help-dots__band" data-help-panelbar hidden>
   <div class="bcn-help-dots__row" data-help-band-menu>
     <EsaButton variant="chrome" size="sm" icon="circle-question-mark" data-help-panel-open>Open Help &amp; Guidance</EsaButton>
     <div class="bcn-help-dots__admin" data-help-band-admin hidden>
-      <EsaButton variant="chrome" size="sm" icon="plus" data-help-band-add>Add Dot</EsaButton>
-      <EsaButton variant="chrome" size="sm" icon="pencil" data-help-band-edit>Edit Dots</EsaButton>
+      <esa-tooltip text="ESA admin: add a dot, shown to every tenant" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="plus" data-help-band-add>Add Dot</EsaButton></esa-tooltip>
+      <esa-tooltip text="ESA admin: move, edit or detach dots for every tenant" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="pencil" data-help-band-edit>Edit Dots</EsaButton></esa-tooltip>
     </div>
   </div>
   <div class="bcn-help-dots__row bcn-help-dots__state" data-help-pickbar role="status" hidden>
@@ -96,7 +99,7 @@ const clientPage = {
     <span class="bcn-help-dots__state-text" data-help-pick-text></span>
     <span class="bcn-help-dots__item" data-help-orphans-wrap hidden>
       <esa-popover trigger="click" position="top" offset={10} appearance="inverse" label="Needs a New Spot">
-        <EsaButton variant="chrome" size="sm" icon="circle-alert" data-help-orphans-chip>Need a Spot</EsaButton>
+        <esa-tooltip text="ESA admin: dots whose part is gone from this page" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="circle-alert" data-help-orphans-chip>Need a Spot</EsaButton></esa-tooltip>
         <div slot="content" class="bcn-help-dots__orphans stack" data-gap="3xs" data-help-orphans></div>
       </esa-popover>
     </span>
@@ -112,6 +115,7 @@ const clientPage = {
 <script type="application/json" data-help-dots-page set:html={JSON.stringify(clientPage)} />
 
 <script>
+  import '@esa/ecology/esa-tooltip';
   import { setupHelpDots } from './help-dots';
   import { initTooltipLayer } from './tooltip-layer';
   import '../../styles/bcn-tooltip-layer.css';

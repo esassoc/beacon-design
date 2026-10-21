@@ -4,8 +4,8 @@
 // data-* hooks. See <BcnHelpDots> for the contract.
 //
 // Reader: Guidance on the Guidance bar shows the published dots, with a dark button above
-// the bar that opens the drawer; Guidance again or Esc hides them. Admin (`?as=admin`):
-// drafts show muted, the drawer gains Dots on This Page, and the dots are worked by hand
+// the bar that opens the drawer; Guidance again or Esc hides them. ESA admin only (`?as=esa-admin`,
+// alias `?as=admin`; a tenant admin does not author dots, src/lib/help-role.ts): drafts show muted, the drawer gains Dots on This Page, and the dots are worked by hand
 // on the page: Add Dot, Option/Alt-click or Pick Again carries a dot to a part, any dot
 // drags to another part, and either ends on the editor beside the dot.
 //
@@ -14,6 +14,7 @@
 // hidden and, for admins, listed under Needs a New Spot.
 
 import '@esa/ecology/esa-popover';
+import { isEsaAdmin } from '../../lib/help-role';
 import '@esa/ecology/esa-text-field';
 import '@esa/ecology/esa-textarea';
 import { spotCapture } from '../../data/help-dots';
@@ -60,7 +61,7 @@ export function setupHelpDots(): void {
 
   const page = JSON.parse(json.textContent ?? '{}') as ClientPage;
   const params = new URLSearchParams(location.search);
-  const admin = params.get('as') === 'admin';
+  const admin = isEsaAdmin(); // dots are ESA-authored for every tenant (src/lib/help-role.ts)
   const drawer = document.querySelector<Dialog>('[data-gd]');
 
   const spots = new Map(page.spots.map((s) => [s.spot, s]));

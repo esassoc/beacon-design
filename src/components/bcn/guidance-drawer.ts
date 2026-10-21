@@ -10,6 +10,7 @@
 import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT, routePurpose } from '../../data/help-center';
 import { CUSTOM_RICH_TEXT } from '../../data/custom-rich-text';
 import { mountComposer } from './aldo/aldo-composer';
+import { isEsaAdmin, canEditTenantText } from '../../lib/help-role';
 import { aldoParts } from './aldo/aldo-parts';
 
 /** Parent inset while the child reader is stacked on top — a subtle step back. */
@@ -71,10 +72,14 @@ export function initGuidanceDrawer(): void {
   // Everything that shows a key's text carries `data-rich-text="<key>"`, so a save repaints
   // the card and, on Lists, the empty state together. In memory only, like the dots.
   const richKey = ctx.richText;
-  const admin = new URLSearchParams(location.search).get('as') === 'admin';
+  // Roles (src/lib/help-role.ts): page terms are ESA-authored, so only an ESA admin attaches
+  // or detaches them; the page description is the tenant's own text, which a tenant admin
+  // (or an ESA admin) edits.
+  const admin = isEsaAdmin();
+  const tenantEditor = canEditTenantText();
   const textForm = document.querySelector<HTMLElement & { show(): void; close(): void }>('[data-htf]');
   if (richKey) purposeEl.dataset.richText = richKey;
-  if (richKey && admin && textForm) {
+  if (richKey && tenantEditor && textForm) {
     const editWrap = root.querySelector<HTMLElement>('[data-gd-here-edit]');
     const note = root.querySelector<HTMLElement>('[data-gd-here-note]');
     const field = textForm.querySelector<HTMLElement & { value: string }>('[data-htf-text]');

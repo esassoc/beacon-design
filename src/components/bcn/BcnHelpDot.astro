@@ -54,13 +54,13 @@ const shot = dot?.shot;
       <p class="bcn-hd__title typography-label-md-strong" data-hd-title>{dot?.title}</p>
       <p class="bcn-hd__text typography-body-sm" data-hd-text>{dot?.text}</p>
       <div class="bcn-hd__admin" data-hd-admin hidden>
-        <EsaButton variant="chrome" size="xs" icon="pencil" data-hd-edit>Edit</EsaButton>
+        <esa-tooltip text="ESA admin: edit this dot for every tenant" position="above" delay="150"><EsaButton variant="chrome" size="xs" icon="pencil" data-hd-edit>Edit</EsaButton></esa-tooltip>
       </div>
     </div>
   </esa-popover>
   <!-- Edit Dots only (round 16): detach this dot from the page. -->
   <span class="bcn-hd__detach" data-hd-detach>
-    <EsaButton variant="chrome" iconOnly icon="x" label="Detach from This Page" size="xs" />
+    <esa-tooltip text="ESA admin: Detach from this page" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="x" label="Detach from This Page" size="xs" /></esa-tooltip>
   </span>
 </div>
 
