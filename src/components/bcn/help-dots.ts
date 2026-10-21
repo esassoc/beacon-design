@@ -38,7 +38,7 @@ interface ClientPage {
 }
 
 /** What a click on the page does while placing. */
-type Arm = { kind: 'add' } | { kind: 'move'; dotId: string };
+type Arm = ({ kind: 'add' } | { kind: 'move'; dotId: string }) & { fromDrawer?: boolean };
 
 const NARROW = 640;
 const EDGE = 12;
@@ -50,7 +50,7 @@ const EDITOR = 320; // <BcnHelpDotEditor>'s width
 const ARROW = 14; // the editor's pointer, and its gap from the spot
 const BAR = 96; // the Guidance bar's height, its offset and a gap
 // The help UI itself is never a spot.
-const HELP_UI = '[data-help-dots], [data-help-bar], [data-help-pickbar], [data-help-panelbar], [data-gd], [data-gd-article], [data-htf]';
+const HELP_UI = '[data-help-dots], [data-help-bar], [data-help-panelbar], [data-gd], [data-gd-article], [data-htf]';
 
 export function setupHelpDots(): void {
   const layer = document.querySelector<HTMLElement>('[data-help-dots]');
@@ -67,6 +67,8 @@ export function setupHelpDots(): void {
   const dots = new Map<string, DotState>(page.dots.map((d) => [d.id, { ...d }]));
   let arm: Arm | null = null;
   let on = false;
+  // Edit Dots (round 16): every dot shows its handles; drag moves, click edits, × detaches.
+  let editMode = false;
   let made = 0;
 
   trigger.setAttribute('data-help-dots-claimed', '');
@@ -91,7 +93,7 @@ export function setupHelpDots(): void {
   };
   // A pointer on the drawer, its panels or the Guidance bar is not on the page.
   const offPage = (t: EventTarget | null) =>
-    t instanceof Element && !!t.closest('[data-gd], [data-gd-article], [data-htf], [data-help-bar], [data-help-pickbar], [data-hde]');
+    t instanceof Element && !!t.closest('[data-gd], [data-gd-article], [data-htf], [data-help-bar], [data-help-panelbar], [data-hde]');
   // A spot that only exists in another state of the page (HelpSpot.onlyIn).
   const elsewhere = (spot: string): string | null => {
     const w = spots.get(spot)?.onlyIn;
@@ -184,10 +186,72 @@ export function setupHelpDots(): void {
 
   const showLayer = () => {
     layer.hidden = !on;
+    layer.toggleAttribute('data-edit-mode', editMode);
     trigger.setAttribute('aria-pressed', String(on));
-    if (panelbar) panelbar.hidden = !on || !!arm || !!editing;
+    paintBand();
     if (layer.hidden) closePopovers();
     else place();
+  };
+
+  // ── the band above the Guidance bar (round 16) ─────────────────────────────────────
+  // A reader gets Open Help & Guidance. An admin also gets Add Dot and Edit Dots. In a mode
+  // the menu gives way to the mode's state, its way out, and in Edit Dots the orphans.
+
+  const bandMenu = panelbar?.querySelector<HTMLElement>('[data-help-band-menu]');
+  const bandState = panelbar?.querySelector<HTMLElement>('[data-help-pickbar]');
+  const bandText = bandState?.querySelector<HTMLElement>('[data-help-pick-text]');
+  const orphansWrap2 = bandState?.querySelector<HTMLElement>('[data-help-orphans-wrap]');
+  const orphansMenu = bandState?.querySelector<HTMLElement>('[data-help-orphans]');
+  const orphansChip = bandState?.querySelector<HTMLElement>('[data-help-orphans-chip] .esa-button__label');
+  const bandAdmin = panelbar?.querySelector<HTMLElement>('[data-help-band-admin]');
+  if (bandAdmin) bandAdmin.hidden = !admin;
+
+  const orphaned = () =>
+    Array.from(dots.values()).filter((d) => live(d) && !d.pending && !elsewhere(d.spot) && !targetOf(d.spot));
+
+  function paintBand() {
+    if (!panelbar || !bandMenu || !bandState || !bandText) return;
+    panelbar.hidden = !on || !!editing || !!drag?.moving;
+    const mode = !!arm || editMode;
+    bandMenu.hidden = mode;
+    bandState.hidden = !mode;
+    const moving = arm?.kind === 'move' ? dots.get(arm.dotId) : undefined;
+    bandText.textContent = arm
+      ? moving
+        ? `Moving “${moving.title}”: click where it belongs`
+        : 'Adding: click any part'
+      : 'Editing dots: drag to move, click to edit';
+    panelbar.querySelector<HTMLElement>('[data-help-cancel-wrap]')!.hidden = !arm;
+    panelbar.querySelector<HTMLElement>('[data-help-done-wrap]')!.hidden = !!arm;
+    const lost = editMode && !arm ? orphaned() : [];
+    if (orphansWrap2) orphansWrap2.hidden = lost.length === 0;
+    if (orphansChip) orphansChip.textContent = `${lost.length} Need a Spot`;
+    if (orphansMenu) {
+      orphansMenu.replaceChildren(
+        ...lost.map((d) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'bcn-help-dots__orphan';
+          b.dataset.dotId = d.id;
+          const t = document.createElement('span');
+          t.className = 'typography-label-sm-strong';
+          t.textContent = d.title;
+          const sp = document.createElement('span');
+          sp.className = 'bcn-help-dots__orphan-spot typography-body-xs';
+          sp.textContent = `Was on ${labelOf(d.spot)}`;
+          b.append(t, sp);
+          return b;
+        }),
+      );
+    }
+  }
+
+  const setEditMode = (next: boolean) => {
+    editMode = admin && next;
+    if (!editMode && editing) cancelEditor();
+    closePopovers();
+    if (editMode) on = true;
+    showLayer();
   };
 
   // ── a dot's popover ────────────────────────────────────────────────────────────────
@@ -344,18 +408,28 @@ export function setupHelpDots(): void {
   }
 
   const paintShot = () => {
-    const box = e$('[data-hde-shot]');
+    const shotBox = e$('[data-hde-shot]');
     const img = e$<HTMLImageElement>('[data-hde-shot-img]');
-    const remove = e$('[data-hde-remove-wrap]');
     const shot = editing?.shot;
-    if (!box || !img || !remove) return;
-    box.hidden = !shot;
-    remove.hidden = !shot;
+    if (!shotBox || !img) return;
+    shotBox.hidden = !shot;
+    e$('[data-hde-drop]')!.hidden = !!shot;
+    e$('[data-hde-browse-wrap]')!.hidden = !!shot;
+    e$('[data-hde-replace-wrap]')!.hidden = !shot;
+    e$('[data-hde-remove-wrap]')!.hidden = !shot;
     if (shot) {
       img.onload = placeEditor;
       img.src = shot.src;
       img.alt = shot.alt;
     }
+    placeEditor();
+  };
+
+  // An uploaded, dropped or pasted image: in memory, like everything here.
+  const takeFile = (file: File | undefined) => {
+    if (!editing || !file || !file.type.startsWith('image/')) return;
+    editing.shot = { src: URL.createObjectURL(file), alt: file.name, width: 640, height: 240 };
+    paintShot();
   };
 
   const openEditor = (dotId: string, opts: { isNew?: boolean; movedFrom?: string } = {}) => {
@@ -424,18 +498,38 @@ export function setupHelpDots(): void {
     const shot = spotCapture(d.spot, labelOf(d.spot));
     editing.shot = { ...shot, src: page.base.replace(/\/$/, '') + shot.src };
     paintShot();
-    placeEditor();
   });
   e$('[data-hde-remove]')?.addEventListener('click', () => {
     if (!editing) return;
     editing.shot = undefined;
     paintShot();
   });
+  // Upload Image and Replace open the drop zone's own file picker.
+  const upload = e$<HTMLElement & { renderRoot?: ShadowRoot }>('[data-hde-upload]');
+  editor?.querySelectorAll('[data-hde-browse]').forEach((b) =>
+    b.addEventListener('click', () => upload?.renderRoot?.querySelector<HTMLInputElement>('.native')?.click()),
+  );
+  upload?.addEventListener('change', (e) => takeFile((e as CustomEvent<{ files: File[] }>).detail?.files?.at(-1)));
+  const media = e$('[data-hde-media]');
+  media?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    media.dataset.dragging = '';
+  });
+  media?.addEventListener('dragleave', () => delete media.dataset.dragging);
+  media?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    delete media.dataset.dragging;
+    takeFile(e.dataTransfer?.files?.[0]);
+  });
+  editor?.addEventListener('paste', (e) => {
+    const file = Array.from(e.clipboardData?.files ?? []).find((f) => f.type.startsWith('image/'));
+    if (!file) return;
+    e.preventDefault();
+    takeFile(file);
+  });
 
   // ── placing: a dot carried on the pointer to a part ────────────────────────────────
 
-  const pickbar = document.querySelector<HTMLElement>('[data-help-pickbar]');
-  const pickText = pickbar?.querySelector<HTMLElement>('[data-help-pick-text]');
   const highlight = document.querySelector<HTMLElement>('[data-help-highlight]');
   const highlightLabel = highlight?.querySelector<HTMLElement>('[data-help-highlight-label]');
   const hoverOutline = document.querySelector<HTMLElement>('[data-help-highlight-hover]');
@@ -478,9 +572,6 @@ export function setupHelpDots(): void {
     arm = next;
     drawer?.close();
     closePopovers();
-    const d = next.kind === 'move' ? dots.get(next.dotId) : undefined;
-    if (pickText) pickText.textContent = d ? `Drop “${d.title}” where it belongs` : 'Click a part of the page to put a dot on it';
-    if (pickbar) pickbar.hidden = false;
     placing(true);
     on = true;
     showLayer();
@@ -491,7 +582,6 @@ export function setupHelpDots(): void {
   };
   const endArm = () => {
     arm = null;
-    if (pickbar) pickbar.hidden = true;
     placing(false);
     showHighlight(null);
     showCarry(null);
@@ -553,9 +643,17 @@ export function setupHelpDots(): void {
     },
     true,
   );
-  pickbar?.querySelector('[data-help-pick-cancel]')?.addEventListener('click', () => {
+  panelbar?.querySelector('[data-help-pick-cancel]')?.addEventListener('click', () => {
+    const back = arm?.fromDrawer;
     endArm();
-    drawer?.show();
+    if (back) drawer?.show();
+  });
+  panelbar?.querySelector('[data-help-edit-done]')?.addEventListener('click', () => setEditMode(false));
+  panelbar?.querySelector('[data-help-band-add]')?.addEventListener('click', () => startArm({ kind: 'add' }));
+  panelbar?.querySelector('[data-help-band-edit]')?.addEventListener('click', () => setEditMode(true));
+  panelbar?.querySelector('[data-help-orphans]')?.addEventListener('click', (e) => {
+    const id = (e.target as HTMLElement).closest<HTMLElement>('[data-dot-id]')?.dataset.dotId;
+    if (id) startArm({ kind: 'move', dotId: id });
   });
 
   // ── dragging a dot to another part ─────────────────────────────────────────────────
@@ -564,7 +662,7 @@ export function setupHelpDots(): void {
   let swallowClick = false;
 
   layer.addEventListener('pointerdown', (e) => {
-    if (!admin || e.button !== 0 || arm) return;
+    if (!editMode || e.button !== 0 || arm) return;
     const btn = (e.target as HTMLElement).closest('[data-hd-button]');
     const id = btn?.closest<HTMLElement>('[data-help-dot]')?.dataset.dotId;
     if (!id || editing?.dotId === id) return;
@@ -608,9 +706,31 @@ export function setupHelpDots(): void {
     'click',
     (e) => {
       if (!swallowClick) return;
-      e.stopPropagation();
+      e.stopImmediatePropagation();
       e.preventDefault();
       swallowClick = false;
+    },
+    true,
+  );
+
+  // Edit Dots: a click on a dot edits it in place, and its × detaches it.
+  layer.addEventListener(
+    'click',
+    (e) => {
+      if (!editMode) return;
+      const t = e.target as HTMLElement;
+      const id = t.closest<HTMLElement>('[data-help-dot]')?.dataset.dotId;
+      if (!id) return;
+      if (t.closest('[data-hd-detach]')) {
+        e.stopPropagation();
+        const d = dots.get(id);
+        if (d) d.detached = true;
+        refresh();
+      } else if (t.closest('[data-hd-button]')) {
+        e.stopPropagation();
+        e.preventDefault();
+        openEditor(id);
+      }
     },
     true,
   );
@@ -629,11 +749,16 @@ export function setupHelpDots(): void {
       if (drag?.moving) {
         endDrag(false);
       } else if (arm) {
+        const back = arm.fromDrawer;
         endArm();
-        drawer?.show();
+        if (back) drawer?.show();
       } else if (editing) {
         cancelEditor();
-      } else if (on && !drawer?.open && !layer.querySelector('esa-popover[open]')) {
+      } else if (layer.querySelector('esa-popover[open]') || panelbar?.querySelector('esa-popover[open]')) {
+        // its own Esc closes it; the mode and the dots stay
+      } else if (editMode) {
+        setEditMode(false);
+      } else if (on && !drawer?.open) {
         setOn(false);
       }
     },
@@ -644,7 +769,7 @@ export function setupHelpDots(): void {
 
   list?.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
-    if (t.closest('[data-hda-add]')) return startArm({ kind: 'add' });
+    if (t.closest('[data-hda-add]')) return startArm({ kind: 'add', fromDrawer: true });
     const row = t.closest<HTMLElement>('[data-hda-row]');
     const d = row?.dataset.dotId ? dots.get(row.dataset.dotId) : undefined;
     if (!d) return;
@@ -655,7 +780,7 @@ export function setupHelpDots(): void {
       targetOf(d.spot)?.scrollIntoView({ block: 'center', behavior: 'instant' });
       return requestAnimationFrame(() => openEditor(d.id));
     }
-    if (t.closest('[data-hda-pickagain]')) return startArm({ kind: 'move', dotId: d.id });
+    if (t.closest('[data-hda-pickagain]')) return startArm({ kind: 'move', dotId: d.id, fromDrawer: true });
     if (t.closest('[data-hda-publish]')) {
       d.status = 'published';
       delete d.draftedFrom;
@@ -679,6 +804,7 @@ export function setupHelpDots(): void {
     on = next;
     if (on) drawer?.close();
     if (!on && editing) cancelEditor();
+    if (!on) editMode = false;
     showLayer();
   };
   trigger.addEventListener('click', () => setOn(!on));

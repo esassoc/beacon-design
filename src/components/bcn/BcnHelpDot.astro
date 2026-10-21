@@ -4,8 +4,9 @@
 // and shown by the help-dots controller inside <BcnHelpDots>; a draft dot, which only
 // ESA admins see, is drawn muted and still.
 //
-// In the admin view the dot also drags (help-dots.ts moves it), and its popover carries
-// Edit, which opens <BcnHelpDotEditor> on the dot.
+// In the admin view its popover carries Edit, which opens <BcnHelpDotEditor> on the dot.
+// In Edit Dots (the band's mode, round 16) the dot shows its handles: a dashed ring that
+// drags (help-dots.ts moves it), a click that edits, and a small × that detaches.
 //
 // Without a `dot` it renders blank: that is the template new dots are cloned from, so
 // the screenshot slot is always in the markup and the controller fills or hides it.
@@ -57,6 +58,10 @@ const shot = dot?.shot;
       </div>
     </div>
   </esa-popover>
+  <!-- Edit Dots only (round 16): detach this dot from the page. -->
+  <span class="bcn-hd__detach" data-hd-detach>
+    <EsaButton variant="chrome" iconOnly icon="x" label="Detach from This Page" size="xs" />
+  </span>
 </div>
 
 <style>
@@ -204,11 +209,45 @@ const shot = dot?.shot;
   :global([data-tone='light']) .bcn-hd__shot {
     border-color: var(--color-border-default);
   }
-  /* Admin: the dot drags. While it does, it follows the pointer and lets the pointer
-     through to the part under it. */
-  :global([data-admin]) .bcn-hd__dot {
+  /* Edit Dots: the dot shows its handles. A dashed Aldo ring says it moves, the pings
+     stop, and the × sits on its top-right. While it drags, it follows the pointer and lets
+     the pointer through to the part under it. */
+  :global([data-edit-mode]) .bcn-hd__dot {
     cursor: grab;
     touch-action: none;
+    outline: 1.5px dashed var(--bcn-aldo);
+    outline-offset: 4px;
+  }
+  :global([data-edit-mode]) .bcn-hd__dot::before,
+  :global([data-edit-mode]) .bcn-hd__dot::after {
+    animation: none;
+  }
+  .bcn-hd__detach {
+    position: absolute;
+    inset-block-start: -15px;
+    inset-inline-end: -17px;
+    display: none;
+    border-radius: var(--radius-full);
+    color: var(--bcn-helpbar-fg);
+    background: var(--bcn-helpbar-bg-solid);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    line-height: 0;
+  }
+  :global([data-edit-mode]) .bcn-hd__detach {
+    display: inline-flex;
+  }
+  .bcn-hd__detach :global(.esa-button__native) {
+    --focus-ring-color: var(--bcn-helpbar-fg);
+    inline-size: 18px;
+    block-size: 18px;
+    min-block-size: 0;
+    min-inline-size: 0;
+    padding: 0;
+    border-radius: var(--radius-full);
+  }
+  .bcn-hd__detach :global(.esa-icon) {
+    inline-size: 12px;
+    block-size: 12px;
   }
   .bcn-hd[data-dragging] {
     z-index: 25;

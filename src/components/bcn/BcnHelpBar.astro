@@ -57,8 +57,8 @@ const fmtLong = (iso: string): string =>
 <div class="bcn-help-bar" data-help-bar data-newest={newestDate} role="toolbar" aria-label="Help &amp; utilities">
   <!-- Primary: Guidance — the Aldo mark alone (the label went 2026-10-21), named by
        aria-label and the tooltip; opens the guidance drawer via hook. -->
-  <esa-tooltip class="bcn-help-bar__tooltip" text="Guidance" position="above">
-    <button type="button" class="bcn-help-bar__guidance" data-help-trigger aria-haspopup="dialog" aria-label="Guidance">
+  <esa-tooltip class="bcn-help-bar__tooltip" text="Help & Guidance" position="above" delay="150">
+    <button type="button" class="bcn-help-bar__guidance" data-help-trigger aria-haspopup="dialog" aria-label="Help & Guidance">
       <BcnAldoMark variant="rings" />
     </button>
   </esa-tooltip>
@@ -75,20 +75,22 @@ const fmtLong = (iso: string): string =>
        2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
        where Beacon's bottom affordances live, which is where the global evidence drawer
        belongs. -->
-  <esa-tooltip class="bcn-help-bar__tooltip" text="Attach Evidence of Compliance" position="above" data-evidence-trigger>
-    <EsaIconButton variant="chrome" class="esa-button--icon-only" aria-label="Attach Evidence of Compliance" size="md">
+  <esa-tooltip class="bcn-help-bar__tooltip" text="Add Evidence" position="above" delay="150" data-evidence-trigger>
+    <EsaIconButton variant="chrome" class="esa-button--icon-only" aria-label="Add Evidence" size="md">
       <EsaIcon name="paperclip" paths={scopeIcon('evidence')} size="md" />
     </EsaIconButton>
   </esa-tooltip>
 
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
   <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
-    <span class="bcn-help-bar__whatsnew" data-whatsnew>
-      <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="What's new" size="md" />
-      {WHATS_NEW.length > 0 && (
-        <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
-      )}
-    </span>
+    <esa-tooltip class="bcn-help-bar__tooltip" text="Release Notes" position="above" delay="150">
+      <span class="bcn-help-bar__whatsnew" data-whatsnew>
+        <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="Release Notes" size="md" />
+        {WHATS_NEW.length > 0 && (
+          <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
+        )}
+      </span>
+    </esa-tooltip>
 
     <div slot="content" class="bcn-help-bar__panel">
       <header class="bcn-help-bar__panel-header">
@@ -150,18 +152,33 @@ const fmtLong = (iso: string): string =>
     // Already caught up on the newest note → no dot.
     if (dot && newest && readSeen() === newest) dot.hidden = true;
 
-    // esa-tooltip opens on mouseenter and any focusin, and a tap fires both (the browser's
-    // compatibility mouseenter, then focus), so on touch a bar tooltip stood over the page
-    // until focus moved. Keep it to a real mouse hover and keyboard focus: when the last
-    // pointer was a finger or pen, close it as it opens (`open` reflects, and is the
-    // lego's public state). The fix belongs in esa-tooltip (logged in the improvement
-    // ledger).
+    // esa-tooltip opens on mouseenter and any focusin, so a click left it standing: the
+    // press focuses the button, and focus kept it up until focus moved (round 16), and a
+    // tap opened it on touch. On this bar a tooltip shows for a mouse hover that has not
+    // clicked, or for keyboard focus (:focus-visible) only, and a press hides it until the
+    // pointer leaves. `open` reflects and is the lego's public state. The fix belongs in
+    // esa-tooltip (logged in the improvement ledger).
+    const whatsNew = bar.querySelector<HTMLElement & { open: boolean }>('.bcn-help-bar__popover');
     bar.querySelectorAll<HTMLElement & { open: boolean }>('esa-tooltip').forEach((tip) => {
-      let touch = false;
-      tip.addEventListener('pointerdown', (e) => (touch = e.pointerType !== 'mouse'), true);
-      document.addEventListener('keydown', () => (touch = false), true);
+      let hover = false;
+      let pressed = false;
+      tip.addEventListener('pointerenter', (e) => (hover = e.pointerType === 'mouse'));
+      tip.addEventListener('pointerleave', () => {
+        hover = false;
+        pressed = false;
+      });
+      tip.addEventListener(
+        'pointerdown',
+        () => {
+          pressed = true;
+          tip.open = false;
+        },
+        true,
+      );
+      const allowed = () =>
+        !whatsNew?.open && ((hover && !pressed) || !!tip.querySelector(':focus-visible'));
       new MutationObserver(() => {
-        if (tip.open && touch) tip.open = false;
+        if (tip.open && !allowed()) tip.open = false;
       }).observe(tip, { attributes: true, attributeFilter: ['open'] });
     });
 
@@ -278,6 +295,13 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__tooltip,
   .bcn-help-bar__popover {
     display: inline-flex;
+  }
+  /* Dark tooltips (round 16): the bar's own surface and ink, through the knockout roles
+     esa-tooltip's bubble and arrow read. Solid, as the bar's own fallback is: the arrow is a
+     square under the bubble, and a translucent fill shows the overlap. */
+  .bcn-help-bar__tooltip {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
   }
   /* The paper clip rides in esa-button's label slot (no registry glyph), whose text line
      box sat it 1.5px above the bar's centre; collapse the line so it centres like the

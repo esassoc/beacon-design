@@ -1,8 +1,9 @@
 ---
 // <BcnHelpDotEditor> — where an ESA admin writes a dot, on the page, beside the dot itself
 // (round 15, replacing the side form). A new dot, a moved dot, or Edit on a dot opens it:
-// the spot it sits on, a title, a sentence or two and an optional screenshot (Capture This
-// Spot; in the prototype it returns a crop made from this page ahead of time). A moved dot
+// the spot it sits on, a title, a sentence or two and one optional image: Capture This
+// Spot (in the prototype a crop made from this page ahead of time), or an upload by Upload
+// Image, a drop on the image area, or a paste (round 16). Each replaces the other. A moved dot
 // adds "Check this text still fits". Footer: Publish, Save as Draft, Cancel. Cancel on a new
 // dot takes the dot away; on a moved one it goes back where it was.
 //
@@ -17,7 +18,8 @@
 // `data-hde-*`.
 //
 // bcn-lego-checked: the card IS esa-card (header slot, footer slot), the fields ARE
-// esa-text-field and esa-textarea, the warning IS esa-alert-box, every action IS
+// esa-text-field and esa-textarea, the drop zone IS esa-file-upload (compacted the way
+// BcnLogoPicker does, by its one padding knob), the warning IS esa-alert-box, every action IS
 // esa-button. The owned parts are the absolute placement beside a dot and the screenshot
 // preview frame, which no lego renders. Checked Beacon: help authoring is a drawer form
 // over the same parts. bcn-help-dot-editor is the home.
@@ -40,11 +42,25 @@ import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
       </div>
       <esa-text-field label="Title" name="hde-title" size="sm" required data-hde-title></esa-text-field>
       <esa-textarea label="Text" name="hde-text" size="sm" rows="3" data-hde-text></esa-textarea>
-      <figure class="bcn-hde__shot" data-hde-shot hidden>
-        <img alt="" data-hde-shot-img />
-      </figure>
+      <!-- One image per dot: a capture of the spot or an upload, each replacing the other.
+           Empty, the area is a compact drop zone; with an image, it is the thumbnail, which
+           also takes a drop. A paste anywhere in the editor lands here too. -->
+      <div class="bcn-hde__media" data-hde-media>
+        <div class="bcn-hde__drop" data-hde-drop>
+          <esa-file-upload label="Drop, paste or browse an image" accept="image/*" max-size-mb="5" data-hde-upload></esa-file-upload>
+        </div>
+        <figure class="bcn-hde__shot" data-hde-shot hidden>
+          <img alt="" data-hde-shot-img />
+        </figure>
+      </div>
       <div class="cluster" data-gap="xs">
         <EsaButton variant="ghost" appearance="outline" size="xs" data-hde-capture>Capture This Spot</EsaButton>
+        <span data-hde-browse-wrap>
+          <EsaButton variant="ghost" appearance="outline" size="xs" icon="upload" data-hde-browse>Upload Image</EsaButton>
+        </span>
+        <span data-hde-replace-wrap hidden>
+          <EsaButton variant="ghost" appearance="outline" size="xs" icon="upload" data-hde-browse>Replace</EsaButton>
+        </span>
         <span data-hde-remove-wrap hidden>
           <EsaButton variant="ghost" size="xs" data-hde-remove>Remove</EsaButton>
         </span>
@@ -109,6 +125,15 @@ import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
   }
   .bcn-hde__spot {
     color: color-mix(in srgb, #ffffff 72%, transparent);
+  }
+  /* esa-file-upload's only height knob, as BcnLogoPicker.astro re-points it. */
+  .bcn-hde__drop :global(esa-file-upload) {
+    --spacing-600: var(--spacing-200);
+  }
+  /* A file dragged over the thumbnail. */
+  .bcn-hde__media[data-dragging] .bcn-hde__shot {
+    outline: 2px dashed var(--bcn-aldo);
+    outline-offset: 2px;
   }
   .bcn-hde__shot {
     margin: 0;

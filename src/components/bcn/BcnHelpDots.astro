@@ -34,7 +34,9 @@
 // the light panel for comparison.
 //
 // bcn-lego-checked: the HIGHLIGHT is a positioned outline drawn around a measured box and
-// the carried dot is the Aldo mark following the pointer, which no esa-* lego renders; the pick bar reuses the Guidance bar's dark
+// the carried dot is the Aldo mark following the pointer, which no esa-* lego renders;
+// the band's buttons and orphans chip ARE esa-button, its orphans list IS esa-popover, and
+// each orphan in it is a two-line button (title, spot) no lego renders; the pick bar reuses the Guidance bar's dark
 // glass tokens and its Cancel IS esa-button; so does the panel bar, whose button IS esa-button. Everything else is a lego or a bcn-help-dot.
 // Checked Beacon: nothing places marks on a page. bcn-help-dots is the home.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
@@ -78,14 +80,33 @@ const clientPage = {
   <BcnAldoMark size="sm" />
 </div>
 
-<div class="bcn-help-dots__pickbar cluster" data-gap="sm" data-help-pickbar role="status" hidden>
-  <BcnAldoMark size="sm" />
-  <span class="bcn-help-dots__pickbar-text" data-help-pick-text>Click a part of the page to put a dot on it</span>
-  <EsaButton variant="chrome" size="sm" data-help-pick-cancel>Cancel</EsaButton>
-</div>
-
-<div class="bcn-help-dots__panelbar" data-help-panelbar hidden>
-  <EsaButton variant="chrome" size="sm" data-help-panel-open>Open Help &amp; Guidance</EsaButton>
+<!-- The band above the Guidance bar while the dots are on. A reader gets Open Help &
+     Guidance. An admin also gets Add Dot and Edit Dots, set apart as admin tools; in a mode
+     the band says what a click does and carries its way out. -->
+<div class="bcn-help-dots__band" data-help-panelbar hidden>
+  <div class="bcn-help-dots__row" data-help-band-menu>
+    <EsaButton variant="chrome" size="sm" icon="circle-question-mark" data-help-panel-open>Open Help &amp; Guidance</EsaButton>
+    <div class="bcn-help-dots__admin" data-help-band-admin hidden>
+      <EsaButton variant="chrome" size="sm" icon="plus" data-help-band-add>Add Dot</EsaButton>
+      <EsaButton variant="chrome" size="sm" icon="pencil" data-help-band-edit>Edit Dots</EsaButton>
+    </div>
+  </div>
+  <div class="bcn-help-dots__row bcn-help-dots__state" data-help-pickbar role="status" hidden>
+    <BcnAldoMark size="sm" />
+    <span class="bcn-help-dots__state-text" data-help-pick-text></span>
+    <span class="bcn-help-dots__item" data-help-orphans-wrap hidden>
+      <esa-popover trigger="click" position="top" offset={10} appearance="inverse" label="Needs a New Spot">
+        <EsaButton variant="chrome" size="sm" icon="circle-alert" data-help-orphans-chip>Need a Spot</EsaButton>
+        <div slot="content" class="bcn-help-dots__orphans stack" data-gap="3xs" data-help-orphans></div>
+      </esa-popover>
+    </span>
+    <span class="bcn-help-dots__item" data-help-done-wrap hidden>
+      <EsaButton variant="chrome" size="sm" icon="check" data-help-edit-done>Done</EsaButton>
+    </span>
+    <span class="bcn-help-dots__item" data-help-cancel-wrap hidden>
+      <EsaButton variant="chrome" size="sm" icon="x" data-help-pick-cancel>Cancel</EsaButton>
+    </span>
+  </div>
 </div>
 
 <script type="application/json" data-help-dots-page set:html={JSON.stringify(clientPage)} />
@@ -153,13 +174,15 @@ const clientPage = {
     cursor: crosshair !important;
   }
 
-  /* The pick bar and the panel bar: the Guidance bar's dark glass. */
-  .bcn-help-dots__pickbar,
-  .bcn-help-dots__panelbar {
+  /* The band: the Guidance bar's dark glass, just above it (20px off the bottom, 58px
+     tall), so it reads as part of it. */
+  .bcn-help-dots__band {
     position: fixed;
     inset-inline-start: 50%;
+    inset-block-end: 86px;
     translate: -50% 0;
     z-index: 1000;
+    padding: var(--spacing-075, 3px);
     color: var(--bcn-helpbar-fg);
     background: var(--bcn-helpbar-bg);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
@@ -167,32 +190,76 @@ const clientPage = {
     border: 1px solid var(--bcn-helpbar-border);
     border-radius: var(--radius-400, 14px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); /* the Guidance bar's lift */
-  }
-  /* Along the top of the page, under the 52px topbar. */
-  .bcn-help-dots__pickbar {
-    inset-block-start: 68px;
-    padding: var(--spacing-100) var(--spacing-100) var(--spacing-100) var(--spacing-250);
-  }
-  /* Just above the Guidance bar (20px off the bottom, 58px tall), so it reads as part of it. */
-  .bcn-help-dots__panelbar {
-    inset-block-end: 86px;
-    padding: var(--spacing-075, 3px);
-  }
-  .bcn-help-dots__pickbar-text {
-    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
   }
-  .bcn-help-dots__pickbar :global(.esa-button),
-  .bcn-help-dots__panelbar :global(.esa-button) {
+  .bcn-help-dots__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-075, 3px);
+  }
+  /* Admin tools: the settings rail's admin cue, quiet. A hairline off the reader's button
+     and a faint inset panel of the same glass, no new colour. */
+  .bcn-help-dots__admin {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-inline-start: var(--spacing-100);
+    padding: 2px;
+    border-radius: var(--radius-300);
+    background: color-mix(in srgb, #ffffff 7%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffffff 14%, transparent);
+  }
+  .bcn-help-dots__state {
+    padding-inline-start: var(--spacing-200);
+    gap: var(--spacing-150);
+  }
+  .bcn-help-dots__state-text {
+    padding-inline-end: var(--spacing-100);
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-help-dots__item {
+    display: inline-flex;
+  }
+  .bcn-help-dots__band :global(.esa-button) {
     color: var(--bcn-helpbar-fg);
     --focus-ring-color: var(--bcn-helpbar-fg);
+  }
+  /* The orphans list opens in the dots' dark popover. */
+  .bcn-help-dots__state esa-popover {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-border-default-knockout: var(--bcn-helpbar-border);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
+  }
+  .bcn-help-dots__orphans {
+    min-inline-size: 220px;
+    white-space: normal;
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--spacing-150) var(--spacing-200);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: none;
+    color: var(--bcn-helpbar-fg);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan:hover),
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan:focus-visible) {
+    background: color-mix(in srgb, #ffffff 8%, transparent);
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan-spot) {
+    color: var(--bcn-helpbar-fg-muted);
   }
 
   .bcn-help-dots[hidden],
   .bcn-help-dots__highlight[hidden],
   .bcn-help-dots__carry[hidden],
-  .bcn-help-dots__pickbar[hidden],
-  .bcn-help-dots__panelbar[hidden] {
+  .bcn-help-dots__band [hidden],
+  .bcn-help-dots__band[hidden] {
     display: none;
   }
 </style>
