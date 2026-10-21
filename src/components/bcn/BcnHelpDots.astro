@@ -70,6 +70,7 @@ const clientPage = {
   </template>
 </div>
 
+<div class="bcn-help-dots__highlight bcn-help-dots__highlight--hover" data-help-highlight-hover hidden></div>
 <div class="bcn-help-dots__highlight" data-help-highlight hidden>
   <span class="bcn-help-dots__highlight-label typography-label-xs-strong" data-help-highlight-label></span>
 </div>
@@ -115,6 +116,11 @@ const clientPage = {
     border-radius: var(--radius-200);
     background: color-mix(in srgb, var(--bcn-aldo-50) 45%, transparent);
     pointer-events: none;
+  }
+  /* The part under the pointer when its dot shows on another, first one: faint. */
+  .bcn-help-dots__highlight--hover {
+    border: 1px dashed color-mix(in srgb, var(--bcn-aldo) 60%, transparent);
+    background: color-mix(in srgb, var(--bcn-aldo-50) 30%, transparent);
   }
   .bcn-help-dots__highlight-label {
     position: absolute;

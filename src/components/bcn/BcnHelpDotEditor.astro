@@ -6,6 +6,9 @@
 // adds "Check this text still fits". Footer: Publish, Save as Draft, Cancel. Cancel on a new
 // dot takes the dot away; on a moved one it goes back where it was.
 //
+// It sits beside its spot with a pointer toward the dot, flipping sides for room, so the
+// spot and the dot stay in view while the dot is written.
+//
 // The card's header band is the settings admin band (BcnSettingsShell.astro: esa-card's
 // --card-header-bg on the Guidance bar's glass, white ink), so admin authoring reads the
 // same everywhere. The body stays light, as there.
@@ -24,6 +27,7 @@ import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 ---
 
 <div class="bcn-hde" data-hde role="dialog" aria-labelledby="bcn-hde-heading" hidden>
+  <span class="bcn-hde__aim" aria-hidden="true"></span>
   <EsaCard padding="compact">
     <div slot="header" class="bcn-hde__head stack" data-gap="3xs">
       <span class="typography-label-md-strong" id="bcn-hde-heading" data-hde-heading>New Dot</span>
@@ -64,6 +68,35 @@ import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
     inline-size: 320px;
     border-radius: var(--radius-300);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  }
+  /* The pointer toward the dot, on the edge facing it (data-side, set by the controller),
+     at --_aim along that edge, in the colour of the band it leaves from. */
+  .bcn-hde__aim {
+    position: absolute;
+    z-index: 1;
+    inline-size: 12px;
+    block-size: 12px;
+    background: var(--bcn-helpbar-bg-solid);
+    rotate: 45deg;
+  }
+  .bcn-hde[data-aim-body] .bcn-hde__aim {
+    background: var(--card-bg, var(--color-background-elevation-raised));
+  }
+  /* Its outer corner carries the card's edge, so it reads on a light page too. */
+  .bcn-hde[data-side='right'] .bcn-hde__aim { box-shadow: -1px 1px 0 var(--color-border-default); }
+  .bcn-hde[data-side='left'] .bcn-hde__aim { box-shadow: 1px -1px 0 var(--color-border-default); }
+  .bcn-hde[data-side='below'] .bcn-hde__aim { box-shadow: -1px -1px 0 var(--color-border-default); }
+  .bcn-hde[data-side='right'] .bcn-hde__aim {
+    inset-inline-start: -6px;
+    inset-block-start: calc(var(--_aim, 28px) - 6px);
+  }
+  .bcn-hde[data-side='left'] .bcn-hde__aim {
+    inset-inline-end: -6px;
+    inset-block-start: calc(var(--_aim, 28px) - 6px);
+  }
+  .bcn-hde[data-side='below'] .bcn-hde__aim {
+    inset-block-start: -6px;
+    inset-inline-start: calc(var(--_aim, 28px) - 6px);
   }
   /* The settings admin band (BcnSettingsShell.astro), through esa-card's public tokens. */
   .bcn-hde :global(.esa-card) {

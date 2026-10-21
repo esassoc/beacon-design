@@ -47,6 +47,7 @@ const CHROME = 28; // the popover's own padding and border, both sides
 const PAD = 4; // the highlight's room around its part
 const DRAG = 4; // how far a dot moves before a press is a drag
 const EDITOR = 320; // <BcnHelpDotEditor>'s width
+const ARROW = 14; // the editor's pointer, and its gap from the spot
 const BAR = 96; // the Guidance bar's height, its offset and a gap
 // The help UI itself is never a spot.
 const HELP_UI = '[data-help-dots], [data-help-bar], [data-help-pickbar], [data-help-panelbar], [data-gd], [data-gd-article], [data-htf]';
@@ -293,24 +294,53 @@ export function setupHelpDots(): void {
   const e$ = <T extends HTMLElement = HTMLElement>(sel: string) => editor?.querySelector<T>(sel) ?? null;
   let editing: { dotId: string; isNew: boolean; movedFrom?: string; shot?: HelpDotShot } | null = null;
 
-  // Beside the dot on the side with room, its top just above the dot's centre, lifted when
-  // it would run under the Guidance bar.
+  // Beside the spot, never on it: right of the part and its dot when there is room, else
+  // left, else below. Its top sits just above the dot's centre, lifted when it would run
+  // under the Guidance bar, and its pointer aims at the dot from the edge it faces.
   function placeEditor() {
     if (!editor || !editing) return;
+    const d = dots.get(editing.dotId);
     const el = dotEl(editing.dotId);
-    if (!el || el.hidden) return;
+    if (!d || !el || el.hidden) return;
     const origin = layer!.getBoundingClientRect();
     const box = scroller.getBoundingClientRect();
     const x = parseFloat(el.style.getPropertyValue('--_x')) || 0;
     const y = parseFloat(el.style.getPropertyValue('--_y')) || 0;
-    const right = box.right - origin.left - EDGE;
-    let left = x + 24;
-    if (left + EDITOR > right) left = x - 24 - EDITOR;
-    left = Math.max(box.left - origin.left + EDGE, left);
+    const t = targetOf(d.spot)?.getBoundingClientRect();
+    const spotL = Math.min(x - 12, t ? t.left - origin.left : x);
+    const spotR = Math.max(x + 12, t ? t.right - origin.left : x);
+    const spotB = Math.max(y + 12, t ? t.bottom - origin.top : y);
+    const minX = box.left - origin.left + EDGE;
+    const maxX = box.right - origin.left - EDGE;
+    const h = editor.offsetHeight;
+    let side: 'right' | 'left' | 'below';
+    let left: number;
+    let top: number;
+    if (spotR + ARROW + EDITOR <= maxX) {
+      side = 'right';
+      left = spotR + ARROW;
+    } else if (spotL - ARROW - EDITOR >= minX) {
+      side = 'left';
+      left = spotL - ARROW - EDITOR;
+    } else {
+      side = 'below';
+      left = Math.min(Math.max(x - EDITOR / 2, minX), maxX - EDITOR);
+    }
+    if (side === 'below') {
+      top = spotB + ARROW;
+    } else {
+      // Clear of the Guidance bar at the foot of the screen (20px off the bottom, 58px tall).
+      const lowest = box.bottom - origin.top - BAR - h;
+      top = Math.max(Math.min(y - 28, lowest), box.top - origin.top + EDGE);
+    }
+    editor.dataset.side = side;
     editor.style.setProperty('--_x', `${left}px`);
-    // Clear of the Guidance bar at the foot of the screen (20px off the bottom, 58px tall).
-    const lowest = box.bottom - origin.top - BAR - editor.offsetHeight;
-    editor.style.setProperty('--_y', `${Math.max(Math.min(y - 28, lowest), box.top - origin.top + EDGE)}px`);
+    editor.style.setProperty('--_y', `${top}px`);
+    const aim = side === 'below' ? x - left : y - top;
+    editor.style.setProperty('--_aim', `${Math.round(Math.min(Math.max(aim, 16), (side === 'below' ? EDITOR : h) - 16))}px`);
+    // The pointer takes the colour of the band it leaves from: the dark header, or the body.
+    const head = editor.querySelector<HTMLElement>('.esa-card__header')?.offsetHeight ?? 0;
+    editor.toggleAttribute('data-aim-body', side !== 'below' && aim > head);
   }
 
   const paintShot = () => {
@@ -408,22 +438,31 @@ export function setupHelpDots(): void {
   const pickText = pickbar?.querySelector<HTMLElement>('[data-help-pick-text]');
   const highlight = document.querySelector<HTMLElement>('[data-help-highlight]');
   const highlightLabel = highlight?.querySelector<HTMLElement>('[data-help-highlight-label]');
+  const hoverOutline = document.querySelector<HTMLElement>('[data-help-highlight-hover]');
   const carry = document.querySelector<HTMLElement>('[data-help-carry]');
   let pointer: [number, number] | null = null;
 
-  // A part that repeats (a row's name, its badge) anchors on its first one on the page, so
-  // the outline goes there: what is outlined is where the dot lands.
+  // A part that repeats (a row's name, its badge) is a kind: its dot shows on the first one
+  // on the page. So the part under the pointer is outlined faintly, the first one strongly,
+  // and the tag says so, rather than the outline jumping on its own.
+  const outline = (el: HTMLElement, r: DOMRect) => {
+    el.style.setProperty('--_x', `${r.left - PAD}px`);
+    el.style.setProperty('--_y', `${r.top - PAD}px`);
+    el.style.setProperty('--_w', `${r.width + PAD * 2}px`);
+    el.style.setProperty('--_h', `${r.height + PAD * 2}px`);
+  };
   const showHighlight = (hovered: HTMLElement | null) => {
-    if (!highlight || !highlightLabel) return;
-    const part = hovered ? (targetOf(hovered.dataset.helpSpot ?? '') ?? hovered) : null;
+    if (!highlight || !highlightLabel || !hoverOutline) return;
+    const id = hovered?.dataset.helpSpot ?? '';
+    const part = hovered ? (targetOf(id) ?? hovered) : null;
     highlight.hidden = !part;
-    if (!part) return;
-    const r = part.getBoundingClientRect();
-    highlight.style.setProperty('--_x', `${r.left - PAD}px`);
-    highlight.style.setProperty('--_y', `${r.top - PAD}px`);
-    highlight.style.setProperty('--_w', `${r.width + PAD * 2}px`);
-    highlight.style.setProperty('--_h', `${r.height + PAD * 2}px`);
-    highlightLabel.textContent = part.dataset.helpSpotLabel ?? part.dataset.helpSpot ?? '';
+    hoverOutline.hidden = !hovered || hovered === part;
+    if (!part || !hovered) return;
+    outline(highlight, part.getBoundingClientRect());
+    if (!hoverOutline.hidden) outline(hoverOutline, hovered.getBoundingClientRect());
+    const label = part.dataset.helpSpotLabel ?? id;
+    const many = document.querySelectorAll(`[data-help-spot="${CSS.escape(id)}"]`).length > 1;
+    highlightLabel.textContent = many ? `Shows on the first ${label}` : label;
   };
   const showCarry = (at: [number, number] | null) => {
     if (!carry) return;
@@ -487,7 +526,7 @@ export function setupHelpDots(): void {
     } else if (admin && e.altKey && !editing && !offPage(e.target)) {
       placing(true);
       showHighlight(partAt(e.clientX, e.clientY));
-    } else if (!arm && highlight && !highlight.hidden) {
+    } else if (highlight && !highlight.hidden) {
       placing(false);
       showHighlight(null);
     }
