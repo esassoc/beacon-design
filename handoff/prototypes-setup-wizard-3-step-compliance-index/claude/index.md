@@ -157,19 +157,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
         <span data-it-toggle="" data-astro-cid-2k46mond=""
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-            data-astro-cid-4xhmycw5=""
+            data-astro-cid-5nhxdd72=""
             ><button
               class="esa-button__native typography-microcopy-2xs"
               type="button"
               aria-label="Collapse"
               title="Collapse"
               data-astro-cid-2k46mond="true"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
             >
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -180,7 +180,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path d="m6 9 6 6 6-6"></path></svg
               ></span></button></span></span
@@ -196,7 +196,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
             class="esa-icon esa-icon--xs"
             role="img"
             aria-label="Locked"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -207,7 +207,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span></span
@@ -215,19 +215,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-approve-cat="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Approve category"
                 title="Approve category"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -238,7 +238,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="m9 12 2 2 4-4"></path></svg
@@ -246,19 +246,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-add-sub="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Subcategory"
                 title="Subcategory"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -269,7 +269,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <path d="M5 12h14"></path>
                     <path d="M12 5v14"></path></svg
@@ -277,19 +277,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-rename="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Rename"
                 title="Rename"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -300,7 +300,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <path
                       d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
@@ -310,19 +310,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-lock="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Lock"
                 title="Lock"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -333,25 +333,25 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   ></svg
                 ></span></button></span></span
           ><span data-it-delete="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Delete"
                 title="Delete"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -362,7 +362,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <path d="M3 6h18"></path>
                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -373,19 +373,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-grip="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Drag to reorder"
                 title="Drag to reorder"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -396,7 +396,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   ></svg
                 ></span></button></span></span
         ></span>
@@ -421,7 +421,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
             class="esa-icon esa-icon--xs"
             role="img"
             aria-label="Locked"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -432,7 +432,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span></span
@@ -446,15 +446,15 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-mark="pending" data-astro-cid-2k46mond=""
             ><span
               class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-              data-astro-cid-sh7ulwla=""
-              ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">0</span></span
+              data-astro-cid-yahmuvtj=""
+              ><span class="esa-badge__text" data-astro-cid-yahmuvtj="">0</span></span
             ></span
           ><span data-it-mark="done" data-astro-cid-2k46mond=""
             ><span
               class="esa-icon esa-icon--xs"
               role="img"
               aria-label="Every draft approved or discarded"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="14"
                 height="14"
@@ -465,7 +465,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="m9 12 2 2 4-4"></path></svg></span></span></span
@@ -473,19 +473,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-rename="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Rename"
                 title="Rename"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -496,7 +496,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <path
                       d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
@@ -506,19 +506,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-lock="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Lock"
                 title="Lock"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -529,25 +529,25 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   ></svg
                 ></span></button></span></span
           ><span data-it-delete="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Delete"
                 title="Delete"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -558,7 +558,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   >
                     <path d="M3 6h18"></path>
                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -569,19 +569,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           ><span data-it-grip="" data-astro-cid-2k46mond=""
             ><span
               class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-              data-astro-cid-4xhmycw5=""
+              data-astro-cid-5nhxdd72=""
               ><button
                 class="esa-button__native typography-microcopy-2xs"
                 type="button"
                 aria-label="Drag to reorder"
                 title="Drag to reorder"
                 data-astro-cid-2k46mond="true"
-                data-astro-cid-4xhmycw5=""
+                data-astro-cid-5nhxdd72=""
               >
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -592,7 +592,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-c7ivvrtd=""
+                    data-astro-cid-wcwfib5m=""
                   ></svg
                 ></span></button></span></span
         ></span>

@@ -2580,14 +2580,14 @@ Prod's action-implementation upsert dialog, ported as-is: summary, referenced re
     </div></esa-dialog
   ><!-- Runtime parts, cloned by the controller (clones keep their scoped-CSS ids). --><template
     data-aid-tpl="requirement"
-    ><details class="esa-collapsible" data-astro-cid-feck5fek="">
+    ><details class="esa-collapsible" data-astro-cid-x3kbh6j2="">
       <summary
         class="esa-collapsible__summary typography-label-sm-strong"
-        data-astro-cid-feck5fek=""
+        data-astro-cid-x3kbh6j2=""
       >
-        <span class="esa-collapsible__title" data-astro-cid-feck5fek="">–</span>
+        <span class="esa-collapsible__title" data-astro-cid-x3kbh6j2="">–</span>
       </summary>
-      <div class="esa-collapsible__body typography-body-md" data-astro-cid-feck5fek="">
+      <div class="esa-collapsible__body typography-body-md" data-astro-cid-x3kbh6j2="">
         <div class="bcn-aid__req" data-astro-cid-iqe2bvd3="">
           <p
             class="bcn-aid__req-text"

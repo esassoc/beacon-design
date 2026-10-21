@@ -375,13 +375,13 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
                 aria-valuemin="0"
                 aria-valuemax="100"
                 aria-label="Progress"
-                data-astro-cid-wrbji5dg=""
+                data-astro-cid-o4bx2qs6=""
               >
-                <div class="esa-progress-bar__track" data-astro-cid-wrbji5dg="">
+                <div class="esa-progress-bar__track" data-astro-cid-o4bx2qs6="">
                   <div
                     class="esa-progress-bar__fill"
                     style="width: 0%"
-                    data-astro-cid-wrbji5dg=""
+                    data-astro-cid-o4bx2qs6=""
                   ></div>
                 </div>
               </div></div
