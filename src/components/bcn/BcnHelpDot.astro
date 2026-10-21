@@ -4,6 +4,9 @@
 // and shown by the help-dots controller inside <BcnHelpDots>; a draft dot, which only
 // ESA admins see, is drawn muted and still.
 //
+// In the admin view the dot also drags (help-dots.ts moves it), and its popover carries
+// Edit, which opens <BcnHelpDotEditor> on the dot.
+//
 // Without a `dot` it renders blank: that is the template new dots are cloned from, so
 // the screenshot slot is always in the markup and the controller fills or hides it.
 //
@@ -13,6 +16,7 @@
 // popover IS esa-popover (click trigger, Esc, outside-click); the text IS typography
 // composites. Checked Beacon: nothing places marks on a page. bcn-help-dot is the home.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import type { HelpDot } from '../../data/help-dots';
 import { withBase } from '../../lib/base';
 
@@ -48,6 +52,9 @@ const shot = dot?.shot;
       />
       <p class="bcn-hd__title typography-label-md-strong" data-hd-title>{dot?.title}</p>
       <p class="bcn-hd__text typography-body-sm" data-hd-text>{dot?.text}</p>
+      <div class="bcn-hd__admin" data-hd-admin hidden>
+        <EsaButton variant="chrome" size="xs" icon="pencil" data-hd-edit>Edit</EsaButton>
+      </div>
     </div>
   </esa-popover>
 </div>
@@ -197,7 +204,30 @@ const shot = dot?.shot;
   :global([data-tone='light']) .bcn-hd__shot {
     border-color: var(--color-border-default);
   }
+  /* Admin: the dot drags. While it does, it follows the pointer and lets the pointer
+     through to the part under it. */
+  :global([data-admin]) .bcn-hd__dot {
+    cursor: grab;
+    touch-action: none;
+  }
+  .bcn-hd[data-dragging] {
+    z-index: 25;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  .bcn-hd[data-dragging] .bcn-hd__dot::before,
+  .bcn-hd[data-dragging] .bcn-hd__dot::after {
+    animation: none;
+  }
+  .bcn-hd__admin {
+    display: flex;
+    justify-content: flex-end;
+    padding-block-start: var(--spacing-100);
+    border-block-start: 1px solid var(--bcn-helpbar-border);
+    color: var(--bcn-helpbar-fg);
+  }
   .bcn-hd[hidden],
+  .bcn-hd__admin[hidden],
   .bcn-hd__shot[hidden] {
     display: none;
   }

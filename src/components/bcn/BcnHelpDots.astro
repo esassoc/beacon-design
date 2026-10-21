@@ -10,10 +10,16 @@
 // page's own scroll container, so dots scroll with the page and need re-measuring only
 // when the layout moves. A dot whose spot is missing from the page is hidden.
 //
-// ADMIN (round 3, `?as=admin`). ESA admins also see draft dots, muted, and get pick
-// mode: Add Dot (or Pick Again) closes the drawer, outlines every free spot on the page,
-// and leaves the used spots showing their dots; clicking an outline reopens the drawer on
-// the dot form (<BcnHelpDotForm>). The pick bar along the top carries Cancel.
+// ADMIN (`?as=admin`, round 15). ESA admins also see draft dots, muted, and work the
+// dots by hand on the page:
+//   - Add Dot (the drawer segment's header) or Option/Alt-click anywhere arms placement. A
+//     dot rides the pointer, the part under it is outlined with its name, a click drops the
+//     dot there and opens <BcnHelpDotEditor> beside it.
+//   - Drag any dot onto another part to move it; the editor opens with "Check this text
+//     still fits". Pick Again on a dot whose spot is gone arms the same placement.
+//   - A part is anything carrying a `data-help-spot` id (src/lib/help-spot.ts); the
+//     outline snaps to the nearest one under the pointer.
+// The pick bar along the top says what a click will do and carries Cancel.
 //
 // All behavior lives in the help-dots controller (help-dots.ts). Contract with siblings,
 // all by data-* hook:
@@ -21,17 +27,19 @@
 //     so the drawer leaves it alone, and `aria-pressed` while the dots show.
 //   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-admin-slot]` receives
 //     <BcnHelpDotsAdmin>.
-//   - admin list (<BcnHelpDotsAdmin>): `data-hda-*`. Form (<BcnHelpDotForm>): `data-hdf-*`.
+//   - admin list (<BcnHelpDotsAdmin>): `data-hda-*`. Editor (<BcnHelpDotEditor>, mounted
+//     here): `data-hde-*`.
 //
 // TONE. The popovers take the Guidance bar's dark (round 2). `?popover=light` puts back
 // the light panel for comparison.
 //
-// bcn-lego-checked: the spot OUTLINE in pick mode is a positioned button drawn around a
-// measured box, which no esa-* lego renders; the pick bar reuses the Guidance bar's dark
+// bcn-lego-checked: the HIGHLIGHT is a positioned outline drawn around a measured box and
+// the carried dot is the Aldo mark following the pointer, which no esa-* lego renders; the pick bar reuses the Guidance bar's dark
 // glass tokens and its Cancel IS esa-button; so does the panel bar, whose button IS esa-button. Everything else is a lego or a bcn-help-dot.
 // Checked Beacon: nothing places marks on a page. bcn-help-dots is the home.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import BcnHelpDot from './BcnHelpDot.astro';
+import BcnHelpDotEditor from './BcnHelpDotEditor.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import type { HelpDotPage } from '../../data/help-dots';
 import { withBase } from '../../lib/base';
@@ -41,41 +49,37 @@ interface Props {
 }
 const { page } = Astro.props;
 
-// The controller's copy of the page: spots and dots with their image paths resolved.
+// The controller's copy of the page: dots with their image paths resolved, and the base
+// the spot captures sit under.
 const resolve = <T extends { src: string }>(shot: T): T => ({ ...shot, src: withBase(shot.src) });
 const clientPage = {
   routeKey: page.routeKey,
-  spots: page.spots.map((s) => ({ ...s, capture: resolve(s.capture) })),
+  spots: page.spots,
   dots: page.dots.map((d) => ({ ...d, shot: d.shot ? resolve(d.shot) : undefined })),
+  base: withBase('/'),
 };
 ---
 
 <div class="bcn-help-dots" data-help-dots data-route-key={page.routeKey} hidden>
   {page.dots.map((dot) => <BcnHelpDot dot={dot} />)}
 
-  {
-    page.spots.map((spot) => (
-      <button
-        type="button"
-        class="bcn-help-dots__outline"
-        data-help-spot-outline
-        data-spot={spot.spot}
-        aria-label={`Put a dot on ${spot.label}`}
-        hidden
-      >
-        <span class="bcn-help-dots__outline-label typography-label-xs-strong">{spot.label}</span>
-      </button>
-    ))
-  }
+  <BcnHelpDotEditor />
 
   <template data-help-dot-template>
     <BcnHelpDot />
   </template>
 </div>
 
+<div class="bcn-help-dots__highlight" data-help-highlight hidden>
+  <span class="bcn-help-dots__highlight-label typography-label-xs-strong" data-help-highlight-label></span>
+</div>
+<div class="bcn-help-dots__carry" data-help-carry hidden>
+  <BcnAldoMark size="sm" />
+</div>
+
 <div class="bcn-help-dots__pickbar cluster" data-gap="sm" data-help-pickbar role="status" hidden>
   <BcnAldoMark size="sm" />
-  <span class="bcn-help-dots__pickbar-text">Pick a Spot</span>
+  <span class="bcn-help-dots__pickbar-text" data-help-pick-text>Click a part of the page to put a dot on it</span>
   <EsaButton variant="chrome" size="sm" data-help-pick-cancel>Cancel</EsaButton>
 </div>
 
@@ -92,34 +96,27 @@ const clientPage = {
 
 <style>
   /* A zero-height box in the page's flow: it scrolls with the page, and each dot and
-     outline is positioned from its top-left corner. */
+     the editor is positioned from its top-left corner. */
   .bcn-help-dots {
     position: relative;
     block-size: 0;
   }
 
-  /* Pick mode: a free spot, outlined in Aldo green with its name on its top edge. */
-  .bcn-help-dots__outline {
-    position: absolute;
+  /* Placing or dragging: the part the dot would land on, outlined in Aldo green with its
+     name on its top edge. Fixed and click-through, so it never takes the pointer. */
+  .bcn-help-dots__highlight {
+    position: fixed;
     inset-inline-start: var(--_x, 0);
     inset-block-start: var(--_y, 0);
     inline-size: var(--_w, 0);
     block-size: var(--_h, 0);
-    z-index: 19;
-    padding: 0;
+    z-index: 990;
     border: 2px solid var(--bcn-aldo);
     border-radius: var(--radius-200);
-    background: color-mix(in srgb, var(--bcn-aldo-50) 55%, transparent);
-    cursor: pointer;
+    background: color-mix(in srgb, var(--bcn-aldo-50) 45%, transparent);
+    pointer-events: none;
   }
-  .bcn-help-dots__outline:hover {
-    background: color-mix(in srgb, var(--bcn-aldo-100) 70%, transparent);
-  }
-  .bcn-help-dots__outline:focus-visible {
-    outline: var(--focus-ring-width) solid var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
-  }
-  .bcn-help-dots__outline-label {
+  .bcn-help-dots__highlight-label {
     position: absolute;
     inset-inline-start: -2px;
     inset-block-end: 100%;
@@ -128,6 +125,26 @@ const clientPage = {
     background: var(--bcn-aldo);
     color: var(--color-content-default-knockout);
     white-space: nowrap;
+  }
+  /* The dot being carried to its spot, on the pointer. */
+  .bcn-help-dots__carry {
+    position: fixed;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 995;
+    translate: -50% -50%;
+    line-height: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  .bcn-help-dots__carry :global(.bcn-aldo-mark) {
+    background: var(--bcn-aldo-raised-fill);
+    box-shadow: var(--bcn-aldo-raised-shadow);
+  }
+  /* While placing, the page under the pointer is a target, not a link. */
+  :global(html[data-help-placing]),
+  :global(html[data-help-placing] *) {
+    cursor: crosshair !important;
   }
 
   /* The pick bar and the panel bar: the Guidance bar's dark glass. */
@@ -166,7 +183,8 @@ const clientPage = {
   }
 
   .bcn-help-dots[hidden],
-  .bcn-help-dots__outline[hidden],
+  .bcn-help-dots__highlight[hidden],
+  .bcn-help-dots__carry[hidden],
   .bcn-help-dots__pickbar[hidden],
   .bcn-help-dots__panelbar[hidden] {
     display: none;

@@ -49,6 +49,7 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { helpSpot } from '../../lib/help-spot';
 import { LIST_SCOPE_HINT, LIST_SCOPE_LABEL, LIST_TYPE_MARK, memberCountLabel, type ProjectList } from '../../data/lists';
 
 interface Props {
@@ -86,18 +87,18 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
 <article class="bcn-lc" data-list-row data-type={list.type}>
   <EsaCard variant="outlined" padding="none">
     <div class="bcn-lc__row cluster" data-gap="xs" style={`--_mark: var(--color-${mark.token});`}>
-      <span class="bcn-lc__mark">
+      <span class="bcn-lc__mark" {...helpSpot('list-row.mark', 'Type Mark')}>
         <EsaIcon name={mark.iconName} paths={mark.iconPaths} size="sm" />
       </span>
       <div class="bcn-lc__body stack" data-gap="3xs">
         <div class="bcn-lc__head repel" data-gap="sm">
           <div class="cluster" data-gap="2xs">
-            <a class="bcn-lc__name typography-label-sm-strong" href={href} data-list-text>
+            <a class="bcn-lc__name typography-label-sm-strong" href={href} data-list-text {...helpSpot('list-row.name', 'List Name')}>
               {list.name}
             </a>
-            <BcnSwCountBadge value={list.memberCount} label={countLabel} size="sm" />
+            <BcnSwCountBadge value={list.memberCount} label={countLabel} size="sm" {...helpSpot('list-row.count', 'Member Count')} />
             {showScope && list.scope && (
-              <span class="bcn-lc__scope" data-list-scope={list.scope}>
+              <span class="bcn-lc__scope" data-list-scope={list.scope} {...helpSpot(`list-row.scope.${list.scope}`, `${LIST_SCOPE_LABEL[list.scope]} Badge`)}>
                 {scopeHint ? (
                   <esa-tooltip text={LIST_SCOPE_HINT[list.scope]}>
                     <EsaBadge value={LIST_SCOPE_LABEL[list.scope]} variant={list.scope === 'global' ? 'info' : 'neutral'} size="sm" />
@@ -108,11 +109,11 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
               </span>
             )}
           </div>
-          <span class="bcn-lc__updated typography-body-xs">Updated {updated}</span>
+          <span class="bcn-lc__updated typography-body-xs" {...helpSpot('list-row.updated', 'Updated Date')}>Updated {updated}</span>
         </div>
         {
           list.description && (
-            <p class="bcn-lc__desc typography-body-xs" data-list-text>
+            <p class="bcn-lc__desc typography-body-xs" data-list-text {...helpSpot('list-row.description', 'List Description')}>
               {list.description}
             </p>
           )

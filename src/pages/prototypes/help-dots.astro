@@ -15,8 +15,9 @@
 // The info banner is gone by default (round 11): its sentence lives in You Are Here.
 // `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
 //
-// `?as=admin` is the ESA admin's view (round 3): draft dots show muted, and the drawer
-// gains Dots on This Page with Add Dot, pick mode and the dot form.
+// `?as=admin` is the ESA admin's view: draft dots show muted, the drawer gains Dots on
+// This Page as a dark admin segment at its foot, and dots are added, dragged and edited
+// right on the page (round 15). Option/Alt-click anywhere adds one.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
@@ -26,7 +27,7 @@ import BcnListEmpty from '../../components/bcn/BcnListEmpty.astro';
 import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
 import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
 import BcnHelpDotsAdmin from '../../components/bcn/BcnHelpDotsAdmin.astro';
-import BcnHelpDotForm from '../../components/bcn/BcnHelpDotForm.astro';
+import { helpSpot } from '../../lib/help-spot';
 import { PROJECT } from '../../data/project-dashboard';
 import { LISTS_HELP_DOTS } from '../../data/help-dots';
 ---
@@ -38,9 +39,8 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     - lists index -> bcn-query-flag > bcn-list-index-board  # as built: commitment, action, obligation groups
     - empty state -> bcn-query-flag > bcn-list-empty  # ?empty=1: no lists yet, Create List and Show Me Around
     - add list    -> bcn-list-create-dialog           # as built: Type, Name, Description, Sharing / obligation start
-    - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, and pick mode
-    - dots admin  -> bcn-help-dots-admin              # Dots on This Page, moved into the drawer in the admin view
-    - dot form    -> bcn-help-dot-form                # the side panel a dot is written in
+    - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, placing, dragging, and the in-place editor
+    - dots admin  -> bcn-help-dots-admin              # Dots on This Page, the dark admin segment at the foot of the drawer
 -->
 
 <AppShell
@@ -57,10 +57,12 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
   >
     <BcnQueryFlag param="banner" value="on">
-      <EsaAlertBox variant="info">
-        Lists are sets of commitments, actions or obligations you want to track and report on
-        together. A commitment can sit on more than one list.
-      </EsaAlertBox>
+      <div {...helpSpot('lists.intro', 'Page Banner')}>
+        <EsaAlertBox variant="info">
+          Lists are sets of commitments, actions or obligations you want to track and report on
+          together. A commitment can sit on more than one list.
+        </EsaAlertBox>
+      </div>
     </BcnQueryFlag>
     <BcnQueryFlag param="empty" value="1" unless>
       <BcnListIndexBoard types={['commitment', 'action', 'obligation']} showScope asBuilt />
@@ -71,6 +73,5 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     <BcnListCreateDialog types={['commitment', 'action', 'obligation']} asBuilt />
     <BcnHelpDots page={LISTS_HELP_DOTS} />
     <BcnHelpDotsAdmin page={LISTS_HELP_DOTS} />
-    <BcnHelpDotForm />
   </PageLayout>
 </AppShell>

@@ -12,6 +12,7 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import { HELP_ROUTE_CONTEXTS, routePurpose } from '../../data/help-center';
+import { helpSpot } from '../../lib/help-spot';
 
 interface Props {
   /** The route whose You Are Here sentence explains the page. */
@@ -25,7 +26,7 @@ const purpose = ctx ? routePurpose(ctx) : undefined;
 <div class="bcn-list-empty" data-list-empty data-list-empty-text={ctx?.richText}>
   <EsaEmptyState title="No Lists Yet" description={purpose} size="lg">
     <div class="cluster bcn-list-empty__actions">
-      <EsaButton data-list-create="commitment" icon="plus">Create List</EsaButton>
+      <EsaButton data-list-create="commitment" icon="plus" {...helpSpot('lists.empty.create', 'Create List Button')}>Create List</EsaButton>
       <EsaButton variant="secondary" class="bcn-list-empty__tour" data-help-dots-start>
         <BcnAldoMark variant="rings" />
         Show Me Around

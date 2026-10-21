@@ -1,13 +1,21 @@
 ---
-// <BcnHelpDotsAdmin> — the ESA admin's Dots on This Page list, which lives in the Help &
-// Guidance drawer next to the rest of help authoring (plan item 10). Rendered hidden on
-// the page; the help-dots controller moves it into the drawer's
-// `[data-help-dots-admin-slot]` section and unhides that section, in the admin view only.
+// <BcnHelpDotsAdmin> — the ESA admin's Dots on This Page segment, at the foot of the Help &
+// Guidance drawer's body, below Terms (round 15). Rendered hidden on the page; the help-dots
+// controller moves it into the drawer's `[data-help-dots-admin-slot]` and unhides it, in the
+// admin view only.
 //
-// A row per dot (<BcnHelpDotRow>), Claude drafts first since they are what the admin has
-// to act on. A dot whose spot is gone from the page moves under Needs a New Spot. Add Dot
-// starts pick mode. Rows for dots made in the session are cloned from the <template> at
-// the foot. The controller owns all state; every hook here is `data-hda-*`.
+// It is the settings rail's ESA Admin panel (BcnSettingsNav.astro, `__block--esa`): the
+// Guidance bar's dark glass, white ink, the same blur and fallbacks, so admin tools read as
+// admin tools wherever they sit. The header carries Add Dot. A dense row per dot
+// (<BcnHelpDotRow>), Claude drafts first since they are what the admin has to act on. A dot
+// whose spot is gone from the page moves under Needs a New Spot. Rows for dots made in the
+// session are cloned from the <template> at the foot. The controller owns all state; every
+// hook here is `data-hda-*`.
+//
+// bcn-lego-checked: the panel is BcnSettingsNav's dark admin block, restated here because
+// that recipe lives in a scoped style with no shared class (logged as a promotion candidate
+// in docs/system-improvement-ledger.md). Add Dot IS esa-button, its Option-click hint IS esa-tooltip. Checked Beacon: no dark
+// admin panel. bcn-help-dots-admin is the home.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnHelpDotRow from './BcnHelpDotRow.astro';
 import type { HelpDot, HelpDotPage } from '../../data/help-dots';
@@ -23,18 +31,21 @@ const rows: HelpDot[] = [...page.dots].sort(
 );
 ---
 
-<div class="bcn-hda stack" data-gap="md" data-hda hidden>
-  <div class="stack" data-gap="xs" data-hda-list>
+<div class="bcn-hda" data-hda hidden>
+  <div class="bcn-hda__head">
+    <h2 class="bcn-hda__title typography-label-md-strong">Dots on This Page</h2>
+    <esa-tooltip text="Or Option-click (Alt-click) anywhere on the page">
+      <EsaButton variant="chrome" size="xs" icon="plus" data-hda-add>Add Dot</EsaButton>
+    </esa-tooltip>
+  </div>
+
+  <div class="bcn-hda__rows" data-hda-list>
     {rows.map((dot) => <BcnHelpDotRow dot={dot} spotLabel={spotLabel(dot.spot)} />)}
   </div>
 
-  <div class="stack" data-gap="xs" data-hda-orphans-wrap hidden>
-    <h3 class="bcn-hda__subhead typography-label-md-strong">Needs a New Spot</h3>
-    <div class="stack" data-gap="xs" data-hda-orphans></div>
-  </div>
-
-  <div>
-    <EsaButton variant="primary" appearance="outline" size="sm" icon="plus" data-hda-add>Add Dot</EsaButton>
+  <div class="bcn-hda__orphans" data-hda-orphans-wrap hidden>
+    <h3 class="bcn-hda__subhead typography-label-xs-strong">Needs a New Spot</h3>
+    <div class="bcn-hda__rows" data-hda-orphans></div>
   </div>
 
   <template data-hda-template>
@@ -42,13 +53,69 @@ const rows: HelpDot[] = [...page.dots].sort(
   </template>
 </div>
 
+<script>
+  import '@esa/ecology/esa-tooltip';
+</script>
+
 <style>
-  .bcn-hda[hidden],
-  .bcn-hda [hidden] {
-    display: none;
+  /* BcnSettingsNav.astro's `.bcn-settings-nav__block--esa`. */
+  .bcn-hda {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300);
+    color: #ffffff;
+    background: var(--bcn-helpbar-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid var(--bcn-helpbar-border);
+    border-radius: var(--radius-300, 0.5rem);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .bcn-hda {
+      background: var(--bcn-helpbar-bg-solid);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .bcn-hda {
+      background: var(--bcn-helpbar-bg-solid);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  .bcn-hda__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    padding: 0 0 var(--spacing-200) var(--spacing-200);
+    border-block-end: 1px solid color-mix(in srgb, #ffffff 18%, transparent);
+  }
+  .bcn-hda__title {
+    margin: 0;
+    color: #ffffff;
+  }
+  .bcn-hda__head :global(.esa-button__native) {
+    color: color-mix(in srgb, #ffffff 88%, transparent);
+  }
+  .bcn-hda__rows {
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-hda__orphans {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding-block-start: var(--spacing-200);
+    border-block-start: 1px solid color-mix(in srgb, #ffffff 18%, transparent);
   }
   .bcn-hda__subhead {
     margin: 0;
-    color: var(--color-content-default);
+    padding-inline-start: var(--spacing-200);
+    color: color-mix(in srgb, #ffffff 78%, transparent);
+  }
+  .bcn-hda[hidden],
+  .bcn-hda [hidden] {
+    display: none;
   }
 </style>

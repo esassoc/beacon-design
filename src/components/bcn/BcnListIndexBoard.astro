@@ -80,6 +80,7 @@ import {
   type ProjectList,
 } from '../../data/lists';
 import { withBase } from '../../lib/base';
+import { helpSpot } from '../../lib/help-spot';
 
 // Every list type has its detail page now (2026-09-23): one route, three bodies.
 const hrefFor = (list: ProjectList): string => withBase(`/prototypes/lists/${list.id}`);
@@ -109,7 +110,9 @@ const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type
 ---
 
 <div class="stack" data-gap="lg" data-list-index>
-  <BcnSwFilterRow panel searchPlaceholder="Search lists" searchName="lists-search" />
+  <div {...helpSpot('lists.search', 'Search')}>
+    <BcnSwFilterRow panel searchPlaceholder="Search lists" searchName="lists-search" />
+  </div>
 
   <div class="stack" data-gap="2xl">
     {
@@ -122,7 +125,7 @@ const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type
           data-list-noun={group.noun}
         >
           <div class="bcn-lib__head repel" data-gap="sm">
-            <div class="cluster" data-gap="xs">
+            <div class="cluster" data-gap="xs" {...helpSpot(`lists.group.${group.type}`, `${group.label} Heading`)}>
               <h2 class="bcn-lib__title typography-title-strong" id={`lists-${group.type}`}>
                 {group.label}
               </h2>
@@ -139,6 +142,7 @@ const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type
               size="sm"
               icon="plus"
               data-list-create={group.type}
+              {...helpSpot(`lists.add.${group.type}`, `${addListLabel(group.type)} Button`)}
             >
               {addListLabel(group.type)}
             </EsaButton>

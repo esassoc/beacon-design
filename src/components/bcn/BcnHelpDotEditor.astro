@@ -1,0 +1,98 @@
+---
+// <BcnHelpDotEditor> — where an ESA admin writes a dot, on the page, beside the dot itself
+// (round 15, replacing the side form). A new dot, a moved dot, or Edit on a dot opens it:
+// the spot it sits on, a title, a sentence or two and an optional screenshot (Capture This
+// Spot; in the prototype it returns a crop made from this page ahead of time). A moved dot
+// adds "Check this text still fits". Footer: Publish, Save as Draft, Cancel. Cancel on a new
+// dot takes the dot away; on a moved one it goes back where it was.
+//
+// The card's header band is the settings admin band (BcnSettingsShell.astro: esa-card's
+// --card-header-bg on the Guidance bar's glass, white ink), so admin authoring reads the
+// same everywhere. The body stays light, as there.
+//
+// Markup only. The help-dots controller places, fills, reads and closes it; every hook is
+// `data-hde-*`.
+//
+// bcn-lego-checked: the card IS esa-card (header slot, footer slot), the fields ARE
+// esa-text-field and esa-textarea, the warning IS esa-alert-box, every action IS
+// esa-button. The owned parts are the absolute placement beside a dot and the screenshot
+// preview frame, which no lego renders. Checked Beacon: help authoring is a drawer form
+// over the same parts. bcn-help-dot-editor is the home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-hde" data-hde role="dialog" aria-labelledby="bcn-hde-heading" hidden>
+  <EsaCard padding="compact">
+    <div slot="header" class="bcn-hde__head stack" data-gap="3xs">
+      <span class="typography-label-md-strong" id="bcn-hde-heading" data-hde-heading>New Dot</span>
+      <span class="bcn-hde__spot typography-body-xs" data-hde-spot></span>
+    </div>
+
+    <div class="stack" data-gap="sm">
+      <div data-hde-moved hidden>
+        <EsaAlertBox variant="warning">Check this text still fits.</EsaAlertBox>
+      </div>
+      <esa-text-field label="Title" name="hde-title" size="sm" required data-hde-title></esa-text-field>
+      <esa-textarea label="Text" name="hde-text" size="sm" rows="3" data-hde-text></esa-textarea>
+      <figure class="bcn-hde__shot" data-hde-shot hidden>
+        <img alt="" data-hde-shot-img />
+      </figure>
+      <div class="cluster" data-gap="xs">
+        <EsaButton variant="ghost" appearance="outline" size="xs" data-hde-capture>Capture This Spot</EsaButton>
+        <span data-hde-remove-wrap hidden>
+          <EsaButton variant="ghost" size="xs" data-hde-remove>Remove</EsaButton>
+        </span>
+      </div>
+    </div>
+
+    <div slot="footer" class="bcn-hde__foot cluster" data-gap="xs">
+      <EsaButton variant="primary" size="sm" data-hde-publish>Publish</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" size="sm" data-hde-draft>Save as Draft</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-hde-cancel>Cancel</EsaButton>
+    </div>
+  </EsaCard>
+</div>
+
+<style>
+  .bcn-hde {
+    position: absolute;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 24; /* over the dots (20, 21) and the open reader popover */
+    inline-size: 320px;
+    border-radius: var(--radius-300);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  }
+  /* The settings admin band (BcnSettingsShell.astro), through esa-card's public tokens. */
+  .bcn-hde :global(.esa-card) {
+    --card-header-bg: var(--bcn-helpbar-bg);
+    --card-header-color: #ffffff;
+    --card-header-border-color: transparent;
+  }
+  .bcn-hde__head {
+    color: #ffffff;
+  }
+  .bcn-hde__spot {
+    color: color-mix(in srgb, #ffffff 72%, transparent);
+  }
+  .bcn-hde__shot {
+    margin: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+  .bcn-hde__shot img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+  .bcn-hde__foot {
+    justify-content: flex-end;
+  }
+  .bcn-hde[hidden],
+  .bcn-hde [hidden] {
+    display: none;
+  }
+</style>
