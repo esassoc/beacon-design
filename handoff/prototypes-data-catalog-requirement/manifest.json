@@ -4,6 +4,7 @@
   "description": "The first first-class Requirement detail page (regular workflow) — requirement-owned reference data + applicability, the one linked Action as jump-off; single-pane upsert with no timing/evidence/notifications (those live on the Action).",
   "dir": "prototypes-data-catalog-requirement",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-requirement/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

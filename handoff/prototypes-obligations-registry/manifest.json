@@ -4,6 +4,7 @@
   "description": "The hierarchical registry outside setup — 17 subject areas over 69 headings over 402 duties, each opening in place to its record. Same component as setup step 5 with mode=\"browse\": no selectors, no verbs, nothing to decide. It exists to prove the tree is one configurable component rather than two surfaces that drift. Distinct from the data catalog’s obligations list, which is deliberately flat.",
   "dir": "prototypes-obligations-registry",
   "url": "https://esassoc.github.io/beacon-design/prototypes/obligations-registry/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-obligations-registry/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

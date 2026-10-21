@@ -4,6 +4,7 @@
   "description": "One submission with its comments as highlighter passages (topic = hue, subtopic = shade). Click one and a single card opens in the margin beside it: refile it, point it at another response or a new one, or remove it. Drag a passage's end grips to resize it; select text to add a comment, already filed by a quiet helper. J / K step through the highlights.",
   "dir": "prototypes-comments-sub-18",
   "url": "https://esassoc.github.io/beacon-design/prototypes/comments/sub-18/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

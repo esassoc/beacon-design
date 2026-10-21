@@ -4,6 +4,7 @@
   "description": "The 11 permits from the CIA's permit matrix become actively tracked items: a status ladder (Pending Determination → Not Started → In Preparation → Submitted → Under Agency Review → Approved), target dates, and agency reference numbers. Every field — Level, Agency, Requirement, Target Date, Reference No., Notes, Status — is editable from the record drawer and saved to a browser-local overlay, so an edit here shows up on the Permit Dashboard too.",
   "dir": "prototypes-permitting-details",
   "url": "https://esassoc.github.io/beacon-design/prototypes/permitting-details/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

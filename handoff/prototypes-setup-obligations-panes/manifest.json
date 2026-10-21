@@ -4,6 +4,7 @@
   "description": "The same step 5 argument in prod’s other setup geometry: setup-wizard-sidebar picking one subject area, a main pane reviewing its duties. Kept beside the tree as an alternative look — the tree shows the whole registry’s shape at once, this shows one area at a time with more room for it.",
   "dir": "prototypes-setup-obligations-panes",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-obligations-panes/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations-panes/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

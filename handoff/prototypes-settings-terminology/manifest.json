@@ -4,6 +4,7 @@
   "description": "The capturable exemplar for all 20 standard pages that share one route shape: the registry’s section array IS the page, rendered as setting rows, record collections, or term pairs. Every control commits itself and the row confirms it — no page Save anywhere in settings.",
   "dir": "prototypes-settings-terminology",
   "url": "https://esassoc.github.io/beacon-design/prototypes/settings/terminology/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-settings-terminology/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

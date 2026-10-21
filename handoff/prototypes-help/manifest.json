@@ -4,6 +4,7 @@
   "description": "The knowledge base: searchable hero, browse-by-category tiles, and a hash-routed article browser (18 articles grounded in the product docs). The same dataset powers the app-wide floating help bar + guidance drawer — open ANY prototype page and the drawer shows guidance for that page.",
   "dir": "prototypes-help",
   "url": "https://esassoc.github.io/beacon-design/prototypes/help/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-help/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

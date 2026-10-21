@@ -4,6 +4,7 @@
   "description": "The project homepage, built on ACTIONS AS THE SPINE: a profile-style header (cover band, org seal, project name, phase) with inline cover/logo editing; a 30/60/90-day timeline of action due dates, season windows, and milestones; Tracking · Monitoring · Reporting modules that each carry their own overdue and due-soon actions (criticality lives in the module that owns the work); a project-scope row leading the starred component cards; a slim four-step Setup Wizard card; and a rail with project-data side panels, the project boundary map, and project details. Revised against the 2026-08-04 product-meeting review.",
   "dir": "prototypes-project-dashboard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/project-dashboard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-project-dashboard/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

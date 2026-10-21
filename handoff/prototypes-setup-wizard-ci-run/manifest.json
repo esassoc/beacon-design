@@ -4,6 +4,7 @@
   "description": "The processing run over the ITP's 854 requirements: Build the index, Extract, File, Merge, each with its own count and bar, six live counts, a clock, and a monospace log naming what each requirement became. Replayed from the fixture; hands off to the index when it finishes.",
   "dir": "prototypes-setup-wizard-ci-run",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard-ci/run/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-ci-run/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

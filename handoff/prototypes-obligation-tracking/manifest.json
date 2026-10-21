@@ -4,6 +4,7 @@
   "description": "The awareness surface, as two tabs. FEED carries four views, all four cuts of one event set — All (a timeline of events, each carrying the duties it switched on), Important (the same events narrowed to the reader’s saved subject areas, per-user), To-do (the notices they raised) and Pinned (the duties this reader is watching). Important and Pinned also read the other way round: a pivot swaps the parent and the child, so a pane becomes one duty and its children become the events that reached it. REGISTRY is the setup wizard’s own four-level tree in read-only mode, one component with a mode. Both halves run on the wizard’s fixture: the ITP pass, 333 obligations carrying the requirements they were drafted from. No status model and no verdict: an obligation holds no time, the event does.",
   "dir": "prototypes-obligation-tracking",
   "url": "https://esassoc.github.io/beacon-design/prototypes/obligation-tracking/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

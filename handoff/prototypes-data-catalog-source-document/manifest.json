@@ -4,6 +4,7 @@
   "description": "The document home — description, commitments roster with per-commitment requirement counts, files, agency reference details, two-node lineage; single-pane upsert (prod field set) + in-app PDF viewer.",
   "dir": "prototypes-data-catalog-source-document",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-source-document/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-source-document/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

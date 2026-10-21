@@ -4,6 +4,7 @@
   "description": "A Compliance Index list made from the canonical index: its own categories and subcategories over the index’s items, regrouped for a contractor’s field crews, with Edit details and a Danger Zone.",
   "dir": "prototypes-lists-contractor-field-index",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/contractor-field-index/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

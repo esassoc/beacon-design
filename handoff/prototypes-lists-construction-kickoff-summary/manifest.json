@@ -4,6 +4,7 @@
   "description": "One obligation list as the registry tree scoped to its members: categories and subcategories renamed for this list alone; each obligation can be moved, retitled or re-described for this list but never edited. Its implementations show evidence counts (no status — obligations have no lifecycle), filterable by component and evidence. Export adds the JSON endpoint that feeds a Fulcrum form.",
   "dir": "prototypes-lists-construction-kickoff-summary",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/construction-kickoff-summary/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

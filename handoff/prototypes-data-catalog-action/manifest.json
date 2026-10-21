@@ -4,6 +4,7 @@
   "description": "Read-only view of the whole Action plus the fixed-size upsert modal (two-pane requirements assignment | Details/Timing/Evidence/Notifications tabs).",
   "dir": "prototypes-data-catalog-action",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-action/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-action/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

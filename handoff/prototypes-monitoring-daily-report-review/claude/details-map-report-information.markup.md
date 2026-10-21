@@ -294,7 +294,7 @@
                   style="
                     width: 256px;
                     height: 256px;
-                    transform: translate3d(-107px, -42px, 0px);
+                    transform: translate3d(-107px, -41px, 0px);
                     opacity: 1;
                   "
                 /><img
@@ -304,7 +304,7 @@
                   style="
                     width: 256px;
                     height: 256px;
-                    transform: translate3d(149px, -42px, 0px);
+                    transform: translate3d(149px, -41px, 0px);
                     opacity: 1;
                   "
                 /><!-- …and 2 more like this (<img class="leaflet-tile">) -->
@@ -316,9 +316,9 @@
               pointer-events="none"
               class="leaflet-zoom-animated"
               width="434"
-              height="560"
-              viewBox="-36 -47 434 560"
-              style="transform: translate3d(-36.4332px, -46.8657px, 0px) scale(1)"
+              height="562"
+              viewBox="-36 -47 434 562"
+              style="transform: translate3d(-36.4332px, -46.4657px, 0px) scale(1)"
             >
               <g>
                 <path
@@ -331,7 +331,7 @@
                   fill="#2e7571"
                   fill-opacity="0.9"
                   fill-rule="evenodd"
-                  d="M103,187a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                  d="M103,188a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
                 ></path>
                 <path
                   class="leaflet-interactive"
@@ -343,7 +343,7 @@
                   fill="#f59e0b"
                   fill-opacity="0.9"
                   fill-rule="evenodd"
-                  d="M180,235a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                  d="M180,236a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
                 ></path>
                 <path
                   class="leaflet-interactive"
@@ -355,7 +355,7 @@
                   fill="#2e7571"
                   fill-opacity="0.9"
                   fill-rule="evenodd"
-                  d="M244,279a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                  d="M244,280a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
                 ></path>
               </g>
             </svg>

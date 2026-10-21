@@ -4,6 +4,7 @@
   "description": "Draw or simulate an upload of the advancing candidate's boundary on an editable Leaflet map (bcn-boundary-draw-map), with a live vertices/perimeter/area/centroid summary and a provenance callout back to the screening result.",
   "dir": "prototypes-due-diligence-boundary",
   "url": "https://esassoc.github.io/beacon-design/prototypes/due-diligence-boundary/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-boundary/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

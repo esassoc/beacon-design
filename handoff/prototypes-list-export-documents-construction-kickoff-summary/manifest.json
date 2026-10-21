@@ -4,6 +4,7 @@
   "description": "An obligation list as the PDF its Export card downloads, on Letter: title block, a summary table, then category › subcategory in the list’s own names and wording, with class, audience, applies when and commitments per obligation.",
   "dir": "prototypes-list-export-documents-construction-kickoff-summary",
   "url": "https://esassoc.github.io/beacon-design/prototypes/list-export-documents/construction-kickoff-summary/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-construction-kickoff-summary/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

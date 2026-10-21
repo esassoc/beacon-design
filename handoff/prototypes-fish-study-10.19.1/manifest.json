@@ -4,6 +4,7 @@
   "description": "The narrative projection: the 9-field science-plan sketch (focal species, objectives + research questions, components → methods/metrics, reporting) + the CDFW review-comment cycle pinned per field, with details / dependencies / deliverables / RACI roles / planning in the rail. One static page per COA; flagship studies (10.19.1, 10.26, 10.18.3, 10.21.10) are deep-filled.",
   "dir": "prototypes-fish-study-10.19.1",
   "url": "https://esassoc.github.io/beacon-design/prototypes/fish-study/10.19.1/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-fish-study-10.19.1/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

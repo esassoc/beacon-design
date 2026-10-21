@@ -4,6 +4,7 @@
   "description": "Where the 402 standing duties get scoped to a project. The registry lives inside setup rather than on a page of its own, organised as the hierarchical view the flat catalog deliberately is not: 17 subject areas over 69 headings. The reviewer is deciding APPLICABILITY, not correctness, so everything starts included and the job is confirming an area or marking what does not apply. Subject is the spine because activity cannot be — construction activities in Beacon are per-project and hand-authored, and they group the registry without narrowing it (excluding all in-water work drops 34 of 402). The registry renders as a nested tree (17 areas > 69 headings > 402 duties, each opening in place to its record) from ONE configurable component: `review` here, `browse` read-only for the full-registry page expected later. Selection is a selection, not a decision — select all/none/several, then Approve or Not applicable, matching prod’s approve-all. 188 duties are filed under more than one area, so a decision is held on the duty and syncs everywhere it appears.",
   "dir": "prototypes-setup-obligations",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-obligations/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

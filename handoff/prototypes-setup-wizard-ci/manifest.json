@@ -4,6 +4,7 @@
   "description": "The index as the hub: coverage rollup, then category > subcategory rows with their actions, obligations and review state. A row opens the subcategory full screen: its actions and obligations by class, obligations filed in from elsewhere, merge and dismiss, approve and move to the next, and any requirement read against its commitment text or the ITP PDF.",
   "dir": "prototypes-setup-wizard-ci",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard-ci/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-ci/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

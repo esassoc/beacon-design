@@ -4,6 +4,7 @@
   "description": "A faithful replica of Jamie's Planning feature on Beacon develop (BCN-1652): the plan list, a plan's Gantt with planned windows, cut-offs, landmarks and dependencies, Plan settings, the element drawer, Move plan with its schedule preview, row actions, edit-mode drag and live refresh across tabs. Replicated as built, not redesigned.",
   "dir": "prototypes-plans",
   "url": "https://esassoc.github.io/beacon-design/prototypes/plans/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-plans/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

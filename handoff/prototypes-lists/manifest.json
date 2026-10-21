@@ -4,6 +4,7 @@
   "description": "Every list on the project in one stack, filtered by type, each row carrying its name, its member count and when it last changed. Add list picks the type first, then the name and description.",
   "dir": "prototypes-lists",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

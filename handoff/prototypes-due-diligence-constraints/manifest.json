@@ -4,6 +4,7 @@
   "description": "Ten toggleable GIS layers (fire hazard, hazardous waste sites, biological critical habitat, cultural sensitivity, hydrology, transmission) cross-referenced against the boundary, with a findings list sorted by severity and a shared detail drawer reached from either the map or the list.",
   "dir": "prototypes-due-diligence-constraints",
   "url": "https://esassoc.github.io/beacon-design/prototypes/due-diligence-constraints/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-constraints/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

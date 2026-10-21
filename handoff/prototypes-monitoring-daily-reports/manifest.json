@@ -4,6 +4,7 @@
   "description": "Fieldstone Environmental Monitoring’s field-inspector activity, one row per site visit, with a real downloadable report document per row — matching the Monitoring Portal’s existing Daily Reports grid.",
   "dir": "prototypes-monitoring-daily-reports",
   "url": "https://esassoc.github.io/beacon-design/prototypes/monitoring/daily-reports/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-reports/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

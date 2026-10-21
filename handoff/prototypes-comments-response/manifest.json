@@ -4,6 +4,7 @@
   "description": "One summary response: its text with guidance + Redraft (one new draft, one-step undo), the comments it answers grouped by submission, and the past responses it was drafted from. Accept plans every linked comment at once, and the burn-down beside it counts down by that many.",
   "dir": "prototypes-comments-response",
   "url": "https://esassoc.github.io/beacon-design/prototypes/comments/response/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

@@ -4,6 +4,7 @@
   "description": "Source documents hold files, as in prod: upload, name, download and delete, with each file scanned on its own and its state in the Library. The step panel holds the console (Scan or Resume, Pause, Restart, the page in view of the file's count, and the speed) and a scrubber of every page. The Library and Aldo fold into rails. The PDF renders live under a pinned page toolbar: select (Shift adds), mark, edit ID and name, delete, split, merge, continue onto the next page, hide Aldo's boxes, follow the scan, zoom, undo and redo. The run stops after its first three commitments so the person can check each one's ID, name and text, then reads the rest. What waits on the person is listed under Aldo's log as Needs you until answered; questions are answered, not obeyed; and the person can mark every commitment by hand instead. Every steer and edit is kept with the page it came on.",
   "dir": "prototypes-setup-wizard-3-step",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

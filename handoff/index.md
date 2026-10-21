@@ -328,7 +328,7 @@ Version rail · Release (one anchored entry) · Area entry (with feature-flag no
 
 ## Site Screening
 
-[README](prototypes-due-diligence-siting/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/due-diligence-siting/) · 5 sections, 193 KB, no authored guidance
+[README](prototypes-due-diligence-siting/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/due-diligence-siting/) · 5 sections, 194 KB, no authored guidance
 
 Header · Site Screening · Help & utilities · You are here · Gd article
 

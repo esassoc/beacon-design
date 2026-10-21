@@ -4,6 +4,7 @@
   "description": "The aliased Actions catalog under the streamlined workflow — requirement-centric columns including Species and Construction Activities; the native entity survives as \"Terms\".",
   "dir": "prototypes-data-catalog-requirements-streamlined",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-requirements-streamlined/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirements-streamlined/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

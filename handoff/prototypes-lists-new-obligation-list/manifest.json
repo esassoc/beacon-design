@@ -4,6 +4,7 @@
   "description": "Its own epic, after the setup wizard’s Aldo. Create list lands on the new, empty list with Aldo open beside it; say what the list is for, and Aldo proposes what fits. On every list, Aldo waits above Details.",
   "dir": "prototypes-lists-new-obligation-list",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/new-obligation-list/?aldo",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

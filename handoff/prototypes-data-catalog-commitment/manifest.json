@@ -4,6 +4,7 @@
   "description": "The parent entity — serif parsed commitment text, requirements grouped by the six builder phases with counts/Add/empty states, rolled-up Related Data, version timeline, components, lineage; single-pane upsert (prod field set).",
   "dir": "prototypes-data-catalog-commitment",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-commitment/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-commitment/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

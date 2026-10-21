@@ -4,6 +4,7 @@
   "description": "Every commitment with its requirements as highlights over the words they came from, the selected requirement's data beside it with each value anchored to its source words, and a Text / Page toggle for the PDF crop. Needs a person filters to quotes not in the source, uncovered text, duplicate requirements, entity merges and unclear types. Project entities merges milestone and season phrasings once for every commitment; Confirm all takes the clean remainder.",
   "dir": "prototypes-setup-wizard-3-step-review",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/review/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-review/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

@@ -4,6 +4,7 @@
   "description": "The Compliance Index in develop's two phases. Build the index from every approved requirement, then shape it by hand (rename, lock, delete, drag, add) and re-run it with guidance typed to Aldo. Then one Draft run reads, files, merges and completes the actions and obligations, and a person reviews them a subcategory at a time: approve, discard, merge, edit, with Suggest subcategories for what fit nowhere. Every draft rests on step 2 requirement IDs that open the commitment as step 2 marked it up.",
   "dir": "prototypes-setup-wizard-3-step-compliance-index",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

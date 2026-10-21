@@ -4,6 +4,7 @@
   "description": "Permitting's landing page: permits outstanding, approved-to-date, and the expected permitting completion date (the latest target date across all tracked permits), plus a Needs Attention list (due within 45 days) and a by-status breakdown. No permit grid here — that's Permit Details, its sibling page.",
   "dir": "prototypes-permitting-dashboard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/permitting-dashboard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-dashboard/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

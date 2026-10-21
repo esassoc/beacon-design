@@ -4,6 +4,7 @@
   "description": "The comprehensive per-category surface the home’s cards link into — one static route per help category, shown here as Tracking. A breadcrumb back to the help home, the category’s full article list (title over a one-line summary, hairline-divided), and a reading pane scoped to that category which lands on its first article. Registered as the capturable exemplar for all seven categories; they share one route shape.",
   "dir": "prototypes-help-tracking",
   "url": "https://esassoc.github.io/beacon-design/prototypes/help/tracking/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-help-tracking/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

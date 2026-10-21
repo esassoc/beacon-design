@@ -4,6 +4,7 @@
   "description": "Every Beacon release in one reverse-chronological stream — the changelog pattern in Beacon’s chrome, fed by the real 1.31–1.33 notes. Three tiers per release (headline stories, area-grouped entries with feature-flag notes, a collapsed fixes list), a sticky scroll-spy version rail, and monochrome serif typesetting. The help bar’s What’s-new popover deep-links into each release anchor.",
   "dir": "prototypes-release-notes",
   "url": "https://esassoc.github.io/beacon-design/prototypes/release-notes/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

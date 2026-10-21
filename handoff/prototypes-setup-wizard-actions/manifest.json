@@ -4,6 +4,7 @@
   "description": "Review, not creation: 267 actions drafted from the ITP's 854 requirements in one pass, scoped by phase and type; each requirement routes to an action, an obligation, or not applicable; scope and exclusivity are gone; timing is two switches.",
   "dir": "prototypes-setup-wizard-actions",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard/actions/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-actions/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

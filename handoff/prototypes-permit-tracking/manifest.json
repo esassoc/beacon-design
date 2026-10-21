@@ -4,6 +4,7 @@
   "description": "Map tab (default): the four real Phase-1 paths colored by derived permit status (cartographic readiness ramp), Path + Status filters, mileage strip + insight cards. Data tab: Permits × Segments AG Grids with the editable permit drawer — saves repaint the map.",
   "dir": "prototypes-permit-tracking",
   "url": "https://esassoc.github.io/beacon-design/prototypes/permit-tracking/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

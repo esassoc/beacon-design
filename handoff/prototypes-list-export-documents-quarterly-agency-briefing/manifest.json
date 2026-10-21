@@ -4,6 +4,7 @@
   "description": "A commitment list as a PDF on Letter, by permit section in code order: a summary table, then each commitment with its requirements in the permit’s words.",
   "dir": "prototypes-list-export-documents-quarterly-agency-briefing",
   "url": "https://esassoc.github.io/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

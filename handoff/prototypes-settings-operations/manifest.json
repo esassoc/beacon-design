@@ -4,6 +4,7 @@
   "description": "Maintenance jobs as a console: reach stated before the run, and confirmation in place with a typed-name gate for platform-wide jobs. Prod fires four of these from an anchor with no href and no confirm.",
   "dir": "prototypes-settings-operations",
   "url": "https://esassoc.github.io/beacon-design/prototypes/settings/operations/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-settings-operations/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

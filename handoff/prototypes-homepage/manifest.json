@@ -4,6 +4,7 @@
   "description": "The public landing page: photo hero, compliance-scale stats, the six client questions, Without/With Beacon, Catalog → Plan → Execute, market cards, the interactive California project dot map, and the three get-started doors.",
   "dir": "prototypes-homepage",
   "url": "https://esassoc.github.io/beacon-design/prototypes/homepage/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

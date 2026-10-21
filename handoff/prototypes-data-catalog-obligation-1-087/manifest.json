@@ -4,6 +4,7 @@
   "description": "The record itself, one static route per obligation: standard, condition and parameters as the reading column; class, the three category axes, and the commitments that state it in the rail. The exemplar route is the speed-limit record, which carries a live source conflict (10 mph in one document, 15 in two others) and the fourteen commitments that collapse into it.",
   "dir": "prototypes-data-catalog-obligation-1-087",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-obligation/1-087/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligation-1-087/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

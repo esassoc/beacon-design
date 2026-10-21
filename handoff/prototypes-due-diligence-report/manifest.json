@@ -4,6 +4,7 @@
   "description": "The formatted Critical Issues Assessment deliverable, auto-assembled from the boundary, constraint findings, and permit matrix: a sticky-TOC document with resource-by-resource findings and recommendations, a permit matrix appendix, and explicit limitations.",
   "dir": "prototypes-due-diligence-report",
   "url": "https://esassoc.github.io/beacon-design/prototypes/due-diligence-report/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-report/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

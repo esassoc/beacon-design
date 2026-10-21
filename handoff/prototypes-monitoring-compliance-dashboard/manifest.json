@@ -4,6 +4,7 @@
   "description": "A differently-configured Monitoring Portal dashboard for projects where the firm holds a third-party compliance-inspection role over a separate field inspector: the prior day’s inspection sweep as a clickable severity donut (in-compliance / needs-attention / non-compliance) alongside needs-attention and non-compliance category bar charts, a needs-attention panel with a map inset plus spreadsheet/KMZ export, and a 90-day opened-vs-resolved trend — demonstrating the portal’s per-project widget configurability.",
   "dir": "prototypes-monitoring-compliance-dashboard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/monitoring/compliance-dashboard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-dashboard/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

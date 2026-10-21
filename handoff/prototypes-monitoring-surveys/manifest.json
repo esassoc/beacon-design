@@ -4,6 +4,7 @@
   "description": "Survey documents as an AG Grid (date, surveyor, type, species, work area) with a draft/QC/final status column, a \"QC’d only\" default filter that hides un-QC’d drafts, and a not-in-compliance warning chip.",
   "dir": "prototypes-monitoring-surveys",
   "url": "https://esassoc.github.io/beacon-design/prototypes/monitoring/surveys/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-surveys/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

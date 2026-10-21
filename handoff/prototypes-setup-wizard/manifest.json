@@ -4,6 +4,7 @@
   "description": "The wizard home with five numbered steps in the setup ramp — Source Documents, Commitments, Requirements, Actions, Obligations — and the fifth entity color.",
   "dir": "prototypes-setup-wizard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

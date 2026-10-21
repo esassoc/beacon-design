@@ -4,6 +4,7 @@
   "description": "The crosswalk projection: 36 ITP studies as a filterable AG Grid (Category / Lead / Plan Status / Phase / Species) with a Grid ↔ Timeline view toggle, derived stats, and a \"Generate outputs\" picker (Word / Excel / Excel / PDF) from one dataset. Row → study detail.",
   "dir": "prototypes-fish-studies",
   "url": "https://esassoc.github.io/beacon-design/prototypes/fish-studies/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

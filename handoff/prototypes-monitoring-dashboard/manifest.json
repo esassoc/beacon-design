@@ -4,6 +4,7 @@
   "description": "The portal landing as a composable widget grid (WordPress dashboard × iOS home screen): 1/2/3-column widgets with glanceable visualizations — active-observation donut with outstanding issues, species bars, commitment-compliance rollup, mileage and runtime trends, WEAP training counts — each linking through to its data stream.",
   "dir": "prototypes-monitoring-dashboard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/monitoring/dashboard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-dashboard/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

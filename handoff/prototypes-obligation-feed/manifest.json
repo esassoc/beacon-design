@@ -4,6 +4,7 @@
   "description": "The Feed half of Obligation Tracking, polished with the Lists work and read like a mail client. Four views as icon tabs (All, Important, To-do, Pinned), a pale rail of two-line record cards grouped Today / Yesterday / This week / This month / Older, and the open record as one contained report: its facts, its files, and the obligations it relates to, each marked Triggered or Evidence. The feed is a log of evidence linked to obligations, so the links are editable: Add obligations opens a filtered side panel, and an x on each card unlinks it behind a confirm. The component switcher beside the H1 scopes the page; the By record / By obligation pivot, the component filter and the nested implementations were cut.",
   "dir": "prototypes-obligation-feed",
   "url": "https://esassoc.github.io/beacon-design/prototypes/obligation-feed/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

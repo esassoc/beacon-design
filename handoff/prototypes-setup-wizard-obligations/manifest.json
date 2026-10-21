@@ -4,6 +4,7 @@
   "description": "One list, category > subcategory > obligation, 333 rows from the registry: view, add, edit, remove, move — then approve the taxonomy at once. Filters by category, class and search.",
   "dir": "prototypes-setup-wizard-obligations",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard/obligations/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

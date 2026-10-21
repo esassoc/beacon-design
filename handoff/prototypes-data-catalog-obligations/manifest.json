@@ -4,6 +4,7 @@
   "description": "The flat catalog of all 402 obligations — the filing cabinet, deliberately not the registry tree. Sortable and filterable on class and the three category axes (subject, activity, species) plus the commitments that state each duty, with CSV export. No status column: the status model was dropped, and catalog surfaces carry configuration rather than tracking data.",
   "dir": "prototypes-data-catalog-obligations",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-obligations/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligations/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

@@ -4,6 +4,7 @@
   "description": "The unified per-node detail page — one static route per Program / Study / Sub-study / Task. Read-only on landing: lineage rail (data-catalog spine), identity / timing / funding as key-values, children + sibling records, assignments; study tier adds the authored science-plan sketch, the CDFW review thread, and the crosswalk facts rail. All editing happens in side drawers (Edit record, Edit assignments) with live roll-up recompute. Supersedes fish-node and the fish-study pages.",
   "dir": "prototypes-fish-detail-STY-014",
   "url": "https://esassoc.github.io/beacon-design/prototypes/fish-detail/STY-014/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-fish-detail-STY-014/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

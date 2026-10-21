@@ -4,6 +4,7 @@
   "description": "The per-component homepage — the project dashboard slimmed to one component. A white identity bar carrying a glyph-and-color mark instead of a cover photo, a timeline and Tracking · Monitoring · Reporting modules scoped to this component, the work-areas grid lifted off its retired tab complete with bulk import and delete, a footprint map drawn from the work areas' real coordinates, and a deliberately thin data rail — because a component owns almost nothing of its own but its milestone overrides.",
   "dir": "prototypes-component-dashboard",
   "url": "https://esassoc.github.io/beacon-design/prototypes/component-dashboard/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

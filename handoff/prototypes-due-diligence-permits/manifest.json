@@ -4,6 +4,7 @@
   "description": "The permit-and-approval matrix auto-derived from constraint findings (local CUP, generator air permit, USACE/CDFW, SCE large-load interconnection), a preliminary CEQA Appendix G pass, and AHJ outreach notes.",
   "dir": "prototypes-due-diligence-permits",
   "url": "https://esassoc.github.io/beacon-design/prototypes/due-diligence-permits/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-permits/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

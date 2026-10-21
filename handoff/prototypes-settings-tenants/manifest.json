@@ -4,6 +4,7 @@
   "description": "Every tenant on the platform with its subdomain, modules, and user count, plus the drawer that provisions a new one from the baseline configuration.",
   "dir": "prototypes-settings-tenants",
   "url": "https://esassoc.github.io/beacon-design/prototypes/settings/tenants/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-settings-tenants/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

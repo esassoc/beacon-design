@@ -4,6 +4,7 @@
   "description": "Decision-first v2 deep dive (client-selected): always-visible date band, 2-second confirm line, discipline cells opening a stacked child drawer with per-discipline review history (June → September re-survey) — round-1 three-option exploration kept below as reference.",
   "dir": "prototypes-work-area-drawer-specimen",
   "url": "https://esassoc.github.io/beacon-design/prototypes/work-area-drawer-specimen/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-work-area-drawer-specimen/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

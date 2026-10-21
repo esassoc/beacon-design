@@ -4,6 +4,7 @@
   "description": "Project Tracking as an AG Grid — Grid / Kanban / Timeline toggle, 130 real FEIR requirements, full tracking dialog (reference, discussion, evidence).",
   "dir": "prototypes-requirement-tracker",
   "url": "https://esassoc.github.io/beacon-design/prototypes/requirement-tracker/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-requirement-tracker/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

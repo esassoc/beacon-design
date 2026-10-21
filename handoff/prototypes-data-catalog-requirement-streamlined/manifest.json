@@ -4,6 +4,7 @@
   "description": "The merged Requirement (1:1:1 collapse): reference data integrated in read + edit, one-time Timing, zero tracking leakage — \"Track this Requirement\" deep-links to the Tracker.",
   "dir": "prototypes-data-catalog-requirement-streamlined",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-requirement-streamlined/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement-streamlined/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

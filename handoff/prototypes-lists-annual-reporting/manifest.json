@@ -4,6 +4,7 @@
   "description": "One action list filed by Compliance Index, type, commitment or A–Z. Each action lists its implementations — status, component, evidence count — filterable by component, status and evidence; bulk evidence lands through the bottom drawer. Word and CSV export, no API.",
   "dir": "prototypes-lists-annual-reporting",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/annual-reporting/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists-annual-reporting/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

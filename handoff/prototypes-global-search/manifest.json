@@ -4,6 +4,7 @@
   "description": "A centered command palette (bcn-omni-search, opened by the topbar search field or \"/\") + full results page, scoped across Source Documents, Commitments, Requirements, Actions, Components, Evidence of Compliance, Work Areas, and Observations. Inline ghost-text typeahead; a null-state landing + Recents that gives way to a scope-facet rail once you type. Full-text search of commitment/requirement body text with highlighted snippets (Beacon Commitment-Search style); grouped results, per-scope counts; ⌘+Enter forks to the results page carrying the query + active scope.",
   "dir": "prototypes-global-search",
   "url": "https://esassoc.github.io/beacon-design/prototypes/global-search/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-global-search/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

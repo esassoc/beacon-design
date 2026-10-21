@@ -4,6 +4,7 @@
   "description": "The project’s canonical Compliance Index, the first Compliance Index list: every action and obligation by category › subcategory, Unfiled last, with the Details and Export rail every list has.",
   "dir": "prototypes-lists-compliance-index",
   "url": "https://esassoc.github.io/beacon-design/prototypes/lists/compliance-index/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-lists-compliance-index/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

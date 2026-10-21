@@ -4,6 +4,7 @@
   "description": "An action list as a PDF on Letter, grouped by type: a summary table, then frequency, timing and commitments per action, and one line per component for where it stands.",
   "dir": "prototypes-list-export-documents-annual-reporting",
   "url": "https://esassoc.github.io/beacon-design/prototypes/list-export-documents/annual-reporting/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

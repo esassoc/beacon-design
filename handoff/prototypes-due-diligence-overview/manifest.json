@@ -4,6 +4,7 @@
   "description": "The single-site dashboard: a four-step workflow card (Boundary → Constraints → Permits → Report), project facts, team, critical issues, findings by severity, and recent activity.",
   "dir": "prototypes-due-diligence-overview",
   "url": "https://esassoc.github.io/beacon-design/prototypes/due-diligence-overview/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-overview/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

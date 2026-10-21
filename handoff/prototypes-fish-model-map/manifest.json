@@ -4,6 +4,7 @@
   "description": "The architecture diagram of the Study Planning feature: regulatory sources (Commitment/COA in the Data Catalog, Milestone anchors) → the stored four-tier work-breakdown with its satellites (RoleAssignment, FundingEntry, PlanAssumption, StudyProfile) → the render-time derivations (NodeRollUp, Readiness chains) → the five projected surfaces (Gantt, Roles, Readiness, Exports, Detail pages). Stored vs computed vs external, on one screen.",
   "dir": "prototypes-fish-model-map",
   "url": "https://esassoc.github.io/beacon-design/prototypes/fish-model-map/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-fish-model-map/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

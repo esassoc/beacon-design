@@ -4,6 +4,7 @@
   "description": "The draft science plan as a document surface: the fixed Feb-2026 outline with per-section COA chips linking to the study detail pages, and section-anchored CDFW comment threads (comment → response, intent, status). Search / status / intent / COA filters with a derived open-addressed-resolved tally; comment STATUS is the one live datum of the fixed corpus. Closes the brief’s science-plan linking + comment-tracking bullet.",
   "dir": "prototypes-fish-science-plan",
   "url": "https://esassoc.github.io/beacon-design/prototypes/fish-science-plan/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-fish-science-plan/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

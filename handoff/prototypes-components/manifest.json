@@ -4,6 +4,7 @@
   "description": "The middle of the tree, whose whole job is getting you to one component: a grid carrying each component's identity mark and a colored status so two dozen rows stay scannable, and a map of their footprints along the project alignment — with project-wide component health rolled up into a summary band above.",
   "dir": "prototypes-components",
   "url": "https://esassoc.github.io/beacon-design/prototypes/components/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-components/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

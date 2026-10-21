@@ -4,6 +4,7 @@
   "description": "Enables the disabled Actions catalog entry — teal Beacon grid, config-only columns, row click to the Action detail.",
   "dir": "prototypes-data-catalog-actions",
   "url": "https://esassoc.github.io/beacon-design/prototypes/data-catalog-actions/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-actions/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

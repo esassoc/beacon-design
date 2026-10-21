@@ -4,6 +4,7 @@
   "description": "Every action and obligation on the project in one PDF, from the Compliance Index’s Export card on Lists: a summary table, then the detail by category › subcategory, Unfiled last.",
   "dir": "prototypes-list-export-documents-compliance-index",
   "url": "https://esassoc.github.io/beacon-design/prototypes/list-export-documents/compliance-index/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-compliance-index/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

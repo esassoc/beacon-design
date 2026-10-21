@@ -193,6 +193,10 @@
                   <div class="leaflet-layer" style="z-index: 1; opacity: 1">
                     <div
                       class="leaflet-tile-container leaflet-zoom-animated"
+                      style="z-index: 18; transform: translate3d(-518px, -270px, 0px) scale(2)"
+                    ></div>
+                    <div
+                      class="leaflet-tile-container leaflet-zoom-animated"
                       style="z-index: 19; transform: translate3d(-518px, -270px, 0px) scale(1)"
                     >
                       <img
@@ -900,7 +904,4 @@
                                     <div
                                       role="gridcell"
                                       comp-id="108"
-                                      col-id="county"
-                                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                      tabindex="-1"
 ```

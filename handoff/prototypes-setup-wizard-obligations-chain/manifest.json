@@ -4,6 +4,7 @@
   "description": "The same obligations read from the other end: commitment > requirement > obligation. A scope chip narrows to orphaned requirements (in no obligation and no action) or requirements in multiple obligations; a requirement drawer adds, edits, unlinks and removes obligations in place.",
   "dir": "prototypes-setup-wizard-obligations-chain",
   "url": "https://esassoc.github.io/beacon-design/prototypes/setup-wizard/obligations-chain/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations-chain/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [

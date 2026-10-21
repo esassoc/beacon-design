@@ -4,6 +4,7 @@
   "description": "One comment period: its dates, response format and burn-down, then every submission By date (a mail-style inbox where untouched submissions read bold) or By topic (topic > subtopic > each comment as a highlighted quote).",
   "dir": "prototypes-comments",
   "url": "https://esassoc.github.io/beacon-design/prototypes/comments/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-comments/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

@@ -4,6 +4,7 @@
   "description": "Flags split by lifecycle — capability, rollout, default preference — with every row self-describing, self-saving, and carrying the date it last changed. No page-wide Save.",
   "dir": "prototypes-settings-feature-flags",
   "url": "https://esassoc.github.io/beacon-design/prototypes/settings/feature-flags/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-settings-feature-flags/",
   "theme": "beacon",
   "generatedFrom": "derived",
   "sections": [
