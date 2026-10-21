@@ -267,8 +267,9 @@ const clientPage = {
 
   /* Motion (round 17). Guidance on: the band slides up from behind the Guidance bar and
      fades in (220ms, ease-out); off, it drops back behind it, a little faster (160ms).
-     The dots fade and grow in, 30ms apart in page order (--_i, set by the controller,
-     capped at ten steps), and leave together. The display flip is held for the exit, so
+     The dots fade and grow in at random: each draws a delay (0 to 350ms) and a length (180
+     to 260ms) every time they come on (--_delay, --_dur, set by the controller), and they
+     leave together. The display flip is held for the exit, so
      an off mid-entrance simply reverses from wherever it is. Reduced motion: fades only. */
   .bcn-help-dots__band {
     z-index: 999; /* just under the Guidance bar, so it rises from behind it */
@@ -294,9 +295,9 @@ const clientPage = {
   }
   .bcn-help-dots :global(.bcn-hd) {
     transition:
-      opacity 220ms var(--easing-enter),
-      scale 220ms var(--easing-enter);
-    transition-delay: calc(var(--_i, 0) * 30ms);
+      opacity var(--_dur, 220ms) var(--easing-enter),
+      scale var(--_dur, 220ms) var(--easing-enter);
+    transition-delay: var(--_delay, 0ms);
   }
   .bcn-help-dots[hidden] :global(.bcn-hd) {
     opacity: 0;

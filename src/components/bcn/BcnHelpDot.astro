@@ -106,9 +106,9 @@ const shot = dot?.shot;
     animation: bcn-help-dot-ping 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
     animation-delay: var(--_land);
   }
-  /* The pings wait for the dot to land (round 17): its entrance delay plus 220ms. */
+  /* The pings wait for the dot to land (round 17): its entrance delay plus its length. */
   .bcn-hd {
-    --_land: calc(var(--_i, 0) * 30ms + 220ms);
+    --_land: calc(var(--_delay, 0ms) + var(--_dur, 220ms));
   }
   .bcn-hd__dot::after {
     animation-delay: calc(var(--_land) + 0.55s);

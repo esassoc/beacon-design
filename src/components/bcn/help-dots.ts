@@ -155,13 +155,6 @@ export function setupHelpDots(): void {
     const showing = !layer.hidden;
     if (!showing) return;
     const origin = layer.getBoundingClientRect();
-    // Page order (top, then left) for the entrance stagger, capped at ten 30ms steps.
-    const order = Array.from(dots.values())
-      .map((d) => ({ d, r: seen(d) ? targetOf(d.spot)?.getBoundingClientRect() : undefined }))
-      .filter((o) => o.r)
-      .sort((a, b) => a.r!.top - b.r!.top || a.r!.left - b.r!.left);
-    order.forEach(({ d }, i) => dotEl(d.id)?.style.setProperty('--_i', String(Math.min(i, 10))));
-
     dots.forEach((d) => {
       const el = dotEl(d.id);
       if (!el) return;
@@ -191,6 +184,15 @@ export function setupHelpDots(): void {
   const panelbar = document.querySelector<HTMLElement>('[data-help-panelbar]');
 
   const showLayer = () => {
+    // Each time the dots come on, each gets its own random delay (0 to 350ms) and length
+    // (180 to 260ms) (round 17c), so they appear scattered rather than in a sweep.
+    if (on && layer.hidden) {
+      dots.forEach((d) => {
+        const el = dotEl(d.id);
+        el?.style.setProperty('--_delay', `${Math.round(Math.random() * 350)}ms`);
+        el?.style.setProperty('--_dur', `${Math.round(180 + Math.random() * 80)}ms`);
+      });
+    }
     layer.hidden = !on;
     layer.toggleAttribute('data-edit-mode', editMode);
     trigger.setAttribute('aria-pressed', String(on));
