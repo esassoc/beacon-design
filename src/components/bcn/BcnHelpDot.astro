@@ -104,15 +104,20 @@ const shot = dot?.shot;
     opacity: 0;
     pointer-events: none;
     animation: bcn-help-dot-ping 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+    animation-delay: var(--_land);
+  }
+  /* The pings wait for the dot to land (round 17): its entrance delay plus 220ms. */
+  .bcn-hd {
+    --_land: calc(var(--_i, 0) * 30ms + 220ms);
   }
   .bcn-hd__dot::after {
-    animation-delay: 0.55s;
+    animation-delay: calc(var(--_land) + 0.55s);
   }
   /* A dot's own phase, so the dots on a page don't ping in lockstep. */
-  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::before { animation-delay: 1.2s; }
-  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::after { animation-delay: 1.75s; }
-  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::before { animation-delay: 2.4s; }
-  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::after { animation-delay: 2.95s; }
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::before { animation-delay: calc(var(--_land) + 1.2s); }
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::after { animation-delay: calc(var(--_land) + 1.75s); }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::before { animation-delay: calc(var(--_land) + 2.4s); }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::after { animation-delay: calc(var(--_land) + 2.95s); }
 
   /* The mark itself, raised (round 10): the Aldo gradient fill and a lit, lifted edge. */
   .bcn-hd__dot :global(.bcn-aldo-mark) {

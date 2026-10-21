@@ -96,10 +96,99 @@ export function initGuidanceDrawer(): void {
       textForm.close();
     });
   }
-  for (const id of ctx.howtos) { const r = rowMap.get(id); if (r) howtosEl.appendChild(r); }
-  for (const id of ctx.terms) { const r = rowMap.get(id); if (r) termsEl.appendChild(r); }
-  howtosSection.hidden = howtosEl.childElementCount === 0;
-  termsSection.hidden = termsEl.childElementCount === 0;
+  // On a page with help dots the section is the dots alone (round 17: Related is gone, so
+  // the drawer lists no page-attached articles there); without them, the articles are it.
+  const dotsHere = !!document.querySelector('[data-help-dots]');
+  if (!dotsHere) for (const id of ctx.howtos) { const r = rowMap.get(id); if (r) howtosEl.appendChild(r); }
+  howtosSection.hidden = !dotsHere && howtosEl.childElementCount === 0;
+
+  // ── Terms (BCN-1513): the page's own terms, then its parent's. An admin attaches more
+  //    with + Add Term and detaches the page's own with ×; a parent's term can only be
+  //    hidden here (muted for the admin, gone for everyone else) or edited on the parent.
+  //    In memory only, like the dots. ──
+  const attached = [...ctx.terms];
+  const inherited = (ctx.parent?.terms ?? []).filter((id) => !attached.includes(id));
+  const hiddenHere = new Set<string>();
+  const tplAttached = root.querySelector<HTMLTemplateElement>('[data-gd-trow-attached]');
+  const tplInherited = root.querySelector<HTMLTemplateElement>('[data-gd-trow-inherited]');
+  const addWrap = root.querySelector<HTMLElement>('[data-gd-term-add-wrap]');
+  const pick = root.querySelector<HTMLElement>('[data-gd-term-pick]');
+  const combo = root.querySelector<HTMLElement & { options: { value: string; label: string }[]; value: string | string[] | null }>('[data-gd-term-combo]');
+
+  function termRow(id: string, from?: string): HTMLElement | null {
+    const r = rowMap.get(id);
+    if (!r) return null;
+    if (!admin && !from) return r;
+    const wrap = document.createElement('div');
+    wrap.className = 'bcn-gd-trow';
+    wrap.dataset.termId = id;
+    wrap.append(r);
+    if (from) {
+      const sub = r.querySelector('.bcn-gd-row__sub');
+      const note = document.createElement('span');
+      note.className = 'bcn-gd-trow__from';
+      note.textContent = hiddenHere.has(id) ? `From ${from} · Hidden on this page` : `From ${from}`;
+      r.querySelector('.bcn-gd-row__text')?.insertBefore(note, sub);
+      if (hiddenHere.has(id)) wrap.dataset.hiddenHere = '';
+    }
+    const tpl = from ? tplInherited : tplAttached;
+    if (admin && tpl) wrap.append(tpl.content.cloneNode(true));
+    return wrap;
+  }
+
+  function paintTerms(): void {
+    for (const r of termsEl.querySelectorAll('[data-article-id]')) poolEl.appendChild(r);
+    poolEl.querySelectorAll('.bcn-gd-trow__from').forEach((n) => n.remove());
+    termsEl.replaceChildren();
+    for (const id of attached) { const r = termRow(id); if (r) termsEl.append(r); }
+    for (const id of inherited) {
+      if (!admin && hiddenHere.has(id)) continue;
+      const r = termRow(id, ctx.parent!.page);
+      if (r) termsEl.append(r);
+    }
+    termsSection.hidden = !admin && termsEl.childElementCount === 0;
+    if (combo) {
+      const taken = new Set([...attached, ...inherited]);
+      combo.options = [...meta]
+        .filter(([id, m]) => m.kind === 'glossary' && !taken.has(id))
+        .map(([id, m]) => ({ value: id, label: m.title }));
+    }
+  }
+
+  if (admin) {
+    if (addWrap) addWrap.hidden = false;
+    root.querySelector('[data-gd-term-add]')?.addEventListener('click', () => {
+      if (!pick) return;
+      pick.hidden = !pick.hidden;
+      if (!pick.hidden) requestAnimationFrame(() => (combo?.shadowRoot?.querySelector('.input') as HTMLInputElement | null)?.focus());
+    });
+    combo?.addEventListener('change', (e) => {
+      const v = (e as CustomEvent<{ value: string | string[] }>).detail.value;
+      const id = Array.isArray(v) ? v[0] : v;
+      if (!id) return;
+      attached.push(id);
+      combo.value = null;
+      if (pick) pick.hidden = true;
+      paintTerms();
+    });
+    pick?.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') { e.stopPropagation(); pick.hidden = true; }
+    });
+    termsEl.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const id = t.closest<HTMLElement>('.bcn-gd-trow')?.dataset.termId;
+      if (!id) return;
+      if (t.closest('[data-gd-term-detach]')) {
+        attached.splice(attached.indexOf(id), 1);
+      } else if (t.closest('[data-gd-term-hide]')) {
+        if (hiddenHere.has(id)) hiddenHere.delete(id); else hiddenHere.add(id);
+      } else if (t.closest('[data-gd-term-parent]')) {
+        return; // the parent page's drawer, in the product; nowhere to go in the prototype
+      } else return;
+      paintTerms();
+    });
+  }
+  paintTerms();
 
   // ── the stacked article reader ──
   function openArticle(id: string): void {

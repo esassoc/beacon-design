@@ -1,5 +1,5 @@
 // help-dots — the controller behind <BcnHelpDots>, <BcnHelpDotEditor> and
-// <BcnHelpDotsAdmin>. It owns the page's dots in memory (nothing persists across a reload,
+// <BcnHelpDotList>. It owns the page's dots in memory (nothing persists across a reload,
 // as with every prototype here) and wires the three components and the drawer by their
 // data-* hooks. See <BcnHelpDots> for the contract.
 //
@@ -155,6 +155,12 @@ export function setupHelpDots(): void {
     const showing = !layer.hidden;
     if (!showing) return;
     const origin = layer.getBoundingClientRect();
+    // Page order (top, then left) for the entrance stagger, capped at ten 30ms steps.
+    const order = Array.from(dots.values())
+      .map((d) => ({ d, r: seen(d) ? targetOf(d.spot)?.getBoundingClientRect() : undefined }))
+      .filter((o) => o.r)
+      .sort((a, b) => a.r!.top - b.r!.top || a.r!.left - b.r!.left);
+    order.forEach(({ d }, i) => dotEl(d.id)?.style.setProperty('--_i', String(Math.min(i, 10))));
 
     dots.forEach((d) => {
       const el = dotEl(d.id);
@@ -298,13 +304,14 @@ export function setupHelpDots(): void {
     layer.insertBefore(el, tpl!);
   };
 
-  // ── admin: Dots on This Page ───────────────────────────────────────────────────────
+  // ── the drawer's On This Page list (round 17) ──────────────────────────────────────
+  // One list for everyone: a reader sees the published dots on parts that are on the page;
+  // an admin also sees drafts, with actions inline, and at the end, muted, the dots whose
+  // spot is gone. Rows run in page order: top to bottom, then left to right.
 
   const list = document.querySelector<HTMLElement>('[data-hda]');
-  const adminSlot = document.querySelector<HTMLElement>('[data-help-dots-admin-slot]');
+  const listSlot = document.querySelector<HTMLElement>('[data-help-dots-list-slot]');
   const rowsEl = list?.querySelector<HTMLElement>('[data-hda-list]');
-  const orphansEl = list?.querySelector<HTMLElement>('[data-hda-orphans]');
-  const orphansWrap = list?.querySelector<HTMLElement>('[data-hda-orphans-wrap]');
   const rowEl = (id: string) => list?.querySelector<HTMLElement>(`[data-hda-row][data-dot-id="${id}"]`);
 
   const addRowEl = (d: DotState) => {
@@ -316,21 +323,30 @@ export function setupHelpDots(): void {
   };
 
   const paintRows = () => {
-    if (!list || !rowsEl || !orphansEl || !orphansWrap) return;
-    let orphans = 0;
+    if (!list || !rowsEl) return;
+    const placed: [number, number, HTMLElement][] = [];
+    const tail: HTMLElement[] = [];
     dots.forEach((d) => {
       const row = rowEl(d.id);
       if (!row) return;
-      row.hidden = !live(d) || !!d.pending;
-      if (row.hidden) return;
       const away = elsewhere(d.spot);
-      const orphan = !away && !targetOf(d.spot);
+      const target = away ? null : targetOf(d.spot);
+      const orphan = !away && !target;
+      row.hidden = !live(d) || !!d.pending || (!admin && (d.status !== 'published' || !target));
+      if (row.hidden) return;
       const claudeDraft = d.status === 'draft' && !!d.draftedFrom;
       const q = (sel: string) => row.querySelector<HTMLElement>(sel)!;
+      row.toggleAttribute('data-lost', orphan || !!away);
+      q('[data-hda-mark]').hidden = orphan;
+      q('[data-hda-lost]').hidden = !orphan;
       q('[data-hda-title]').textContent = d.title;
-      const spotName = labelOf(d.spot);
-      q('[data-hda-spot]').textContent = away ? `${spotName} · ${away}` : spotName;
+      q('[data-hda-sub]').textContent = orphan
+        ? `Needs a spot · was on ${labelOf(d.spot)}`
+        : away
+          ? `${away} · ${d.text}`
+          : d.text;
       q('[data-hda-draft]').hidden = d.status !== 'draft';
+      q('[data-hda-tools]').hidden = !admin;
       const acts: Record<string, boolean> = {
         publish: claudeDraft && !orphan,
         pickagain: orphan,
@@ -339,18 +355,34 @@ export function setupHelpDots(): void {
         detach: !claudeDraft,
       };
       Object.entries(acts).forEach(([act, show]) => (q(`[data-hda-act="${act}"]`).hidden = !show));
-      const home = orphan ? orphansEl : rowsEl;
-      if (row.parentElement !== home) home.append(row);
-      if (orphan) orphans++;
+      if (target) {
+        const r = target.getBoundingClientRect();
+        placed.push([Math.round(r.top), r.left, row]);
+      } else tail.push(row);
     });
-    orphansWrap.hidden = orphans === 0;
+    placed.sort((x, y) => x[0] - y[0] || x[1] - y[1]);
+    rowsEl.append(...placed.map((p) => p[2]), ...tail);
   };
 
-  if (admin && list && adminSlot) {
-    adminSlot.append(list);
+  if (list && listSlot) {
+    listSlot.append(list);
     list.hidden = false;
-    adminSlot.hidden = false;
   }
+
+  // A row opens its dot: the drawer closes, the dots come on, the page scrolls to the dot
+  // and its popover opens once the drawer is out of the way.
+  const openDot = (d: DotState) => {
+    drawer?.close();
+    on = true;
+    showLayer();
+    targetOf(d.spot)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    setTimeout(() => {
+      place();
+      const p = dotEl(d.id)?.querySelector<Popover>('esa-popover');
+      if (p) p.open = true;
+    }, 450);
+  };
+
 
   // ── the editor, on the page beside its dot ─────────────────────────────────────────
 
@@ -765,11 +797,10 @@ export function setupHelpDots(): void {
     true,
   );
 
-  // ── admin list actions (delegated: rows come and go) ───────────────────────────────
+  // ── list actions (delegated: rows come and go) ───────────────────────────────
 
   list?.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
-    if (t.closest('[data-hda-add]')) return startArm({ kind: 'add', fromDrawer: true });
     const row = t.closest<HTMLElement>('[data-hda-row]');
     const d = row?.dataset.dotId ? dots.get(row.dataset.dotId) : undefined;
     if (!d) return;
@@ -788,6 +819,10 @@ export function setupHelpDots(): void {
       d.status = 'dismissed';
     } else if (t.closest('[data-hda-detach]')) {
       d.detached = true;
+    } else if (t.closest('[data-hda-open]')) {
+      if (targetOf(d.spot)) openDot(d);
+      else if (admin && !elsewhere(d.spot)) startArm({ kind: 'move', dotId: d.id, fromDrawer: true });
+      return;
     } else return;
     refresh();
   });

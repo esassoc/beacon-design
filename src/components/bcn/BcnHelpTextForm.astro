@@ -1,6 +1,7 @@
 ---
-// <BcnHelpTextForm> — the side panel a tenant admin edits a page's intro text in: the
-// tenant's custom rich text that the Guidance drawer's You Are Here card reads (round 13).
+// <BcnHelpTextForm> — the side panel a tenant admin edits a page's description in: the
+// tenant's custom rich text the Guidance drawer shows under the page's name (round 13;
+// opened from the heading row's Edit chip since round 17). The field's hint says who sees it.
 // Opens over the drawer, a step above it, as the article reader does. Footer: Save, Cancel.
 //
 // Prod edits custom rich text in a rich-text editor; the prototype takes plain text.
@@ -21,14 +22,14 @@ interface Props {
 const { tenantName } = Astro.props;
 ---
 
-<esa-side-dialog class="bcn-htf" data-htf heading="Edit You Are Here" position="right" show-close-button>
+<esa-side-dialog class="bcn-htf" data-htf heading="Edit Page Description" position="right" show-close-button>
   <div class="stack" data-gap="lg">
     <div class="stack" data-gap="3xs">
       <span class="bcn-htf__label typography-label-sm-strong">Page</span>
       <span class="bcn-htf__page typography-body-md" data-htf-page></span>
     </div>
     <esa-textarea
-      label="Text"
+      label="Description"
       name="htf-text"
       size="md"
       rows="5"

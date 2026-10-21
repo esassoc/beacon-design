@@ -807,6 +807,11 @@ export interface HelpRouteContext {
   howtos: string[];
   /** Glossary ids for “Terms on this page.” */
   terms: string[];
+  /**
+   * The page this one sits under and the terms it passes down (BCN-1513): they show here
+   * with a "From <page>" note and are edited there, not detached here.
+   */
+  parent?: { page: string; terms: string[] };
 }
 
 /** What You Are Here says: the tenant's rich text when the route has one, else `purpose`. */
@@ -821,6 +826,7 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
     purpose: 'Every list on the project, filed by type, to track and report on a set of commitments, actions or obligations together.',
     howtos: ['global-search-tips'],
     terms: ['what-is-a-commitment', 'what-is-an-action'],
+    parent: { page: 'Project', terms: ['what-is-a-component'] },
   },
   {
     pattern: '/prototypes/permit-tracking',

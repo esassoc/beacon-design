@@ -1,0 +1,48 @@
+---
+// <BcnHelpDotList> — the page's dots as the Help & Guidance drawer's On This Page list
+// (round 17, which folded in the admin's separate Dots on This Page segment: one list,
+// not two). Rendered hidden on the page; the help-dots controller moves it into the
+// drawer's `[data-help-dots-list-slot]`, orders the rows as the dots sit on the page (top
+// to bottom, left to right) and shows each reader the rows they should see.
+//
+// A reader sees the published dots on parts that are on the page; a row closes the drawer,
+// turns the dots on, scrolls to its dot and opens its popover. An admin also sees drafts,
+// with the admin actions inline on hover (<BcnHelpDotRow>), and, at the end, muted, the dots
+// whose spot is gone. Adding and Edit Dots live in the band above the Guidance bar.
+//
+// Rows for dots made in the session are cloned from the <template>. The controller owns all
+// state; every hook here is `data-hda-*`.
+import BcnHelpDotRow from './BcnHelpDotRow.astro';
+import type { HelpDot, HelpDotPage } from '../../data/help-dots';
+
+interface Props {
+  page: HelpDotPage;
+}
+const { page } = Astro.props;
+const rows: HelpDot[] = page.dots;
+---
+
+<div class="bcn-hda" data-hda hidden>
+  <div class="bcn-hda__rows" data-hda-list>
+    {rows.map((dot) => <BcnHelpDotRow dot={dot} />)}
+  </div>
+
+  <template data-hda-template>
+    <BcnHelpDotRow />
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+</script>
+
+<style>
+  .bcn-hda__rows {
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-hda[hidden],
+  .bcn-hda [hidden] {
+    display: none;
+  }
+</style>

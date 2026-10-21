@@ -15,9 +15,9 @@
 // The info banner is gone by default (round 11): its sentence lives in You Are Here.
 // `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
 //
-// `?as=admin` is the ESA admin's view: draft dots show muted, the drawer gains Dots on
-// This Page as a dark admin segment at its foot, and dots are added, dragged and edited
-// right on the page (round 15). Option/Alt-click anywhere adds one.
+// `?as=admin` is the ESA admin's view: draft dots show muted, the band above the Guidance
+// bar gains Add Dot and Edit Dots (round 16), and the drawer's On This Page list shows
+// drafts and lost dots with actions inline (round 17). Option/Alt-click anywhere adds one.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
@@ -26,7 +26,7 @@ import BcnQueryFlag from '../../components/bcn/BcnQueryFlag.astro';
 import BcnListEmpty from '../../components/bcn/BcnListEmpty.astro';
 import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
 import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
-import BcnHelpDotsAdmin from '../../components/bcn/BcnHelpDotsAdmin.astro';
+import BcnHelpDotList from '../../components/bcn/BcnHelpDotList.astro';
 import { helpSpot } from '../../lib/help-spot';
 import { PROJECT } from '../../data/project-dashboard';
 import { LISTS_HELP_DOTS } from '../../data/help-dots';
@@ -40,7 +40,7 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     - empty state -> bcn-query-flag > bcn-list-empty  # ?empty=1: no lists yet, Create List and Show Me Around
     - add list    -> bcn-list-create-dialog           # as built: Type, Name, Description, Sharing / obligation start
     - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, placing, dragging, and the in-place editor
-    - dots admin  -> bcn-help-dots-admin              # Dots on This Page, the dark admin segment at the foot of the drawer
+    - dot list    -> bcn-help-dot-list                # the drawer's On This Page list, with admin actions inline
 -->
 
 <AppShell
@@ -72,6 +72,6 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     </BcnQueryFlag>
     <BcnListCreateDialog types={['commitment', 'action', 'obligation']} asBuilt />
     <BcnHelpDots page={LISTS_HELP_DOTS} />
-    <BcnHelpDotsAdmin page={LISTS_HELP_DOTS} />
+    <BcnHelpDotList page={LISTS_HELP_DOTS} />
   </PageLayout>
 </AppShell>

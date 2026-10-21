@@ -25,9 +25,9 @@
 // all by data-* hook:
 //   - bar (<BcnHelpBar>): the controller sets `data-help-dots-claimed` on `[data-help-trigger]`
 //     so the drawer leaves it alone, and `aria-pressed` while the dots show.
-//   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-admin-slot]` receives
-//     <BcnHelpDotsAdmin>.
-//   - admin list (<BcnHelpDotsAdmin>): `data-hda-*`. Editor (<BcnHelpDotEditor>, mounted
+//   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-list-slot]` in On This
+//     Page receives <BcnHelpDotList>.
+//   - the list (<BcnHelpDotList>): `data-hda-*`. Editor (<BcnHelpDotEditor>, mounted
 //     here): `data-hde-*`.
 //
 // TONE. The popovers take the Guidance bar's dark (round 2). `?popover=light` puts back
@@ -113,7 +113,10 @@ const clientPage = {
 
 <script>
   import { setupHelpDots } from './help-dots';
+  import { initTooltipLayer } from './tooltip-layer';
+  import '../../styles/bcn-tooltip-layer.css';
   setupHelpDots();
+  initTooltipLayer();
 </script>
 
 <style>
@@ -181,7 +184,6 @@ const clientPage = {
     inset-inline-start: 50%;
     inset-block-end: 86px;
     translate: -50% 0;
-    z-index: 1000;
     padding: var(--spacing-075, 3px);
     color: var(--bcn-helpbar-fg);
     background: var(--bcn-helpbar-bg);
@@ -261,5 +263,66 @@ const clientPage = {
   .bcn-help-dots__band [hidden],
   .bcn-help-dots__band[hidden] {
     display: none;
+  }
+
+  /* Motion (round 17). Guidance on: the band slides up from behind the Guidance bar and
+     fades in (220ms, ease-out); off, it drops back behind it, a little faster (160ms).
+     The dots fade and grow in, 30ms apart in page order (--_i, set by the controller,
+     capped at ten steps), and leave together. The display flip is held for the exit, so
+     an off mid-entrance simply reverses from wherever it is. Reduced motion: fades only. */
+  .bcn-help-dots__band {
+    z-index: 999; /* just under the Guidance bar, so it rises from behind it */
+    transition:
+      translate 220ms var(--easing-enter),
+      opacity 220ms var(--easing-enter),
+      display 220ms allow-discrete;
+  }
+  .bcn-help-dots__band[hidden] {
+    translate: -50% 66px;
+    opacity: 0;
+    transition-duration: 160ms;
+    transition-timing-function: var(--easing-exit);
+  }
+  @starting-style {
+    .bcn-help-dots__band {
+      translate: -50% 66px;
+      opacity: 0;
+    }
+  }
+  .bcn-help-dots {
+    transition: display 160ms allow-discrete;
+  }
+  .bcn-help-dots :global(.bcn-hd) {
+    transition:
+      opacity 220ms var(--easing-enter),
+      scale 220ms var(--easing-enter);
+    transition-delay: calc(var(--_i, 0) * 30ms);
+  }
+  .bcn-help-dots[hidden] :global(.bcn-hd) {
+    opacity: 0;
+    scale: 0.6;
+    transition-duration: 160ms;
+    transition-delay: 0ms;
+    transition-timing-function: var(--easing-exit);
+  }
+  @starting-style {
+    .bcn-help-dots :global(.bcn-hd) {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-help-dots__band,
+    .bcn-help-dots__band[hidden] {
+      translate: -50% 0;
+    }
+    .bcn-help-dots :global(.bcn-hd),
+    .bcn-help-dots[hidden] :global(.bcn-hd) {
+      scale: 1;
+    }
+    @starting-style {
+      .bcn-help-dots__band { translate: -50% 0; }
+      .bcn-help-dots :global(.bcn-hd) { scale: 1; }
+    }
   }
 </style>
