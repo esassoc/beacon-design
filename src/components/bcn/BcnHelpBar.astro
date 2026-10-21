@@ -1,8 +1,8 @@
 ---
 // <BcnHelpBar> — Aldo's home: a floating utility pill fixed to the bottom-center of the
 // viewport (Figma-toolbar energy — a dark GLASS surface, deliberately distinct from the white
-// app chrome, with an inner hairline + soft lift). The What's-new popover it opens takes the
-// bar's dark surface too. Mounted app-wide in the AppShell chrome. Left → right: the primary "Guidance"
+// app chrome, with an inner hairline + soft lift). The What's-new popover it opens stays a
+// white content surface. Mounted app-wide in the AppShell chrome. Left → right: the primary "Guidance"
 // affordance (the Aldo rings, labelled by their tooltip; the divider went 2026-10-21), the
 // evidence paper clip, and a
 // "What's new" icon-button with an unread dot that opens a popover of recent release notes.
@@ -28,8 +28,7 @@
 // only accept a Lucide `icon` NAME, not a custom SVG mark, so it is bespoke. Everything else IS a
 // lego: esa-icon-button (Search + What's-new triggers), esa-tooltip (Search hint), and
 // esa-popover (the What's-new panel, anchored above the trigger). bcn-help-bar is the
-// reusable home. Panel entries are text-only — title + blurb, no icon chips; the panel takes
-// the bar's dark (round 8).
+// reusable home. Panel entries are text-only — title + one-line blurb, no icon chips.
 //
 // The What's-new trigger uses 'notepad-text' — the release-notes glyph, matching the
 // Release Notes page title. esa-icon-button forwards only a registry `icon` name (no
@@ -83,7 +82,7 @@ const fmtLong = (iso: string): string =>
   </esa-tooltip>
 
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
-  <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12} appearance="inverse">
+  <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
     <span class="bcn-help-bar__whatsnew" data-whatsnew>
       <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="What's new" size="md" />
       {WHATS_NEW.length > 0 && (
@@ -104,7 +103,7 @@ const fmtLong = (iso: string): string =>
             <a class="bcn-help-bar__panel-link" href={`${releaseNotesHref}#${entry.anchor}`}>
               <span class="bcn-help-bar__panel-text">
                 <span class="bcn-help-bar__panel-item-title typography-label-md-strong">{entry.title}</span>
-                <span class="bcn-help-bar__panel-item-blurb typography-body-sm">{entry.blurb}</span>
+                <span class="bcn-help-bar__panel-item-blurb typography-body-xs">{entry.blurb}</span>
               </span>
               <span class="bcn-help-bar__panel-go" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
             </a>
@@ -333,10 +332,11 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__dot::after {
     animation-delay: 0.5s;
   }
+  /* Grown by inset, not scale, so the ring stays a 1px hairline (round 9). */
   @keyframes bcn-help-bar-ping {
-    0% { transform: scale(1); opacity: 0.85; }
-    55% { transform: scale(3); opacity: 0; }
-    100% { transform: scale(3); opacity: 0; }
+    0% { inset: 0; opacity: 0.8; }
+    55% { inset: -6px; opacity: 0; }
+    100% { inset: -6px; opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .bcn-help-bar__dot::before,
@@ -348,19 +348,15 @@ const fmtLong = (iso: string): string =>
     display: none;
   }
 
-  /* What's New panel, in the Guidance bar's dark (round 8): the knockout roles esa-popover's
-     `inverse` appearance reads, re-pointed to the bar's surface, as the help-dot popovers do. */
-  .bcn-help-bar__popover {
-    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
-    --color-border-default-knockout: var(--bcn-helpbar-border);
-    --color-content-default-knockout: var(--bcn-helpbar-fg);
-  }
+  /* What's New panel: a light content surface (dark was tried in round 8 and reverted in
+     round 9), with round 8's structure: release header, entry links, phone fit. The pill
+     sets a light foreground, so the panel re-establishes dark-on-white text. */
   .bcn-help-bar__panel {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
     width: min(320px, var(--_room, 320px));
-    color: var(--bcn-helpbar-fg);
+    color: var(--color-content-default);
     white-space: normal;
     text-align: start;
   }
@@ -371,13 +367,13 @@ const fmtLong = (iso: string): string =>
     justify-content: space-between;
     gap: var(--spacing-200);
     padding-block-end: var(--spacing-150);
-    border-block-end: 1px solid var(--bcn-helpbar-border);
+    border-block-end: 1px solid var(--color-border-default);
   }
   .bcn-help-bar__panel-header p {
     margin: 0;
   }
   .bcn-help-bar__panel-release {
-    color: var(--bcn-helpbar-fg-muted);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-help-bar__panel-list {
@@ -401,11 +397,11 @@ const fmtLong = (iso: string): string =>
     transition: background var(--transition-fast, 150ms ease);
   }
   .bcn-help-bar__panel-link:hover {
-    background: var(--bcn-helpbar-hover-bg);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-help-bar__panel-link:focus-visible,
   .bcn-help-bar__panel-all:focus-visible {
-    outline: 2px solid var(--bcn-helpbar-fg);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 1px;
   }
   .bcn-help-bar__panel-text {
@@ -416,14 +412,14 @@ const fmtLong = (iso: string): string =>
     gap: 2px;
   }
   .bcn-help-bar__panel-item-title {
-    color: var(--bcn-helpbar-fg);
+    color: var(--color-content-default);
   }
   .bcn-help-bar__panel-item-blurb {
-    color: var(--bcn-helpbar-fg-muted);
+    color: var(--color-content-default-secondary);
   }
   .bcn-help-bar__panel-go {
     display: inline-flex;
-    color: var(--bcn-helpbar-fg-muted);
+    color: var(--color-content-default-tertiary);
     opacity: 0;
     transition: opacity var(--transition-fast, 150ms ease);
   }
@@ -431,18 +427,18 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {
     opacity: 1;
   }
-  /* Footer: the way to every release, in the light teal that reads on the dark. */
+  /* Footer: the way to every release. */
   .bcn-help-bar__panel-all {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
     align-self: flex-start;
     padding-block-start: var(--spacing-150);
-    color: var(--color-teal-7);
+    color: var(--color-content-link);
     text-decoration: none;
     border-radius: 2px;
   }
   .bcn-help-bar__panel-all:hover {
-    color: var(--color-teal-6);
+    text-decoration: underline;
   }
 </style>

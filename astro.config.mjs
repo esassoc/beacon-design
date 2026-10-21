@@ -13,6 +13,8 @@ export default defineConfig({
   site: 'https://esassoc.github.io',
   base,
   server: { port: 4330 },
+  // The dev toolbar floats bottom-centre, right over the Guidance bar (BcnHelpBar).
+  devToolbar: { enabled: false },
   // leaflet (CommonJS, used by the map-dashboard prototype) trips Vite's dev
   // dependency pre-scan, which crawls the .astro entries and chokes parsing the
   // template markup as TS ("Expected > but found title"). `include` lists every

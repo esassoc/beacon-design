@@ -66,10 +66,11 @@ const shot = dot?.shot;
     z-index: 21;
   }
 
-  /* The dot: the Aldo mark itself, with radar pings (round 8): two thin Aldo rings that
-     leave the mark one after the other, spread to about three times its size and fade,
-     then a rest, so the page ripples now and then rather than throbbing. The rings are the
-     button's own pseudo-elements, so the hit target stays the mark. */
+  /* The dot: the Aldo mark itself, with radar pings (round 8): two hairline Aldo rings
+     that leave the mark one after the other, spread to about three times its size and
+     fade, then a rest, so the page ripples now and then rather than throbbing. The rings
+     grow by their inset, not a scale, so the 1px line stays a hairline the whole way out
+     (round 9). They are the button's own pseudo-elements, so the hit target stays the mark. */
   .bcn-hd__dot {
     position: relative;
     isolation: isolate;
@@ -86,7 +87,7 @@ const shot = dot?.shot;
     position: absolute;
     inset: 0;
     z-index: -1;
-    border: 1.5px solid var(--bcn-aldo);
+    border: 1px solid var(--bcn-aldo);
     border-radius: var(--radius-full);
     opacity: 0;
     pointer-events: none;
@@ -127,9 +128,9 @@ const shot = dot?.shot;
   }
 
   @keyframes bcn-help-dot-ping {
-    0% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(2.8); opacity: 0; }
-    100% { transform: scale(2.8); opacity: 0; }
+    0% { inset: 0; opacity: 0.7; }
+    50% { inset: -18px; opacity: 0; }
+    100% { inset: -18px; opacity: 0; }
   }
   /* Reduced motion: one still ring. */
   @media (prefers-reduced-motion: reduce) {
