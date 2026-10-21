@@ -196,7 +196,7 @@ export default {
       ],
       gotchas: [
         'Nothing is written until the confirm. The setup itself (sources, species, activities, dates) and every decision it makes are saved together in one call; Cancel discards the draft.',
-        'The rail\'s answer lines wrap one part per line rather than truncating ("27 not applicable", "10 will apply").',
+        'The rail\'s answer lines wrap one part per line rather than truncating ("26 not applicable", "11 will apply").',
       ],
       acceptance: [
         'In the fixture, with the four Geotech documents selected, the activities Ground Disturbance, Drilling and Boring, Vegetation Removal, Equipment Staging and Haul Truck Traffic, and Oct 5, 2026 – Jan 29, 2027: the review shows 26 Not Applicable (16 from unselected documents, 10 recommended), 11 Will Apply and 5 Already Decided; Save reads "Dismiss 26 and Apply 11", and its confirm says it creates 11 actions and unlinks 3 field records.',
@@ -229,7 +229,8 @@ export default {
       intent:
         'The last step: every commitment with no decision yet lands in one of two columns, Not Applicable or Will Apply, and the person moves rows between them before the one Save.',
       decisions: [
-        'TWO COLUMNS, ONE SAVE. Save dismisses the Not Applicable column and applies the Will Apply column, creating their actions (Andy, 2026-10-20: "Apply on save"). The label says both numbers, e.g. "Dismiss 27 and Apply 10". There is no third "leave undecided" place; the drawer still allows Undo afterwards.',
+        'TWO COLUMNS, ONE SAVE. Save dismisses the Not Applicable column and applies the Will Apply column, creating their actions (Andy, 2026-10-20: "Apply on save"). The label says both numbers, e.g. "Dismiss 26 and Apply 11". There is no third "leave undecided" place; the drawer still allows Undo afterwards.',
+        'THE SAVE CONFIRMS FIRST with what it will do on the component: commitments dismissed and applied, actions created, and field records unlinked from the dismissed commitments (fixture: "Dismisses 26 commitments and applies 11 on this component. Creates 11 actions. Unlinks 3 field records from this component."). When rows were moved by hand, the confirm adds an optional note for them.',
         'ONLY UNDECIDED COMMITMENTS ARE IN THE COLUMNS. Decisions already made, by hand or by an earlier setup, are listed apart under a collapsed "Already Decided (N)", and the save does not touch them.',
         'A move arrow on every row. A row moved against setup\'s placement shows "Moved by Hand"; moving it back clears that. It saves as Moved by Hand with the person, the date and the optional note from the confirm.',
         'Not Applicable lists the recommendations first, then ONE COLLAPSED GROUP PER UNSELECTED SOURCE DOCUMENT ("Construction MMRP (7)"), so the recommendations stay easy to scan. Rows inside a group move like any other.',
