@@ -89,8 +89,14 @@ interface Props {
   types?: ListType[];
   /** Pass through to every row: show its Global/Personal badge. */
   showScope?: boolean;
+  /**
+   * Match the index Kim shipped (BCN-1753, Beacon.Web pages/lists/lists.component.html):
+   * a plain ghost Add button with no outline, an empty group that names its type in
+   * Title Case ("No Action Lists"), and the scope badge's tooltip.
+   */
+  asBuilt?: boolean;
 }
-const { types = LIST_GROUP_ORDER, showScope = false } = Astro.props;
+const { types = LIST_GROUP_ORDER, showScope = false, asBuilt = false } = Astro.props;
 
 const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type: ListType) => ({
   type,
@@ -129,7 +135,7 @@ const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type
             </div>
             <EsaButton
               variant="ghost"
-              appearance="outline"
+              appearance={asBuilt ? 'fill' : 'outline'}
               size="sm"
               icon="plus"
               data-list-create={group.type}
@@ -140,11 +146,11 @@ const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type
 
           <div class="stack" data-gap="xs">
             {group.lists.map((list) => (
-              <BcnListCard list={list} href={hrefFor(list)} showScope={showScope} />
+              <BcnListCard list={list} href={hrefFor(list)} showScope={showScope} scopeHint={asBuilt} />
             ))}
             <div class="bcn-lib__empty" data-group-empty hidden={group.lists.length > 0}>
               <EsaEmptyState
-                title={group.lists.length > 0 ? 'No lists match' : `No ${group.noun}s`}
+                title={group.lists.length > 0 ? 'No lists match' : asBuilt ? `No ${group.label}` : `No ${group.noun}s`}
                 size="sm"
               />
             </div>

@@ -4,10 +4,13 @@
 // a popover about that thing. A dark Open Help & Guidance button above the bar opens the
 // drawer. Guidance again, or Esc, and they are gone. No numbers, no order, no tour.
 //
-// The page under the dots is prod's Lists page for a project that only keeps
-// commitment lists: the info banner, the search, the one group with its Add button,
-// and Global/Personal badges on the rows. It is built from the same components as
-// /prototypes/lists, with the banner and badges prod still shows.
+// The page under the dots is the Lists index Kim shipped (epic BCN-1750; BCN-1753 index,
+// BCN-1755 Add dialog): the search, then Commitment, Action and Obligation lists, each
+// with its count and a ghost Add button, rows with the type's mark, member count,
+// Global/Personal badge on commitment lists, Updated date and one-line description.
+// Built from the same components as /prototypes/lists in their `asBuilt` mode, which
+// leaves out what has not shipped (the Compliance Index list group). Round 12; the
+// alignment notes are in docs/private/briefs/landmarks/lists-alignment.md.
 //
 // The info banner is gone by default (round 11): its sentence lives in You Are Here.
 // `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
@@ -32,9 +35,9 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
   layout: PageLayout > stack(md)                      # SPINE
   sections:
     - banner      -> bcn-query-flag > esa-alert-box   # prod's info banner, only with ?banner=on (round 11)
-    - lists index -> bcn-query-flag > bcn-list-index-board  # commitment group only, with Global/Personal badges
+    - lists index -> bcn-query-flag > bcn-list-index-board  # as built: commitment, action, obligation groups
     - empty state -> bcn-query-flag > bcn-list-empty  # ?empty=1: no lists yet, Create List and Show Me Around
-    - add list    -> bcn-list-create-dialog           # what Add Commitment List opens
+    - add list    -> bcn-list-create-dialog           # as built: Type, Name, Description, Sharing / obligation start
     - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, and pick mode
     - dots admin  -> bcn-help-dots-admin              # Dots on This Page, moved into the drawer in the admin view
     - dot form    -> bcn-help-dot-form                # the side panel a dot is written in
@@ -60,12 +63,12 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
       </EsaAlertBox>
     </BcnQueryFlag>
     <BcnQueryFlag param="empty" value="1" unless>
-      <BcnListIndexBoard types={['commitment']} showScope />
+      <BcnListIndexBoard types={['commitment', 'action', 'obligation']} showScope asBuilt />
     </BcnQueryFlag>
     <BcnQueryFlag param="empty" value="1">
       <BcnListEmpty route="/prototypes/help-dots" />
     </BcnQueryFlag>
-    <BcnListCreateDialog />
+    <BcnListCreateDialog types={['commitment', 'action', 'obligation']} asBuilt />
     <BcnHelpDots page={LISTS_HELP_DOTS} />
     <BcnHelpDotsAdmin page={LISTS_HELP_DOTS} />
     <BcnHelpDotForm />

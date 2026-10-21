@@ -110,6 +110,20 @@ export type ListScope = 'global' | 'personal';
 
 export const LIST_SCOPE_LABEL: Record<ListScope, string> = { global: 'Global', personal: 'Personal' };
 
+/** Prod's one description per scope (Beacon.Web commitment-list-scope-options.ts), from
+ *  which it composes both the badge tooltip and the Add dialog's Sharing hint. */
+const LIST_SCOPE_DESCRIPTION: Record<ListScope, string> = {
+  personal: 'visible only to you',
+  global: 'shared with everyone in your organization',
+};
+/** The badge tooltip: "Global List — shared with everyone in your organization". */
+export const LIST_SCOPE_HINT: Record<ListScope, string> = {
+  personal: `Personal List \u2014 ${LIST_SCOPE_DESCRIPTION.personal}`,
+  global: `Global List \u2014 ${LIST_SCOPE_DESCRIPTION.global}`,
+};
+/** The Sharing hint under the Add dialog's toggle. */
+export const LIST_SCOPE_DIALOG_HINT = `Personal Lists are ${LIST_SCOPE_DESCRIPTION.personal}. Global Lists are ${LIST_SCOPE_DESCRIPTION.global}.`;
+
 /**
  * One obligation's membership in one list.
  *

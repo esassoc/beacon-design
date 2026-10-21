@@ -138,16 +138,6 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       side: 'left',
       capture: capture('add', 'The Create List button on a project with no lists'),
     },
-    {
-      // Export moved off the Lists page onto each list's page (2026-10-19), so this spot
-      // no longer resolves, and the dot on it needs a new one.
-      spot: 'export',
-      label: 'Export Button',
-      target: '[data-list-export]',
-      at: 'before',
-      side: 'left',
-      capture: capture('add', 'The Export button'),
-    },
   ],
   dots: [
     {
@@ -169,19 +159,19 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       spot: 'groups',
       status: 'published',
       title: 'Lists Grouped by Type',
-      text: 'Commitment, action and obligation lists each get a group with a count. This project only has commitment lists, so only that group shows.',
+      text: 'Commitment, action and obligation lists each get a group, with a count of the lists in it.',
     },
     {
       id: 'lists-add',
       spot: 'add',
       status: 'published',
       title: 'Add a List',
-      text: 'Each group has its own Add button. You name the list and give it a description.',
+      text: 'Each group has its own Add button. You name the list, give it a description and, for a commitment list, choose who sees it.',
       shot: {
         src: '/help-dots/add-commitment-list.png',
         alt: 'The Add Commitment List dialog, with Name and Description fields',
-        width: 430,
-        height: 240,
+        width: 640,
+        height: 667,
       },
     },
     {
@@ -196,7 +186,7 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       spot: 'scope',
       status: 'published',
       title: 'Global or Personal',
-      text: 'Global lists are shared with everyone on the tenant. Personal lists are yours alone.',
+      text: 'Global lists are shared with everyone in your organization. Personal lists are visible only to you.',
     },
     {
       id: 'lists-personal',
@@ -205,13 +195,6 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       title: 'Personal Lists',
       text: 'Only you see a Personal list. Make it Global from its Details panel to share it with your team.',
       draftedFrom: 'Beacon PR #2231, Personal commitment lists',
-    },
-    {
-      id: 'lists-export',
-      spot: 'export',
-      status: 'published',
-      title: 'Export Every List',
-      text: 'Download all of this project’s lists as one CSV.',
     },
   ],
 };
