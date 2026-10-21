@@ -204,7 +204,7 @@ One member of this version, an action or an obligation: the obligation list's pa
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="14"
               height="14"
@@ -215,7 +215,7 @@ One member of this version, an action or an obligation: the obligation list's pa
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-swo-edit__code"></span

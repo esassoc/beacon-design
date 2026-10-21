@@ -102217,7 +102217,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             ><span
                               class="esa-icon esa-icon--sm"
                               aria-hidden="true"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-c7ivvrtd=""
                               ><svg
                                 width="16"
                                 height="16"
@@ -102228,7 +102228,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 focusable="false"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                               >
                                 <path d="m9 18 6-6-6-6"></path></svg></span></span
                           ><span class="bcn-swot__name" data-swo-name="" data-astro-cid-cpcljfp4=""
@@ -102252,7 +102252,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102263,7 +102263,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102283,7 +102283,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102294,7 +102294,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102312,7 +102312,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102323,7 +102323,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="m7 15 5 5 5-5"></path>
                                     <path d="m7 9 5-5 5 5"></path></svg
@@ -102339,7 +102339,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102350,7 +102350,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="m7 20 5-5 5 5"></path>
                                     <path d="m7 4 5 5 5-5"></path></svg
@@ -102369,7 +102369,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102380,7 +102380,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="M5 12h14"></path>
                                     <path d="M12 5v14"></path></svg
@@ -102411,7 +102411,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             ><span
                               class="esa-icon esa-icon--sm"
                               aria-hidden="true"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-c7ivvrtd=""
                               ><svg
                                 width="16"
                                 height="16"
@@ -102422,7 +102422,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 focusable="false"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                               >
                                 <path d="m9 18 6-6-6-6"></path></svg></span></span
                           ><span class="bcn-swot__name" data-swo-name="" data-astro-cid-cpcljfp4=""
@@ -102446,7 +102446,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102457,7 +102457,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102477,7 +102477,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102488,7 +102488,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102507,7 +102507,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102518,7 +102518,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="M5 12h14"></path>
                                     <path d="M12 5v14"></path></svg
@@ -102568,7 +102568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102579,7 +102579,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <circle cx="9" cy="12" r="1"></circle>
                                     <circle cx="9" cy="5" r="1"></circle>
@@ -102598,7 +102598,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               ><span
                                 class="esa-icon esa-icon--sm"
                                 aria-hidden="true"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                                 ><svg
                                   width="16"
                                   height="16"
@@ -102609,7 +102609,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                 >
                                   <path d="m9 18 6-6-6-6"></path></svg></span></span
                             ><span
@@ -102644,7 +102644,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102655,7 +102655,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path
                                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -102675,7 +102675,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102686,7 +102686,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                                     <path
@@ -102704,7 +102704,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span
                                   class="esa-icon esa-icon--xs"
                                   aria-hidden="true"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                   ><svg
                                     width="14"
                                     height="14"
@@ -102715,7 +102715,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     focusable="false"
-                                    data-astro-cid-wcwfib5m=""
+                                    data-astro-cid-c7ivvrtd=""
                                   >
                                     <path d="M18 6 6 18"></path>
                                     <path d="m6 6 12 12"></path></svg
@@ -102872,7 +102872,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><span
                             class="esa-icon esa-icon--xs"
                             aria-hidden="true"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="14"
                               height="14"
@@ -102883,7 +102883,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="m9 18 6-6-6-6"></path></svg></span></span
                         ><span class="bcn-swo-edit__code" data-astro-cid-mj7n7ybv=""></span
@@ -102901,7 +102901,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102912,7 +102912,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                 >
                                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                                   <path
@@ -102930,7 +102930,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102941,7 +102941,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                 >
                                   <path d="M5 12h14"></path>
                                   <path d="m12 5 7 7-7 7"></path></svg
@@ -102957,7 +102957,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <span
                                 class="esa-icon esa-icon--xs"
                                 aria-hidden="true"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-c7ivvrtd=""
                                 ><svg
                                   width="14"
                                   height="14"
@@ -102968,7 +102968,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-wcwfib5m=""
+                                  data-astro-cid-c7ivvrtd=""
                                 >
                                   <path d="M18 6 6 18"></path>
                                   <path d="m6 6 12 12"></path></svg
@@ -114002,8 +114002,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-xtwxlazl=""
-                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
+                      data-astro-cid-65ixjgm5=""
+                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -114013,19 +114013,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-5nhxdd72=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -114036,7 +114036,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -119819,27 +119819,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-yahmuvtj=""
-                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                        data-astro-cid-sh7ulwla=""
+                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-5nhxdd72=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -119850,7 +119850,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -119980,6 +119980,326 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swot__foot {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border-default);
+  background: var(--color-background-default);
+  border-bottom-left-radius: var(--radius-200);
+  border-bottom-right-radius: var(--radius-200);
+  display: flex;
+}
+.bcn-swot__foot-verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-swot__foot-end {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.bcn-swsc__menu {
+  vertical-align: baseline;
+  display: inline-block;
+}
+.bcn-swsc {
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: 2px var(--spacing-200);
+  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 6px;
+  transition: background 0.12s;
+  display: inline-flex;
+}
+.bcn-swsc__label {
+  text-align: left;
+  min-width: 0;
+}
+.bcn-swsc__chevron {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swfr {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-500);
+  border-top: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swfr__search {
+  flex: 180px;
+  max-width: 360px;
+}
+.bcn-swfr__picker {
+  flex: 0 180px;
+  min-width: 140px;
+}
+.bcn-swfr__verbs {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swsp {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  flex-shrink: 0;
+}
+.bcn-swsp__header {
+  padding: var(--spacing-400) var(--spacing-500);
+}
+.bcn-swsp__row {
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-swsp__num {
+  border-radius: var(--radius-full);
+  background: var(--_step);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-knockout);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+}
+.bcn-swsp__title {
+  align-items: center;
+  gap: var(--spacing-150);
+  font-family: var(--font-decorative);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  display: inline-flex;
+}
+.bcn-swsp__actions {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swsp__intro {
+  margin: var(--spacing-200) 0 0;
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.bcn-swot,
+.bcn-lot {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  color: var(--color-content-default);
+  flex-direction: column;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swot__nomatch,
+.bcn-lot__nomatch {
+  padding: var(--spacing-300) var(--spacing-400);
+  color: var(--color-content-default-tertiary);
+  margin: 0;
+  font-style: italic;
+}
+.bcn-swot__body,
+.bcn-lot__body {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swot__cat,
+.bcn-lot__cat {
+  border-bottom: 1px solid var(--color-border-default);
+}
+.bcn-swot__row,
+.bcn-lot__row {
+  align-items: center;
+  gap: var(--spacing-200);
+  min-height: 34px;
+  padding: var(--spacing-100) var(--spacing-400);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition:
+    background-color 0.12s,
+    box-shadow 0.12s;
+  display: flex;
+}
+.bcn-swot__row--cat,
+.bcn-lot__row--cat {
+  font-weight: 600;
+}
+.bcn-swot__chevron,
+.bcn-lot__chevron {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.12s;
+  display: inline-flex;
+}
+details[open] > .bcn-swot__row .bcn-swot__chevron,
+details[open] > .bcn-lot__row .bcn-lot__chevron {
+  transform: rotate(90deg);
+}
+.bcn-swot__name,
+.bcn-lot__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  min-width: 0;
+  padding: 0 2px;
+  overflow: hidden;
+}
+.bcn-swot__verbs,
+.bcn-lot__verbs {
+  gap: 2px;
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swot__verbs esa-tooltip,
+.bcn-lot__verbs esa-tooltip {
+  display: inline-flex;
+}
+.bcn-swot__verb,
+.bcn-lot__verb {
+  border-radius: var(--radius-100);
+  width: 22px;
+  height: 22px;
+  color: var(--color-content-default-tertiary);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-swot__verb--quiet,
+.bcn-lot__verb--quiet {
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.bcn-swot__subs,
+.bcn-lot__subs {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swot__row--sub,
+.bcn-lot__row--sub {
+  padding-left: calc(var(--spacing-400) + 22px);
+}
+.bcn-swot__sub + .bcn-swot__sub,
+.bcn-lot__sub + .bcn-lot__sub {
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-swot__cat:nth-of-type(2n),
+.bcn-lot__cat:nth-of-type(2n),
+.bcn-ciidx__cat:nth-of-type(2n) {
+  background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
+}
+.bcn-swot__cat:last-of-type,
+.bcn-lot__cat:last-of-type {
+  border-bottom: none;
+}
 .page-layout {
   min-height: calc(100vh - 52px);
   padding: var(--spacing-600);
@@ -120108,104 +120428,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   );
   color: var(--_accent-text);
   border-color: var(--color-border-default-strong, #bbb);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.bcn-swsp {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-shrink: 0;
-}
-.bcn-swsp__header {
-  padding: var(--spacing-400) var(--spacing-500);
-}
-.bcn-swsp__row {
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-swsp__num {
-  border-radius: var(--radius-full);
-  background: var(--_step);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-knockout);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: inline-flex;
-}
-.bcn-swsp__title {
-  align-items: center;
-  gap: var(--spacing-150);
-  font-family: var(--font-decorative);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  display: inline-flex;
-}
-.bcn-swsp__actions {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swsp__intro {
-  margin: var(--spacing-200) 0 0;
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  line-height: 1.4;
 }
 .bcn-swf {
   flex-direction: column;
@@ -120365,44 +120587,6 @@ html,
   flex: 1;
   min-width: 0;
 }
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swot__foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border-default);
-  background: var(--color-background-default);
-  border-bottom-left-radius: var(--radius-200);
-  border-bottom-right-radius: var(--radius-200);
-  display: flex;
-}
-.bcn-swot__foot-verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-swot__foot-end {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
 .sw-verb {
   align-items: center;
   gap: var(--spacing-100);
@@ -120493,140 +120677,9 @@ html,
 .bcn-swo-edit__foot--end {
   justify-content: flex-end;
 }
-.bcn-swot,
-.bcn-lot {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  color: var(--color-content-default);
-  flex-direction: column;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swot__nomatch,
-.bcn-lot__nomatch {
-  padding: var(--spacing-300) var(--spacing-400);
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-style: italic;
-}
-.bcn-swot__body,
-.bcn-lot__body {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swot__cat,
-.bcn-lot__cat {
-  border-bottom: 1px solid var(--color-border-default);
-}
-.bcn-swot__row,
-.bcn-lot__row {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-height: 34px;
-  padding: var(--spacing-100) var(--spacing-400);
-  cursor: pointer;
-  user-select: none;
-  list-style: none;
-  transition:
-    background-color 0.12s,
-    box-shadow 0.12s;
-  display: flex;
-}
-.bcn-swot__row--cat,
-.bcn-lot__row--cat {
-  font-weight: 600;
-}
-.bcn-swot__chevron,
-.bcn-lot__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.12s;
-  display: inline-flex;
-}
-details[open] > .bcn-swot__row .bcn-swot__chevron,
-details[open] > .bcn-lot__row .bcn-lot__chevron {
-  transform: rotate(90deg);
-}
-.bcn-swot__name,
-.bcn-lot__name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 2px;
-  min-width: 0;
-  padding: 0 2px;
-  overflow: hidden;
-}
-.bcn-swot__verbs,
-.bcn-lot__verbs {
-  gap: 2px;
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swot__verbs esa-tooltip,
-.bcn-lot__verbs esa-tooltip {
-  display: inline-flex;
-}
-.bcn-swot__verb,
-.bcn-lot__verb {
-  border-radius: var(--radius-100);
-  width: 22px;
-  height: 22px;
-  color: var(--color-content-default-tertiary);
-  cursor: pointer;
-  background: 0 0;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swot__verb--quiet,
-.bcn-lot__verb--quiet {
-  opacity: 0;
-  transition: opacity 0.12s;
-}
-.bcn-swot__subs,
-.bcn-lot__subs {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swot__row--sub,
-.bcn-lot__row--sub {
-  padding-left: calc(var(--spacing-400) + 22px);
-}
-.bcn-swot__sub + .bcn-swot__sub,
-.bcn-lot__sub + .bcn-lot__sub {
-  border-top: 1px solid var(--color-border-default-subtle);
-}
-.bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n),
-.bcn-ciidx__cat:nth-of-type(2n) {
-  background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
-}
-.bcn-swot__cat:last-of-type,
-.bcn-lot__cat:last-of-type {
-  border-bottom: none;
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .modern-layout {
   flex-direction: column;
@@ -121413,59 +121466,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   overflow: hidden;
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
-}
-.bcn-swsc__menu {
-  vertical-align: baseline;
-  display: inline-block;
-}
-.bcn-swsc {
-  align-items: center;
-  gap: var(--spacing-100);
-  padding: 2px var(--spacing-200);
-  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  line-height: inherit;
-  cursor: pointer;
-  border: 1px solid #0000;
-  border-radius: 6px;
-  transition: background 0.12s;
-  display: inline-flex;
-}
-.bcn-swsc__label {
-  text-align: left;
-  min-width: 0;
-}
-.bcn-swsc__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swfr {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-500);
-  border-top: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swfr__search {
-  flex: 180px;
-  max-width: 360px;
-}
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
-.bcn-swfr__verbs {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
 }
 ```
 

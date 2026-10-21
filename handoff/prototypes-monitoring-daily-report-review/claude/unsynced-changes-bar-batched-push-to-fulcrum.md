@@ -137,15 +137,15 @@ Corrections to monitoring data are held in Beacon as PENDING until the reviewer 
       </div>
       <span
         class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
           data-bcn-dmr-sync-undo="true"
           data-astro-cid-6tzd3hkt="true"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Undo</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Undo</span>
         </button></span
       >
     </li></template

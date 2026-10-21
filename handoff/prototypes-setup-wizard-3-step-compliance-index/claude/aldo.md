@@ -341,61 +341,61 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
     ><template data-part="button-neutral"
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
         </button></span
       ></template
     ><template data-part="button-primary"
       ><span
         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
         </button></span
       ></template
     ><template data-part="button-success"
       ><span
         class="esa-button esa-button--variant-success esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
         </button></span
       ></template
     ><template data-part="button-danger"
       ><span
         class="esa-button esa-button--variant-danger esa-button--appearance-soft esa-button--xs"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
         </button></span
       ></template
     ><template data-part="button-info"
       ><span
         class="esa-button esa-button--variant-info esa-button--appearance-soft esa-button--xs"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
         </button></span
       ></template
     ><template data-part="badge"
@@ -407,19 +407,19 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
     ><template data-part="copy"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
           aria-label="Copy message"
           title="Copy message"
           data-ico="copy"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
           <span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="14"
               height="14"
@@ -430,7 +430,7 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="M5 12h14"></path>
               <path d="M12 5v14"></path></svg
@@ -438,14 +438,14 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
     ><template data-part="chip"
       ><span
         class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-        data-astro-cid-xtwxlazl=""
-        ><span class="esa-pill__label" data-astro-cid-xtwxlazl="">Context</span
+        data-astro-cid-65ixjgm5=""
+        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span
         ><button
           class="esa-pill__remove"
           type="button"
           aria-label="Remove"
           data-esa-pill-remove=""
-          data-astro-cid-xtwxlazl=""
+          data-astro-cid-65ixjgm5=""
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -458,10 +458,10 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
             stroke-linecap="round"
             stroke-linejoin="round"
             aria-hidden="true"
-            data-astro-cid-xtwxlazl=""
+            data-astro-cid-65ixjgm5=""
           >
-            <path d="M18 6 6 18" data-astro-cid-xtwxlazl=""></path>
-            <path d="m6 6 12 12" data-astro-cid-xtwxlazl=""></path>
+            <path d="M18 6 6 18" data-astro-cid-65ixjgm5=""></path>
+            <path d="m6 6 12 12" data-astro-cid-65ixjgm5=""></path>
           </svg></button
       ></span>
       <script type="module">
@@ -481,8 +481,8 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
     ><template data-part="chip-fixed"
       ><span
         class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-        data-astro-cid-xtwxlazl=""
-        ><span class="esa-pill__label" data-astro-cid-xtwxlazl="">Context</span></span
+        data-astro-cid-65ixjgm5=""
+        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span></span
       >
       <script type="module">
         document.addEventListener(
@@ -501,18 +501,18 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
     ><template data-part="tool"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-        data-astro-cid-5nhxdd72=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
           aria-label="Tool"
           title="Tool"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
         >
           <span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="14"
               height="14"
@@ -523,7 +523,7 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="M5 12h14"></path>
               <path d="M12 5v14"></path></svg

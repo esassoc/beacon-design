@@ -16,7 +16,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 
 ## Gotchas
 - Nothing is written until the confirm. The setup itself (sources, species, activities, dates) and every decision it makes are saved together in one call; Cancel discards the draft.
-- The rail's answer lines wrap one part per line rather than truncating ("27 not applicable", "10 will apply").
+- The rail's answer lines wrap one part per line rather than truncating ("26 not applicable", "11 will apply").
 
 ## Done when
 - In the fixture, with the four Geotech documents selected, the activities Ground Disturbance, Drilling and Boring, Vegetation Removal, Equipment Staging and Haul Truck Traffic, and Oct 5, 2026 – Jan 29, 2027: the review shows 26 Not Applicable (16 from unselected documents, 10 recommended), 11 Will Apply and 5 Already Decided; Save reads "Dismiss 26 and Apply 11", and its confirm says it creates 11 actions and unlinks 3 field records.
