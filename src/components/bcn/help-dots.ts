@@ -407,6 +407,7 @@ export function setupHelpDots(): void {
     showLayer();
   };
   trigger.addEventListener('click', () => setOn(!on));
+  document.querySelectorAll('[data-help-dots-start]').forEach((b) => b.addEventListener('click', () => setOn(true)));
   panelbar?.querySelector('[data-help-panel-open]')?.addEventListener('click', () => {
     closePopovers();
     drawer?.show();

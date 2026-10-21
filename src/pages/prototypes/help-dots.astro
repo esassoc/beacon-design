@@ -9,12 +9,17 @@
 // and Global/Personal badges on the rows. It is built from the same components as
 // /prototypes/lists, with the banner and badges prod still shows.
 //
+// The info banner is gone by default (round 11): its sentence lives in You Are Here.
+// `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
+//
 // `?as=admin` is the ESA admin's view (round 3): draft dots show muted, and the drawer
 // gains Dots on This Page with Add Dot, pick mode and the dot form.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnListIndexBoard from '../../components/bcn/BcnListIndexBoard.astro';
+import BcnQueryFlag from '../../components/bcn/BcnQueryFlag.astro';
+import BcnListEmpty from '../../components/bcn/BcnListEmpty.astro';
 import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
 import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
 import BcnHelpDotsAdmin from '../../components/bcn/BcnHelpDotsAdmin.astro';
@@ -26,8 +31,9 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
 <!-- manifest:
   layout: PageLayout > stack(md)                      # SPINE
   sections:
-    - banner      -> esa-alert-box                    # prod's info banner over the lists
-    - lists index -> bcn-list-index-board             # commitment group only, with Global/Personal badges
+    - banner      -> bcn-query-flag > esa-alert-box   # prod's info banner, only with ?banner=on (round 11)
+    - lists index -> bcn-query-flag > bcn-list-index-board  # commitment group only, with Global/Personal badges
+    - empty state -> bcn-query-flag > bcn-list-empty  # ?empty=1: no lists yet, Create List and Show Me Around
     - add list    -> bcn-list-create-dialog           # what Add Commitment List opens
     - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, and pick mode
     - dots admin  -> bcn-help-dots-admin              # Dots on This Page, moved into the drawer in the admin view
@@ -47,11 +53,18 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     iconColor="var(--color-content-brand)"
     breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
   >
-    <EsaAlertBox variant="info">
-      Lists are sets of commitments, actions or obligations you want to track and report on
-      together. A commitment can sit on more than one list.
-    </EsaAlertBox>
-    <BcnListIndexBoard types={['commitment']} showScope />
+    <BcnQueryFlag param="banner" value="on">
+      <EsaAlertBox variant="info">
+        Lists are sets of commitments, actions or obligations you want to track and report on
+        together. A commitment can sit on more than one list.
+      </EsaAlertBox>
+    </BcnQueryFlag>
+    <BcnQueryFlag param="empty" value="1" unless>
+      <BcnListIndexBoard types={['commitment']} showScope />
+    </BcnQueryFlag>
+    <BcnQueryFlag param="empty" value="1">
+      <BcnListEmpty route="/prototypes/help-dots" />
+    </BcnQueryFlag>
     <BcnListCreateDialog />
     <BcnHelpDots page={LISTS_HELP_DOTS} />
     <BcnHelpDotsAdmin page={LISTS_HELP_DOTS} />

@@ -130,6 +130,15 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       capture: capture('updated', 'A list row with its Updated date'),
     },
     {
+      // The Create List button on the empty state (round 11, `?empty=1`).
+      spot: 'first',
+      label: 'Create List Button',
+      target: '[data-list-empty] [data-list-create]',
+      at: 'before',
+      side: 'left',
+      capture: capture('add', 'The Create List button on a project with no lists'),
+    },
+    {
       // Export moved off the Lists page onto each list's page (2026-10-19), so this spot
       // no longer resolves, and the dot on it needs a new one.
       spot: 'export',
@@ -174,6 +183,13 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
         width: 430,
         height: 240,
       },
+    },
+    {
+      id: 'lists-first',
+      spot: 'first',
+      status: 'published',
+      title: 'Your First List',
+      text: 'Name the list and give it a description. Keep it Personal or share it as Global.',
     },
     {
       id: 'lists-scope',
