@@ -12,6 +12,9 @@
 // In memory only: a reload is a clean slate, which is what a demo wants.
 import {
   APPLY_FALLBACK,
+  COMPONENT_DATES,
+  CURRENT_USER,
+  effectsOf,
   SETUP_COMMITMENTS,
   SOURCE_REASON,
   TODAY_ISO,
@@ -22,6 +25,7 @@ import {
   type ApplicableCommitment,
   type ComponentSetup,
   type Decision,
+  type DecisionEffects,
   type DecisionOrigin,
   type HabitatHit,
   type Recommendation,
@@ -31,7 +35,10 @@ export interface DecisionRecord {
   decision: Decision | null;
   origin?: DecisionOrigin;
   rationale?: string;
+  /** The decision date. It moves whenever the reason changes. */
   date?: string;
+  /** Who moved the row, for a Moved by Hand decision. */
+  by?: string;
   /** The reasons a setup dismissal was accepted for. */
   reasons?: string[];
   /** Set when a setup dismissal returned to Needs a decision because the setup changed. */
@@ -56,7 +63,8 @@ type Listener = () => void;
 export function rationaleText(rec: DecisionRecord): string {
   if (rec.decision === null) return '';
   if (rec.origin === 'setup') return rec.rationale || (rec.decision === 'applied' ? APPLY_FALLBACK : '');
-  return ['Set by Hand', rec.date ? fmtDate(rec.date) : '', rec.rationale ?? ''].filter(Boolean).join(' · ');
+  const who = rec.origin === 'moved' ? ['Moved by Hand', rec.by ?? ''] : ['Set by Hand'];
+  return [...who, rec.date ? fmtDate(rec.date) : '', rec.rationale ?? ''].filter(Boolean).join(' · ');
 }
 export const isSourceDismissal = (rec: DecisionRecord): boolean =>
   rec.decision === 'dismissed' && rec.origin === 'setup' && rec.reasons?.[0] === SOURCE_REASON;
@@ -64,6 +72,8 @@ export const isSourceDismissal = (rec: DecisionRecord): boolean =>
 
 class ApplicabilityStore {
   private setup: ComponentSetup | null = null;
+  /** Component.StartDate / ExpectedEndDate. Setup's Dates step and Edit Component both write these. */
+  private dates = { ...COMPONENT_DATES };
   private habitat: HabitatHit[] = [];
   private records = new Map<string, DecisionRecord>(
     SETUP_COMMITMENTS.map((c) => [
@@ -83,6 +93,9 @@ class ApplicabilityStore {
 
   getSetup(): ComponentSetup | null {
     return this.setup;
+  }
+  getDates(): { startDate: string; endDate: string } {
+    return { ...this.dates };
   }
   getHabitat(): HabitatHit[] {
     return this.habitat;
@@ -132,13 +145,43 @@ class ApplicabilityStore {
   }
 
   /**
-   * Save the setup and re-check every dismissal it made. A setup dismissal whose
-   * reason no longer holds goes back to Needs a decision; one that still holds keeps
-   * its decision and takes the new reason. A hand decision is never touched.
+   * Save the setup and re-check every decision it made. Setup's dates are the
+   * component's own, so saving them writes the component's dates too.
    */
   saveSetup(setup: ComponentSetup, habitat: HabitatHit[]): SetupSaveResult {
     this.setup = setup;
     this.habitat = habitat;
+    this.dates = { startDate: setup.startDate, endDate: setup.endDate };
+    const result = this.recheck();
+    this.emit();
+    return result;
+  }
+
+  /**
+   * Edit Component's dates. With a setup on record they re-check its decisions, the
+   * same as a setup edit would: a dismissal whose season no longer holds comes back.
+   */
+  setComponentDates(startDate: string, endDate: string): SetupSaveResult {
+    this.dates = { startDate, endDate };
+    if (!this.setup) {
+      this.emit();
+      return { reopened: [], keptByHand: [] };
+    }
+    this.setup = { ...this.setup, startDate, endDate };
+    const result = this.recheck();
+    this.emit();
+    return result;
+  }
+
+  /**
+   * Re-check every setup decision against the current setup. A setup dismissal whose
+   * reason no longer holds goes back to Needs a decision; one that still holds keeps its
+   * decision and takes the new reason, with a new date when the reason changed. Setup
+   * applies stay (nowSaysOut flags them). A hand decision is never touched.
+   */
+  private recheck(): SetupSaveResult {
+    const setup = this.setup!;
+    const habitat = this.habitat;
     const reopened: string[] = [];
     const keptByHand: string[] = [];
     for (const c of SETUP_COMMITMENTS) {
@@ -146,23 +189,31 @@ class ApplicabilityStore {
       if (rec.decision === null) continue;
       const r = recommend(c, { setup, habitat });
       if (rec.origin === 'setup') {
-        // Setup's applies are the person's accepted list; only its dismissals are re-checked.
         if (rec.decision === 'applied') continue;
         if (!inSourceScope(c, setup)) {
-          if (!isSourceDismissal(rec)) this.records.set(c.id, { ...rec, reasons: [SOURCE_REASON], rationale: SOURCE_REASON });
+          if (!isSourceDismissal(rec)) this.records.set(c.id, { ...rec, date: TODAY_ISO, reasons: [SOURCE_REASON], rationale: SOURCE_REASON });
         } else if (!r || isSourceDismissal(rec)) {
           // A document selected again reopens its commitments, so a person sees them fresh.
           this.records.set(c.id, { decision: null, reopened: { date: TODAY_ISO, was: rec.reasons ?? [] } });
           reopened.push(c.id);
         } else {
-          this.records.set(c.id, { ...rec, reasons: r.reasons, rationale: r.reasons.join(' · ') });
+          const rationale = r.reasons.join(' · ');
+          if (rationale !== rec.rationale) this.records.set(c.id, { ...rec, date: TODAY_ISO, reasons: r.reasons, rationale });
         }
       } else if (inSourceScope(c, setup) && (rec.decision === 'dismissed') === !r) {
         keptByHand.push(c.id);
       }
     }
-    this.emit();
     return { reopened, keptByHand };
+  }
+
+  /** What moving these commitments to `to` would do on the component, counted as prod does. */
+  effects(changes: { id: string; to: Decision | null }[]): DecisionEffects {
+    return effectsOf(
+      changes
+        .map(({ id, to }) => ({ c: SETUP_COMMITMENTS.find((x) => x.id === id)!, from: this.record(id).decision, to }))
+        .filter((x) => x.c),
+    );
   }
 
   /** Record commitments from unselected source documents as not applicable, as setup's decision. */
@@ -188,6 +239,7 @@ class ApplicabilityStore {
         decision,
         origin,
         date: TODAY_ISO,
+        by: origin === 'moved' ? CURRENT_USER : undefined,
         reasons,
         rationale: rationale || (reasons ? reasons.join(' · ') : undefined),
       });

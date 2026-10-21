@@ -3,17 +3,19 @@
 The component's footprint drawn over the project's species habitat layers, and the species list beside it, pre-ticked from the intersection. In the first build (Andy, 2026-10-20).
 
 ## Key decisions
-- The intersection runs on the component footprint (Component.Boundary), never on work areas.
-- A component with a stored footprint uses it ("Stored Footprint") and may draw another ("Draw Footprint"). A component with none draws one (polygon or rectangle). Marker drawing is off.
-- Each species reads "In habitat", "Not in habitat" or "No habitat layer". Species in habitat, or with no layer to say otherwise, are pre-ticked. A species the person ticks or unticks keeps their answer; the map no longer overrides it.
+- THE FOOTPRINT, in order: the stored boundary (Component.Boundary), else the union of the component's work areas, else one drawn here (polygon or rectangle; marker drawing is off). Point and line layers, like an elderberry survey, count as touched within the component's buffer (ComponentBuffer, BCN-1454).
+- A SPECIES STARTS CHECKED unless its layer was queried and the footprint does not touch it. No layer, a failed query, or no footprint yet reads "No habitat data" and stays checked: missing data never recommends anything out.
+- A species with a field record on this component stays checked whatever the map says, and reads "Seen on this component". Dismissing its commitments would unlink the record (ADR 0074).
+- Each species reads "In habitat", "Not in habitat", "Seen on this component" or "No habitat data". A species the person ticks or unticks keeps their answer; the map no longer overrides it.
 - The map fits to the footprint plus the habitat polygons it touches.
 
 ## Gotchas
-- OPEN: where a footprint drawn in setup is saved. The prototype keeps it in setup state only (ComponentSetup.drawn) and never writes Component.Boundary. Decide whether drawing here writes the boundary.
+- OPEN: where a footprint drawn in setup is saved. The prototype keeps it in setup state only (ComponentSetup.drawn). The existing set-boundary endpoint can save it, and clears the source link.
+- The intersect is a NEW server-side dependency: an ArcGIS geometry query per habitat layer (one layer can serve several species), with its own latency and failure mode. A failed query is No habitat data, not Not in habitat.
 - Habitat only changes the reason's wording ("Not in Giant Garter Snake habitat" vs "Giant Garter Snake not selected"). The rule reads the species selection, not the map.
 
 ## Done when
-- The fixture footprint intersects only Swainson's Hawk and Valley Elderberry Longhorn Beetle habitat; Western Pond Turtle has no layer and is pre-ticked; the rest are unticked and read Not in habitat.
+- The fixture footprint intersects only Swainson's Hawk and Valley Elderberry Longhorn Beetle habitat; California Tiger Salamander is outside its habitat but has a field record, so it reads Seen on this component and stays checked; Western Pond Turtle has no layer and is checked; the rest are unchecked and read Not in habitat. Switching to Draw Footprint with nothing drawn turns every species to No habitat data, all checked.
 
 ## Markup
 ```html

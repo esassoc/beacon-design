@@ -11316,6 +11316,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.bcn-op {
+  --card-footer-bg: transparent;
+  display: block;
+}
+.bcn-op__desc {
+  color: var(--color-content-default-secondary);
+  line-height: 1.4;
+}
+.bcn-op esa-dialog {
+  --z-modal: 1300;
+  --z-modal-backdrop: 1250;
+}
+.bcn-op__dialog-desc {
+  color: var(--color-content-default-secondary);
+}
+.bcn-op__scope-line {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-op .esa-alert-box__icon svg {
+  display: block;
+}
 .bcn-settings-shell__rail {
   align-self: start;
 }
@@ -11476,26 +11497,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --card-header-color: #fff;
   --card-header-border-color: transparent;
 }
-.bcn-op {
-  --card-footer-bg: transparent;
-  display: block;
-}
-.bcn-op__desc {
-  color: var(--color-content-default-secondary);
-  line-height: 1.4;
-}
-.bcn-op esa-dialog {
-  --z-modal: 1300;
-  --z-modal-backdrop: 1250;
-}
-.bcn-op__dialog-desc {
-  color: var(--color-content-default-secondary);
-}
-.bcn-op__scope-line {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-op .esa-alert-box__icon svg {
-  display: block;
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -11545,27 +11549,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -11773,10 +11756,6 @@ a.breadcrumb-item {
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
@@ -12646,6 +12625,27 @@ html,
   overflow: hidden;
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 ```
 

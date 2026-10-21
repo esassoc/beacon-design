@@ -102,8 +102,8 @@ const STATUS_OPTIONS = JSON.stringify(
         data-cdp-select-value={COMPONENT.status}
         required></esa-select>
       <div class="bcn-cdp__pair">
-        <esa-date-picker label="Start date" value={COMPONENT.startDate} required></esa-date-picker>
-        <esa-date-picker label="Expected end date" value={COMPONENT.expectedEndDate}></esa-date-picker>
+        <esa-date-picker label="Start date" value={COMPONENT.startDate} required data-cdp-date="start"></esa-date-picker>
+        <esa-date-picker label="Expected end date" value={COMPONENT.expectedEndDate} data-cdp-date="end"></esa-date-picker>
       </div>
       <esa-textarea label="Description" value={COMPONENT.description} rows={3}></esa-textarea>
 

@@ -14,7 +14,7 @@ The four side panels themselves. Component info opens straight into its editable
 - Footer actions are right-aligned with Save LEFT of Cancel — Windows order, house rule.
 
 ## Done when
-- Milestone rows show both dates; setting an override updates the header count; clearing it restores "Inherited"; component info saves and its danger zone confirms before deleting; sources and layers offer no Add.
+- Milestone rows show both dates; setting an override updates the header count; clearing it restores "Inherited"; component info saves and its danger zone confirms before deleting; sources and layers offer no Add. Saving new dates in component info re-checks the setup's season dismissals.
 
 ## Markup
 ```html
@@ -43,11 +43,13 @@ The four side panels themselves. Component info opens straight into its editable
         label="Start date"
         value="2026-10-05"
         required="true"
+        data-cdp-date="start"
         size="md"
       ></esa-date-picker
       ><esa-date-picker
         label="Expected end date"
         value="2027-01-29"
+        data-cdp-date="end"
         size="md"
       ></esa-date-picker>
     </div>

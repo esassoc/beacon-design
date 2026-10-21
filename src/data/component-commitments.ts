@@ -6,14 +6,17 @@
 //
 // WHAT THIS FIXTURE ADDS is the component's SETUP, five answers a person gives once:
 //
-//   1. Source documents  — ComponentSource rows. The OUTER LIMIT: only these
+//   1. Source documents  — the setup's selected documents (new data; which link
+//                          stores them is open). The OUTER LIMIT: only these
 //                          documents' commitments can apply to the component.
-//   2. Location          — the component's footprint (Component.Boundary, or a
-//                          shape drawn in setup when it has none), intersected in
-//                          the browser with each project species' habitat layer
-//                          (ProjectSpecies.HabitatLayerID).
-//   3. Species           — ComponentSpecies, pre-filled from that intersection.
-//   4. Construction Activities   — ComponentConstructionActivity.
+//   2. Location          — the component's footprint (Component.Boundary, else
+//                          its work areas, else a shape drawn in setup),
+//                          intersected with each project species' habitat layer
+//                          (ProjectSpecies.HabitatLayerID; server-side in prod).
+//   3. Species           — setup's species ticks, pre-filled from that intersection.
+//                          Not prod's derived species panel, which reads applied
+//                          commitments.
+//   4. Construction Activities   — setup's activity ticks.
 //   5. Dates             — Component.StartDate / ExpectedEndDate (already stored),
 //                          compared against ProjectSeason month/day windows.
 //
@@ -258,13 +261,21 @@ export interface SetupRequirement {
 }
 
 export type Decision = 'applied' | 'dismissed';
-/** Who made a decision: a person by hand, or a person accepting a setup recommendation. */
-export type DecisionOrigin = 'person' | 'setup';
+/**
+ * Who made a decision: a person by hand outside setup, a person accepting setup's
+ * placement, or a person moving a row against setup's placement in its review.
+ */
+export type DecisionOrigin = 'person' | 'setup' | 'moved';
+
+/** The person working this demo. Moved by Hand records who moved the row. */
+export const CURRENT_USER = 'Jordan Ellis';
 
 export interface SetupAction {
   code: string;
   name: string;
   type: ActionType;
+  /** Someone has worked this to-do. Dismissing keeps it as not applicable instead of removing it (ADR 0035). */
+  worked?: boolean;
 }
 
 export interface ApplicableCommitment {
@@ -285,6 +296,11 @@ export interface ApplicableCommitment {
   decisionDate?: string;
   /** ISO date the commitment entered the project via its source document. */
   addedOn: string;
+  /**
+   * Field records (observations) automatically linked to this commitment's obligations
+   * on this component. Dismissing the commitment unlinks them (ADR 0074).
+   */
+  fieldRecords?: number;
 }
 
 const r = (type: RequirementType, tags: { sp?: string[]; act?: string[]; sea?: string[] } = {}): SetupRequirement => ({
@@ -303,7 +319,7 @@ const SEEDS: Seed[] = [
     code: 'GT-BIO-1', title: 'Worker environmental awareness training', sourceId: 'g-mmrp', addedOn: '2025-11-04',
     text: 'All exploration crew shall complete environmental awareness training before site access, covering special-status species, avoidance buffers, and stop-work procedures.',
     requirements: [r('Training')],
-    actions: [a('GT-BIO-1', 'Crew environmental awareness training', 'tracking')],
+    actions: [{ ...a('GT-BIO-1', 'Crew environmental awareness training', 'tracking'), worked: true }],
     decision: 'applied', origin: 'person', decisionDate: '2026-02-11', rationale: 'Required for every exploration crew.',
   },
   {
@@ -311,6 +327,7 @@ const SEEDS: Seed[] = [
     text: 'If exploration occurs during the nesting season (February 1 through August 31), a qualified biologist shall survey for active nests within 500 feet of each work area no more than 7 days before work begins.',
     requirements: [r('Survey', { act: ['ground', 'veg'], sea: ['nest'] }), r('Avoidance & BMPs', { sea: ['nest'] })],
     actions: [a('GT-BIO-2', 'Nesting bird preconstruction survey', 'monitoring')],
+    fieldRecords: 1,
     decision: null,
   },
   {
@@ -353,6 +370,7 @@ const SEEDS: Seed[] = [
     text: 'Work areas within suitable upland habitat shall receive a protocol-level burrow survey before ground disturbance, and occupied burrows shall be avoided by 50 feet.',
     requirements: [r('Survey', { sp: ['CTS'], act: ['ground'] })],
     actions: [a('GT-BIO-8', 'CTS burrow survey', 'monitoring')],
+    fieldRecords: 1,
     decision: null,
   },
   {
@@ -488,6 +506,7 @@ const SEEDS: Seed[] = [
     text: 'A qualified biologist shall conduct preconstruction surveys for nesting birds within 500 feet of ground-disturbing activity no more than 7 days before the start of work during the nesting season.',
     requirements: [r('Survey', { act: ['ground'], sea: ['nest'] })],
     actions: [a('BIO-03', 'Nesting-bird preconstruction survey', 'monitoring')],
+    fieldRecords: 2,
     decision: null,
   },
   {
@@ -623,7 +642,11 @@ export const speciesOf = (c: ApplicableCommitment): string[] => [...new Set(c.re
 
 // ── The component's setup ───────────────────────────────────────────────────
 
-export type LocationMethod = 'footprint' | 'drawn';
+/**
+ * Where the footprint comes from, in order: the stored boundary, else the union of the
+ * component's work areas, else a shape drawn in setup.
+ */
+export type LocationMethod = 'footprint' | 'workareas' | 'drawn';
 
 export interface ComponentSetup {
   /** ComponentSource — the outer limit. */
@@ -635,7 +658,7 @@ export interface ComponentSetup {
   species: string[];
   /** ComponentConstructionActivity. */
   activities: string[];
-  /** Component.StartDate / ExpectedEndDate. */
+  /** Component.StartDate / ExpectedEndDate. Setup reads and writes the component's own dates. */
   startDate: string;
   endDate: string;
 }
@@ -692,20 +715,50 @@ export const ringsIntersect = (a: Ring, b: Ring): boolean => {
   return false;
 };
 
+/** The component's work areas have no shapes of their own in this fixture, so no union. */
+export const WORK_AREA_FOOTPRINT: Ring | null = null;
+
+/** The footprint setup intersects: the stored boundary, else the work areas, else the drawn shape. */
+export const footprintFor = (method: LocationMethod, drawn: Ring | null): Ring | null =>
+  method === 'footprint' ? COMPONENT_FOOTPRINT : method === 'workareas' ? WORK_AREA_FOOTPRINT : drawn;
+
+/** The method setup starts on: the first footprint source that has a shape. */
+export const defaultLocationMethod = (): LocationMethod =>
+  COMPONENT_FOOTPRINT ? 'footprint' : WORK_AREA_FOOTPRINT ? 'workareas' : 'drawn';
+
+/**
+ * Field records on this component, by species (observations matched to it). A species
+ * seen here stays checked whatever the map says: a sighting beats the habitat model, and
+ * dismissing its commitments would unlink the record.
+ */
+export const COMPONENT_FIELD_RECORDS: { species: string; count: number }[] = [{ species: 'CTS', count: 1 }];
+
+/** Habitat layers whose query failed this time. Empty in the demo; the rule still reads it. */
+export const FAILED_HABITAT_LAYERS: string[] = [];
+
 export interface HabitatHit {
   code: string;
-  /** null = the species has no habitat layer, so the map can't say. */
+  /**
+   * true or false only when the layer was queried against a footprint. null = No habitat
+   * data: no layer, a failed query, or no footprint to test. A null species stays checked.
+   */
   inHabitat: boolean | null;
+  /** Field records of this species on the component. Any keeps the species checked. */
+  fieldRecords: number;
 }
 
-/** Intersect the component's location with every species' habitat layer. */
-export const habitatHits = (method: LocationMethod, footprint: Ring | null, drawn: Ring | null): HabitatHit[] => {
-  const ring = method === 'footprint' ? footprint : drawn;
+/** Intersect the component's footprint with every species' habitat layer. */
+export const habitatHits = (method: LocationMethod, drawn: Ring | null): HabitatHit[] => {
+  const ring = footprintFor(method, drawn);
   return PROJECT_SPECIES.map((sp) => {
-    if (!sp.habitat) return { code: sp.code, inHabitat: null };
-    return { code: sp.code, inHabitat: !!ring && sp.habitat.rings.some((r) => ringsIntersect(ring, r)) };
+    const fieldRecords = COMPONENT_FIELD_RECORDS.find((f) => f.species === sp.code)?.count ?? 0;
+    if (!sp.habitat || !ring || FAILED_HABITAT_LAYERS.includes(sp.habitat.layerName)) return { code: sp.code, inHabitat: null, fieldRecords };
+    return { code: sp.code, inHabitat: sp.habitat.rings.some((r) => ringsIntersect(ring, r)), fieldRecords };
   });
 };
+
+/** Setup's starting tick for a species: checked unless its layer was queried and not touched, or it was seen here. */
+export const startsChecked = (h: HabitatHit): boolean => h.inHabitat !== false || h.fieldRecords > 0;
 
 // ── Dates against seasons ───────────────────────────────────────────────────
 
@@ -781,13 +834,15 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** The tag kinds on one requirement that the setup doesn't share. Empty = the requirement matches. */
 const missesFor = (q: SetupRequirement, setup: ComponentSetup): Miss[] => {
   const out: Miss[] = [];
-  if (q.species.length && !q.species.some((s) => setup.species.includes(s))) out.push({ kind: 'species', values: q.species });
-  if (q.activities.length && !q.activities.some((v) => setup.activities.includes(v)))
+  // A tag on a species, activity or season the project has since deleted never misses:
+  // setup can't say it doesn't apply, so that kind keeps the requirement in.
+  const live = (tags: string[], exists: (v: string) => boolean) => tags.length > 0 && tags.every(exists);
+  if (live(q.species, (v) => !!SPECIES_LABEL[v]) && !q.species.some((s) => setup.species.includes(s)))
+    out.push({ kind: 'species', values: q.species });
+  if (live(q.activities, (v) => !!ACTIVITY_LABEL[v]) && !q.activities.some((v) => setup.activities.includes(v)))
     out.push({ kind: 'activity', values: q.activities });
-  if (q.seasons.length) {
-    const live = q.seasons.filter((id) => SEASON_BY_ID[id] && seasonOverlaps(SEASON_BY_ID[id], setup.startDate, setup.endDate));
-    if (!live.length) out.push({ kind: 'season', values: q.seasons });
-  }
+  if (live(q.seasons, (v) => !!SEASON_BY_ID[v]) && !q.seasons.some((id) => seasonOverlaps(SEASON_BY_ID[id], setup.startDate, setup.endDate)))
+    out.push({ kind: 'season', values: q.seasons });
   return out;
 };
 
@@ -796,6 +851,8 @@ const missesFor = (q: SetupRequirement, setup: ComponentSetup): Miss[] => {
  * recommendation, with the reasons drawn from every requirement's misses.
  */
 export const recommend = (c: ApplicableCommitment, ctx: SetupContext): Recommendation | null => {
+  // A commitment with no requirements has nothing to miss, so it is never recommended out.
+  if (!c.requirements.length) return null;
   const per = c.requirements.map((q) => missesFor(q, ctx.setup));
   if (per.some((m) => m.length === 0)) return null;
   const order: Miss['kind'][] = ['species', 'activity', 'season'];
@@ -826,8 +883,16 @@ export const applyReason = (c: ApplicableCommitment, ctx: SetupContext): string 
   const parts: string[] = [];
   const sp = q.species.filter((x) => ctx.setup.species.includes(x));
   if (sp.length) {
-    const inHab = sp.filter((x) => ctx.habitat.find((h) => h.code === x)?.inHabitat === true);
-    parts.push(inHab.length ? `In ${inHab.map((x) => SPECIES_PHRASE[x] ?? x).join(' and ')} habitat` : `${sp.map((x) => SPECIES_LABEL[x] ?? x).join(' and ')} selected`);
+    const hit = (x: string) => ctx.habitat.find((h) => h.code === x);
+    const inHab = sp.filter((x) => hit(x)?.inHabitat === true);
+    const seen = sp.filter((x) => (hit(x)?.fieldRecords ?? 0) > 0);
+    parts.push(
+      inHab.length
+        ? `In ${inHab.map((x) => SPECIES_PHRASE[x] ?? x).join(' and ')} habitat`
+        : seen.length
+          ? `${seen.map((x) => SPECIES_LABEL[x] ?? x).join(' and ')} seen on this component`
+          : `${sp.map((x) => SPECIES_LABEL[x] ?? x).join(' and ')} selected`,
+    );
   }
   const act = q.activities.filter((x) => ctx.setup.activities.includes(x));
   if (act.length) parts.push(act.map((x) => ACTIVITY_LABEL[x] ?? x).join(', '));
@@ -902,3 +967,48 @@ export const fmtDate = (iso: string): string => {
   const [y, m, d] = iso.split('-').map(Number);
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 };
+
+// ── What a decision does on the component ───────────────────────────────────
+
+/** The effects a set of decision changes has, counted the way prod applies them. */
+export interface DecisionEffects {
+  /** Action to-dos and obligation implementations created by applying (BCN-1789). */
+  created: number;
+  /** To-dos nobody has worked, removed by dismissing or undoing an apply (ADR 0035). */
+  removed: number;
+  /** Worked to-dos, kept as not applicable rather than removed. */
+  keptNotApplicable: number;
+  /** Field records unlinked from dismissed commitments' obligations on this component (ADR 0074). */
+  unlinked: number;
+}
+
+export interface DecisionChange {
+  c: ApplicableCommitment;
+  from: Decision | null;
+  to: Decision | null;
+}
+
+export const effectsOf = (changes: DecisionChange[]): DecisionEffects => {
+  const e: DecisionEffects = { created: 0, removed: 0, keptNotApplicable: 0, unlinked: 0 };
+  for (const { c, from, to } of changes) {
+    if (from === to) continue;
+    if (to === 'applied') e.created += c.actions.length;
+    if (from === 'applied') {
+      e.removed += c.actions.filter((x) => !x.worked).length;
+      e.keptNotApplicable += c.actions.filter((x) => x.worked).length;
+    }
+    if (to === 'dismissed') e.unlinked += c.fieldRecords ?? 0;
+  }
+  return e;
+};
+
+const count = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+/** The confirm's lines, one per effect that happens. Empty when nothing changes on the component. */
+export const effectLines = (e: DecisionEffects): string[] =>
+  [
+    e.created ? `Creates ${count(e.created, 'action')}` : '',
+    e.removed ? `Removes ${count(e.removed, 'action')} nobody has worked` : '',
+    e.keptNotApplicable ? `Keeps ${count(e.keptNotApplicable, 'worked action')} as not applicable` : '',
+    e.unlinked ? `Unlinks ${count(e.unlinked, 'field record')} from this component` : '',
+  ].filter(Boolean);

@@ -1,19 +1,20 @@
 # Recommendations: two-column review
 
-The last step: every commitment the setup touches lands in one of two columns, Not Applicable or Will Apply, and the person moves rows between them before the one Save.
+The last step: every commitment with no decision yet lands in one of two columns, Not Applicable or Will Apply, and the person moves rows between them before the one Save.
 
 ## Key decisions
 - TWO COLUMNS, ONE SAVE. Save dismisses the Not Applicable column and applies the Will Apply column, creating their actions (Andy, 2026-10-20: "Apply on save"). The label says both numbers, e.g. "Dismiss 27 and Apply 10". There is no third "leave undecided" place; the drawer still allows Undo afterwards.
-- A move arrow on every row. A row moved against setup's placement keeps its reason and shows "Moved by Hand"; moving it back clears that. A hand move is recorded as the person's decision, not setup's.
+- ONLY UNDECIDED COMMITMENTS ARE IN THE COLUMNS. Decisions already made, by hand or by an earlier setup, are listed apart under a collapsed "Already Decided (N)", and the save does not touch them.
+- A move arrow on every row. A row moved against setup's placement shows "Moved by Hand"; moving it back clears that. It saves as Moved by Hand with the person, the date and the optional note from the confirm.
 - Not Applicable lists the recommendations first, then ONE COLLAPSED GROUP PER UNSELECTED SOURCE DOCUMENT ("Construction MMRP (7)"), so the recommendations stay easy to scan. Rows inside a group move like any other.
 - Will Apply rows show what speaks for them, then the actions they create ("Ground Disturbance, Drilling and Boring · Creates 1 action").
-- Below the columns, when setup is re-run: Back to Needs a Decision (setup dismissals whose reason no longer holds) and Kept as Decided by Hand.
+- Below the columns, when setup is re-run: Back to Needs a Decision (setup dismissals whose reason no longer holds), then Already Decided.
 
 ## Gotchas
 - No transfer-list lego exists in the hub or in prod; logged in docs/system-improvement-ledger.md. Do not take the bcn- markup as a pattern to copy into Angular without checking for one first.
 
 ## Done when
-- The column counts, the save label and the rail summary agree; moving a row updates all three; after Save the drawer reads 0 need a decision, 13 applied, 29 dismissed (42) in the fixture.
+- The column counts, the save label and the rail summary agree; moving a row updates all three; after Save the drawer reads 0 need a decision, 14 applied, 28 dismissed (42) in the fixture.
 
 ## Markup
 ```html

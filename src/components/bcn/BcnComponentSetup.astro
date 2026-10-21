@@ -77,7 +77,6 @@ const COLUMNS = [
   { key: 'na', title: 'Not Applicable', move: 'Move to Will Apply', icon: 'arrow-right' },
   { key: 'apply', title: 'Will Apply', move: 'Move to Not Applicable', icon: 'arrow-left' },
 ] as const;
-const LISTS = ['back', 'kept'] as const;
 ---
 
 <esa-dialog
@@ -163,7 +162,7 @@ const LISTS = ['back', 'kept'] as const;
                   <esa-checkbox size="sm" data-cs-species={s.code} aria-label={s.name} />
                   <span class="bcn-cs-opt__body">
                     <span class="bcn-cs-opt__name" title={s.name}>{s.name}</span>
-                    <span class="bcn-cs-opt__meta" data-cs-hab={s.code}>{s.habitat ? s.habitat.layerName : 'No habitat layer'}</span>
+                    <span class="bcn-cs-opt__meta" data-cs-hab={s.code}>{s.habitat ? s.habitat.layerName : 'No habitat data'}</span>
                   </span>
                 </li>
               ))
@@ -268,29 +267,44 @@ const LISTS = ['back', 'kept'] as const;
             ))
           }
         </div>
-        {
-          LISTS.map((list) => (
-            <div class="bcn-cs__group" data-cs-group={list} hidden>
-              <header class="bcn-cs__panehead">
-                <h3 class="bcn-cs__h">{list === 'back' ? 'Back to Needs a Decision' : 'Kept as Decided by Hand'}</h3>
-                <span class="bcn-cs__count" data-cs-count={list}></span>
-              </header>
-              <ul class="bcn-cs__options">
+        <div class="bcn-cs__group" data-cs-group="back" hidden>
+          <header class="bcn-cs__panehead">
+            <h3 class="bcn-cs__h">Back to Needs a Decision</h3>
+            <span class="bcn-cs__count" data-cs-count="back"></span>
+          </header>
+          <ul class="bcn-cs__options">
                 {SETUP_COMMITMENTS.map((c) => (
-                  <li class="bcn-cs-opt" data-cs-row={`${list}:${c.id}`} hidden>
-                    <span class="bcn-cs-opt__body">
+                  <li class="bcn-cs-opt" data-cs-row={`back:${c.id}`} hidden>
+                    <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
                       <span class="bcn-cs-opt__titleline">
                         <BcnCommitmentBadge code={c.code} size="sm" />
                         <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
                       </span>
-                      <span class="bcn-cs-opt__meta" data-cs-reason={`${list}:${c.id}`}></span>
+                      <span class="bcn-cs-opt__meta" data-cs-reason={`back:${c.id}`}></span>
                     </span>
                   </li>
                 ))}
-              </ul>
-            </div>
-          ))
-        }
+          </ul>
+        </div>
+        <!-- Decisions already made, by hand or by an earlier setup. The save leaves them
+             as they are, so they sit apart from the two columns, collapsed. -->
+        <div class="bcn-cs__group" data-cs-group="kept" hidden>
+          <EsaCollapsible title="Already Decided">
+            <ul class="bcn-cs__options bcn-cs__options--bare">
+                {SETUP_COMMITMENTS.map((c) => (
+                  <li class="bcn-cs-opt" data-cs-row={`kept:${c.id}`} hidden>
+                    <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
+                      <span class="bcn-cs-opt__titleline">
+                        <BcnCommitmentBadge code={c.code} size="sm" />
+                        <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
+                      </span>
+                      <span class="bcn-cs-opt__meta" data-cs-reason={`kept:${c.id}`}></span>
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </EsaCollapsible>
+        </div>
         <div data-cs-review-none hidden>
           <EsaEmptyState title="Nothing recommended out" size="sm" />
         </div>
@@ -312,10 +326,26 @@ const LISTS = ['back', 'kept'] as const;
   </div>
 </esa-dialog>
 
+<!-- The save's confirm: what saving does on the component, counted before it happens. -->
+<esa-dialog class="bcn-cs-confirm" heading="Save Setup" size="sm" data-cs-confirm>
+  <div class="bcn-cs-confirm__body">
+    <p class="typography-body-md" data-cs-confirm-what></p>
+    <ul class="bcn-cs-confirm__effects typography-body-md" data-cs-confirm-effects></ul>
+    <span data-cs-confirm-notewrap hidden>
+      <esa-textarea data-cs-confirm-note label="Note on rows moved by hand (optional)" rows="2"></esa-textarea>
+    </span>
+  </div>
+  <div slot="footer" class="bcn-cs__footacts">
+    <span data-cs-confirm-ok><EsaButton variant="primary"><span data-cs-confirm-label>Save Setup</span></EsaButton></span>
+    <span data-cs-confirm-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+  </div>
+</esa-dialog>
+
 <script>
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-checkbox';
   import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-textarea';
   import { initComponentSetup } from './component-setup';
   initComponentSetup();
 </script>
@@ -724,6 +754,23 @@ const LISTS = ['back', 'kept'] as const;
     width: 100%;
   }
   .bcn-cs__foot [hidden] {
+    display: none;
+  }
+  .bcn-cs-confirm__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-cs-confirm__body p {
+    margin: 0;
+  }
+  .bcn-cs-confirm__effects {
+    margin: 0;
+    padding-inline-start: var(--spacing-500);
+    color: var(--color-content-default);
+  }
+  .bcn-cs-confirm__effects[hidden],
+  [data-cs-confirm-notewrap][hidden] {
     display: none;
   }
   .bcn-cs__footacts {

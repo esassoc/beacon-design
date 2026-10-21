@@ -6,24 +6,26 @@
 // dismissal, then dismisses the recommendations still checked in step 5.
 import {
   CONSTRUCTION_ACTIVITIES,
-  COMPONENT_DATES,
   PROJECT_SPECIES,
   SETUP_COMMITMENTS,
   SETUP_SOURCES,
   SOURCE_REASON,
   applyReason,
+  defaultLocationMethod,
+  effectLines,
   fmtDate,
   habitatHits,
-  COMPONENT_FOOTPRINT,
   inSourceScope,
+  startsChecked,
   recommend,
   type ComponentSetup,
   type HabitatHit,
   type LocationMethod,
   type Ring,
 } from '../../data/component-commitments';
-import { applicability as store, isSourceDismissal } from './applicability-store';
+import { applicability as store, isSourceDismissal, rationaleText } from './applicability-store';
 import { paintSeasonOverlap } from './season-overlap';
+import { toast } from '../../lib/snackbar';
 
 type Column = 'na' | 'apply';
 type StepKey = 'sources' | 'location' | 'activities' | 'dates' | 'review';
@@ -67,12 +69,12 @@ export function initComponentSetup(): void {
   function blank(): ComponentSetup {
     return {
       sources: [],
-      locationMethod: COMPONENT_FOOTPRINT ? 'footprint' : 'drawn',
+      locationMethod: defaultLocationMethod(),
       drawn: null,
       species: [],
       activities: [],
-      startDate: COMPONENT_DATES.startDate,
-      endDate: COMPONENT_DATES.endDate,
+      // The component's own dates, as Edit Component last saved them.
+      ...store.getDates(),
     };
   }
 
@@ -81,19 +83,21 @@ export function initComponentSetup(): void {
 
   // ── Location → habitat → species ──
   function intersect(): void {
-    habitat = habitatHits(draft.locationMethod, COMPONENT_FOOTPRINT, draft.drawn);
-    // Pre-fill from the map: in habitat, or no layer to say otherwise. A species the
-    // person has set by hand keeps their answer.
-    const auto = new Set(habitat.filter((h) => h.inHabitat !== false).map((h) => h.code));
+    habitat = habitatHits(draft.locationMethod, draft.drawn);
+    // Pre-fill from the map: a species starts checked unless its layer was queried and
+    // the footprint doesn't touch it, or it was seen here. A species the person has set
+    // by hand keeps their answer.
+    const auto = new Set(habitat.filter(startsChecked).map((h) => h.code));
     const kept = draft.species.filter((s) => speciesTouched.has(s));
     const next = new Set([...kept, ...[...auto].filter((s) => !speciesTouched.has(s))]);
     draft.species = PROJECT_SPECIES.map((s) => s.code).filter((c) => next.has(c));
   }
 
-  function habitatText(h: HabitatHit | undefined, layerName: string | null): string {
-    if (!h || h.inHabitat === null) return 'No habitat layer';
-    if (draft.locationMethod === 'drawn' && !draft.drawn) return layerName ?? '';
-    return h.inHabitat ? 'In habitat' : 'Not in habitat';
+  function habitatText(h: HabitatHit | undefined): string {
+    if (h?.inHabitat) return 'In habitat';
+    if (h && h.fieldRecords > 0) return 'Seen on this component';
+    if (!h || h.inHabitat === null) return 'No habitat data';
+    return 'Not in habitat';
   }
 
   // ── Render ──
@@ -108,7 +112,7 @@ export function initComponentSetup(): void {
     qa<CheckboxEl>('[data-cs-activity]').forEach((b) => (b.checked = draft.activities.includes(b.dataset.csActivity!)));
     for (const sp of PROJECT_SPECIES) {
       const el = q(`[data-cs-hab="${sp.code}"]`);
-      if (el) el.textContent = habitatText(habitat.find((h) => h.code === sp.code), sp.habitat?.layerName ?? null);
+      if (el) el.textContent = habitatText(habitat.find((h) => h.code === sp.code));
     }
     mapRoot?._bcnHabitatHighlight?.(draft.species);
 
@@ -119,19 +123,13 @@ export function initComponentSetup(): void {
       const rec = decided(c.id);
       return rec.decision === 'dismissed' && rec.origin === 'setup' && inSourceScope(c, eff) && (isSourceDismissal(rec) || !recommend(c, { setup: eff, habitat }));
     });
-    // From unselected documents: everything still open (or dismissed by setup for another
-    // reason), recorded Not Applicable on save. One already recorded that way stays put.
-    const fromUnselected = SETUP_COMMITMENTS.filter((c) => {
-      const rec = decided(c.id);
-      return !inSourceScope(c, eff) && (rec.decision === null || (rec.origin === 'setup' && rec.decision === 'dismissed' && !isSourceDismissal(rec)));
-    });
+    // From unselected documents: everything still undecided, recorded Not Applicable on save.
+    const fromUnselected = SETUP_COMMITMENTS.filter((c) => !inSourceScope(c, eff) && decided(c.id).decision === null);
     const srcIds = new Set(fromUnselected.map((c) => c.id));
-    const kept = scope.filter((c) => {
-      const rec = decided(c.id);
-      if (rec.decision === null || rec.origin === 'setup' || !store.getSetup()) return false;
-      const wouldOut = !!recommend(c, { setup: eff, habitat });
-      return (rec.decision === 'dismissed') !== wouldOut;
-    });
+    // Decisions already made, by hand or by an earlier setup, sit apart: the save
+    // leaves them as they are (a setup dismissal coming back is listed under Back).
+    const backSet = new Set(back.map((c) => c.id));
+    const kept = SETUP_COMMITMENTS.filter((c) => decided(c.id).decision !== null && !backSet.has(c.id));
     const outIds = new Set(fresh.map((o) => o.c.id));
     const backIds = new Set(back.map((c) => c.id));
     // Every undecided commitment in the list lands in one of the two columns: the
@@ -176,6 +174,8 @@ export function initComponentSetup(): void {
       const count = q(`[data-cs-count="${list}"]`);
       if (count) count.textContent = `${size} ${plural(size, 'commitment')}`;
     }
+    const keptTitle = q('[data-cs-group="kept"] .esa-collapsible__title');
+    if (keptTitle) keptTitle.textContent = `Already Decided (${listIds.kept.size})`;
     // The recommendations' own list hides when every Not Applicable row is in a document group.
     q('[data-cs-col="na"] > .bcn-cs__options')!.hidden = listIds.na.size === 0 && inSrc.size > 0;
     qa('[data-cs-row]').forEach((row) => {
@@ -190,7 +190,7 @@ export function initComponentSetup(): void {
         // A row reads as moved by hand only while it sits against its recommendation.
         q(`[data-cs-hand="${list}:${id}"]`)!.hidden = (list === 'apply' ? 'apply' : 'na') === natural.get(id);
       } else if (list === 'back') reason.textContent = `Was dismissed for: ${(rec.reasons ?? []).join(' · ')}`;
-      else reason.textContent = `${rec.decision === 'applied' ? 'Applied' : 'Dismissed'}: ${rec.rationale ?? 'no rationale'}`;
+      else reason.textContent = `${rec.decision === 'applied' ? 'Applied' : 'Dismissed'} · ${rationaleText(rec) || 'No rationale'}`;
     });
     q('[data-cs-review-none]')!.hidden = placed.size + back.length + kept.length > 0;
 
@@ -256,6 +256,8 @@ export function initComponentSetup(): void {
     moved = new Map();
     activitiesAnswered = !!saved;
     intersect();
+    // Edit Component may have moved the dates since the last save.
+    Object.assign(draft, store.getDates());
     const dates = qa<ValueEl>('[data-cs-date]');
     dates.forEach((d) => (d.value = d.dataset.csDate === 'start' ? draft.startDate : draft.endDate));
     go('sources');
@@ -334,29 +336,86 @@ export function initComponentSetup(): void {
       return;
     }
     if (t.closest('[data-cs-save]')) {
-      const final = effective();
-      // Read both columns off the rendered rows: they are exactly what the person reviewed.
-      const rowsIn = (list: string) =>
-        qa('[data-cs-row^="' + list + ':"]').filter((r) => !r.hidden).map((r) => r.dataset.csRow!.slice(list.length + 1));
-      const byHand = (list: string, id: string) => !q(`[data-cs-hand="${list}:${id}"]`)!.hidden;
-      const na = rowsIn('na');
-      const src = rowsIn('src');
-      const apply = rowsIn('apply');
-      store.saveSetup({ ...final }, habitat);
-      // Setup's own decisions carry setup's reasons; a row moved against them is the person's call.
-      const dismiss = na.filter((id) => !byHand('na', id));
-      if (dismiss.length) store.acceptRecommendations(dismiss);
-      if (src.length) store.dismissForSource(src);
-      const dismissByHand = na.filter((id) => byHand('na', id));
-      if (dismissByHand.length) store.decide(dismissByHand, 'dismissed', '', 'person');
-      const applyBySetup = apply.filter((id) => !byHand('apply', id));
-      if (applyBySetup.length) store.applyFromSetup(applyBySetup.map((id) => ({ id, reason: applyReasons.get(id) ?? null })));
-      const applyByHand = apply.filter((id) => byHand('apply', id));
-      if (applyByHand.length) store.decide(applyByHand, 'applied', '', 'person');
-      dialog.open = false;
-      dialog.dispatchEvent(new CustomEvent('bcn-setup-saved', { bubbles: true, detail: { dismissed: na.length + src.length, applied: apply.length } }));
+      pending = readColumns();
+      const changes = [
+        ...[...pending.na, ...pending.src].map((id) => ({ id, to: 'dismissed' as const })),
+        ...pending.apply.map((id) => ({ id, to: 'applied' as const })),
+      ];
+      const lines = effectLines(store.effects(changes));
+      const nd = pending.na.length + pending.src.length;
+      const na = pending.apply.length;
+      const head = [nd ? `Dismisses ${nd} ${plural(nd, 'commitment')}` : '', na ? `applies ${na}` : ''].filter(Boolean).join(' and ');
+      confirmWhat.textContent = head ? `${head.charAt(0).toUpperCase()}${head.slice(1)} on this component.` : 'Saves the setup. No decision changes.';
+      confirmEffects.innerHTML = lines.map((l) => `<li>${l}</li>`).join('');
+      confirmEffects.hidden = lines.length === 0;
+      const handMoves = pending.na.filter((id) => pending!.byHand.has(id)).length + pending.apply.filter((id) => pending!.byHand.has(id)).length;
+      confirmNoteWrap.hidden = handMoves === 0;
+      confirmNote.value = '';
+      confirmLabel.textContent = q('[data-cs-save-label]')!.textContent ?? 'Save Setup';
+      confirm.open = true;
     }
   });
+
+  // ── Save, after the confirm ──
+  type Pending = { na: string[]; src: string[]; apply: string[]; byHand: Set<string> };
+  let pending: Pending | null = null;
+  const confirm = document.querySelector<DialogEl>('[data-cs-confirm]')!;
+  const confirmWhat = confirm.querySelector<HTMLElement>('[data-cs-confirm-what]')!;
+  const confirmEffects = confirm.querySelector<HTMLElement>('[data-cs-confirm-effects]')!;
+  const confirmNoteWrap = confirm.querySelector<HTMLElement>('[data-cs-confirm-notewrap]')!;
+  const confirmNote = confirm.querySelector<ValueEl>('[data-cs-confirm-note]')!;
+  const confirmLabel = confirm.querySelector<HTMLElement>('[data-cs-confirm-label]')!;
+
+  /** Both columns, read off the rendered rows: exactly what the person reviewed. */
+  function readColumns(): Pending {
+    const rowsIn = (list: string) =>
+      qa('[data-cs-row^="' + list + ':"]').filter((r) => !r.hidden).map((r) => r.dataset.csRow!.slice(list.length + 1));
+    const na = rowsIn('na');
+    const src = rowsIn('src');
+    const apply = rowsIn('apply');
+    const byHand = new Set([...na.filter((id) => !q(`[data-cs-hand="na:${id}"]`)!.hidden), ...apply.filter((id) => !q(`[data-cs-hand="apply:${id}"]`)!.hidden)]);
+    return { na, src, apply, byHand };
+  }
+
+  confirm.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (t.closest('[data-cs-confirm-cancel]')) {
+      confirm.open = false;
+      return;
+    }
+    if (!t.closest('[data-cs-confirm-ok]') || !pending) return;
+    const { na, src, apply, byHand } = pending;
+    const note = (confirmNote.value ?? '').trim();
+    confirm.open = false;
+    store.saveSetup({ ...effective() }, habitat);
+    // Setup's own placements carry setup's reasons; a row moved against them is Moved by Hand.
+    const dismiss = na.filter((id) => !byHand.has(id));
+    if (dismiss.length) store.acceptRecommendations(dismiss);
+    if (src.length) store.dismissForSource(src);
+    const dismissMoved = na.filter((id) => byHand.has(id));
+    if (dismissMoved.length) store.decide(dismissMoved, 'dismissed', note, 'moved');
+    const applyBySetup = apply.filter((id) => !byHand.has(id));
+    if (applyBySetup.length) store.applyFromSetup(applyBySetup.map((id) => ({ id, reason: applyReasons.get(id) ?? null })));
+    const applyMoved = apply.filter((id) => byHand.has(id));
+    if (applyMoved.length) store.decide(applyMoved, 'applied', note, 'moved');
+    pending = null;
+    dialog.open = false;
+    dialog.dispatchEvent(new CustomEvent('bcn-setup-saved', { bubbles: true, detail: { dismissed: na.length + src.length, applied: apply.length } }));
+  });
+
+  // Edit Component writes the same dates. With a setup on record, they re-check it.
+  document.addEventListener('bcn-component-dates', (e) => {
+    const { startDate, endDate } = (e as CustomEvent<{ startDate: string; endDate: string }>).detail;
+    if (!startDate || !endDate) return;
+    const { reopened } = store.setComponentDates(startDate, endDate);
+    if (reopened.length) toast(`${reopened.length} ${plural(reopened.length, 'commitment')} back to Needs a decision`, 'info', 5000);
+  });
+  // ...and shows them as setup last saved them.
+  const syncComponentDates = () => {
+    const d = store.getDates();
+    document.querySelectorAll<ValueEl>('[data-cdp-date]').forEach((el) => (el.value = el.dataset.cdpDate === 'start' ? d.startDate : d.endDate));
+  };
+  store.subscribe(syncComponentDates);
 
   // Keep the tally honest if a decision is made in the drawer while this is open.
   store.subscribe(() => {

@@ -160,6 +160,15 @@ export function setupComponentDataPanel(root: HTMLElement): ComponentDataPanelCo
     el.addEventListener('click', () => panel.close())
   );
 
+  // Saving Component Info announces the component's dates, so whatever reads them (the
+  // setup's season check) can re-check. The page decides who listens.
+  root.querySelector<HTMLElement>('[data-cdp-foot-for="component-info"] [data-cdp-save]')?.addEventListener('click', () => {
+    const date = (which: string) => root.querySelector<ValueEl>(`[data-cdp-date="${which}"]`)?.value ?? '';
+    root.dispatchEvent(
+      new CustomEvent('bcn-component-dates', { bubbles: true, detail: { startDate: date('start'), endDate: date('end') } }),
+    );
+  });
+
   const confirmId = root.dataset.cdpConfirm;
   const confirmEl = confirmId ? (document.getElementById(confirmId) as ConfirmEl | null) : null;
   if (confirmEl) {

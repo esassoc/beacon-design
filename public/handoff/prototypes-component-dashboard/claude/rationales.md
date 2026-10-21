@@ -6,7 +6,9 @@ Every applicability decision carries one rationale, shown the same way on the dr
 - Setup dismissals: setup's reasons ("Not in Giant Garter Snake habitat", "Outside the nesting bird season", "No In-Water Work").
 - Commitments from an unselected source document: "Source document not applicable".
 - Setup applies: the tags that speak for the commitment ("In Valley Elderberry Longhorn Beetle habitat · Ground Disturbance, Equipment Staging"), or "Recommended by setup" when its matching requirement has no tags.
-- Hand decisions: "Set by Hand · <decision date>", then the person's own rationale if they gave one.
+- Rows moved by hand in the review: "Moved by Hand · <person> · <date>", then the optional note.
+- Hand decisions outside setup: "Set by Hand · <decision date>", then the person's own rationale if they gave one.
+- Whenever a reason changes, its decision date changes with it.
 
 ## Gotchas
 - Store the rationale with the decision, and store setup's reasons as data alongside it (the prototype keeps reasons[]), because the re-run needs the reasons to decide what reopens.

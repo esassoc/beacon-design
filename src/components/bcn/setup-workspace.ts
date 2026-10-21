@@ -11,6 +11,7 @@
 // a set the list doesn't show.
 import {
   SETUP_COMMITMENTS,
+  effectLines,
   facetsFor,
   fmtDate,
   speciesOf,
@@ -22,7 +23,7 @@ import { applicability as store, rationaleText } from './applicability-store';
 
 type View = 'needs' | 'applied' | 'dismissed';
 type FacetKey = 'source' | 'type' | 'species';
-type DialogMode = 'apply' | 'dismiss' | 'undo' | 'accept';
+type DialogMode = 'apply' | 'dismiss' | 'undo' | 'accept' | 'flag';
 
 interface ToggleEl extends HTMLElement {
   options: { label: string; value: string }[];
@@ -255,7 +256,7 @@ export function initSetupWorkspace(): void {
       if (ratLabel) ratLabel.textContent = 'Rationale';
     } else if (rec.reopened) {
       block.hidden = false;
-      decEl.textContent = `Needs a decision · setup changed ${fmtDate(rec.reopened.date)}`;
+      decEl.textContent = `Needs a decision · back from setup ${fmtDate(rec.reopened.date)}`;
       ratWrap.hidden = false;
       ratEl.textContent = rec.reopened.was.join(' · ');
       if (ratLabel) ratLabel.textContent = 'Was dismissed for';
@@ -278,24 +279,31 @@ export function initSetupWorkspace(): void {
     pendingIds = ids;
     const n = ids.length;
     const bulk = n > 1;
-    const verb = { apply: 'Apply', dismiss: 'Dismiss', undo: 'Undo', accept: 'Dismiss' }[mode];
+    const verb = { apply: 'Apply', dismiss: 'Dismiss', undo: 'Undo', accept: 'Dismiss', flag: 'Dismiss' }[mode];
     const heading =
-      mode === 'undo' ? 'Undo decisions' : mode === 'accept' ? 'Dismiss recommended commitments' : `${verb} ${bulk ? 'commitments' : 'commitment'}`;
+      mode === 'undo'
+        ? `Undo ${bulk ? 'decisions' : 'decision'}`
+        : mode === 'accept'
+          ? 'Dismiss recommended commitments'
+          : mode === 'flag'
+            ? 'Dismiss with this reason'
+            : `${verb} ${bulk ? 'commitments' : 'commitment'}`;
     dialog!.setAttribute('heading', heading);
-    if (mode === 'undo') dialogWhat.textContent = `Undo ${n} ${plural(n, 'decision')}? This returns ${n === 1 ? 'the commitment' : 'them'} to Needs a decision.`;
-    else if (mode === 'accept') dialogWhat.textContent = `Dismiss ${n} ${plural(n, 'commitment')} recommended not applicable. Each keeps its reason, and comes back to Needs a decision if setup changes and the reason no longer holds.`;
-    else {
-      const actions = ids.reduce((sum, id) => sum + (byId.get(id)?.actions.length ?? 0), 0);
-      const effect =
-        mode === 'apply'
-          ? `Applying creates ${actions} ${plural(actions, 'action')} on this component.`
-          : `Dismissing removes ${actions} ${plural(actions, 'action')} from this component.`;
-      dialogWhat.textContent = bulk ? `${verb} ${n} commitments. ${effect}` : effect;
-    }
+    // What it does on the component, counted the way prod applies it.
+    const to = mode === 'apply' ? 'applied' : mode === 'undo' ? null : 'dismissed';
+    const lines = effectLines(store.effects(ids.map((id) => ({ id, to }))));
+    const effect = lines.length ? ` ${lines.join('. ')}.` : '';
+    if (mode === 'undo') dialogWhat.textContent = `Returns ${n === 1 ? 'the commitment' : `${n} commitments`} to Needs a decision.${effect}`;
+    else if (mode === 'accept')
+      dialogWhat.textContent = `Dismiss ${n} ${plural(n, 'commitment')} recommended not applicable, each with its reason.${effect}`;
+    else if (mode === 'flag') {
+      const r = store.nowSaysOut(byId.get(ids[0])!);
+      dialogWhat.textContent = `Dismisses ${byId.get(ids[0])!.code} for: ${r?.reasons.join(' · ') ?? ''}.${effect}`;
+    } else dialogWhat.textContent = bulk ? `${verb} ${n} commitments.${effect}` : effect.trim() || `${verb} this commitment.`;
     const overwrite = mode === 'apply' || mode === 'dismiss' ? ids.filter((id) => store.record(id).rationale).length : 0;
     dialogWarn.hidden = overwrite === 0;
     dialogWarnText.textContent = `This overwrites ${overwrite} existing ${plural(overwrite, 'rationale')}.`;
-    dialogRatWrap.hidden = mode === 'undo' || mode === 'accept';
+    dialogRatWrap.hidden = mode === 'undo' || mode === 'accept' || mode === 'flag';
     dialogRationale.value = '';
     dialogConfirmLabel.textContent = verb;
     dialog!.open = true;
@@ -320,6 +328,7 @@ export function initSetupWorkspace(): void {
     const note = (dialogRationale.value ?? '').trim();
     if (mode === 'undo') store.undo(pendingIds);
     else if (mode === 'accept') store.acceptRecommendations(pendingIds);
+    else if (mode === 'flag') store.dismissFlagged(pendingIds[0]);
     else store.decide(pendingIds, mode === 'apply' ? 'applied' : 'dismissed', note);
     clearSelection();
   });
@@ -378,11 +387,16 @@ export function initSetupWorkspace(): void {
     const dismiss = target.closest<HTMLElement>('[data-sw-dismiss]');
     if (dismiss) return openDialog('dismiss', [dismiss.dataset.swDismiss!]);
     const undoBtn = target.closest<HTMLElement>('[data-sw-undo]');
-    if (undoBtn) return store.undo([undoBtn.dataset.swUndo!]);
+    if (undoBtn) {
+      // Undoing a setup decision confirms first: it can remove actions or relink records.
+      const id = undoBtn.dataset.swUndo!;
+      const origin = store.record(id).origin;
+      return origin === 'setup' || origin === 'moved' ? openDialog('undo', [id]) : store.undo([id]);
+    }
     const acceptOne = target.closest<HTMLElement>('[data-sw-prev-accept]');
     if (acceptOne) {
       const id = acceptOne.dataset.swPrevAccept!;
-      if (store.nowSaysOut(byId.get(id)!)) return void store.dismissFlagged(id);
+      if (store.nowSaysOut(byId.get(id)!)) return openDialog('flag', [id]);
       return void store.acceptRecommendations([id]);
     }
 
