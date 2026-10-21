@@ -368,6 +368,9 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
   height: auto;
@@ -941,9 +944,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);

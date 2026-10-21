@@ -1,0 +1,101 @@
+---
+// <BcnDocGroups> — an export document's detail: its groups as headings, its entries
+// under them (<BcnDocEntry>). It follows the summary table from a new page.
+//
+// It renders docOutline(doc), the same outline <BcnDocSummary> renders, so the summary
+// and the detail of one PDF cannot disagree on order: two levels for the obligation list
+// and the index (category › subcategory), one for the action list (type), and inside an
+// index subcategory the actions first, then the obligations, each under a small label.
+//
+// This component owns the rule between entries (`run > * + *`): a parent styling its
+// children's hosts, which a Shadow DOM print route allows. The entries draw none.
+// Headings never end a page: `break-after: avoid` keeps each with its first entry.
+//
+// bcn-lego-checked: the headings are document headings, not esa-collapsible or a tree
+// (a printed page cannot collapse, and BcnListObligationTree's rows carry screen
+// controls). Checked Beacon: the coversheet's source heading over its requirement items
+// is the precedent.
+import BcnDocEntry from './BcnDocEntry.astro';
+import { docOutline, type ExportDocument } from '../../data/list-export-documents';
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+const outline = docOutline(doc).filter((g) => g.sections.some((s) => s.runs.some((r) => r.entries.length)));
+// The type is the action list's group, so its entries need not repeat it.
+const showType = doc.kind !== 'action-list';
+const level = doc.kind === 'compliance-index' ? 5 : doc.groups.some((g) => g.groups.length) ? 4 : 3;
+---
+
+{outline.length > 0 && <div class="bcn-doc-groups">
+  {outline.map((group) => (
+    <section class="bcn-doc-groups__group">
+      <h2 class="bcn-doc-groups__h2">{group.name}</h2>
+      {group.sections.map((section) => (
+        <section class="bcn-doc-groups__section">
+          {section.name && <h3 class="bcn-doc-groups__h3">{section.name}</h3>}
+          {section.runs.map((run) => (
+            <div class="bcn-doc-groups__run">
+              {run.label && <h4 class="bcn-doc-groups__h4">{run.label}</h4>}
+              <div class="bcn-doc-groups__entries">
+                {run.entries.map((entry) => (
+                  <BcnDocEntry entry={entry} labels={doc.labels} showType={showType} level={level} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+    </section>
+  ))}
+</div>}
+
+<style>
+  .bcn-doc-groups {
+    break-before: page;
+  }
+
+  .bcn-doc-groups__group + .bcn-doc-groups__group {
+    margin-block-start: var(--spacing-600);
+  }
+
+  .bcn-doc-groups__h2 {
+    margin: 0;
+    padding-block-end: var(--spacing-150);
+    border-block-end: 1px solid var(--color-content-default);
+    font-size: var(--bcn-print-font-size-group);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: var(--line-height-tight);
+    color: var(--color-content-default);
+    break-after: avoid;
+  }
+
+  .bcn-doc-groups__section {
+    margin-block-start: var(--spacing-400);
+  }
+  .bcn-doc-groups__h3 {
+    margin: 0 0 var(--spacing-100);
+    font-size: var(--bcn-print-font-size-subgroup);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    break-after: avoid;
+  }
+
+  .bcn-doc-groups__run + .bcn-doc-groups__run {
+    margin-block-start: var(--spacing-300);
+  }
+  .bcn-doc-groups__h4 {
+    margin: 0;
+    padding-block: var(--spacing-100);
+    font-size: var(--bcn-print-font-size-meta);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    break-after: avoid;
+  }
+
+  /* The divider between entries: on the entry's host, drawn by the list that holds it. */
+  .bcn-doc-groups__entries > :global(* + *) {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+</style>

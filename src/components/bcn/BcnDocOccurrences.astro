@@ -1,0 +1,68 @@
+---
+// <BcnDocOccurrences> — where an action stands, in an export document: one line per
+// component (or the project, when the action is done once for it), naming the occurrence
+// that is open now, its status and when it is due. A recurring action's finished
+// occurrences fold into the count beside it ("1 of 3 done"). Round 1 (2026-10-19): one
+// line per component, not one row per occurrence; the CSV keeps the per-occurrence rows.
+//
+// Status is plain text. A printed page cannot rely on color and the prod coversheet only
+// tints the word; ink alone reads the same on an office printer.
+//
+// bcn-lego-checked: esa-badge is a screen chip (4px radius, tinted fill) and would print as
+// a gray box around every status. Checked Beacon: the component coversheet prints status
+// as a word beside the requirement, which is ported.
+import type { DocOccurrence } from '../../data/list-export-documents';
+
+interface Props {
+  occurrences: DocOccurrence[];
+}
+const { occurrences } = Astro.props;
+
+/** One line per scope: the first occurrence not yet done, or the last one when all are. */
+const byScope = [...new Set(occurrences.map((o) => o.scope))].map((scope) => {
+  const mine = occurrences.filter((o) => o.scope === scope);
+  const open = mine.find((o) => o.status !== 'completed') ?? mine[mine.length - 1];
+  const done = mine.filter((o) => o.status === 'completed').length;
+  return { scope, open, done, total: mine.length };
+});
+---
+
+{byScope.length > 0 && (
+  <dl class="bcn-doc-occ">
+    {byScope.map(({ scope, open, done, total }) => (
+      <div class="bcn-doc-occ__line">
+        <dt>{scope}</dt>
+        <dd>
+          {open.statusLabel}
+          {open.status !== 'completed' && open.due && <span class="bcn-doc-occ__aside">Due {open.due}</span>}
+          {total > 1 && <span class="bcn-doc-occ__aside">{done} of {total} done</span>}
+        </dd>
+      </div>
+    ))}
+  </dl>
+)}
+
+<style>
+  .bcn-doc-occ {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--spacing-050) var(--spacing-400);
+    margin: var(--spacing-200) 0 0;
+    font-size: var(--bcn-print-font-size-meta);
+  }
+  .bcn-doc-occ__line {
+    display: contents;
+  }
+  .bcn-doc-occ__line dt {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc-occ__line dd {
+    margin: 0;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-doc-occ__aside {
+    margin-inline-start: var(--spacing-300);
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-secondary);
+  }
+</style>

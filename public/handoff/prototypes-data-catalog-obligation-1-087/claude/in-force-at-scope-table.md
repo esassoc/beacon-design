@@ -24,27 +24,27 @@ The full-width table of components the obligation applies at — the positional 
       ><span class="esa-badge__text">2</span></span
     >
   </h2>
-  <table class="bcn-mt">
-    <thead>
-      <tr>
-        <th scope="col">Component</th>
-        <th scope="col">Type</th>
-        <th scope="col">Carried by</th>
-        <th class="bcn-mt--end" scope="col">Evidence</th>
+  <table class="bcn-mt" role="table" data-fill="" style="--_tracks: auto auto auto auto">
+    <thead role="rowgroup">
+      <tr role="row">
+        <th scope="col" role="columnheader">Component</th>
+        <th scope="col" role="columnheader">Type</th>
+        <th scope="col" role="columnheader">Carried by</th>
+        <th class="bcn-mt--end" scope="col" role="columnheader">Evidence</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>Twin Cities Complex</td>
-        <td>Tunnel shaft · Staging</td>
-        <td>Vehicle travel on site</td>
-        <td class="bcn-mt--end bcn-mt--num">4</td>
+    <tbody role="rowgroup">
+      <tr role="row">
+        <td role="cell">Twin Cities Complex</td>
+        <td role="cell">Tunnel shaft · Staging</td>
+        <td role="cell">Vehicle travel on site</td>
+        <td class="bcn-mt--end bcn-mt--num" role="cell">4</td>
       </tr>
-      <tr>
-        <td>Intake C — North Delta</td>
-        <td>Screened intake · Sacramento River</td>
-        <td>Night work</td>
-        <td class="bcn-mt--end bcn-mt--num">5</td>
+      <tr role="row">
+        <td role="cell">Intake C — North Delta</td>
+        <td role="cell">Screened intake · Sacramento River</td>
+        <td role="cell">Night work</td>
+        <td class="bcn-mt--end bcn-mt--num" role="cell">5</td>
       </tr>
     </tbody>
   </table>
@@ -95,72 +95,10 @@ The full-width table of components the obligation applies at — the positional 
   --badge-text-color: var(--bcn-gray-700);
   font-weight: var(--typography-font-weight-medium);
 }
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.type-section-title {
-  font-family: var(--typography-heading-md-font-family);
-  font-size: var(--typography-heading-md-font-size);
-  font-weight: var(--typography-heading-md-font-weight);
-  line-height: var(--typography-heading-md-line-height);
-  letter-spacing: var(--typography-heading-md-letter-spacing);
-}
-.bcn-oscope__title {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  display: flex;
-}
-.bcn-mt {
-  border-collapse: collapse;
-  inline-size: 100%;
-  font-size: var(--font-size-150);
-}
-.bcn-mt th {
-  text-align: start;
-  color: var(--color-content-default-secondary);
-  padding-block: var(--spacing-100);
-  border-block-end: 1px solid var(--color-border-default);
-  font-weight: 600;
-}
-.bcn-mt td {
-  padding-block: var(--spacing-150);
-  border-block-end: 1px solid var(--color-border-default);
-  color: var(--color-content-default-primary);
-}
-.bcn-mt tbody tr:last-child td {
-  border-block-end: none;
-}
-.bcn-mt th.bcn-mt--end,
-.bcn-mt td.bcn-mt--end {
-  text-align: end;
-}
-.bcn-mt--num {
-  font-variant-numeric: tabular-nums;
-}
-.bcn-mt td a {
-  color: var(--color-content-brand);
-  font-weight: 600;
-  text-decoration: none;
-}
-.bcn-mt td a:hover {
-  text-decoration: underline;
-}
-.bcn-mt__dot {
-  border-radius: var(--radius-full);
-  block-size: 7px;
-  inline-size: 7px;
-  vertical-align: 1px;
-  margin-inline-end: var(--spacing-100);
-  display: inline-block;
-}
 .esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
   --_badge-padding-y: var(--spacing-150, 0.375rem);
   --_badge-padding-x: var(--spacing-200, 0.5rem);
   min-width: calc(1lh + 2 * var(--_badge-padding-y));
@@ -187,6 +125,10 @@ The full-width table of components the obligation applies at — the positional 
   --_badge-padding-y: var(--spacing-250, 0.625rem);
   --_badge-padding-x: var(--spacing-300, 0.75rem);
 }
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
 .esa-badge--secondary {
   --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
   --_badge-text: var(--color-content-on-brand-muted, #203c25);
@@ -211,6 +153,7 @@ The full-width table of components the obligation applies at — the positional 
   --_badge-text: var(--color-content-utility-info, #0d74ce);
   --_badge-border: var(--color-border-utility-info, #acd8fc);
 }
+.esa-badge--neutral:not(.esa-badge--dot),
 .esa-badge--success:not(.esa-badge--dot),
 .esa-badge--warning:not(.esa-badge--dot),
 .esa-badge--danger:not(.esa-badge--dot),
@@ -223,6 +166,9 @@ The full-width table of components the obligation applies at — the positional 
   min-width: 8px;
   height: 8px;
   padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
 }
 .esa-badge--dot.esa-badge--primary {
   --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
@@ -247,6 +193,95 @@ The full-width table of components the obligation applies at — the positional 
   border: 0;
   outline: 1px solid canvastext;
 }
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.type-section-title {
+  font-family: var(--typography-heading-md-font-family);
+  font-size: var(--typography-heading-md-font-size);
+  font-weight: var(--typography-heading-md-font-weight);
+  line-height: var(--typography-heading-md-line-height);
+  letter-spacing: var(--typography-heading-md-letter-spacing);
+}
+.bcn-oscope__title {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  display: flex;
+}
+.bcn-mt {
+  grid-template-columns: var(--_tracks);
+  column-gap: var(--bcn-mt-column-gap, var(--spacing-300));
+  inline-size: 100%;
+  font-size: var(--font-size-150);
+  display: grid;
+}
+.bcn-mt thead,
+.bcn-mt tbody {
+  display: contents;
+}
+.bcn-mt tr {
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  display: grid;
+}
+.bcn-mt[data-fill] {
+  justify-content: space-between;
+}
+.bcn-mt tr[hidden] {
+  display: none;
+}
+.bcn-mt thead tr {
+  border-block-end: 1px solid var(--color-border-default);
+}
+.bcn-mt tbody tr:not([hidden]) + tr:not([hidden]) {
+  border-block-start: 1px solid var(--color-border-default);
+}
+.bcn-mt th {
+  text-align: start;
+  color: var(--color-content-default-secondary);
+  padding-block: var(--spacing-100);
+  min-inline-size: 0;
+  font-weight: 600;
+}
+.bcn-mt td {
+  padding-block: var(--spacing-150);
+  color: var(--color-content-default-primary);
+  min-inline-size: 0;
+}
+.bcn-mt th.bcn-mt--end,
+.bcn-mt td.bcn-mt--end {
+  text-align: end;
+}
+.bcn-mt--num {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-mt td a {
+  color: var(--color-content-brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+.bcn-mt td a:hover {
+  text-decoration: underline;
+}
+.bcn-mt__dot {
+  border-radius: var(--radius-full);
+  block-size: 7px;
+  inline-size: 7px;
+  vertical-align: 1px;
+  margin-inline-end: var(--spacing-100);
+  display: inline-block;
+}
+.bcn-mt--truncate {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .stack {
   --gap: var(--spacing-400, 1rem);
   gap: var(--gap);
@@ -259,10 +294,13 @@ The full-width table of components the obligation applies at — the positional 
 ```
 
 ## Tokens
-- `--badge-bg`: #43608a _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-700`: #525252 _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
@@ -280,6 +318,7 @@ The full-width table of components the obligation applies at — the positional 
 - `--color-border-utility-info`: #acd8fc _(semantic)_
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_

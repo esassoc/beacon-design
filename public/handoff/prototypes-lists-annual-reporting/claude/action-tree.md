@@ -148,9 +148,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               </li>
               <li
                 class="bcn-loc__req bcn-loc__impl"
-                data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-launch-shaft"
+                data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-geotechnical-exploration"
                 data-status="in-progress"
-                data-evidence="0"
+                data-evidence="6"
               >
                 <span
                   class="bcn-status-chip"
@@ -169,13 +169,11 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
                   type="button"
                   class="bcn-loc__req-name"
-                  data-list-text="Bouldin Island Launch Shaft"
+                  data-list-text="Bouldin Island Geotechnical Exploration"
                 >
-                  Bouldin Island Launch Shaft</button
+                  Bouldin Island Geotechnical Exploration</button
                 ><span class="bcn-loc__comments" hidden="">0 comments</span
-                ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-                  >No evidence</span
-                >
+                ><span class="bcn-loc__evidence" data-list-evidence="">6 evidence</span>
               </li>
               <li
                 class="bcn-loc__req bcn-loc__impl"
@@ -303,9 +301,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               </li>
               <li
                 class="bcn-loc__req bcn-loc__impl"
-                data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM2|bouldin-island-launch-shaft"
+                data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM2|bouldin-island-geotechnical-exploration"
                 data-status="in-progress"
-                data-evidence="5"
+                data-evidence="2"
               >
                 <span
                   class="bcn-status-chip"
@@ -324,11 +322,11 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
                   type="button"
                   class="bcn-loc__req-name"
-                  data-list-text="Bouldin Island Launch Shaft"
+                  data-list-text="Bouldin Island Geotechnical Exploration"
                 >
-                  Bouldin Island Launch Shaft</button
-                ><span class="bcn-loc__comments" hidden="">0 comments</span
-                ><span class="bcn-loc__evidence" data-list-evidence="">5 evidence</span>
+                  Bouldin Island Geotechnical Exploration</button
+                ><span class="bcn-loc__comments">3 comments</span
+                ><span class="bcn-loc__evidence" data-list-evidence="">2 evidence</span>
               </li>
               <li
                 class="bcn-loc__req bcn-loc__impl"
@@ -4422,9 +4420,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-launch-shaft"
+                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-geotechnical-exploration"
                     data-status="in-progress"
-                    data-evidence="0"
+                    data-evidence="6"
                   >
                     <span
                       class="bcn-status-chip"
@@ -4445,12 +4443,12 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
+                      Bouldin Island Geotechnical Exploration</button
                     ><span class="bcn-loc__comments" hidden="">0 comments</span
-                    ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-                      >No evidence</span
+                    ><span class="bcn-loc__evidence" data-list-evidence=""
+                      >6 evidence</span
                     >
                   </li>
                   <li
@@ -4746,9 +4744,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-launch-shaft"
+                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-geotechnical-exploration"
                     data-status="in-progress"
-                    data-evidence="0"
+                    data-evidence="6"
                   >
                     <span
                       class="bcn-status-chip"
@@ -4769,12 +4767,12 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
+                      Bouldin Island Geotechnical Exploration</button
                     ><span class="bcn-loc__comments" hidden="">0 comments</span
-                    ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-                      >No evidence</span
+                    ><span class="bcn-loc__evidence" data-list-evidence=""
+                      >6 evidence</span
                     >
                   </li>
                   <li
@@ -4908,9 +4906,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM2|bouldin-island-launch-shaft"
+                    data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM2|bouldin-island-geotechnical-exploration"
                     data-status="in-progress"
-                    data-evidence="5"
+                    data-evidence="2"
                   >
                     <span
                       class="bcn-status-chip"
@@ -4931,12 +4929,12 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments" hidden="">0 comments</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments">3 comments</span
                     ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >5 evidence</span
+                      >2 evidence</span
                     >
                   </li>
                   <li
@@ -7066,7 +7064,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
         <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="action">
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="|bouldin-island-launch-shaft"
+            data-list-impl="|bouldin-island-geotechnical-exploration"
             data-status="not-started"
             data-evidence="0"
           >
@@ -7087,9 +7085,9 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
@@ -7170,26 +7168,6 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__folds {
   justify-content: flex-end;
   gap: var(--spacing-200);
@@ -7238,6 +7216,14 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
 .bcn-lot__row:focus-visible {
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
+}
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -7418,7 +7404,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -7432,24 +7419,30 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -7524,7 +7517,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -7533,7 +7527,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -7547,7 +7542,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -7566,6 +7562,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -7640,11 +7656,13 @@ details[open] > summary .bcn-loc__chevron {
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n) {
+.bcn-lot__cat:nth-of-type(2n),
+.bcn-ciidx__cat:nth-of-type(2n) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(2n) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover {
+.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover,
+.bcn-ciidx__cat:nth-of-type(2n) .bcn-ciidx__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,
@@ -7838,6 +7856,57 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -7906,54 +7975,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -8012,7 +8033,7 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 - `--spacing-800`: 4rem _(primitive)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

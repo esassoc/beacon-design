@@ -22,9 +22,12 @@
 //   - REMOVE FROM LIST on an obligation, guarded by esa-confirm-dialog. Not the danger
 //     variant: nothing is destroyed. The member row comes off the list and the
 //     obligation stays in the project's registry, and the guard says so by name.
-//   - RENAME FOR THIS LIST ONLY on a category or a subcategory. The registry's own
-//     wording is kept on the row (data-registry-name) and shown in the obligation
-//     panel; clearing a rename restores it. The row itself carries no second name.
+//   - RENAME FOR THIS LIST ONLY on a category or a subcategory, in <BcnListBranchPanel>
+//     (`list:rename-branch` out, `list:branch-renamed` in), the same panel a Compliance
+//     Index version renames in. It renamed in place until 2026-10-20; the side panel is
+//     the house rule, and Andy asked for parity between the two lists. The registry's own
+//     wording is kept on the row (data-registry-name) and shown in the panel; clearing a
+//     rename restores it. The row itself carries no second name.
 //   - MOVE, LIST TITLE and LIST DESCRIPTION per member, and nothing else. Andy,
 //     2026-09-23: a list does not "edit" an obligation; it can move it to another
 //     category / subcategory and give it its own title and description. All three are
@@ -464,46 +467,16 @@ const CARD_STAMP: ListObligation = {
       apply();
     });
 
-    // ---- Editing in place. One mechanism, two subjects: a branch name renamed for
-    // this list, and an obligation's list description. Focus, select the contents,
-    // and commit on Enter, Escape or blur; emptied, each falls back to what the
-    // registry says rather than to a placeholder.
-    const startEdit = (el: HTMLElement, commit: (text: string) => void) => {
-      if (el.isContentEditable) return;
-      el.textContent = el.dataset.listText ?? el.textContent ?? '';
-      el.contentEditable = 'true';
-      el.classList.add('is-editing');
-      el.focus();
-      const sel = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(el);
-      sel?.removeAllRanges();
-      sel?.addRange(range);
-      const done = () => {
-        el.contentEditable = 'false';
-        el.classList.remove('is-editing');
-        commit((el.textContent ?? '').replace(/\s+/g, ' ').trim());
-        apply();
-      };
-      el.addEventListener('blur', done, { once: true });
-      el.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter' || ev.key === 'Escape') { ev.preventDefault(); el.blur(); }
-      });
-    };
-
-    // A renamed row shows the registry's own name beside it, labelled, so the two
-    // names are never set side by side for the reader to relate. Renaming a row that
-    // was not renamed before is what reveals that secondary.
-    const rename = (row: HTMLElement) => {
-      const name = row.querySelector<HTMLElement>('[data-list-name]');
-      if (!name) return;
-      startEdit(name, (text) => {
-        const registry = name.dataset.registryName ?? '';
-        const next = text || registry;
-        name.textContent = next;
-        name.dataset.listText = next;
-      });
-    };
+    // ---- Rename for this list, in <BcnListBranchPanel>. The panel sends the new name
+    // back; an emptied field has already fallen back to the registry's.
+    document.addEventListener('list:branch-renamed', (e) => {
+      const { id, name } = (e as CustomEvent<{ id: string; name: string }>).detail;
+      const el = q<HTMLElement>(`[data-list-cat="${CSS.escape(id)}"] > summary [data-list-name], [data-list-sub="${CSS.escape(id)}"] > summary [data-list-name]`);
+      if (!el) return;
+      el.textContent = name;
+      el.dataset.listText = name;
+      apply();
+    });
 
     // ---- Duplicate. A second MEMBERSHIP pointing at the same registry obligation,
     // so one form can ask about one duty twice with different instructions. It is not
@@ -692,6 +665,11 @@ const CARD_STAMP: ListObligation = {
       const card = byMember((e as CustomEvent<string>).detail);
       if (card) removeFromList(card);
     });
+    // Aldo's Remove key: the person already confirmed it in the conversation, so no guard.
+    document.addEventListener('list:drop-members', (e) => {
+      const ids = new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+      cards().filter((c) => !gone(c) && ids.has(c.dataset.id ?? '')).forEach(drop);
+    });
     document.addEventListener('list:duplicate-member', (e) => {
       const card = byMember((e as CustomEvent<string>).detail);
       if (card) duplicate(card);
@@ -709,7 +687,6 @@ const CARD_STAMP: ListObligation = {
     // duplicate one, take one off the list, and open one implementation.
     root.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
-      if (t.closest('.is-editing')) { e.preventDefault(); return; }
       const btn = t.closest<HTMLElement>('button');
       if (btn?.matches('[data-list-branch-expand], [data-list-branch-collapse]')) {
         e.preventDefault();
@@ -718,7 +695,13 @@ const CARD_STAMP: ListObligation = {
       }
       if (btn?.matches('[data-list-rename]')) {
         e.preventDefault();
-        rename(btn.closest('summary')!);
+        const branch = btn.closest<HTMLElement>('[data-list-cat], [data-list-sub]')!;
+        const level = branch.matches('[data-list-cat]') ? 'cat' : 'sub';
+        const name = branch.querySelector<HTMLElement>(':scope > summary [data-list-name]');
+        document.dispatchEvent(new CustomEvent('list:rename-branch', {
+          detail: { level, id: level === 'cat' ? branch.dataset.listCat : branch.dataset.listSub, name: name?.dataset.listText ?? name?.textContent ?? '' },
+          bubbles: true,
+        }));
         return;
       }
       if (btn?.matches('[data-list-edit]')) {

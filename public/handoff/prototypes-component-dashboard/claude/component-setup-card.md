@@ -1,60 +1,102 @@
 # Component setup card
 
-How much of this component's commitment applicability is settled, and the door into the surface that settles it. It occupies the slot the project dashboard gives its Setup Wizard card, for the same reason: setup is a pipeline with a state, not a fourth work area.
+How much of this component's commitment applicability is settled, and the two doors into it: Start Setup (the first-time setup dialog) and Review Commitments (the Applicable Commitments drawer). It occupies the slot the project dashboard gives its Setup Wizard card, for the same reason: setup is a pipeline with a state, not a fourth work area.
 
 ## Key decisions
-- The figures replace prod's tab percentage, which is derived from a cross product of every component against every commitment in the project — so it measures the project, drifts whenever a source document gains a commitment, and never reaches 100.
-- Three figures, each scoped to this component and each naming a list the user can open: how many need a decision, how many arrived since the last review, and how many are decided out of the total.
-- "N actions waiting" states the consequence up front — applying commitments materializes actions onto this component, and that is what fills the tracker.
-
-## Gotchas
-- The card carried two doors while a decision workspace and a triage queue were compared in context. The workspace was chosen on 2026-08-14 and the queue was deleted; one door is the shipping shape. The comparison is kept in docs/component-setup-model-comparison.md.
+- The figures replace prod's tab percentage, which is derived from a cross product of every component against every commitment in the project, so it measures the project, drifts whenever a source document gains a commitment, and never reaches 100.
+- Figures: Need a decision (with "N actions waiting", the consequence of applying), Decided N / M, and the progress bar. Each is scoped to this component and matches the drawer it opens.
+- Before setup: Start Setup is primary and Review Commitments is the outline secondary. After setup: Review Commitments becomes primary, Edit Setup replaces Start Setup, and the card lists the setup's answers one fact per row (Source documents, Species, Construction Activities, Dates).
 
 ## Done when
-- Every figure is scoped to this component and matches the list it opens; the progress bar agrees with the decided figure; the new-since badge appears only when something arrived after the last decision.
+- Every figure is scoped to this component and equals the drawer's; after setup, the drawer's total is every commitment (42 of 42 in the fixture) because nothing is left outside the list.
 
 ## Markup
 ```html
-<div class="bcn-csc stack" data-gap="md">
+<div class="bcn-csc stack" data-gap="md" data-csc="">
   <div class="bcn-csc__figures">
-    <div class="esa-stat">
-      <div class="esa-stat__value typography-display-sm">26</div>
-      <div class="esa-stat__label typography-label-md">Need a decision</div>
-      <div class="esa-stat__sub typography-body-sm">23 actions waiting</div>
+    <span data-csc-fig="undecided"
+      ><div class="esa-stat">
+        <div class="esa-stat__value typography-display-sm">37</div>
+        <div class="esa-stat__label typography-label-md">Need a decision</div>
+        <div class="esa-stat__sub typography-body-sm">34 actions waiting</div>
+      </div></span
+    ><span data-csc-fig="recommended" hidden=""
+      ><div class="esa-stat">
+        <div class="esa-stat__value typography-display-sm">0</div>
+        <div class="esa-stat__label typography-label-md">Recommended not applicable</div>
+        <div class="esa-stat__sub typography-body-sm">From setup</div>
+      </div></span
+    ><span data-csc-fig="decided"
+      ><div class="esa-stat">
+        <div class="esa-stat__value typography-display-sm">5 / 42</div>
+        <div class="esa-stat__label typography-label-md">Decided</div>
+        <div class="esa-stat__sub typography-body-sm">12% of this component</div>
+      </div></span
+    >
+  </div>
+  <span data-csc-progress=""
+    ><div
+      class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--primary"
+      role="progressbar"
+      aria-valuenow="12"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-label="Commitments decided"
+    >
+      <div class="esa-progress-bar__header typography-body-xs">
+        <span class="esa-progress-bar__label typography-label-xs"
+          >Commitments decided</span
+        ><span class="esa-progress-bar__value">12%</span>
+      </div>
+      <div class="esa-progress-bar__track">
+        <div class="esa-progress-bar__fill" style="width: 12%"></div>
+      </div></div
+  ></span>
+  <div class="bcn-csc__facts" data-csc-facts="" hidden="">
+    <div class="bcn-key-value" data-size="sm" data-layout="stack">
+      <span class="bcn-key-value__key typography-label-sm">Source documents</span
+      ><span class="bcn-csc__val" data-csc-val="sources"></span>
     </div>
-    <div class="esa-stat">
-      <div class="esa-stat__value typography-display-sm">8</div>
-      <div class="esa-stat__label typography-label-md">New since your last review</div>
-      <div class="esa-stat__sub typography-body-sm">Feb 11, 2026</div>
+    <div class="bcn-key-value" data-size="sm" data-layout="stack">
+      <span class="bcn-key-value__key typography-label-sm">Species</span
+      ><span class="bcn-csc__val" data-csc-val="species"></span>
     </div>
-    <div class="esa-stat">
-      <div class="esa-stat__value typography-display-sm">11 / 37</div>
-      <div class="esa-stat__label typography-label-md">Decided</div>
-      <div class="esa-stat__sub typography-body-sm">30% of this component</div>
+    <div class="bcn-key-value" data-size="sm" data-layout="stack">
+      <span class="bcn-key-value__key typography-label-sm">Construction Activities</span
+      ><span class="bcn-csc__val" data-csc-val="activities"></span>
+    </div>
+    <div class="bcn-key-value" data-size="sm" data-layout="stack">
+      <span class="bcn-key-value__key typography-label-sm">Dates</span
+      ><span class="bcn-csc__val" data-csc-val="dates"></span>
     </div>
   </div>
-  <div
-    class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--primary"
-    role="progressbar"
-    aria-valuenow="30"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-label="Commitments decided"
-  >
-    <div class="esa-progress-bar__header typography-body-xs">
-      <span class="esa-progress-bar__label typography-label-xs">Commitments decided</span
-      ><span class="esa-progress-bar__value">30%</span>
-    </div>
-    <div class="esa-progress-bar__track">
-      <div class="esa-progress-bar__fill" style="width: 30%"></div>
-    </div>
-  </div>
-  <div class="bcn-csc__foot">
-    <span data-opens="bcn-setup-workspace"
+  <div class="bcn-csc__foot cluster" data-gap="sm">
+    <span data-opens="bcn-component-setup" data-csc-start=""
       ><span
         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
         ><button class="esa-button__native typography-microcopy-md" type="button">
-          <span class="esa-button__label">Review commitments</span>
+          <span class="esa-button__label">Start Setup</span>
+        </button></span
+      ></span
+    ><span data-opens="bcn-setup-workspace" data-csc-review="secondary"
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Review Commitments</span>
+        </button></span
+      ></span
+    ><span data-opens="bcn-setup-workspace" data-csc-review="primary" hidden=""
+      ><span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Review Commitments</span>
+        </button></span
+      ></span
+    ><span data-opens="bcn-component-setup" data-csc-edit="" hidden=""
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Edit Setup</span>
         </button></span
       ></span
     >
@@ -117,6 +159,13 @@ How much of this component's commitment applicability is settled, and the door i
   line-height: var(--typography-label-xs-line-height);
   letter-spacing: var(--typography-label-xs-letter-spacing);
 }
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
   font-size: var(--typography-label-md-font-size);
@@ -130,6 +179,13 @@ How much of this component's commitment applicability is settled, and the door i
   font-weight: var(--typography-label-xs-strong-font-weight);
   line-height: var(--typography-label-xs-strong-line-height);
   letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
@@ -164,8 +220,29 @@ How much of this component's commitment applicability is settled, and the door i
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   display: grid;
 }
+.bcn-csc__figures > [hidden] {
+  display: none;
+}
+.bcn-csc__facts {
+  gap: var(--spacing-300) var(--spacing-400);
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-default-subtle);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  display: grid;
+}
+.bcn-csc__facts[hidden] {
+  display: none;
+}
+.bcn-csc__val {
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
+}
 .bcn-csc__foot {
   padding-top: var(--spacing-100);
+}
+.bcn-csc__foot > [hidden] {
+  display: none;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -395,6 +472,13 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-label-xs-line-height);
   letter-spacing: var(--typography-label-xs-letter-spacing);
 }
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
   font-size: var(--typography-label-md-font-size);
@@ -408,6 +492,13 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-label-xs-strong-font-weight);
   line-height: var(--typography-label-xs-strong-line-height);
   letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
@@ -436,6 +527,48 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-md-strong-font-weight);
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
@@ -565,6 +698,16 @@ summary.esa-button--variant-chrome:focus-visible {
 .stack[data-split] > [data-split] {
   margin-block-end: auto;
 }
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
 ```
 
 ## Tokens
@@ -579,6 +722,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -593,13 +738,17 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -610,6 +759,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
 - `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
+- `--form-label-color`: #525252 _(component)_
 - `--gap`: 1rem _(component)_
 - `--progress-bar-height-lg`: 12px _(component)_
 - `--progress-bar-height-md`: 8px _(component)_
@@ -622,18 +772,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--stat-accent-color`: #3a7c59 _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -644,6 +794,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-bold`: 650 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-font-weight`: 500 _(semantic)_
@@ -654,6 +805,16 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-label-xs-font-weight`: 500 _(semantic)_
@@ -676,6 +837,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_

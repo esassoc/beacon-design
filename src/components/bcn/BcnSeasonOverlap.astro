@@ -1,0 +1,171 @@
+---
+// <BcnSeasonOverlap> — the project's seasons as bars on a month axis, with the
+// component's dates laid across them, and per season whether the two overlap.
+//
+// It answers the one question the Dates step asks: which seasonal requirements can
+// this work touch? A season the dates miss is a reason setup can give ("Outside the
+// nesting bird season"); pushing the dates from Oct–Jan to Jan–Apr moves the band
+// and the badges flip in place.
+//
+// Geometry is painted by paintSeasonOverlap() (season-overlap.ts) whenever the host's
+// dates change: the axis starts on the first of the start month and runs twelve
+// months, or longer when the work does. Every bar, band and tick is pre-rendered
+// here; the painter only positions and re-labels them.
+//
+// bcn-lego-checked: no esa-* lego plots dated bars on an axis (esa-progress-bar is a
+// single ratio, esa-chart is AG Charts, ruled out for micro-viz). Spoke siblings:
+// BcnSeasonCard draws ONE season on a fixed Jan–Dec year, BcnVizSeasons is a
+// server-computed widget lane with no overlay, BcnProjectTimeline is the
+// today-forward page timeline. None overlays a movable date range on several seasons.
+// bcn-season-overlap is the reusable home. Each verdict is an esa-icon status mark
+// (green check = overlaps, gray minus = no overlap) with its word beside it; the
+// minus glyph is passed as paths because the registry has no circle-minus yet.
+// A key above the chart names the two marks: the blue bar and the outlined box.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { PROJECT_SEASONS, seasonWindow } from '../../data/component-commitments';
+
+interface Props {
+  idPrefix: string;
+}
+const { idPrefix } = Astro.props;
+const SEGMENTS = 5;
+const CIRCLE_MINUS = '<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/>';
+const TICKS = 25;
+---
+
+<div class="bcn-so" data-bcn-so={idPrefix}>
+  <div class="bcn-so__key">
+    <span class="bcn-so__keyitem"><span class="bcn-so__swatch bcn-so__swatch--season"></span>Season</span>
+    <span class="bcn-so__keyitem"><span class="bcn-so__swatch bcn-so__swatch--work"></span>Work dates</span>
+  </div>
+  <div class="bcn-so__grid">
+    <span></span>
+    <div class="bcn-so__axis" aria-hidden="true">
+      {Array.from({ length: TICKS }, () => <span class="bcn-so__tick" data-so-tick hidden></span>)}
+    </div>
+    <span></span>
+
+    {
+      PROJECT_SEASONS.map((s) => (
+        <>
+          <span class="bcn-so__name">
+            <span class="bcn-so__label">{s.name}</span>
+            <span class="bcn-so__window">{seasonWindow(s)}</span>
+          </span>
+          <div class="bcn-so__track" data-so-track={s.id}>
+            {Array.from({ length: SEGMENTS }, () => <span class="bcn-so__seg" data-so-seg hidden />)}
+            <span class="bcn-so__band" data-so-band />
+          </div>
+          <span class="bcn-so__verdict" data-so-verdict={s.id}>
+            <span class="bcn-so__yes" data-so-yes><EsaIcon name="circle-check" size="sm" />Overlaps</span>
+            <span class="bcn-so__no" data-so-no hidden><EsaIcon name="circle-minus" paths={CIRCLE_MINUS} size="sm" />No overlap</span>
+          </span>
+        </>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .bcn-so {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-so__grid {
+    display: grid;
+    grid-template-columns: minmax(12rem, auto) minmax(0, 1fr) 7rem;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem) var(--spacing-400);
+  }
+  .bcn-so__axis {
+    position: relative;
+    height: 1.25rem;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-so__tick {
+    position: absolute;
+    bottom: 2px;
+    transform: translateX(-50%);
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-so__tick[hidden] { display: none; }
+  .bcn-so__name {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .bcn-so__label {
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+  .bcn-so__window {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-so__track {
+    position: relative;
+    height: 1.5rem;
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-so__seg {
+    position: absolute;
+    top: 0.375rem;
+    height: 0.75rem;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--color-background-utility-info) 55%, transparent);
+  }
+  .bcn-so__seg[hidden] { display: none; }
+  /* The component's dates: an outlined band across the track, so a season bar under
+     it stays readable. Brand, because it is THIS component, not a season. */
+  .bcn-so__band {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border: 2px solid var(--color-background-brand);
+    border-radius: var(--radius-100);
+    background: color-mix(in srgb, var(--color-background-brand) 8%, transparent);
+  }
+  .bcn-so__verdict { display: inline-flex; }
+  .bcn-so__yes,
+  .bcn-so__no {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+  .bcn-so__yes :global(svg) { color: var(--color-content-utility-success); }
+  .bcn-so__no { color: var(--color-content-default-secondary); }
+  .bcn-so__yes[hidden],
+  .bcn-so__no[hidden] { display: none; }
+  .bcn-so__key {
+    display: flex;
+    gap: var(--spacing-500);
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-so__keyitem {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-so__swatch {
+    width: 1.25rem;
+    height: 0.75rem;
+    border-radius: 2px;
+  }
+  .bcn-so__swatch--season {
+    height: 0.5rem;
+    background: color-mix(in srgb, var(--color-background-utility-info) 55%, transparent);
+  }
+  .bcn-so__swatch--work {
+    border: 2px solid var(--color-background-brand);
+    background: color-mix(in srgb, var(--color-background-brand) 8%, transparent);
+  }
+</style>

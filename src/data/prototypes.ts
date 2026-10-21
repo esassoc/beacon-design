@@ -943,6 +943,69 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-09-23',
         status: 'in-progress',
       },
+      {
+        slug: 'list-export-obligation-pdf',
+        title: 'Obligation list PDF',
+        description:
+          'An obligation list as the PDF its Export card downloads, on Letter: title block, a summary table, then category › subcategory in the list’s own names and wording, with class, audience, applies when and commitments per obligation.',
+        route: '/prototypes/list-export-documents/construction-kickoff-summary',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-action-pdf',
+        title: 'Action list PDF',
+        description:
+          'An action list as a PDF on Letter, grouped by type: a summary table, then frequency, timing and commitments per action, and one line per component for where it stands.',
+        route: '/prototypes/list-export-documents/annual-reporting',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-compliance-index-pdf',
+        title: 'Compliance Index PDF',
+        description:
+          'Every action and obligation on the project in one PDF, from the Compliance Index’s Export card on Lists: a summary table, then the detail by category › subcategory, Unfiled last.',
+        route: '/prototypes/list-export-documents/compliance-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-commitment-pdf',
+        title: 'Commitment list PDF',
+        description:
+          'A commitment list as a PDF on Letter, by permit section in code order: a summary table, then each commitment with its requirements in the permit’s words.',
+        route: '/prototypes/list-export-documents/quarterly-agency-briefing',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-compliance-index',
+        title: 'Compliance Index on Lists',
+        description:
+          'The project’s canonical Compliance Index, the first Compliance Index list: every action and obligation by category › subcategory, Unfiled last, with the Details and Export rail every list has.',
+        route: '/prototypes/lists/compliance-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-compliance-index-custom',
+        title: 'Custom Compliance Index list',
+        description:
+          'A Compliance Index list made from the canonical index: its own categories and subcategories over the index’s items, regrouped for a contractor’s field crews, with Edit details and a Danger Zone.',
+        route: '/prototypes/lists/contractor-field-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-new-list',
+        title: 'Aldo on Lists',
+        description:
+          'Its own epic, after the setup wizard’s Aldo. Create list lands on the new, empty list with Aldo open beside it; say what the list is for, and Aldo proposes what fits. On every list, Aldo waits above Details.',
+        route: '/prototypes/lists/new-obligation-list?aldo',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
     ],
   },
 ];

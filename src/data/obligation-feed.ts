@@ -200,7 +200,7 @@ const AUTHORED: RecordSeed[] = [
   },
   {
     id: 'weap-0908', title: 'WEAP session — 14 new crew members', source: 'weap',
-    at: '2026-09-08T13:00:00Z', component: 'Bouldin Island Launch Shaft', submittedBy: 'R. Osei', location: 'Bouldin Island trailer',
+    at: '2026-09-08T13:00:00Z', component: 'Bouldin Island Geotechnical Exploration', submittedBy: 'R. Osei', location: 'Bouldin Island trailer',
     duties: [['obl_01M2G6Y40FW7TYCC8DP1VT56RE', 'evidence']],
   },
   {

@@ -20,6 +20,7 @@
 //   AddedItem = { id, title, class, description, catId, catName, subId, subName,
 //                 reqs: { id, code, name }[] }
 // — everything the tree needs to stamp a real card where the registry files it,
+// (`list:add-ids` { ids } adds those rows down the same path: Aldo's Add key.)
 // without a round trip. Each field is stamped onto its row as a data attribute at
 // build time and read straight back off the checked rows. The add genuinely lands on
 // screen; this component never reports a success it did not cause.
@@ -266,8 +267,8 @@ const facets = buildFacets(
 
     // ---- Add. The payload is read off the rows, never rebuilt from a lookup, so the
     // tree stamps exactly the registry record that was ticked.
-    addBtn?.addEventListener('click', () => {
-      const items = checkedRows().map((row) => ({
+    const addRows = (picked: HTMLElement[]) => {
+      const items = picked.map((row) => ({
         id: row.dataset.id ?? '',
         title: row.dataset.title ?? '',
         class: row.dataset.class ?? '',
@@ -280,10 +281,18 @@ const facets = buildFacets(
       }));
       if (!items.length) return;
       document.dispatchEvent(new CustomEvent('list:members-added', { detail: { items }, bubbles: true }));
-      for (const row of checkedRows()) row.remove();
+      for (const row of picked) row.remove();
       retally();
+    };
+    addBtn?.addEventListener('click', () => {
+      addRows(checkedRows());
       reset();
       drawer.open = false;
+    });
+    // Aldo adds by id, down the same path a tick and Add take (BcnListAldo).
+    document.addEventListener('list:add-ids', (e) => {
+      const ids = new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+      addRows(rows().filter((row) => ids.has(row.dataset.id ?? '')));
     });
   }
 </script>

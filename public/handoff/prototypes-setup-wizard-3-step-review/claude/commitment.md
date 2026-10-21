@@ -782,6 +782,9 @@ mark.bcn-hl[data-family="none"] {
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="slate"][data-shade="4"] {
   --_hl: var(--bcn-topic-slate-4);
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-sw3c {
   flex-direction: column;
   min-height: 100%;
@@ -1304,9 +1307,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);

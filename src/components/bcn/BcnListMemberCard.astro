@@ -22,6 +22,13 @@
 // action or commitment list has no wording of its own to edit and no reason to hold a
 // record twice; it is a set of pointers.
 //
+// The one exception is an action on a Compliance Index version, which an obligation list's
+// verbs reach too (Andy, 2026-10-20: parity between the two). Given `wording`, the card
+// takes the obligation card's hooks and verbs: the title and a pen open the list's panel
+// (data-list-edit, not data-list-open) to move or retitle it, a copy verb duplicates it,
+// the dot marks own wording, and the record's own title and description ride along as
+// data-registry-title / data-registry-desc.
+//
 // Contract with <BcnListMemberTree>: presentational. The tree owns every listener and
 // reaches in through data-list-card, data-list-open, data-list-remove, data-list-req,
 // data-list-impl and data-list-text — the same hooks the obligation tree uses, which is what lets
@@ -43,8 +50,11 @@ import '../../styles/bcn-obligation-card.css';
 
 interface Props {
   row: ListMemberRow;
+  /** An action on a Compliance Index list: its own wording, with the index's beside it. */
+  wording?: { registryTitle: string; registryDescription: string; listDescription: string };
 }
-const { row } = Astro.props;
+const { row, wording } = Astro.props;
+const edited = !!wording && (row.title !== wording.registryTitle || wording.listDescription !== wording.registryDescription);
 const COMMITMENT_HREF = withBase('/prototypes/data-catalog-commitment');
 const codes = [...new Set(row.reqs.map((r) => r.code))].join('|');
 const index = [...new Set(row.reqs.flatMap((r) => r.index ?? []))].join('|');
@@ -61,15 +71,20 @@ const childNoun = row.impls ? 'implementations' : 'requirements';
   data-codes={codes}
   data-index={index}
   data-source={row.source}
+  data-list-description={wording?.listDescription}
+  data-registry-desc={wording?.registryDescription}
 >
   <details class="bcn-loc__node">
     <summary class="bcn-loc__main">
       <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       {row.chip && <span class="bcn-loc__class" data-list-class-tag>{row.chip.label}</span>}
       {row.code && <span data-list-code><BcnCommitmentBadge code={row.code} size="sm" /></span>}
-      {row.chip
-        ? <button type="button" class="bcn-loc__title" data-list-open data-list-title data-list-text={row.title}>{row.title}</button>
-        : <span class="bcn-loc__title bcn-lmc__title" data-list-title data-list-text={row.title}>{row.title}</span>}
+      {wording
+        ? <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={row.title} data-registry-title={wording.registryTitle}>{row.title}</button>
+        : row.chip
+          ? <button type="button" class="bcn-loc__title" data-list-open data-list-title data-list-text={row.title}>{row.title}</button>
+          : <span class="bcn-loc__title bcn-lmc__title" data-list-title data-list-text={row.title}>{row.title}</span>}
+      {wording && <span class="bcn-loc__edited" data-list-edited hidden={!edited}><esa-tooltip text="Has its own list wording"><span class="bcn-loc__dot" role="img" aria-label="Has its own list wording"></span></esa-tooltip></span>}
       <span data-list-count="member"><BcnSwCountBadge value={children} label={`${children} ${childNoun}`} /></span>
       {row.code && (
         <esa-tooltip text="Open commitment"><a
@@ -79,6 +94,18 @@ const childNoun = row.impls ? 'implementations' : 'requirements';
           data-list-goto
         ><EsaIcon name="external-link" size="xs" /></a></esa-tooltip>
       )}
+      {wording && <esa-tooltip text="Move or retitle for this list"><button
+        type="button"
+        class="bcn-loc__verb"
+        aria-label="Move or retitle this action for this list"
+        data-list-edit
+      ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>}
+      {wording && <esa-tooltip text="Duplicate for this list"><button
+        type="button"
+        class="bcn-loc__verb"
+        aria-label="Hold this action again with its own wording"
+        data-list-duplicate
+      ><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>}
       <esa-tooltip text="Remove from this list" align="end"><button
         type="button"
         class="bcn-loc__verb bcn-loc__verb--danger"

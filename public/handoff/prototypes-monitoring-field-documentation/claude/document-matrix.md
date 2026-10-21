@@ -14985,6 +14985,9 @@ tbody + tbody .bcn-fd-table__batch th {
 .bcn-fd-matrix__count {
   font-variant-numeric: tabular-nums;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);

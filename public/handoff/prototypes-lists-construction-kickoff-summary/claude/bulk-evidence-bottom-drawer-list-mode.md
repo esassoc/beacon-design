@@ -361,7 +361,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -546,7 +546,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -714,7 +714,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -883,7 +883,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1076,7 +1076,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1245,7 +1245,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1414,7 +1414,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1583,7 +1583,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1751,7 +1751,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1920,7 +1920,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2096,7 +2096,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2252,7 +2252,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2408,7 +2408,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2564,7 +2564,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                     ></path></svg></span></span
                               ><span class="bcn-countchip__num" aria-hidden="true"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                   >0</span
                                 ></span
                               ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2866,7 +2866,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -2877,10 +2877,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -3015,7 +3015,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3026,10 +3026,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -3162,7 +3162,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3173,10 +3173,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -3311,7 +3311,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3322,10 +3322,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Implementation Planning</span
                                 ></span
@@ -3494,7 +3494,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3505,10 +3505,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -3682,7 +3682,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3693,10 +3693,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -3868,7 +3868,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -3879,10 +3879,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Reporting</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4016,7 +4016,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4027,10 +4027,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4163,7 +4163,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4174,10 +4174,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4339,7 +4339,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4350,10 +4350,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4486,7 +4486,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4497,10 +4497,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4633,7 +4633,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4644,10 +4644,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Implementation Planning</span
                                 ></span
@@ -4782,7 +4782,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4793,10 +4793,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -4929,7 +4929,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -4940,10 +4940,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -5110,7 +5110,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5121,10 +5121,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -5257,7 +5257,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5268,10 +5268,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -5406,7 +5406,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5417,10 +5417,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Reporting</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -5553,7 +5553,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5564,10 +5564,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -5700,7 +5700,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5711,10 +5711,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Construction</span></span
                               ></span
                             >
@@ -5847,7 +5847,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -5858,10 +5858,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Implementation Planning</span
                                 ></span
@@ -5996,7 +5996,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -6007,10 +6007,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Tracking</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -6145,7 +6145,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                                         ></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       ><span class="esa-badge__text">0</span></span
                                     ></span
                                   ><span class="bcn-countchip__sr"
@@ -6156,10 +6156,10 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                             ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                             ><span class="bcn-ev-row__tags"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text">Monitoring</span></span
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                 ><span class="esa-badge__text"
                                   >Pre-Construction</span
                                 ></span
@@ -6227,7 +6227,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                 <span class="bcn-ev-attached__name" data-astro-cid-6zu5gb4v=""></span
                 ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     data-astro-cid-sh7ulwla=""
                     ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                       >Suggested</span
@@ -8196,27 +8196,15 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
+.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
   display: none;
 }
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
-.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
   display: none;
 }
 .bcn-search-trigger .esa-icon {
@@ -9452,7 +9440,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -9466,24 +9455,30 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -9558,7 +9553,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -9567,7 +9563,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -9581,7 +9578,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -9600,6 +9598,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -9646,6 +9664,133 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__evidence[data-none] {
   color: var(--color-content-default-tertiary);
   font-weight: 400;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-status .esa-alert-box {
+  padding: var(--_aldo-gap) var(--spacing-250, 0.625rem);
+  font-size: var(--_aldo-text);
+  align-items: center;
+}
+.bcn-aldo-status .esa-alert-box__icon svg {
+  width: 16px;
+  height: 16px;
+}
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -9945,6 +10090,113 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-alert-box {
+  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
+  --_alert-border: var(--color-border-utility-info, #acd8fc);
+  --_alert-accent: var(--color-content-utility-info, #0d74ce);
+  --_alert-icon-color: var(--_alert-accent);
+  --_alert-title-color: var(--_alert-accent);
+  --_alert-text-color: var(
+    --alert-box-text-color,
+    var(--color-content-default-secondary, #646464)
+  );
+  align-items: flex-start;
+  gap: var(--spacing-300, 0.75rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  border: var(--border-width-default, 1px) solid var(--_alert-border);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--_alert-bg);
+  display: flex;
+}
+.esa-alert-box--success {
+  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
+  --_alert-border: var(--color-border-utility-success, #adddc0);
+  --_alert-accent: var(--color-content-utility-success, #218358);
+}
+.esa-alert-box--warning {
+  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
+  --_alert-border: var(--color-border-utility-warning, #f3d673);
+  --_alert-accent: var(--color-content-utility-warning, #ab6400);
+}
+.esa-alert-box--danger {
+  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
+  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
+  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
+}
+.esa-alert-box__icon {
+  color: var(--_alert-icon-color);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.esa-alert-box__body {
+  flex: 1;
+  min-width: 0;
+}
+.esa-alert-box__title {
+  color: var(--_alert-title-color);
+  margin-bottom: var(--spacing-050, 0.125rem);
+  display: block;
+}
+.esa-alert-box__message {
+  color: var(--_alert-text-color);
+}
+.esa-alert-box__dismiss {
+  border-radius: var(--radius-sm, 0.25rem);
+  width: 24px;
+  height: 24px;
+  color: var(--color-content-default-secondary, #646464);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+  background: 0 0;
+  border: none;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: inline-flex;
+}
+.esa-alert-box__dismiss:hover {
+  color: var(--color-content-default, #202020);
+  background: var(--color-background-overlay-strong-hover, #0000000f);
+}
+.esa-alert-box__dismiss:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
   --_pill-text: var(--color-content-default, #202020);
@@ -10085,199 +10337,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-empty-state__actions:empty {
   display: none;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
-.esa-alert-box {
-  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
-  --_alert-border: var(--color-border-utility-info, #acd8fc);
-  --_alert-accent: var(--color-content-utility-info, #0d74ce);
-  --_alert-icon-color: var(--_alert-accent);
-  --_alert-title-color: var(--_alert-accent);
-  --_alert-text-color: var(
-    --alert-box-text-color,
-    var(--color-content-default-secondary, #646464)
-  );
-  align-items: flex-start;
-  gap: var(--spacing-300, 0.75rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  border: var(--border-width-default, 1px) solid var(--_alert-border);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--_alert-bg);
-  display: flex;
-}
-.esa-alert-box--success {
-  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
-  --_alert-border: var(--color-border-utility-success, #adddc0);
-  --_alert-accent: var(--color-content-utility-success, #218358);
-}
-.esa-alert-box--warning {
-  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
-  --_alert-border: var(--color-border-utility-warning, #f3d673);
-  --_alert-accent: var(--color-content-utility-warning, #ab6400);
-}
-.esa-alert-box--danger {
-  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
-  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
-  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
-}
-.esa-alert-box__icon {
-  color: var(--_alert-icon-color);
-  flex-shrink: 0;
-  padding-top: 1px;
-}
-.esa-alert-box__body {
-  flex: 1;
-  min-width: 0;
-}
-.esa-alert-box__title {
-  color: var(--_alert-title-color);
-  margin-bottom: var(--spacing-050, 0.125rem);
-  display: block;
-}
-.esa-alert-box__message {
-  color: var(--_alert-text-color);
-}
-.esa-alert-box__dismiss {
-  border-radius: var(--radius-sm, 0.25rem);
-  width: 24px;
-  height: 24px;
-  color: var(--color-content-default-secondary, #646464);
-  cursor: pointer;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  display: inline-flex;
-}
-.esa-alert-box__dismiss:hover {
-  color: var(--color-content-default, #202020);
-  background: var(--color-background-overlay-strong-hover, #0000000f);
-}
-.esa-alert-box__dismiss:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -10290,8 +10349,10 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--alert-box-text-color`: #525252 _(component)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #005862 _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
 - `--bcn-ev-search-gap`: .625rem _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
@@ -10420,23 +10481,23 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -10456,7 +10517,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-font-weight`: 400 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -10476,7 +10537,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -10491,6 +10552,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

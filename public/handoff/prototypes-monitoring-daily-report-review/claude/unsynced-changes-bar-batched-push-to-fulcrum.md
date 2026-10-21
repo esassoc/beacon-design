@@ -137,15 +137,15 @@ Corrections to monitoring data are held in Beacon as PENDING until the reviewer 
       </div>
       <span
         class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
-        data-astro-cid-ictiiiq6=""
+        data-astro-cid-4xhmycw5=""
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
           data-bcn-dmr-sync-undo="true"
           data-astro-cid-6tzd3hkt="true"
-          data-astro-cid-ictiiiq6=""
+          data-astro-cid-4xhmycw5=""
         >
-          <span class="esa-button__label" data-astro-cid-ictiiiq6="">Undo</span>
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Undo</span>
         </button></span
       >
     </li></template
@@ -309,6 +309,8 @@ Corrections to monitoring data are held in Beacon as PENDING until the reviewer 
 .bcn-dmr-sync-bar__row{padding-block:var(--spacing-300,.75rem);align-items:center}
 .bcn-dmr-sync-bar__row+.bcn-dmr-sync-bar__row{border-block-start:var(--border-width-default,1px) solid var(--color-border-default-subtle,#d9d9d9)}
 .bcn-dmr-sync-bar__meta{color:var(--color-content-default-secondary,#646464)}
+.visually-hidden{white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}
+.visually-hidden--focusable:focus,.visually-hidden--focusable:focus-within,.visually-hidden--focusable:active{white-space:normal;clip:auto;clip-path:none;width:auto;height:auto;margin:0;position:static;overflow:visible}
 .esa-button{--_btn-pad-y:var(--spacing-300,.75rem);--_btn-padding-x:var(--spacing-300,.75rem);--_btn-radius:var(--button-radius-md,.5rem);--_accent:var(--color-background-brand,#46a758);--_accent-hover:var(--color-background-brand-hover,#3e9b4f);--_on:var(--color-content-default-knockout,#fcfcfc);--_accent-text:var(--_accent);--_btn-tint-hover:color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active:color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
 .esa-button--xs{--_btn-pad-y:var(--spacing-200,.5rem);--_btn-padding-x:var(--spacing-200,.5rem);--_btn-radius:var(--button-radius-xs,4px)}
 .esa-button--sm{--_btn-pad-y:var(--spacing-250,.625rem);--_btn-padding-x:var(--spacing-250,.625rem);--_btn-radius:var(--button-radius-sm,4px)}
@@ -355,8 +357,6 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .typography-microcopy-md-subtle{font-family:var(--typography-microcopy-md-subtle-font-family);font-size:var(--typography-microcopy-md-subtle-font-size);font-weight:var(--typography-microcopy-md-subtle-font-weight);line-height:var(--typography-microcopy-md-subtle-line-height);letter-spacing:var(--typography-microcopy-md-subtle-letter-spacing)}
 .typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
 .typography-microcopy-md-strong{font-family:var(--typography-microcopy-md-strong-font-family);font-size:var(--typography-microcopy-md-strong-font-size);font-weight:var(--typography-microcopy-md-strong-font-weight);line-height:var(--typography-microcopy-md-strong-line-height);letter-spacing:var(--typography-microcopy-md-strong-letter-spacing)}
-.visually-hidden{white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}
-.visually-hidden--focusable:focus,.visually-hidden--focusable:focus-within,.visually-hidden--focusable:active{white-space:normal;clip:auto;clip-path:none;width:auto;height:auto;margin:0;position:static;overflow:visible}
 .esa-alert-box{--_alert-bg:var(--color-background-utility-info-subtle,#fbfdff);--_alert-border:var(--color-border-utility-info,#acd8fc);--_alert-accent:var(--color-content-utility-info,#0d74ce);--_alert-icon-color:var(--_alert-accent);--_alert-title-color:var(--_alert-accent);--_alert-text-color:var(--alert-box-text-color,var(--color-content-default-secondary,#646464));align-items:flex-start;gap:var(--spacing-300,.75rem);padding:var(--spacing-300,.75rem) var(--spacing-400,1rem);border:var(--border-width-default,1px) solid var(--_alert-border);border-radius:var(--radius-md,.5rem);background:var(--_alert-bg);display:flex}
 .esa-alert-box--success{--_alert-bg:var(--color-background-utility-success-subtle,#fbfefc);--_alert-border:var(--color-border-utility-success,#adddc0);--_alert-accent:var(--color-content-utility-success,#218358)}
 .esa-alert-box--warning{--_alert-bg:var(--color-background-utility-warning-subtle,#fefdfb);--_alert-border:var(--color-border-utility-warning,#f3d673);--_alert-accent:var(--color-content-utility-warning,#ab6400)}

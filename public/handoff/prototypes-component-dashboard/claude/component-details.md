@@ -22,11 +22,11 @@ The quiet rail card of the Component record's own fields: start date, expected e
 <dl class="bcn-pf">
   <div class="bcn-pf__fact">
     <dt class="bcn-pf__label">Start Date</dt>
-    <dd class="bcn-pf__value">Sep 2, 2025</dd>
+    <dd class="bcn-pf__value">Oct 5, 2026</dd>
   </div>
   <div class="bcn-pf__fact">
     <dt class="bcn-pf__label">Expected End Date</dt>
-    <dd class="bcn-pf__value">Nov 30, 2029</dd>
+    <dd class="bcn-pf__value">Jan 29, 2027</dd>
   </div>
   <div class="bcn-pf__fact">
     <dt class="bcn-pf__label">Reach</dt>
@@ -37,8 +37,8 @@ The quiet rail card of the Component record's own fields: start date, expected e
     <dd class="bcn-pf__value">Geotechnical</dd>
   </div>
   <div class="bcn-pf__fact">
-    <dt class="bcn-pf__label">Shaft type</dt>
-    <dd class="bcn-pf__value">Launch</dd>
+    <dt class="bcn-pf__label">Exploration program</dt>
+    <dd class="bcn-pf__value">Phase 2 borings and CPTs</dd>
   </div>
 </dl>
 ```

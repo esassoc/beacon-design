@@ -488,11 +488,14 @@ const GATE_RE = /\b(approved (?:plan|by)|approval of the|prior to approval|upon 
 // requirement's opening sentences stand in, so the field has something to show.
 const describe = (text: string): string => {
   const flat = text.replace(/\s*\n\s*/g, ' ').trim();
-  const sentences = flat.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [flat];
+  // Split, never match: a matcher skips what it cannot match, and "(e.g., weed whackers)" or
+  // "0.5 miles" cost the description its opening words. A sentence ends at a stop followed
+  // by a space and a capital, a digit or an opening bracket.
+  const sentences = flat.split(/(?<=[.!?])\s+(?=[A-Z0-9(“"])/);
   let out = '';
   for (const sn of sentences) {
-    if (out && (out + sn).length > 240) break;
-    out += sn;
+    if (out && `${out} ${sn}`.length > 240) break;
+    out = out ? `${out} ${sn}` : sn;
   }
   return out.trim();
 };

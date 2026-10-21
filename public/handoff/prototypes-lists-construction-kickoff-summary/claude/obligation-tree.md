@@ -5,7 +5,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 ## Key decisions
 - Child rows are implementations, not requirements (Andy reversed this 2026-09-23). Requirement codes and index ride on the card as data, for the mirror views to file by.
 - Obligation rows carry NO status pill: evidence count is the only honest progress signal for an obligation.
-- Categories and subcategories can be renamed for this list alone (pencil on the branch row).
+- Categories and subcategories can be renamed for this list alone: the pencil on the branch row opens the rename side panel (bcn-list-branch-panel, the one a Compliance Index version uses), with the registry's name read only beneath the field. Never inline on the row (2026-10-20, for parity with index versions and the no-inline-edit rule).
 - A dot beside an obligation title means the list has its own wording for it (title or description differs from the registry), tooltip "Has its own list wording". No text label.
 - Card title and pencil both open the obligation panel; pencil tooltip "Move or retitle for this list".
 - Clicking an implementation row emits list:edit-implementation. Prod opens the implementation upsert dialog there; the prototype builds no dialog.
@@ -1541,16 +1541,16 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKXGW0MHG5S1F0JJR77|bouldin-island-launch-shaft"
+                    data-list-impl="obl_01M2G6YKKXGW0MHG5S1F0JJR77|bouldin-island-geotechnical-exploration"
                     data-evidence="0"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments">2 comments</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments" hidden="">0 comments</span
                     ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
                       >No evidence</span
                     >
@@ -4579,18 +4579,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6Y3XH28NAN3AB46Q787QJ|bouldin-island-launch-shaft"
-                    data-evidence="3"
+                    data-list-impl="obl_01M2G6Y3XH28NAN3AB46Q787QJ|bouldin-island-geotechnical-exploration"
+                    data-evidence="0"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments" hidden="">0 comments</span
-                    ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >3 evidence</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments">2 comments</span
+                    ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
+                      >No evidence</span
                     >
                   </li>
                 </ul>
@@ -4760,18 +4760,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYGA|bouldin-island-launch-shaft"
-                    data-evidence="5"
+                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYGA|bouldin-island-geotechnical-exploration"
+                    data-evidence="2"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
+                      Bouldin Island Geotechnical Exploration</button
                     ><span class="bcn-loc__comments" hidden="">0 comments</span
                     ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >5 evidence</span
+                      >2 evidence</span
                     >
                   </li>
                 </ul>
@@ -4909,18 +4909,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYG8|bouldin-island-launch-shaft"
-                    data-evidence="0"
+                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYG8|bouldin-island-geotechnical-exploration"
+                    data-evidence="5"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments">2 comments</span
-                    ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-                      >No evidence</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments" hidden="">0 comments</span
+                    ><span class="bcn-loc__evidence" data-list-evidence=""
+                      >5 evidence</span
                     >
                   </li>
                   <li
@@ -4965,7 +4965,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY6"
               data-class="adhere"
               data-list-description="Shield and aim every night fixture down and inward. No light crosses the work-area boundary."
-              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety. 8."
+              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety."
               data-codes="COA 11.47|COA 11.8"
               hidden=""
             >
@@ -5453,8 +5453,8 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-member-id="obl_01M2G6Y374X4RKETDHB3S1M1N3-m1"
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1N3"
               data-class="adhere"
-              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
-              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
+              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
+              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
               data-codes="COA 11.41|COA 11.65"
               hidden=""
             >
@@ -6122,18 +6122,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYGK|bouldin-island-launch-shaft"
-                    data-evidence="1"
+                    data-list-impl="obl_01M2G6YKKZS8T1WDX0E4QXHYGK|bouldin-island-geotechnical-exploration"
+                    data-evidence="6"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments" hidden="">0 comments</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments">1 comment</span
                     ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >1 evidence</span
+                      >6 evidence</span
                     >
                   </li>
                 </ul>
@@ -6374,18 +6374,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKXGW0MHG5S1F0JJR74|bouldin-island-launch-shaft"
-                    data-evidence="3"
+                    data-list-impl="obl_01M2G6YKKXGW0MHG5S1F0JJR74|bouldin-island-geotechnical-exploration"
+                    data-evidence="1"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
+                      Bouldin Island Geotechnical Exploration</button
                     ><span class="bcn-loc__comments">1 comment</span
                     ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >3 evidence</span
+                      >1 evidence</span
                     >
                   </li>
                 </ul>
@@ -6501,7 +6501,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKJFSBZ7MC77J15GFVF"
               data-class="adhere"
               data-list-description="After dark, 15 mph on every unpaved surface inside the work area, including haul roads."
-              data-registry-desc=", outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
+              data-registry-desc="Project vehicles shall observe a nighttime speed limit of 10 miles per hour in Project construction sites within the Bethany Complex between October 16 through July 14 (i.e., outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
               data-codes="COA 11.11"
               hidden=""
             >
@@ -7153,18 +7153,18 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   </li>
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKKW469S9XKYKCE1V6XV|bouldin-island-launch-shaft"
-                    data-evidence="5"
+                    data-list-impl="obl_01M2G6YKKW469S9XKYKCE1V6XV|bouldin-island-geotechnical-exploration"
+                    data-evidence="2"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
-                    ><span class="bcn-loc__comments">2 comments</span
+                      Bouldin Island Geotechnical Exploration</button
+                    ><span class="bcn-loc__comments" hidden="">0 comments</span
                     ><span class="bcn-loc__evidence" data-list-evidence=""
-                      >5 evidence</span
+                      >2 evidence</span
                     >
                   </li>
                 </ul>
@@ -7916,15 +7916,15 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
                   <li
                     class="bcn-loc__req bcn-loc__impl"
-                    data-list-impl="obl_01M2G6YKM0HYHZPHBXBXTP9J35|bouldin-island-launch-shaft"
+                    data-list-impl="obl_01M2G6YKM0HYHZPHBXBXTP9J35|bouldin-island-geotechnical-exploration"
                     data-evidence="0"
                   >
                     <button
                       type="button"
                       class="bcn-loc__req-name"
-                      data-list-text="Bouldin Island Launch Shaft"
+                      data-list-text="Bouldin Island Geotechnical Exploration"
                     >
-                      Bouldin Island Launch Shaft</button
+                      Bouldin Island Geotechnical Exploration</button
                     ><span class="bcn-loc__comments" hidden="">0 comments</span
                     ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
                       >No evidence</span
@@ -8153,7 +8153,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR75"
               data-class="adhere"
               data-list-description="Haul all trash off site at the end of every shift. Nothing stays overnight."
-              data-registry-desc="6)."
+              data-registry-desc="Permittee shall ensure trash is removed from the construction site and taken to an appropriate facility at least once a week from the construction or Project site (see Condition of Approval 9.6)."
               data-codes="COA 11.20"
               hidden=""
             >
@@ -9210,15 +9210,15 @@ The list's obligations filed Category › Subcategory › Obligation, with count
         <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="obligation">
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="|bouldin-island-launch-shaft"
+            data-list-impl="|bouldin-island-geotechnical-exploration"
             data-evidence="0"
           >
             <button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
@@ -9255,26 +9255,6 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 
 ## Styles
 ```css
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__folds {
   justify-content: flex-end;
   gap: var(--spacing-200);
@@ -9303,6 +9283,14 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 .bcn-lot__row:focus-visible {
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
+}
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -9483,7 +9471,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -9497,24 +9486,30 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -9589,7 +9584,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -9598,7 +9594,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -9612,7 +9609,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -9631,6 +9629,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -9705,11 +9723,13 @@ details[open] > summary .bcn-loc__chevron {
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n) {
+.bcn-lot__cat:nth-of-type(2n),
+.bcn-ciidx__cat:nth-of-type(2n) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(2n) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover {
+.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover,
+.bcn-ciidx__cat:nth-of-type(2n) .bcn-ciidx__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,
@@ -9875,26 +9895,8 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
+.bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -9924,6 +9926,27 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -3882,7 +3882,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                           <div class="bcn-frec__pair">
                             <dt class="typography-label-sm">Component</dt>
                             <dd class="typography-body-sm">
-                              Bouldin Island Launch Shaft
+                              Bouldin Island Geotechnical Exploration
                             </dd>
                           </div>
                           <div class="bcn-frec__pair">
@@ -14047,7 +14047,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -14061,24 +14062,30 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -14153,7 +14160,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -14162,7 +14170,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -14176,7 +14185,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -14195,6 +14205,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -14827,7 +14857,7 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.bcn-component-picker__trigger .esa-icon {
+.bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
@@ -14851,6 +14881,41 @@ summary.esa-button--variant-chrome:focus-visible {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
+}
+.bcn-file-row {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-100) var(--spacing-300);
+  border: var(--form-border-width, 1px) solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  grid-template-columns: auto 1fr auto auto;
+  font-size: 0.875rem;
+  display: grid;
+}
+.bcn-file-row__icon {
+  color: var(--color-content-default-secondary);
+  display: inline-flex;
+}
+.bcn-file-row__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  color: var(--color-content-default);
+  overflow: hidden;
+}
+.bcn-file-row__size {
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  font-size: 0.8125rem;
+}
+.bcn-file-row__actions {
+  align-items: center;
+  gap: var(--spacing-050);
+  display: inline-flex;
+}
+.bcn-file-row__act {
+  display: inline-flex;
 }
 .bcn-swfr {
   align-items: center;
@@ -14891,41 +14956,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-swfr__verbs:empty {
   display: none;
-}
-.bcn-file-row {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-100) var(--spacing-300);
-  border: var(--form-border-width, 1px) solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  grid-template-columns: auto 1fr auto auto;
-  font-size: 0.875rem;
-  display: grid;
-}
-.bcn-file-row__icon {
-  color: var(--color-content-default-secondary);
-  display: inline-flex;
-}
-.bcn-file-row__name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  color: var(--color-content-default);
-  overflow: hidden;
-}
-.bcn-file-row__size {
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-  font-size: 0.8125rem;
-}
-.bcn-file-row__actions {
-  align-items: center;
-  gap: var(--spacing-050);
-  display: inline-flex;
-}
-.bcn-file-row__act {
-  display: inline-flex;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -15144,12 +15174,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -15201,7 +15231,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -15216,7 +15246,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

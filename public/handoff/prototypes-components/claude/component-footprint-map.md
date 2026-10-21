@@ -119,12 +119,12 @@ The second view, asked for explicitly on the design call: where the components A
               ></path>
               <path
                 class="leaflet-interactive"
-                stroke="#2e7571"
+                stroke="#f59e0b"
                 stroke-opacity="0.85"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                fill="#2e7571"
+                fill="#f59e0b"
                 fill-opacity="0.18"
                 fill-rule="evenodd"
                 d="M0 0"
@@ -364,7 +364,7 @@ The second view, asked for explicitly on the design call: where the components A
       </ul>
       <p class="bcn-fmap__source">
         <span class="bcn-fmap__source-label">Geometry source</span
-        ><span class="bcn-fmap__source-value">Work areas (80 across 16 components)</span>
+        ><span class="bcn-fmap__source-value">Work areas (111 across 16 components)</span>
       </p>
     </div>
   </div>

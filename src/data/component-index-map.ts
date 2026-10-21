@@ -53,7 +53,7 @@ const ANCHOR: Record<string, keyof typeof CLUSTER> = {
   'Intake C — North Delta': 'intakeMid',
   'Twin Cities Complex': 'twinCities',
   'Central Tunnel Reach': 'centralReach',
-  'Bouldin Island Launch Shaft': 'bouldin',
+  'Bouldin Island Geotechnical Exploration': 'bouldin',
   'King Island Intermediate Shaft': 'kingIsland',
   'Union Island Reusable Tunnel Material Storage & Rehandling Area': 'unionIsland',
   'Southern Tunnel Reach — King Island to Bethany Complex Launch Shaft Transition Zone': 'southReach',

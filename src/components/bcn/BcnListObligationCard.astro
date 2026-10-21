@@ -64,6 +64,7 @@ interface Props {
   open?: boolean;
 }
 const { obligation: o, open = false } = Astro.props;
+const title = o.listTitle || o.title;
 // Keyed on the registry obligation: a duplicated membership is the same duty on the
 // same components, so it shows the same implementations.
 const impls = implementationsOf(o.id);
@@ -84,8 +85,8 @@ const codes = [...new Set(o.requirements.map((r) => r.code))].join('|');
     <summary class="bcn-loc__main">
       <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-      <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title} data-registry-title={o.title}>{o.title}</button>
-      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}><esa-tooltip text="Has its own list wording"><span class="bcn-loc__dot" role="img" aria-label="Has its own list wording"></span></esa-tooltip></span>
+      <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={title} data-registry-title={o.title}>{title}</button>
+      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden && title === o.title}><esa-tooltip text="Has its own list wording"><span class="bcn-loc__dot" role="img" aria-label="Has its own list wording"></span></esa-tooltip></span>
       <span data-list-count="obligation"><BcnSwCountBadge value={impls.length} label={`${impls.length} implementations`} /></span>
       <esa-tooltip text="Move or retitle for this list"><button
         type="button"
@@ -111,40 +112,6 @@ const codes = [...new Set(o.requirements.map((r) => r.code))].join('|');
 </li>
 
 <style>
-  /* Everything this card shares with the wizard's is in bcn-obligation-card.css.
-     What is left here is what only a LIST row carries. */
-
-  /* The requirement indent is NOT overridden. Measured at 1440: the shared 22px puts
-     the commitment badge 6px right of the class chip on both cards, which is exactly
-     the wizard's own relationship — there the 22px clears a grip, here it clears the
-     chevron, and both land in the same place. A 24px "correction" for the missing grip
-     moved it 2px and broke the rhyme. */
-
-  /* This list said it differently. The only trace of the list description on the row,
-     now that the sentence itself is read and written in the panel. */
-  /* The dirty mark: a filled dot after the title when this list carries its own
-     description for the member. The dot is 6px; the span around it is the 16px hit
-     area the tooltip needs. Same green as the page's title mark. */
-  /* The shared sheet lets the title fill the row, which would push the dot to the
-     badge; here the title takes its own width (still ellipsised) and the badge pushes
-     itself to the end, so the dot sits at the title's heel. */
-  /* (.bcn-loc__title's own width and the count's push now live in the shared sheet.) */
-  .bcn-loc__edited { flex-shrink: 0; display: inline-flex; }
-  .bcn-loc__edited[hidden] { display: none; }
-  .bcn-loc__dot {
-    display: inline-grid;
-    place-items: center;
-    inline-size: 1rem;
-    block-size: 1rem;
-  }
-  .bcn-loc__dot::before {
-    content: '';
-    inline-size: 6px;
-    block-size: 6px;
-    border-radius: 50%;
-    background: var(--color-content-brand);
-  }
-
-  /* The requirement rows' read-only, clickable treatment moved to
-     bcn-obligation-card.css (.bcn-loc only) when <BcnListMemberCard> began to share it. */
+  /* Everything this card shares with the wizard's is in bcn-obligation-card.css,
+     the dirty dot included (it moved there when action cards began to carry one). */
 </style>

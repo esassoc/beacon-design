@@ -310,27 +310,25 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 <span class="esa-button__label"
                   ><span class="bcn-sb__aldo"
                     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                      ><span class="bcn-aldo-mark__glyph"
-                        ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                          ><svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                            ></path>
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="10"
-                            ></circle></svg></span></span></span
+                      ><svg
+                        class="bcn-aldo-mark__glyph"
+                        viewBox="0 0 64 64"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                        <circle
+                          cx="33.2"
+                          cy="31.1"
+                          r="2"
+                          fill="currentColor"
+                          stroke="none"
+                        ></circle></svg></span
                     >Rewrite with Aldo</span
                   ></span
                 >
@@ -355,27 +353,25 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   ></span
                 ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
                   ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                    ><span class="bcn-aldo-mark__glyph"
-                      ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                        ><svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path
-                            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                          ></path>
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          ></circle></svg></span></span></span></span
+                    ><svg
+                      class="bcn-aldo-mark__glyph"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                      <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                      <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                      <circle
+                        cx="33.2"
+                        cy="31.1"
+                        r="2"
+                        fill="currentColor"
+                        stroke="none"
+                      ></circle></svg></span></span
                 ><span class="bcn-nc__title" data-nc-title="">New Note</span>
               </div>
               <p class="bcn-nc__quote" data-nc-quote="">
@@ -445,23 +441,25 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
           </div>
           <span class="bcn-sb__row" data-sb="done" hidden=""
             ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-              ><span class="bcn-aldo-mark__glyph"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                    ></path>
-                    <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+              ><svg
+                class="bcn-aldo-mark__glyph"
+                viewBox="0 0 64 64"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                <circle
+                  cx="33.2"
+                  cy="31.1"
+                  r="2"
+                  fill="currentColor"
+                  stroke="none"
+                ></circle></svg></span
             ><span class="bcn-sb__result" data-sb-result="" role="status"></span
             ><span
               class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
@@ -563,7 +561,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
           <h2 id="bcn-rn-heading" class="bcn-rn__title">Notes</h2>
           <span class="bcn-rn__count" data-rn-count=""
             ><span
-              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
               ><span class="esa-badge__text">2</span></span
             ></span
           ><span class="bcn-rn__all"
@@ -596,7 +594,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 <div class="bcn-rn__card">
                   <span class="bcn-rn__num" data-rn-num=""
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">1</span></span
                     ></span
                   ><button
@@ -766,7 +764,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 <div class="bcn-rn__card">
                   <span class="bcn-rn__num" data-rn-num=""
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">2</span></span
                     ></span
                   ><button
@@ -949,27 +947,25 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 ></span
               ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
                 ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                  ><span class="bcn-aldo-mark__glyph"
-                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                        ></path>
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="10"
-                        ></circle></svg></span></span></span></span
+                  ><svg
+                    class="bcn-aldo-mark__glyph"
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                    <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                    <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                    <circle
+                      cx="33.2"
+                      cy="31.1"
+                      r="2"
+                      fill="currentColor"
+                      stroke="none"
+                    ></circle></svg></span></span
               ><span class="bcn-nc__title" data-nc-title="">New Note</span>
             </div>
             <p class="bcn-nc__quote" data-nc-quote="">
@@ -1046,7 +1042,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 <div class="bcn-rn__card" data-astro-cid-q3ssrg2b="">
                   <span class="bcn-rn__num" data-rn-num="" data-astro-cid-q3ssrg2b=""
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       data-astro-cid-sh7ulwla=""
                       ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                         >1</span
@@ -1231,7 +1227,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
       </section>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnResponseNotes.astro_astro_type_script_index_0_lang.DTPo9-Ls.js"
+        src="/beacon-design/_astro/BcnResponseNotes.astro_astro_type_script_index_0_lang.BkeNHaja.js"
       ></script>
     </div>
   </div>
@@ -1393,7 +1389,6 @@ img.ProseMirror-separator {
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -1406,16 +1401,15 @@ img.ProseMirror-separator {
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -1648,6 +1642,104 @@ img.ProseMirror-separator {
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -2528,16 +2620,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
-.bcn-record-id {
-  align-self: center;
-  display: inline-flex;
-}
-.bcn-record-id .esa-badge {
-  --badge-bg: var(--color-background-elevation-sunken);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid var(--color-border-default);
-  font-variant-numeric: tabular-nums;
-}
 .esa-avatar {
   --_avatar-size: var(--avatar-size-md, 40px);
   --_avatar-font-size: var(
@@ -2590,6 +2672,16 @@ summary.esa-button--variant-chrome:focus-visible {
   width: 100%;
   height: 100%;
 }
+.bcn-record-id {
+  align-self: center;
+  display: inline-flex;
+}
+.bcn-record-id .esa-badge {
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid var(--color-border-default);
+  font-variant-numeric: tabular-nums;
+}
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
@@ -2622,95 +2714,6 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -2731,8 +2734,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--avatar-size-md`: 40px _(component)_
 - `--avatar-size-sm`: 28px _(component)_
 - `--avatar-size-xs`: 20px _(component)_
-- `--badge-bg`: #005862 _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
 - `--bcn-aldo-50`: #e8f6f5 _(component)_
@@ -2839,7 +2843,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -2858,7 +2862,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-font-weight`: 400 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2873,7 +2877,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2888,7 +2892,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2903,7 +2907,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

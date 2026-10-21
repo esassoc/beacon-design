@@ -1,0 +1,233 @@
+---
+// <BcnListAddIndexItems> — the drawer that puts the Compliance Index's items back ONTO a
+// version of it. Andy, 2026-10-20, parity with obligation lists: a version could take an
+// item off and had no way to put one on. The sibling of <BcnListAddObligations>, on its
+// shape (bcn-list-add.css) and its helpers (list-add.ts).
+//
+// It renders indexCandidates(list): every action and obligation the version does not
+// hold, filed where the canonical index files them (CATEGORY > SUBCATEGORY > item),
+// actions first, then obligations, each A–Z as the index orders them. That is the items a
+// version removed and everything in the canonical subcategories it left out. Nothing
+// here is authored. Every category is CLOSED on open; search and the Phase and Species
+// filters are the way in.
+//
+// Each row carries `land`: the version subcategory the item files in (indexOutline). The
+// tree does the filing.
+//
+// Contract, on `document`:
+//   in   list:add-index-items    (no detail) opens it
+//   out  list:index-items-added  detail: { items: { id, land }[] }, read off the ticked rows
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the search IS esa-text-field, each
+// option IS esa-checkbox (label beside it in light DOM), the footer verbs ARE esa-button,
+// the counts ARE BcnSwCountBadge, the chevron IS esa-icon, the filters ARE
+// <BcnListAddFilters>; the branch-row grammar is bcn-list-add.css, shared with
+// <BcnListAddObligations> and <BcnListAddMembers>.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListAddFilters from './BcnListAddFilters.astro';
+import { LIST_FACETS, buildFacets, facetAttrs, indexCandidates, type ComplianceIndexList } from '../../data/lists';
+import '../../styles/bcn-list-add.css';
+// .bcn-lot__hit, the search mark the list trees already use.
+import '../../styles/bcn-tree.css';
+
+interface Props {
+  /** The version being added to. What it holds is what indexCandidates subtracts. */
+  list: ComplianceIndexList;
+}
+const { list } = Astro.props;
+
+const tree = indexCandidates(list);
+type CandidateCat = (typeof tree)[number];
+const catCount = (cat: CandidateCat) => cat.subcategories.reduce((n, s) => n + s.items.length, 0);
+const total = tree.reduce((n, c) => n + catCount(c), 0);
+const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'} available`;
+const facets = buildFacets(
+  LIST_FACETS['compliance-index'],
+  tree.flatMap((c) => c.subcategories.flatMap((s) => s.items.map((i) => i.facets))),
+);
+---
+
+<esa-side-dialog
+  id="bcn-lai"
+  heading="Add items"
+  position="right"
+  show-close-button
+  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-lao">
+    <esa-text-field
+      size="sm"
+      name="lai-search"
+      aria-label="Search the Compliance Index"
+      placeholder="Search by title"></esa-text-field>
+
+    {total > 0 && <BcnListAddFilters facets={facets} />}
+
+    <p class="bcn-lao__nomatch" data-lai-nomatch hidden={total > 0}>No items match.</p>
+
+    <div class="bcn-lao__tree" data-lai-tree>
+      {tree.map((cat) => (
+        <details class="bcn-lao__cat" data-lai-cat={cat.id}>
+          <summary class="bcn-lao__row bcn-lao__row--cat">
+            <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lao__name">{cat.name}</span>
+            <span data-lai-count><BcnSwCountBadge value={catCount(cat)} label={items(catCount(cat))} /></span>
+          </summary>
+          <div class="bcn-lao__subs">
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lao__sub" data-lai-sub={sub.id}>
+                <summary class="bcn-lao__row bcn-lao__row--sub">
+                  <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lao__name">{sub.name}</span>
+                  <span data-lai-count><BcnSwCountBadge value={sub.items.length} label={items(sub.items.length)} /></span>
+                </summary>
+                <ul class="bcn-lao__opts">
+                  {sub.items.map((i) => (
+                    <li class="bcn-lao__opt" data-lai-opt data-id={i.id} data-title={i.title} data-land={i.land} {...facetAttrs(i.facets)}>
+                      <esa-checkbox size="sm" aria-label={i.title}></esa-checkbox>
+                      <span class="bcn-lao__label" data-opt-label>{i.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-lao__foot">
+    <span class="bcn-lao__selected">Selected: <span data-lai-n>0</span></span>
+    <span class="bcn-lao__foot-right">
+      <EsaButton variant="primary" size="sm" data-lai-add>Add to list</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lai-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox';
+  import { paintLabel, wireFacets, wireOptionLabels } from './list-add';
+
+  type Drawer = HTMLElement & { open: boolean };
+  type Valued = HTMLElement & { value: string };
+  type Checkbox = HTMLElement & { checked: boolean };
+
+  const drawer = document.getElementById('bcn-lai') as Drawer | null;
+  if (drawer) {
+    const tree = drawer.querySelector<HTMLElement>('[data-lai-tree]')!;
+    const search = drawer.querySelector<Valued>('esa-text-field[name="lai-search"]');
+    const nomatch = drawer.querySelector<HTMLElement>('[data-lai-nomatch]')!;
+    const nOut = drawer.querySelector<HTMLElement>('[data-lai-n]')!;
+    const addBtn = drawer.querySelector<HTMLButtonElement>('button[data-lai-add]');
+    const cancelBtn = drawer.querySelector<HTMLButtonElement>('button[data-lai-cancel]');
+
+    const rows = () => [...tree.querySelectorAll<HTMLElement>('[data-lai-opt]')];
+    wireOptionLabels(tree);
+    const boxOf = (row: HTMLElement) => row.querySelector('esa-checkbox') as Checkbox | null;
+    const checkedRows = () => rows().filter((r) => boxOf(r)?.checked);
+    const needleOf = () => (search?.value ?? search?.shadowRoot?.querySelector('input')?.value ?? '').trim().toLowerCase();
+    const label = (n: number) => `${n} ${n === 1 ? 'item' : 'items'} available`;
+
+    // The disabled state and the disabled look move together, as in the obligation drawer.
+    const setAddEnabled = (on: boolean) => {
+      if (!addBtn) return;
+      addBtn.disabled = !on;
+      addBtn.closest('.esa-button')?.classList.toggle('esa-button--disabled', !on);
+    };
+    const syncCount = () => {
+      const n = checkedRows().length;
+      nOut.textContent = String(n);
+      setAddEnabled(n > 0);
+    };
+    setAddEnabled(false);
+    tree.addEventListener('change', syncCount);
+
+    const setCount = (branch: HTMLElement, n: number) => {
+      const badge = branch.querySelector<HTMLElement>(':scope > summary [data-lai-count] > *');
+      if (!badge) return;
+      badge.textContent = String(n);
+      badge.setAttribute('aria-label', label(n));
+    };
+
+    // Search and filters: a branch still holding a hit opens itself, one with none hides.
+    const filter = () => {
+      const needle = needleOf();
+      let shown = 0;
+      for (const cat of tree.querySelectorAll<HTMLDetailsElement>('[data-lai-cat]')) {
+        let inCat = 0;
+        for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lai-sub]')) {
+          let inSub = 0;
+          for (const row of sub.querySelectorAll<HTMLElement>('[data-lai-opt]')) {
+            const hit = (!needle || (row.dataset.title ?? '').toLowerCase().includes(needle)) && facets.matches(row);
+            row.hidden = !hit;
+            paintLabel(row, hit ? needle : '');
+            if (hit) inSub += 1;
+          }
+          sub.hidden = inSub === 0;
+          setCount(sub, inSub);
+          sub.open = (!!needle || facets.isActive()) && inSub > 0;
+          inCat += inSub;
+        }
+        cat.hidden = inCat === 0;
+        setCount(cat, inCat);
+        cat.open = (!!needle || facets.isActive()) && inCat > 0;
+        shown += inCat;
+      }
+      nomatch.hidden = shown > 0;
+    };
+    const facets = wireFacets(drawer, () => filter());
+    search?.addEventListener('input', filter);
+    search?.addEventListener('change', filter);
+
+    // An added item stops being a candidate; a branch left with none goes.
+    const retally = () => {
+      for (const cat of tree.querySelectorAll<HTMLDetailsElement>('[data-lai-cat]')) {
+        let inCat = 0;
+        for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lai-sub]')) {
+          const inSub = sub.querySelectorAll('[data-lai-opt]').length;
+          if (!inSub) { sub.remove(); continue; }
+          setCount(sub, inSub);
+          inCat += inSub;
+        }
+        if (!inCat) { cat.remove(); continue; }
+        setCount(cat, inCat);
+      }
+    };
+
+    const reset = () => {
+      for (const row of rows()) {
+        const box = boxOf(row);
+        if (box) box.checked = false;
+      }
+      if (search) search.value = '';
+      facets.reset();
+      filter();
+      syncCount();
+    };
+
+    document.addEventListener('list:add-index-items', () => {
+      Promise.all(['esa-side-dialog', 'esa-text-field', 'esa-checkbox'].map((t) => customElements.whenDefined(t))).then(() => {
+        reset();
+        drawer.open = true;
+      });
+    });
+    cancelBtn?.addEventListener('click', () => {
+      drawer.open = false;
+    });
+
+    addBtn?.addEventListener('click', () => {
+      const picked = checkedRows();
+      const items = picked.map((row) => ({ id: row.dataset.id ?? '', land: row.dataset.land ?? '' }));
+      if (items.length) document.dispatchEvent(new CustomEvent('list:index-items-added', { detail: { items }, bubbles: true }));
+      for (const row of picked) row.remove();
+      retally();
+      reset();
+      drawer.open = false;
+    });
+  }
+</script>

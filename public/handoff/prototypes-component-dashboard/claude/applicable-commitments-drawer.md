@@ -1,24 +1,23 @@
 # Applicable Commitments drawer
 
-The surface that actually settles applicability: a wide side drawer listing the project commitments not yet decided for THIS component, with a preview beside the list, filters that work, and decisions that stage before they commit. It replaces the Component Setup tab, and it is the largest single piece of new design in this epic.
+The surface that settles applicability one commitment at a time, brought to prod's behavior: three views (Needs a decision / Applied / Dismissed), a preview beside the list, filters, and decisions written on click with one plain Close. Every decided row says why.
 
 ## Key decisions
-- DECISIONS STAGE, THEY DO NOT FIRE. Apply and Dismiss mark a commitment and update the pending-changes summary; nothing is written until Save. That is what makes bulk action safe to offer — prod applies immediately, one PATCH per click, with no way back.
-- Every count is scoped to this component and agrees with the list it labels. The view chips (Needs a decision / New since review / Applied / Dismissed) each carry their own figure, so the number and the list can never disagree the way prod's tab badge does.
-- A decision names its CONSEQUENCE before it is made — applying materializes action implementations onto the component, which is what fills the tracker. Prod never states this anywhere.
-- Filters are keyword search plus Source document / Requirement type / Species. Selecting one does NOT spawn a chip row: the control already shows its own state, and chips restating it were removed at review (2026-08-14).
-- Rationale is captured per commitment. A batch rationale must warn, naming how many existing rationales it would overwrite — prod overwrites silently.
-- Clicking anywhere on a commitment card except the checkbox and the action buttons opens its preview. The checkbox owns generous space of its own so it reads as the separate, actionable thing it is.
+- WRITES ON CLICK, as prod does (BCN-1636 overrode staging). Apply, Dismiss and Undo write immediately; there is no Save and no Cancel, just Close. Undo is the safety net.
+- Figures and the View toggle share one header band: Need a decision, Decided N of M, progress. Each view chip carries its own count and matches its list.
+- Filters on one unlabelled row: keyword search, Source Document, Requirement Type, Species, with Clear all shown only while a filter is on. Options read A–Z, as prod's drawer sorts them. Search hits are highlighted in the rows.
+- Per-row Apply / Dismiss / Undo by state, each with the optional rationale prompt. Bulk Apply / Dismiss / Undo confirm first, and a bulk rationale warns "This overwrites N existing rationales."
+- The preview shows the commitment text, its source, requirements and added date; "Creates N actions on this component" while the commitment is not applied (prod: IsApplicable !== true); and the Decision with its date and Rationale once decided.
+- With a setup saved, an undecided commitment setup recommends out reads "Recommended not applicable: <reasons>" with "Dismiss with This Reason" in its preview.
 
 ## Gotchas
-- THE DIAGNOSIS THIS SURFACE EXISTS FOR: ComponentCommitment.IsApplicable is NOT NULL, so there is no stored "pending" state. vComponentCommitmentDecisions manufactures it by LEFT JOINing every component in the project against every commitment in the project and calling the misses Pending. The badge therefore counts the PROJECT, re-inflates whenever any source document gains a commitment, and can never reach zero. Do not port that figure. Full teardown, including the seven defects it produces, is in docs/component-setup-model-comparison.md.
-- REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY — decided 2026-08-17. They are deliberately NOT shown on the commitment card or in the preview. An earlier pass carried them as a meta line under each row; it was cut as tagline noise, and after review the decision is to leave them off rather than restore them. They remain useful for narrowing a large set and are not useful as per-row decoration. Do not re-add them to the card as part of "completing" it.
-- THERE IS NO UNSET PATH TODAY. Once a ComponentCommitment row exists it is applied or dismissed forever. This surface assumes undo is possible; it does NOT show what happens to the action implementations a dismissal already deleted. Resolve that before slicing — it is one of the three open questions in the model-comparison doc.
-- A "Suggested" affordance was prototyped and REMOVED (2026-08-14). It matched on shared species or requirement type with commitments already applied here, which is a weak signal on a decision with real consequences, and the prototype was authoring it by hand rather than deriving it. Do not reintroduce it without a real signal behind it.
-- The list and the preview scroll INDEPENDENTLY, and the bulk action bar is static rather than living at the bottom of the list — a user acting on several items should not have to scroll to the end of the list to find the controls.
+- THE DIAGNOSIS THIS SURFACE EXISTS FOR: ComponentCommitment.IsApplicable is NOT NULL, so there is no stored "pending" state. vComponentCommitmentDecisions manufactures it by LEFT JOINing every component in the project against every commitment in the project and calling the misses Pending. The badge therefore counts the PROJECT, re-inflates whenever any source document gains a commitment, and can never reach zero. Do not port that figure. Full teardown in docs/component-setup-model-comparison.md.
+- REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY (decided 2026-08-17). They are not shown on the commitment card or in the preview. Do not re-add them to the card.
+- THERE IS NO UNSET PATH TODAY. Once a ComponentCommitment row exists it is applied or dismissed forever. Undo and the setup re-run both need one; resolve what happens to the action implementations a dismissal already deleted.
+- The list and the preview scroll independently, and the bulk bar is static, not at the bottom of the list.
 
 ## Done when
-- Opening the drawer shows the undecided set with counts that match each view; filters and keyword search narrow the list; selecting a card opens its preview; Apply/Dismiss stage a decision and update a pending-changes summary without writing; Save commits and Cancel discards; a batch rationale warns before overwriting existing ones; nothing on the surface shows requirement type or species outside the filter controls.
+- Each view's count matches its list; filters narrow it; selecting a card opens its preview; Apply/Dismiss/Undo write at once and move the row between views; a bulk rationale warns before overwriting; Close is the only footer action.
 
 ## Markup
 ```html
@@ -51,66 +50,53 @@ The surface that actually settles applicability: a wide side drawer listing the 
     <h2 class="bcn-sw__headtitle">Applicable Commitments</h2>
     <span
       class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-      ><span class="esa-badge__text">Bouldin Island Launch Shaft</span></span
+      ><span class="esa-badge__text">Bouldin Island Geotechnical Exploration</span></span
     >
   </div>
   <div class="bcn-sw__body">
     <header class="bcn-sw__lead">
       <div class="bcn-sw__figures">
-        <div class="bcn-sw__figure" data-sw-figure="undecided">
-          <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">26</div>
-            <div class="esa-stat__label typography-label-md">Need a decision</div>
-          </div>
-        </div>
-        <div class="bcn-sw__figure" data-sw-figure="new">
-          <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">8</div>
-            <div class="esa-stat__label typography-label-md">New since last review</div>
-          </div>
-        </div>
-        <div class="bcn-sw__figure bcn-sw__figure--progress" data-sw-figure="decided">
-          <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">11 of 37</div>
-            <div class="esa-stat__label typography-label-md">Decided</div>
-          </div>
-          <div class="bcn-sw__bar" data-sw-progress="">
-            <div
-              class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--primary"
-              role="progressbar"
-              aria-valuenow="30"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-label="Progress"
-            >
-              <div class="esa-progress-bar__header typography-body-xs">
-                <span class="esa-progress-bar__value">30%</span>
-              </div>
-              <div class="esa-progress-bar__track">
-                <div class="esa-progress-bar__fill" style="width: 30%"></div>
-              </div>
+        <p class="bcn-sw__figure">
+          <span class="bcn-sw__figval" data-sw-fig="undecided">37</span
+          ><span class="bcn-sw__figlabel">Need a decision</span>
+        </p>
+        <p class="bcn-sw__figure">
+          <span class="bcn-sw__figval" data-sw-fig="decided">5 of 42</span
+          ><span class="bcn-sw__figlabel">Decided</span>
+        </p>
+        <div class="bcn-sw__bar" data-sw-progress="">
+          <div
+            class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--primary"
+            role="progressbar"
+            aria-valuenow="12"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-label="Progress"
+          >
+            <div class="esa-progress-bar__header typography-body-xs">
+              <span class="esa-progress-bar__value">12%</span>
+            </div>
+            <div class="esa-progress-bar__track">
+              <div class="esa-progress-bar__fill" style="width: 12%"></div>
             </div>
           </div>
         </div>
       </div>
+      <esa-button-toggle data-sw-view="true" size="md" label="View"></esa-button-toggle>
     </header>
-    <!-- ── 2 + 3. View toggle and the facets it recomputes. Segment counts are counted
-         off the rendered rows by the controller, so a segment can never claim a number
-         the list beneath it does not produce. ── -->
     <div class="bcn-sw__controls">
-      <div class="bcn-filterbar">
-        <div class="bcn-filterbar__top">
-          <div class="bcn-filterbar__group">
-            <esa-button-toggle
-              slot="lead"
-              data-sw-view="true"
-              size="md"
-              label="View"
-            ></esa-button-toggle>
-          </div>
-        </div>
+      <div class="bcn-filterbar bcn-filterbar--compact">
         <div class="bcn-filterbar__bottom">
-          <span class="bcn-filterbar__label">Filters</span>
+          <div class="bcn-filterbar__search bcn-filterbar__search--filters">
+            <span class="bcn-sw__search"
+              ><esa-text-field
+                data-sw-search="true"
+                size="sm"
+                placeholder="Search commitments…"
+                aria-label="Search commitments"
+              ></esa-text-field
+            ></span>
+          </div>
           <div
             class="esa-filter-container typography-label-md"
             style="
@@ -118,23 +104,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               --_filter-container-row-gap: var(--spacing-200, 0.5rem);
             "
           >
-            <span class="bcn-sw__search"
-              ><esa-text-field
-                data-sw-search="true"
-                size="sm"
-                placeholder="Search commitments…"
-              ></esa-text-field></span
-            ><esa-filter-dropdown
+            <esa-filter-dropdown
               data-sw-facet="source"
               name="source"
-              label="Source document"
+              label="Source Document"
               multiple=""
               size="sm"
             ></esa-filter-dropdown
             ><esa-filter-dropdown
               data-sw-facet="type"
               name="type"
-              label="Requirement type"
+              label="Requirement Type"
               multiple=""
               size="sm"
             ></esa-filter-dropdown
@@ -147,36 +127,18 @@ The surface that actually settles applicability: a wide side drawer listing the 
             ></esa-filter-dropdown>
           </div>
           <span class="bcn-filterbar__clear"
-            ><span data-sw-clear=""
-              ><button
-                class="esa-filter-clear-button typography-microcopy-sm"
-                type="button"
-                data-esa-filter-clear=""
-                aria-label="Clear all filters"
-              >
-                <svg
-                  class="esa-filter-clear-button__icon"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
-                  <path d="m22 3-5 5"></path>
-                  <path d="m17 3 5 5"></path></svg
-                ><span class="esa-filter-clear-button__label">Clear all</span>
-              </button></span
+            ><span data-sw-clear="" hidden=""
+              ><span
+                class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+                ><button class="esa-button__native typography-microcopy-xs" type="button">
+                  <span class="esa-button__label">Clear all</span>
+                </button></span
+              ></span
             ></span
           >
         </div>
       </div>
     </div>
-    <!-- ── 4. Two panes: the list decides, the preview explains. .sidebar primitive —
-         list ~40%, preview the rest. ── -->
     <div class="bcn-sw__panes">
       <section class="bcn-sw__pane bcn-sw__pane--list" aria-label="Commitments in view">
         <div class="bcn-sw__listhead">
@@ -185,7 +147,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
             data-sw-check-all="true"
             aria-label="Select every commitment in view"
           ></esa-checkbox
-          ><span class="bcn-sw__listcount" data-sw-listcount="">26 commitments</span
+          ><span class="bcn-sw__listcount" data-sw-listcount="">37 commitments</span
           ><span class="bcn-sw__listacts" data-sw-bulk="" hidden=""
             ><span
               class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
@@ -206,6 +168,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="esa-button__label">Dismiss</span>
               </button></span
             ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-sw-bulk-undo="true"
+              >
+                <span class="esa-button__label">Undo</span>
+              </button></span
+            ><span
               class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
               ><button
                 class="esa-button__native typography-microcopy-xs"
@@ -215,34 +186,3926 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="esa-button__label">Clear</span>
               </button></span
             ></span
+          ><span class="bcn-sw__listacts" data-sw-accept="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-sw-accept-all="true"
+              >
+                <span class="esa-button__label"
+                  ><span data-sw-accept-label="">Dismiss 0 recommended</span></span
+                >
+              </button></span
+            ></span
           >
         </div>
         <div class="bcn-sw__scroll" data-sw-scroll="">
           <ul class="bcn-sw__rows" data-sw-rows="">
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-001"
-              data-code="BIO-03"
-              data-decision="applied"
-              data-new="false"
-              data-source="feir"
-              data-type="Survey"
-              data-species="SWHA"
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-001" data-decision="applied" hidden="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
                   data-sw-check="cc-001"
-                  aria-label="Select BIO-03 for a bulk decision"
+                  aria-label="Select GT-BIO-1"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-001"
+                    aria-label="Show GT-BIO-1 Worker environmental awareness training in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Worker environmental awareness training"
+                        data-sw-name=""
+                        >Worker environmental awareness training</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-001"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-1"
+                              title="Apply GT-BIO-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-001"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-1"
+                              title="Dismiss GT-BIO-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-001"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-1"
+                              title="Undo GT-BIO-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note=""
+                  >Set by Hand · Feb 11, 2026 · Required for every exploration crew.</span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-002" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-002"
+                  aria-label="Select GT-BIO-2"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-2 Nesting bird preconstruction survey in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-2</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Nesting bird preconstruction survey"
+                        data-sw-name=""
+                        >Nesting bird preconstruction survey</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-002"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-2"
+                              title="Apply GT-BIO-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-002"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-2"
+                              title="Dismiss GT-BIO-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-002"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-2"
+                              title="Undo GT-BIO-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-003" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-003"
+                  aria-label="Select GT-BIO-3"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-3 Swainson’s hawk nest buffer in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-3</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Swainson’s hawk nest buffer"
+                        data-sw-name=""
+                        >Swainson’s hawk nest buffer</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-003"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-3"
+                              title="Apply GT-BIO-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-003"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-3"
+                              title="Dismiss GT-BIO-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-003"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-3"
+                              title="Undo GT-BIO-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-004" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-004"
+                  aria-label="Select GT-BIO-4"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-4 Giant Garter Snake avoidance in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-4</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Giant Garter Snake avoidance"
+                        data-sw-name=""
+                        >Giant Garter Snake avoidance</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-004"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-4"
+                              title="Apply GT-BIO-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-004"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-4"
+                              title="Dismiss GT-BIO-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-004"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-4"
+                              title="Undo GT-BIO-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-005" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-005"
+                  aria-label="Select GT-BIO-5"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-5 Elderberry shrub avoidance in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-5</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Elderberry shrub avoidance"
+                        data-sw-name=""
+                        >Elderberry shrub avoidance</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-005"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-5"
+                              title="Apply GT-BIO-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-005"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-5"
+                              title="Dismiss GT-BIO-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-005"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-5"
+                              title="Undo GT-BIO-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-006" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-006"
+                  aria-label="Select GT-BIO-6"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-6 Western Pond Turtle clearance in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-6</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Western Pond Turtle clearance"
+                        data-sw-name=""
+                        >Western Pond Turtle clearance</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-006"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-6"
+                              title="Apply GT-BIO-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-006"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-6"
+                              title="Dismiss GT-BIO-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-006"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-6"
+                              title="Undo GT-BIO-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-007" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-007"
+                  aria-label="Select GT-BIO-7"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-7 Delta Smelt in-water work window in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-7</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Delta Smelt in-water work window"
+                        data-sw-name=""
+                        >Delta Smelt in-water work window</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-007"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-7"
+                              title="Apply GT-BIO-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-007"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-7"
+                              title="Dismiss GT-BIO-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-007"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-7"
+                              title="Undo GT-BIO-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-008" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-008"
+                  aria-label="Select GT-BIO-8"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-8 California Tiger Salamander upland survey in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-8</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="California Tiger Salamander upland survey"
+                        data-sw-name=""
+                        >California Tiger Salamander upland survey</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-008"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-8"
+                              title="Apply GT-BIO-8"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-008"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-8"
+                              title="Dismiss GT-BIO-8"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-008"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-8"
+                              title="Undo GT-BIO-8"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li
+              class="bcn-sw-row"
+              data-sw-row="cc-009"
+              data-decision="dismissed"
+              hidden=""
+            >
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-009"
+                  aria-label="Select GT-BIO-9"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-BIO-9 Non-listed raptor nest buffer in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-9</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Non-listed raptor nest buffer"
+                        data-sw-name=""
+                        >Non-listed raptor nest buffer</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-009"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-BIO-9"
+                              title="Apply GT-BIO-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-009"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-BIO-9"
+                              title="Dismiss GT-BIO-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-009"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-BIO-9"
+                              title="Undo GT-BIO-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note=""
+                  >Set by Hand · Feb 11, 2026 · No raptor nests within 500 feet of any
+                  work area in the 2025 survey.</span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-010" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-010"
+                  aria-label="Select GT-CUL-1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-CUL-1 Inadvertent discovery stop-work protocol in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Inadvertent discovery stop-work protocol"
+                        data-sw-name=""
+                        >Inadvertent discovery stop-work protocol</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-010"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-CUL-1"
+                              title="Apply GT-CUL-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-010"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-CUL-1"
+                              title="Dismiss GT-CUL-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-010"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-CUL-1"
+                              title="Undo GT-CUL-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-011" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-011"
+                  aria-label="Select GT-CUL-2"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-CUL-2 Tribal monitor notification in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-2</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Tribal monitor notification"
+                        data-sw-name=""
+                        >Tribal monitor notification</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-011"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-CUL-2"
+                              title="Apply GT-CUL-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-011"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-CUL-2"
+                              title="Dismiss GT-CUL-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-011"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-CUL-2"
+                              title="Undo GT-CUL-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-012" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-012"
+                  aria-label="Select GT-HAZ-1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-HAZ-1 Drilling fluid containment in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Drilling fluid containment"
+                        data-sw-name=""
+                        >Drilling fluid containment</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-012"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-HAZ-1"
+                              title="Apply GT-HAZ-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-012"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-HAZ-1"
+                              title="Dismiss GT-HAZ-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-012"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-HAZ-1"
+                              title="Undo GT-HAZ-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-013" data-decision="applied" hidden="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-013"
+                  aria-label="Select GT-HAZ-2"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-HAZ-2 Borehole abandonment in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-2</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Borehole abandonment"
+                        data-sw-name=""
+                        >Borehole abandonment</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-013"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-HAZ-2"
+                              title="Apply GT-HAZ-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-013"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-HAZ-2"
+                              title="Dismiss GT-HAZ-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-013"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-HAZ-2"
+                              title="Undo GT-HAZ-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note=""
+                  >Set by Hand · Feb 11, 2026 · Governs every boring in the program.</span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li
+              class="bcn-sw-row"
+              data-sw-row="cc-014"
+              data-decision="dismissed"
+              hidden=""
+            >
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-014"
+                  aria-label="Select GT-NOI-1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-NOI-1 Nighttime drilling noise limits in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-NOI-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Nighttime drilling noise limits"
+                        data-sw-name=""
+                        >Nighttime drilling noise limits</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-014"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-NOI-1"
+                              title="Apply GT-NOI-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-014"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-NOI-1"
+                              title="Dismiss GT-NOI-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-014"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-NOI-1"
+                              title="Undo GT-NOI-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note=""
+                  >Set by Hand · Feb 11, 2026 · The work plan limits drilling to daylight
+                  hours.</span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-015" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-015"
+                  aria-label="Select GT-AIR-1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT-AIR-1 Fugitive dust control in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-AIR-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Fugitive dust control"
+                        data-sw-name=""
+                        >Fugitive dust control</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-015"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT-AIR-1"
+                              title="Apply GT-AIR-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-015"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT-AIR-1"
+                              title="Dismiss GT-AIR-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-015"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT-AIR-1"
+                              title="Undo GT-AIR-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-016" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-016"
+                  aria-label="Select GT401-3"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT401-3 Turbidity monitoring for over-water borings in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-3</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Turbidity monitoring for over-water borings"
+                        data-sw-name=""
+                        >Turbidity monitoring for over-water borings</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-016"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT401-3"
+                              title="Apply GT401-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-016"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT401-3"
+                              title="Dismiss GT401-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-016"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT401-3"
+                              title="Undo GT401-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-017" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-017"
+                  aria-label="Select GT401-5"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT401-5 Spill prevention and response in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-5</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Spill prevention and response"
+                        data-sw-name=""
+                        >Spill prevention and response</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-017"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT401-5"
+                              title="Apply GT401-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-017"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT401-5"
+                              title="Dismiss GT401-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-017"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT401-5"
+                              title="Undo GT401-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-018" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-018"
+                  aria-label="Select GT401-7"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT401-7 Dewatering discharge sampling in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-7</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Dewatering discharge sampling"
+                        data-sw-name=""
+                        >Dewatering discharge sampling</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-018"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT401-7"
+                              title="Apply GT401-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-018"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT401-7"
+                              title="Dismiss GT401-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-018"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT401-7"
+                              title="Undo GT401-7"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-019" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-019"
+                  aria-label="Select GT401-9"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show GT401-9 Wet-season erosion control in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-9</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Wet-season erosion control"
+                        data-sw-name=""
+                        >Wet-season erosion control</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-019"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply GT401-9"
+                              title="Apply GT401-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-019"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss GT401-9"
+                              title="Dismiss GT401-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-019"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo GT401-9"
+                              title="Undo GT401-9"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-020" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-020"
+                  aria-label="Select LSAA-2"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show LSAA-2 Channel work only when dry in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-2</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Channel work only when dry"
+                        data-sw-name=""
+                        >Channel work only when dry</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-020"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply LSAA-2"
+                              title="Apply LSAA-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-020"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss LSAA-2"
+                              title="Dismiss LSAA-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-020"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo LSAA-2"
+                              title="Undo LSAA-2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-021" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-021"
+                  aria-label="Select LSAA-4"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show LSAA-4 Riparian vegetation removal limits in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-4</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Riparian vegetation removal limits"
+                        data-sw-name=""
+                        >Riparian vegetation removal limits</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-021"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply LSAA-4"
+                              title="Apply LSAA-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-021"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss LSAA-4"
+                              title="Dismiss LSAA-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-021"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo LSAA-4"
+                              title="Undo LSAA-4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-022" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-022"
+                  aria-label="Select LSAA-6"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show LSAA-6 Splittail spawning window in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-6</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Splittail spawning window"
+                        data-sw-name=""
+                        >Splittail spawning window</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-022"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply LSAA-6"
+                              title="Apply LSAA-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-022"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss LSAA-6"
+                              title="Dismiss LSAA-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-022"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo LSAA-6"
+                              title="Undo LSAA-6"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-023" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-023"
+                  aria-label="Select G408-1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show G408-1 Levee toe setback for borings in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Levee toe setback for borings"
+                        data-sw-name=""
+                        >Levee toe setback for borings</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-023"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply G408-1"
+                              title="Apply G408-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-023"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss G408-1"
+                              title="Dismiss G408-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-023"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo G408-1"
+                              title="Undo G408-1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-024" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-024"
+                  aria-label="Select G408-3"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show G408-3 Levee deformation monitoring in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-3</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Levee deformation monitoring"
+                        data-sw-name=""
+                        >Levee deformation monitoring</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-024"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply G408-3"
+                              title="Apply G408-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-024"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss G408-3"
+                              title="Dismiss G408-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-024"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo G408-3"
+                              title="Undo G408-3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-025" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-025"
+                  aria-label="Select G408-5"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show G408-5 Casing installation vibration limits in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-5</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Casing installation vibration limits"
+                        data-sw-name=""
+                        >Casing installation vibration limits</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-025"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply G408-5"
+                              title="Apply G408-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-025"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss G408-5"
+                              title="Dismiss G408-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-025"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo G408-5"
+                              title="Undo G408-5"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-026" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-026"
+                  aria-label="Select BIO-03"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
                     aria-label="Show BIO-03 Nesting bird preconstruction survey in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
@@ -250,253 +4113,154 @@ The surface that actually settles applicability: a wide side drawer listing the 
                       ><span
                         class="bcn-sw-row__name"
                         title="Nesting bird preconstruction survey"
+                        data-sw-name=""
                         >Nesting bird preconstruction survey</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-001"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-03"
-                          title="Apply BIO-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-026"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply BIO-03"
+                              title="Apply BIO-03"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-001"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-03"
-                          title="Dismiss BIO-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-026"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss BIO-03"
+                              title="Dismiss BIO-03"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-001"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-03"
-                            title="Undo BIO-03"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-026"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo BIO-03"
+                              title="Undo BIO-03"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-002"
-              data-code="BIO-21"
-              data-decision="applied"
-              data-new="false"
-              data-source="itp"
-              data-type="Avoidance &amp; BMPs"
-              data-species="GGS"
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-027" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-002"
-                  aria-label="Select BIO-21 for a bulk decision"
+                  data-sw-check="cc-027"
+                  aria-label="Select CUL-02"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-002"
-                    aria-label="Show BIO-21 Giant garter snake avoidance measures in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-21</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Giant garter snake avoidance measures"
-                        >Giant garter snake avoidance measures</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-002"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-21"
-                          title="Apply BIO-21"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-002"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-21"
-                          title="Dismiss BIO-21"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-002"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-21"
-                            title="Undo BIO-21"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-003"
-              data-code="CUL-02"
-              data-decision="applied"
-              data-new="false"
-              data-source="feir"
-              data-type="Training"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-003"
-                  aria-label="Select CUL-02 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-003"
                     aria-label="Show CUL-02 Worker cultural resources awareness training in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
@@ -504,253 +4268,154 @@ The surface that actually settles applicability: a wide side drawer listing the 
                       ><span
                         class="bcn-sw-row__name"
                         title="Worker cultural resources awareness training"
+                        data-sw-name=""
                         >Worker cultural resources awareness training</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-003"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-02"
-                          title="Apply CUL-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-027"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply CUL-02"
+                              title="Apply CUL-02"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-003"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-02"
-                          title="Dismiss CUL-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-027"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss CUL-02"
+                              title="Dismiss CUL-02"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-003"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-02"
-                            title="Undo CUL-02"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-027"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo CUL-02"
+                              title="Undo CUL-02"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-004"
-              data-code="WQ-08"
-              data-decision="applied"
-              data-new="false"
-              data-source="swrcb"
-              data-type="Plan Submittal"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-028" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-004"
-                  aria-label="Select WQ-08 for a bulk decision"
+                  data-sw-check="cc-028"
+                  aria-label="Select NOI-03"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-004"
-                    aria-label="Show WQ-08 Stormwater pollution prevention plan in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Stormwater pollution prevention plan"
-                        >Stormwater pollution prevention plan</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-004"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-08"
-                          title="Apply WQ-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-004"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-08"
-                          title="Dismiss WQ-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-004"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-08"
-                            title="Undo WQ-08"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-005"
-              data-code="NOI-03"
-              data-decision="applied"
-              data-new="false"
-              data-source="feir"
-              data-type="Plan Submittal"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-005"
-                  aria-label="Select NOI-03 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-005"
                     aria-label="Show NOI-03 Construction noise monitoring plan in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
@@ -758,2015 +4423,464 @@ The surface that actually settles applicability: a wide side drawer listing the 
                       ><span
                         class="bcn-sw-row__name"
                         title="Construction noise monitoring plan"
+                        data-sw-name=""
                         >Construction noise monitoring plan</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-005"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-03"
-                          title="Apply NOI-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-028"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply NOI-03"
+                              title="Apply NOI-03"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-005"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-03"
-                          title="Dismiss NOI-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-028"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss NOI-03"
+                              title="Dismiss NOI-03"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-005"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-03"
-                            title="Undo NOI-03"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-028"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo NOI-03"
+                              title="Undo NOI-03"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-006"
-              data-code="AIR-04"
-              data-decision="applied"
-              data-new="false"
-              data-source="feir"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-029" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-006"
-                  aria-label="Select AIR-04 for a bulk decision"
+                  data-sw-check="cc-029"
+                  aria-label="Select AIR-04"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-006"
-                    aria-label="Show AIR-04 Fugitive dust control in the preview"
+                    aria-label="Show AIR-04 Construction fugitive dust control in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
                       ><span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
-                      ><span class="bcn-sw-row__name" title="Fugitive dust control"
-                        >Fugitive dust control</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-006"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply AIR-04"
-                          title="Apply AIR-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-006"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss AIR-04"
-                          title="Dismiss AIR-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-006"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo AIR-04"
-                            title="Undo AIR-04"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-007"
-              data-code="GEO-01"
-              data-decision="applied"
-              data-new="false"
-              data-source="feir"
-              data-type="Inspection"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-007"
-                  aria-label="Select GEO-01 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-007"
-                    aria-label="Show GEO-01 Geotechnical exploration site restoration in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">GEO-01</span
                       ><span
                         class="bcn-sw-row__name"
-                        title="Geotechnical exploration site restoration"
-                        >Geotechnical exploration site restoration</span
+                        title="Construction fugitive dust control"
+                        data-sw-name=""
+                        >Construction fugitive dust control</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-007"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-01"
-                          title="Apply GEO-01"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-029"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply AIR-04"
+                              title="Apply AIR-04"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-007"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-01"
-                          title="Dismiss GEO-01"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-029"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss AIR-04"
+                              title="Dismiss AIR-04"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-007"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-01"
-                            title="Undo GEO-01"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-029"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo AIR-04"
+                              title="Undo AIR-04"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-008"
-              data-code="BIO-44"
-              data-decision="dismissed"
-              data-new="false"
-              data-source="itp"
-              data-type="Monitoring"
-              data-species="SACR"
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-030" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-008"
-                  aria-label="Select BIO-44 for a bulk decision"
+                  data-sw-check="cc-030"
+                  aria-label="Select TRA-11"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-008"
-                    aria-label="Show BIO-44 Tidal marsh restoration monitoring in the preview"
+                    aria-label="Show TRA-11 Haul route compliance in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-44</span
+                      ><span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
                       ><span
                         class="bcn-sw-row__name"
-                        title="Tidal marsh restoration monitoring"
-                        >Tidal marsh restoration monitoring</span
+                        title="Haul route compliance"
+                        data-sw-name=""
+                        >Haul route compliance</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-008"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-44"
-                          title="Apply BIO-44"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-030"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply TRA-11"
+                              title="Apply TRA-11"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-008"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-44"
-                          title="Dismiss BIO-44"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-030"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss TRA-11"
+                              title="Dismiss TRA-11"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-008"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-44"
-                            title="Undo BIO-44"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-030"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo TRA-11"
+                              title="Undo TRA-11"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-009"
-              data-code="BIO-52"
-              data-decision="dismissed"
-              data-new="false"
-              data-source="itp"
-              data-type="Monitoring"
-              data-species="DS"
-              data-rationale="true"
-              hidden=""
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-031" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-009"
-                  aria-label="Select BIO-52 for a bulk decision"
+                  data-sw-check="cc-031"
+                  aria-label="Select VEG-06"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-009"
-                    aria-label="Show BIO-52 Fish screen approach velocity verification in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-52</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Fish screen approach velocity verification"
-                        >Fish screen approach velocity verification</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-009"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-52"
-                          title="Apply BIO-52"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-009"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-52"
-                          title="Dismiss BIO-52"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-009"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-52"
-                            title="Undo BIO-52"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-010"
-              data-code="WQ-19"
-              data-decision="dismissed"
-              data-new="false"
-              data-source="swrcb"
-              data-type="Monitoring"
-              data-species="DS"
-              data-rationale="true"
-              hidden=""
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-010"
-                  aria-label="Select WQ-19 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-010"
-                    aria-label="Show WQ-19 In-water work turbidity monitoring in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-19</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="In-water work turbidity monitoring"
-                        >In-water work turbidity monitoring</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-010"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-19"
-                          title="Apply WQ-19"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-010"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-19"
-                          title="Dismiss WQ-19"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-010"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-19"
-                            title="Undo WQ-19"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-011"
-              data-code="TRA-07"
-              data-decision="dismissed"
-              data-new="false"
-              data-source="feir"
-              data-type="Plan Submittal"
-              data-species=""
-              data-rationale="true"
-              hidden=""
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-011"
-                  aria-label="Select TRA-07 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-011"
-                    aria-label="Show TRA-07 Barge landing traffic management in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">TRA-07</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Barge landing traffic management"
-                        >Barge landing traffic management</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-011"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply TRA-07"
-                          title="Apply TRA-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-011"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss TRA-07"
-                          title="Dismiss TRA-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-011"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo TRA-07"
-                            title="Undo TRA-07"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-012"
-              data-code="BIO-09"
-              data-decision=""
-              data-new="false"
-              data-source="itp"
-              data-type="Avoidance &amp; BMPs"
-              data-species="SWHA"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-012"
-                  aria-label="Select BIO-09 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-012"
-                    aria-label="Show BIO-09 Swainson’s hawk nest buffer in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-09</span
-                      ><span class="bcn-sw-row__name" title="Swainson’s hawk nest buffer"
-                        >Swainson’s hawk nest buffer</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-012"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-09"
-                          title="Apply BIO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-012"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-09"
-                          title="Dismiss BIO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-012"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-09"
-                            title="Undo BIO-09"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-013"
-              data-code="BIO-18"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Training"
-              data-species="SWHA GGS"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-013"
-                  aria-label="Select BIO-18 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-013"
-                    aria-label="Show BIO-18 Worker environmental awareness program in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-18</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Worker environmental awareness program"
-                        >Worker environmental awareness program</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-013"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-18"
-                          title="Apply BIO-18"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-013"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-18"
-                          title="Dismiss BIO-18"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-013"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-18"
-                            title="Undo BIO-18"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-014"
-              data-code="BIO-27"
-              data-decision=""
-              data-new="false"
-              data-source="itp"
-              data-type="Survey"
-              data-species="WPT"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-014"
-                  aria-label="Select BIO-27 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-014"
-                    aria-label="Show BIO-27 Western pond turtle relocation protocol in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-27</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Western pond turtle relocation protocol"
-                        >Western pond turtle relocation protocol</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-014"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-27"
-                          title="Apply BIO-27"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-014"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-27"
-                          title="Dismiss BIO-27"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-014"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-27"
-                            title="Undo BIO-27"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-015"
-              data-code="BIO-30"
-              data-decision=""
-              data-new="false"
-              data-source="itp"
-              data-type="Survey"
-              data-species="CTS"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-015"
-                  aria-label="Select BIO-30 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-015"
-                    aria-label="Show BIO-30 Vernal pool branchiopod wet-season survey in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-30</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Vernal pool branchiopod wet-season survey"
-                        >Vernal pool branchiopod wet-season survey</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-015"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-30"
-                          title="Apply BIO-30"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-015"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-30"
-                          title="Dismiss BIO-30"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-015"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-30"
-                            title="Undo BIO-30"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-016"
-              data-code="BIO-36"
-              data-decision=""
-              data-new="false"
-              data-source="itp"
-              data-type="Avoidance &amp; BMPs"
-              data-species="VELB"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-016"
-                  aria-label="Select BIO-36 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-016"
-                    aria-label="Show BIO-36 Valley elderberry shrub avoidance in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-36</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Valley elderberry shrub avoidance"
-                        >Valley elderberry shrub avoidance</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-016"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-36"
-                          title="Apply BIO-36"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-016"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-36"
-                          title="Dismiss BIO-36"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-016"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-36"
-                            title="Undo BIO-36"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-017"
-              data-code="CUL-05"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-017"
-                  aria-label="Select CUL-05 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-017"
-                    aria-label="Show CUL-05 Inadvertent discovery stop-work protocol in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">CUL-05</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Inadvertent discovery stop-work protocol"
-                        >Inadvertent discovery stop-work protocol</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-017"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-05"
-                          title="Apply CUL-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-017"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-05"
-                          title="Dismiss CUL-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-017"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-05"
-                            title="Undo CUL-05"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-018"
-              data-code="CUL-11"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Monitoring"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-018"
-                  aria-label="Select CUL-11 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-018"
-                    aria-label="Show CUL-11 Archaeological construction monitoring in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">CUL-11</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Archaeological construction monitoring"
-                        >Archaeological construction monitoring</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-018"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-11"
-                          title="Apply CUL-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-018"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-11"
-                          title="Dismiss CUL-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-018"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-11"
-                            title="Undo CUL-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-019"
-              data-code="WQ-05"
-              data-decision=""
-              data-new="false"
-              data-source="swrcb"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-019"
-                  aria-label="Select WQ-05 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-019"
-                    aria-label="Show WQ-05 Dewatering discharge management in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-05</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Dewatering discharge management"
-                        >Dewatering discharge management</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-019"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-05"
-                          title="Apply WQ-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-019"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-05"
-                          title="Dismiss WQ-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-019"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-05"
-                            title="Undo WQ-05"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-020"
-              data-code="WQ-12"
-              data-decision=""
-              data-new="false"
-              data-source="swrcb"
-              data-type="Inspection"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-020"
-                  aria-label="Select WQ-12 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-020"
-                    aria-label="Show WQ-12 Quarterly SWPPP inspection in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
-                      ><span class="bcn-sw-row__name" title="Quarterly SWPPP inspection"
-                        >Quarterly SWPPP inspection</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-020"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-12"
-                          title="Apply WQ-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-020"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-12"
-                          title="Dismiss WQ-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-020"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-12"
-                            title="Undo WQ-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-021"
-              data-code="VEG-06"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Plan Submittal"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-021"
-                  aria-label="Select VEG-06 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-021"
                     aria-label="Show VEG-06 Revegetation of temporarily disturbed areas in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
@@ -2774,1881 +4888,154 @@ The surface that actually settles applicability: a wide side drawer listing the 
                       ><span
                         class="bcn-sw-row__name"
                         title="Revegetation of temporarily disturbed areas"
+                        data-sw-name=""
                         >Revegetation of temporarily disturbed areas</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-021"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply VEG-06"
-                          title="Apply VEG-06"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-031"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply VEG-06"
+                              title="Apply VEG-06"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-021"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss VEG-06"
-                          title="Dismiss VEG-06"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-031"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss VEG-06"
+                              title="Dismiss VEG-06"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-021"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo VEG-06"
-                            title="Undo VEG-06"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-031"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo VEG-06"
+                              title="Undo VEG-06"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-022"
-              data-code="VEG-14"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-022"
-                  aria-label="Select VEG-14 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-022"
-                    aria-label="Show VEG-14 Invasive plant material controls in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">VEG-14</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Invasive plant material controls"
-                        >Invasive plant material controls</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-022"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply VEG-14"
-                          title="Apply VEG-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-022"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss VEG-14"
-                          title="Dismiss VEG-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-022"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo VEG-14"
-                            title="Undo VEG-14"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-023"
-              data-code="TRA-11"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Inspection"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-023"
-                  aria-label="Select TRA-11 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-023"
-                    aria-label="Show TRA-11 Haul route compliance in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
-                      ><span class="bcn-sw-row__name" title="Haul route compliance"
-                        >Haul route compliance</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-023"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply TRA-11"
-                          title="Apply TRA-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-023"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss TRA-11"
-                          title="Dismiss TRA-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-023"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo TRA-11"
-                            title="Undo TRA-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-024"
-              data-code="NOI-08"
-              data-decision=""
-              data-new="false"
-              data-source="feir"
-              data-type="Monitoring"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-024"
-                  aria-label="Select NOI-08 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-024"
-                    aria-label="Show NOI-08 Nighttime work noise limits in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">NOI-08</span
-                      ><span class="bcn-sw-row__name" title="Nighttime work noise limits"
-                        >Nighttime work noise limits</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-024"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-08"
-                          title="Apply NOI-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-024"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-08"
-                          title="Dismiss NOI-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-024"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-08"
-                            title="Undo NOI-08"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-025"
-              data-code="GEO-04"
-              data-decision=""
-              data-new="false"
-              data-source="usace"
-              data-type="Monitoring"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-025"
-                  aria-label="Select GEO-04 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-025"
-                    aria-label="Show GEO-04 Levee stability monitoring during exploration in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">GEO-04</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Levee stability monitoring during exploration"
-                        >Levee stability monitoring during exploration</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-025"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-04"
-                          title="Apply GEO-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-025"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-04"
-                          title="Dismiss GEO-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-025"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-04"
-                            title="Undo GEO-04"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-026"
-              data-code="GEO-09"
-              data-decision=""
-              data-new="false"
-              data-source="usace"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-026"
-                  aria-label="Select GEO-09 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-026"
-                    aria-label="Show GEO-09 Drilling fluid containment in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">GEO-09</span
-                      ><span class="bcn-sw-row__name" title="Drilling fluid containment"
-                        >Drilling fluid containment</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-026"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-09"
-                          title="Apply GEO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-026"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-09"
-                          title="Dismiss GEO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-026"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-09"
-                            title="Undo GEO-09"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-027"
-              data-code="USACE-02"
-              data-decision=""
-              data-new="false"
-              data-source="usace"
-              data-type="Reporting"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-027"
-                  aria-label="Select USACE-02 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-027"
-                    aria-label="Show USACE-02 Section 404 preconstruction notification in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-02</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Section 404 preconstruction notification"
-                        >Section 404 preconstruction notification</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-027"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply USACE-02"
-                          title="Apply USACE-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-027"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss USACE-02"
-                          title="Dismiss USACE-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-027"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo USACE-02"
-                            title="Undo USACE-02"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-028"
-              data-code="USACE-07"
-              data-decision=""
-              data-new="false"
-              data-source="usace"
-              data-type="Reporting"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-028"
-                  aria-label="Select USACE-07 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-028"
-                    aria-label="Show USACE-07 Compensatory mitigation accounting in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Compensatory mitigation accounting"
-                        >Compensatory mitigation accounting</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-028"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply USACE-07"
-                          title="Apply USACE-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-028"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss USACE-07"
-                          title="Dismiss USACE-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-028"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo USACE-07"
-                            title="Undo USACE-07"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-029"
-              data-code="BIO-39"
-              data-decision=""
-              data-new="false"
-              data-source="itp"
-              data-type="Reporting"
-              data-species="SWHA GGS"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-029"
-                  aria-label="Select BIO-39 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-029"
-                    aria-label="Show BIO-39 Biological monitor daily reporting in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-39</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Biological monitor daily reporting"
-                        >Biological monitor daily reporting</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-029"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-39"
-                          title="Apply BIO-39"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-029"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-39"
-                          title="Dismiss BIO-39"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-029"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-39"
-                            title="Undo BIO-39"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-030"
-              data-code="BIO-41"
-              data-decision=""
-              data-new="true"
-              data-source="itp"
-              data-type="Avoidance &amp; BMPs"
-              data-species="DS"
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-030"
-                  aria-label="Select BIO-41 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-030"
-                    aria-label="Show BIO-41 Delta smelt entrainment avoidance window in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-41</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Delta smelt entrainment avoidance window"
-                        >Delta smelt entrainment avoidance window</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-030"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-41"
-                          title="Apply BIO-41"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-030"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-41"
-                          title="Dismiss BIO-41"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-030"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-41"
-                            title="Undo BIO-41"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-031"
-              data-code="BIO-47"
-              data-decision=""
-              data-new="true"
-              data-source="feir"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-031"
-                  aria-label="Select BIO-47 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-031"
-                    aria-label="Show BIO-47 Nesting raptor buffer for non-listed species in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-47</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Nesting raptor buffer for non-listed species"
-                        >Nesting raptor buffer for non-listed species</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-031"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-47"
-                          title="Apply BIO-47"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-031"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-47"
-                          title="Dismiss BIO-47"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-031"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-47"
-                            title="Undo BIO-47"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-032"
-              data-code="WQ-23"
-              data-decision=""
-              data-new="true"
-              data-source="swrcb"
-              data-type="Plan Submittal"
-              data-species=""
-              data-rationale="false"
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-032" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
                   data-sw-check="cc-032"
-                  aria-label="Select WQ-23 for a bulk decision"
+                  aria-label="Select NOI-12"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-032"
-                    aria-label="Show WQ-23 Spill prevention and response plan in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Spill prevention and response plan"
-                        >Spill prevention and response plan</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-032"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-23"
-                          title="Apply WQ-23"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-032"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-23"
-                          title="Dismiss WQ-23"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-032"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-23"
-                            title="Undo WQ-23"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-033"
-              data-code="AIR-11"
-              data-decision=""
-              data-new="true"
-              data-source="feir"
-              data-type="Inspection"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-033"
-                  aria-label="Select AIR-11 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-033"
-                    aria-label="Show AIR-11 Off-road equipment emissions tier in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">AIR-11</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Off-road equipment emissions tier"
-                        >Off-road equipment emissions tier</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-033"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply AIR-11"
-                          title="Apply AIR-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-033"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss AIR-11"
-                          title="Dismiss AIR-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-033"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo AIR-11"
-                            title="Undo AIR-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-034"
-              data-code="CUL-14"
-              data-decision=""
-              data-new="true"
-              data-source="feir"
-              data-type="Reporting"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-034"
-                  aria-label="Select CUL-14 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-034"
-                    aria-label="Show CUL-14 Tribal monitor notification in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">CUL-14</span
-                      ><span class="bcn-sw-row__name" title="Tribal monitor notification"
-                        >Tribal monitor notification</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-034"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-14"
-                          title="Apply CUL-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-034"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-14"
-                          title="Dismiss CUL-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-034"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-14"
-                            title="Undo CUL-14"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-035"
-              data-code="GEO-12"
-              data-decision=""
-              data-new="true"
-              data-source="usace"
-              data-type="Avoidance &amp; BMPs"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-035"
-                  aria-label="Select GEO-12 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-035"
-                    aria-label="Show GEO-12 Artesian conditions contingency in the preview"
-                  >
-                    <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">GEO-12</span
-                      ><span
-                        class="bcn-sw-row__name"
-                        title="Artesian conditions contingency"
-                        >Artesian conditions contingency</span
-                      ></span
-                    ></button
-                  ><span class="bcn-sw-row__marks"
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
-                      ></span
-                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
-                      ></span
-                    ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-035"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-12"
-                          title="Apply GEO-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-035"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-12"
-                          title="Dismiss GEO-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-035"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-12"
-                            title="Undo GEO-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
-              ></span>
-            </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-036"
-              data-code="NOI-12"
-              data-decision=""
-              data-new="true"
-              data-source="feir"
-              data-type="Monitoring"
-              data-species=""
-              data-rationale="false"
-            >
-              <span class="bcn-sw-row__check"
-                ><esa-checkbox
-                  size="sm"
-                  data-sw-check="cc-036"
-                  aria-label="Select NOI-12 for a bulk decision"
-                ></esa-checkbox></span
-              ><span class="bcn-sw-row__content"
-                ><span class="bcn-sw-row__top"
-                  ><button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open="cc-036"
                     aria-label="Show NOI-12 Vibration limits for adjacent structures in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
@@ -4656,226 +5043,1692 @@ The surface that actually settles applicability: a wide side drawer listing the 
                       ><span
                         class="bcn-sw-row__name"
                         title="Vibration limits for adjacent structures"
+                        data-sw-name=""
                         >Vibration limits for adjacent structures</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-036"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-12"
-                          title="Apply NOI-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-032"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply NOI-12"
+                              title="Apply NOI-12"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-036"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-12"
-                          title="Dismiss NOI-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-032"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss NOI-12"
+                              title="Dismiss NOI-12"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-036"
-                        ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-12"
-                            title="Undo NOI-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-032"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo NOI-12"
+                              title="Undo NOI-12"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
-            <li
-              class="bcn-sw-row"
-              data-sw-row="cc-037"
-              data-code="BIO-55"
-              data-decision=""
-              data-new="true"
-              data-source="feir"
-              data-type="Avoidance &amp; BMPs"
-              data-species="GGS"
-              data-rationale="false"
-            >
+            <li class="bcn-sw-row" data-sw-row="cc-033" data-decision="">
               <span class="bcn-sw-row__check"
                 ><esa-checkbox
                   size="sm"
-                  data-sw-check="cc-037"
-                  aria-label="Select BIO-55 for a bulk decision"
+                  data-sw-check="cc-033"
+                  aria-label="Select ITP-6.2"
                 ></esa-checkbox></span
               ><span class="bcn-sw-row__content"
                 ><span class="bcn-sw-row__top"
                   ><button
                     type="button"
                     class="bcn-sw-row__hit"
-                    data-sw-open="cc-037"
-                    aria-label="Show BIO-55 Lighting shielding for nocturnal wildlife in the preview"
+                    aria-label="Show ITP-6.2 Giant Garter Snake active-season restriction in the preview"
                   >
                     <span class="bcn-sw-row__titleline"
-                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-55</span
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-6.2</span
                       ><span
                         class="bcn-sw-row__name"
-                        title="Lighting shielding for nocturnal wildlife"
-                        >Lighting shielding for nocturnal wildlife</span
+                        title="Giant Garter Snake active-season restriction"
+                        data-sw-name=""
+                        >Giant Garter Snake active-season restriction</span
                       ></span
                     ></button
                   ><span class="bcn-sw-row__marks"
                     ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Applied</span></span
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
                       ></span
                     ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
-                      ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        ><span class="esa-badge__text">Dismissed</span></span
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
                       ></span
                     ></span
-                  ></span
-                ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
-                    ><span data-sw-apply="cc-037"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-55"
-                          title="Apply BIO-55"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-033"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply ITP-6.2"
+                              title="Apply ITP-6.2"
                             >
-                              <path d="M20 6 9 17l-5-5"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
-                    ><span data-sw-dismiss="cc-037"
-                      ><span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-55"
-                          title="Dismiss BIO-55"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-033"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss ITP-6.2"
+                              title="Dismiss ITP-6.2"
                             >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path></svg
-                          ></span></button></span></span></esa-tooltip
-                  ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
-                      ><span data-sw-undo="cc-037"
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-033"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo ITP-6.2"
+                              title="Undo ITP-6.2"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-034" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-034"
+                  aria-label="Select ITP-7.1"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show ITP-7.1 Swainson’s hawk foraging habitat mitigation in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-7.1</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Swainson’s hawk foraging habitat mitigation"
+                        data-sw-name=""
+                        >Swainson’s hawk foraging habitat mitigation</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
                         ><span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-55"
-                            title="Undo BIO-55"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                              ><svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path></svg
-                            ></span></button></span></span></esa-tooltip></span></span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-034"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply ITP-7.1"
+                              title="Apply ITP-7.1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-034"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss ITP-7.1"
+                              title="Dismiss ITP-7.1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-034"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo ITP-7.1"
+                              title="Undo ITP-7.1"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-035" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-035"
+                  aria-label="Select ITP-9.4"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show ITP-9.4 Delta Smelt entrainment avoidance in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-9.4</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Delta Smelt entrainment avoidance"
+                        data-sw-name=""
+                        >Delta Smelt entrainment avoidance</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-035"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply ITP-9.4"
+                              title="Apply ITP-9.4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-035"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss ITP-9.4"
+                              title="Dismiss ITP-9.4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-035"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo ITP-9.4"
+                              title="Undo ITP-9.4"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-036" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-036"
+                  aria-label="Select ITP-11.3"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show ITP-11.3 Tidal marsh restoration monitoring in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-11.3</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Tidal marsh restoration monitoring"
+                        data-sw-name=""
+                        >Tidal marsh restoration monitoring</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-036"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply ITP-11.3"
+                              title="Apply ITP-11.3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-036"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss ITP-11.3"
+                              title="Dismiss ITP-11.3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-036"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo ITP-11.3"
+                              title="Undo ITP-11.3"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-037" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-037"
+                  aria-label="Select USACE-02"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show USACE-02 Section 404 preconstruction notification in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-02</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Section 404 preconstruction notification"
+                        data-sw-name=""
+                        >Section 404 preconstruction notification</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-037"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply USACE-02"
+                              title="Apply USACE-02"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-037"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss USACE-02"
+                              title="Dismiss USACE-02"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-037"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo USACE-02"
+                              title="Undo USACE-02"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-038" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-038"
+                  aria-label="Select USACE-07"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show USACE-07 Compensatory mitigation accounting in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Compensatory mitigation accounting"
+                        data-sw-name=""
+                        >Compensatory mitigation accounting</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-038"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply USACE-07"
+                              title="Apply USACE-07"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-038"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss USACE-07"
+                              title="Dismiss USACE-07"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-038"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo USACE-07"
+                              title="Undo USACE-07"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-039" data-decision="applied" hidden="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-039"
+                  aria-label="Select WQ-08"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show WQ-08 Stormwater pollution prevention plan in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Stormwater pollution prevention plan"
+                        data-sw-name=""
+                        >Stormwater pollution prevention plan</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-039"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply WQ-08"
+                              title="Apply WQ-08"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-039"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss WQ-08"
+                              title="Dismiss WQ-08"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-039"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo WQ-08"
+                              title="Undo WQ-08"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note=""
+                  >Set by Hand · Feb 11, 2026 · Combined disturbance across the borings
+                  exceeds one acre.</span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-040" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-040"
+                  aria-label="Select WQ-12"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show WQ-12 Quarterly SWPPP inspection in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Quarterly SWPPP inspection"
+                        data-sw-name=""
+                        >Quarterly SWPPP inspection</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-040"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply WQ-12"
+                              title="Apply WQ-12"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-040"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss WQ-12"
+                              title="Dismiss WQ-12"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-040"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo WQ-12"
+                              title="Undo WQ-12"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-041" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-041"
+                  aria-label="Select WQ-19"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show WQ-19 In-water work turbidity monitoring in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-19</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="In-water work turbidity monitoring"
+                        data-sw-name=""
+                        >In-water work turbidity monitoring</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-041"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply WQ-19"
+                              title="Apply WQ-19"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-041"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss WQ-19"
+                              title="Dismiss WQ-19"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-041"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo WQ-19"
+                              title="Undo WQ-19"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
+              ></span>
+            </li>
+            <li class="bcn-sw-row" data-sw-row="cc-042" data-decision="">
+              <span class="bcn-sw-row__check"
+                ><esa-checkbox
+                  size="sm"
+                  data-sw-check="cc-042"
+                  aria-label="Select WQ-23"
+                ></esa-checkbox></span
+              ><span class="bcn-sw-row__content"
+                ><span class="bcn-sw-row__top"
+                  ><button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    aria-label="Show WQ-23 Spill prevention and response plan in the preview"
+                  >
+                    <span class="bcn-sw-row__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span
+                      ><span
+                        class="bcn-sw-row__name"
+                        title="Spill prevention and response plan"
+                        data-sw-name=""
+                        >Spill prevention and response plan</span
+                      ></span
+                    ></button
+                  ><span class="bcn-sw-row__marks"
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--applied"
+                      ><esa-tooltip
+                        text="Applied"
+                        position="top"
+                        data-sw-tip="applied"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Applied</span></span
+                        ></esa-tooltip
+                      ></span
+                    ><span class="bcn-sw-row__state bcn-sw-row__state--dismissed"
+                      ><esa-tooltip
+                        text="Dismissed"
+                        position="top"
+                        data-sw-tip="dismissed"
+                        align="center"
+                        ><span
+                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">Dismissed</span></span
+                        ></esa-tooltip
+                      ></span
+                    ></span
+                  ><span class="bcn-sw-row__acts"
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--apply"
+                      ><esa-tooltip
+                        text="Apply to this component"
+                        position="top"
+                        align="center"
+                        ><span data-sw-apply="cc-042"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Apply WQ-23"
+                              title="Apply WQ-23"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 6 9 17l-5-5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--dismiss"
+                      ><esa-tooltip text="Not applicable" position="top" align="center"
+                        ><span data-sw-dismiss="cc-042"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Dismiss WQ-23"
+                              title="Dismiss WQ-23"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M18 6 6 18"></path>
+                                  <path d="m6 6 12 12"></path></svg
+                              ></span></button></span></span></esa-tooltip></span
+                    ><span class="bcn-sw-row__act bcn-sw-row__act--undo"
+                      ><esa-tooltip
+                        text="Undo this decision"
+                        position="top"
+                        align="center"
+                        ><span data-sw-undo="cc-042"
+                          ><span
+                            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                              aria-label="Undo WQ-23"
+                              title="Undo WQ-23"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                ><svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                                  ></path>
+                                  <path d="M3 3v5h5"></path></svg
+                              ></span></button></span></span></esa-tooltip></span></span></span
+                ><span class="bcn-sw-row__note" data-sw-note="" hidden=""></span
+                ><span class="bcn-sw-row__flag" data-sw-flag="" hidden=""
+                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path></svg></span
+                  ><span data-sw-flag-text=""></span></span
               ></span>
             </li>
           </ul>
@@ -4897,102 +6750,138 @@ The surface that actually settles applicability: a wide side drawer listing the 
           <div class="bcn-sw__nopreview" data-sw-nopreview="">
             <div class="esa-empty-state esa-empty-state--sm">
               <h3 class="esa-empty-state__title typography-label-sm-strong">
-                Select a commitment
+                Select a commitment to preview it
               </h3>
               <div class="esa-empty-state__actions typography-label-md"></div>
             </div>
           </div>
           <article class="bcn-sw-prev" data-sw-preview="cc-001" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-03</span>
-              <h3 class="bcn-sw-prev__title">Nesting bird preconstruction survey</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-1</span>
+              <h3 class="bcn-sw-prev__title">Worker environmental awareness training</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              A qualified biologist shall conduct preconstruction surveys for nesting
-              birds within 500 feet of ground-disturbing activity no more than 7 days
-              prior to the start of work during the nesting season (February 1 through
-              August 31).
+              All exploration crew shall complete environmental awareness training before
+              site access, covering special-status species, avoidance buffers, and
+              stop-work procedures.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Geotechnical Investigations IS/MND — MMRP</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">4 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-001"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-1</span
                   ><span class="bcn-sw-prev__actname"
-                    >Nesting-bird preconstruction survey</span
+                    >Crew environmental awareness training</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Monitoring</span></span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
                 </li>
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Ground disturbance occurs within the nesting season window at all shaft
-                  work areas.</span
-                >
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
           <article class="bcn-sw-prev" data-sw-preview="cc-002" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-21</span>
-              <h3 class="bcn-sw-prev__title">Giant garter snake avoidance measures</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-2</span>
+              <h3 class="bcn-sw-prev__title">Nesting bird preconstruction survey</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Ground disturbance within 200 feet of aquatic habitat shall be restricted to
-              the active season (May 1 through October 1). A qualified biologist shall
-              survey the work area within 24 hours prior to ground disturbance.
+              If exploration occurs during the nesting season (February 1 through August
+              31), a qualified biologist shall survey for active nests within 500 feet of
+              each work area no more than 7 days before work begins.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">6 requirements</span>
+                ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-002"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-21</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-2</span
                   ><span class="bcn-sw-prev__actname"
-                    >Giant garter snake preconstruction survey</span
+                    >Nesting bird preconstruction survey</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -5000,491 +6889,73 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Shaft footprint is within 200 feet of Bouldin Island agricultural
-                  ditches.</span
-                >
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
           <article class="bcn-sw-prev" data-sw-preview="cc-003" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">CUL-02</span>
-              <h3 class="bcn-sw-prev__title">
-                Worker cultural resources awareness training
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              All construction personnel shall receive cultural resources sensitivity
-              training prior to beginning work, covering identification of archaeological
-              materials and required stop-work procedures.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 4, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Cultural resources worker training</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Standard for all ground-disturbing components.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-004" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">WQ-08</span>
-              <h3 class="bcn-sw-prev__title">Stormwater pollution prevention plan</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              A Stormwater Pollution Prevention Plan shall be prepared by a Qualified
-              SWPPP Developer and implemented prior to any ground disturbance exceeding
-              one acre.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 18, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
-                  ><span class="bcn-sw-prev__actname"
-                    >SWPPP preparation and submittal</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Disturbance footprint exceeds one acre across the work areas.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-005" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">NOI-03</span>
-              <h3 class="bcn-sw-prev__title">Construction noise monitoring plan</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              A noise monitoring plan shall be submitted for review at least 30 days prior
-              to the start of shaft construction where work occurs within 1,000 feet of a
-              sensitive receptor.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-03</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Noise monitoring plan submittal</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Residences on Bouldin Island Road are within 1,000 feet.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-006" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">AIR-04</span>
-              <h3 class="bcn-sw-prev__title">Fugitive dust control</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Exposed surfaces shall be watered at a frequency adequate to maintain
-              minimum soil moisture of 12 percent. Vehicle speed on unpaved roads shall
-              not exceed 15 miles per hour.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Fugitive dust control implementation</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Unpaved access roads serve every work area.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-007" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">GEO-01</span>
-              <h3 class="bcn-sw-prev__title">
-                Geotechnical exploration site restoration
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Each exploration location shall be abandoned in accordance with county
-              well-abandonment standards and the surface restored to preexisting contours
-              within 30 days of completion.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 16, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">GEO-01</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Borehole abandonment verification</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >Directly governs this component’s exploration program.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-008" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-44</span>
-              <h3 class="bcn-sw-prev__title">Tidal marsh restoration monitoring</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Restored tidal marsh acreage shall be monitored annually for 10 years
-              against performance criteria for vegetation cover, channel density, and fish
-              access.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">5 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 4, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >No tidal marsh restoration occurs within this component.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-009" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-52</span>
-              <h3 class="bcn-sw-prev__title">
-                Fish screen approach velocity verification
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Approach velocity at the screen face shall not exceed 0.2 feet per second,
-              verified by field measurement prior to and following each maintenance event.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">4 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 4, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >No intake or screening structure in this component.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-010" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">WQ-19</span>
-              <h3 class="bcn-sw-prev__title">In-water work turbidity monitoring</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Turbidity shall be monitored upstream and downstream of in-water work and
-              shall not exceed background by more than 5 NTU.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 18, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >No in-water work in this component.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-011" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">TRA-07</span>
-              <h3 class="bcn-sw-prev__title">Barge landing traffic management</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              A traffic management plan shall be prepared for each barge landing
-              addressing vehicle queuing, flagging, and levee road load limits.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
-                  >No barge landing associated with this shaft.</span
-                >
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-012" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-09</span>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-3</span>
               <h3 class="bcn-sw-prev__title">Swainson’s hawk nest buffer</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              A 0.25-mile no-disturbance buffer shall be established around active
-              Swainson’s hawk nests and maintained until a qualified biologist determines
-              the young have fledged or the nest has failed.
+              During the Swainson’s hawk nesting season, a 0.25-mile no-disturbance buffer
+              shall be maintained around active nests until a qualified biologist
+              determines the young have fledged.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">4 requirements</span>
+                ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-003"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-09</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-3</span
                   ><span class="bcn-sw-prev__actname"
                     >Swainson’s hawk nest buffer verification</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -5492,101 +6963,73 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-013" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-004" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-18</span>
-              <h3 class="bcn-sw-prev__title">Worker environmental awareness program</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-4</span>
+              <h3 class="bcn-sw-prev__title">Giant Garter Snake avoidance</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              All personnel shall complete an environmental awareness program prior to
-              site access, with annual refresher training thereafter.
+              Work areas within 200 feet of Giant Garter Snake aquatic habitat shall be
+              surveyed by a qualified biologist within 24 hours before ground disturbance
+              and fenced with exclusion fencing.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Geotechnical Investigations IS/MND — MMRP</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-18</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Worker environmental awareness refresher</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-004"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
                   >
-                </li>
-              </ul>
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
             </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-014" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-27</span>
-              <h3 class="bcn-sw-prev__title">Western pond turtle relocation protocol</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Where work occurs within 100 feet of aquatic habitat, a qualified biologist
-              shall survey for western pond turtle and relocate individuals outside the
-              work area prior to disturbance.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 4, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-27</span
-                  ><span class="bcn-sw-prev__actname">Pond turtle clearance survey</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-4</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Giant Garter Snake preconstruction survey</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -5594,103 +7037,72 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-015" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-005" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-30</span>
-              <h3 class="bcn-sw-prev__title">
-                Vernal pool branchiopod wet-season survey
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Suitable vernal pool habitat within the work area shall receive
-              protocol-level wet-season surveys across two consecutive years prior to
-              disturbance.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">4 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 4, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-30</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Vernal pool branchiopod wet-season survey</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Monitoring</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-016" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-36</span>
-              <h3 class="bcn-sw-prev__title">Valley elderberry shrub avoidance</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-5</span>
+              <h3 class="bcn-sw-prev__title">Elderberry shrub avoidance</h3>
             </header>
             <p class="bcn-sw-prev__doc">
               Elderberry shrubs with stems one inch or greater in diameter shall be
-              avoided by a minimum 20-foot buffer, fenced and signed prior to
-              construction.
+              avoided by a minimum 20-foot buffer, fenced and signed before exploration
+              equipment arrives.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-005"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-36</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Elderberry shrub buffer installation</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-5</span
+                  ><span class="bcn-sw-prev__actname">Elderberry buffer fencing</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
@@ -5698,19 +7110,317 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-017" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-006" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">CUL-05</span>
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-6</span>
+              <h3 class="bcn-sw-prev__title">Western Pond Turtle clearance</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Where exploration occurs within channels or ditches, a qualified biologist
+              shall survey for Western Pond Turtle and relocate individuals outside the
+              work area before work begins.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-006"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-6</span
+                  ><span class="bcn-sw-prev__actname">Pond turtle clearance survey</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-007" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-7</span>
+              <h3 class="bcn-sw-prev__title">Delta Smelt in-water work window</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Over-water borings shall not occur during delta smelt spawning (December 1
+              through June 30) unless real-time monitoring shows smelt are absent from the
+              action area.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-007"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-7</span
+                  ><span class="bcn-sw-prev__actname"
+                    >In-water work window verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-008" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-8</span>
+              <h3 class="bcn-sw-prev__title">
+                California Tiger Salamander upland survey
+              </h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Work areas within suitable upland habitat shall receive a protocol-level
+              burrow survey before ground disturbance, and occupied burrows shall be
+              avoided by 50 feet.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-008"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-8</span
+                  ><span class="bcn-sw-prev__actname">CTS burrow survey</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-009" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-BIO-9</span>
+              <h3 class="bcn-sw-prev__title">Non-listed raptor nest buffer</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              During the nesting season, active nests of non-listed raptors shall receive
+              a 250-foot no-disturbance buffer until the young have fledged.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-009"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-9</span
+                  ><span class="bcn-sw-prev__actname">Raptor buffer establishment</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-010" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-CUL-1</span>
               <h3 class="bcn-sw-prev__title">Inadvertent discovery stop-work protocol</h3>
             </header>
             <p class="bcn-sw-prev__doc">
@@ -5719,31 +7429,48 @@ The surface that actually settles applicability: a wide side drawer listing the 
               work resumes.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Geotechnical Investigations IS/MND — MMRP</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-010"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-05</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-1</span
                   ><span class="bcn-sw-prev__actname"
                     >Discovery protocol acknowledgement</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
@@ -5751,51 +7478,581 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-011" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-CUL-2</span>
+              <h3 class="bcn-sw-prev__title">Tribal monitor notification</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Culturally affiliated tribes shall receive no less than 14 days notice
+              before ground disturbance in areas identified as culturally sensitive.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
               </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Dec 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-011"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-2</span
+                  ><span class="bcn-sw-prev__actname">Tribal monitor notification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Reporting</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-012" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-HAZ-1</span>
+              <h3 class="bcn-sw-prev__title">Drilling fluid containment</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Drilling fluids shall be fully contained and removed from the site. No
+              discharge to surface water or to the levee prism is permitted.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">2 requirements</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Dec 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-012"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-1</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Drilling fluid containment inspection</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-013" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-HAZ-2</span>
+              <h3 class="bcn-sw-prev__title">Borehole abandonment</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Each boring shall be abandoned in accordance with county well-abandonment
+              standards and the surface restored to preexisting contours within 30 days.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Dec 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-013"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-2</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Borehole abandonment verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-014" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-NOI-1</span>
+              <h3 class="bcn-sw-prev__title">Nighttime drilling noise limits</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Drilling between 10 PM and 7 AM shall not exceed 50 dBA Leq at the nearest
+              residence, verified by monitoring on the first night of work at each site.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Dec 16, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-014"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-NOI-1</span
+                  ><span class="bcn-sw-prev__actname">Nighttime noise verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-015" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT-AIR-1</span>
+              <h3 class="bcn-sw-prev__title">Fugitive dust control</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Exposed surfaces and unpaved access roads shall be watered as needed to
+              prevent visible dust, and vehicle speed on unpaved roads shall not exceed 15
+              miles per hour.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations IS/MND — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Dec 16, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-015"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT-AIR-1</span
+                  ><span class="bcn-sw-prev__actname">Dust control implementation</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-016" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT401-3</span>
+              <h3 class="bcn-sw-prev__title">
+                Turbidity monitoring for over-water borings
+              </h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Turbidity shall be monitored upstream and downstream of over-water borings
+              and shall not exceed background by more than 5 NTU.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations Section 401 Certification</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-016"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT401-3</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Over-water turbidity monitoring</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-017" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">GT401-5</span>
+              <h3 class="bcn-sw-prev__title">Spill prevention and response</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Spill response materials shall be staged within 100 feet of every drill rig
+              and fueling location, and spills shall be reported within 24 hours.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations Section 401 Certification</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">2 requirements</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-017"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT401-5</span
+                  ><span class="bcn-sw-prev__actname">Spill kit inspection</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
           <article class="bcn-sw-prev" data-sw-preview="cc-018" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">CUL-11</span>
-              <h3 class="bcn-sw-prev__title">Archaeological construction monitoring</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT401-7</span>
+              <h3 class="bcn-sw-prev__title">Dewatering discharge sampling</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Ground disturbance in areas of elevated archaeological sensitivity shall be
-              monitored by a qualified archaeologist and a Native American monitor.
+              Dewatering discharge shall be routed through sediment controls and sampled
+              for turbidity and pH before release to any surface water.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Geotechnical Investigations Section 401 Certification</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+                ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-018"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-11</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Archaeological monitor coverage</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT401-7</span
+                  ><span class="bcn-sw-prev__actname">Dewatering discharge sampling</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -5803,97 +8060,73 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
           <article class="bcn-sw-prev" data-sw-preview="cc-019" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">WQ-05</span>
-              <h3 class="bcn-sw-prev__title">Dewatering discharge management</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">GT401-9</span>
+              <h3 class="bcn-sw-prev__title">Wet-season erosion control</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Dewatering discharge shall be routed through sediment controls and sampled
-              for turbidity and pH prior to release to any surface water.
+              Between October 15 and April 15, disturbed work areas shall be stabilized
+              with erosion control before any forecast rain event of one-half inch or
+              more.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
+                ><span class="bcn-key-value__val"
+                  >Geotechnical Investigations Section 401 Certification</span
+                >
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 18, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-05</span
-                  ><span class="bcn-sw-prev__actname">Dewatering discharge sampling</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Monitoring</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-020" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">WQ-12</span>
-              <h3 class="bcn-sw-prev__title">Quarterly SWPPP inspection</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              A Qualified SWPPP Practitioner shall inspect all stormwater controls
-              quarterly and within 48 hours of any qualifying rain event.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
-              </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Nov 18, 2025</span>
+                ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-019"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
-                  ><span class="bcn-sw-prev__actname">SWPPP quarterly inspection</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">GT401-9</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Pre-storm erosion control inspection</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
@@ -5901,17 +8134,826 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-020" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">LSAA-2</span>
+              <h3 class="bcn-sw-prev__title">Channel work only when dry</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Exploration within the bed, bank or channel of any stream shall occur only
+              when the channel is dry or flow has been diverted around the work area.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >CDFW Lake or Streambed Alteration Agreement — Geotechnical</span
+                >
               </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 8, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-020"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">LSAA-2</span
+                  ><span class="bcn-sw-prev__actname">Dry-channel verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
           <article class="bcn-sw-prev" data-sw-preview="cc-021" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">LSAA-4</span>
+              <h3 class="bcn-sw-prev__title">Riparian vegetation removal limits</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              During fall bird migration (September 1 through December 15), removal of
+              riparian vegetation shall be limited to the minimum necessary for rig
+              access, and cleared areas shall be replanted at a 3:1 ratio.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >CDFW Lake or Streambed Alteration Agreement — Geotechnical</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">2 requirements</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 8, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-021"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">LSAA-4</span
+                  ><span class="bcn-sw-prev__actname">Riparian replanting report</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Reporting</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-022" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">LSAA-6</span>
+              <h3 class="bcn-sw-prev__title">Splittail spawning window</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              In-channel work in Sacramento Splittail spawning habitat shall not occur
+              between February 1 and June 30.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >CDFW Lake or Streambed Alteration Agreement — Geotechnical</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 8, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-022"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">LSAA-6</span
+                  ><span class="bcn-sw-prev__actname">Spawning window verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-023" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">G408-1</span>
+              <h3 class="bcn-sw-prev__title">Levee toe setback for borings</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Borings shall be located no closer than 15 feet from the landside levee toe
+              unless approved in writing by the District.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >USACE Section 408 Permission — Geotechnical Exploration</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 22, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-023"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">G408-1</span
+                  ><span class="bcn-sw-prev__actname">Boring location plan submittal</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-024" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">G408-3</span>
+              <h3 class="bcn-sw-prev__title">Levee deformation monitoring</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Exploration within 100 feet of a federal project levee shall be accompanied
+              by deformation monitoring before, during and after drilling.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >USACE Section 408 Permission — Geotechnical Exploration</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 22, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-024"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">G408-3</span
+                  ><span class="bcn-sw-prev__actname">Levee deformation survey</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-025" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">G408-5</span>
+              <h3 class="bcn-sw-prev__title">Casing installation vibration limits</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Driven casing or sheet pile within 300 feet of a levee shall not exceed 0.5
+              in/sec peak particle velocity at the levee crown.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >USACE Section 408 Permission — Geotechnical Exploration</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Jan 22, 2026</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-025"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">G408-5</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Vibration monitoring at levee crown</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-026" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">BIO-03</span>
+              <h3 class="bcn-sw-prev__title">Nesting bird preconstruction survey</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              A qualified biologist shall conduct preconstruction surveys for nesting
+              birds within 500 feet of ground-disturbing activity no more than 7 days
+              before the start of work during the nesting season.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Delta Conveyance Project Final EIR — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-026"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Nesting-bird preconstruction survey</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Monitoring</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-027" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">CUL-02</span>
+              <h3 class="bcn-sw-prev__title">
+                Worker cultural resources awareness training
+              </h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              All construction personnel shall receive cultural resources sensitivity
+              training before beginning work, covering identification of archaeological
+              materials and required stop-work procedures.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Delta Conveyance Project Final EIR — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-027"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Cultural resources worker training</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-028" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">NOI-03</span>
+              <h3 class="bcn-sw-prev__title">Construction noise monitoring plan</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              A noise monitoring plan shall be submitted at least 30 days before the start
+              of shaft construction where work occurs within 1,000 feet of a sensitive
+              receptor.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Delta Conveyance Project Final EIR — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-028"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-03</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Noise monitoring plan submittal</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-029" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">AIR-04</span>
+              <h3 class="bcn-sw-prev__title">Construction fugitive dust control</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Exposed surfaces shall be watered to maintain minimum soil moisture of 12
+              percent, and vehicle speed on unpaved roads shall not exceed 15 miles per
+              hour.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Delta Conveyance Project Final EIR — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-029"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Fugitive dust control implementation</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-030" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">TRA-11</span>
+              <h3 class="bcn-sw-prev__title">Haul route compliance</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Construction traffic shall use only designated haul routes, and levee road
+              segments shall be inspected monthly for load-related damage.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >Delta Conveyance Project Final EIR — MMRP</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Oct 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-030"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Haul route compliance verification</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-031" hidden="">
             <header class="bcn-sw-prev__head">
               <span class="bcn-cbadge bcn-cbadge--md">VEG-06</span>
               <h3 class="bcn-sw-prev__title">
@@ -5923,22 +8965,39 @@ The surface that actually settles applicability: a wide side drawer listing the 
               approved by the resource agencies within one growing season of disturbance.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Delta Conveyance Project Final EIR — MMRP</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
+                ><span class="bcn-key-value__val">Oct 2, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-031"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
@@ -5947,7 +9006,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Revegetation plan agency review</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
@@ -5955,154 +9014,72 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-022" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-032" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">VEG-14</span>
-              <h3 class="bcn-sw-prev__title">Invasive plant material controls</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">NOI-12</span>
+              <h3 class="bcn-sw-prev__title">Vibration limits for adjacent structures</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Equipment arriving from outside the project area shall be washed prior to
-              entry, and imported fill shall be certified free of noxious weed propagules.
+              Ground-borne vibration shall not exceed 0.2 in/sec PPV at any structure of
+              normal construction, monitored continuously during impact activities.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >Delta Conveyance Project Final EIR — MMRP</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
+                ><span class="bcn-key-value__val">Oct 16, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">VEG-14</span
-                  ><span class="bcn-sw-prev__actname">Equipment washing log</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-032"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
                   >
-                </li>
-              </ul>
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
             </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-023" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">TRA-11</span>
-              <h3 class="bcn-sw-prev__title">Haul route compliance</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Construction traffic shall use only designated haul routes. Levee road
-              segments shall be inspected monthly for load-related damage.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 2, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-12</span
                   ><span class="bcn-sw-prev__actname"
-                    >Haul route compliance verification</span
+                    >Vibration monitoring at receptors</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-024" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">NOI-08</span>
-              <h3 class="bcn-sw-prev__title">Nighttime work noise limits</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Nighttime construction noise shall not exceed 50 dBA Leq at the nearest
-              sensitive receptor property line between 10 PM and 7 AM.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 16, 2025</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-08</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Nighttime noise level verification</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -6110,50 +9087,72 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-025" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-033" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">GEO-04</span>
+              <span class="bcn-cbadge bcn-cbadge--md">ITP-6.2</span>
               <h3 class="bcn-sw-prev__title">
-                Levee stability monitoring during exploration
+                Giant Garter Snake active-season restriction
               </h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Exploration within 100 feet of a federal project levee shall be accompanied
-              by deformation monitoring before, during, and after drilling.
+              Ground disturbance within 200 feet of Giant Garter Snake aquatic habitat
+              shall be restricted to the active season, May 1 through October 1.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
+                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 16, 2025</span>
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-033"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">GEO-04</span
-                  ><span class="bcn-sw-prev__actname">Levee deformation survey</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">ITP-6.2</span
+                  ><span class="bcn-sw-prev__actname"
+                    >Active-season work verification</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Monitoring</span></span
                     ></span
                   >
@@ -6161,91 +9160,255 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-026" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-034" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">GEO-09</span>
-              <h3 class="bcn-sw-prev__title">Drilling fluid containment</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">ITP-7.1</span>
+              <h3 class="bcn-sw-prev__title">
+                Swainson’s hawk foraging habitat mitigation
+              </h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              Drilling fluids shall be fully contained and removed from the site. No
-              discharge to surface water or to the levee prism is permitted.
+              Permanent loss of Swainson’s hawk foraging habitat shall be mitigated at a
+              1:1 ratio through conservation easements approved by CDFW.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
+                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 16, 2025</span>
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-034"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">GEO-09</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">ITP-7.1</span
                   ><span class="bcn-sw-prev__actname"
-                    >Drilling fluid containment inspection</span
+                    >Foraging habitat mitigation ledger</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Reporting</span></span
                     ></span
                   >
                 </li>
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-027" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-035" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">ITP-9.4</span>
+              <h3 class="bcn-sw-prev__title">Delta Smelt entrainment avoidance</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              In-water construction shall be prohibited between December 1 and June 30
+              unless real-time monitoring demonstrates delta smelt are absent from the
+              action area.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Oct 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-035"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 0 actions on this component</h4>
+              <ul class="bcn-sw-prev__actions"></ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-036" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">ITP-11.3</span>
+              <h3 class="bcn-sw-prev__title">Tidal marsh restoration monitoring</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Restored tidal marsh acreage shall be monitored annually for 10 years
+              against performance criteria for vegetation cover, channel density, and fish
+              access.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Oct 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-036"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 0 actions on this component</h4>
+              <ul class="bcn-sw-prev__actions"></ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-037" hidden="">
             <header class="bcn-sw-prev__head">
               <span class="bcn-cbadge bcn-cbadge--md">USACE-02</span>
               <h3 class="bcn-sw-prev__title">Section 404 preconstruction notification</h3>
             </header>
             <p class="bcn-sw-prev__doc">
               The permittee shall submit preconstruction notification to the District
-              Engineer at least 45 days prior to commencing work in waters of the United
+              Engineer at least 45 days before commencing work in waters of the United
               States.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Dec 16, 2025</span>
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-037"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
@@ -6254,7 +9417,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Preconstruction notification submittal</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Reporting</span></span
                     ></span
                   >
@@ -6262,17 +9425,21 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-028" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-038" hidden="">
             <header class="bcn-sw-prev__head">
               <span class="bcn-cbadge bcn-cbadge--md">USACE-07</span>
               <h3 class="bcn-sw-prev__title">Compensatory mitigation accounting</h3>
@@ -6283,20 +9450,37 @@ The surface that actually settles applicability: a wide side drawer listing the 
               submittal.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">4 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Jan 8, 2026</span>
+                ><span class="bcn-key-value__val">Oct 16, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-038"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
@@ -6304,7 +9488,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   ><span class="bcn-sw-prev__actname">Mitigation ledger update</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Reporting</span></span
                     ></span
                   >
@@ -6312,159 +9496,228 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-029" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-039" hidden="">
             <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-39</span>
-              <h3 class="bcn-sw-prev__title">Biological monitor daily reporting</h3>
+              <span class="bcn-cbadge bcn-cbadge--md">WQ-08</span>
+              <h3 class="bcn-sw-prev__title">Stormwater pollution prevention plan</h3>
             </header>
             <p class="bcn-sw-prev__doc">
-              The biological monitor shall record daily observations, including species
-              detected, avoidance measures implemented, and any incidental take, and
-              submit within 5 working days.
+              A Stormwater Pollution Prevention Plan shall be prepared by a Qualified
+              SWPPP Developer and implemented before any ground disturbance exceeding one
+              acre.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Jan 8, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-39</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Daily biological monitoring report</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Reporting</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-030" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-41</span>
-              <h3 class="bcn-sw-prev__title">Delta smelt entrainment avoidance window</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              In-water construction shall be prohibited between December 1 and June 30
-              unless real-time monitoring demonstrates delta smelt are absent from the
-              action area.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Feb 24, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-031" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-47</span>
-              <h3 class="bcn-sw-prev__title">
-                Nesting raptor buffer for non-listed species
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Active nests of non-listed raptors shall receive a 250-foot no-disturbance
-              buffer until the young have fledged.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
+                  >SWRCB Section 401 Water Quality Certification</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Feb 24, 2026</span>
+                ><span class="bcn-key-value__val">Sep 15, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-039"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-47</span
-                  ><span class="bcn-sw-prev__actname">Raptor buffer establishment</span
+                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
+                  ><span class="bcn-sw-prev__actname"
+                    >SWPPP preparation and submittal</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Monitoring</span></span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
                 </li>
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-032" hidden="">
+          <article class="bcn-sw-prev" data-sw-preview="cc-040" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">WQ-12</span>
+              <h3 class="bcn-sw-prev__title">Quarterly SWPPP inspection</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              A Qualified SWPPP Practitioner shall inspect all stormwater controls
+              quarterly and within 48 hours of any qualifying rain event.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >SWRCB Section 401 Water Quality Certification</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Oct 2, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-040"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
+              <ul class="bcn-sw-prev__actions">
+                <li class="bcn-sw-prev__action">
+                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
+                  ><span class="bcn-sw-prev__actname">SWPPP quarterly inspection</span
+                  ><span class="bcn-sw-prev__acttype"
+                    ><span
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      ><span class="esa-badge__text">Tracking</span></span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-041" hidden="">
+            <header class="bcn-sw-prev__head">
+              <span class="bcn-cbadge bcn-cbadge--md">WQ-19</span>
+              <h3 class="bcn-sw-prev__title">In-water work turbidity monitoring</h3>
+            </header>
+            <p class="bcn-sw-prev__doc">
+              Turbidity shall be monitored upstream and downstream of in-water work and
+              shall not exceed background by more than 5 NTU.
+            </p>
+            <div class="bcn-sw-prev__facts">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Source document</span
+                ><span class="bcn-key-value__val"
+                  >SWRCB Section 401 Water Quality Certification</span
+                >
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Requirements</span
+                ><span class="bcn-key-value__val">1 requirement</span>
+              </div>
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Added to the project</span
+                ><span class="bcn-key-value__val">Oct 16, 2025</span>
+              </div>
+            </div>
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-041"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle">Creates 0 actions on this component</h4>
+              <ul class="bcn-sw-prev__actions"></ul>
+            </section>
+            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <span class="bcn-key-value__key">Decision</span
+                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
+              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
+            </section>
+          </article>
+          <article class="bcn-sw-prev" data-sw-preview="cc-042" hidden="">
             <header class="bcn-sw-prev__head">
               <span class="bcn-cbadge bcn-cbadge--md">WQ-23</span>
               <h3 class="bcn-sw-prev__title">Spill prevention and response plan</h3>
@@ -6475,20 +9728,39 @@ The surface that actually settles applicability: a wide side drawer listing the 
               location.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
+                ><span class="bcn-key-value__val"
+                  >SWRCB Section 401 Water Quality Certification</span
+                >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
+                ><span class="bcn-key-value__val">1 requirement</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 3, 2026</span>
+                ><span class="bcn-key-value__val">Oct 16, 2025</span>
               </div>
             </div>
-            <section class="bcn-sw-prev__effect">
+            <section class="bcn-sw-prev__rec" data-sw-prev-rec="" hidden="">
+              <h4 class="bcn-sw-prev__efftitle" data-sw-prev-rectitle="">
+                Recommended not applicable
+              </h4>
+              <ul class="bcn-sw-prev__reasons" data-sw-prev-reasons=""></ul>
+              <span data-sw-prev-accept="cc-042"
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                  >
+                    <span class="esa-button__label">Dismiss with This Reason</span>
+                  </button></span
+                ></span
+              >
+            </section>
+            <section class="bcn-sw-prev__effect" data-sw-prev-effect="">
               <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
               <ul class="bcn-sw-prev__actions">
                 <li class="bcn-sw-prev__action">
@@ -6496,7 +9768,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   ><span class="bcn-sw-prev__actname">Spill response plan submittal</span
                   ><span class="bcn-sw-prev__acttype"
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">Tracking</span></span
                     ></span
                   >
@@ -6504,249 +9776,18 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-033" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">AIR-11</span>
-              <h3 class="bcn-sw-prev__title">Off-road equipment emissions tier</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Off-road diesel equipment greater than 50 horsepower shall meet Tier 4 Final
-              emission standards, verified by equipment list prior to mobilization.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 3, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">AIR-11</span
-                  ><span class="bcn-sw-prev__actname">Equipment tier verification</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Tracking</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-034" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">CUL-14</span>
-              <h3 class="bcn-sw-prev__title">Tribal monitor notification</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Culturally affiliated tribes shall receive no less than 14 days notice prior
-              to the start of ground disturbance in areas identified as culturally
-              sensitive.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 10, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-14</span
-                  ><span class="bcn-sw-prev__actname">Tribal monitor notification</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Reporting</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-035" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">GEO-12</span>
-              <h3 class="bcn-sw-prev__title">Artesian conditions contingency</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Where artesian conditions are encountered, drilling shall stop and the
-              boring shall be sealed under the direction of a licensed engineering
-              geologist.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 10, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-036" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">NOI-12</span>
-              <h3 class="bcn-sw-prev__title">Vibration limits for adjacent structures</h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Ground-borne vibration shall not exceed 0.2 in/sec PPV at any structure of
-              normal construction, monitored continuously during impact activities.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">3 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 17, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates 1 action on this component</h4>
-              <ul class="bcn-sw-prev__actions">
-                <li class="bcn-sw-prev__action">
-                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-12</span
-                  ><span class="bcn-sw-prev__actname"
-                    >Vibration monitoring at receptors</span
-                  ><span class="bcn-sw-prev__acttype"
-                    ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      ><span class="esa-badge__text">Monitoring</span></span
-                    ></span
-                  >
-                </li>
-              </ul>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
-            </section>
-          </article>
-          <article class="bcn-sw-prev" data-sw-preview="cc-037" hidden="">
-            <header class="bcn-sw-prev__head">
-              <span class="bcn-cbadge bcn-cbadge--md">BIO-55</span>
-              <h3 class="bcn-sw-prev__title">
-                Lighting shielding for nocturnal wildlife
-              </h3>
-            </header>
-            <p class="bcn-sw-prev__doc">
-              Nighttime lighting shall be directed downward, shielded, and of the minimum
-              intensity necessary, with no direct illumination of adjacent aquatic
-              habitat.
-            </p>
-            <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Source document</span
-                ><span class="bcn-key-value__val"
-                  >Delta Conveyance Project Final EIR</span
-                >
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Requirements</span
-                ><span class="bcn-key-value__val">2 requirements</span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Added to the project</span
-                ><span class="bcn-key-value__val">Mar 17, 2026</span>
-              </div>
-            </div>
-            <section class="bcn-sw-prev__effect">
-              <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
-            </section>
-            <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Decision</span
-                ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
-              </div>
-              <div class="bcn-key-value">
-                <span class="bcn-key-value__key">Rationale</span
-                ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
-              </div>
+              <span data-sw-prev-ratwrap=""
+                ><div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Rationale</span
+                  ><span
+                    class="bcn-sw-prev__decval"
+                    data-sw-prev-rationale=""
+                  ></span></div
+              ></span>
             </section>
           </article>
         </div>
@@ -6754,24 +9795,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
     </div>
   </div>
   <div slot="footer" class="bcn-sw__foot">
-    <span class="bcn-sw__footacts"
-      ><span
-        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          data-sw-save="true"
-        >
-          Save decisions
-        </button></span
+    <span data-sw-close=""
       ><span
         class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          data-sw-cancel="true"
-        >
-          <span class="esa-button__label">Cancel</span>
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Close</span>
         </button></span
       ></span
     >
@@ -6781,13 +9809,6 @@ The surface that actually settles applicability: a wide side drawer listing the 
 
 ## Styles
 ```css
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
 .typography-body-xs {
   font-family: var(--typography-body-xs-font-family);
   font-size: var(--typography-body-xs-font-size);
@@ -6823,13 +9844,6 @@ The surface that actually settles applicability: a wide side drawer listing the 
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -6844,13 +9858,6 @@ The surface that actually settles applicability: a wide side drawer listing the 
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
   font-size: var(--typography-microcopy-md-subtle-font-size);
@@ -6864,13 +9871,6 @@ The surface that actually settles applicability: a wide side drawer listing the 
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
 .typography-microcopy-md-strong {
   font-family: var(--typography-microcopy-md-strong-font-family);
@@ -7062,57 +10062,47 @@ The surface that actually settles applicability: a wide side drawer listing the 
   background: 0 0;
 }
 .bcn-sw__search {
-  min-width: 14rem;
+  width: 100%;
   display: inline-flex;
 }
 .bcn-sw__search esa-text-field {
   width: 100%;
 }
 .bcn-sw__lead {
-  gap: var(--spacing-300);
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
   flex: none;
   display: flex;
 }
-.bcn-sw__scope {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
 .bcn-sw__figures {
-  align-items: flex-start;
-  gap: var(--spacing-700);
+  align-items: center;
+  gap: var(--spacing-500);
   flex-wrap: wrap;
   display: flex;
 }
 .bcn-sw__figure {
-  --stat-value-size: var(--font-size-600);
-  min-width: 0;
-}
-.bcn-sw__figure--progress {
+  align-items: baseline;
   gap: var(--spacing-200);
-  flex-direction: column;
-  min-width: 220px;
-  display: flex;
-}
-.bcn-sw__bar {
-  max-width: 260px;
-}
-.bcn-sw__controls {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  flex: none;
-  display: flex;
-}
-.bcn-sw__pills {
-  --filter-pill-bg: var(--color-background-elevation-sunken);
-  --filter-pill-bg-hover: var(--color-border-default);
-  --filter-pill-text: var(--color-content-default);
-  min-width: 0;
+  margin: 0;
   display: inline-flex;
 }
-.bcn-sw__pills[hidden],
-.bcn-sw__pills .esa-filter-pills__chip[hidden] {
-  display: none;
+.bcn-sw__figval {
+  font-size: var(--font-size-500);
+  font-weight: var(--typography-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-content-default);
+}
+.bcn-sw__figlabel {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+}
+.bcn-sw__bar {
+  width: 140px;
+}
+.bcn-sw__controls {
+  flex: none;
 }
 .bcn-sw__panes {
   gap: var(--spacing-400);
@@ -7164,6 +10154,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
   background: var(--color-background-elevation-raised);
+  cursor: pointer;
   grid-template-columns: auto minmax(0, 1fr);
   transition:
     border-color 0.12s,
@@ -7173,33 +10164,8 @@ The surface that actually settles applicability: a wide side drawer listing the 
 .bcn-sw-row[hidden] {
   display: none;
 }
-.bcn-sw-row__content {
-  gap: var(--spacing-100);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-sw-row__top {
-  align-items: center;
-  gap: var(--spacing-250, 0.625rem);
-  min-width: 0;
-  display: flex;
-}
-.bcn-sw-row__marks {
-  align-items: center;
-  gap: var(--spacing-150);
-  flex: none;
-  display: inline-flex;
-}
-.bcn-sw-row {
-  cursor: pointer;
-}
 .bcn-sw-row:hover {
   border-color: var(--color-border-default-strong);
-}
-.bcn-sw-row__check,
-.bcn-sw-row__acts {
-  cursor: default;
 }
 .bcn-sw-row[data-active] {
   border-color: var(--color-background-brand);
@@ -7209,9 +10175,22 @@ The surface that actually settles applicability: a wide side drawer listing the 
     var(--color-background-elevation-raised)
   );
 }
-.bcn-sw-row__check {
+.bcn-sw-row__content {
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  display: flex;
+}
+.bcn-sw-row__top {
   align-items: center;
-  min-height: 1.5rem;
+  gap: var(--spacing-250, 0.625rem);
+  min-width: 0;
+  display: flex;
+}
+.bcn-sw-row__check {
+  cursor: default;
+  align-items: center;
+  min-height: 1.75rem;
   display: inline-flex;
 }
 .bcn-sw-row__hit {
@@ -7221,9 +10200,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
   cursor: pointer;
   background: 0 0;
   border: 0;
-  flex-direction: column;
   flex: 1;
-  gap: 2px;
   padding: 0;
   display: flex;
 }
@@ -7249,12 +10226,47 @@ The surface that actually settles applicability: a wide side drawer listing the 
   line-height: 1.35;
   overflow: hidden;
 }
-.bcn-sw-row__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
+.bcn-sw-row__name mark {
+  background: var(
+    --color-background-utility-warning-subtle,
+    color-mix(in srgb, var(--color-background-utility-warning) 25%, transparent)
+  );
+  color: inherit;
+  border-radius: 2px;
+}
+.bcn-sw-row__note {
+  color: var(--color-content-default-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  overflow: hidden;
+}
+.bcn-sw-row__note[hidden] {
+  display: none;
+}
+.bcn-sw-row__flag {
+  align-items: center;
+  gap: var(--spacing-100);
+  min-width: 0;
+  color: var(--color-content-utility-warning);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  display: flex;
+}
+.bcn-sw-row__flag > span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.bcn-sw-row__flag[hidden] {
+  display: none;
+}
+.bcn-sw-row__marks {
+  align-items: center;
+  gap: var(--spacing-150);
+  flex: none;
+  display: inline-flex;
 }
 .bcn-sw-row__state {
   flex: none;
@@ -7267,7 +10279,6 @@ The surface that actually settles applicability: a wide side drawer listing the 
 .bcn-sw-row__state--applied .esa-badge {
   --badge-bg: transparent;
   --badge-text-color: var(--color-background-brand);
-  --badge-border-color: var(--color-border-brand, var(--color-border-default));
   border: 1px solid var(--color-border-brand, var(--color-border-default));
   font-weight: var(--typography-font-weight-medium);
 }
@@ -7281,26 +10292,24 @@ The surface that actually settles applicability: a wide side drawer listing the 
   align-items: center;
   gap: var(--spacing-150);
   visibility: hidden;
+  cursor: default;
+  flex: none;
+  margin-left: auto;
   display: flex;
 }
 .bcn-sw-row:hover .bcn-sw-row__acts,
 .bcn-sw-row:focus-within .bcn-sw-row__acts {
   visibility: visible;
 }
-.bcn-sw-row__undo {
-  margin-left: auto;
+.bcn-sw-row[data-decision="applied"] .bcn-sw-row__act--apply,
+.bcn-sw-row[data-decision="dismissed"] .bcn-sw-row__act--dismiss,
+.bcn-sw-row[data-decision=""] .bcn-sw-row__act--undo {
   display: none;
-}
-.bcn-sw-row[data-staged="true"] .bcn-sw-row__undo {
-  display: inline-flex;
-}
-.bcn-sw-row[data-staged="true"] .bcn-sw-row__acts {
-  visibility: visible;
 }
 .bcn-sw__listhead {
   align-items: center;
   gap: var(--spacing-250, 0.625rem);
-  min-height: 40px;
+  min-height: 44px;
   padding: var(--spacing-200) var(--spacing-300);
   border-bottom: 1px solid var(--color-border-default-subtle);
   flex: none;
@@ -7357,18 +10366,42 @@ The surface that actually settles applicability: a wide side drawer listing the 
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   display: grid;
 }
-.bcn-sw-prev__effect {
+.bcn-sw-prev__effect,
+.bcn-sw-prev__rec,
+.bcn-sw-prev__decision {
   gap: var(--spacing-250, 0.625rem);
   padding-top: var(--spacing-300);
   border-top: 1px solid var(--color-border-default-subtle);
   flex-direction: column;
   display: flex;
 }
+.bcn-sw-prev__rec {
+  align-items: flex-start;
+}
+.bcn-sw-prev__decision {
+  gap: var(--spacing-300) var(--spacing-500);
+  flex-flow: wrap;
+}
+.bcn-sw-prev__effect[hidden],
+.bcn-sw-prev__rec[hidden],
+.bcn-sw-prev__decision[hidden],
+[data-sw-prev-ratwrap][hidden] {
+  display: none;
+}
 .bcn-sw-prev__efftitle {
   font-size: var(--font-size-200);
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
   margin: 0;
+}
+.bcn-sw-prev__reasons {
+  gap: var(--spacing-100);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default);
+  flex-direction: column;
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
 }
 .bcn-sw-prev__actions {
   gap: var(--spacing-200);
@@ -7398,38 +10431,14 @@ The surface that actually settles applicability: a wide side drawer listing the 
   --badge-text-color: var(--color-content-default-secondary);
   font-weight: var(--typography-font-weight-medium);
 }
-.bcn-sw-prev__undo {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  font-size: 0.8125rem;
-}
-.bcn-sw-prev__decision {
-  gap: var(--spacing-300) var(--spacing-500);
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-default-subtle);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-sw-prev__decision[hidden] {
-  display: none;
-}
-.bcn-sw-prev__decval,
-.bcn-sw-prev__rationale {
+.bcn-sw-prev__decval {
   font-size: var(--typography-label-md-font-size);
   color: var(--color-content-default);
 }
 .bcn-sw__foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
+  justify-content: flex-end;
   width: 100%;
   display: flex;
-}
-.bcn-sw__footacts {
-  align-items: center;
-  gap: var(--spacing-300);
-  margin-left: auto;
-  display: inline-flex;
 }
 .bcn-sw-rationale {
   --z-modal-backdrop: 1400;
@@ -7444,7 +10453,8 @@ The surface that actually settles applicability: a wide side drawer listing the 
   color: var(--color-content-default);
   margin: 0;
 }
-.bcn-sw-rationale__warn[hidden] {
+.bcn-sw-rationale__warn[hidden],
+[data-sw-dialog-ratwrap][hidden] {
   display: none;
 }
 .bcn-sw-rationale__foot {
@@ -7452,6 +10462,104 @@ The surface that actually settles applicability: a wide side drawer listing the 
   gap: var(--spacing-300);
   width: 100%;
   display: flex;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -7653,13 +10761,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
 .typography-body-xs {
   font-family: var(--typography-body-xs-font-family);
   font-size: var(--typography-body-xs-font-size);
@@ -7695,13 +10796,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -7715,13 +10809,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
 }
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
@@ -7737,212 +10824,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
 .typography-microcopy-md-strong {
   font-family: var(--typography-microcopy-md-strong-font-family);
   font-size: var(--typography-microcopy-md-strong-font-size);
   font-weight: var(--typography-microcopy-md-strong-font-weight);
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  justify-content: center;
-  align-items: center;
-  gap: var(--_empty-gap);
-  flex-direction: column;
-  display: flex;
-}
-.esa-empty-state--xs {
-  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state--lg {
-  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
-}
-.esa-empty-state__icon {
-  color: var(--color-content-default-secondary, #646464);
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
-.esa-empty-state__title {
-  color: var(--color-content-default, #202020);
-  margin: 0;
-}
-.esa-empty-state__description {
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-  margin: 0;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.esa-empty-state__actions:empty {
-  display: none;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--color-content-default-secondary, #646464);
-  --_clear-text-hover: var(
-    --color-content-utility-danger,
-    var(--color-content-brand, #2a7e3b)
-  );
-  --_clear-icon-size: 18px;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border-radius: var(--radius-sm, 0.25rem);
-  color: var(--_clear-text);
-  cursor: pointer;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  text-decoration: underline;
-  display: inline-flex;
-}
-.esa-filter-clear-button:hover {
-  color: var(--_clear-text-hover);
-  background: var(--color-background-overlay-hover, #00000008);
-}
-.esa-filter-clear-button:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
 }
 .bcn-filterbar {
   background: var(--color-background-elevation-raised);
@@ -7991,13 +10878,40 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: 1;
   margin-left: 0;
 }
+.bcn-filterbar__scope {
+  margin-left: var(--spacing-600);
+}
+.bcn-filterbar__search--filters {
+  width: 20rem;
+  min-width: 0;
+  margin-left: 0;
+}
 .bcn-filterbar__sort {
   margin-left: var(--spacing-600);
-  --form-height-md: 32px;
   --typography-label-md-font-size: 14px;
 }
 .bcn-filterbar__sort esa-select {
+  --_field-padding-y: calc((32px - 1lh) / 2 - var(--form-border-width, 1px));
   width: 9rem;
+}
+.bcn-filterbar--compact {
+  --typography-microcopy-md-font-size: 14px;
+  --typography-microcopy-md-strong-font-size: 14px;
+  --typography-microcopy-md-subtle-font-size: 14px;
+}
+.bcn-filterbar--compact esa-button-toggle {
+  --_pad-y: calc((26px - 1lh) / 2);
+}
+.bcn-filterbar--compact esa-button-toggle[data-icons] {
+  --_icon-size: 14px;
+  --_pad-y: calc((26px - max(1lh, 14px)) / 2);
+}
+.bcn-filterbar--compact esa-text-field {
+  --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
+}
+.bcn-filterbar--compact esa-switch-toggle {
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-filterbar__clear {
   margin-left: auto;
@@ -8009,61 +10923,9 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-wrap: wrap;
   display: flex;
 }
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
-  --_stat-value-font: var(
-    --typography-font-family-display,
-    var(
-      --typography-display-sm-font-family,
-      var(--typography-font-family-display, "DM Sans", sans-serif)
-    )
-  );
-  --_stat-value-size: var(
-    --stat-value-size,
-    var(--typography-display-sm-font-size, var(--font-size-700, 2.25rem))
-  );
-  --_stat-value-weight: var(
-    --typography-font-weight-bold,
-    var(--typography-display-sm-font-weight, var(--typography-font-weight-bold, 650))
-  );
-  --_stat-label-color: var(--color-content-default-secondary, #646464);
-  --_stat-label-size: var(
-    --font-size-200,
-    var(--typography-label-md-font-size, var(--font-size-200, 0.9375rem))
-  );
-  --_stat-label-weight: var(
-    --typography-font-weight-medium,
-    var(--typography-label-md-font-weight, var(--typography-font-weight-medium, 500))
-  );
-  --_stat-sub-color: var(--color-content-default-secondary, #646464);
-  --_stat-sub-size: var(
-    --font-size-150,
-    var(--typography-body-sm-font-size, var(--font-size-150, 0.875rem))
-  );
-  --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));
-  --_stat-gap: var(--spacing-050, 0.125rem);
-  gap: var(--_stat-gap);
-  background: 0 0;
-  flex-direction: column;
-  display: flex;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  color: var(--_stat-value-color);
-}
-.esa-stat--accent .esa-stat__value {
-  color: var(--_stat-accent-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  color: var(--_stat-label-color);
-}
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  color: var(--_stat-sub-color);
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -8093,6 +10955,95 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--color-content-default-secondary, #646464);
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
+.esa-empty-state__description {
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+  margin: 0;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
@@ -8169,8 +11120,9 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #43608a _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
 - `--bcn-citation-bg`: #f6f3ed _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
@@ -8191,11 +11143,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-overlay-hover`: #00000008 _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-danger-muted`: #feebec _(semantic)_
@@ -8209,6 +11162,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
+- `--color-background-utility-warning-subtle`: #fefdfb _(semantic)_
 - `--color-border-brand`: #b9d6d2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
@@ -8219,6 +11173,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -8226,6 +11181,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -8243,8 +11199,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
 - `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--font-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
+- `--font-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
+- `--form-border-width`: 1px _(component)_
 - `--form-label-color`: #525252 _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
@@ -8261,7 +11217,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -8270,27 +11225,15 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
 - `--spacing-800`: 4rem _(primitive)_
-- `--stat-accent-color`: #3a7c59 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -8303,6 +11246,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
@@ -8320,24 +11265,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -8350,6 +11280,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

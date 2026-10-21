@@ -219,7 +219,7 @@ The open switcher: every component on the project, each with its seal, the curre
     type="button"
     role="option"
     class="bcn-component-picker__opt"
-    data-component-picker-opt="Bouldin Island Launch Shaft"
+    data-component-picker-opt="Bouldin Island Geotechnical Exploration"
     aria-selected="false"
   >
     <span
@@ -228,9 +228,9 @@ The open switcher: every component on the project, each with its seal, the curre
       data-variant="seal"
       data-shape="circle"
       data-style="fill"
-      data-glyph="bird"
-      data-color="slate"
-      style="--_c: var(--bcn-mark-slate)"
+      data-glyph="building-2"
+      data-color="cyan"
+      style="--_c: var(--bcn-mark-cyan)"
       ><span class="esa-icon esa-icon--xs" aria-hidden="true"
         ><svg
           width="14"
@@ -243,13 +243,15 @@ The open switcher: every component on the project, each with its seal, the curre
           stroke-linejoin="round"
           focusable="false"
         >
-          <path d="M16 7h.01"></path>
-          <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-          <path d="m20 7 2 .5-2 .5"></path>
-          <path d="M10 18v3"></path>
-          <path d="M14 17.75V21"></path>
-          <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span
-    ><span class="bcn-component-picker__optname">Bouldin Island Launch Shaft</span
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+          <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+          <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+          <path d="M10 6h4"></path>
+          <path d="M10 10h4"></path>
+          <path d="M10 14h4"></path>
+          <path d="M10 18h4"></path></svg></span></span
+    ><span class="bcn-component-picker__optname"
+      >Bouldin Island Geotechnical Exploration</span
     ><span class="bcn-component-picker__check"
       ><span class="esa-icon esa-icon--sm" aria-hidden="true"
         ><svg
@@ -438,18 +440,6 @@ The open switcher: every component on the project, each with its seal, the curre
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -508,6 +498,34 @@ The open switcher: every component on the project, each with its seal, the curre
 }
 .bcn-component-picker__opt[aria-selected="true"] .bcn-component-picker__check {
   visibility: visible;
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .bcn-entity-logo {
   background: color-mix(in srgb, var(--_c) 12%, transparent);
@@ -617,22 +635,6 @@ The open switcher: every component on the project, each with its seal, the curre
 .page-layout__title h1 .esa-icon {
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
-}
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 ```
 

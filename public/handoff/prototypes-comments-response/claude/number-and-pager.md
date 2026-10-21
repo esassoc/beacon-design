@@ -13,6 +13,45 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
 ## Markup
 ```html
 <div class="page-layout__utilities">
+  <span data-response-actions="" data-base="/beacon-design/prototypes/comments"
+    ><esa-dropdown-menu position="below-end" width="auto" data-ra-menu="true"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span class="esa-button__label">More</span
+          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m6 9 6 6 6-6"></path></svg
+          ></span></button></span></esa-dropdown-menu
+    ><esa-confirm-dialog
+      heading="Delete This Response?"
+      variant="danger"
+      confirm-label="Delete"
+      cancel-label="Cancel"
+      show-close-button="true"
+      data-ra-delete="true"
+    ></esa-confirm-dialog
+  ></span>
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnResponseActions.astro_astro_type_script_index_0_lang.CHAJEwgS.js"
+  ></script>
   <div
     class="bcn-rp"
     data-record-pager=""
@@ -74,10 +113,10 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
       class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only"
       ><a
         class="esa-button__native typography-microcopy-xs"
-        href="/beacon-design/prototypes/comments/response?id=r-12"
+        href="/beacon-design/prototypes/comments/response?id=r-05"
         role="button"
         aria-label="Next response"
-        title="R-012 Growth in Operations and Overflight Frequency"
+        title="R-005 Elliott Bay Arrival Route"
         data-rp-next="true"
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
@@ -123,21 +162,54 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
                     stroke-linejoin="round"
                     aria-hidden="true"
                   >
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                     <path
-                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                      d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                     ></path>
-                    <path
-                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                    ></path>
-                    <path d="M8 18h1"></path></svg></span></span
+                    <path d="m9 18-1.5-1.5"></path>
+                    <circle cx="5" cy="14" r="3"></circle></svg></span></span
               ><span class="bcn-rp__no">R-004</span
               ><span class="bcn-rp__name"
                 >Late Night Noise Limitation Program and Overnight Flights</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="open">Draft</span
+                ><span class="bcn-rp__status" data-state="open">Final Review</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="violet"></span>Nighttime
                   operations</span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              class="bcn-rp__row"
+              href="/beacon-design/prototypes/comments/response?id=r-05"
+              ><span class="bcn-rp__mark"
+                ><span class="bcn-rp__glyph" data-state="open" aria-hidden="true"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path
+                      d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
+                    ></path>
+                    <path d="m9 18-1.5-1.5"></path>
+                    <circle cx="5" cy="14" r="3"></circle></svg></span></span
+              ><span class="bcn-rp__no">R-005</span
+              ><span class="bcn-rp__name">Elliott Bay Arrival Route</span
+              ><span class="bcn-rp__meta"
+                ><span class="bcn-rp__status" data-state="open">Final Review</span
+                ><span class="bcn-rp__topic"
+                  ><span class="bcn-topic-dot" data-family="blue"></span>Flight
+                  paths</span
                 ></span
               ></a
             >
@@ -205,41 +277,6 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
               ><span class="bcn-rp__no">R-006</span
               ><span class="bcn-rp__name"
                 >Distributing Arrivals and Approach Altitude</span
-              ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="open">Draft</span
-                ><span class="bcn-rp__topic"
-                  ><span class="bcn-topic-dot" data-family="blue"></span>Flight
-                  paths</span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-rp__row"
-              href="/beacon-design/prototypes/comments/response?id=r-05"
-              ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="open" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                    ></path>
-                    <path
-                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                    ></path>
-                    <path d="M8 18h1"></path></svg></span></span
-              ><span class="bcn-rp__no">R-005</span
-              ><span class="bcn-rp__name">Elliott Bay Arrival Route</span
               ><span class="bcn-rp__meta"
                 ><span class="bcn-rp__status" data-state="open">Draft</span
                 ><span class="bcn-rp__topic"
@@ -529,7 +566,7 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.znQ9dXbv.js"
+    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.eNyx_b48.js"
   ></script>
 </div>
 ```
@@ -668,6 +705,16 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -1228,6 +1275,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

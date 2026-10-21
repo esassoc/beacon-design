@@ -100,10 +100,17 @@ export default {
       acceptance: ['Save bumps the matching implementation rows\' evidence counts live.'],
     },
     {
-      label: 'Export — Word, CSV',
+      label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'Word and CSV downloads in the rail.',
-      decisions: ['NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.'],
+      intent:
+        'The ways the list leaves Beacon, in the rail: PDF, then prod\'s CSV and Excel, then Word (a later slice, BCN-1764).',
+      decisions: [
+        'Order is prod\'s card (CSV, then Excel, under those names) with PDF added first.',
+        'PDF downloads the action list document (see the list-export-action-pdf spec): `GET action-lists/{actionListID}/generate-pdf`. The prototype opens the print route in a new tab instead.',
+        'LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype\'s download works: the SAME document as the PDF, as a .docx from `GET action-lists/{actionListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
+        'NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.',
+      ],
+      acceptance: ['Four rows in order PDF, CSV, Excel, Word; Word\'s download belongs to the later slice (BCN-1764).'],
     },
     {
       label: 'Danger Zone',

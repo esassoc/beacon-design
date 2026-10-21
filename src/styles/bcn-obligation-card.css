@@ -117,6 +117,7 @@ details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
 /* An ACTION's type chip on an action list (<BcnListMemberCard>), in the action hue. */
 .bcn-loc[data-class='action'],
 .bcn-lac[data-class='action'],
+.bcn-lob[data-class='action'],
 .bcn-ci-chip[data-class='action'] { --_hue: var(--color-action); }
 
 .bcn-swoc__title,
@@ -214,6 +215,26 @@ details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
    end, so a mark after the title sits at its heel. */
 .bcn-loc__title { flex: 0 1 auto; }
 .bcn-loc [data-list-count] { margin-inline-start: auto; }
+
+/* The dirty mark: a filled dot at the title's heel when this list carries its own
+   title or description for the member. The dot is 6px; the span around it is the 16px
+   hit area the tooltip needs. Moved here from <BcnListObligationCard> when an action
+   on a Compliance Index list began to carry wording of its own too. */
+.bcn-loc__edited { flex-shrink: 0; display: inline-flex; }
+.bcn-loc__edited[hidden] { display: none; }
+.bcn-loc__dot {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+.bcn-loc__dot::before {
+  content: '';
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-content-brand);
+}
 
 /* Secondary ink, and the whole row opens <BcnListRequirementPanel>. The name is the
    row's button: it takes focus and Enter; reset to read as the text it was. The

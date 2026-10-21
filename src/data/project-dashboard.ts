@@ -146,8 +146,8 @@ export interface StarredComponent {
 const CMP_HREF = '/prototypes/component-dashboard';
 export const STARRED_COMPONENTS: StarredComponent[] = [
   {
-    name: 'Bouldin Island Launch Shaft',
-    description: 'Tunnel launch shaft — Bouldin Island',
+    name: 'Bouldin Island Geotechnical Exploration',
+    description: 'Geotechnical exploration — Bouldin Island',
     status: 'Active',
     pulse: [
       { area: 'tracking', label: 'Tracking', status: 'attention', note: sig.actionsOverdue(3) },
