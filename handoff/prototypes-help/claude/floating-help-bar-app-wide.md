@@ -42,7 +42,7 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 <div
   class="bcn-help-bar"
   data-help-bar=""
-  data-newest="2026-06-02"
+  data-newest="2026-10-13"
   role="toolbar"
   aria-label="Help &amp; utilities"
 >
@@ -65,14 +65,14 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
           class="bcn-aldo-mark__glyph"
           viewBox="12 12 40 40"
           fill="none"
-          stroke="url(#bcn-aldo-ring-yqclbhs)"
+          stroke="url(#bcn-aldo-ring-r4e343e)"
           stroke-width="3.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
           <defs>
             <linearGradient
-              id="bcn-aldo-ring-yqclbhs"
+              id="bcn-aldo-ring-r4e343e"
               x1="14"
               y1="12"
               x2="52"
@@ -90,7 +90,7 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
             cx="33.2"
             cy="31.1"
             r="2"
-            fill="url(#bcn-aldo-ring-yqclbhs)"
+            fill="url(#bcn-aldo-ring-r4e343e)"
             stroke="none"
           ></circle></svg
       ></span></button></esa-tooltip
@@ -182,17 +182,21 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
       <header class="bcn-help-bar__panel-header">
         <p class="bcn-help-bar__panel-title typography-label-md-strong">What's New</p>
         <p class="bcn-help-bar__panel-release typography-label-sm">
-          1.33.0 · <time datetime="2026-06-02">Jun 2, 2026</time>
+          1.41.0 · <time datetime="2026-10-13">Oct 13, 2026</time>
         </p>
       </header>
       <ul class="bcn-help-bar__panel-list">
         <li>
-          <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+          <a
+            class="bcn-help-bar__panel-link"
+            href="/beacon-design/prototypes/release-notes#v1-41-0-lists"
             ><span class="bcn-help-bar__panel-text"
               ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Commitment Lists</span
-              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-                >Save a filtered set of commitments as a named List and reopen it.</span
+                >Lists replace Action Lists</span
+              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+                >Each project now has one Lists page for action lists and commitment lists. Every
+                list has its own page, with a searchable drawer for adding items, Select mode for
+                removing many, and CSV export.</span
               ></span
             ><span class="bcn-help-bar__panel-go" aria-hidden="true"
               ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -211,12 +215,16 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
           ></a>
         </li>
         <li>
-          <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+          <a
+            class="bcn-help-bar__panel-link"
+            href="/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard"
             ><span class="bcn-help-bar__panel-text"
               ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Evidence of Compliance</span
-              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-                >All evidence records now live in one Data Catalog grid.</span
+                >Configurable Monitoring Portal dashboard</span
+              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+                >The dashboard is now a board of widgets. Admins add them from a gallery, then
+                resize, reorder, recolor and configure each one, and the layout is saved for the
+                project.</span
               ></span
             ><span class="bcn-help-bar__panel-go" aria-hidden="true"
               ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -235,13 +243,15 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
           ></a>
         </li>
         <li>
-          <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+          <a
+            class="bcn-help-bar__panel-link"
+            href="/beacon-design/prototypes/release-notes#v1-41-0-list-evidence"
             ><span class="bcn-help-bar__panel-text"
               ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Commitment Compliance</span
-              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-                >A Monitoring Portal view of out-of-compliance commitments and their field
-                observations.</span
+                >Evidence for a whole action list</span
+              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+                >Choose a component, stage the evidence, and save it to every action on that
+                component in one step.</span
               ></span
             ><span class="bcn-help-bar__panel-go" aria-hidden="true"
               ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -556,8 +566,13 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 .bcn-help-bar__panel-item-title {
   color: var(--color-content-default);
 }
-.bcn-help-bar__panel-item-blurb {
+.bcn-help-bar__panel-item-text {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   color: var(--color-content-default-secondary);
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
 }
 .bcn-help-bar__panel-go {
   color: var(--color-content-default-tertiary);

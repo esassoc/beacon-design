@@ -106,8 +106,8 @@ _4 repeated elements are collapsed in the markup below; the comments say where._
         ></span>
       </div>
       <p class="bcn-gd__here-purpose" data-gd-purpose="">
-        What changed in each Beacon release — headline features, per-area improvements, and fixes,
-        newest first.
+        What changed in each Beacon release — the main features with screenshots, then everything
+        added, changed and fixed, newest first.
       </p>
     </section>
     <!-- On This Page. On a page with help dots, the section is its dots (round 17: a page

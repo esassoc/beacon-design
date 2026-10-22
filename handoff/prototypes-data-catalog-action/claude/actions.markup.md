@@ -13,14 +13,14 @@
         class="bcn-aldo-mark__glyph"
         viewBox="12 12 40 40"
         fill="none"
-        stroke="url(#bcn-aldo-ring-4jg6e7p)"
+        stroke="url(#bcn-aldo-ring-z3wgl13)"
         stroke-width="3.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
         <defs>
           <linearGradient
-            id="bcn-aldo-ring-4jg6e7p"
+            id="bcn-aldo-ring-z3wgl13"
             x1="14"
             y1="12"
             x2="52"
@@ -38,7 +38,7 @@
           cx="33.2"
           cy="31.1"
           r="2"
-          fill="url(#bcn-aldo-ring-4jg6e7p)"
+          fill="url(#bcn-aldo-ring-z3wgl13)"
           stroke="none"
         ></circle></svg></span
     ><span class="bcn-gd__title">Help &amp; Guidance</span>

@@ -38,7 +38,7 @@ _21 repeated elements are collapsed in the markup below; the comments say where.
     <div class="ctb__axis" id="ctb-axis">
       <span class="ctb-tick" style="left: 0%">Jun ’26</span
       ><span class="ctb-tick" style="left: 16.3934%">Jul</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 77.5956%">Today</span
+      ><span class="ctb-tick ctb-tick--today" style="left: 78.1421%">Today</span
       ><!-- …and 4 more like this (<span class="ctb-tick">) -->
     </div>
     <span></span>
@@ -49,7 +49,7 @@ _21 repeated elements are collapsed in the markup below; the comments say where.
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="left: 0.546448087431694%; width: 77.04918032786884%; background: var(--st-cleared)"
+          style="left: 0.546448087431694%; width: 77.59562841530054%; background: var(--st-cleared)"
         ></span>
         <span
           class="ctb-row__dot"
@@ -63,7 +63,7 @@ _21 repeated elements are collapsed in the markup below; the comments say where.
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="left: 0.546448087431694%; width: 77.04918032786884%; background: var(--st-cleared)"
+          style="left: 0.546448087431694%; width: 77.59562841530054%; background: var(--st-cleared)"
         ></span>
         <span
           class="ctb-row__dot"

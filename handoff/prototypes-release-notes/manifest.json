@@ -1,7 +1,7 @@
 {
   "name": "release-notes",
   "title": "Release Notes",
-  "description": "Every Beacon release in one reverse-chronological stream — the changelog pattern in Beacon’s chrome, fed by the real 1.31–1.33 notes. Three tiers per release (headline stories, area-grouped entries with feature-flag notes, a collapsed fixes list), a sticky scroll-spy version rail, and monochrome serif typesetting. The help bar’s What’s-new popover deep-links into each release anchor.",
+  "description": "Every Beacon release as one post, newest first: two or three features with captioned screenshots, then the release’s full Added / Changed / Fixed changelog in the Claude Code layout. Real customer-facing 1.39–1.41 notes; the help bar’s What’s-new popover lists the latest post’s features.",
   "dir": "prototypes-release-notes",
   "url": "https://esassoc.github.io/beacon-design/prototypes/release-notes/",
   "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/",
@@ -12,28 +12,22 @@
       "label": "Version rail",
       "tag": "nav",
       "selector": ".bcn-release-nav",
-      "html": "<nav class=\"bcn-release-nav\" aria-label=\"Releases\" data-release-nav=\"\">\n  <h2 class=\"bcn-release-nav__heading\">Releases</h2>\n  <ol class=\"bcn-release-nav__list\" role=\"list\">\n    <li class=\"bcn-release-nav__item\">\n      <a\n        class=\"bcn-release-nav__link is-active\"\n        href=\"#v1-33-0\"\n        data-release-link=\"v1-33-0\"\n        aria-current=\"true\"\n        ><span class=\"bcn-release-nav__version\"\n          >1.33.0<span class=\"bcn-release-nav__latest\">Latest</span></span\n        ><span class=\"bcn-release-nav__date\">Jun 2</span></a\n      >\n    </li>\n    <li class=\"bcn-release-nav__item\">\n      <a class=\"bcn-release-nav__link\" href=\"#v1-32-0\" data-release-link=\"v1-32-0\"\n        ><span class=\"bcn-release-nav__version\">1.32.0</span\n        ><span class=\"bcn-release-nav__date\">May 21</span></a\n      >\n    </li>\n    <li class=\"bcn-release-nav__item\">\n      <a class=\"bcn-release-nav__link\" href=\"#v1-31-0\" data-release-link=\"v1-31-0\"\n        ><span class=\"bcn-release-nav__version\">1.31.0</span\n        ><span class=\"bcn-release-nav__date\">May 12</span></a\n      >\n    </li>\n  </ol>\n</nav>",
-      "css": ".bcn-omni-rail__item.is-active {\n  background: var(--color-background-brand);\n  color: var(--color-content-default-knockout);\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-omni-row.is-active {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-release-nav {\n  top: var(--spacing-500, 1.5rem);\n  max-block-size: calc(100vh - var(--spacing-900, 6rem));\n  overscroll-behavior: contain;\n  align-self: start;\n  position: sticky;\n  overflow-y: auto;\n}\n.bcn-release-nav__heading {\n  margin: 0 0 var(--spacing-200, 0.5rem);\n  padding-inline: var(--spacing-300, 0.75rem);\n  font-size: 1rem;\n  font-weight: var(--typography-font-weight-semibold, 600);\n  color: var(--color-content-default);\n  line-height: 1.3;\n}\n.bcn-release-nav__list {\n  flex-direction: column;\n  gap: 1px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-release-nav__link {\n  padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);\n  border-radius: var(--radius-200, 0.5rem);\n  color: var(--color-content-default-secondary);\n  flex-direction: column;\n  gap: 2px;\n  text-decoration: none;\n  transition:\n    background 0.1s,\n    color 0.1s;\n  display: flex;\n}\n.bcn-release-nav__link:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-release-nav__link:hover .bcn-release-nav__version {\n  color: var(--color-content-default);\n}\n.bcn-release-nav__link:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid\n    var(--focus-ring-color, var(--color-content-link, #005862));\n  outline-offset: 2px;\n}\n.bcn-release-nav__link.is-active .bcn-release-nav__version {\n  color: var(--color-content-default);\n  font-weight: 600;\n}\n.bcn-release-nav__version {\n  align-items: baseline;\n  gap: var(--spacing-200, 0.5rem);\n  font-family: var(--font-decorative);\n  color: var(--color-content-default-tertiary);\n  font-size: 1rem;\n  font-weight: 500;\n  line-height: 1.3;\n  transition: color 0.1s;\n  display: inline-flex;\n}\n.bcn-release-nav__latest {\n  font-family: var(--typography-font-family-sans, \"DM Sans\", sans-serif);\n  font-size: 12px;\n  font-weight: var(--typography-font-weight-medium, 500);\n  color: var(--color-content-default-tertiary);\n  background: var(--color-background-elevation-sunken);\n  padding: 1px var(--spacing-150, 0.375rem);\n  border-radius: var(--radius-100, 0.25rem);\n  flex: none;\n  line-height: 1.5;\n}\n.bcn-release-nav__date {\n  color: var(--color-content-default-tertiary);\n  font-size: 0.875rem;\n  line-height: 1.35;\n}\n@media (width<=48rem) {\n  .bcn-release-nav {\n    max-block-size: none;\n    position: static;\n    overflow: visible;\n  }\n}",
+      "html": "<nav class=\"bcn-release-nav\" aria-label=\"Releases\" data-release-nav=\"\">\n  <h2 class=\"bcn-release-nav__heading\">Releases</h2>\n  <ol class=\"bcn-release-nav__list\" role=\"list\">\n    <li class=\"bcn-release-nav__item\">\n      <a\n        class=\"bcn-release-nav__link is-active\"\n        href=\"#v1-41-0\"\n        data-release-link=\"v1-41-0\"\n        aria-current=\"true\"\n        ><span class=\"bcn-release-nav__version\">1.41.0</span></a\n      >\n    </li>\n    <li class=\"bcn-release-nav__item\">\n      <a class=\"bcn-release-nav__link\" href=\"#v1-40-0\" data-release-link=\"v1-40-0\"\n        ><span class=\"bcn-release-nav__version\">1.40.0</span></a\n      >\n    </li>\n    <li class=\"bcn-release-nav__item\">\n      <a class=\"bcn-release-nav__link\" href=\"#v1-39-0\" data-release-link=\"v1-39-0\"\n        ><span class=\"bcn-release-nav__version\">1.39.0</span></a\n      >\n    </li>\n  </ol>\n</nav>",
+      "css": ".bcn-omni-rail__item.is-active {\n  background: var(--color-background-brand);\n  color: var(--color-content-default-knockout);\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-omni-row.is-active {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-release-nav {\n  top: var(--spacing-500, 1.5rem);\n  max-block-size: calc(100vh - var(--spacing-900, 6rem));\n  overscroll-behavior: contain;\n  align-self: start;\n  position: sticky;\n  overflow-y: auto;\n}\n.bcn-release-nav__heading {\n  margin: 0 0 var(--spacing-200, 0.5rem);\n  padding-inline: var(--spacing-300, 0.75rem);\n  font-size: 1rem;\n  font-weight: var(--typography-font-weight-semibold, 600);\n  color: var(--color-content-default);\n  line-height: 1.3;\n}\n.bcn-release-nav__list {\n  flex-direction: column;\n  gap: 1px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-release-nav__link {\n  padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);\n  border-radius: var(--radius-200, 0.5rem);\n  color: var(--color-content-default-secondary);\n  flex-direction: column;\n  gap: 2px;\n  text-decoration: none;\n  transition:\n    background 0.1s,\n    color 0.1s;\n  display: flex;\n}\n.bcn-release-nav__link:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-release-nav__link:hover .bcn-release-nav__version {\n  color: var(--color-content-default);\n}\n.bcn-release-nav__link:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid\n    var(--focus-ring-color, var(--color-content-link, #005862));\n  outline-offset: 2px;\n}\n.bcn-release-nav__link.is-active .bcn-release-nav__version {\n  color: var(--color-content-default);\n  font-weight: 600;\n}\n.bcn-release-nav__version {\n  align-items: baseline;\n  gap: var(--spacing-200, 0.5rem);\n  font-family: var(--font-decorative);\n  color: var(--color-content-default-tertiary);\n  font-size: 1rem;\n  font-weight: 500;\n  line-height: 1.3;\n  transition: color 0.1s;\n  display: inline-flex;\n}\n@media (width<=64rem) {\n  .bcn-release-nav {\n    display: none;\n  }\n}",
       "guide": {
-        "intent": "The slim sticky rail that makes a long changelog navigable: one row per release — the version number as an anchor link, a short human date beneath it, and a quiet \"Latest\" marker on the newest entry. A scroll-spy mirrors whichever release is in view into an active highlight.",
+        "intent": "A slim sticky list of release versions on the end side of the page, each an anchor link to its post. A scroll-spy mirrors whichever release is in view into an active highlight. Wide screens only.",
         "decisions": [
-          "PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class — nothing about navigation depends on it.",
-          "Active = the topmost release currently inside a thin band just under the topbar (rootMargin -68px top / -55% bottom). When the scroll sits between bands the last active row stays lit, so the rail never blanks out mid-scroll.",
-          "The active state is an INK SHIFT, never a color fill: the version darkens to primary and gains weight; the row keeps its neutral background. Hover adds at most a sunken wash.",
-          "Version numbers are set in the serif display face (--font-decorative) to echo the version headings in the stream — the rail and the stream speak the same voice.",
-          "\"Latest\" is a quiet gray marker on the sunken surface, not a colored chip, so it never competes with the active-row ink.",
-          "Dates shorten to \"Jul 22\" and only append the year when it differs from the newest release's year, keeping the rail slim. They are read in UTC to avoid an ISO-midnight off-by-one.",
-          "The initial highlight comes from the URL hash when it names a known release, else the newest — so arriving from the What's-new popover lights the right row immediately."
+          "PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class.",
+          "Versions only. Each post carries its own version badge and date in its meta column, so the rail repeats neither the date nor a \"Latest\" marker.",
+          "The active state is an ink shift, never a color fill: the version darkens and gains weight.",
+          "Below 64rem the rail is not rendered; the posts' own meta columns carry the version."
         ],
         "gotchas": [
-          "The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed 52px topbar (AppShell's body carries the padding-top). Its sticky `top` is therefore a small breathing gap, NOT the topbar height — adding the header offset again double-counts it.",
-          "align-self:start is required: without it the flex item stretches to full height and the sticky element has no slack to move in.",
-          "esa-sidebar-nav is the wrong lego here — it is a route/section nav behind a shadow-DOM, property-driven boundary, its group headings are the banned ornamental micro-label (11px uppercase letter-spaced), and its per-item hint can only be a filled badge pill, not the quiet 14px date meta this rail needs.",
-          "The PAGE owns the .sidebar layout primitive and sets --sidebar-width (~14rem); the rail is designed to be its first-child aside and does not create its own layout.",
-          "On narrow viewports the .sidebar primitive folds the rail above the stream — drop sticky and the height cap there, or it reads as a stuck fragment."
+          "The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed topbar. Its sticky `top` is a small breathing gap, not the topbar height.",
+          "The PAGE owns the .sidebar primitive (data-side=\"end\", --sidebar-width 12rem); the rail is its first-child aside."
         ],
         "acceptance": [
-          "Every release has a row with version, date, and — on the newest only — a \"Latest\" marker; clicking a row jumps to that release with landing room below the topbar; scrolling moves the active ink down the rail; arriving with #v1-33-0 lights that row on load."
+          "Every release has a row; clicking one jumps to that post with landing room below the topbar; scrolling moves the active ink down the rail; the rail is absent on a phone."
         ]
       },
       "tokens": [
@@ -88,18 +82,8 @@
           "tier": "component"
         },
         {
-          "name": "--radius-100",
-          "value": ".25rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--radius-200",
           "value": ".5rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-150",
-          "value": ".375rem",
           "tier": "primitive"
         },
         {
@@ -123,16 +107,6 @@
           "tier": "primitive"
         },
         {
-          "name": "--typography-font-family-sans",
-          "value": "\"DM Sans\", sans-serif",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-font-weight-medium",
-          "value": "500",
-          "tier": "semantic"
-        },
-        {
           "name": "--typography-font-weight-semibold",
           "value": "550",
           "tier": "semantic"
@@ -150,45 +124,58 @@
       "repoPath": "public/handoff/prototypes-release-notes/claude/version-rail.md",
       "parts": [],
       "shots": {
-        "desktop": "claude/version-rail.desktop.png",
-        "phone": "claude/version-rail.phone.png"
+        "desktop": "claude/version-rail.desktop.png"
       },
-      "bytes": 8209,
-      "specBytes": 8209,
+      "bytes": 5377,
+      "specBytes": 5377,
       "files": 1,
       "collapsed": 0
     },
     {
-      "label": "Release (one anchored entry)",
+      "label": "Release post",
       "tag": "article",
       "selector": ".bcn-release",
-      "html": "<article class=\"bcn-release\" id=\"v1-33-0\" aria-labelledby=\"v1-33-0-heading\">\n  <header class=\"bcn-release__header\">\n    <p class=\"bcn-release__meta\">\n      <span class=\"bcn-release__latest\">Latest</span\n      ><time class=\"bcn-release__date\" datetime=\"2026-06-02\">June 2, 2026</time>\n    </p>\n    <h2 class=\"bcn-release__version\" id=\"v1-33-0-heading\">1.33.0</h2>\n  </header>\n  <ul class=\"bcn-release__headlines\">\n    <li class=\"bcn-release__headline\">\n      <h3 class=\"bcn-release__headline-title\">\n        <a class=\"bcn-release__headline-link\" href=\"#v1-33-0-commitment-lists\">Commitment Lists</a>\n      </h3>\n      <p class=\"bcn-release__headline-text\">\n        The Data Catalog Commitments page gains reusable <strong>Lists</strong> — save a filtered\n        view as a named List, reopen it later to scope the grid to its members, update its\n        membership from the current view, add or remove individual commitments inline, and rename or\n        delete Lists with confirmation. This replaces (and retires) the old \"Tag These Commitments\"\n        workaround in the Compare overlay.\n      </p>\n    </li>\n    <li class=\"bcn-release__headline\">\n      <h3 class=\"bcn-release__headline-title\">\n        <a class=\"bcn-release__headline-link\" href=\"#v1-33-0-eoc-single-grid\"\n          >Evidence of Compliance is consolidated to one grid</a\n        >\n      </h3>\n      <p class=\"bcn-release__headline-text\">\n        <strong>Read this first</strong> — the EoC tabs on Project and Component detail pages are\n        <strong>removed</strong>; all evidence is now managed from the canonical Data Catalog EoC\n        grid with Project / Component / Work Area scope selectors. Featuring evidence on a\n        Component's Summary Page moves to a multi-select dialog. Image and <code>.zip</code> files\n        are now allowed as evidence.\n      </p>\n    </li>\n    <!-- …and 3 more like this (<li class=\"bcn-release__headline\">) -->\n  </ul>\n  <section class=\"bcn-release__group\">\n    <h3 class=\"bcn-release__group-title\">Data Model &amp; Navigation Updates</h3>\n    <div class=\"bcn-release__entries\">\n      <div class=\"bcn-release__entry\" id=\"v1-33-0-eoc-tabs-moved\">\n        <div class=\"bcn-release__entry-head\">\n          <h4 class=\"bcn-release__entry-title\">\n            Evidence of Compliance tabs are gone from Project and Component detail pages\n          </h4>\n        </div>\n        <div class=\"bcn-release__blocks\">\n          <aside class=\"bcn-release__callout\">\n            <span class=\"bcn-release__callout-icon\"\n              ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <path d=\"M12 16v-4\"></path>\n                  <path d=\"M12 8h.01\"></path></svg></span\n            ></span>\n            <p class=\"bcn-release__callout-text\">\n              Read this first — these three changes move or remove things you're used to finding in\n              a particular place.\n            </p>\n          </aside>\n          <p class=\"bcn-release__p\">\n            All Evidence of Compliance is now managed from the canonical Data Catalog EoC grid,\n            which gained Project / Component / Work Area scope selectors. Nothing is lost — the same\n            records are reachable from the grid — but anyone used to the per-Project or\n            per-Component EoC tab needs to be pointed at the Data Catalog grid instead. Featuring\n            evidence on a Component's Summary Page is now done through a multi-select dialog opened\n            from the Component overview star.\n          </p>\n        </div>\n      </div>\n      <div class=\"bcn-release__entry\" id=\"v1-33-0-legacy-shell-retired\">\n        <div class=\"bcn-release__entry-head\">\n          <h4 class=\"bcn-release__entry-title\">The legacy app shell has been retired</h4>\n        </div>\n        <div class=\"bcn-release__blocks\">\n          <p class=\"bcn-release__p\">\n            The modern header and side navigation are now the only experience — the old shell can no\n            longer be toggled on. Customers still on the legacy look will see the modern shell on\n            their next sign-in.\n          </p>\n        </div>\n      </div>\n      <div class=\"bcn-release__entry\" id=\"v1-33-0-species-names-corrected\">\n        <div class=\"bcn-release__entry-head\">\n          <h4 class=\"bcn-release__entry-title\">Some species names have been corrected</h4>\n        </div>\n        <div class=\"bcn-release__blocks\">\n          <p class=\"bcn-release__p\">\n            A data issue had stripped the substring \"go\" from certain species names (e.g. \"San Die\n            Banded Gecko\" → corrected to \"San Diego Banded Gecko\", \"lden Eagle\" → \"Golden Eagle\",\n            \"Marbled Dwit\" → \"Marbled Godwit\"). These names — and their 4-letter species codes where\n            applicable — are restored to their correct spelling.\n          </p>\n        </div>\n      </div>\n    </div>\n  </section>\n  <section class=\"bcn-release__group\">\n    <h3 class=\"bcn-release__group-title\">Commitment Lists</h3>\n    <div class=\"bcn-release__entries\">\n      <div class=\"bcn-release__entry\" id=\"v1-33-0-commitment-lists\">\n        <div class=\"bcn-release__entry-head\">\n          <h4 class=\"bcn-release__entry-title\">\n            Organize commitments into reusable Lists on the Commitments page\n          </h4>\n          <span class=\"bcn-release__applies\">applies to all tenants</span>\n        </div>\n        <div class=\"bcn-release__blocks\">\n          <p class=\"bcn-release__p\">\n            Create a List from a filtered view, add commitments to an existing List, edit or compare\n            Lists, and add or remove individual commitments inline. The Commitments grid toolbar now\n            exposes a <strong>Lists</strong> library: save the current view as a named List, reopen\n            it later to scope the grid to its members, update its membership from the current view,\n            and rename or delete Lists with confirmation. The previous \"Tag These Commitments\" bulk\n            workaround in the Compare overlay is removed — existing tag chips, tag filtering, and\n            per-commitment tag editing are unchanged.\n          </p>\n          <p class=\"bcn-release__p\">\n            This release also brings a refreshed visual style across grids and pages — a cleaner\n            page shell, updated grid styling, and more compact tag chips.\n          </p>\n        </div>\n      </div>\n    </div>\n  </section>\n  <!-- …and 5 more like this (<section class=\"bcn-release__group\">) -->\n  <details class=\"bcn-release__fixes\">\n    <summary class=\"bcn-release__fixes-summary\">Fixes &amp; small improvements (5)</summary>\n    <ul class=\"bcn-release__fixes-list\">\n      <li class=\"bcn-release__fix\">\n        <strong>Report package EoC link</strong> — \"View Evidence of Compliance\" now opens the\n        record instead of a 404.\n      </li>\n      <li class=\"bcn-release__fix\">\n        <strong>Edit Action dialog</strong> — preserves linked requirements, shows/saves the correct\n        scope, hides the Component/Project choice on component-less projects.\n      </li>\n      <!-- …and 3 more like this (<li class=\"bcn-release__fix\">) -->\n    </ul>\n  </details>\n</article>",
-      "css": ".bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.bcn-release {\n  inline-size: 100%;\n  max-inline-size: 46rem;\n  scroll-margin-top: var(--spacing-500);\n  padding-block: var(--spacing-800);\n  margin-inline: auto;\n}\n.bcn-release + .bcn-release {\n  border-top: 1px solid var(--color-border-default-subtle);\n}\n.bcn-release:first-child {\n  padding-block-start: var(--spacing-500);\n}\n.bcn-release__header {\n  gap: var(--spacing-150);\n  flex-direction: column;\n  margin-block-end: var(--spacing-600);\n  display: flex;\n}\n.bcn-release__meta {\n  color: var(--color-content-default-tertiary);\n  flex-wrap: wrap;\n  align-items: baseline;\n  margin: 0;\n  font-size: 0.875rem;\n  line-height: 1.4;\n  display: flex;\n}\n.bcn-release__latest {\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n}\n.bcn-release__latest:after {\n  content: \"·\";\n  margin-inline: var(--spacing-200);\n  color: var(--bcn-content-muted);\n}\n.bcn-release__version {\n  font-family: var(--font-decorative);\n  font-size: var(--font-size-600);\n  letter-spacing: -0.01em;\n  color: var(--color-content-default);\n  margin: 0;\n  font-weight: 600;\n  line-height: 1.15;\n}\n.bcn-release__headlines {\n  margin: 0 0 var(--spacing-700);\n  gap: var(--spacing-600);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-release__headline {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-release__headline-title {\n  font-family: var(--font-decorative);\n  letter-spacing: -0.005em;\n  color: var(--color-content-default);\n  margin: 0;\n  font-size: clamp(1.1875rem, 1.05rem + 0.7vw, 1.3125rem);\n  font-weight: 500;\n  line-height: 1.3;\n}\n.bcn-release__headline-link {\n  color: inherit;\n  text-decoration: none;\n}\n.bcn-release__headline-link:hover {\n  color: var(--color-content-link);\n  text-underline-offset: 2px;\n  text-decoration: underline;\n}\n.bcn-release__headline-text {\n  max-inline-size: 42rem;\n  font-size: 1rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default-secondary);\n  margin: 0;\n}\n.bcn-release__group + .bcn-release__group {\n  margin-block-start: var(--spacing-700);\n}\n.bcn-release__group-title {\n  margin: 0 0 var(--spacing-400);\n  border-bottom: 1px solid var(--color-border-default-subtle);\n  font-size: 1.0625rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default-secondary);\n  padding-block-end: var(--spacing-200);\n}\n.bcn-release__entries {\n  gap: var(--spacing-500);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-release__entry {\n  scroll-margin-top: var(--spacing-500);\n}\n.bcn-release__entry-head {\n  align-items: baseline;\n  gap: var(--spacing-150) var(--spacing-300);\n  flex-wrap: wrap;\n  max-inline-size: 42rem;\n  margin-block-end: var(--spacing-300);\n  display: flex;\n}\n.bcn-release__entry-title {\n  font-size: 1rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  margin: 0;\n  line-height: 1.4;\n}\n.bcn-release__flag {\n  align-items: baseline;\n  gap: var(--spacing-100);\n  padding: 2px var(--spacing-200);\n  border: 1px solid var(--color-border-default);\n  border-radius: var(--radius-100);\n  background: var(--color-background-elevation-raised);\n  color: var(--color-content-default-tertiary);\n  font-size: 0.8125rem;\n  display: inline-flex;\n}\n.bcn-release__flag code {\n  font-family: var(--typography-font-family-mono);\n  color: var(--color-content-default-secondary);\n  font-size: 0.8125rem;\n}\n.bcn-release__applies {\n  color: var(--color-content-default-tertiary);\n  font-size: 0.8125rem;\n}\n.bcn-release__blocks {\n  gap: var(--spacing-400);\n  flex-direction: column;\n  max-inline-size: 42rem;\n  display: flex;\n}\n.bcn-release__p {\n  font-size: 1rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-release__bullets {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  margin: 0;\n  padding-inline-start: var(--spacing-500);\n  display: flex;\n}\n.bcn-release__bullet {\n  font-size: 1rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default);\n}\n.bcn-release__bullet::marker {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-release__callout {\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border: 1px solid var(--color-border-default-subtle);\n  border-radius: var(--radius-200);\n  background: var(--color-background-elevation-sunken);\n  grid-template-columns: auto 1fr;\n  display: grid;\n}\n.bcn-release__callout-icon {\n  color: var(--color-content-default-secondary);\n  margin-block-start: 2px;\n  display: inline-flex;\n}\n.bcn-release__callout-text {\n  font-size: 1rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-release__fixes {\n  margin-block-start: var(--spacing-600);\n}\n.bcn-release__fixes-summary {\n  cursor: pointer;\n  font-size: 0.9375rem;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n  list-style-position: inside;\n}\n.bcn-release__fixes-summary:hover {\n  color: var(--color-content-default);\n}\n.bcn-release__fixes-list {\n  margin: var(--spacing-300) 0 0;\n  gap: var(--spacing-200);\n  flex-direction: column;\n  max-inline-size: 42rem;\n  padding-inline-start: var(--spacing-500);\n  display: flex;\n}\n.bcn-release__fix {\n  font-size: 0.875rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default-tertiary);\n}\n.bcn-release__fix::marker {\n  color: var(--color-border-default-strong);\n}\n.bcn-release strong {\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n}\n.bcn-release code {\n  font-family: var(--typography-font-family-mono);\n  border-radius: var(--radius-100);\n  background: var(--color-background-elevation-sunken);\n  color: var(--color-content-default);\n  padding: 1px 5px;\n  font-size: 0.875em;\n}\n@media (width<=32rem) {\n  .bcn-release {\n    padding-block: var(--spacing-700);\n  }\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "html": "<article class=\"bcn-release sidebar\" data-gap=\"lg\" id=\"v1-41-0\" aria-labelledby=\"v1-41-0-heading\">\n  <header class=\"bcn-release__meta\">\n    <div class=\"bcn-release__meta-inner\">\n      <h2 class=\"bcn-release__version\" id=\"v1-41-0-heading\">\n        <span class=\"esa-badge esa-badge--neutral esa-badge--lg typography-microcopy-md-strong\"\n          ><span class=\"esa-badge__text\">1.41.0</span></span\n        >\n      </h2>\n      <time class=\"bcn-release__date typography-label-sm\" datetime=\"2026-10-13\"\n        >October 13, 2026</time\n      >\n    </div>\n  </header>\n  <div class=\"bcn-release__body\">\n    <section class=\"bcn-release-feature\" id=\"v1-41-0-lists\" aria-labelledby=\"v1-41-0-lists-title\">\n      <h3 class=\"bcn-release-feature__title\" id=\"v1-41-0-lists-title\">\n        Lists replace Action Lists\n      </h3>\n      <p class=\"bcn-release-feature__text typography-body-md\">\n        Each project now has one Lists page for action lists and commitment lists. Every list has\n        its own page, with a searchable drawer for adding items, Select mode for removing many, and\n        CSV export.\n      </p>\n      <p class=\"bcn-release-feature__note typography-body-sm\">\n        <span class=\"bcn-release-feature__note-icon\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              <path d=\"M12 16v-4\"></path>\n              <path d=\"M12 8h.01\"></path></svg></span></span\n        ><span\n          >The Action Lists entry in the navigation is gone on every tenant. Your lists are all on\n          the new page.</span\n        >\n      </p>\n      <figure class=\"bcn-release-feature__figure\">\n        <img\n          alt=\"The Lists page, with commitment lists and action lists\"\n          class=\"bcn-release-feature__img\"\n          src=\"/beacon-design/release-notes/lists-index.jpg\"\n          width=\"1600\"\n          height=\"900\"\n          loading=\"lazy\"\n          decoding=\"async\"\n        />\n        <figcaption class=\"bcn-release-feature__caption typography-body-sm\" aria-hidden=\"true\">\n          The Lists page, with commitment lists and action lists\n        </figcaption>\n      </figure>\n    </section>\n    <section\n      class=\"bcn-release-feature\"\n      id=\"v1-41-0-monitoring-dashboard\"\n      aria-labelledby=\"v1-41-0-monitoring-dashboard-title\"\n    >\n      <h3 class=\"bcn-release-feature__title\" id=\"v1-41-0-monitoring-dashboard-title\">\n        Configurable Monitoring Portal dashboard\n      </h3>\n      <p class=\"bcn-release-feature__text typography-body-md\">\n        The dashboard is now a board of widgets. Admins add them from a gallery, then resize,\n        reorder, recolor and configure each one, and the layout is saved for the project.\n      </p>\n      <p class=\"bcn-release-feature__note typography-body-sm\">\n        <span class=\"bcn-release-feature__note-icon\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              <path d=\"M12 16v-4\"></path>\n              <path d=\"M12 8h.01\"></path></svg></span></span\n        ><span>Monitoring pages moved under each project’s new Data page. Old links redirect.</span>\n      </p>\n      <figure class=\"bcn-release-feature__figure\">\n        <img\n          alt=\"The Monitoring Portal dashboard\"\n          class=\"bcn-release-feature__img\"\n          src=\"/beacon-design/release-notes/monitoring.jpg\"\n          width=\"1600\"\n          height=\"900\"\n          loading=\"lazy\"\n          decoding=\"async\"\n        />\n        <figcaption class=\"bcn-release-feature__caption typography-body-sm\" aria-hidden=\"true\">\n          The Monitoring Portal dashboard\n        </figcaption>\n      </figure>\n    </section>\n    <section\n      class=\"bcn-release-feature\"\n      id=\"v1-41-0-list-evidence\"\n      aria-labelledby=\"v1-41-0-list-evidence-title\"\n    >\n      <h3 class=\"bcn-release-feature__title\" id=\"v1-41-0-list-evidence-title\">\n        Evidence for a whole action list\n      </h3>\n      <p class=\"bcn-release-feature__text typography-body-md\">\n        Choose a component, stage the evidence, and save it to every action on that component in one\n        step.\n      </p>\n      <figure class=\"bcn-release-feature__figure\">\n        <img\n          alt=\"Adding evidence to every action on one component\"\n          class=\"bcn-release-feature__img\"\n          src=\"/beacon-design/release-notes/evidence-bulk.jpg\"\n          width=\"1600\"\n          height=\"900\"\n          loading=\"lazy\"\n          decoding=\"async\"\n        />\n        <figcaption class=\"bcn-release-feature__caption typography-body-sm\" aria-hidden=\"true\">\n          Adding evidence to every action on one component\n        </figcaption>\n      </figure>\n    </section>\n    <section class=\"bcn-release-changelog\" aria-label=\"Changes in 1.41.0\">\n      <div class=\"bcn-release-changelog__group\">\n        <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Added</h3>\n        <ul class=\"bcn-release-changelog__list\" role=\"list\">\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Added a Lists page to every project that holds action lists and commitment lists\n            together, with keyword search and an Add button for each kind of list\n          </li>\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Added a page for every list, with editable details, sharing and delete, and views by\n            type, by commitment or A to Z\n          </li>\n          <!-- …and 11 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n        </ul>\n      </div>\n      <div class=\"bcn-release-changelog__group\">\n        <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Changed</h3>\n        <ul class=\"bcn-release-changelog__list\" role=\"list\">\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Changed Action Lists to Lists: the Action Lists entry in the navigation is gone on every\n            tenant\n          </li>\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Changed where evidence is associated: one dialog on the evidence record’s page replaces\n            Associate To Actions and the Associated Work Areas picker\n          </li>\n          <!-- …and 5 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n        </ul>\n      </div>\n      <div class=\"bcn-release-changelog__group\">\n        <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Fixed</h3>\n        <ul class=\"bcn-release-changelog__list\" role=\"list\">\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Fixed deleting a component; the dialog now asks for the component’s name and shows what\n            is removed and what is kept\n          </li>\n          <li class=\"bcn-release-changelog__item typography-body-sm\">\n            Fixed the Components link showing in a project’s navigation when Components are turned\n            off\n          </li>\n          <!-- …and 4 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n        </ul>\n      </div>\n    </section>\n  </div>\n</article>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-microcopy-md-strong {\n  font-family: var(--typography-microcopy-md-strong-font-family);\n  font-size: var(--typography-microcopy-md-strong-font-size);\n  font-weight: var(--typography-microcopy-md-strong-font-weight);\n  line-height: var(--typography-microcopy-md-strong-line-height);\n  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-needs__head .esa-badge {\n  font-variant-numeric: tabular-nums;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-countchip__num .esa-badge {\n  --badge-radius: var(--radius-full);\n  --badge-bg: var(--color-border-default);\n  --badge-text-color: var(--color-content-default-secondary);\n  box-sizing: border-box;\n  font-variant-numeric: tabular-nums;\n  min-width: 19px;\n  height: 19px;\n  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);\n  justify-content: center;\n  align-items: center;\n  padding: 0 4px;\n  font-size: 0.8125rem;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-attached__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__tags .esa-badge {\n  --badge-bg: var(--bcn-gray-100);\n  --badge-text-color: var(--bcn-gray-700);\n  font-weight: var(--typography-font-weight-medium);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--sm {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n}\n.esa-badge--lg {\n  --_badge-padding-y: var(--spacing-250, 0.625rem);\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--neutral {\n  --_badge-bg: var(--color-content-default-secondary, #646464);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.bcn-release-feature {\n  gap: var(--spacing-200);\n  scroll-margin-top: var(--spacing-500);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-release-feature__title {\n  font-family: var(--font-decorative);\n  font-size: var(--typography-title-font-size);\n  font-weight: var(--typography-font-weight-medium);\n  line-height: var(--typography-title-line-height);\n  color: var(--color-content-default);\n  text-wrap: balance;\n  margin: 0;\n}\n.bcn-release-feature__text {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-release-feature__note {\n  gap: var(--spacing-200);\n  color: var(--color-content-default-secondary);\n  margin: 0;\n  display: flex;\n}\n.bcn-release-feature__note-icon {\n  color: var(--color-content-default-secondary);\n  flex: none;\n  padding-block-start: var(--spacing-050);\n  display: inline-flex;\n}\n.bcn-release-feature__figure {\n  margin: var(--spacing-200) 0 0;\n  padding: var(--spacing-400);\n  gap: var(--spacing-300);\n  background: var(--color-background-elevation-sunken);\n  border-radius: var(--radius-lg);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-release-feature__img {\n  aspect-ratio: 16/9;\n  object-fit: cover;\n  object-position: top left;\n  border: 1px solid var(--color-border-default-subtle);\n  border-radius: var(--radius-md);\n  background: var(--color-background-default);\n  block-size: auto;\n  inline-size: 100%;\n  display: block;\n}\n.bcn-release-feature__caption {\n  color: var(--color-content-default-secondary);\n}\n.bcn-release-changelog {\n  gap: var(--spacing-400);\n  border-top: 1px solid var(--color-border-default-subtle);\n  flex-direction: column;\n  padding-block-start: var(--spacing-500);\n  display: flex;\n}\n.bcn-release-changelog__head {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-release-changelog__list {\n  margin: var(--spacing-200) 0 0;\n  gap: var(--spacing-100);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-release-changelog__item {\n  color: var(--color-content-default);\n  padding-inline-start: var(--spacing-600);\n  position: relative;\n}\n.bcn-release-changelog__item:before {\n  content: \"\";\n  border-radius: var(--radius-full);\n  background: var(--color-border-default);\n  block-size: 5px;\n  inline-size: 5px;\n  position: absolute;\n  inset-block-start: 0.6lh;\n  inset-inline-start: var(--spacing-200);\n  translate: 0 -50%;\n}\n.bcn-release-changelog__item .esa-badge {\n  vertical-align: 0.0625rem;\n  margin-inline-end: var(--spacing-150);\n}\n.bcn-release-changelog__item strong {\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-release {\n  --sidebar-width: 10rem;\n  --sidebar-content-min: 65%;\n  padding-block: var(--spacing-600);\n  scroll-margin-top: var(--spacing-500);\n}\n.bcn-release + .bcn-release {\n  border-top: 1px solid var(--color-border-default-subtle);\n}\n.bcn-release:first-child {\n  padding-block-start: var(--spacing-400);\n}\n.bcn-release__meta-inner {\n  align-items: flex-start;\n  gap: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n@media (width>=48rem) {\n  .bcn-release__meta {\n    align-self: stretch;\n  }\n}\n@media (width>=48rem) {\n  .bcn-release__meta-inner {\n    position: sticky;\n    inset-block-start: var(--spacing-500);\n  }\n}\n@media (width<=47.99rem) {\n  .bcn-release__meta-inner {\n    flex-direction: row;\n    align-items: center;\n  }\n}\n.bcn-release__version {\n  margin: 0;\n  line-height: 1;\n}\n.bcn-release__date {\n  color: var(--color-content-default-secondary);\n}\n.bcn-release__body {\n  gap: var(--spacing-700);\n  flex-direction: column;\n  max-inline-size: 46rem;\n  display: flex;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-microcopy-md-strong {\n  font-family: var(--typography-microcopy-md-strong-font-family);\n  font-size: var(--typography-microcopy-md-strong-font-size);\n  font-weight: var(--typography-microcopy-md-strong-font-weight);\n  line-height: var(--typography-microcopy-md-strong-line-height);\n  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}\n.sidebar {\n  --gap: var(--spacing-500, 1.5rem);\n  --sidebar-width: 18rem;\n  --sidebar-content-min: 60%;\n  gap: var(--gap);\n  flex-wrap: wrap;\n  display: flex;\n}\n.sidebar > :first-child {\n  flex-basis: var(--sidebar-width);\n  flex-grow: 1;\n}\n.sidebar > :last-child {\n  min-inline-size: var(--sidebar-content-min);\n  flex-grow: 999;\n  flex-basis: 0;\n}\n.sidebar[data-side=\"end\"] > :first-child {\n  order: 2;\n}",
       "guide": {
-        "intent": "One release in the stream: a quiet meta line (\"Latest\" + the long date) above the serif version number, then the headline stories, then area-grouped entries, then a collapsed fixes list. This is the repeating unit of the whole page.",
+        "intent": "One release, as one post: the version badge and date in a narrow meta column, then two or three features (title, paragraph, optional note on what moved (info icon + text), screenshot in an inset frame with a caption), then the release's full Added / Changed / Fixed list. Every release uses the same shape.",
         "decisions": [
-          "Meta ABOVE the version (the Sketch changelog pattern): the small quiet date line sits first, then the large serif version number — so a scan down the page reads as dates first, versions second.",
-          "THREE TIERS OF NEWS, in descending prominence: headline stories (serif titles, the richest tier), area-grouped entries (sans, grouped under an area heading), and fixes (a collapsed list). A reader who stops after the headlines still knows what shipped.",
-          "Typography carries the hierarchy, not color: a serif display layer (Besley, --font-decorative) for the version number and headline titles, sans for everything else, with size and weight doing the rest. The ink is MONOCHROME — no status color anywhere on the page.",
-          "\"Latest\" is a quiet gray text label, not a chip. The only color that surfaces on the page is the house link color on actual links.",
-          "Every release and every entry is a hash target (#<anchor> and #<anchor>-<entryId>), with scroll-margin for landing room — so the rail, the What's-new popover, and cross-release headline links all resolve to an exact place.",
-          "Prose is held to a ~42rem measure so text never runs the full width of the content column.",
-          "Fully presentational: the entire stream renders from RELEASES with no props and no client JS — the fixes disclosure is a native <details>."
+          "Features first, changelog second: a reader who stops after the features knows what matters; the changelog is the complete record beneath.",
+          "The meta column is the Claude Code changelog layout (160px column, 24px gap). It sticks while its post scrolls once the two sit side by side; on a phone it drops above the body as one row (badge, date).",
+          "Version is an esa-badge (neutral, lg), not a brand-tinted pill: badges stay quiet per the design principles.",
+          "A serif display layer (--font-decorative) carries the feature titles; everything else is the sans body face. No status color anywhere.",
+          "Headlines are plain and factual: they name the feature, not a pitch. There is no per-release summary line; the features lead.",
+          "Screenshots sit in an inset frame: a sunken panel with padding and a large radius around an image with its own smaller radius and a hairline, and a short factual caption under it. The caption is the alt text too.",
+          "A feature note is the info icon and the fact itself (\"The Action Lists entry in the navigation is gone on every tenant.\"), with no \"Read this first\" label: the label addressed the reader instead of stating the change.",
+          "Every post is a hash target (#v1-41-0) and every feature is too (#v1-41-0-lists), with scroll-margin for landing room."
         ],
         "gotchas": [
-          "Inline **bold** and `code` in the copy are formatted at BUILD time (escape HTML → swap patterns → set:html), because Astro will not process markup inside interpolated strings. Escape first, and swap code before bold so a ** inside a code span stays literal.",
-          "Dates are formatted from `${iso}T00:00:00` to pin local midnight — parsing the bare ISO string shifts the displayed date a day in negative-offset timezones.",
-          "No esa-* lego renders a changelog: esa-card is a bare container. The callout icon is esa-icon composed inside; the code and bold spans are token-driven content typography.",
-          "The scroll-margin is tuned for a scroll container that already starts below the fixed topbar. In a layout where the page itself scrolls, that offset has to grow by the topbar height."
+          "Each post is the .sidebar layout primitive. Sticky needs the meta column to stretch (align-self: stretch) and the inner wrapper to stick; sticking the wrapped phone layout would float the badge over the body, so sticky is media-gated.",
+          "Feature screenshots come from one prop (feature.image). Where production captures come from is still open; swap the source, not the layout."
         ],
         "acceptance": [
-          "The newest release shows \"Latest\" + its long date above a serif version number; headlines read as the most prominent tier; the page carries no status color; every release and entry has a working hash anchor that lands with breathing room."
+          "Each release shows badge and date, two or three features each with a captioned, inset screenshot, then Added / Changed / Fixed; a feature note renders only where the data has one; the meta column sticks on desktop and sits above the body on a phone."
         ]
       },
       "tokens": [
         {
-          "name": "--bcn-content-muted",
-          "value": "#7c7c7c",
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
           "tier": "component"
         },
         {
@@ -207,6 +194,11 @@
           "tier": "component"
         },
         {
+          "name": "--bcn-gray-700",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
           "name": "--bcn-gray-950",
           "value": "#292929",
           "tier": "component"
@@ -214,6 +206,11 @@
         {
           "name": "--color-background-brand",
           "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-default",
+          "value": "#fafafa",
           "tier": "semantic"
         },
         {
@@ -232,13 +229,18 @@
           "tier": "semantic"
         },
         {
-          "name": "--color-border-default",
-          "value": "#dcdcdc",
+          "name": "--color-background-utility-info",
+          "value": "#228be6",
           "tier": "semantic"
         },
         {
-          "name": "--color-border-default-strong",
-          "value": "#bdbdbd",
+          "name": "--color-background-utility-info-subtle",
+          "value": "#fbfdff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
           "tier": "semantic"
         },
         {
@@ -262,19 +264,14 @@
           "tier": "semantic"
         },
         {
-          "name": "--color-content-link",
-          "value": "#005862",
-          "tier": "semantic"
-        },
-        {
           "name": "--font-decorative",
           "value": "\"Besley\", serif",
           "tier": "component"
         },
         {
-          "name": "--font-size-600",
-          "value": "clamp(1.375rem, 1.2rem + .88vw, 1.875rem)",
-          "tier": "primitive"
+          "name": "--gap",
+          "value": "1.5rem",
+          "tier": "component"
         },
         {
           "name": "--icon-size-md",
@@ -287,18 +284,43 @@
           "tier": "primitive"
         },
         {
-          "name": "--line-height-normal",
-          "value": "1.6",
-          "tier": "primitive"
-        },
-        {
-          "name": "--radius-100",
+          "name": "--radius-chip",
           "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
           "tier": "primitive"
         },
         {
-          "name": "--radius-200",
-          "value": ".5rem",
+          "name": "--radius-lg",
+          "value": ".75rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--sidebar-content-min",
+          "value": "65%",
+          "tier": "component"
+        },
+        {
+          "name": "--sidebar-width",
+          "value": "10rem",
+          "tier": "component"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
           "tier": "primitive"
         },
         {
@@ -314,6 +336,11 @@
         {
           "name": "--spacing-200",
           "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
           "tier": "primitive"
         },
         {
@@ -342,13 +369,53 @@
           "tier": "primitive"
         },
         {
-          "name": "--spacing-800",
-          "value": "4rem",
-          "tier": "primitive"
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
         },
         {
-          "name": "--typography-font-family-mono",
-          "value": "\"Roboto Mono\", ui-monospace, monospace",
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
           "tier": "semantic"
         },
         {
@@ -360,6 +427,116 @@
           "name": "--typography-font-weight-semibold",
           "value": "550",
           "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-size",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-line-height",
+          "value": "1.6",
+          "tier": "semantic"
         }
       ],
       "components": [
@@ -370,57 +547,112 @@
           "target": null
         },
         {
+          "name": "bcn-release-changelog",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnReleaseChangelog.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-release-feature",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnReleaseFeature.astro",
+          "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
+        },
+        {
           "name": "esa-icon",
           "origin": "hub",
           "source": "packages/ecology/src/components/esa-icon.astro",
           "target": null
         }
       ],
-      "claudePath": "claude/release-one-anchored-entry.md",
-      "repoPath": "public/handoff/prototypes-release-notes/claude/release-one-anchored-entry.md",
+      "claudePath": "claude/release-post.md",
+      "repoPath": "public/handoff/prototypes-release-notes/claude/release-post.md",
       "parts": [],
       "shots": {
-        "desktop": "claude/release-one-anchored-entry.desktop.png",
-        "phone": "claude/release-one-anchored-entry.phone.png"
+        "desktop": "claude/release-post.desktop.png",
+        "phone": "claude/release-post.phone.png"
       },
-      "bytes": 20983,
-      "specBytes": 20983,
+      "bytes": 28539,
+      "specBytes": 28539,
       "files": 1,
-      "collapsed": 11
+      "collapsed": 20
     },
     {
-      "label": "Area entry (with feature-flag note)",
-      "tag": "div",
-      "selector": ".bcn-release__entry:has(.bcn-release__flag)",
-      "html": "<div class=\"bcn-release__entry\" id=\"v1-33-0-doc-review-gap-triage\">\n  <div class=\"bcn-release__entry-head\">\n    <h4 class=\"bcn-release__entry-title\">Triage gap commitments inline on the Gaps tab</h4>\n    <span class=\"bcn-release__flag\">flag<code>DocumentReview</code></span>\n  </div>\n  <div class=\"bcn-release__blocks\">\n    <p class=\"bcn-release__p\">\n      Each un-mapped (gap) commitment row carries a cycling status chip —\n      <strong>Unscreened / Relevant / Not Relevant</strong> — that you click to set its screening\n      relevance; the gap list groups by status. The Show-filter chips now live inside the filter\n      toolbar, with a new <strong>All</strong> option.\n    </p>\n  </div>\n</div>",
-      "css": ".bcn-release__entry {\n  scroll-margin-top: var(--spacing-500);\n}\n.bcn-release__entry-head {\n  align-items: baseline;\n  gap: var(--spacing-150) var(--spacing-300);\n  flex-wrap: wrap;\n  max-inline-size: 42rem;\n  margin-block-end: var(--spacing-300);\n  display: flex;\n}\n.bcn-release__entry-title {\n  font-size: 1rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  margin: 0;\n  line-height: 1.4;\n}\n.bcn-release__flag {\n  align-items: baseline;\n  gap: var(--spacing-100);\n  padding: 2px var(--spacing-200);\n  border: 1px solid var(--color-border-default);\n  border-radius: var(--radius-100);\n  background: var(--color-background-elevation-raised);\n  color: var(--color-content-default-tertiary);\n  font-size: 0.8125rem;\n  display: inline-flex;\n}\n.bcn-release__flag code {\n  font-family: var(--typography-font-family-mono);\n  color: var(--color-content-default-secondary);\n  font-size: 0.8125rem;\n}\n.bcn-release__blocks {\n  gap: var(--spacing-400);\n  flex-direction: column;\n  max-inline-size: 42rem;\n  display: flex;\n}\n.bcn-release__p {\n  font-size: 1rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default);\n  margin: 0;\n}",
+      "label": "Changelog (Added / Changed / Fixed)",
+      "tag": "section",
+      "selector": ".bcn-release-changelog",
+      "html": "<section class=\"bcn-release-changelog\" aria-label=\"Changes in 1.41.0\">\n  <div class=\"bcn-release-changelog__group\">\n    <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Added</h3>\n    <ul class=\"bcn-release-changelog__list\" role=\"list\">\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Added a Lists page to every project that holds action lists and commitment lists together,\n        with keyword search and an Add button for each kind of list\n      </li>\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Added a page for every list, with editable details, sharing and delete, and views by type,\n        by commitment or A to Z\n      </li>\n      <!-- …and 11 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n    </ul>\n  </div>\n  <div class=\"bcn-release-changelog__group\">\n    <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Changed</h3>\n    <ul class=\"bcn-release-changelog__list\" role=\"list\">\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Changed Action Lists to Lists: the Action Lists entry in the navigation is gone on every\n        tenant\n      </li>\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Changed where evidence is associated: one dialog on the evidence record’s page replaces\n        Associate To Actions and the Associated Work Areas picker\n      </li>\n      <!-- …and 5 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n    </ul>\n  </div>\n  <div class=\"bcn-release-changelog__group\">\n    <h3 class=\"bcn-release-changelog__head typography-label-sm-strong\">Fixed</h3>\n    <ul class=\"bcn-release-changelog__list\" role=\"list\">\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Fixed deleting a component; the dialog now asks for the component’s name and shows what is\n        removed and what is kept\n      </li>\n      <li class=\"bcn-release-changelog__item typography-body-sm\">\n        Fixed the Components link showing in a project’s navigation when Components are turned off\n      </li>\n      <!-- …and 4 more like this (<li class=\"bcn-release-changelog__item typography-body-sm\">) -->\n    </ul>\n  </div>\n</section>",
+      "css": ".typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-aldo-needs__head .esa-badge {\n  font-variant-numeric: tabular-nums;\n}\n.bcn-countchip__num .esa-badge {\n  --badge-radius: var(--radius-full);\n  --badge-bg: var(--color-border-default);\n  --badge-text-color: var(--color-content-default-secondary);\n  box-sizing: border-box;\n  font-variant-numeric: tabular-nums;\n  min-width: 19px;\n  height: 19px;\n  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);\n  justify-content: center;\n  align-items: center;\n  padding: 0 4px;\n  font-size: 0.8125rem;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-ev-attached__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__tags .esa-badge {\n  --badge-bg: var(--bcn-gray-100);\n  --badge-text-color: var(--bcn-gray-700);\n  font-weight: var(--typography-font-weight-medium);\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--sm {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--neutral {\n  --_badge-bg: var(--color-content-default-secondary, #646464);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.bcn-release-changelog {\n  gap: var(--spacing-400);\n  border-top: 1px solid var(--color-border-default-subtle);\n  flex-direction: column;\n  padding-block-start: var(--spacing-500);\n  display: flex;\n}\n.bcn-release-changelog__head {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-release-changelog__list {\n  margin: var(--spacing-200) 0 0;\n  gap: var(--spacing-100);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-release-changelog__item {\n  color: var(--color-content-default);\n  padding-inline-start: var(--spacing-600);\n  position: relative;\n}\n.bcn-release-changelog__item:before {\n  content: \"\";\n  border-radius: var(--radius-full);\n  background: var(--color-border-default);\n  block-size: 5px;\n  inline-size: 5px;\n  position: absolute;\n  inset-block-start: 0.6lh;\n  inset-inline-start: var(--spacing-200);\n  translate: 0 -50%;\n}\n.bcn-release-changelog__item .esa-badge {\n  vertical-align: 0.0625rem;\n  margin-inline-end: var(--spacing-150);\n}\n.bcn-release-changelog__item strong {\n  font-weight: var(--typography-font-weight-semibold);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}",
       "guide": {
-        "intent": "One change inside an area group: the entry title, optional deployment notes (a feature-flag name, or an \"applies to all tenants\" note), and a body of blocks — paragraphs, bullet lists, and callouts. This is where the operational detail lives, below the headline tier.",
+        "intent": "The release's complete list of changes, grouped Added, Changed, Fixed, in a dense 14px bulleted list below a hairline.",
         "decisions": [
-          "The flag note renders the label \"flag\" followed by the flag name in a code span — it is a real deployment fact (the change is gated behind that feature flag), not decoration, so it reads as data next to the title.",
-          "\"applies to all tenants\" is the complementary note for ungated changes. Both are optional per entry and both derive from fields on the entry record.",
-          "Entry bodies are a BLOCK UNION — { kind: p } | { kind: bullets } | { kind: callout } — pattern-matched by the renderer. This is deliberately the same block model BcnHelpArticle uses, so help articles and release notes share one content shape.",
-          "The callout is an aside with a leading esa-icon \"info\" glyph and its text; it stays monochrome like everything else on the page.",
-          "Each entry carries id=\"<release-anchor>-<entryId>\" so a headline story can link down to the full detail of the change it is announcing."
+          "Lines that belong to one product area lead with that area as a quiet esa-badge (sm). App-wide lines carry no badge.",
+          "A value as it appears in Beacon (a status or outcome name, written in backticks in the data) renders bold, not monospace: monospace is reserved for code.",
+          "Group heads are 14px semibold labels in normal case, never ornamental micro-labels."
         ],
         "gotchas": [
-          "The block renderer must return null for an unknown kind rather than falling through — the union is open to new block types.",
-          "The flag name is content, not markup: it goes through the same escape-then-format path as the rest of the copy.",
-          "Do not add color to the flag or applies notes to make them stand out. The page's monochrome rule is deliberate — these read as quiet meta beside the title."
+          "Every line starts with its group's verb (Added, Changed, Fixed) so a line read alone still says what happened.",
+          "Customer Announcements only: ESA Internal, Dev-only, TBD items and Jira keys stay out of the data."
         ],
         "acceptance": [
-          "A gated entry shows \"flag\" + the flag name beside its title; an ungated one shows the applies note or neither; paragraphs, bullets, and callouts all render from the same entry's block list; the entry id resolves as a hash target from its headline link."
+          "Each release shows its three groups in order; area badges align with the first line of text; backticked values read bold."
         ]
       },
       "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-700",
+          "value": "#525252",
+          "tier": "component"
+        },
         {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",
           "tier": "semantic"
         },
         {
+          "name": "--color-background-utility-info",
+          "value": "#228be6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-subtle",
+          "value": "#fbfdff",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-border-default",
           "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
           "tier": "semantic"
         },
         {
@@ -434,19 +666,19 @@
           "tier": "semantic"
         },
         {
-          "name": "--color-content-default-tertiary",
-          "value": "#656565",
+          "name": "--radius-chip",
+          "value": ".25rem",
           "tier": "semantic"
         },
         {
-          "name": "--line-height-normal",
-          "value": "1.6",
+          "name": "--radius-full",
+          "value": "9999px",
           "tier": "primitive"
         },
         {
-          "name": "--radius-100",
+          "name": "--radius-sm",
           "value": ".25rem",
-          "tier": "primitive"
+          "tier": "semantic"
         },
         {
           "name": "--spacing-100",
@@ -464,113 +696,8 @@
           "tier": "primitive"
         },
         {
-          "name": "--spacing-300",
-          "value": ".75rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--spacing-400",
           "value": "1rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-500",
-          "value": "1.5rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--typography-font-family-mono",
-          "value": "\"Roboto Mono\", ui-monospace, monospace",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-font-weight-semibold",
-          "value": "550",
-          "tier": "semantic"
-        }
-      ],
-      "components": [
-        {
-          "name": "bcn-release",
-          "origin": "spoke",
-          "source": "src/components/bcn/BcnReleaseStream.astro",
-          "target": null
-        }
-      ],
-      "claudePath": "claude/area-entry-with-feature-flag-note.md",
-      "repoPath": "public/handoff/prototypes-release-notes/claude/area-entry-with-feature-flag-note.md",
-      "parts": [],
-      "shots": {
-        "desktop": "claude/area-entry-with-feature-flag-note.desktop.png",
-        "phone": "claude/area-entry-with-feature-flag-note.phone.png"
-      },
-      "bytes": 5190,
-      "specBytes": 5190,
-      "files": 1,
-      "collapsed": 0
-    },
-    {
-      "label": "Fixes disclosure (expanded)",
-      "tag": "details",
-      "selector": ".bcn-release__fixes",
-      "apply": [
-        {
-          "click": ".bcn-release__fixes-summary"
-        }
-      ],
-      "html": "<details class=\"bcn-release__fixes\" open=\"\">\n  <summary class=\"bcn-release__fixes-summary\">Fixes &amp; small improvements (5)</summary>\n  <ul class=\"bcn-release__fixes-list\">\n    <li class=\"bcn-release__fix\">\n      <strong>Report package EoC link</strong> — \"View Evidence of Compliance\" now opens the record\n      instead of a 404.\n    </li>\n    <li class=\"bcn-release__fix\">\n      <strong>Edit Action dialog</strong> — preserves linked requirements, shows/saves the correct\n      scope, hides the Component/Project choice on component-less projects.\n    </li>\n    <!-- …and 3 more like this (<li class=\"bcn-release__fix\">) -->\n  </ul>\n</details>",
-      "css": ".bcn-release__fixes {\n  margin-block-start: var(--spacing-600);\n}\n.bcn-release__fixes-summary {\n  cursor: pointer;\n  font-size: 0.9375rem;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n  list-style-position: inside;\n}\n.bcn-release__fixes-summary:hover {\n  color: var(--color-content-default);\n}\n.bcn-release__fixes-list {\n  margin: var(--spacing-300) 0 0;\n  gap: var(--spacing-200);\n  flex-direction: column;\n  max-inline-size: 42rem;\n  padding-inline-start: var(--spacing-500);\n  display: flex;\n}\n.bcn-release__fix {\n  font-size: 0.875rem;\n  line-height: var(--line-height-normal);\n  color: var(--color-content-default-tertiary);\n}\n.bcn-release__fix::marker {\n  color: var(--color-border-default-strong);\n}",
-      "guide": {
-        "intent": "The long tail of each release — small fixes and improvements — collapsed behind a native disclosure that shows the count in its summary. It keeps the release honest about everything that shipped without letting the tail dominate the scan.",
-        "decisions": [
-          "A native <details> / <summary>, not a JS accordion: it needs no client code, is keyboard- and screen-reader-correct by default, and survives with JS off.",
-          "The summary carries the COUNT (\"Fixes & small improvements (12)\"), so the volume is visible without expanding.",
-          "Collapsed by default on every release, including the latest — the headline and area tiers are the story; this is the appendix.",
-          "Fix lines are plain list items running through the same inline **bold** / `code` formatter as the rest of the stream."
-        ],
-        "gotchas": [
-          "Style the summary marker deliberately; browsers disagree on the default triangle, and an unstyled one reads as a bug next to the rest of the page.",
-          "Do not replace this with a component that animates height — the value here is that it costs zero client JS.",
-          "If a release has no fixes the whole disclosure is omitted, not rendered empty with a zero count."
-        ],
-        "acceptance": [
-          "Each release with fixes shows a collapsed summary carrying the count; clicking or pressing Enter expands the full list; the page still works with JS disabled."
-        ]
-      },
-      "tokens": [
-        {
-          "name": "--color-border-default-strong",
-          "value": "#bdbdbd",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-content-default",
-          "value": "#3d3d3d",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-content-default-secondary",
-          "value": "#525252",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-content-default-tertiary",
-          "value": "#656565",
-          "tier": "semantic"
-        },
-        {
-          "name": "--line-height-normal",
-          "value": "1.6",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-200",
-          "value": ".5rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-300",
-          "value": ".75rem",
           "tier": "primitive"
         },
         {
@@ -584,30 +711,116 @@
           "tier": "primitive"
         },
         {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
           "name": "--typography-font-weight-medium",
           "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
           "tier": "semantic"
         }
       ],
       "components": [
         {
-          "name": "bcn-release",
+          "name": "bcn-release-changelog",
           "origin": "spoke",
-          "source": "src/components/bcn/BcnReleaseStream.astro",
+          "source": "src/components/bcn/BcnReleaseChangelog.astro",
           "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
         }
       ],
-      "claudePath": "claude/fixes-disclosure-expanded.md",
-      "repoPath": "public/handoff/prototypes-release-notes/claude/fixes-disclosure-expanded.md",
+      "claudePath": "claude/changelog-added-changed-fixed.md",
+      "repoPath": "public/handoff/prototypes-release-notes/claude/changelog-added-changed-fixed.md",
       "parts": [],
       "shots": {
-        "desktop": "claude/fixes-disclosure-expanded.desktop.png",
-        "phone": "claude/fixes-disclosure-expanded.phone.png"
+        "desktop": "claude/changelog-added-changed-fixed.desktop.png",
+        "phone": "claude/changelog-added-changed-fixed.phone.png"
       },
-      "bytes": 3949,
-      "specBytes": 3949,
+      "bytes": 12015,
+      "specBytes": 12015,
       "files": 1,
-      "collapsed": 3
+      "collapsed": 20
     },
     {
       "label": "What's-new popover (the doorway in)",
@@ -615,28 +828,25 @@
       "selector": ".bcn-help-bar__panel",
       "apply": [
         {
-          "click": "[data-whatsnew]"
+          "click": "[data-whatsnew] button"
         }
       ],
-      "html": "<div slot=\"content\" class=\"bcn-help-bar__panel\" style=\"--_room: 1134px\">\n  <header class=\"bcn-help-bar__panel-header\">\n    <p class=\"bcn-help-bar__panel-title typography-label-md-strong\">What's New</p>\n    <p class=\"bcn-help-bar__panel-release typography-label-sm\">\n      1.33.0 · <time datetime=\"2026-06-02\">Jun 2, 2026</time>\n    </p>\n  </header>\n  <ul class=\"bcn-help-bar__panel-list\">\n    <li>\n      <a class=\"bcn-help-bar__panel-link\" href=\"/beacon-design/prototypes/release-notes#v1-33-0\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Commitment Lists</span\n          ><span class=\"bcn-help-bar__panel-item-blurb typography-body-xs\"\n            >Save a filtered set of commitments as a named List and reopen it.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a class=\"bcn-help-bar__panel-link\" href=\"/beacon-design/prototypes/release-notes#v1-33-0\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Evidence of Compliance</span\n          ><span class=\"bcn-help-bar__panel-item-blurb typography-body-xs\"\n            >All evidence records now live in one Data Catalog grid.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a class=\"bcn-help-bar__panel-link\" href=\"/beacon-design/prototypes/release-notes#v1-33-0\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Commitment Compliance</span\n          ><span class=\"bcn-help-bar__panel-item-blurb typography-body-xs\"\n            >A Monitoring Portal view of out-of-compliance commitments and their field\n            observations.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n  </ul>\n  <a\n    class=\"bcn-help-bar__panel-all typography-label-sm-strong\"\n    href=\"/beacon-design/prototypes/release-notes\"\n    >All Release Notes\n    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n      ><svg\n        width=\"16\"\n        height=\"16\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        focusable=\"false\"\n      >\n        <path d=\"M5 12h14\"></path>\n        <path d=\"m12 5 7 7-7 7\"></path></svg></span\n  ></a>\n</div>",
-      "css": ".typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar__panel {\n  gap: var(--spacing-200);\n  width: min(320px, var(--_room, 320px));\n  color: var(--color-content-default);\n  white-space: normal;\n  text-align: start;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-bar__panel-header {\n  justify-content: space-between;\n  align-items: baseline;\n  gap: var(--spacing-200);\n  border-block-end: 1px solid var(--color-border-default);\n  padding-block-end: var(--spacing-150);\n  display: flex;\n}\n.bcn-help-bar__panel-header p {\n  margin: 0;\n}\n.bcn-help-bar__panel-release {\n  color: var(--color-content-default-tertiary);\n  white-space: nowrap;\n}\n.bcn-help-bar__panel-list {\n  margin: 0 calc(var(--spacing-150) * -1);\n  gap: var(--spacing-050);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: var(--spacing-150);\n  border-radius: var(--radius-200, 8px);\n  color: inherit;\n  transition: background var(--transition-fast, 0.15s ease);\n  text-decoration: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-help-bar__panel-link:focus-visible,\n.bcn-help-bar__panel-all:focus-visible {\n  outline: 2px solid var(--color-content-link);\n  outline-offset: 1px;\n}\n.bcn-help-bar__panel-text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-help-bar__panel-item-title {\n  color: var(--color-content-default);\n}\n.bcn-help-bar__panel-item-blurb {\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-bar__panel-go {\n  color: var(--color-content-default-tertiary);\n  opacity: 0;\n  transition: opacity var(--transition-fast, 0.15s ease);\n  display: inline-flex;\n}\n.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,\n.bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {\n  opacity: 1;\n}\n.bcn-help-bar__panel-all {\n  align-items: center;\n  gap: var(--spacing-100);\n  color: var(--color-content-link);\n  border-radius: 2px;\n  align-self: flex-start;\n  padding-block-start: var(--spacing-150);\n  text-decoration: none;\n  display: inline-flex;\n}\n.bcn-help-bar__panel-all:hover {\n  text-decoration: underline;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "html": "<div slot=\"content\" class=\"bcn-help-bar__panel\" style=\"--_room: 1134px\">\n  <header class=\"bcn-help-bar__panel-header\">\n    <p class=\"bcn-help-bar__panel-title typography-label-md-strong\">What's New</p>\n    <p class=\"bcn-help-bar__panel-release typography-label-sm\">\n      1.41.0 · <time datetime=\"2026-10-13\">Oct 13, 2026</time>\n    </p>\n  </header>\n  <ul class=\"bcn-help-bar__panel-list\">\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-lists\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Lists replace Action Lists</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >Each project now has one Lists page for action lists and commitment lists. Every list\n            has its own page, with a searchable drawer for adding items, Select mode for removing\n            many, and CSV export.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Configurable Monitoring Portal dashboard</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >The dashboard is now a board of widgets. Admins add them from a gallery, then resize,\n            reorder, recolor and configure each one, and the layout is saved for the project.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-list-evidence\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Evidence for a whole action list</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >Choose a component, stage the evidence, and save it to every action on that component\n            in one step.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n  </ul>\n  <a\n    class=\"bcn-help-bar__panel-all typography-label-sm-strong\"\n    href=\"/beacon-design/prototypes/release-notes\"\n    >All Release Notes\n    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n      ><svg\n        width=\"16\"\n        height=\"16\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        focusable=\"false\"\n      >\n        <path d=\"M5 12h14\"></path>\n        <path d=\"m12 5 7 7-7 7\"></path></svg></span\n  ></a>\n</div>",
+      "css": ".typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar__panel {\n  gap: var(--spacing-200);\n  width: min(320px, var(--_room, 320px));\n  color: var(--color-content-default);\n  white-space: normal;\n  text-align: start;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-bar__panel-header {\n  justify-content: space-between;\n  align-items: baseline;\n  gap: var(--spacing-200);\n  border-block-end: 1px solid var(--color-border-default);\n  padding-block-end: var(--spacing-150);\n  display: flex;\n}\n.bcn-help-bar__panel-header p {\n  margin: 0;\n}\n.bcn-help-bar__panel-release {\n  color: var(--color-content-default-tertiary);\n  white-space: nowrap;\n}\n.bcn-help-bar__panel-list {\n  margin: 0 calc(var(--spacing-150) * -1);\n  gap: var(--spacing-050);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: var(--spacing-150);\n  border-radius: var(--radius-200, 8px);\n  color: inherit;\n  transition: background var(--transition-fast, 0.15s ease);\n  text-decoration: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-help-bar__panel-link:focus-visible,\n.bcn-help-bar__panel-all:focus-visible {\n  outline: 2px solid var(--color-content-link);\n  outline-offset: 1px;\n}\n.bcn-help-bar__panel-text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-help-bar__panel-item-title {\n  color: var(--color-content-default);\n}\n.bcn-help-bar__panel-item-text {\n  -webkit-line-clamp: 2;\n  line-clamp: 2;\n  color: var(--color-content-default-secondary);\n  -webkit-box-orient: vertical;\n  display: -webkit-box;\n  overflow: hidden;\n}\n.bcn-help-bar__panel-go {\n  color: var(--color-content-default-tertiary);\n  opacity: 0;\n  transition: opacity var(--transition-fast, 0.15s ease);\n  display: inline-flex;\n}\n.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,\n.bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {\n  opacity: 1;\n}\n.bcn-help-bar__panel-all {\n  align-items: center;\n  gap: var(--spacing-100);\n  color: var(--color-content-link);\n  border-radius: 2px;\n  align-self: flex-start;\n  padding-block-start: var(--spacing-150);\n  text-decoration: none;\n  display: inline-flex;\n}\n.bcn-help-bar__panel-all:hover {\n  text-decoration: underline;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
-        "intent": "The app-wide entry point to this page: a popover anchored above the floating help bar listing the newest release's headline stories, each deep-linking to that release on this page, with an \"All release notes →\" footer. It is how a user finds out something shipped without going looking.",
+        "intent": "The app-wide entry point to this page: a popover above the floating help bar listing the latest post's features, each deep-linking to that feature on this page, with an \"All Release Notes\" footer.",
         "decisions": [
-          "Framed by RELEASE, not by date alone: the panel header pairs the \"What's new\" title with the latest version and its long date, mirroring the quiet meta line the release itself carries. The popover and the page state the same fact the same way.",
-          "Entries are text-only — a serif title over a sans blurb, matching the stream's typographic voice. Per-entry icons were tried and dropped: they added chrome without adding information.",
-          "Every entry links to `<release-notes>#<anchor>` — the anchor is a field on the entry record, so an entry always lands on the release it belongs to.",
-          "The panel is the esa-popover lego (position=\"top\", trigger=\"click\"), which owns open/close, Esc, and outside-click. The bar's own script only persists the seen state.",
-          "The bar is dark glass but this panel stays a white content surface — chrome and content are visibly different materials.",
-          "WHATS_NEW is a curated authored record (the top three headline stories of the newest release), not a derivation over every entry — the point is editorial selection."
+          "Derived, not curated separately: the entries are LATEST_RELEASE.features, so the popover and the post always agree.",
+          "Each entry is the feature title over its paragraph, clamped to two lines; the page has the rest.",
+          "Each entry links to `<release-notes>#<release anchor>-<feature id>`, landing on the feature itself.",
+          "The panel is the esa-popover lego (position=\"top\", trigger=\"click\"), which owns open/close, Esc and outside-click. The bar's own script only persists the seen state."
         ],
         "gotchas": [
-          "The unread dot is retired by writing the NEWEST ENTRY DATE to localStorage, not a boolean — that is what makes the dot come back when the next release ships.",
-          "Trigger the popover from a real button; the dot is an aria-hidden decoration and must not be the click target on its own.",
-          "The panel must layer above the floating bar and above page content, and it opens upward — verify it does not clip at the viewport bottom on short windows."
+          "The unread dot is retired by writing the latest RELEASE DATE to localStorage, not a boolean, so the dot comes back when the next release ships.",
+          "Trigger the popover from the real button; the dot is an aria-hidden decoration."
         ],
         "acceptance": [
-          "Clicking What's new opens a white panel above the bar headed by the latest version and date; each entry is a serif title over a blurb with no icon; clicking one lands on that release on this page; \"All release notes →\" opens the page itself; the unread dot is gone afterward and stays gone on reload."
+          "Clicking What's new opens a white panel above the bar headed by the latest version and date; it lists that release's features; clicking one lands on that feature on this page; the unread dot is gone afterward and stays gone on reload."
         ]
       },
       "tokens": [
@@ -862,8 +1072,8 @@
         "desktop": "claude/what-s-new-popover-the-doorway-in.desktop.png",
         "phone": "claude/what-s-new-popover-the-doorway-in.phone.png"
       },
-      "bytes": 16294,
-      "specBytes": 16294,
+      "bytes": 15885,
+      "specBytes": 15885,
       "files": 1,
       "collapsed": 0
     },
@@ -876,7 +1086,7 @@
           "click": "[data-help-trigger]"
         }
       ],
-      "html": "<div class=\"bcn-gd-msg bcn-gd-msg--aldo\" data-gd-intro=\"\">\n  <div class=\"bcn-gd-msg__group\">\n    <!-- The page: its name as the heading, its description under it (round 17: no box,\n             no \"You are here\" label). An admin, on a page whose description is the\n             tenant's rich text, gets an Edit chip at the end of the heading row. -->\n    <section class=\"bcn-gd__section bcn-gd__here\">\n      <div class=\"bcn-gd__here-head\">\n        <h2 class=\"bcn-gd__label\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n              ></path>\n              <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n          ></span>\n          <span data-gd-page=\"\">Release Notes</span>\n        </h2>\n        <span class=\"bcn-admin-cue\" data-gd-here-note=\"\" hidden=\"\"\n          ><esa-tooltip\n            text=\"Edit page description for everyone in AWS\"\n            position=\"above\"\n            delay=\"150\"\n            align=\"center\"\n            ><span class=\"bcn-admin-btn\" data-gd-here-edit=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Edit Page Description\"\n                  title=\"Edit Page Description\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path\n                        d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                      ></path>\n                      <path d=\"m15 5 4 4\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n        ></span>\n      </div>\n      <p class=\"bcn-gd__here-purpose\" data-gd-purpose=\"\">\n        What changed in each Beacon release — headline features, per-area improvements, and fixes,\n        newest first.\n      </p>\n    </section>\n    <!-- On This Page. On a page with help dots, the section is its dots (round 17: a page\n             that mounts <BcnHelpDotList> moves the list into the slot) and lists no articles;\n             without dots, the route's how-to articles are the section. -->\n    <section class=\"bcn-gd__section\" data-gd-section=\"howtos\">\n      <h2 class=\"bcn-gd__label\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <line x1=\"8\" x2=\"21\" y1=\"6\" y2=\"6\"></line>\n            <line x1=\"8\" x2=\"21\" y1=\"12\" y2=\"12\"></line>\n            <!-- …and 4 more like this (<line>) -->\n          </svg></span\n        >\n        On this page\n      </h2>\n      <div data-help-dots-list-slot=\"\"></div>\n      <div class=\"bcn-gd__rows\" data-gd-howtos=\"\">\n        <button\n          type=\"button\"\n          class=\"bcn-gd-row\"\n          data-article-id=\"managing-tenant-settings\"\n          data-kind=\"howto\"\n          data-title=\"Managing tenant settings\"\n          data-summary=\"Configure the display labels, defaults, and enabled features that apply across a tenant.\"\n        >\n          <span class=\"bcn-gd-row__text\"\n            ><span class=\"bcn-gd-row__title\">Managing tenant settings</span\n            ><span class=\"bcn-gd-row__sub\"\n              >Configure the display labels, defaults, and enabled features that apply across a\n              tenant.</span\n            ></span\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg\n          ></span>\n        </button>\n      </div>\n    </section>\n    <!-- Terms. An admin attaches a glossary term to this page with + Add Term (a\n             typeahead over the glossary) and detaches one with its ×; terms the page takes\n             from its parent can only be hidden here or edited there (round 17). -->\n    <section class=\"bcn-gd__section\" data-gd-section=\"terms\">\n      <div class=\"bcn-gd__here-head\">\n        <h2 class=\"bcn-gd__label\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20\"\n              ></path></svg\n          ></span>\n          Terms\n        </h2>\n        <span class=\"bcn-admin-cue\" data-gd-term-add-wrap=\"\" hidden=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: add a term to this page for every tenant\"\n            position=\"above\"\n            delay=\"150\"\n            align=\"center\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-add=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Add Term\"\n                  title=\"Add Term\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path d=\"M5 12h14\"></path>\n                      <path d=\"M12 5v14\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n        ></span>\n      </div>\n      <div class=\"bcn-gd__pick\" data-gd-term-pick=\"\" hidden=\"\">\n        <esa-combobox\n          mode=\"autocomplete\"\n          size=\"sm\"\n          label=\"Add Term\"\n          placeholder=\"Search the glossary\"\n          data-gd-term-combo=\"true\"\n        ></esa-combobox>\n      </div>\n      <div class=\"bcn-gd__rows\" data-gd-terms=\"\">\n        <button\n          type=\"button\"\n          class=\"bcn-gd-row\"\n          data-article-id=\"feature-flag\"\n          data-kind=\"glossary\"\n          data-title=\"Feature Flag\"\n          data-summary=\"A tenant-level switch that enables or disables a Beacon capability.\"\n        >\n          <span class=\"bcn-gd-row__text\"\n            ><span class=\"bcn-gd-row__title\">Feature Flag</span\n            ><span class=\"bcn-gd-row__sub\"\n              >A tenant-level switch that enables or disables a Beacon capability.</span\n            ></span\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg\n          ></span>\n        </button>\n      </div>\n      <!-- An admin's row tools, cloned onto each term row: an attached term's ×, an\n               inherited term's Hide and Edit on Project. --><template data-gd-trow-attached=\"\"\n        ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: Detach from this page\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-detach=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Detach Term\"\n                  title=\"Detach Term\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M18 6 6 18\"></path>\n                      <path d=\"m6 6 12 12\"></path></svg\n                  ></span></button></span></span></esa-tooltip></span></template\n      ><template data-gd-trow-inherited=\"\"\n        ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: Hide on this page\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-hide=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Hide on This Page\"\n                  title=\"Hide on This Page\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M18 6 6 18\"></path>\n                      <path d=\"m6 6 12 12\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n          ><esa-tooltip\n            text=\"ESA admin: Edit on Project\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-parent=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Edit on Project\"\n                  title=\"Edit on Project\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M15 3h6v6\"></path>\n                      <path d=\"M10 14 21 3\"></path>\n                      <path\n                        d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"\n                      ></path></svg\n                  ></span></button></span></span></esa-tooltip></span\n      ></template>\n    </section>\n  </div>\n</div>",
+      "html": "<div class=\"bcn-gd-msg bcn-gd-msg--aldo\" data-gd-intro=\"\">\n  <div class=\"bcn-gd-msg__group\">\n    <!-- The page: its name as the heading, its description under it (round 17: no box,\n             no \"You are here\" label). An admin, on a page whose description is the\n             tenant's rich text, gets an Edit chip at the end of the heading row. -->\n    <section class=\"bcn-gd__section bcn-gd__here\">\n      <div class=\"bcn-gd__here-head\">\n        <h2 class=\"bcn-gd__label\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n              ></path>\n              <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n          ></span>\n          <span data-gd-page=\"\">Release Notes</span>\n        </h2>\n        <span class=\"bcn-admin-cue\" data-gd-here-note=\"\" hidden=\"\"\n          ><esa-tooltip\n            text=\"Edit page description for everyone in AWS\"\n            position=\"above\"\n            delay=\"150\"\n            align=\"center\"\n            ><span class=\"bcn-admin-btn\" data-gd-here-edit=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Edit Page Description\"\n                  title=\"Edit Page Description\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path\n                        d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                      ></path>\n                      <path d=\"m15 5 4 4\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n        ></span>\n      </div>\n      <p class=\"bcn-gd__here-purpose\" data-gd-purpose=\"\">\n        What changed in each Beacon release — the main features with screenshots, then everything\n        added, changed and fixed, newest first.\n      </p>\n    </section>\n    <!-- On This Page. On a page with help dots, the section is its dots (round 17: a page\n             that mounts <BcnHelpDotList> moves the list into the slot) and lists no articles;\n             without dots, the route's how-to articles are the section. -->\n    <section class=\"bcn-gd__section\" data-gd-section=\"howtos\">\n      <h2 class=\"bcn-gd__label\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <line x1=\"8\" x2=\"21\" y1=\"6\" y2=\"6\"></line>\n            <line x1=\"8\" x2=\"21\" y1=\"12\" y2=\"12\"></line>\n            <!-- …and 4 more like this (<line>) -->\n          </svg></span\n        >\n        On this page\n      </h2>\n      <div data-help-dots-list-slot=\"\"></div>\n      <div class=\"bcn-gd__rows\" data-gd-howtos=\"\">\n        <button\n          type=\"button\"\n          class=\"bcn-gd-row\"\n          data-article-id=\"managing-tenant-settings\"\n          data-kind=\"howto\"\n          data-title=\"Managing tenant settings\"\n          data-summary=\"Configure the display labels, defaults, and enabled features that apply across a tenant.\"\n        >\n          <span class=\"bcn-gd-row__text\"\n            ><span class=\"bcn-gd-row__title\">Managing tenant settings</span\n            ><span class=\"bcn-gd-row__sub\"\n              >Configure the display labels, defaults, and enabled features that apply across a\n              tenant.</span\n            ></span\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg\n          ></span>\n        </button>\n      </div>\n    </section>\n    <!-- Terms. An admin attaches a glossary term to this page with + Add Term (a\n             typeahead over the glossary) and detaches one with its ×; terms the page takes\n             from its parent can only be hidden here or edited there (round 17). -->\n    <section class=\"bcn-gd__section\" data-gd-section=\"terms\">\n      <div class=\"bcn-gd__here-head\">\n        <h2 class=\"bcn-gd__label\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20\"\n              ></path></svg\n          ></span>\n          Terms\n        </h2>\n        <span class=\"bcn-admin-cue\" data-gd-term-add-wrap=\"\" hidden=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: add a term to this page for every tenant\"\n            position=\"above\"\n            delay=\"150\"\n            align=\"center\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-add=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Add Term\"\n                  title=\"Add Term\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path d=\"M5 12h14\"></path>\n                      <path d=\"M12 5v14\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n        ></span>\n      </div>\n      <div class=\"bcn-gd__pick\" data-gd-term-pick=\"\" hidden=\"\">\n        <esa-combobox\n          mode=\"autocomplete\"\n          size=\"sm\"\n          label=\"Add Term\"\n          placeholder=\"Search the glossary\"\n          data-gd-term-combo=\"true\"\n        ></esa-combobox>\n      </div>\n      <div class=\"bcn-gd__rows\" data-gd-terms=\"\">\n        <button\n          type=\"button\"\n          class=\"bcn-gd-row\"\n          data-article-id=\"feature-flag\"\n          data-kind=\"glossary\"\n          data-title=\"Feature Flag\"\n          data-summary=\"A tenant-level switch that enables or disables a Beacon capability.\"\n        >\n          <span class=\"bcn-gd-row__text\"\n            ><span class=\"bcn-gd-row__title\">Feature Flag</span\n            ><span class=\"bcn-gd-row__sub\"\n              >A tenant-level switch that enables or disables a Beacon capability.</span\n            ></span\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg\n          ></span>\n        </button>\n      </div>\n      <!-- An admin's row tools, cloned onto each term row: an attached term's ×, an\n               inherited term's Hide and Edit on Project. --><template data-gd-trow-attached=\"\"\n        ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: Detach from this page\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-detach=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Detach Term\"\n                  title=\"Detach Term\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M18 6 6 18\"></path>\n                      <path d=\"m6 6 12 12\"></path></svg\n                  ></span></button></span></span></esa-tooltip></span></template\n      ><template data-gd-trow-inherited=\"\"\n        ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n          ><esa-tooltip\n            text=\"ESA admin: Hide on this page\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-hide=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Hide on This Page\"\n                  title=\"Hide on This Page\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M18 6 6 18\"></path>\n                      <path d=\"m6 6 12 12\"></path></svg\n                  ></span></button></span></span></esa-tooltip\n          ><esa-tooltip\n            text=\"ESA admin: Edit on Project\"\n            position=\"above\"\n            delay=\"150\"\n            data-astro-cid-i5kl5miz=\"true\"\n            ><span class=\"bcn-admin-btn\" data-gd-term-parent=\"\" data-astro-cid-i5kl5miz=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                data-astro-cid-5nhxdd72=\"\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-2xs\"\n                  type=\"button\"\n                  aria-label=\"Edit on Project\"\n                  title=\"Edit on Project\"\n                  data-astro-cid-i5kl5miz=\"true\"\n                  data-astro-cid-5nhxdd72=\"\"\n                >\n                  <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                    ><svg\n                      width=\"14\"\n                      height=\"14\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                      data-astro-cid-wcwfib5m=\"\"\n                    >\n                      <path d=\"M15 3h6v6\"></path>\n                      <path d=\"M10 14 21 3\"></path>\n                      <path\n                        d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"\n                      ></path></svg\n                  ></span></button></span></span></esa-tooltip></span\n      ></template>\n    </section>\n  </div>\n</div>",
       "css": ".typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {\n  color: var(--bcn-aldo-600);\n}\n.bcn-aldo-composer__send[data-empty] .esa-button__native {\n  cursor: not-allowed;\n}\n.bcn-admin-cue {\n  border-radius: var(--radius-full);\n  color: #fff;\n  background: var(--bcn-helpbar-bg);\n  backdrop-filter: blur(14px) saturate(1.4);\n  border: 1px solid var(--bcn-helpbar-border);\n  align-items: center;\n  gap: 1px;\n  padding: 1px;\n  display: inline-flex;\n}\n@supports not (backdrop-filter: blur(1px)) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n  }\n}\n@media (prefers-reduced-transparency: reduce) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n    backdrop-filter: none;\n  }\n}\n.bcn-admin-cue[hidden] {\n  display: none;\n}\n.bcn-admin-btn,\n.bcn-admin-btn .esa-button {\n  display: inline-flex;\n}\n.bcn-admin-btn[hidden] {\n  display: none;\n}\n.bcn-admin-btn .esa-button__native {\n  --focus-ring-color: #fff;\n  border-radius: var(--radius-full);\n  color: #ffffffb8;\n  block-size: 22px;\n  min-block-size: 0;\n  inline-size: 22px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-admin-btn .esa-button__native:hover,\n.bcn-admin-btn .esa-button__native:focus-visible {\n  color: #fff;\n  background: #ffffff24;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-admin-cue esa-tooltip {\n  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);\n  --color-content-default-knockout: var(--bcn-helpbar-fg);\n  display: inline-flex;\n}\n.bcn-gd__section {\n  gap: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__section[hidden] {\n  display: none;\n}\n.bcn-gd__label {\n  align-items: center;\n  gap: var(--spacing-200);\n  font-size: var(--font-size-250);\n  font-weight: var(--typography-font-weight-bold);\n  color: var(--color-content-default);\n  margin: 0;\n  display: flex;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd__here-head {\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-200);\n  display: flex;\n}\n.bcn-gd__here-purpose {\n  font-size: var(--font-size-150);\n  color: var(--color-content-default-secondary);\n  margin: 0;\n  line-height: 1.5;\n}\n.bcn-gd__pick[hidden] {\n  display: none;\n}\n.bcn-gd-trow:is(:hover, :focus-within) .bcn-gd-row {\n  padding-inline-end: calc(var(--_tools-w, 52px) + var(--spacing-200));\n}\n.bcn-gd-trow[data-hidden-here] .bcn-gd-row__title,\n.bcn-gd-trow[data-hidden-here] .bcn-gd-row__sub {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-gd__rows {\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__rows:empty {\n  display: none;\n}\n.bcn-gd-row {\n  align-items: center;\n  gap: var(--spacing-300);\n  width: 100%;\n  padding: var(--spacing-300) var(--spacing-100);\n  border: 0;\n  border-bottom: 1px solid var(--color-border-default-subtle);\n  font: inherit;\n  text-align: left;\n  cursor: pointer;\n  background: 0 0;\n  display: flex;\n}\n.bcn-gd-row:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-gd-row__text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-gd-row__title {\n  font-size: var(--font-size-200);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  line-height: 1.35;\n}\n.bcn-gd-row__sub {\n  font-size: var(--font-size-150);\n  font-weight: var(--typography-font-weight-regular);\n  color: var(--color-content-default-secondary);\n  line-height: 1.4;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-msg {\n  gap: var(--spacing-300);\n  align-items: flex-start;\n  display: flex;\n}\n.bcn-gd-msg__group {\n  gap: var(--spacing-500);\n  flex-direction: column;\n  flex: 1;\n  min-width: 0;\n  display: flex;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
         "intent": "Aldo's opening message on THIS route — the route-aware half of the guidance drawer. \"You are here\" names the page and states its purpose in plain words; \"On this page\" lists the how-to articles curated for it; \"Terms\" lists the glossary terms it uses. Every page gets this; the Release Notes route has a curated entry rather than the generic fallback.",
@@ -1192,8 +1402,8 @@
         "desktop": "claude/guidance-drawer-curated-route-context.desktop.png",
         "phone": "claude/guidance-drawer-curated-route-context.phone.png"
       },
-      "bytes": 31373,
-      "specBytes": 31373,
+      "bytes": 31398,
+      "specBytes": 31398,
       "files": 1,
       "collapsed": 4
     }

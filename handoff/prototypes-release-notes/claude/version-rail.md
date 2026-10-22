@@ -4,31 +4,23 @@ Release Notes · source prototype: https://esassoc.github.io/beacon-design/proto
 
 ![Version rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/claude/version-rail.desktop.png)
 
-Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/claude/version-rail.phone.png
-
-The slim sticky rail that makes a long changelog navigable: one row per release — the version number as an anchor link, a short human date beneath it, and a quiet "Latest" marker on the newest entry. A scroll-spy mirrors whichever release is in view into an active highlight.
+A slim sticky list of release versions on the end side of the page, each an anchor link to its post. A scroll-spy mirrors whichever release is in view into an active highlight. Wide screens only.
 
 ## Key decisions
 
-- PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class — nothing about navigation depends on it.
-- Active = the topmost release currently inside a thin band just under the topbar (rootMargin -68px top / -55% bottom). When the scroll sits between bands the last active row stays lit, so the rail never blanks out mid-scroll.
-- The active state is an INK SHIFT, never a color fill: the version darkens to primary and gains weight; the row keeps its neutral background. Hover adds at most a sunken wash.
-- Version numbers are set in the serif display face (--font-decorative) to echo the version headings in the stream — the rail and the stream speak the same voice.
-- "Latest" is a quiet gray marker on the sunken surface, not a colored chip, so it never competes with the active-row ink.
-- Dates shorten to "Jul 22" and only append the year when it differs from the newest release's year, keeping the rail slim. They are read in UTC to avoid an ISO-midnight off-by-one.
-- The initial highlight comes from the URL hash when it names a known release, else the newest — so arriving from the What's-new popover lights the right row immediately.
+- PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class.
+- Versions only. Each post carries its own version badge and date in its meta column, so the rail repeats neither the date nor a "Latest" marker.
+- The active state is an ink shift, never a color fill: the version darkens and gains weight.
+- Below 64rem the rail is not rendered; the posts' own meta columns carry the version.
 
 ## Gotchas
 
-- The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed 52px topbar (AppShell's body carries the padding-top). Its sticky `top` is therefore a small breathing gap, NOT the topbar height — adding the header offset again double-counts it.
-- align-self:start is required: without it the flex item stretches to full height and the sticky element has no slack to move in.
-- esa-sidebar-nav is the wrong lego here — it is a route/section nav behind a shadow-DOM, property-driven boundary, its group headings are the banned ornamental micro-label (11px uppercase letter-spaced), and its per-item hint can only be a filled badge pill, not the quiet 14px date meta this rail needs.
-- The PAGE owns the .sidebar layout primitive and sets --sidebar-width (~14rem); the rail is designed to be its first-child aside and does not create its own layout.
-- On narrow viewports the .sidebar primitive folds the rail above the stream — drop sticky and the height cap there, or it reads as a stuck fragment.
+- The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed topbar. Its sticky `top` is a small breathing gap, not the topbar height.
+- The PAGE owns the .sidebar primitive (data-side="end", --sidebar-width 12rem); the rail is its first-child aside.
 
 ## Done when
 
-- Every release has a row with version, date, and — on the newest only — a "Latest" marker; clicking a row jumps to that release with landing room below the topbar; scrolling moves the active ink down the rail; arriving with #v1-33-0 lights that row on load.
+- Every release has a row; clicking one jumps to that post with landing room below the topbar; scrolling moves the active ink down the rail; the rail is absent on a phone.
 
 ## Components
 
@@ -43,24 +35,20 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
     <li class="bcn-release-nav__item">
       <a
         class="bcn-release-nav__link is-active"
-        href="#v1-33-0"
-        data-release-link="v1-33-0"
+        href="#v1-41-0"
+        data-release-link="v1-41-0"
         aria-current="true"
-        ><span class="bcn-release-nav__version"
-          >1.33.0<span class="bcn-release-nav__latest">Latest</span></span
-        ><span class="bcn-release-nav__date">Jun 2</span></a
+        ><span class="bcn-release-nav__version">1.41.0</span></a
       >
     </li>
     <li class="bcn-release-nav__item">
-      <a class="bcn-release-nav__link" href="#v1-32-0" data-release-link="v1-32-0"
-        ><span class="bcn-release-nav__version">1.32.0</span
-        ><span class="bcn-release-nav__date">May 21</span></a
+      <a class="bcn-release-nav__link" href="#v1-40-0" data-release-link="v1-40-0"
+        ><span class="bcn-release-nav__version">1.40.0</span></a
       >
     </li>
     <li class="bcn-release-nav__item">
-      <a class="bcn-release-nav__link" href="#v1-31-0" data-release-link="v1-31-0"
-        ><span class="bcn-release-nav__version">1.31.0</span
-        ><span class="bcn-release-nav__date">May 12</span></a
+      <a class="bcn-release-nav__link" href="#v1-39-0" data-release-link="v1-39-0"
+        ><span class="bcn-release-nav__version">1.39.0</span></a
       >
     </li>
   </ol>
@@ -140,27 +128,9 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
   transition: color 0.1s;
   display: inline-flex;
 }
-.bcn-release-nav__latest {
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-  font-size: 12px;
-  font-weight: var(--typography-font-weight-medium, 500);
-  color: var(--color-content-default-tertiary);
-  background: var(--color-background-elevation-sunken);
-  padding: 1px var(--spacing-150, 0.375rem);
-  border-radius: var(--radius-100, 0.25rem);
-  flex: none;
-  line-height: 1.5;
-}
-.bcn-release-nav__date {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.875rem;
-  line-height: 1.35;
-}
-@media (width<=48rem) {
+@media (width<=64rem) {
   .bcn-release-nav {
-    max-block-size: none;
-    position: static;
-    overflow: visible;
+    display: none;
   }
 }
 ```
@@ -179,13 +149,9 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 | `--focus-ring-color` | `#3e9b4f` | component |
 | `--focus-ring-width` | `2px` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
-| `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-900` | `6rem` | primitive |
-| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
-| `--typography-font-weight-medium` | `500` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |

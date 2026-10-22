@@ -322,9 +322,9 @@ Breadcrumb (nested help route) · Category article list (full browse) · Categor
 
 ## Release Notes
 
-[README](prototypes-release-notes/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/release-notes/) · 6 sections
+[README](prototypes-release-notes/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/release-notes/) · 5 sections
 
-Version rail · Release (one anchored entry) · Area entry (with feature-flag note) · Fixes disclosure (expanded) · What's-new popover (the doorway in) · Guidance drawer — curated route context
+Version rail · Release post · Changelog (Added / Changed / Fixed) · What's-new popover (the doorway in) · Guidance drawer — curated route context
 
 ## Help Dots
 

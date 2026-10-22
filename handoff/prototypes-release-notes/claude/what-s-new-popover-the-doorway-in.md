@@ -6,26 +6,23 @@ Release Notes · source prototype: https://esassoc.github.io/beacon-design/proto
 
 Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/claude/what-s-new-popover-the-doorway-in.phone.png
 
-The app-wide entry point to this page: a popover anchored above the floating help bar listing the newest release's headline stories, each deep-linking to that release on this page, with an "All release notes →" footer. It is how a user finds out something shipped without going looking.
+The app-wide entry point to this page: a popover above the floating help bar listing the latest post's features, each deep-linking to that feature on this page, with an "All Release Notes" footer.
 
 ## Key decisions
 
-- Framed by RELEASE, not by date alone: the panel header pairs the "What's new" title with the latest version and its long date, mirroring the quiet meta line the release itself carries. The popover and the page state the same fact the same way.
-- Entries are text-only — a serif title over a sans blurb, matching the stream's typographic voice. Per-entry icons were tried and dropped: they added chrome without adding information.
-- Every entry links to `<release-notes>#<anchor>` — the anchor is a field on the entry record, so an entry always lands on the release it belongs to.
-- The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc, and outside-click. The bar's own script only persists the seen state.
-- The bar is dark glass but this panel stays a white content surface — chrome and content are visibly different materials.
-- WHATS_NEW is a curated authored record (the top three headline stories of the newest release), not a derivation over every entry — the point is editorial selection.
+- Derived, not curated separately: the entries are LATEST_RELEASE.features, so the popover and the post always agree.
+- Each entry is the feature title over its paragraph, clamped to two lines; the page has the rest.
+- Each entry links to `<release-notes>#<release anchor>-<feature id>`, landing on the feature itself.
+- The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc and outside-click. The bar's own script only persists the seen state.
 
 ## Gotchas
 
-- The unread dot is retired by writing the NEWEST ENTRY DATE to localStorage, not a boolean — that is what makes the dot come back when the next release ships.
-- Trigger the popover from a real button; the dot is an aria-hidden decoration and must not be the click target on its own.
-- The panel must layer above the floating bar and above page content, and it opens upward — verify it does not clip at the viewport bottom on short windows.
+- The unread dot is retired by writing the latest RELEASE DATE to localStorage, not a boolean, so the dot comes back when the next release ships.
+- Trigger the popover from the real button; the dot is an aria-hidden decoration.
 
 ## Done when
 
-- Clicking What's new opens a white panel above the bar headed by the latest version and date; each entry is a serif title over a blurb with no icon; clicking one lands on that release on this page; "All release notes →" opens the page itself; the unread dot is gone afterward and stays gone on reload.
+- Clicking What's new opens a white panel above the bar headed by the latest version and date; it lists that release's features; clicking one lands on that feature on this page; the unread dot is gone afterward and stays gone on reload.
 
 ## Components
 
@@ -39,17 +36,21 @@ The app-wide entry point to this page: a popover anchored above the floating hel
   <header class="bcn-help-bar__panel-header">
     <p class="bcn-help-bar__panel-title typography-label-md-strong">What's New</p>
     <p class="bcn-help-bar__panel-release typography-label-sm">
-      1.33.0 · <time datetime="2026-06-02">Jun 2, 2026</time>
+      1.41.0 · <time datetime="2026-10-13">Oct 13, 2026</time>
     </p>
   </header>
   <ul class="bcn-help-bar__panel-list">
     <li>
-      <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+      <a
+        class="bcn-help-bar__panel-link"
+        href="/beacon-design/prototypes/release-notes#v1-41-0-lists"
         ><span class="bcn-help-bar__panel-text"
           ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-            >Commitment Lists</span
-          ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-            >Save a filtered set of commitments as a named List and reopen it.</span
+            >Lists replace Action Lists</span
+          ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+            >Each project now has one Lists page for action lists and commitment lists. Every list
+            has its own page, with a searchable drawer for adding items, Select mode for removing
+            many, and CSV export.</span
           ></span
         ><span class="bcn-help-bar__panel-go" aria-hidden="true"
           ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -68,12 +69,15 @@ The app-wide entry point to this page: a popover anchored above the floating hel
       ></a>
     </li>
     <li>
-      <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+      <a
+        class="bcn-help-bar__panel-link"
+        href="/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard"
         ><span class="bcn-help-bar__panel-text"
           ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-            >Evidence of Compliance</span
-          ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-            >All evidence records now live in one Data Catalog grid.</span
+            >Configurable Monitoring Portal dashboard</span
+          ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+            >The dashboard is now a board of widgets. Admins add them from a gallery, then resize,
+            reorder, recolor and configure each one, and the layout is saved for the project.</span
           ></span
         ><span class="bcn-help-bar__panel-go" aria-hidden="true"
           ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -92,13 +96,15 @@ The app-wide entry point to this page: a popover anchored above the floating hel
       ></a>
     </li>
     <li>
-      <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
+      <a
+        class="bcn-help-bar__panel-link"
+        href="/beacon-design/prototypes/release-notes#v1-41-0-list-evidence"
         ><span class="bcn-help-bar__panel-text"
           ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-            >Commitment Compliance</span
-          ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
-            >A Monitoring Portal view of out-of-compliance commitments and their field
-            observations.</span
+            >Evidence for a whole action list</span
+          ><span class="bcn-help-bar__panel-item-text typography-body-xs"
+            >Choose a component, stage the evidence, and save it to every action on that component
+            in one step.</span
           ></span
         ><span class="bcn-help-bar__panel-go" aria-hidden="true"
           ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -234,8 +240,13 @@ The app-wide entry point to this page: a popover anchored above the floating hel
 .bcn-help-bar__panel-item-title {
   color: var(--color-content-default);
 }
-.bcn-help-bar__panel-item-blurb {
+.bcn-help-bar__panel-item-text {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   color: var(--color-content-default-secondary);
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
 }
 .bcn-help-bar__panel-go {
   color: var(--color-content-default-tertiary);
