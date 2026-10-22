@@ -95,19 +95,21 @@ export default {
       selector: '.bcn-help-bar__panel',
       apply: [{ click: '[data-whatsnew] button' }],
       intent:
-        "The app-wide entry point to this page: a popover above the floating help bar listing the latest post's features, each deep-linking to that feature on this page, with an \"All Release Notes\" footer.",
+        "The app-wide entry point to this page: a popover above the floating help bar with the latest release's version pill and date, its features, one row per earlier release, and an \"All release notes\" footer.",
       decisions: [
         'Derived, not curated separately: the entries are LATEST_RELEASE.features, so the popover and the post always agree.',
-        'Each entry is the feature title over its paragraph, clamped to two lines; the page has the rest.',
+        'Each entry is the feature title (serif) over its one-sentence `summary`, written for the popover. No clamping or ellipsis; the page has the full paragraph.',
         'Each entry links to `<release-notes>#<release anchor>-<feature id>`, landing on the feature itself.',
-        'The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc and outside-click. The bar\'s own script only persists the seen state.',
+        'Under "Earlier", the two releases before the latest get one row each: a smaller version pill and that release\'s feature titles joined by " · ", linking to the release\'s anchor. No dates on these rows.',
+        'No screenshots and no unread dot: the button is a doorway, not a notifier.',
+        'The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc and outside-click. The bar\'s own script only fits the panel to narrow screens.',
       ],
       gotchas: [
-        'The unread dot is retired by writing the latest RELEASE DATE to localStorage, not a boolean, so the dot comes back when the next release ships.',
-        'Trigger the popover from the real button; the dot is an aria-hidden decoration.',
+        'Trigger the popover from the real button.',
+        'esa-popover exposes no public padding or radius hook, so the bar sets its private --_popover-padding, --_popover-radius and --_popover-bg.',
       ],
       acceptance: [
-        "Clicking What's new opens a white panel above the bar headed by the latest version and date; it lists that release's features; clicking one lands on that feature on this page; the unread dot is gone afterward and stays gone on reload.",
+        "Clicking What's new opens a white panel above the bar headed by the latest version pill and date; it lists that release's features with a one-sentence summary each; clicking one lands on that feature on this page; each Earlier row lands on that release.",
       ],
     },
     {

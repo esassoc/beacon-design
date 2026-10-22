@@ -41,6 +41,8 @@ export interface ReleaseFeature {
   id: string;
   title: string;
   text: string;
+  /** One short sentence for the What's-new popover. */
+  summary: string;
   /** What moved or was removed that customers will look for in its old place. */
   note?: string;
   image: ReleaseImage;
@@ -68,6 +70,7 @@ export const RELEASES: Release[] = [
         id: 'lists',
         title: 'Lists replace Action Lists',
         text: 'Each project now has one Lists page for action lists and commitment lists. Every list has its own page, with a searchable drawer for adding items, Select mode for removing many, and CSV export.',
+        summary: 'One Lists page per project holds action lists and commitment lists.',
         note: 'The Action Lists entry in the navigation is gone on every tenant. Your lists are all on the new page.',
         image: { src: '/release-notes/lists-index.jpg', caption: 'The Lists page, with commitment lists and action lists' },
       },
@@ -75,6 +78,7 @@ export const RELEASES: Release[] = [
         id: 'monitoring-dashboard',
         title: 'Configurable Monitoring Portal dashboard',
         text: 'The dashboard is now a board of widgets. Admins add them from a gallery, then resize, reorder, recolor and configure each one, and the layout is saved for the project.',
+        summary: 'Admins build the dashboard from a gallery of widgets.',
         note: 'Monitoring pages moved under each project’s new Data page. Old links redirect.',
         image: { src: '/release-notes/monitoring.jpg', caption: 'The Monitoring Portal dashboard' },
       },
@@ -82,6 +86,7 @@ export const RELEASES: Release[] = [
         id: 'list-evidence',
         title: 'Evidence for a whole action list',
         text: 'Choose a component, stage the evidence, and save it to every action on that component in one step.',
+        summary: 'Save one set of evidence to every action on a component.',
         image: { src: '/release-notes/evidence-bulk.jpg', caption: 'Adding evidence to every action on one component' },
       },
     ],
@@ -138,6 +143,7 @@ export const RELEASES: Release[] = [
         id: 'component-dashboards',
         title: 'Component dashboards',
         text: 'Each component has a dashboard with Tracking, Monitoring and Reporting cards showing overdue and due-soon counts, a 30, 60 and 90 day timeline, and a map of the component’s work areas.',
+        summary: 'Every component has its own dashboard of due and overdue work.',
         note: 'The Species, Milestones, Construction Activities and Seasons tabs now open as side panels on the dashboards. Bookmarks redirect.',
         image: { src: '/release-notes/component.jpg', caption: 'A component dashboard' },
       },
@@ -145,6 +151,7 @@ export const RELEASES: Release[] = [
         id: 'evidence-upload',
         title: 'Evidence upload in the evidence drawer',
         text: 'Drop several files together and they become one piece of evidence, with a title and description drafted for you to review before saving.',
+        summary: 'Several files dropped together become one piece of evidence.',
         image: { src: '/release-notes/evidence-upload.jpg', caption: 'The evidence drawer with uploaded files' },
       },
     ],
@@ -187,12 +194,14 @@ export const RELEASES: Release[] = [
         id: 'project-dashboard',
         title: 'Project dashboard homepage',
         text: 'Projects can open to a dashboard with a header showing the cover image, organization seal and lifecycle phase, Tracking and Reporting cards, and a 30, 60 and 90 day timeline. It is off until ESA turns it on for your tenant.',
+        summary: 'Projects can open to a dashboard of their tracking and reporting.',
         image: { src: '/release-notes/project.jpg', caption: 'A project dashboard' },
       },
       {
         id: 'search',
         title: 'Global search ranking and results',
         text: 'Exact matches rank above similar spellings, the search keeps your query and scope when you close and reopen it, and results show longer snippets with the match highlighted.',
+        summary: 'Exact matches rank first, and results show more of the match.',
         image: { src: '/release-notes/search.jpg', caption: 'Global search results for “nesting bird”' },
       },
     ],
