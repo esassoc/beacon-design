@@ -413,8 +413,9 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__panel-prev {
     border-block-start: 1px solid var(--color-border-default-subtle);
   }
+  /* Padding, not margin: the panel's p reset outranks a scoped margin here. */
   .bcn-help-bar__panel-earlier {
-    margin: 14px 0 6px;
+    padding-block: 14px 6px;
     font-weight: var(--typography-font-weight-medium);
   }
   .bcn-help-bar__panel-prev-list {
