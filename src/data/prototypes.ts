@@ -704,7 +704,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'release-notes',
         title: 'Release Notes',
         description:
-          'Every Beacon release as one post, newest first: a one-line summary, two or three features with screenshots, then the release’s full Added / Changed / Fixed changelog in the Claude Code layout. Real customer-facing 1.39–1.41 notes; the help bar’s What’s-new popover lists the latest post’s features.',
+          'Every Beacon release as one post, newest first: two or three features with captioned screenshots, then the release’s full Added / Changed / Fixed changelog in the Claude Code layout. Real customer-facing 1.39–1.41 notes; the help bar’s What’s-new popover lists the latest post’s features.',
         route: '/prototypes/release-notes',
         createdAt: '2026-07-22',
         status: 'in-progress',

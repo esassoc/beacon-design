@@ -9,7 +9,7 @@
 // opened).
 //
 // Context: the in-app release-notes surface, coupled to Help & Guidance. Every Beacon
-// release as one post, newest first: a summary line, two or three features with
+// release as one post, newest first: two or three features with
 // screenshots, then the Added / Changed / Fixed changelog — fed by the customer-facing
 // 1.39–1.41 notes in src/data/release-notes.ts. This page is the DESTINATION of
 // the help bar's What's-new popover, so the last two sections below capture the two
@@ -53,13 +53,14 @@ export default {
       label: 'Release post',
       selector: '.bcn-release',
       intent:
-        'One release, as one post: the version badge and date in a narrow meta column, then a one-line plain summary, two or three features (title, paragraph, optional note on what moved (info icon + text), screenshot), then the release\'s full Added / Changed / Fixed list. Every release uses the same shape.',
+        'One release, as one post: the version badge and date in a narrow meta column, then two or three features (title, paragraph, optional note on what moved (info icon + text), screenshot in an inset frame with a caption), then the release\'s full Added / Changed / Fixed list. Every release uses the same shape.',
       decisions: [
         'Features first, changelog second: a reader who stops after the features knows what matters; the changelog is the complete record beneath.',
         'The meta column is the Claude Code changelog layout (160px column, 24px gap). It sticks while its post scrolls once the two sit side by side; on a phone it drops above the body as one row (badge, date).',
         'Version is an esa-badge (neutral, lg), not a brand-tinted pill: badges stay quiet per the design principles.',
-        'A serif display layer (--font-decorative) carries the summary and the feature titles; everything else is the sans body face. No status color anywhere.',
-        'Headlines are plain and factual: they name the feature, not a pitch.',
+        'A serif display layer (--font-decorative) carries the feature titles; everything else is the sans body face. No status color anywhere.',
+        'Headlines are plain and factual: they name the feature, not a pitch. There is no per-release summary line; the features lead.',
+        'Screenshots sit in an inset frame: a sunken panel with padding and a large radius around an image with its own smaller radius and a hairline, and a short factual caption under it. The caption is the alt text too.',
         'A feature note is the info icon and the fact itself ("The Action Lists entry in the navigation is gone on every tenant."), with no "Read this first" label: the label addressed the reader instead of stating the change.',
         'Every post is a hash target (#v1-41-0) and every feature is too (#v1-41-0-lists), with scroll-margin for landing room.',
       ],
@@ -68,7 +69,7 @@ export default {
         'Feature screenshots come from one prop (feature.image). Where production captures come from is still open; swap the source, not the layout.',
       ],
       acceptance: [
-        'Each release shows badge and date, a one-line summary, two or three features each with a screenshot, then Added / Changed / Fixed; a feature note renders only where the data has one; the meta column sticks on desktop and sits above the body on a phone.',
+        'Each release shows badge and date, two or three features each with a captioned, inset screenshot, then Added / Changed / Fixed; a feature note renders only where the data has one; the meta column sticks on desktop and sits above the body on a phone.',
       ],
     },
     {

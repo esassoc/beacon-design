@@ -1,7 +1,7 @@
 ---
 // Release Notes — the in-app release-notes surface coupled to Help & Guidance:
-// every Beacon release as one post, newest first. A post is a one-line summary,
-// two or three features with screenshots, then the release's Added / Changed /
+// every Beacon release as one post, newest first. A post is two or three
+// features with screenshots, then the release's Added / Changed /
 // Fixed changelog, fed by the customer-facing 1.39–1.41 notes in
 // src/data/release-notes.ts. The What's-new popover in BcnHelpBar lists the latest
 // post's features and deep-links to each (#v1-41-0-lists); the version rail on the
@@ -16,11 +16,11 @@ import BcnReleaseStream from '../../components/bcn/BcnReleaseStream.astro';
   layout: sidebar(12rem rail, end side)         # SPINE
   sections:
     - version rail    -> bcn-release-nav        # sticky anchor list, scroll-spy; wide screens only
-    - release stream  -> bcn-release-stream     # one post per release: summary, features, changelog
+    - release stream  -> bcn-release-stream     # one post per release: features, changelog
 -->
 
-<AppShell title="Release Notes — Beacon">
-  <PageLayout title="Release Notes" icon="notepad-text">
+<AppShell title="Release Notes — Beacon" expandedSections={['project']}>
+  <PageLayout title="Release Notes" icon="notepad-text" iconColor="var(--color-content-brand)">
     <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 12rem; --sidebar-content-min: 70%;">
       <BcnReleaseNav />
       <BcnReleaseStream />

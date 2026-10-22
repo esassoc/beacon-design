@@ -5,8 +5,10 @@
 // and the feature's screenshot. The block is a hash target
 // (featureAnchor(), e.g. #v1-41-0-lists) so the What's-new popover can land on it.
 //
-// The screenshot is one prop-driven image: where production captures come from is
-// still open, so swapping the source never touches the layout.
+// The screenshot is one prop-driven image in an inset frame (sunken panel, padding,
+// rounded corners) with its caption under it. Where production captures come from is
+// still open, so swapping the source never touches the layout. The caption doubles as
+// the image's alt text, so the visible caption is hidden from screen readers.
 //
 // bcn-lego-checked: no esa-* lego renders a titled feature with a figure — esa-card is
 // a bordered container (a release feature sits in the post's flow, not in a card) and
@@ -35,7 +37,8 @@ const { feature, anchor: id } = Astro.props;
     </p>
   )}
   <figure class="bcn-release-feature__figure">
-    <img alt={feature.image.alt} class="bcn-release-feature__img" src={withBase(feature.image.src)} width="1600" height="900" loading="lazy" decoding="async" />
+    <img alt={feature.image.caption} class="bcn-release-feature__img" src={withBase(feature.image.src)} width="1600" height="900" loading="lazy" decoding="async" />
+    <figcaption class="bcn-release-feature__caption typography-body-sm" aria-hidden="true">{feature.image.caption}</figcaption>
   </figure>
 </section>
 
@@ -72,8 +75,17 @@ const { feature, anchor: id } = Astro.props;
     padding-block-start: var(--spacing-050);
     color: var(--color-content-default-secondary);
   }
+  /* Inset frame: the shot sits on the top bar's color with room around it, the caption
+     under it inside the same panel. The top bar paints --bcn-gray-100; the sunken
+     elevation role is that same step in the Beacon theme, read here as the semantic. */
   .bcn-release-feature__figure {
     margin: var(--spacing-200) 0 0;
+    padding: var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+    border-radius: var(--radius-lg);
   }
   .bcn-release-feature__img {
     display: block;
@@ -82,9 +94,11 @@ const { feature, anchor: id } = Astro.props;
     aspect-ratio: 16 / 9;
     object-fit: cover;
     object-position: top left;
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-100);
-    background: var(--color-background-elevation-sunken);
+    background: var(--color-background-default);
+  }
+  .bcn-release-feature__caption {
+    color: var(--color-content-default-secondary);
   }
 </style>

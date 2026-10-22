@@ -5,7 +5,7 @@
 // origin/develop). Only Customer Announcements are carried here; the ESA Internal
 // and Dev-only sections, items still marked TBD, and Jira keys are left out.
 //
-// Each release is one post: a one-line summary, two or three features (title,
+// Each release is one post: two or three features (title,
 // paragraph, optional note on what moved, screenshot), then that release's
 // full Added / Changed / Fixed changelog.
 //
@@ -32,7 +32,8 @@ export interface ReleaseChangeGroup {
 export interface ReleaseImage {
   /** Path under public/, without the base. */
   src: string;
-  alt: string;
+  /** What the shot shows, shown under it and used as its alt text. */
+  caption: string;
 }
 
 export interface ReleaseFeature {
@@ -52,8 +53,6 @@ export interface Release {
   anchor: string;
   /** ISO date. */
   date: string;
-  /** One plain line naming what the release brings. */
-  summary: string;
   features: ReleaseFeature[];
   changelog: ReleaseChangeGroup[];
 }
@@ -64,27 +63,26 @@ export const RELEASES: Release[] = [
     version: '1.41.0',
     anchor: 'v1-41-0',
     date: '2026-10-13',
-    summary: 'Lists, a configurable Monitoring Portal dashboard, and evidence for a whole action list.',
     features: [
       {
         id: 'lists',
         title: 'Lists replace Action Lists',
         text: 'Each project now has one Lists page for action lists and commitment lists. Every list has its own page, with a searchable drawer for adding items, Select mode for removing many, and CSV export.',
         note: 'The Action Lists entry in the navigation is gone on every tenant. Your lists are all on the new page.',
-        image: { src: '/release-notes/lists-index.jpg', alt: 'The Lists page, with Commitment Lists and Action Lists sections' },
+        image: { src: '/release-notes/lists-index.jpg', caption: 'The Lists page, with commitment lists and action lists' },
       },
       {
         id: 'monitoring-dashboard',
         title: 'Configurable Monitoring Portal dashboard',
         text: 'The dashboard is now a board of widgets. Admins add them from a gallery, then resize, reorder, recolor and configure each one, and the layout is saved for the project.',
         note: 'Monitoring pages moved under each project’s new Data page. Old links redirect.',
-        image: { src: '/release-notes/monitoring.jpg', alt: 'The Monitoring Portal dashboard with its widgets' },
+        image: { src: '/release-notes/monitoring.jpg', caption: 'The Monitoring Portal dashboard' },
       },
       {
         id: 'list-evidence',
         title: 'Evidence for a whole action list',
         text: 'Choose a component, stage the evidence, and save it to every action on that component in one step.',
-        image: { src: '/release-notes/evidence-bulk.jpg', alt: 'Add Evidence of Compliance, with staged evidence beside the component’s actions' },
+        image: { src: '/release-notes/evidence-bulk.jpg', caption: 'Adding evidence to every action on one component' },
       },
     ],
     changelog: [
@@ -135,20 +133,19 @@ export const RELEASES: Release[] = [
     version: '1.40.0',
     anchor: 'v1-40-0',
     date: '2026-09-10',
-    summary: 'Component dashboards, and evidence upload in the shared evidence drawer.',
     features: [
       {
         id: 'component-dashboards',
         title: 'Component dashboards',
         text: 'Each component has a dashboard with Tracking, Monitoring and Reporting cards showing overdue and due-soon counts, a 30, 60 and 90 day timeline, and a map of the component’s work areas.',
         note: 'The Species, Milestones, Construction Activities and Seasons tabs now open as side panels on the dashboards. Bookmarks redirect.',
-        image: { src: '/release-notes/component.jpg', alt: 'A component dashboard with Tracking, Monitoring and Reporting cards' },
+        image: { src: '/release-notes/component.jpg', caption: 'A component dashboard' },
       },
       {
         id: 'evidence-upload',
         title: 'Evidence upload in the evidence drawer',
         text: 'Drop several files together and they become one piece of evidence, with a title and description drafted for you to review before saving.',
-        image: { src: '/release-notes/evidence-upload.jpg', alt: 'The evidence drawer with uploaded files and a drafted title and description' },
+        image: { src: '/release-notes/evidence-upload.jpg', caption: 'The evidence drawer with uploaded files' },
       },
     ],
     changelog: [
@@ -185,19 +182,18 @@ export const RELEASES: Release[] = [
     version: '1.39.0',
     anchor: 'v1-39-0',
     date: '2026-08-13',
-    summary: 'A project dashboard homepage, dark mode, and improved global search.',
     features: [
       {
         id: 'project-dashboard',
         title: 'Project dashboard homepage',
         text: 'Projects can open to a dashboard with a header showing the cover image, organization seal and lifecycle phase, Tracking and Reporting cards, and a 30, 60 and 90 day timeline. It is off until ESA turns it on for your tenant.',
-        image: { src: '/release-notes/project.jpg', alt: 'A project dashboard with its header, Tracking and Reporting cards, and timeline' },
+        image: { src: '/release-notes/project.jpg', caption: 'A project dashboard' },
       },
       {
         id: 'search',
         title: 'Global search ranking and results',
         text: 'Exact matches rank above similar spellings, the search keeps your query and scope when you close and reopen it, and results show longer snippets with the match highlighted.',
-        image: { src: '/release-notes/search.jpg', alt: 'Global search results for “nesting bird” with highlighted snippets' },
+        image: { src: '/release-notes/search.jpg', caption: 'Global search results for “nesting bird”' },
       },
     ],
     changelog: [

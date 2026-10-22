@@ -2,8 +2,8 @@
 // <BcnReleaseStream> — the body of the Release Notes prototype (/prototypes/
 // release-notes): every Beacon release as one post, newest first. A post is the
 // Claude Code changelog layout with features on top: the version badge and date in a
-// narrow meta column (sticky while the post scrolls), then a one-line serif summary,
-// two or three features (BcnReleaseFeature), and the release's full Added / Changed /
+// narrow meta column (sticky while the post scrolls), then two or three features
+// (BcnReleaseFeature), and the release's full Added / Changed /
 // Fixed list (BcnReleaseChangelog). Every post is a hash target (#v1-41-0); its
 // features are #v1-41-0-<feature id>.
 //
@@ -40,7 +40,6 @@ const fmtDate = (iso: string): string =>
         </div>
       </header>
       <div class="bcn-release__body">
-        <p class="bcn-release__summary">{release.summary}</p>
         {release.features.map((feature) => (
           <BcnReleaseFeature feature={feature} anchor={featureAnchor(release, feature)} />
         ))}
@@ -99,15 +98,5 @@ const fmtDate = (iso: string): string =>
     flex-direction: column;
     gap: var(--spacing-700);
     max-inline-size: 46rem;
-  }
-  /* Serif display tier — the one plain line that names the release. */
-  .bcn-release__summary {
-    margin: 0;
-    font-family: var(--font-decorative);
-    font-size: var(--typography-heading-md-font-size);
-    font-weight: var(--typography-font-weight-regular);
-    line-height: var(--typography-heading-md-line-height);
-    color: var(--color-content-default);
-    text-wrap: balance;
   }
 </style>
