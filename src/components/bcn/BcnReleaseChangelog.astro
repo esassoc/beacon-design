@@ -1,0 +1,86 @@
+---
+// <BcnReleaseChangelog> — a release's full Added / Changed / Fixed list, the Claude Code
+// changelog layout: a semibold group head over a dense 14px bulleted list. Lines that
+// belong to one product area lead with that area as a quiet esa-badge. A `value` in
+// backticks is a name as it appears in Beacon (a status or outcome) and renders bold —
+// never monospace, which the design principles reserve for code.
+//
+// bcn-lego-checked: no esa-* lego renders a grouped changelog — esa-link-column is a list
+// of links, esa-card a container. Checked Beacon (no release-notes primitive). esa-badge
+// is composed inside for the area tag.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import type { ReleaseChangeGroup } from '../../data/release-notes';
+
+interface Props {
+  groups: ReleaseChangeGroup[];
+  /** Accessible name for the list region, e.g. 'Changes in 1.41.0'. */
+  label: string;
+}
+
+const { groups, label } = Astro.props;
+
+// Split a line on backtick spans: odd segments are Beacon value names.
+const segments = (s: string): { text: string; value: boolean }[] =>
+  s.split('`').map((text, i) => ({ text, value: i % 2 === 1 })).filter((seg) => seg.text);
+---
+
+<section class="bcn-release-changelog" aria-label={label}>
+  {groups.map((group) => (
+    <div class="bcn-release-changelog__group">
+      <h3 class="bcn-release-changelog__head typography-label-sm-strong">{group.kind}</h3>
+      <ul class="bcn-release-changelog__list" role="list">
+        {group.changes.map((change) => (
+          <li class="bcn-release-changelog__item typography-body-sm">
+            {change.area && <EsaBadge value={change.area} size="sm" />}
+            {segments(change.text).map((seg) => (seg.value ? <strong>{seg.text}</strong> : seg.text))}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>
+
+<style>
+  .bcn-release-changelog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding-block-start: var(--spacing-500);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-release-changelog__head {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-release-changelog__list {
+    list-style: none;
+    margin: var(--spacing-200) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-release-changelog__item {
+    position: relative;
+    padding-inline-start: var(--spacing-600);
+    color: var(--color-content-default);
+  }
+  .bcn-release-changelog__item::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: var(--spacing-200);
+    inset-block-start: 0.6lh;
+    inline-size: 5px;
+    block-size: 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-border-default);
+    translate: 0 -50%;
+  }
+  .bcn-release-changelog__item :global(.esa-badge) {
+    margin-inline-end: var(--spacing-150);
+    vertical-align: 0.0625rem;
+  }
+  .bcn-release-changelog__item strong {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+</style>

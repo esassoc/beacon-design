@@ -14,7 +14,7 @@
 //                               unless a page with help dots claims it (data-help-dots-claimed):
 //                               there it turns the dots on and off, and shows aria-pressed.
 //   • [data-evidence-trigger] — the global evidence drawer (sibling) opens on clicks here.
-//   • [data-whatsnew]         — LOCAL only: the first click marks WHATS_NEW seen (localStorage
+//   • [data-whatsnew]         — LOCAL only: the first click marks the latest release seen (localStorage
 //                               'bcn-whats-new-seen' = newest entry date) and hides the dot.
 //
 // The middle slot held a SECOND search button until the 2026-08-04 product meeting; it was
@@ -28,7 +28,7 @@
 // only accept a Lucide `icon` NAME, not a custom SVG mark, so it is bespoke. Everything else IS a
 // lego: esa-icon-button (Search + What's-new triggers), esa-tooltip (Search hint), and
 // esa-popover (the What's-new panel, anchored above the trigger). bcn-help-bar is the
-// reusable home. Panel entries are text-only — title + one-line blurb, no icon chips.
+// reusable home. Panel entries are text-only — the latest release’s feature titles over two lines of each feature’s text, no icon chips.
 //
 // The What's-new trigger uses 'notepad-text' — the release-notes glyph, matching the
 // Release Notes page title. esa-icon-button forwards only a registry `icon` name (no
@@ -37,17 +37,15 @@ import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { scopeIcon } from '../../data/global-search';
-import { WHATS_NEW } from '../../data/help-center';
-import { RELEASES } from '../../data/release-notes';
+import { LATEST_RELEASE as latest, featureAnchor } from '../../data/release-notes';
 import { withBase } from '../../lib/base';
 
-const newestDate = WHATS_NEW[0]?.date ?? '';
+// The unread dot clears once the person has opened the panel for this release.
+const newestDate = latest?.date ?? '';
 
-// The release-notes page; each entry deep-links to its release via `#${entry.anchor}`.
-// The panel header frames the entries with the latest release (mirrors the page's own
-// quiet "Latest · date" meta line).
+// The release-notes page; the panel lists the latest post's features, each deep-linking
+// to its block on the page (`#v1-41-0-lists`).
 const releaseNotesHref = withBase('/prototypes/release-notes');
-const latest = RELEASES.find((r) => r.latest) ?? RELEASES[0];
 
 // "Jun 2, 2026" — the release date for the panel header meta line.
 const fmtLong = (iso: string): string =>
@@ -86,7 +84,7 @@ const fmtLong = (iso: string): string =>
     <esa-tooltip class="bcn-help-bar__tooltip" text="Release Notes" position="above" delay="150">
       <span class="bcn-help-bar__whatsnew" data-whatsnew>
         <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="Release Notes" size="md" />
-        {WHATS_NEW.length > 0 && (
+        {latest && latest.features.length > 0 && (
           <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
         )}
       </span>
@@ -100,12 +98,12 @@ const fmtLong = (iso: string): string =>
         </p>
       </header>
       <ul class="bcn-help-bar__panel-list">
-        {WHATS_NEW.map((entry) => (
+        {latest.features.map((feature) => (
           <li>
-            <a class="bcn-help-bar__panel-link" href={`${releaseNotesHref}#${entry.anchor}`}>
+            <a class="bcn-help-bar__panel-link" href={`${releaseNotesHref}#${featureAnchor(latest, feature)}`}>
               <span class="bcn-help-bar__panel-text">
-                <span class="bcn-help-bar__panel-item-title typography-label-md-strong">{entry.title}</span>
-                <span class="bcn-help-bar__panel-item-blurb typography-body-xs">{entry.blurb}</span>
+                <span class="bcn-help-bar__panel-item-title typography-label-md-strong">{feature.title}</span>
+                <span class="bcn-help-bar__panel-item-text typography-body-xs">{feature.text}</span>
               </span>
               <span class="bcn-help-bar__panel-go" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
             </a>
@@ -438,7 +436,13 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__panel-item-title {
     color: var(--color-content-default);
   }
-  .bcn-help-bar__panel-item-blurb {
+  /* The feature's paragraph, held to two lines; the page has the rest. */
+  .bcn-help-bar__panel-item-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
     color: var(--color-content-default-secondary);
   }
   .bcn-help-bar__panel-go {

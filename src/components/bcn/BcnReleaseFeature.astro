@@ -1,0 +1,90 @@
+---
+// <BcnReleaseFeature> — one feature inside a release post on the Release Notes page
+// (/prototypes/release-notes): a serif title, a short paragraph, an optional note
+// (info icon + the text) for something customers will look for in its old place,
+// and the feature's screenshot. The block is a hash target
+// (featureAnchor(), e.g. #v1-41-0-lists) so the What's-new popover can land on it.
+//
+// The screenshot is one prop-driven image: where production captures come from is
+// still open, so swapping the source never touches the layout.
+//
+// bcn-lego-checked: no esa-* lego renders a titled feature with a figure — esa-card is
+// a bordered container (a release feature sits in the post's flow, not in a card) and
+// esa-alert-box is a full-width tinted banner, too loud for a one-line heads-up inside
+// a feature. Checked Beacon (no release-notes primitive). esa-icon is composed inside.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import type { ReleaseFeature } from '../../data/release-notes';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  feature: ReleaseFeature;
+  /** The feature's hash anchor, from featureAnchor() in the data module. */
+  anchor: string;
+}
+
+const { feature, anchor: id } = Astro.props;
+---
+
+<section class="bcn-release-feature" id={id} aria-labelledby={`${id}-title`}>
+  <h3 class="bcn-release-feature__title" id={`${id}-title`}>{feature.title}</h3>
+  <p class="bcn-release-feature__text typography-body-md">{feature.text}</p>
+  {feature.note && (
+    <p class="bcn-release-feature__note typography-body-sm">
+      <span class="bcn-release-feature__note-icon"><EsaIcon name="info" size="sm" /></span>
+      <span>{feature.note}</span>
+    </p>
+  )}
+  <figure class="bcn-release-feature__figure">
+    <img alt={feature.image.alt} class="bcn-release-feature__img" src={withBase(feature.image.src)} width="1600" height="900" loading="lazy" decoding="async" />
+  </figure>
+</section>
+
+<style>
+  .bcn-release-feature {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    scroll-margin-top: var(--spacing-500);
+  }
+  /* Serif display tier, one step under the release summary. */
+  .bcn-release-feature__title {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: var(--typography-title-font-size);
+    font-weight: var(--typography-font-weight-medium);
+    line-height: var(--typography-title-line-height);
+    color: var(--color-content-default);
+    text-wrap: balance;
+  }
+  .bcn-release-feature__text {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-release-feature__note {
+    margin: 0;
+    display: flex;
+    gap: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-release-feature__note-icon {
+    flex: none;
+    display: inline-flex;
+    padding-block-start: var(--spacing-050);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-release-feature__figure {
+    margin: var(--spacing-200) 0 0;
+  }
+  .bcn-release-feature__img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-100);
+    background: var(--color-background-elevation-sunken);
+  }
+</style>

@@ -8,7 +8,6 @@
 //     set matching the current route (HELP_ROUTE_CONTEXTS, first match wins).
 //   - BcnKbBrowser / BcnKbHero / BcnKbCategories — the full browsable page, with
 //     an A-Z glossary view fed by glossaryArticles().
-//   - BcnHelpBar — WHATS_NEW feeds the "What's new" popover.
 //
 // Client scripts should import ONLY the small route/context exports — article
 // bodies are rendered at build time and searched via the DOM, so the JS bundle
@@ -902,7 +901,7 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
   {
     pattern: '/prototypes/release-notes',
     page: 'Release Notes',
-    purpose: 'What changed in each Beacon release — headline features, per-area improvements, and fixes, newest first.',
+    purpose: 'What changed in each Beacon release — the main features with screenshots, then everything added, changed and fixed, newest first.',
     howtos: ['managing-tenant-settings'],
     terms: ['feature-flag'],
   },
@@ -937,45 +936,6 @@ export const ALDO_CHAT = {
   fallback:
     'I don’t have a good answer for that yet. Try different words, or browse all Help & Guidance — and this is exactly the kind of question the team wants to hear about.',
 } as const;
-
-// ─── What's new ──────────────────────────────────────────────────────────────
-
-export interface WhatsNewEntry {
-  /** ISO date, newest first. */
-  date: string;
-  title: string;
-  blurb: string;
-  /** esa-icon name — must exist in the shared icon registry. */
-  icon: string;
-  /** Release-page hash target — the `#anchor` for this entry's release on the release-notes page. */
-  anchor: string;
-}
-
-// The top three Beacon 1.33 headline stories (released 2026-06-02); each links
-// to that release on the release-notes page via its `#v1-33-0` anchor.
-export const WHATS_NEW: WhatsNewEntry[] = [
-  {
-    date: '2026-06-02',
-    title: 'Commitment Lists',
-    blurb: 'Save a filtered set of commitments as a named List and reopen it.',
-    icon: 'folder',
-    anchor: 'v1-33-0',
-  },
-  {
-    date: '2026-06-02',
-    title: 'Evidence of Compliance',
-    blurb: 'All evidence records now live in one Data Catalog grid.',
-    icon: 'file-text',
-    anchor: 'v1-33-0',
-  },
-  {
-    date: '2026-06-02',
-    title: 'Commitment Compliance',
-    blurb: 'A Monitoring Portal view of out-of-compliance commitments and their field observations.',
-    icon: 'activity',
-    anchor: 'v1-33-0',
-  },
-];
 
 // ─── Small helpers (build-time) ──────────────────────────────────────────────
 

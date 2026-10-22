@@ -1,45 +1,25 @@
 ---
 // <BcnReleaseNav> — the slim version rail for the Release Notes page
 // (/prototypes/release-notes): wayfinding for a reverse-chron stream of releases.
-// One row per release — version number (anchor link to #{anchor}), a short human
-// date, and a quiet "Latest" marker on the newest entry. A minimal
+// One row per release — the version number, an anchor link to #{anchor}; each post's
+// own meta column carries the date. A minimal
 // IntersectionObserver scroll-spy mirrors the in-view release into an active
 // highlight; the links are plain anchors that work without JS (progressive).
 //
-// Frame: designed to be the :first-child aside of the page's .sidebar primitive —
-// the PAGE owns the .sidebar wrapper and sets --sidebar-width (slim, ~14rem). The
+// Frame: designed to be the :first-child aside of the page's .sidebar primitive,
+// placed on the end side (data-side="end") — the PAGE owns the wrapper and its width. The
 // rail sticks WITHIN the .modern-layout__content scroll container; its sticky top
 // is a small breathing gap, NOT the 52px topbar height, because that scroll
 // container already starts below the fixed topbar (AppShell's .modern-layout__body
 // carries padding-top: 52px). Mirrors bcn-kb-browser's rail conventions.
 //
 // bcn-lego-checked: a version rail of in-page anchor links with a scroll-spy active
-// state and a "Latest" marker has no esa-* equivalent. esa-sidebar-nav is a
+// state has no esa-* equivalent. esa-sidebar-nav is a
 // route/section nav behind a shadow-DOM, property-driven boundary — its group
 // headings are the banned ornamental micro-label (11px uppercase letter-spaced) and
-// its per-item hint can only be a filled badge pill, not the quiet 14px date meta
-// this rail needs — wrong for a quiet in-page TOC. Owned quiet list; same shape as
-// bcn-kb-browser's rail. Checked Ecology (esa-sidebar-nav) + Beacon.
-import type { Release } from '../../data/release-notes';
+// its per-item hint can only be a filled badge pill — wrong for a quiet in-page TOC.
+// Owned quiet list; same shape as bcn-kb-browser's rail. Checked Ecology (esa-sidebar-nav) + Beacon.
 import { RELEASES } from '../../data/release-notes';
-
-// The newest release carries the "Latest" marker: the one flagged latest, else the
-// first row (the stream is reverse-chron, so index 0 is newest).
-const latest = RELEASES.find((r) => r.latest) ?? RELEASES[0];
-const latestAnchor = latest?.anchor;
-const latestYear = latest ? new Date(latest.date).getUTCFullYear() : new Date().getUTCFullYear();
-
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-// Short human date — "Jul 22", with the year appended only when it differs from the
-// newest release's year (keeps the rail slim). Falls back to the raw string if the
-// stored value isn't a parseable date. UTC read avoids an ISO-midnight off-by-one.
-function shortDate(raw: string): string {
-  const d = new Date(raw);
-  if (Number.isNaN(d.getTime())) return raw;
-  const md = `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
-  return d.getUTCFullYear() === latestYear ? md : `${md}, ${d.getUTCFullYear()}`;
-}
 ---
 
 <nav class="bcn-release-nav" aria-label="Releases" data-release-nav>
@@ -48,11 +28,7 @@ function shortDate(raw: string): string {
     {RELEASES.map((r) => (
       <li class="bcn-release-nav__item">
         <a class="bcn-release-nav__link" href={`#${r.anchor}`} data-release-link={r.anchor}>
-          <span class="bcn-release-nav__version">
-            {r.version}
-            {r.anchor === latestAnchor && <span class="bcn-release-nav__latest">Latest</span>}
-          </span>
-          <span class="bcn-release-nav__date">{shortDate(r.date)}</span>
+          <span class="bcn-release-nav__version">{r.version}</span>
         </a>
       </li>
     ))}
@@ -189,34 +165,9 @@ function shortDate(raw: string): string {
     transition: color 0.1s ease;
   }
 
-  /* "Latest" — a quiet neutral marker (gray badge on the sunken surface), never a
-     colour chip, so the newest-release marker never competes with the active ink. */
-  .bcn-release-nav__latest {
-    flex: none;
-    font-family: var(--typography-font-family-sans, 'DM Sans', sans-serif);
-    font-size: 12px;
-    font-weight: var(--typography-font-weight-medium, 500);
-    color: var(--color-content-default-tertiary);
-    background: var(--color-background-elevation-sunken);
-    padding: 1px var(--spacing-150, 0.375rem);
-    border-radius: var(--radius-100, 0.25rem);
-    line-height: 1.5;
-  }
-
-  /* Date — a genuine timestamp, so 14px secondary is honest meta (not a body role). */
-  .bcn-release-nav__date {
-    font-size: 0.875rem;
-    color: var(--color-content-default-tertiary);
-    line-height: 1.35;
-  }
-
-  /* When the .sidebar primitive folds the rail above the stream on narrow viewports,
-     drop the sticky + height cap so it reads as a plain header list. */
-  @media (max-width: 48rem) {
-    .bcn-release-nav {
-      position: static;
-      max-block-size: none;
-      overflow: visible;
-    }
+  /* The post's own meta column carries version and date, so the rail is a
+     wide-screen convenience only: below 64rem it is not rendered. */
+  @media (max-width: 64rem) {
+    .bcn-release-nav { display: none; }
   }
 </style>
