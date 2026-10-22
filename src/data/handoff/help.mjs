@@ -157,11 +157,11 @@ export default {
       label: 'Floating help bar (app-wide)',
       selector: '.bcn-help-bar',
       intent:
-        "Aldo's home: a floating utility pill fixed to the bottom-center of the viewport on EVERY page — Figma-toolbar energy, a dark glass surface deliberately distinct from the white app chrome. Left to right: the primary Guidance affordance (Aldo mark + label), a hairline divider, an icon-only Search button, and a What's-new icon button carrying an unread dot.",
+        "Aldo's home: a floating utility pill fixed to the bottom-center of the viewport on EVERY page — Figma-toolbar energy, a dark glass surface deliberately distinct from the white app chrome. Left to right: the primary Guidance affordance (Aldo mark + label), a hairline divider, an icon-only Search button, and a What's-new icon button.",
       decisions: [
         'Mounted once in the AppShell chrome, so in-context help is available from any route without per-page wiring.',
         'Composed BLIND against its siblings: the bar adds NO open behavior for the drawer or for search. It only advertises the hooks the siblings already listen on — [data-help-trigger] (the guidance drawer opens on clicks here, via a document-level delegated listener) and [data-omni-trigger] (the existing global omni-search palette).',
-        'The only local state it owns is the What\'s-new unread dot: the first open writes the newest entry date to localStorage \'bcn-whats-new-seen\' and retires the dot for that browser.',
+        'It owns no local state: the What\'s-new button carries no unread dot (dropped 2026-10-22; the button is a doorway, not a notifier).',
         'The What\'s-new trigger uses the notepad-text glyph — the same mark as the Release Notes page title. esa-icon-button forwards only a registry icon NAME (no custom paths passthrough), so that glyph was registered in the ecology icon registry rather than inlined here.',
         'Dark glass, but the popover it opens stays a white content surface — the bar is chrome, the panel is content.',
       ],

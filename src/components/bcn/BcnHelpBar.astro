@@ -5,17 +5,17 @@
 // white content surface. Mounted app-wide in the AppShell chrome. Left → right: the primary "Guidance"
 // affordance (the Aldo rings, labelled by their tooltip; the divider went 2026-10-21), the
 // evidence paper clip, and a
-// "What's new" icon-button with an unread dot that opens a popover of recent release notes.
+// "What's new" icon-button that opens a popover of the latest release (no unread dot: the
+// button is a doorway, not a notifier).
 //
 // Wiring is by data-* hook, composed BLIND against siblings — this component adds NO open
 // behavior for the evidence or guidance drawers; it only advertises the hooks the siblings
-// already listen on, plus its own local what's-new state:
+// already listen on:
 //   • [data-help-trigger]     — the route-aware guidance drawer (sibling) opens on clicks here,
 //                               unless a page with help dots claims it (data-help-dots-claimed):
 //                               there it turns the dots on and off, and shows aria-pressed.
 //   • [data-evidence-trigger] — the global evidence drawer (sibling) opens on clicks here.
-//   • [data-whatsnew]         — LOCAL only: the first click marks the latest release seen (localStorage
-//                               'bcn-whats-new-seen' = newest entry date) and hides the dot.
+//   • [data-whatsnew]         — LOCAL only: the What's-new trigger, measured to fit the panel.
 //
 // The middle slot held a SECOND search button until the 2026-08-04 product meeting; it was
 // redundant with the top bar's search field and ⌘K, and this bar is where Beacon's bottom
@@ -28,7 +28,8 @@
 // only accept a Lucide `icon` NAME, not a custom SVG mark, so it is bespoke. Everything else IS a
 // lego: esa-icon-button (Search + What's-new triggers), esa-tooltip (Search hint), and
 // esa-popover (the What's-new panel, anchored above the trigger). bcn-help-bar is the
-// reusable home. Panel entries are text-only — the latest release’s feature titles over two lines of each feature’s text, no icon chips.
+// reusable home. The panel is text-only: the latest release's version pill and features
+// (serif title, one-sentence summary), then one row per earlier release, no screenshots.
 //
 // The What's-new trigger uses 'notepad-text' — the release-notes glyph, matching the
 // Release Notes page title. esa-icon-button forwards only a registry `icon` name (no
@@ -37,22 +38,22 @@ import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { scopeIcon } from '../../data/global-search';
-import { LATEST_RELEASE as latest, featureAnchor } from '../../data/release-notes';
+import { LATEST_RELEASE as latest, RELEASES, featureAnchor } from '../../data/release-notes';
 import { withBase } from '../../lib/base';
 
-// The unread dot clears once the person has opened the panel for this release.
-const newestDate = latest?.date ?? '';
+// The two releases before the latest, one row each under "Earlier".
+const earlier = RELEASES.slice(1, 3);
 
 // The release-notes page; the panel lists the latest post's features, each deep-linking
 // to its block on the page (`#v1-41-0-lists`).
 const releaseNotesHref = withBase('/prototypes/release-notes');
 
-// "Jun 2, 2026" — the release date for the panel header meta line.
+// "October 13, 2026" — the release date beside the version pill.
 const fmtLong = (iso: string): string =>
-  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 ---
 
-<div class="bcn-help-bar" data-help-bar data-newest={newestDate} role="toolbar" aria-label="Help &amp; utilities">
+<div class="bcn-help-bar" data-help-bar role="toolbar" aria-label="Help &amp; utilities">
   <!-- Primary: Guidance — the Aldo mark alone (the label went 2026-10-21), named by
        aria-label and the tooltip; opens the guidance drawer via hook. -->
   <esa-tooltip class="bcn-help-bar__tooltip" text="Help & Guidance" position="above" delay="150">
@@ -79,39 +80,47 @@ const fmtLong = (iso: string): string =>
     </EsaIconButton>
   </esa-tooltip>
 
-  <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
+  <!-- What's new — icon-only trigger; esa-popover panel opens above the bar. -->
   <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
     <esa-tooltip class="bcn-help-bar__tooltip" text="Release Notes" position="above" delay="150">
       <span class="bcn-help-bar__whatsnew" data-whatsnew>
         <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="Release Notes" size="md" />
-        {latest && latest.features.length > 0 && (
-          <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
-        )}
       </span>
     </esa-tooltip>
 
     <div slot="content" class="bcn-help-bar__panel">
-      <header class="bcn-help-bar__panel-header">
-        <p class="bcn-help-bar__panel-title typography-label-md-strong">What's New</p>
-        <p class="bcn-help-bar__panel-release typography-label-sm">
-          {latest.version} · <time datetime={latest.date}>{fmtLong(latest.date)}</time>
-        </p>
-      </header>
+      <p class="bcn-help-bar__panel-release">
+        <span class="bcn-help-bar__pill">{latest.version}</span>
+        <time class="bcn-help-bar__panel-date" datetime={latest.date}>{fmtLong(latest.date)}</time>
+      </p>
+      <p class="bcn-help-bar__panel-title">What's New</p>
       <ul class="bcn-help-bar__panel-list">
         {latest.features.map((feature) => (
           <li>
             <a class="bcn-help-bar__panel-link" href={`${releaseNotesHref}#${featureAnchor(latest, feature)}`}>
-              <span class="bcn-help-bar__panel-text">
-                <span class="bcn-help-bar__panel-item-title typography-label-md-strong">{feature.title}</span>
-                <span class="bcn-help-bar__panel-item-text typography-body-xs">{feature.text}</span>
-              </span>
-              <span class="bcn-help-bar__panel-go" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+              <span class="bcn-help-bar__panel-item-title">{feature.title}</span>
+              <span class="bcn-help-bar__panel-item-text">{feature.summary}</span>
             </a>
           </li>
         ))}
       </ul>
-      <a class="bcn-help-bar__panel-all typography-label-sm-strong" href={releaseNotesHref}>
-        All Release Notes <EsaIcon name="arrow-right" size="sm" />
+      {earlier.length > 0 && (
+        <div class="bcn-help-bar__panel-prev">
+          <p class="bcn-help-bar__panel-earlier">Earlier</p>
+          <ul class="bcn-help-bar__panel-prev-list">
+            {earlier.map((release) => (
+              <li>
+                <a class="bcn-help-bar__panel-prev-link" href={`${releaseNotesHref}#${release.anchor}`}>
+                  <span class="bcn-help-bar__pill bcn-help-bar__pill--sm">{release.version}</span>
+                  <span class="bcn-help-bar__panel-prev-text">{release.features.map((f) => f.title).join('\u00a0· ')}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <a class="bcn-help-bar__panel-all" href={releaseNotesHref}>
+        All release notes <EsaIcon name="arrow-right" size="sm" />
       </a>
     </div>
   </esa-popover>
@@ -119,36 +128,15 @@ const fmtLong = (iso: string): string =>
 
 <script>
   // Register the Lit legos used above (idempotent — each guards its own customElements.define),
-  // then own the What's-new unread-dot lifecycle. esa-popover handles open/close, Esc, and
-  // outside-click for the panel; this script only persists the "seen" state.
+  // then fit the What's-new panel to the screen. esa-popover handles open/close, Esc, and
+  // outside-click for the panel.
   import '@esa/ecology/esa-popover';
   import '@esa/ecology/esa-tooltip';
 
-  const SEEN_KEY = 'bcn-whats-new-seen';
   const bar = document.querySelector<HTMLElement>('[data-help-bar]');
 
   if (bar) {
-    const newest = bar.dataset.newest ?? '';
-    const dot = bar.querySelector<HTMLElement>('[data-whatsnew-dot]');
     const trigger = bar.querySelector<HTMLElement>('[data-whatsnew]');
-
-    const readSeen = (): string | null => {
-      try {
-        return localStorage.getItem(SEEN_KEY);
-      } catch {
-        return null;
-      }
-    };
-    const writeSeen = (value: string): void => {
-      try {
-        localStorage.setItem(SEEN_KEY, value);
-      } catch {
-        /* localStorage unavailable (private mode) — dot simply won't persist */
-      }
-    };
-
-    // Already caught up on the newest note → no dot.
-    if (dot && newest && readSeen() === newest) dot.hidden = true;
 
     // esa-tooltip opens on mouseenter and any focusin, so a click left it standing: the
     // press focuses the button, and focus kept it up until focus moved (round 16), and a
@@ -190,19 +178,16 @@ const fmtLong = (iso: string): string =>
       const r = trigger.getBoundingClientRect();
       const mid = r.left + r.width / 2;
       const room = Math.min(mid, document.documentElement.clientWidth - mid) - 12; // 12px from the edge
-      panel.style.setProperty('--_room', `${Math.round(room * 2 - 28)}px`); // less the popover's padding + border
+      panel.style.setProperty('--_room', `${Math.round(room * 2 - 50)}px`); // less the popover's padding + border
+      // Height too: on a phone the narrow panel runs tall, so hold it below the top bar and
+      // let it scroll (the popover sits 12px + its 8px arrow above the trigger).
+      const roomH = r.top - 20 - 64 - 42; // gap + arrow, top bar, padding + border
+      panel.style.setProperty('--_room-h', `${Math.round(roomH)}px`);
     };
     // Measured as it opens (the bar re-centres when the sidebar collapses) and on resize.
     trigger?.addEventListener('click', fitPanel);
     window.addEventListener('resize', fitPanel);
 
-    // First open marks the newest note seen and retires the dot for this browser.
-    trigger?.addEventListener('click', () => {
-      if (dot && !dot.hidden && newest) {
-        writeSeen(newest);
-        dot.hidden = true;
-      }
-    });
   }
 </script>
 
@@ -294,6 +279,13 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__popover {
     display: inline-flex;
   }
+  /* The What's-new panel: white, 12px corners, 20px by 24px of room. esa-popover reads
+     these from private hooks only (no public padding/radius surface yet). */
+  .bcn-help-bar__popover {
+    --_popover-bg: var(--color-background-default);
+    --_popover-radius: 12px;
+    --_popover-padding: 20px 24px;
+  }
   /* Dark tooltips (round 16): the bar's own surface and ink, through the knockout roles
      esa-tooltip's bubble and arrow read. Solid, as the bar's own fallback is: the arrow is a
      square under the bubble, and a translucent fill shows the overlap. */
@@ -321,139 +313,135 @@ const fmtLong = (iso: string): string =>
     color: var(--bcn-helpbar-fg);
   }
 
-  /* What's-new trigger + unread dot. */
+  /* What's-new trigger wrapper: the anchor fitPanel measures. */
   .bcn-help-bar__whatsnew {
-    position: relative;
     display: inline-flex;
   }
-  /* Unread release notes: a 6px Aldo dot, punched out of the shell by a ring of the bar's
-     own dark, centred on the notepad glyph's top-right corner (measured 13px in from the
-     46px trigger wrapper's top and right), pinging like the help dots at a smaller scale. */
-  .bcn-help-bar__dot {
-    position: absolute;
-    top: 13px;
-    right: 13px;
-    translate: 50% -50%;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-teal-8);
-    box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid);
-    pointer-events: none;
-  }
-  .bcn-help-bar__dot::before,
-  .bcn-help-bar__dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 1px solid var(--color-teal-8);
-    border-radius: 50%;
-    opacity: 0;
-    animation: bcn-help-bar-ping 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
-  }
-  .bcn-help-bar__dot::after {
-    animation-delay: 0.5s;
-  }
-  /* Grown by inset, not scale, so the ring stays a 1px hairline (round 9). */
-  @keyframes bcn-help-bar-ping {
-    0% { inset: 0; opacity: 0.8; }
-    55% { inset: -6px; opacity: 0; }
-    100% { inset: -6px; opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .bcn-help-bar__dot::before,
-    .bcn-help-bar__dot::after {
-      animation: none;
-    }
-  }
-  .bcn-help-bar__dot[hidden] {
-    display: none;
-  }
-
-  /* What's New panel: a light content surface (dark was tried in round 8 and reverted in
-     round 9), with round 8's structure: release header, entry links, phone fit. The pill
-     sets a light foreground, so the panel re-establishes dark-on-white text. */
+  /* What's New panel: the latest release's features under its version pill, then the
+     two releases before it as one row each. The pill sets a light foreground, so the
+     panel re-establishes dark-on-white text. */
   .bcn-help-bar__panel {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-200);
-    width: min(320px, var(--_room, 320px));
+    width: min(400px, var(--_room, 400px));
+    max-block-size: var(--_room-h, none);
+    overflow-y: auto;
     color: var(--color-content-default);
     white-space: normal;
     text-align: start;
   }
-  /* One release per panel: its name on the left, version and date on the right. */
-  .bcn-help-bar__panel-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-200);
-    padding-block-end: var(--spacing-150);
-    border-block-end: 1px solid var(--color-border-default);
-  }
-  .bcn-help-bar__panel-header p {
+  :where(.bcn-help-bar__panel) p {
     margin: 0;
   }
   .bcn-help-bar__panel-release {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  /* The version pill: brand teal on a 10% tint of itself, tabular figures. */
+  .bcn-help-bar__pill {
+    flex: none;
+    padding: 3px var(--spacing-200);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--color-content-brand) 10%, transparent);
+    color: var(--color-content-brand);
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: var(--typography-font-weight-medium);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-help-bar__pill--sm {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .bcn-help-bar__panel-date,
+  .bcn-help-bar__panel-earlier {
+    font-size: 13px;
+    line-height: 18px;
     color: var(--color-content-default-tertiary);
-    white-space: nowrap;
+  }
+  .bcn-help-bar__panel-title,
+  .bcn-help-bar__panel-item-title {
+    font-family: var(--font-decorative);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+  .bcn-help-bar__panel-title {
+    margin: 12px 0 4px;
+    font-size: 24px;
+    line-height: 30px;
   }
   .bcn-help-bar__panel-list {
     list-style: none;
-    margin: 0 calc(var(--spacing-150) * -1);
+    margin: 0;
     padding: 0;
+  }
+  .bcn-help-bar__panel-list li + li {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-help-bar__panel-link {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-050);
-  }
-  /* Each entry deep-links to its release. The wash bleeds into the popover's padding so
-     the text stays aligned with the header; the chevron says "goes somewhere" on hover. */
-  .bcn-help-bar__panel-link {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-150);
-    padding: var(--spacing-150);
-    border-radius: var(--radius-200, 8px);
+    padding-block: 14px;
     color: inherit;
     text-decoration: none;
-    transition: background var(--transition-fast, 150ms ease);
   }
-  .bcn-help-bar__panel-link:hover {
-    background: var(--color-background-elevation-sunken);
+  .bcn-help-bar__panel-item-title {
+    font-size: 17px;
+    line-height: 23px;
+    transition: color var(--transition-fast, 150ms ease);
+  }
+  .bcn-help-bar__panel-link:hover .bcn-help-bar__panel-item-title {
+    color: var(--color-content-brand);
+  }
+  .bcn-help-bar__panel-item-text {
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--color-content-default-tertiary);
   }
   .bcn-help-bar__panel-link:focus-visible,
+  .bcn-help-bar__panel-prev-link:focus-visible,
   .bcn-help-bar__panel-all:focus-visible {
     outline: 2px solid var(--color-content-link);
     outline-offset: 1px;
+    border-radius: var(--radius-md);
   }
-  .bcn-help-bar__panel-text {
+  /* Earlier: one row per previous release, its pill and its feature titles. */
+  .bcn-help-bar__panel-prev {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-help-bar__panel-earlier {
+    margin: 14px 0 6px;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-help-bar__panel-prev-list {
+    list-style: none;
+    margin: 0 calc(var(--spacing-200) * -1) 14px;
+    padding: 0;
+  }
+  .bcn-help-bar__panel-prev-link {
     display: flex;
-    flex: 1;
-    min-width: 0;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .bcn-help-bar__panel-item-title {
-    color: var(--color-content-default);
-  }
-  /* The feature's paragraph, held to two lines; the page has the rest. */
-  .bcn-help-bar__panel-item-text {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px var(--spacing-200);
+    border-radius: var(--radius-lg);
     color: var(--color-content-default-secondary);
+    text-decoration: none;
+    transition: background var(--transition-fast, 150ms ease), color var(--transition-fast, 150ms ease);
   }
-  .bcn-help-bar__panel-go {
-    display: inline-flex;
-    color: var(--color-content-default-tertiary);
-    opacity: 0;
-    transition: opacity var(--transition-fast, 150ms ease);
+  .bcn-help-bar__panel-prev-link .bcn-help-bar__pill--sm {
+    margin-block-start: 2px;
   }
-  .bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,
-  .bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {
-    opacity: 1;
+  .bcn-help-bar__panel-prev-link:hover {
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-brand);
+  }
+  .bcn-help-bar__panel-prev-text {
+    font-size: 14px;
+    line-height: 20px;
   }
   /* Footer: the way to every release. */
   .bcn-help-bar__panel-all {
@@ -461,10 +449,14 @@ const fmtLong = (iso: string): string =>
     align-items: center;
     gap: var(--spacing-100);
     align-self: flex-start;
-    padding-block-start: var(--spacing-150);
-    color: var(--color-content-link);
+    padding-block-start: 14px;
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    inline-size: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-brand);
     text-decoration: none;
-    border-radius: 2px;
   }
   .bcn-help-bar__panel-all:hover {
     text-decoration: underline;
