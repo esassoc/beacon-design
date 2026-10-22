@@ -1,10 +1,11 @@
 ---
 // Release Notes — the in-app release-notes surface coupled to Help & Guidance:
-// every Beacon release in one reverse-chronological stream (the Linear-changelog
-// pattern in Beacon's chrome), fed by the real 1.31–1.33 notes transcribed into
-// src/data/release-notes.ts (client-facing subset). The What's-new popover in
-// BcnHelpBar deep-links into the release anchors (#v1-33-0); the version rail
-// scroll-spies the stream and jumps land with scroll-margin breathing room.
+// every Beacon release as one post, newest first. A post is two or three
+// features with screenshots, then the release's Added / Changed /
+// Fixed changelog, fed by the customer-facing 1.39–1.41 notes in
+// src/data/release-notes.ts. The What's-new popover in BcnHelpBar lists the latest
+// post's features and deep-links to each (#v1-41-0-lists); the version rail on the
+// end side scroll-spies the stream on wide screens.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import BcnReleaseNav from '../../components/bcn/BcnReleaseNav.astro';
@@ -12,15 +13,15 @@ import BcnReleaseStream from '../../components/bcn/BcnReleaseStream.astro';
 ---
 
 <!-- manifest:
-  layout: sidebar(14rem rail)                   # SPINE
+  layout: sidebar(12rem rail, end side)         # SPINE
   sections:
-    - version rail    -> bcn-release-nav        # sticky anchor list, scroll-spy, Latest marker
-    - release stream  -> bcn-release-stream     # anchored releases: headlines, area entries, fixes
+    - version rail    -> bcn-release-nav        # sticky anchor list, scroll-spy; wide screens only
+    - release stream  -> bcn-release-stream     # one post per release: features, changelog
 -->
 
-<AppShell title="Release Notes — Beacon">
-  <PageLayout title="Release Notes" icon="notepad-text">
-    <div class="sidebar" data-gap="xl" style="--sidebar-width: 14rem; --sidebar-content-min: 62%;">
+<AppShell title="Release Notes — Beacon" expandedSections={['project']}>
+  <PageLayout title="Release Notes" icon="notepad-text" iconColor="var(--color-content-brand)">
+    <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 12rem; --sidebar-content-min: 70%;">
       <BcnReleaseNav />
       <BcnReleaseStream />
     </div>

@@ -5,13 +5,13 @@
 //
 // Consumed only by the build-time generator (scripts/gen-handoff.mjs), never by the
 // browser. Capture runs against the production preview build; interactive states are
-// reached with an `apply` recipe (the fixes disclosure is expanded, the What's-new
-// popover and the guidance drawer are opened).
+// reached with an `apply` recipe (the What's-new popover and the guidance drawer are
+// opened).
 //
 // Context: the in-app release-notes surface, coupled to Help & Guidance. Every Beacon
-// release in one reverse-chronological stream — the Linear/Notion changelog pattern in
-// Beacon's own chrome — fed by the real 1.31–1.33 notes transcribed into
-// src/data/release-notes.ts (the client-facing subset). This page is the DESTINATION of
+// release as one post, newest first: two or three features with
+// screenshots, then the Added / Changed / Fixed changelog — fed by the customer-facing
+// 1.39–1.41 notes in src/data/release-notes.ts. This page is the DESTINATION of
 // the help bar's What's-new popover, so the last two sections below capture the two
 // Help & Guidance components in the states only this route produces. The knowledge-base
 // half of the feature is captured in src/data/handoff/help.mjs.
@@ -34,114 +34,80 @@ export default {
       label: 'Version rail',
       selector: '.bcn-release-nav',
       intent:
-        'The slim sticky rail that makes a long changelog navigable: one row per release — the version number as an anchor link, a short human date beneath it, and a quiet "Latest" marker on the newest entry. A scroll-spy mirrors whichever release is in view into an active highlight.',
+        'A slim sticky list of release versions on the end side of the page, each an anchor link to its post. A scroll-spy mirrors whichever release is in view into an active highlight. Wide screens only.',
       decisions: [
-        'PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class — nothing about navigation depends on it.',
-        'Active = the topmost release currently inside a thin band just under the topbar (rootMargin -68px top / -55% bottom). When the scroll sits between bands the last active row stays lit, so the rail never blanks out mid-scroll.',
-        'The active state is an INK SHIFT, never a color fill: the version darkens to primary and gains weight; the row keeps its neutral background. Hover adds at most a sunken wash.',
-        'Version numbers are set in the serif display face (--font-decorative) to echo the version headings in the stream — the rail and the stream speak the same voice.',
-        '"Latest" is a quiet gray marker on the sunken surface, not a colored chip, so it never competes with the active-row ink.',
-        'Dates shorten to "Jul 22" and only append the year when it differs from the newest release\'s year, keeping the rail slim. They are read in UTC to avoid an ISO-midnight off-by-one.',
-        'The initial highlight comes from the URL hash when it names a known release, else the newest — so arriving from the What\'s-new popover lights the right row immediately.',
+        'PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class.',
+        'Versions only. Each post carries its own version badge and date in its meta column, so the rail repeats neither the date nor a "Latest" marker.',
+        'The active state is an ink shift, never a color fill: the version darkens and gains weight.',
+        'Below 64rem the rail is not rendered; the posts\' own meta columns carry the version.',
       ],
       gotchas: [
-        'The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed 52px topbar (AppShell\'s body carries the padding-top). Its sticky `top` is therefore a small breathing gap, NOT the topbar height — adding the header offset again double-counts it.',
-        'align-self:start is required: without it the flex item stretches to full height and the sticky element has no slack to move in.',
-        'esa-sidebar-nav is the wrong lego here — it is a route/section nav behind a shadow-DOM, property-driven boundary, its group headings are the banned ornamental micro-label (11px uppercase letter-spaced), and its per-item hint can only be a filled badge pill, not the quiet 14px date meta this rail needs.',
-        'The PAGE owns the .sidebar layout primitive and sets --sidebar-width (~14rem); the rail is designed to be its first-child aside and does not create its own layout.',
-        'On narrow viewports the .sidebar primitive folds the rail above the stream — drop sticky and the height cap there, or it reads as a stuck fragment.',
+        'The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed topbar. Its sticky `top` is a small breathing gap, not the topbar height.',
+        'The PAGE owns the .sidebar primitive (data-side="end", --sidebar-width 12rem); the rail is its first-child aside.',
       ],
       acceptance: [
-        'Every release has a row with version, date, and — on the newest only — a "Latest" marker; clicking a row jumps to that release with landing room below the topbar; scrolling moves the active ink down the rail; arriving with #v1-33-0 lights that row on load.',
+        'Every release has a row; clicking one jumps to that post with landing room below the topbar; scrolling moves the active ink down the rail; the rail is absent on a phone.',
       ],
     },
     {
-      label: 'Release (one anchored entry)',
+      label: 'Release post',
       selector: '.bcn-release',
       intent:
-        'One release in the stream: a quiet meta line ("Latest" + the long date) above the serif version number, then the headline stories, then area-grouped entries, then a collapsed fixes list. This is the repeating unit of the whole page.',
+        'One release, as one post: the version badge and date in a narrow meta column, then two or three features (title, paragraph, optional note on what moved (info icon + text), screenshot in an inset frame with a caption), then the release\'s full Added / Changed / Fixed list. Every release uses the same shape.',
       decisions: [
-        'Meta ABOVE the version (the Sketch changelog pattern): the small quiet date line sits first, then the large serif version number — so a scan down the page reads as dates first, versions second.',
-        'THREE TIERS OF NEWS, in descending prominence: headline stories (serif titles, the richest tier), area-grouped entries (sans, grouped under an area heading), and fixes (a collapsed list). A reader who stops after the headlines still knows what shipped.',
-        'Typography carries the hierarchy, not color: a serif display layer (Besley, --font-decorative) for the version number and headline titles, sans for everything else, with size and weight doing the rest. The ink is MONOCHROME — no status color anywhere on the page.',
-        '"Latest" is a quiet gray text label, not a chip. The only color that surfaces on the page is the house link color on actual links.',
-        'Every release and every entry is a hash target (#<anchor> and #<anchor>-<entryId>), with scroll-margin for landing room — so the rail, the What\'s-new popover, and cross-release headline links all resolve to an exact place.',
-        'Prose is held to a ~42rem measure so text never runs the full width of the content column.',
-        'Fully presentational: the entire stream renders from RELEASES with no props and no client JS — the fixes disclosure is a native <details>.',
+        'Features first, changelog second: a reader who stops after the features knows what matters; the changelog is the complete record beneath.',
+        'The meta column is the Claude Code changelog layout (160px column, 24px gap). It sticks while its post scrolls once the two sit side by side; on a phone it drops above the body as one row (badge, date).',
+        'Version is an esa-badge (neutral, lg), not a brand-tinted pill: badges stay quiet per the design principles.',
+        'A serif display layer (--font-decorative) carries the feature titles; everything else is the sans body face. No status color anywhere.',
+        'Headlines are plain and factual: they name the feature, not a pitch. There is no per-release summary line; the features lead.',
+        'Screenshots sit in an inset frame: a sunken panel with padding and a large radius around an image with its own smaller radius and a hairline, and a short factual caption under it. The caption is the alt text too.',
+        'A feature note is the info icon and the fact itself ("The Action Lists entry in the navigation is gone on every tenant."), with no "Read this first" label: the label addressed the reader instead of stating the change.',
+        'Every post is a hash target (#v1-41-0) and every feature is too (#v1-41-0-lists), with scroll-margin for landing room.',
       ],
       gotchas: [
-        'Inline **bold** and `code` in the copy are formatted at BUILD time (escape HTML → swap patterns → set:html), because Astro will not process markup inside interpolated strings. Escape first, and swap code before bold so a ** inside a code span stays literal.',
-        'Dates are formatted from `${iso}T00:00:00` to pin local midnight — parsing the bare ISO string shifts the displayed date a day in negative-offset timezones.',
-        'No esa-* lego renders a changelog: esa-card is a bare container. The callout icon is esa-icon composed inside; the code and bold spans are token-driven content typography.',
-        'The scroll-margin is tuned for a scroll container that already starts below the fixed topbar. In a layout where the page itself scrolls, that offset has to grow by the topbar height.',
+        'Each post is the .sidebar layout primitive. Sticky needs the meta column to stretch (align-self: stretch) and the inner wrapper to stick; sticking the wrapped phone layout would float the badge over the body, so sticky is media-gated.',
+        'Feature screenshots come from one prop (feature.image). Where production captures come from is still open; swap the source, not the layout.',
       ],
       acceptance: [
-        'The newest release shows "Latest" + its long date above a serif version number; headlines read as the most prominent tier; the page carries no status color; every release and entry has a working hash anchor that lands with breathing room.',
+        'Each release shows badge and date, two or three features each with a captioned, inset screenshot, then Added / Changed / Fixed; a feature note renders only where the data has one; the meta column sticks on desktop and sits above the body on a phone.',
       ],
     },
     {
-      label: 'Area entry (with feature-flag note)',
-      selector: '.bcn-release__entry:has(.bcn-release__flag)',
+      label: 'Changelog (Added / Changed / Fixed)',
+      selector: '.bcn-release-changelog',
       intent:
-        'One change inside an area group: the entry title, optional deployment notes (a feature-flag name, or an "applies to all tenants" note), and a body of blocks — paragraphs, bullet lists, and callouts. This is where the operational detail lives, below the headline tier.',
+        'The release\'s complete list of changes, grouped Added, Changed, Fixed, in a dense 14px bulleted list below a hairline.',
       decisions: [
-        'The flag note renders the label "flag" followed by the flag name in a code span — it is a real deployment fact (the change is gated behind that feature flag), not decoration, so it reads as data next to the title.',
-        '"applies to all tenants" is the complementary note for ungated changes. Both are optional per entry and both derive from fields on the entry record.',
-        'Entry bodies are a BLOCK UNION — { kind: p } | { kind: bullets } | { kind: callout } — pattern-matched by the renderer. This is deliberately the same block model BcnHelpArticle uses, so help articles and release notes share one content shape.',
-        'The callout is an aside with a leading esa-icon "info" glyph and its text; it stays monochrome like everything else on the page.',
-        'Each entry carries id="<release-anchor>-<entryId>" so a headline story can link down to the full detail of the change it is announcing.',
+        'Lines that belong to one product area lead with that area as a quiet esa-badge (sm). App-wide lines carry no badge.',
+        'A value as it appears in Beacon (a status or outcome name, written in backticks in the data) renders bold, not monospace: monospace is reserved for code.',
+        'Group heads are 14px semibold labels in normal case, never ornamental micro-labels.',
       ],
       gotchas: [
-        'The block renderer must return null for an unknown kind rather than falling through — the union is open to new block types.',
-        'The flag name is content, not markup: it goes through the same escape-then-format path as the rest of the copy.',
-        'Do not add color to the flag or applies notes to make them stand out. The page\'s monochrome rule is deliberate — these read as quiet meta beside the title.',
+        'Every line starts with its group\'s verb (Added, Changed, Fixed) so a line read alone still says what happened.',
+        'Customer Announcements only: ESA Internal, Dev-only, TBD items and Jira keys stay out of the data.',
       ],
       acceptance: [
-        'A gated entry shows "flag" + the flag name beside its title; an ungated one shows the applies note or neither; paragraphs, bullets, and callouts all render from the same entry\'s block list; the entry id resolves as a hash target from its headline link.',
-      ],
-    },
-    {
-      label: 'Fixes disclosure (expanded)',
-      selector: '.bcn-release__fixes',
-      apply: [{ click: '.bcn-release__fixes-summary' }],
-      intent:
-        'The long tail of each release — small fixes and improvements — collapsed behind a native disclosure that shows the count in its summary. It keeps the release honest about everything that shipped without letting the tail dominate the scan.',
-      decisions: [
-        'A native <details> / <summary>, not a JS accordion: it needs no client code, is keyboard- and screen-reader-correct by default, and survives with JS off.',
-        'The summary carries the COUNT ("Fixes & small improvements (12)"), so the volume is visible without expanding.',
-        'Collapsed by default on every release, including the latest — the headline and area tiers are the story; this is the appendix.',
-        'Fix lines are plain list items running through the same inline **bold** / `code` formatter as the rest of the stream.',
-      ],
-      gotchas: [
-        'Style the summary marker deliberately; browsers disagree on the default triangle, and an unstyled one reads as a bug next to the rest of the page.',
-        'Do not replace this with a component that animates height — the value here is that it costs zero client JS.',
-        'If a release has no fixes the whole disclosure is omitted, not rendered empty with a zero count.',
-      ],
-      acceptance: [
-        'Each release with fixes shows a collapsed summary carrying the count; clicking or pressing Enter expands the full list; the page still works with JS disabled.',
+        'Each release shows its three groups in order; area badges align with the first line of text; backticked values read bold.',
       ],
     },
     {
       label: "What's-new popover (the doorway in)",
       selector: '.bcn-help-bar__panel',
-      apply: [{ click: '[data-whatsnew]' }],
+      apply: [{ click: '[data-whatsnew] button' }],
       intent:
-        "The app-wide entry point to this page: a popover anchored above the floating help bar listing the newest release's headline stories, each deep-linking to that release on this page, with an \"All release notes →\" footer. It is how a user finds out something shipped without going looking.",
+        "The app-wide entry point to this page: a popover above the floating help bar listing the latest post's features, each deep-linking to that feature on this page, with an \"All Release Notes\" footer.",
       decisions: [
-        'Framed by RELEASE, not by date alone: the panel header pairs the "What\'s new" title with the latest version and its long date, mirroring the quiet meta line the release itself carries. The popover and the page state the same fact the same way.',
-        'Entries are text-only — a serif title over a sans blurb, matching the stream\'s typographic voice. Per-entry icons were tried and dropped: they added chrome without adding information.',
-        'Every entry links to `<release-notes>#<anchor>` — the anchor is a field on the entry record, so an entry always lands on the release it belongs to.',
-        'The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc, and outside-click. The bar\'s own script only persists the seen state.',
-        'The bar is dark glass but this panel stays a white content surface — chrome and content are visibly different materials.',
-        'WHATS_NEW is a curated authored record (the top three headline stories of the newest release), not a derivation over every entry — the point is editorial selection.',
+        'Derived, not curated separately: the entries are LATEST_RELEASE.features, so the popover and the post always agree.',
+        'Each entry is the feature title over its paragraph, clamped to two lines; the page has the rest.',
+        'Each entry links to `<release-notes>#<release anchor>-<feature id>`, landing on the feature itself.',
+        'The panel is the esa-popover lego (position="top", trigger="click"), which owns open/close, Esc and outside-click. The bar\'s own script only persists the seen state.',
       ],
       gotchas: [
-        'The unread dot is retired by writing the NEWEST ENTRY DATE to localStorage, not a boolean — that is what makes the dot come back when the next release ships.',
-        'Trigger the popover from a real button; the dot is an aria-hidden decoration and must not be the click target on its own.',
-        'The panel must layer above the floating bar and above page content, and it opens upward — verify it does not clip at the viewport bottom on short windows.',
+        'The unread dot is retired by writing the latest RELEASE DATE to localStorage, not a boolean, so the dot comes back when the next release ships.',
+        'Trigger the popover from the real button; the dot is an aria-hidden decoration.',
       ],
       acceptance: [
-        "Clicking What's new opens a white panel above the bar headed by the latest version and date; each entry is a serif title over a blurb with no icon; clicking one lands on that release on this page; \"All release notes →\" opens the page itself; the unread dot is gone afterward and stays gone on reload.",
+        "Clicking What's new opens a white panel above the bar headed by the latest version and date; it lists that release's features; clicking one lands on that feature on this page; the unread dot is gone afterward and stays gone on reload.",
       ],
     },
     {
