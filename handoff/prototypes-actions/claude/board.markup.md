@@ -6,7 +6,7 @@
   data-aboard=""
   data-type-label='{"AvoidanceAndBMPs":"Avoidance &amp; BMPs","Reporting":"Reporting","Monitoring":"Monitoring","ApprovalAndConsultation":"Approval &amp; Consultation","Plan":"Plan","Analysis":"Analysis","Survey":"Survey","RestorationAndMitigation":"Restoration &amp; Mitigation","Financial":"Financial","Other":"Other","TrainingAndEducation":"Training &amp; Education","Design":"Design"}'
 >
-  <div class="bcn-aboard__cols" data-aboard-cols="" style="--_cols: 3; --_top: 430px">
+  <div class="bcn-aboard__cols" data-aboard-cols="" style="--_cols: 3; --_top: 434px">
     <div class="bcn-aboard__col" data-aboard-col="" data-col-id="cat-NotStarted">
       <header class="bcn-aboard__head">
         <span

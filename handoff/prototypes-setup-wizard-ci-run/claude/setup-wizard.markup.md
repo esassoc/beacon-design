@@ -465,19 +465,19 @@
                               <path d="M20 6 9 17l-5-5"></path></svg></span></span
                         ><span class="bcn-cirun__phase-label">Build the index</span
                         ><span class="bcn-cirun__phase-count"
-                          ><span data-phase-done="">32</span> / 76 subcategories</span
+                          ><span data-phase-done="">31</span> / 76 subcategories</span
                         >
                       </div>
                       <div
                         class="esa-progress-bar esa-progress-bar--xs esa-progress-bar--primary"
                         role="progressbar"
-                        aria-valuenow="42"
+                        aria-valuenow="41"
                         aria-valuemin="0"
                         aria-valuemax="100"
                         aria-label="Progress"
                       >
                         <div class="esa-progress-bar__track">
-                          <div class="esa-progress-bar__fill" style="width: 42%"></div>
+                          <div class="esa-progress-bar__fill" style="width: 41%"></div>
                         </div>
                       </div>
                     </li>
@@ -537,7 +537,7 @@
                   <div class="bcn-cirun__bar">
                     <p class="bcn-cirun__status" data-run-status="" role="status">Running</p>
                     <span class="bcn-cirun__clock" data-run-clock="" aria-label="Elapsed"
-                      >00:01:30</span
+                      >00:01:27</span
                     >
                     <div class="bcn-cirun__controls">
                       <span
@@ -591,7 +591,7 @@
                         >Reading 854 approved requirements across 294 commitments</span
                       >
                     </div>
-                    <!-- …and 41 more like this (<div class="bcn-cirun__line">) -->
+                    <!-- …and 39 more like this (<div class="bcn-cirun__line">) -->
                   </div>
                   <!-- script type="application/json" removed (300 KB) -->
                 </section>

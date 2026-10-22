@@ -18,13 +18,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 ## Markup
 
 ```html
-<div
-  class="bcn-help-bar"
-  data-help-bar=""
-  data-newest="2026-10-13"
-  role="toolbar"
-  aria-label="Help &amp; utilities"
->
+<div class="bcn-help-bar" data-help-bar="" role="toolbar" aria-label="Help &amp; utilities">
   <!-- Primary: Guidance — the Aldo mark alone (the label went 2026-10-21), named by
        aria-label and the tooltip; opens the guidance drawer via hook. --><esa-tooltip
     class="bcn-help-bar__tooltip"
@@ -44,14 +38,14 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
           class="bcn-aldo-mark__glyph"
           viewBox="12 12 40 40"
           fill="none"
-          stroke="url(#bcn-aldo-ring-o4u60ia)"
+          stroke="url(#bcn-aldo-ring-4lq4gch)"
           stroke-width="3.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
           <defs>
             <linearGradient
-              id="bcn-aldo-ring-o4u60ia"
+              id="bcn-aldo-ring-4lq4gch"
               x1="14"
               y1="12"
               x2="52"
@@ -69,7 +63,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
             cx="33.2"
             cy="31.1"
             r="2"
-            fill="url(#bcn-aldo-ring-o4u60ia)"
+            fill="url(#bcn-aldo-ring-4lq4gch)"
             stroke="none"
           ></circle></svg
       ></span></button></esa-tooltip
@@ -113,7 +107,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
                 d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
               ></path></svg></span
         ></span></button></span></esa-tooltip
-  ><!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. --><esa-popover
+  ><!-- What's new — icon-only trigger; esa-popover panel opens above the bar. --><esa-popover
     class="bcn-help-bar__popover"
     position="top"
     trigger="click"
@@ -154,105 +148,74 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
                 <path d="M8 10h6"></path>
                 <path d="M8 14h8"></path>
                 <path d="M8 18h5"></path></svg
-            ></span></button></span
-        ><span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span></span
+            ></span></button></span></span
     ></esa-tooltip>
     <div slot="content" class="bcn-help-bar__panel">
-      <header class="bcn-help-bar__panel-header">
-        <p class="bcn-help-bar__panel-title typography-label-md-strong">What's New</p>
-        <p class="bcn-help-bar__panel-release typography-label-sm">
-          1.41.0 · <time datetime="2026-10-13">Oct 13, 2026</time>
-        </p>
-      </header>
+      <p class="bcn-help-bar__panel-release">
+        <span class="bcn-help-bar__pill">1.41.0</span
+        ><time class="bcn-help-bar__panel-date" datetime="2026-10-13">October 13, 2026</time>
+      </p>
+      <p class="bcn-help-bar__panel-title">What's New</p>
       <ul class="bcn-help-bar__panel-list">
         <li>
           <a
             class="bcn-help-bar__panel-link"
             href="/beacon-design/prototypes/release-notes#v1-41-0-lists"
-            ><span class="bcn-help-bar__panel-text"
-              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Lists replace Action Lists</span
-              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
-                >Each project now has one Lists page for action lists and commitment lists. Every
-                list has its own page, with a searchable drawer for adding items, Select mode for
-                removing many, and CSV export.</span
-              ></span
-            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-          ></a>
+            ><span class="bcn-help-bar__panel-item-title">Lists replace Action Lists</span
+            ><span class="bcn-help-bar__panel-item-text"
+              >One Lists page per project holds action lists and commitment lists.</span
+            ></a
+          >
         </li>
         <li>
           <a
             class="bcn-help-bar__panel-link"
             href="/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard"
-            ><span class="bcn-help-bar__panel-text"
-              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Configurable Monitoring Portal dashboard</span
-              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
-                >The dashboard is now a board of widgets. Admins add them from a gallery, then
-                resize, reorder, recolor and configure each one, and the layout is saved for the
-                project.</span
-              ></span
-            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-          ></a>
+            ><span class="bcn-help-bar__panel-item-title"
+              >Configurable Monitoring Portal dashboard</span
+            ><span class="bcn-help-bar__panel-item-text"
+              >Admins build the dashboard from a gallery of widgets.</span
+            ></a
+          >
         </li>
         <li>
           <a
             class="bcn-help-bar__panel-link"
             href="/beacon-design/prototypes/release-notes#v1-41-0-list-evidence"
-            ><span class="bcn-help-bar__panel-text"
-              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
-                >Evidence for a whole action list</span
-              ><span class="bcn-help-bar__panel-item-text typography-body-xs"
-                >Choose a component, stage the evidence, and save it to every action on that
-                component in one step.</span
-              ></span
-            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-          ></a>
+            ><span class="bcn-help-bar__panel-item-title">Evidence for a whole action list</span
+            ><span class="bcn-help-bar__panel-item-text"
+              >Save one set of evidence to every action on a component.</span
+            ></a
+          >
         </li>
       </ul>
-      <a
-        class="bcn-help-bar__panel-all typography-label-sm-strong"
-        href="/beacon-design/prototypes/release-notes"
-        >All Release Notes
+      <div class="bcn-help-bar__panel-prev">
+        <p class="bcn-help-bar__panel-earlier">Earlier</p>
+        <ul class="bcn-help-bar__panel-prev-list">
+          <li>
+            <a
+              class="bcn-help-bar__panel-prev-link"
+              href="/beacon-design/prototypes/release-notes#v1-40-0"
+              ><span class="bcn-help-bar__pill bcn-help-bar__pill--sm">1.40.0</span
+              ><span class="bcn-help-bar__panel-prev-text"
+                >Component dashboards&nbsp;· Evidence upload in the evidence drawer</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              class="bcn-help-bar__panel-prev-link"
+              href="/beacon-design/prototypes/release-notes#v1-39-0"
+              ><span class="bcn-help-bar__pill bcn-help-bar__pill--sm">1.39.0</span
+              ><span class="bcn-help-bar__panel-prev-text"
+                >Project dashboard homepage&nbsp;· Global search ranking and results</span
+              ></a
+            >
+          </li>
+        </ul>
+      </div>
+      <a class="bcn-help-bar__panel-all" href="/beacon-design/prototypes/release-notes"
+        >All release notes
         <span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
             width="16"
@@ -275,34 +238,6 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 ## Styles
 
 ```css
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
-.typography-label-sm {
-  font-family: var(--typography-label-sm-font-family);
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  line-height: var(--typography-label-sm-line-height);
-  letter-spacing: var(--typography-label-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -431,6 +366,11 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 .bcn-help-bar__popover {
   display: inline-flex;
 }
+.bcn-help-bar__popover {
+  --_popover-bg: var(--color-background-default);
+  --_popover-radius: 12px;
+  --_popover-padding: 20px 24px;
+}
 .bcn-help-bar__tooltip {
   --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
   --color-content-default-knockout: var(--bcn-helpbar-fg);
@@ -449,127 +389,141 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 }
 .bcn-help-bar__whatsnew {
   display: inline-flex;
-  position: relative;
-}
-.bcn-help-bar__dot {
-  background: var(--color-teal-8);
-  width: 6px;
-  height: 6px;
-  box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid);
-  pointer-events: none;
-  border-radius: 50%;
-  position: absolute;
-  top: 13px;
-  right: 13px;
-  translate: 50% -50%;
-}
-.bcn-help-bar__dot:before,
-.bcn-help-bar__dot:after {
-  content: "";
-  border: 1px solid var(--color-teal-8);
-  opacity: 0;
-  border-radius: 50%;
-  animation: 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite bcn-help-bar-ping;
-  position: absolute;
-  inset: 0;
-}
-.bcn-help-bar__dot:after {
-  animation-delay: 0.5s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .bcn-help-bar__dot:before,
-  .bcn-help-bar__dot:after {
-    animation: none;
-  }
-}
-.bcn-help-bar__dot[hidden] {
-  display: none;
 }
 .bcn-help-bar__panel {
-  gap: var(--spacing-200);
-  width: min(320px, var(--_room, 320px));
+  width: min(400px, var(--_room, 400px));
+  max-block-size: var(--_room-h, none);
   color: var(--color-content-default);
   white-space: normal;
   text-align: start;
   flex-direction: column;
   display: flex;
+  overflow-y: auto;
 }
-.bcn-help-bar__panel-header {
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--spacing-200);
-  border-block-end: 1px solid var(--color-border-default);
-  padding-block-end: var(--spacing-150);
-  display: flex;
-}
-.bcn-help-bar__panel-header p {
+:where(.bcn-help-bar__panel) p {
   margin: 0;
 }
 .bcn-help-bar__panel-release {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-}
-.bcn-help-bar__panel-list {
-  margin: 0 calc(var(--spacing-150) * -1);
-  gap: var(--spacing-050);
-  flex-direction: column;
-  padding: 0;
-  list-style: none;
+  align-items: center;
+  gap: 10px;
   display: flex;
 }
+.bcn-help-bar__pill {
+  padding: 3px var(--spacing-200);
+  background: color-mix(in srgb, var(--color-content-brand) 10%, transparent);
+  color: var(--color-content-brand);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: var(--typography-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  border-radius: 7px;
+  flex: none;
+}
+.bcn-help-bar__pill--sm {
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 16px;
+}
+.bcn-help-bar__panel-date,
+.bcn-help-bar__panel-earlier {
+  color: var(--color-content-default-tertiary);
+  font-size: 13px;
+  line-height: 18px;
+}
+.bcn-help-bar__panel-title,
+.bcn-help-bar__panel-item-title {
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
+}
+.bcn-help-bar__panel-title {
+  margin: 12px 0 4px;
+  font-size: 24px;
+  line-height: 30px;
+}
+.bcn-help-bar__panel-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-help-bar__panel-list li + li {
+  border-block-start: 1px solid var(--color-border-default-subtle);
+}
 .bcn-help-bar__panel-link {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: var(--spacing-150);
-  border-radius: var(--radius-200, 8px);
+  gap: var(--spacing-050);
   color: inherit;
-  transition: background var(--transition-fast, 0.15s ease);
+  flex-direction: column;
+  padding-block: 14px;
   text-decoration: none;
   display: flex;
 }
-.bcn-help-bar__panel-link:hover {
-  background: var(--color-background-elevation-sunken);
+.bcn-help-bar__panel-item-title {
+  transition: color var(--transition-fast, 0.15s ease);
+  font-size: 17px;
+  line-height: 23px;
+}
+.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-item-title {
+  color: var(--color-content-brand);
+}
+.bcn-help-bar__panel-item-text {
+  color: var(--color-content-default-tertiary);
+  font-size: 14px;
+  line-height: 21px;
 }
 .bcn-help-bar__panel-link:focus-visible,
+.bcn-help-bar__panel-prev-link:focus-visible,
 .bcn-help-bar__panel-all:focus-visible {
   outline: 2px solid var(--color-content-link);
   outline-offset: 1px;
+  border-radius: var(--radius-md);
 }
-.bcn-help-bar__panel-text {
-  flex-direction: column;
-  flex: 1;
-  gap: 2px;
-  min-width: 0;
+.bcn-help-bar__panel-prev {
+  border-block-start: 1px solid var(--color-border-default-subtle);
+}
+.bcn-help-bar__panel-earlier {
+  font-weight: var(--typography-font-weight-medium);
+  padding-block: 14px 6px;
+}
+.bcn-help-bar__panel-prev-list {
+  margin: 0 calc(var(--spacing-200) * -1) 14px;
+  padding: 0;
+  list-style: none;
+}
+.bcn-help-bar__panel-prev-link {
+  padding: 6px var(--spacing-200);
+  border-radius: var(--radius-lg);
+  color: var(--color-content-default-secondary);
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    color var(--transition-fast, 0.15s ease);
+  align-items: flex-start;
+  gap: 10px;
+  text-decoration: none;
   display: flex;
 }
-.bcn-help-bar__panel-item-title {
-  color: var(--color-content-default);
+.bcn-help-bar__panel-prev-link .bcn-help-bar__pill--sm {
+  margin-block-start: 2px;
 }
-.bcn-help-bar__panel-item-text {
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  color: var(--color-content-default-secondary);
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  overflow: hidden;
+.bcn-help-bar__panel-prev-link:hover {
+  background: var(--color-background-elevation-sunken);
+  color: var(--color-content-brand);
 }
-.bcn-help-bar__panel-go {
-  color: var(--color-content-default-tertiary);
-  opacity: 0;
-  transition: opacity var(--transition-fast, 0.15s ease);
-  display: inline-flex;
-}
-.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,
-.bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {
-  opacity: 1;
+.bcn-help-bar__panel-prev-text {
+  font-size: 14px;
+  line-height: 20px;
 }
 .bcn-help-bar__panel-all {
   align-items: center;
   gap: var(--spacing-100);
-  color: var(--color-content-link);
-  border-radius: 2px;
+  border-block-start: 1px solid var(--color-border-default-subtle);
+  inline-size: 100%;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-brand);
   align-self: flex-start;
-  padding-block-start: var(--spacing-150);
+  padding-block-start: 14px;
   text-decoration: none;
   display: inline-flex;
 }
@@ -789,34 +743,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-button__label {
   white-space: nowrap;
 }
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
-.typography-label-sm {
-  font-family: var(--typography-label-sm-font-family);
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  line-height: var(--typography-label-sm-line-height);
-  letter-spacing: var(--typography-label-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -874,11 +800,14 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--button-radius-md` | `.25rem` | component |
 | `--color-background-brand` | `#005862` | semantic |
 | `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-background-utility-danger` | `#ce2c31` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
@@ -886,44 +815,26 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--color-content-link` | `#005862` | semantic |
 | `--color-teal-6` | `#a1ded2` | primitive |
 | `--color-teal-7` | `#83cdc1` | primitive |
-| `--color-teal-8` | `#53b9ab` | primitive |
 | `--color-teal-9` | `#12a594` | primitive |
 | `--focus-ring-color` | `#3e9b4f` | component |
 | `--focus-ring-offset` | `2px` | component |
 | `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
+| `--radius-lg` | `.75rem` | semantic |
+| `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |
 | `--transition-fast` | `.15s ease` | semantic |
-| `--typography-body-xs-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-body-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
-| `--typography-body-xs-font-weight` | `400` | semantic |
-| `--typography-body-xs-letter-spacing` | `.01em` | semantic |
-| `--typography-body-xs-line-height` | `1.6` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-label-md-strong-font-weight` | `550` | semantic |
-| `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-label-md-strong-line-height` | `1.6` | semantic |
-| `--typography-label-sm-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-label-sm-font-weight` | `500` | semantic |
-| `--typography-label-sm-letter-spacing` | `.01em` | semantic |
-| `--typography-label-sm-line-height` | `1.6` | semantic |
-| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-label-sm-strong-font-weight` | `550` | semantic |
-| `--typography-label-sm-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-label-sm-strong-line-height` | `1.6` | semantic |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-microcopy-md-font-weight` | `500` | semantic |

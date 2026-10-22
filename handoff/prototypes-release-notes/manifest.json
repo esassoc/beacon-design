@@ -831,22 +831,24 @@
           "click": "[data-whatsnew] button"
         }
       ],
-      "html": "<div slot=\"content\" class=\"bcn-help-bar__panel\" style=\"--_room: 1134px\">\n  <header class=\"bcn-help-bar__panel-header\">\n    <p class=\"bcn-help-bar__panel-title typography-label-md-strong\">What's New</p>\n    <p class=\"bcn-help-bar__panel-release typography-label-sm\">\n      1.41.0 · <time datetime=\"2026-10-13\">Oct 13, 2026</time>\n    </p>\n  </header>\n  <ul class=\"bcn-help-bar__panel-list\">\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-lists\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Lists replace Action Lists</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >Each project now has one Lists page for action lists and commitment lists. Every list\n            has its own page, with a searchable drawer for adding items, Select mode for removing\n            many, and CSV export.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Configurable Monitoring Portal dashboard</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >The dashboard is now a board of widgets. Admins add them from a gallery, then resize,\n            reorder, recolor and configure each one, and the layout is saved for the project.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-list-evidence\"\n        ><span class=\"bcn-help-bar__panel-text\"\n          ><span class=\"bcn-help-bar__panel-item-title typography-label-md-strong\"\n            >Evidence for a whole action list</span\n          ><span class=\"bcn-help-bar__panel-item-text typography-body-xs\"\n            >Choose a component, stage the evidence, and save it to every action on that component\n            in one step.</span\n          ></span\n        ><span class=\"bcn-help-bar__panel-go\" aria-hidden=\"true\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg></span></span\n      ></a>\n    </li>\n  </ul>\n  <a\n    class=\"bcn-help-bar__panel-all typography-label-sm-strong\"\n    href=\"/beacon-design/prototypes/release-notes\"\n    >All Release Notes\n    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n      ><svg\n        width=\"16\"\n        height=\"16\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        focusable=\"false\"\n      >\n        <path d=\"M5 12h14\"></path>\n        <path d=\"m12 5 7 7-7 7\"></path></svg></span\n  ></a>\n</div>",
-      "css": ".typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar__panel {\n  gap: var(--spacing-200);\n  width: min(320px, var(--_room, 320px));\n  color: var(--color-content-default);\n  white-space: normal;\n  text-align: start;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-bar__panel-header {\n  justify-content: space-between;\n  align-items: baseline;\n  gap: var(--spacing-200);\n  border-block-end: 1px solid var(--color-border-default);\n  padding-block-end: var(--spacing-150);\n  display: flex;\n}\n.bcn-help-bar__panel-header p {\n  margin: 0;\n}\n.bcn-help-bar__panel-release {\n  color: var(--color-content-default-tertiary);\n  white-space: nowrap;\n}\n.bcn-help-bar__panel-list {\n  margin: 0 calc(var(--spacing-150) * -1);\n  gap: var(--spacing-050);\n  flex-direction: column;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: var(--spacing-150);\n  border-radius: var(--radius-200, 8px);\n  color: inherit;\n  transition: background var(--transition-fast, 0.15s ease);\n  text-decoration: none;\n  display: flex;\n}\n.bcn-help-bar__panel-link:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-help-bar__panel-link:focus-visible,\n.bcn-help-bar__panel-all:focus-visible {\n  outline: 2px solid var(--color-content-link);\n  outline-offset: 1px;\n}\n.bcn-help-bar__panel-text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-help-bar__panel-item-title {\n  color: var(--color-content-default);\n}\n.bcn-help-bar__panel-item-text {\n  -webkit-line-clamp: 2;\n  line-clamp: 2;\n  color: var(--color-content-default-secondary);\n  -webkit-box-orient: vertical;\n  display: -webkit-box;\n  overflow: hidden;\n}\n.bcn-help-bar__panel-go {\n  color: var(--color-content-default-tertiary);\n  opacity: 0;\n  transition: opacity var(--transition-fast, 0.15s ease);\n  display: inline-flex;\n}\n.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,\n.bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {\n  opacity: 1;\n}\n.bcn-help-bar__panel-all {\n  align-items: center;\n  gap: var(--spacing-100);\n  color: var(--color-content-link);\n  border-radius: 2px;\n  align-self: flex-start;\n  padding-block-start: var(--spacing-150);\n  text-decoration: none;\n  display: inline-flex;\n}\n.bcn-help-bar__panel-all:hover {\n  text-decoration: underline;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "html": "<div slot=\"content\" class=\"bcn-help-bar__panel\" style=\"--_room: 1112px; --_room-h: 703px\">\n  <p class=\"bcn-help-bar__panel-release\">\n    <span class=\"bcn-help-bar__pill\">1.41.0</span\n    ><time class=\"bcn-help-bar__panel-date\" datetime=\"2026-10-13\">October 13, 2026</time>\n  </p>\n  <p class=\"bcn-help-bar__panel-title\">What's New</p>\n  <ul class=\"bcn-help-bar__panel-list\">\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-lists\"\n        ><span class=\"bcn-help-bar__panel-item-title\">Lists replace Action Lists</span\n        ><span class=\"bcn-help-bar__panel-item-text\"\n          >One Lists page per project holds action lists and commitment lists.</span\n        ></a\n      >\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-monitoring-dashboard\"\n        ><span class=\"bcn-help-bar__panel-item-title\">Configurable Monitoring Portal dashboard</span\n        ><span class=\"bcn-help-bar__panel-item-text\"\n          >Admins build the dashboard from a gallery of widgets.</span\n        ></a\n      >\n    </li>\n    <li>\n      <a\n        class=\"bcn-help-bar__panel-link\"\n        href=\"/beacon-design/prototypes/release-notes#v1-41-0-list-evidence\"\n        ><span class=\"bcn-help-bar__panel-item-title\">Evidence for a whole action list</span\n        ><span class=\"bcn-help-bar__panel-item-text\"\n          >Save one set of evidence to every action on a component.</span\n        ></a\n      >\n    </li>\n  </ul>\n  <div class=\"bcn-help-bar__panel-prev\">\n    <p class=\"bcn-help-bar__panel-earlier\">Earlier</p>\n    <ul class=\"bcn-help-bar__panel-prev-list\">\n      <li>\n        <a\n          class=\"bcn-help-bar__panel-prev-link\"\n          href=\"/beacon-design/prototypes/release-notes#v1-40-0\"\n          ><span class=\"bcn-help-bar__pill bcn-help-bar__pill--sm\">1.40.0</span\n          ><span class=\"bcn-help-bar__panel-prev-text\"\n            >Component dashboards&nbsp;· Evidence upload in the evidence drawer</span\n          ></a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-bar__panel-prev-link\"\n          href=\"/beacon-design/prototypes/release-notes#v1-39-0\"\n          ><span class=\"bcn-help-bar__pill bcn-help-bar__pill--sm\">1.39.0</span\n          ><span class=\"bcn-help-bar__panel-prev-text\"\n            >Project dashboard homepage&nbsp;· Global search ranking and results</span\n          ></a\n        >\n      </li>\n    </ul>\n  </div>\n  <a class=\"bcn-help-bar__panel-all\" href=\"/beacon-design/prototypes/release-notes\"\n    >All release notes\n    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n      ><svg\n        width=\"16\"\n        height=\"16\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        focusable=\"false\"\n      >\n        <path d=\"M5 12h14\"></path>\n        <path d=\"m12 5 7 7-7 7\"></path></svg></span\n  ></a>\n</div>",
+      "css": ".bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar__panel {\n  width: min(400px, var(--_room, 400px));\n  max-block-size: var(--_room-h, none);\n  color: var(--color-content-default);\n  white-space: normal;\n  text-align: start;\n  flex-direction: column;\n  display: flex;\n  overflow-y: auto;\n}\n:where(.bcn-help-bar__panel) p {\n  margin: 0;\n}\n.bcn-help-bar__panel-release {\n  align-items: center;\n  gap: 10px;\n  display: flex;\n}\n.bcn-help-bar__pill {\n  padding: 3px var(--spacing-200);\n  background: color-mix(in srgb, var(--color-content-brand) 10%, transparent);\n  color: var(--color-content-brand);\n  font-size: 13px;\n  line-height: 18px;\n  font-weight: var(--typography-font-weight-medium);\n  font-variant-numeric: tabular-nums;\n  border-radius: 7px;\n  flex: none;\n}\n.bcn-help-bar__pill--sm {\n  border-radius: 6px;\n  padding: 2px 6px;\n  font-size: 12px;\n  line-height: 16px;\n}\n.bcn-help-bar__panel-date,\n.bcn-help-bar__panel-earlier {\n  color: var(--color-content-default-tertiary);\n  font-size: 13px;\n  line-height: 18px;\n}\n.bcn-help-bar__panel-title,\n.bcn-help-bar__panel-item-title {\n  font-family: var(--font-decorative);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default);\n}\n.bcn-help-bar__panel-title {\n  margin: 12px 0 4px;\n  font-size: 24px;\n  line-height: 30px;\n}\n.bcn-help-bar__panel-list {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-help-bar__panel-list li + li {\n  border-block-start: 1px solid var(--color-border-default-subtle);\n}\n.bcn-help-bar__panel-link {\n  gap: var(--spacing-050);\n  color: inherit;\n  flex-direction: column;\n  padding-block: 14px;\n  text-decoration: none;\n  display: flex;\n}\n.bcn-help-bar__panel-item-title {\n  transition: color var(--transition-fast, 0.15s ease);\n  font-size: 17px;\n  line-height: 23px;\n}\n.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-item-title {\n  color: var(--color-content-brand);\n}\n.bcn-help-bar__panel-item-text {\n  color: var(--color-content-default-tertiary);\n  font-size: 14px;\n  line-height: 21px;\n}\n.bcn-help-bar__panel-link:focus-visible,\n.bcn-help-bar__panel-prev-link:focus-visible,\n.bcn-help-bar__panel-all:focus-visible {\n  outline: 2px solid var(--color-content-link);\n  outline-offset: 1px;\n  border-radius: var(--radius-md);\n}\n.bcn-help-bar__panel-prev {\n  border-block-start: 1px solid var(--color-border-default-subtle);\n}\n.bcn-help-bar__panel-earlier {\n  font-weight: var(--typography-font-weight-medium);\n  padding-block: 14px 6px;\n}\n.bcn-help-bar__panel-prev-list {\n  margin: 0 calc(var(--spacing-200) * -1) 14px;\n  padding: 0;\n  list-style: none;\n}\n.bcn-help-bar__panel-prev-link {\n  padding: 6px var(--spacing-200);\n  border-radius: var(--radius-lg);\n  color: var(--color-content-default-secondary);\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    color var(--transition-fast, 0.15s ease);\n  align-items: flex-start;\n  gap: 10px;\n  text-decoration: none;\n  display: flex;\n}\n.bcn-help-bar__panel-prev-link .bcn-help-bar__pill--sm {\n  margin-block-start: 2px;\n}\n.bcn-help-bar__panel-prev-link:hover {\n  background: var(--color-background-elevation-sunken);\n  color: var(--color-content-brand);\n}\n.bcn-help-bar__panel-prev-text {\n  font-size: 14px;\n  line-height: 20px;\n}\n.bcn-help-bar__panel-all {\n  align-items: center;\n  gap: var(--spacing-100);\n  border-block-start: 1px solid var(--color-border-default-subtle);\n  inline-size: 100%;\n  font-size: 14px;\n  line-height: 20px;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-brand);\n  align-self: flex-start;\n  padding-block-start: 14px;\n  text-decoration: none;\n  display: inline-flex;\n}\n.bcn-help-bar__panel-all:hover {\n  text-decoration: underline;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
-        "intent": "The app-wide entry point to this page: a popover above the floating help bar listing the latest post's features, each deep-linking to that feature on this page, with an \"All Release Notes\" footer.",
+        "intent": "The app-wide entry point to this page: a popover above the floating help bar with the latest release's version pill and date, its features, one row per earlier release, and an \"All release notes\" footer.",
         "decisions": [
           "Derived, not curated separately: the entries are LATEST_RELEASE.features, so the popover and the post always agree.",
-          "Each entry is the feature title over its paragraph, clamped to two lines; the page has the rest.",
+          "Each entry is the feature title (serif) over its one-sentence `summary`, written for the popover. No clamping or ellipsis; the page has the full paragraph.",
           "Each entry links to `<release-notes>#<release anchor>-<feature id>`, landing on the feature itself.",
-          "The panel is the esa-popover lego (position=\"top\", trigger=\"click\"), which owns open/close, Esc and outside-click. The bar's own script only persists the seen state."
+          "Under \"Earlier\", the two releases before the latest get one row each: a smaller version pill and that release's feature titles joined by \" · \", linking to the release's anchor. No dates on these rows.",
+          "No screenshots and no unread dot: the button is a doorway, not a notifier.",
+          "The panel is the esa-popover lego (position=\"top\", trigger=\"click\"), which owns open/close, Esc and outside-click. The bar's own script only fits the panel to narrow screens."
         ],
         "gotchas": [
-          "The unread dot is retired by writing the latest RELEASE DATE to localStorage, not a boolean, so the dot comes back when the next release ships.",
-          "Trigger the popover from the real button; the dot is an aria-hidden decoration."
+          "Trigger the popover from the real button.",
+          "esa-popover exposes no public padding or radius hook, so the bar sets its private --_popover-padding, --_popover-radius and --_popover-bg."
         ],
         "acceptance": [
-          "Clicking What's new opens a white panel above the bar headed by the latest version and date; it lists that release's features; clicking one lands on that feature on this page; the unread dot is gone afterward and stays gone on reload."
+          "Clicking What's new opens a white panel above the bar headed by the latest version pill and date; it lists that release's features with a one-sentence summary each; clicking one lands on that feature on this page; each Earlier row lands on that release."
         ]
       },
       "tokens": [
@@ -886,8 +888,13 @@
           "tier": "semantic"
         },
         {
-          "name": "--color-border-default",
-          "value": "#dcdcdc",
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -911,6 +918,11 @@
           "tier": "semantic"
         },
         {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
           "name": "--icon-size-md",
           "value": "20px",
           "tier": "primitive"
@@ -921,9 +933,14 @@
           "tier": "primitive"
         },
         {
-          "name": "--radius-200",
-          "value": ".5rem",
-          "tier": "primitive"
+          "name": "--radius-lg",
+          "value": ".75rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
         },
         {
           "name": "--spacing-050",
@@ -933,11 +950,6 @@
         {
           "name": "--spacing-100",
           "value": ".25rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-150",
-          "value": ".375rem",
           "tier": "primitive"
         },
         {
@@ -951,103 +963,8 @@
           "tier": "semantic"
         },
         {
-          "name": "--typography-body-xs-font-family",
-          "value": "\"DM Sans\", sans-serif",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-body-xs-font-size",
-          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-body-xs-font-weight",
-          "value": "400",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-body-xs-letter-spacing",
-          "value": ".01em",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-body-xs-line-height",
-          "value": "1.6",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-md-strong-font-family",
-          "value": "\"DM Sans\", sans-serif",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-md-strong-font-size",
-          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-md-strong-font-weight",
-          "value": "550",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-md-strong-letter-spacing",
-          "value": ".01em",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-md-strong-line-height",
-          "value": "1.6",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-font-family",
-          "value": "\"DM Sans\", sans-serif",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-font-size",
-          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-font-weight",
+          "name": "--typography-font-weight-medium",
           "value": "500",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-letter-spacing",
-          "value": ".01em",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-line-height",
-          "value": "1.6",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-strong-font-family",
-          "value": "\"DM Sans\", sans-serif",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-strong-font-size",
-          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-strong-font-weight",
-          "value": "550",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-strong-letter-spacing",
-          "value": ".01em",
-          "tier": "semantic"
-        },
-        {
-          "name": "--typography-label-sm-strong-line-height",
-          "value": "1.6",
           "tier": "semantic"
         }
       ],
@@ -1072,8 +989,8 @@
         "desktop": "claude/what-s-new-popover-the-doorway-in.desktop.png",
         "phone": "claude/what-s-new-popover-the-doorway-in.phone.png"
       },
-      "bytes": 15885,
-      "specBytes": 15885,
+      "bytes": 12335,
+      "specBytes": 12335,
       "files": 1,
       "collapsed": 0
     },

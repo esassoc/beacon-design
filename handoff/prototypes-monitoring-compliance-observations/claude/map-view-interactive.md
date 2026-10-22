@@ -63,7 +63,7 @@ _29 repeated elements are collapsed in the markup below; the comments say where.
                 width: 256px;
                 height: 256px;
                 transform: translate3d(168px, 33px, 0px);
-                opacity: 0.805;
+                opacity: 1;
               "
             /><img
               alt=""
