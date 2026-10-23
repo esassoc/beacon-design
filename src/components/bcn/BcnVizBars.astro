@@ -45,9 +45,11 @@ interface Props {
   variant?: 'code';
   /** Denominator override. Default: the largest value in `rows`. */
   max?: number;
+  /** Unit glued to each value, e.g. "%". Default: none. */
+  suffix?: string;
 }
 
-const { rows, variant, max } = Astro.props;
+const { rows, variant, max, suffix = '' } = Astro.props;
 
 // A caller-supplied max lets sibling widgets share a scale; otherwise the tallest
 // bar fills the track. Guard the all-zero and empty cases so no row divides by 0.
@@ -69,7 +71,7 @@ const pct = (value: number) =>
             style={`width:${pct(row.value)}%${row.color ? `;--_bar-fill:${row.color}` : ''}`}
           />
         </span>
-        <span class="bcn-viz-bars__val">{row.value.toLocaleString('en-US')}</span>
+        <span class="bcn-viz-bars__val">{row.value.toLocaleString('en-US')}{suffix}</span>
       </div>
     ))
   }

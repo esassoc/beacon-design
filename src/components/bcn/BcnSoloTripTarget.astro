@@ -1,0 +1,59 @@
+---
+// <BcnSoloTripTarget> — the Trips and Emissions page's answer to "are we cutting
+// solo trips?" against mitigation measure TRANS-1 (25% fewer single-occupancy
+// trips than a baseline).
+//
+// The baseline is an OPEN client question, so `baseline: null` renders as the
+// state "Not set" — the card never invents a reference figure or a progress
+// reading against one. When a baseline arrives it renders as a percent beside
+// the target, and nothing else on the card changes.
+//
+// Pure composition: esa-card shell, esa-stat headline, BcnVizMeter for the
+// solo / carpool / not-recorded split, BcnKeyValue for the two TRANS-1 facts,
+// BcnSectionHeading + BcnVizBars for the per-company share. The bars share a
+// fixed 0–100 scale and carry a % suffix. No bespoke CSS; layout is .stack from layouts.css.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import BcnVizMeter from './BcnVizMeter.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnSectionHeading from './BcnSectionHeading.astro';
+import BcnVizBars from './BcnVizBars.astro';
+import type { SoloTripShare } from '../../data/vmt-ghg';
+
+interface Props {
+  data: SoloTripShare;
+}
+const { data } = Astro.props;
+
+const segments = [
+  { label: 'Solo', value: data.solo, color: 'var(--bcn-mark-sky)' },
+  { label: 'Carpool', value: data.carpool, color: 'var(--bcn-mark-teal)' },
+  { label: 'Not Recorded', value: data.unrecorded, color: 'var(--color-border-default-strong)' },
+];
+
+const baseline = data.baseline === null ? 'Not set' : `${data.baseline}%`;
+
+const companyRows = data.byCompany.map((c) => ({ name: c.name, value: c.soloShare, color: 'var(--bcn-mark-sky)' }));
+---
+
+<EsaCard title="Solo Trips">
+  <div class="stack" data-gap="lg">
+    <EsaStat value={`${data.soloShare}%`} label="Solo trip share" />
+    <BcnVizMeter segments={segments} measure="Trips" />
+    <div class="stack" data-gap="xs">
+      <BcnKeyValue
+        label="TRANS-1 Target"
+        value={`${data.targetReduction}% fewer than baseline`}
+        layout="row"
+        size="sm"
+      />
+      <BcnKeyValue label="Baseline" value={baseline} layout="row" size="sm" />
+    </div>
+    {companyRows.length > 0 && (
+      <div class="stack" data-gap="sm">
+        <BcnSectionHeading title="Solo Share by Company" />
+        <BcnVizBars rows={companyRows} max={100} suffix="%" />
+      </div>
+    )}
+  </div>
+</EsaCard>

@@ -1,0 +1,128 @@
+---
+// Monitoring Portal → Data → Trips and Emissions — the data page the equipment use
+// log (vehicle trips + equipment run time) earns once Beacon does the arithmetic
+// itself. One capability, two tenants, one route per tenant:
+//
+//   /emissions/dcp           TRANS-1: is the solo-trip share coming down?
+//   /emissions/valley-water  Net zero: what has construction emitted that is not yet offset?
+//
+// Same totals, chart, pollutant table, flags and records grids; only the
+// comparison card swaps. Every emission figure is an estimate — the method and
+// factors are undecided — so the pollutant card states its method as "Not set".
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import BcnVizStacked from '../../../../components/bcn/BcnVizStacked.astro';
+import BcnSoloTripTarget from '../../../../components/bcn/BcnSoloTripTarget.astro';
+import BcnNetZeroBalance from '../../../../components/bcn/BcnNetZeroBalance.astro';
+import BcnEmissionsByPollutant from '../../../../components/bcn/BcnEmissionsByPollutant.astro';
+import BcnRecordFlags from '../../../../components/bcn/BcnRecordFlags.astro';
+import BcnSectionHeading from '../../../../components/bcn/BcnSectionHeading.astro';
+import BcnStreamRecords from '../../../../components/bcn/BcnStreamRecords.astro';
+import { STREAM_ICON_PATHS } from '../../../../data/monitoring-streams';
+import {
+  TENANTS,
+  DCP_SOLO,
+  VW_NET_ZERO,
+  RECORD_STREAMS,
+  type TenantId,
+} from '../../../../data/vmt-ghg';
+import { withBase } from '../../../../lib/base';
+
+export function getStaticPaths() {
+  return (Object.keys(TENANTS) as TenantId[]).map((tenant) => ({ params: { tenant } }));
+}
+
+const tenant = Astro.params.tenant as TenantId;
+const data = TENANTS[tenant];
+const streams = RECORD_STREAMS[tenant];
+
+const n = (v: number) => v.toLocaleString('en-US', { maximumFractionDigits: 1 });
+const fmtDay = (iso: string, year = false) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    ...(year ? { year: 'numeric' } : {}),
+    timeZone: 'UTC',
+  });
+const period = `${fmtDay(data.periodStart)} to ${fmtDay(data.periodEnd, true)}`;
+const first = data.activity.points[0]?.date ?? data.periodStart;
+const last = data.activity.points.at(-1)?.date ?? data.periodEnd;
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - period totals   -> esa-card                      # esa-stat ×5 on a grid primitive
+    - summary row (grid): comparison | activity chart + pollutants (stack)
+      - comparison    -> bcn-solo-trip-target          # dcp: TRANS-1 solo trips
+      - comparison    -> bcn-net-zero-balance          # valley-water: emitted vs offset
+      - activity      -> esa-card                      # bcn-viz-stacked inside
+      - pollutants    -> bcn-emissions-by-pollutant
+    - flagged records -> bcn-record-flags
+    - vehicle trips   -> bcn-stream-records            # under a bcn-section-heading
+    - equipment use   -> bcn-stream-records            # under a bcn-section-heading
+    - grid headings   -> bcn-section-heading
+-->
+
+<AppShell
+  title={`Trips and Emissions — ${data.projectName}`}
+  tenantName={data.tenantName}
+  projectName={data.projectName}
+  activeNavId="mp-data"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title="Trips and Emissions"
+    icon="leaf"
+    iconPaths={STREAM_ICON_PATHS['leaf']}
+    breadcrumbs={[
+      { label: data.projectName, href: '#project' },
+      { label: 'Data', href: withBase('/prototypes/monitoring/data') },
+      { label: 'Trips and Emissions' },
+    ]}
+  >
+    <div class="stack" data-gap="xl">
+      <EsaCard meta={[{ label: 'Period', value: period }]}>
+        <div class="grid" data-gap="md" style="--grid-min: 96px;">
+          <EsaStat value={n(data.totals.miles)} label="Miles" />
+          <EsaStat value={n(data.totals.trips)} label="Trips" />
+          <EsaStat value={n(data.totals.equipmentHours)} label="Equipment hours" />
+          <EsaStat value={`${data.totals.tier4Share}%`} label="Tier 4 Final hours" />
+          <EsaStat value={n(data.totals.co2eTons)} label="Metric tons CO2e" sub="Estimate" />
+        </div>
+      </EsaCard>
+
+      <div class="grid" data-gap="lg" style="--grid-min: 420px;">
+        {tenant === 'dcp' ? <BcnSoloTripTarget data={DCP_SOLO} /> : <BcnNetZeroBalance data={VW_NET_ZERO} />}
+        <div class="stack" data-gap="lg">
+          <EsaCard title={data.activity.title}>
+            <BcnVizStacked
+              points={data.activity.points}
+              series={data.activity.series}
+              unit={data.activity.unit}
+              height="md"
+              axisStart={fmtDay(first, tenant !== 'dcp')}
+              axisEnd={fmtDay(last, tenant !== 'dcp')}
+              label={`${data.activity.title}, ${fmtDay(first, true)} to ${fmtDay(last, true)}`}
+            />
+          </EsaCard>
+          <BcnEmissionsByPollutant rows={data.pollutants} />
+        </div>
+      </div>
+
+      <BcnRecordFlags flags={data.flags} />
+
+      <div class="stack" data-gap="md">
+        <BcnSectionHeading title="Vehicle Trips" />
+        <BcnStreamRecords stream={streams.trips} />
+      </div>
+
+      <div class="stack" data-gap="md">
+        <BcnSectionHeading title="Equipment Use" />
+        <BcnStreamRecords stream={streams.equipment} />
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>

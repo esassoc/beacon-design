@@ -1,0 +1,66 @@
+---
+// <BcnRecordFlags> — the "Flagged Records" card on the Monitoring Portal Trips and
+// Emissions data page: the records that look wrong before the data goes to the
+// client (zero-mile trips, a round trip that disagrees with the driver's usual one,
+// trips with no occupant count, active sites gone quiet). Field staff fix these at
+// the source in Fulcrum, so the card only lists them — it carries no actions.
+//
+// Anatomy: esa-card titled "Flagged Records" with the count as bcn-count (the
+// spoke's one quiet neutral count) in the actions slot, body = BcnMiniTable (Flag | Date | Site | Record). The Flag cell
+// is MiniCell.status — warning hue for the three trip problems, the neutral
+// not-started grey for a silent site (a missing record, not a wrong one). With no
+// flags the body is esa-empty-state.
+//
+// TWO CARD BRANCHES, not one card with `{flags.length > 0 && <span slot="actions">}`:
+// Astro registers a conditional slot even when the expression is falsy, so the
+// empty case would paint an empty actions container in the header.
+//
+// Pure composition: the shell IS esa-card, the count IS bcn-count, the table IS
+// bcn-mini-table and the empty case IS esa-empty-state. No esa-* flag-list lego
+// exists (BcnFlagList is the Feature Flags settings list).
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnCount from './BcnCount.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnMiniTable, { type MiniCell } from './BcnMiniTable.astro';
+import type { FlagKind, RecordFlag } from '../../data/vmt-ghg';
+
+interface Props {
+  flags: RecordFlag[];
+}
+const { flags } = Astro.props;
+
+// Semantic status layer only — the same warning utility monitoring.ts uses for an
+// active condition, and the spoke's quiet not-started grey.
+const KIND_HEX: Record<FlagKind, string> = {
+  'zero-miles': 'var(--color-background-utility-warning)',
+  'round-trip-mismatch': 'var(--color-background-utility-warning)',
+  'no-occupants': 'var(--color-background-utility-warning)',
+  'site-silent': 'var(--bcn-status-not-started)',
+};
+
+// ISO date → "Jun 12". UTC so a date-only string does not slide back a day.
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+
+const columns = [{ label: 'Flag' }, { label: 'Date' }, { label: 'Site' }, { label: 'Record' }];
+const rows: MiniCell[][] = flags.map((f) => [
+  { text: f.label, status: { label: f.label, hex: KIND_HEX[f.kind] } },
+  { text: fmtDate(f.date), num: true },
+  { text: f.site },
+  { text: f.detail, truncate: true },
+]);
+---
+
+{flags.length > 0 ? (
+  <EsaCard title="Flagged Records" variant="outlined">
+    <span slot="actions">
+      <BcnCount value={flags.length} label={`${flags.length} flagged records`} />
+    </span>
+    <BcnMiniTable columns={columns} rows={rows} />
+  </EsaCard>
+) : (
+  <EsaCard title="Flagged Records" variant="outlined">
+    <EsaEmptyState title="No Flagged Records" size="sm" />
+  </EsaCard>
+)}
+

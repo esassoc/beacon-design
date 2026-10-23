@@ -1,0 +1,52 @@
+---
+// <BcnEmissionsByPollutant> — the Trips and Emissions data page's per-pollutant card.
+//
+// One esa-card: estimated emissions for each pollutant, split On-Road (vehicle trips)
+// and Off-Road (equipment hours), with a Total column. The calculation method and
+// emission factors are an open question for the client, so the card carries that as
+// STATE, not as a sentence: an "Estimate" badge in the header's actions slot and a
+// "Method" fact reading "Not set" until a method is chosen.
+//
+// Pure composition — esa-card + esa-badge + BcnKeyValue + BcnMiniTable inside a
+// .stack. No component CSS.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnMiniTable from './BcnMiniTable.astro';
+import type { PollutantRow } from '../../data/vmt-ghg';
+
+interface Props {
+  rows: PollutantRow[];
+  /** The emissions calculation method. null/undefined → "Not set". */
+  method?: string | null;
+}
+const { rows, method } = Astro.props;
+
+const UNIT_ABBR: Record<string, string> = { 'Metric tons': 'MT', Pounds: 'lb' };
+
+const fmt = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
+
+const columns = [
+  { label: 'Pollutant' },
+  { label: 'On-Road', align: 'end' as const },
+  { label: 'Off-Road', align: 'end' as const },
+  { label: 'Total', align: 'end' as const },
+];
+
+const tableRows = rows.map((r) => [
+  // The unit rides on the pollutant ("CO2e (MT)", "NOx (lb)"): a separate Unit
+  // column cost a whole track and collided with Pollutant at phone width.
+  { text: `${r.pollutant} (${UNIT_ABBR[r.unit] ?? r.unit})` },
+  { text: fmt(r.onRoad), num: true },
+  { text: fmt(r.offRoad), num: true },
+  { text: fmt(r.onRoad + r.offRoad), num: true },
+]);
+---
+
+<EsaCard title="Emissions by Pollutant">
+  <EsaBadge slot="actions" value="Estimate" variant="neutral" size="sm" />
+  <div class="stack" data-gap="md">
+    <BcnKeyValue label="Method" value={method ?? 'Not set'} layout="row" size="sm" />
+    <BcnMiniTable columns={columns} rows={tableRows} />
+  </div>
+</EsaCard>

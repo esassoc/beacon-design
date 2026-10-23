@@ -1,0 +1,79 @@
+---
+// <BcnNetZeroBalance> — the Valley Water comparison panel on the Monitoring Portal
+// "Trips and Emissions" data page: construction emitted to date against what has
+// been offset, for the EIR's net-zero construction requirement.
+//
+// Pure composition, no CSS. The headline figures are esa-stat (outstanding leads,
+// emitted to date beside it); the part-to-whole of emitted is BcnVizMeter split
+// into Offset / Not Yet Offset; the whole-project estimate is one BcnKeyValue row;
+// the retirement log is BcnSectionHeading + BcnMiniTable. Layout is the .stack /
+// .cluster primitives from @esa/tokens/layouts.css.
+//
+// bySource is deliberately NOT rendered: the page charts sources elsewhere.
+//
+// Dates are ISO day strings; they are formatted in UTC so "2025-07-15" never
+// slips to Jul 14 in a western time zone.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import BcnVizMeter from './BcnVizMeter.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnSectionHeading from './BcnSectionHeading.astro';
+import BcnMiniTable, { type MiniCell } from './BcnMiniTable.astro';
+import type { NetZeroBalance } from '../../data/vmt-ghg';
+
+interface Props {
+  data: NetZeroBalance;
+}
+const { data } = Astro.props;
+
+const tons = (n: number) => Math.round(n).toLocaleString('en-US');
+const fmtDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+
+const segments = [
+  { label: 'Offset', value: data.retired, color: 'var(--bcn-mark-emerald)' },
+  { label: 'Not Yet Offset', value: data.outstanding, color: 'var(--bcn-mark-amber)' },
+];
+
+const columns = [
+  { label: 'Date' },
+  { label: 'Project' },
+  { label: 'Metric Tons', align: 'end' as const },
+];
+const rows: MiniCell[][] = data.retirements.map((r) => [
+  { text: fmtDate(r.date), num: true },
+  { text: r.project, truncate: true },
+  { text: tons(r.tons), num: true },
+]);
+---
+
+<EsaCard title="Net Zero Balance">
+  <div class="stack" data-gap="lg">
+    <div class="cluster" data-gap="xl" data-align="start">
+      <EsaStat value={tons(data.outstanding)} label="Metric tons CO2e to offset" />
+      <EsaStat value={tons(data.emitted)} label="Metric tons CO2e emitted" />
+    </div>
+
+    <BcnVizMeter segments={segments} measure="Metric tons CO2e" />
+
+    <BcnKeyValue
+      label="EIR Estimate"
+      value={`${tons(data.projectEstimate)} metric tons CO2e`}
+      layout="row"
+      size="sm"
+    />
+
+    <section class="stack" data-gap="sm">
+      <BcnSectionHeading
+        title="Offset Retirements"
+        count={data.retirements.length > 0 ? data.retirements.length : undefined}
+      />
+      <BcnMiniTable columns={columns} rows={rows} />
+    </section>
+  </div>
+</EsaCard>

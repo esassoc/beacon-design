@@ -9,7 +9,7 @@
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
 /** The tenant an effort was built for. 'platform' = ships to every tenant. */
-export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'platform';
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'valley-water' | 'platform';
 
 /** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
 export const TENANT_LABEL: Record<PrototypeTenant, string> = {
@@ -17,6 +17,7 @@ export const TENANT_LABEL: Record<PrototypeTenant, string> = {
   prologis: 'Prologis',
   aws: 'AWS',
   beale: 'Beale',
+  'valley-water': 'Valley Water',
   platform: 'All tenants',
 };
 
@@ -523,6 +524,26 @@ export const prototypeGroups: PrototypeGroup[] = [
         route: '/prototypes/monitoring/field-documentation',
         createdAt: '2026-09-25',
         status: 'in-progress',
+      },
+      {
+        slug: 'vmt-ghg-data-page',
+        title: 'Trips and Emissions',
+        description:
+          'A Monitoring Data page built from the equipment use log: miles, trips, equipment hours and estimated emissions, solo-trip share against the 25% single-occupancy reduction target, flagged records, and the trip and equipment grids.',
+        route: '/prototypes/monitoring/emissions/dcp',
+        createdAt: '2026-10-22',
+        ticket: 'BCN-1919',
+        status: 'in-progress',
+      },
+      {
+        slug: 'vmt-ghg-data-page-net-zero',
+        title: 'Trips and Emissions, Net Zero',
+        description:
+          'The same page for a project whose construction emissions must be offset to net zero: emitted to date against offsets retired, emissions per month by source, and the same records underneath.',
+        route: '/prototypes/monitoring/emissions/valley-water',
+        createdAt: '2026-10-22',
+        status: 'in-progress',
+        tenant: 'valley-water',
       },
       {
         slug: 'monitoring-surveys',
