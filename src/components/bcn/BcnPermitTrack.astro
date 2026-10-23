@@ -1,0 +1,191 @@
+---
+// <BcnPermitTrack> — one permit's life on one line: each agency review round (sent,
+// answered), then issuance, then expiration. Colleen's "first review, second review,
+// third review... and then the issuance date, and then the expiration date"
+// (2026-10-22), read left to right as the permit's cradle-to-grave.
+//
+// A step is done (filled node), current (ring: the round the agency holds, or the
+// package being put together) or ahead (hollow, muted). Done steps join with a brand
+// line; the line past the current step is the neutral border. Below 560px of its own
+// width the track turns vertical, so a phone reads it as a list.
+//
+// Lookup: no esa-* draws a dated step track (esa-progress-bar is a single
+// fill, esa-tab-layout is navigation). Checked Beacon: prod's permit status history is
+// a change-log list, not a track; the setup wizard's stepper is navigation between
+// screens. bcn-permit-track is the reusable home (a Timeline view can reuse it per
+// row); its CSS is the track's own geometry.
+import {
+  TODAY,
+  daysBetween,
+  formatDate,
+  formatMonth,
+  openRequirements,
+  type Permit,
+} from '../../data/internal-permits';
+
+interface Props {
+  permit: Permit;
+}
+const { permit } = Astro.props;
+
+type StepState = 'done' | 'current' | 'ahead';
+interface Step {
+  label: string;
+  state: StepState;
+  date: string;
+  interval?: string;
+  warn?: boolean;
+}
+
+const days = (n: number) => `${n} ${n === 1 ? 'day' : 'days'}`;
+/** "Jan 21 to Jun 8, 2020" within a year; both years spelled out across one. */
+const span = (a: string, b: string) =>
+  a.slice(0, 4) === b.slice(0, 4) ? `${formatDate(a).replace(/, \d{4}$/, '')} to ${formatDate(b)}` : `${formatDate(a)} to ${formatDate(b)}`;
+const steps: Step[] = [];
+
+if (permit.rounds.length === 0) {
+  const open = openRequirements(permit).length;
+  const total = permit.requirements.length;
+  steps.push({
+    label: 'Application',
+    state: 'current',
+    date: total ? `${total - open} of ${total} items ready` : 'In preparation',
+  });
+} else {
+  permit.rounds.forEach((r, i) => {
+    const answered = Boolean(r.returned);
+    steps.push({
+      label: `Round ${i + 1}`,
+      state: answered ? 'done' : 'current',
+      date: answered ? span(r.sent, r.returned!) : `Sent ${formatDate(r.sent)}`,
+      interval: answered
+        ? days(daysBetween(r.sent, r.returned!))
+        : `With the agency ${days(daysBetween(r.sent, TODAY))}`,
+    });
+  });
+}
+
+const issued = Boolean(permit.issuedDate);
+steps.push({
+  label: 'Issued',
+  state: issued ? 'done' : 'ahead',
+  date: issued ? formatDate(permit.issuedDate) : permit.estimatedIssueDate ? `Expected ${formatMonth(permit.estimatedIssueDate)}` : 'Not yet',
+});
+
+if (permit.expiresDate) {
+  const left = daysBetween(TODAY, permit.expiresDate);
+  steps.push({
+    label: 'Expires',
+    state: left < 0 ? 'done' : 'ahead',
+    date: formatDate(permit.expiresDate),
+    interval: left >= 0 && left <= 90 ? `In ${days(left)}` : undefined,
+    warn: left >= 0 && left <= 90,
+  });
+} else if (issued) {
+  steps.push({ label: 'Expires', state: 'ahead', date: 'No expiration' });
+}
+---
+
+<div class="bcn-permit-track">
+<ol class="bcn-permit-track__list" aria-label="Review history">
+  {steps.map((s) => (
+    <li class="bcn-permit-track__step" data-state={s.state}>
+      <span class="bcn-permit-track__node" aria-hidden="true"></span>
+      <span class="bcn-permit-track__label typography-label-md-strong">{s.label}</span>
+      <span class="bcn-permit-track__date typography-body-sm">{s.date}</span>
+      {s.interval && <span class="bcn-permit-track__detail typography-body-sm" data-warn={s.warn ? '' : undefined}>{s.interval}</span>}
+    </li>
+  ))}
+</ol>
+</div>
+
+<style>
+  .bcn-permit-track {
+    container-type: inline-size;
+  }
+  .bcn-permit-track__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-permit-track__step {
+    --_node: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    padding-top: calc(var(--_node) + var(--spacing-300));
+    padding-right: var(--spacing-400);
+    min-width: 0;
+  }
+  /* The connector runs from this node to the next one. */
+  .bcn-permit-track__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--_node) / 2 - 1px);
+    left: var(--_node);
+    right: 0;
+    height: 2px;
+    background: var(--color-border-default);
+  }
+  .bcn-permit-track__step[data-state='done']:not(:last-child)::after {
+    background: var(--color-background-brand);
+  }
+  .bcn-permit-track__node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: var(--_node);
+    height: var(--_node);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+  }
+  [data-state='done'] > .bcn-permit-track__node {
+    border-color: var(--color-background-brand);
+    background: var(--color-background-brand);
+  }
+  [data-state='current'] > .bcn-permit-track__node {
+    border-color: var(--color-background-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background-brand) 18%, transparent);
+  }
+  .bcn-permit-track__label {
+    color: var(--color-content-default);
+  }
+  [data-state='ahead'] > .bcn-permit-track__label {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-permit-track__date {
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-permit-track__detail {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-permit-track__detail[data-warn] {
+    color: var(--color-content-utility-warning);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+
+  /* Narrow: a vertical list, the connector dropping down the node column. */
+  @container (max-width: 560px) {
+    .bcn-permit-track__list {
+      grid-auto-flow: row;
+    }
+    .bcn-permit-track__step {
+      padding: 0 0 var(--spacing-400) calc(var(--_node) + var(--spacing-300));
+    }
+    .bcn-permit-track__step:not(:last-child)::after {
+      top: var(--_node);
+      bottom: 0;
+      left: calc(var(--_node) / 2 - 1px);
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+  }
+</style>

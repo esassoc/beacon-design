@@ -1017,4 +1017,22 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
     ],
   },
+  {
+    slug: 'internal-permit-tracking',
+    tenant: 'platform',
+    title: 'Permits',
+    description:
+      'A standalone permit tracker in the Beacon family for the staff who run permitting on a project: every permit, its agency review rounds, issuance and expiration, the submittal checklist and the dependency chain.',
+    pages: [
+      {
+        slug: 'internal-permit-tracking-project',
+        title: 'Project Permits',
+        description:
+          'One project\u2019s permits grouped by level, agency or status, with the record opening over the register: the review history, submittal checklist and dependencies, with status and assignee editable in the rail.',
+        route: '/prototypes/internal-permit-tracking/north-creek-commons',
+        createdAt: '2026-10-23',
+        status: 'in-progress',
+      },
+    ],
+  },
 ];

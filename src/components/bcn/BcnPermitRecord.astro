@@ -1,0 +1,272 @@
+---
+// <BcnPermitRecord> — a permit's record, opened over the register in an XL Jira-layout
+// dialog (the Actions implementation dialog's frame, Andy-praised 2026-10-07). Header:
+// the agency above the permit name, status beside it, prev / next through the register
+// and close. Main column: the review history track, the submittal checklist, then the
+// dependency chain both ways. Rail: Status and Assignee (editable), then the small facts.
+// Footer: Save, Cancel.
+//
+// Every permit of the project is rendered here once, hidden; ./permit-record.ts shows
+// the open one. A project carries a dozen or two permits, so pre-rendering keeps every
+// part a real component (the track, the checklist, the facts) instead of DOM built in
+// script.
+//
+// bcn-lego-checked: the shell IS esa-dialog, the rail section IS esa-collapsible, the
+// checklist IS esa-checkbox, Assignee IS esa-select, every action IS esa-button. Spoke
+// parts carry the rest: BcnStatusSelect (status with its live dot), BcnStatusChip,
+// BcnKeyValue, BcnPermitTrack. Checked Beacon: this is the action-implementation upsert
+// dialog's layout. The permit links in the dependency rows are link-styled buttons
+// because they swap the record in place; esa-button's chrome is too heavy inline. The
+// CSS is the dialog's geometry and those rows.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import BcnStatusSelect from './BcnStatusSelect.astro';
+import BcnPermitTrack from './BcnPermitTrack.astro';
+import {
+  PEOPLE,
+  STATUS_META,
+  STATUS_ORDER,
+  blockedBy,
+  formatDate,
+  jurisdictionOf,
+  levelOf,
+  permitById,
+  type Permit,
+} from '../../data/internal-permits';
+
+interface Props {
+  permits: Permit[];
+}
+const { permits } = Astro.props;
+
+const statusOptions = STATUS_ORDER.map((s) => ({ value: s, label: STATUS_META[s].label, color: STATUS_META[s].tone }));
+const assignees = JSON.stringify(PEOPLE.map((p) => ({ value: p.id, label: p.name })));
+
+const conditionsText = (p: Permit) =>
+  p.conditions === null ? 'Known at issuance' : p.conditions ? `Yes, ${p.conditionsCount ?? ''} conditions`.replace(' ,', ',') : 'No';
+const needsText = (needs: 'submitted' | 'issued') => (needs === 'issued' ? 'Must be issued first' : 'Must be submitted first');
+---
+
+<div class="bcn-pr" data-pr data-assignees={assignees}>
+  <esa-dialog class="bcn-pr__dialog" size="lg" show-close-button="false">
+    <div slot="header" class="bcn-pr__head">
+      <div class="bcn-pr__head-text">
+        {permits.map((p) => (
+          <div class="bcn-pr__ident" data-pr-head={p.id} hidden>
+            <p class="bcn-pr__scope typography-label-md-strong">{jurisdictionOf(p)?.name}</p>
+            <h2 class="bcn-pr__title">
+              <span class="typography-heading-md">{p.name}</span>
+              <span data-pr-chip>
+                <BcnStatusChip status={p.status} label={STATUS_META[p.status].label} hex={STATUS_META[p.status].tone} />
+              </span>
+            </h2>
+          </div>
+        ))}
+      </div>
+      <div class="cluster bcn-pr__head-actions" data-gap="2xs">
+        <EsaButton variant="chrome" iconOnly icon="chevron-left" label="Previous permit" size="sm" data-pr-prev />
+        <EsaButton variant="chrome" iconOnly icon="chevron-right" label="Next permit" size="sm" data-pr-next />
+        <EsaButton variant="chrome" iconOnly icon="x" label="Close" size="sm" data-pr-close />
+      </div>
+    </div>
+
+    {permits.map((p) => {
+      const deps = p.dependsOn.map((d) => ({ dep: d, permit: permitById(d.permitId) })).filter((d) => d.permit);
+      const holds = blockedBy(p);
+      const done = p.requirements.filter((r) => r.done).length;
+      return (
+        <div class="bcn-pr__stage" data-pr-body={p.id} hidden>
+          <div class="bcn-pr__main">
+            {p.status !== 'not-required' && (
+              <section class="bcn-pr__section">
+                <h3 class="bcn-pr__section-head typography-label-md-strong">Review History</h3>
+                <BcnPermitTrack permit={p} />
+              </section>
+            )}
+
+            {p.requirements.length > 0 && (
+              <section class="bcn-pr__section">
+                <h3 class="bcn-pr__section-head typography-label-md-strong">
+                  Submittal Requirements
+                  <span class="bcn-pr__count typography-body-sm" data-pr-req-count>{done} of {p.requirements.length}</span>
+                </h3>
+                <ul class="bcn-pr__rows">
+                  {p.requirements.map((r) => (
+                    <li class="bcn-pr__row">
+                      <esa-checkbox label={r.label} checked={r.done} data-pr-req={r.id}></esa-checkbox>
+                      {r.permitId ? (
+                        <button type="button" class="bcn-pr__link typography-body-sm" data-pr-open={r.permitId}>{permitById(r.permitId)?.name}</button>
+                      ) : r.doneDate ? (
+                        <span class="bcn-pr__meta typography-body-sm">{formatDate(r.doneDate)}</span>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {deps.length > 0 && (
+              <section class="bcn-pr__section">
+                <h3 class="bcn-pr__section-head typography-label-md-strong">Depends On</h3>
+                <ul class="bcn-pr__rows">
+                  {deps.map(({ dep, permit }) => (
+                    <li class="bcn-pr__row">
+                      <button type="button" class="bcn-pr__link typography-label-md" data-pr-open={permit!.id}>{permit!.name}</button>
+                      <span class="bcn-pr__meta typography-body-sm">{needsText(dep.needs)}</span>
+                      <BcnStatusChip status={permit!.status} label={STATUS_META[permit!.status].label} hex={STATUS_META[permit!.status].tone} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {holds.length > 0 && (
+              <section class="bcn-pr__section">
+                <h3 class="bcn-pr__section-head typography-label-md-strong">Needed For</h3>
+                <ul class="bcn-pr__rows">
+                  {holds.map((o) => (
+                    <li class="bcn-pr__row">
+                      <button type="button" class="bcn-pr__link typography-label-md" data-pr-open={o.id}>{o.name}</button>
+                      <span class="bcn-pr__meta typography-body-sm"></span>
+                      <BcnStatusChip status={o.status} label={STATUS_META[o.status].label} hex={STATUS_META[o.status].tone} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
+
+          <aside class="bcn-pr__side">
+            <EsaCollapsible title="Details" icon="info" open>
+              <div class="stack" data-gap="md">
+                <div data-pr-status><BcnStatusSelect label="Status" value={p.status} options={statusOptions} /></div>
+                <esa-select label="Assignee" size="md" data-pr-assignee data-value={p.assigneeId}></esa-select>
+                <BcnKeyValue label="Level" value={levelOf(p)} />
+                {p.referenceNumber && <BcnKeyValue label="Reference Number" value={p.referenceNumber} />}
+                {p.agencyContact && <BcnKeyValue label="Agency Contact" value={p.agencyContact} />}
+                <BcnKeyValue label="Trigger" value={p.trigger} />
+                <BcnKeyValue label="Conditions" value={conditionsText(p)} />
+              </div>
+            </EsaCollapsible>
+          </aside>
+        </div>
+      );
+    })}
+
+    <div slot="footer" class="cluster bcn-pr__foot" data-gap="xs">
+      <EsaButton variant="primary" icon="save" data-pr-save>Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pr-cancel>Cancel</EsaButton>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-select';
+  import { setupPermitRecord } from './permit-record';
+
+  const root = document.querySelector<HTMLElement>('[data-pr]');
+  if (root) setupPermitRecord(root);
+</script>
+
+<style>
+  /* A large, stable work surface: wide, a fixed footprint that never resizes from one
+     permit to the next. */
+  .bcn-pr__dialog {
+    --dialog-width-lg: min(1600px, 94vw);
+    --_dialog-max-height: 86vh;
+    --_dialog-padding: 0;
+    --_dialog-bg: var(--color-background-elevation-raised, #fcfcfc);
+    --_pr-stage: max(360px, calc(86vh - 10.5rem));
+  }
+  .bcn-pr :global([hidden]) { display: none !important; }
+
+  .bcn-pr__head {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    min-width: 0;
+    padding: var(--spacing-500) var(--spacing-500) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pr__head-text { flex: 1; min-width: 0; }
+  .bcn-pr__ident { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-pr__scope { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-pr__title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-pr__head-actions { flex: none; }
+
+  .bcn-pr__stage {
+    height: var(--_pr-stage);
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+  .bcn-pr__main,
+  .bcn-pr__side {
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-500);
+  }
+  .bcn-pr__main { gap: var(--spacing-700); }
+
+  .bcn-pr__section { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-pr__section-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-300);
+    margin: 0;
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default);
+  }
+  .bcn-pr__count { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+
+  .bcn-pr__rows { margin: 0; padding: 0; list-style: none; }
+  .bcn-pr__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--spacing-400);
+    min-height: 36px;
+  }
+  .bcn-pr__row + .bcn-pr__row { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-pr__meta { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .bcn-pr__link {
+    justify-self: start;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-link);
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-pr__link:hover { color: var(--color-content-link-hover); text-decoration: underline; }
+
+  .bcn-pr__foot {
+    --justify: flex-end;
+    width: 100%;
+    padding: 0 var(--spacing-500);
+  }
+
+  @media (max-width: 960px) {
+    .bcn-pr__stage { grid-template-columns: 1fr; overflow-y: auto; }
+    .bcn-pr__main, .bcn-pr__side { overflow: visible; min-height: auto; }
+    .bcn-pr__row { grid-template-columns: minmax(0, 1fr) auto; }
+    .bcn-pr__row > .bcn-pr__meta:empty { display: none; }
+  }
+</style>

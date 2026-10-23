@@ -1,0 +1,82 @@
+---
+// Permits: one project's permits, in the standalone Permits app (a satellite in the
+// Beacon family: Beacon's top bar and rail, carrying the app's own destinations rather
+// than Beacon's compliance nav). The register groups by level, agency or status; a
+// permit's name opens its record over the page. The site picker beside the H1 scopes
+// the register for a project with more than one site.
+//
+// Data: src/data/internal-permits.ts (invented projects, real Washington agencies) →
+// src/lib/permit-register.ts (client store: site, grouping, search, edits).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnComponentPicker from '../../../components/bcn/BcnComponentPicker.astro';
+import BcnPermitRegister from '../../../components/bcn/BcnPermitRegister.astro';
+import BcnPermitRecord from '../../../components/bcn/BcnPermitRecord.astro';
+import { PROJECTS, permitsForProject, type Project } from '../../../data/internal-permits';
+import { ALL_SITES, siteStorageKey } from '../../../lib/permit-register';
+
+export function getStaticPaths() {
+  return PROJECTS.filter((p) => p.detailed).map((project) => ({ params: { project: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const permits = permitsForProject(project.id);
+
+// Lucide glyphs for the app's rail and title.
+const GLYPH = {
+  stamp:
+    '<path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.69 0-3 1-3 3s1 2 1 3.5V13"/>',
+  library: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>',
+  timer: '<line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/>',
+};
+
+const NAV = [
+  { id: 'permits', title: 'Permits', icon: 'stamp', iconPaths: GLYPH.stamp, link: true, dividerAfter: true },
+  { id: 'catalog', title: 'Permit Catalog', icon: 'library', iconPaths: GLYPH.library, link: true },
+  { id: 'turnaround', title: 'Turnaround', icon: 'timer', iconPaths: GLYPH.timer, link: true },
+];
+
+const island = JSON.stringify({ projectId: project.id, permits });
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(lg)              # SPINE
+  sections:
+    - title badge -> bcn-component-picker                # the site picker beside the H1; scopes the register
+    - register    -> bcn-permit-register                 # Group By + search, grouped AG Grid, CSV + count
+    - record      -> bcn-permit-record                   # XL Jira dialog: review track, checklist, dependencies
+-->
+
+<AppShell
+  title="Permits"
+  tenantName="ESA"
+  projectName={project.name}
+  navSections={NAV}
+  activeNavId="permits"
+  showQaBadge={false}
+>
+  <PageLayout
+    title="Permits"
+    icon="stamp"
+    iconPaths={GLYPH.stamp}
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: project.name, href: '#project' }, { label: 'Permits' }]}
+  >
+    {project.sites.length > 1 && (
+      <span slot="title-badge">
+        <BcnComponentPicker components={[ALL_SITES, ...project.sites]} storageKey={siteStorageKey(project.id)} />
+      </span>
+    )}
+
+    <script type="application/json" id="permits-data" set:html={island} />
+
+    <div class="stack" data-gap="lg">
+      <BcnPermitRegister total={permits.length} csvName={`${project.id}-permits.csv`} />
+    </div>
+
+    <BcnPermitRecord permits={permits} />
+  </PageLayout>
+</AppShell>

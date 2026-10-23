@@ -1,0 +1,418 @@
+---
+// <BcnPermitRegister> — one project's permits as Colleen keeps them: grouped by level
+// (Federal / State / Local), by agency, or by status, one row per permit with the dates
+// she named (submitted, issued, expires) and the number of agency review rounds. The
+// permit name opens its record over the page; the rest of the row is read-only.
+//
+// Dates read to the month here (the index points; the record carries the day), which
+// keeps eight columns inside a 1440 page with the permit name whole.
+//
+// ONE card, so the controls sit with the data: Group By and search share the card's own
+// toolbar, and the house footer (CSV, record count) closes it. Group rows are AG Grid
+// full-width rows; the grid's column for the current grouping steps aside (grouped by
+// agency, every row in a group would repeat its header). Open work leads each group,
+// issued permits follow.
+//
+// Rows come from src/lib/permit-register.ts, which applies the site picker and search.
+//
+// Lookup: no esa-* data-grid lego exists; checked Beacon, whose permit and
+// tracking grids are AG Grid, which this spoke ships as the shared beaconTheme kit. The
+// shell is esa-card, Group By is esa-button-toggle, search is esa-text-field with an
+// esa-button clear, the footer is bcn-grid-footer, the status cell is bcn-status-chip
+// cloned from a template. The permit cell is a link-styled button because it opens the
+// record in place. Its CSS is grid-host geometry, the toolbar row, and the cell looks AG
+// Grid injects outside Astro's scope (name, review rounds, expiring date, group row).
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+
+interface Props {
+  total: number;
+  csvName?: string;
+}
+const { total, csvName = 'permits.csv' } = Astro.props;
+
+const groupOptions = [
+  { value: 'level', label: 'Level' },
+  { value: 'agency', label: 'Agency' },
+  { value: 'status', label: 'Status' },
+];
+---
+
+<section class="bcn-preg" data-preg data-preg-csv={csvName} aria-label="Permits">
+  <EsaCard padding="compact">
+    <div class="bcn-preg__bar">
+      <div class="cluster" data-gap="sm">
+        <span class="bcn-preg__label typography-label-md">Group By</span>
+        <esa-button-toggle data-preg-group size="sm" aria-label="Group by" data-options={JSON.stringify(groupOptions)}></esa-button-toggle>
+      </div>
+      <div class="cluster bcn-preg__search" data-gap="2xs">
+        <esa-text-field data-preg-search size="sm" placeholder="Search permits, agencies, people" aria-label="Search permits"></esa-text-field>
+        <span data-preg-search-clear hidden><EsaButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
+      </div>
+    </div>
+
+    <div class="bcn-preg__host" data-preg-host></div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="preg" total={total} />
+    </Fragment>
+  </EsaCard>
+
+  <template data-preg-chip><BcnStatusChip status="" label="" hex="currentColor" /></template>
+</section>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import { createGrid, ModuleRegistry, AllCommunityModule, type ColDef, type GridApi, type ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme } from '../../lib/beacon-grid';
+  import {
+    LEVEL_ORDER,
+    STATUS_META,
+    STATUS_ORDER,
+    TODAY,
+    daysBetween,
+    formatMonth,
+    jurisdictionOf,
+    levelOf,
+    personName,
+    submittedDate,
+    type Permit,
+  } from '../../data/internal-permits';
+  import {
+    GROUP_BYS,
+    initRegister,
+    openPermit,
+    setGroupBy,
+    setOrder,
+    setQuery,
+    sitePermits,
+    state,
+    subscribe,
+    visiblePermits,
+    type GroupBy,
+  } from '../../lib/permit-register';
+
+  interface GroupRow {
+    kind: 'group';
+    id: string;
+    label: string;
+    count: number;
+  }
+  interface PermitRow {
+    kind: 'permit';
+    id: string;
+    permit: Permit;
+    name: string;
+    agency: string;
+    status: string;
+    rounds: number;
+    assignee: string;
+    submitted: string;
+    issued: string;
+    expires: string;
+  }
+  type Row = GroupRow | PermitRow;
+
+  const lookup = (p: Permit) => [p.name, jurisdictionOf(p)?.name, jurisdictionOf(p)?.short, personName(p.assigneeId), p.referenceNumber].join(' ');
+  const statusRank = (p: Permit) => (p.status === 'not-required' ? 99 : (STATUS_META[p.status].ordinal ?? 0));
+
+  function groupKey(p: Permit, by: GroupBy): { key: string; rank: number } {
+    if (by === 'level') return { key: levelOf(p), rank: LEVEL_ORDER.indexOf(levelOf(p)) };
+    if (by === 'status') return { key: STATUS_META[p.status].label, rank: STATUS_ORDER.indexOf(p.status) };
+    const j = jurisdictionOf(p);
+    return { key: j?.name ?? '', rank: LEVEL_ORDER.indexOf(levelOf(p)) * 100 };
+  }
+
+  function buildRows(permits: Permit[], by: GroupBy): Row[] {
+    const groups = new Map<string, { rank: number; items: Permit[] }>();
+    for (const p of permits) {
+      const { key, rank } = groupKey(p, by);
+      if (!groups.has(key)) groups.set(key, { rank, items: [] });
+      groups.get(key)!.items.push(p);
+    }
+    const rows: Row[] = [];
+    [...groups.entries()]
+      .sort((a, b) => a[1].rank - b[1].rank || a[0].localeCompare(b[0]))
+      .forEach(([label, g]) => {
+        rows.push({ kind: 'group', id: `g-${label}`, label, count: g.items.length });
+        g.items
+          .sort((a, b) => statusRank(a) - statusRank(b) || a.name.localeCompare(b.name))
+          .forEach((p) =>
+            rows.push({
+              kind: 'permit',
+              id: p.id,
+              permit: p,
+              name: p.name,
+              agency: jurisdictionOf(p)?.short ?? '',
+              status: STATUS_META[p.status].label,
+              rounds: p.rounds.length,
+              assignee: personName(p.assigneeId),
+              submitted: formatMonth(submittedDate(p)),
+              issued: formatMonth(p.issuedDate),
+              expires: formatMonth(p.expiresDate),
+            }),
+          );
+      });
+    return rows;
+  }
+
+  // The kit's theme with its cell padding taken in a step, so the eight columns sit
+  // inside a 1440 page without a horizontal scroll.
+  const registerTheme = beaconTheme.withParams({ cellHorizontalPaddingScale: 0.75 });
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-preg]')) {
+    initRegister();
+    ModuleRegistry.registerModules([AllCommunityModule]);
+    const host = mount.querySelector<HTMLElement>('[data-preg-host]')!;
+    const chipTpl = mount.querySelector<HTMLTemplateElement>('[data-preg-chip]');
+    const totalEl = mount.querySelector<HTMLElement>('[data-preg-total]');
+    const filteredEl = mount.querySelector<HTMLElement>('[data-preg-filtered]');
+
+    /* ── Cells ─────────────────────────────────────────────────────────── */
+
+    function nameRenderer(p: ICellRendererParams<PermitRow>) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bcn-preg__name';
+      btn.textContent = String(p.value ?? '');
+      btn.addEventListener('click', () => p.data && openPermit(p.data.id));
+      return btn;
+    }
+
+    function statusRenderer(p: ICellRendererParams<PermitRow>) {
+      const chip = chipTpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+      if (!chip || !p.data) return '';
+      const s = p.data.permit.status;
+      chip.dataset.status = s;
+      chip.style.setProperty('--_chip', STATUS_META[s].tone);
+      chip.querySelector('.bcn-status-chip__label')!.textContent = STATUS_META[s].label;
+      return chip;
+    }
+
+    // One pip per agency review round: answered rounds filled, the open one a ring.
+    function roundsRenderer(p: ICellRendererParams<PermitRow>) {
+      const permit = p.data?.permit;
+      if (!permit || !permit.rounds.length) return '';
+      const wrap = document.createElement('span');
+      wrap.className = 'bcn-preg__rounds';
+      const open = permit.rounds.filter((r) => !r.returned).length;
+      wrap.setAttribute('aria-label', `${permit.rounds.length} review ${permit.rounds.length === 1 ? 'round' : 'rounds'}${open ? ', one open' : ''}`);
+      for (const r of permit.rounds) {
+        const pip = document.createElement('span');
+        pip.className = 'bcn-preg__pip';
+        if (!r.returned) pip.dataset.open = '';
+        wrap.append(pip);
+      }
+      return wrap;
+    }
+
+    const expiresClass = (p: { data?: Row }) => {
+      const d = p.data?.kind === 'permit' ? p.data.permit.expiresDate : undefined;
+      if (!d) return 'bcn-preg__quiet';
+      const left = daysBetween(TODAY, d);
+      return left >= 0 && left <= 90 ? 'bcn-preg__soon' : '';
+    };
+    const quietDash = (p: { value?: unknown }) => (p.value === '—' ? 'bcn-preg__quiet' : '');
+
+    function groupRenderer(p: ICellRendererParams<GroupRow>) {
+      const el = document.createElement('div');
+      el.className = 'bcn-preg__group';
+      const label = document.createElement('span');
+      label.className = 'bcn-preg__group-label';
+      label.textContent = p.data?.label ?? '';
+      const count = document.createElement('span');
+      count.className = 'bcn-preg__group-count';
+      count.textContent = String(p.data?.count ?? '');
+      el.append(label, count);
+      return el;
+    }
+
+    const columnDefs: ColDef<Row>[] = [
+      { colId: 'name', field: 'name' as never, headerName: 'Permit', flex: 1, minWidth: 220, cellRenderer: nameRenderer, tooltipField: 'name' as never },
+      { colId: 'agency', field: 'agency' as never, headerName: 'Agency', width: 140, tooltipField: 'agency' as never },
+      { colId: 'status', field: 'status' as never, headerName: 'Status', width: 186, cellRenderer: statusRenderer, cellClass: 'bcn-preg__chip-cell' },
+      { colId: 'rounds', field: 'rounds' as never, headerName: 'Reviews', width: 84, cellRenderer: roundsRenderer, cellClass: 'bcn-preg__chip-cell' },
+      { colId: 'assignee', field: 'assignee' as never, headerName: 'Assignee', width: 120 },
+      { colId: 'submitted', field: 'submitted' as never, headerName: 'Submitted', width: 96, cellClass: quietDash },
+      { colId: 'issued', field: 'issued' as never, headerName: 'Issued', width: 88, cellClass: quietDash },
+      { colId: 'expires', field: 'expires' as never, headerName: 'Expires', width: 88, cellClass: expiresClass },
+    ];
+
+    let api: GridApi<Row> | null = null;
+
+    function render(): void {
+      const permits = visiblePermits(lookup);
+      const rows = buildRows(permits, state.groupBy);
+      setOrder(rows.filter((r) => r.kind === 'permit').map((r) => r.id));
+      const total = sitePermits().length;
+      if (totalEl) totalEl.textContent = String(total);
+      if (filteredEl) {
+        filteredEl.hidden = permits.length === total;
+        filteredEl.textContent = `Filtered Records: ${permits.length}`;
+      }
+      if (!api) {
+        api = createGrid(host, {
+          theme: registerTheme,
+          columnDefs,
+          rowData: rows,
+          getRowId: (p) => p.data.id,
+          defaultColDef: { sortable: false, resizable: true, suppressMovable: true },
+          isFullWidthRow: (p) => p.rowNode.data?.kind === 'group',
+          fullWidthCellRenderer: groupRenderer,
+          getRowHeight: (p) => (p.data?.kind === 'group' ? 36 : 44),
+          getRowClass: (p) => (p.data?.kind === 'group' ? 'bcn-preg__group-row' : undefined),
+          suppressCellFocus: true,
+        });
+      } else {
+        api.setGridOption('rowData', rows);
+      }
+      api.setColumnsVisible(['agency'], state.groupBy !== 'agency');
+      api.setColumnsVisible(['status'], state.groupBy !== 'status');
+    }
+
+    // Group By
+    type ToggleEl = HTMLElement & { options: { value: string; label: string }[]; value: string };
+    const groupEl = mount.querySelector<ToggleEl>('[data-preg-group]')!;
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      groupEl.options = JSON.parse(groupEl.dataset.options || '[]');
+      groupEl.value = state.groupBy;
+    });
+    groupEl.addEventListener('change', (e) => {
+      const v = (e as CustomEvent).detail?.value as GroupBy;
+      if (GROUP_BYS.includes(v)) setGroupBy(v);
+    });
+
+    // Search
+    const search = mount.querySelector<HTMLElement & { value: string }>('[data-preg-search]')!;
+    const clear = mount.querySelector<HTMLElement>('[data-preg-search-clear]')!;
+    search.addEventListener('change', (e) => {
+      const v = String((e as CustomEvent).detail?.value ?? search.value ?? '');
+      clear.hidden = !v;
+      setQuery(v);
+    });
+    clear.addEventListener('click', () => {
+      search.value = '';
+      clear.hidden = true;
+      setQuery('');
+    });
+
+    // CSV: permit rows only, the group rows are layout.
+    mount.querySelector('[data-preg-download]')?.addEventListener('click', () =>
+      api?.exportDataAsCsv({
+        fileName: mount.dataset.pregCsv || 'permits.csv',
+        shouldRowBeSkipped: (p) => p.node.data?.kind === 'group',
+        columnKeys: ['name', 'agency', 'status', 'rounds', 'assignee', 'submitted', 'issued', 'expires'],
+      }),
+    );
+
+    subscribe((_s, reason) => {
+      if (reason !== 'open') render();
+    });
+    render();
+  }
+</script>
+
+<style>
+  .bcn-preg__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding-bottom: var(--spacing-300);
+  }
+  .bcn-preg__label {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-preg__search {
+    flex: 0 1 22rem;
+    flex-wrap: nowrap;
+  }
+  .bcn-preg__search > esa-text-field {
+    flex: 1;
+  }
+
+  /* A stable footprint: the frame holds its height whatever the grouping or search. */
+  .bcn-preg__host {
+    inline-size: 100%;
+    block-size: calc(100vh - 420px);
+    min-block-size: 360px;
+  }
+
+  .bcn-preg :global(.bcn-preg__name) {
+    all: unset;
+    cursor: pointer;
+    color: var(--color-content-link);
+    font-weight: var(--typography-font-weight-medium);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-inline-size: 100%;
+  }
+  .bcn-preg :global(.bcn-preg__name:hover) {
+    color: var(--color-content-link-hover);
+    text-decoration: underline;
+  }
+  .bcn-preg :global(.bcn-preg__name:focus-visible) {
+    outline: 2px solid var(--focus-ring-color, currentColor);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .bcn-preg :global(.ag-cell.bcn-preg__chip-cell) {
+    display: flex;
+    align-items: center;
+  }
+  .bcn-preg :global(.bcn-status-chip) {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .bcn-preg :global(.bcn-preg__rounds) {
+    display: inline-flex;
+    gap: var(--spacing-100);
+  }
+  .bcn-preg :global(.bcn-preg__pip) {
+    box-sizing: border-box;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-content-default-secondary);
+  }
+  .bcn-preg :global(.bcn-preg__pip[data-open]) {
+    background: transparent;
+    border: 2px solid var(--color-background-brand);
+  }
+
+  .bcn-preg :global(.bcn-preg__quiet) {
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-preg :global(.bcn-preg__soon) {
+    color: var(--color-content-utility-warning);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+
+  .bcn-preg :global(.bcn-preg__group-row) {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-preg :global(.bcn-preg__group) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    block-size: 100%;
+    padding-inline: var(--spacing-400);
+  }
+  .bcn-preg :global(.bcn-preg__group-label) {
+    font-size: 0.8125rem;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-preg :global(.bcn-preg__group-count) {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
