@@ -1,0 +1,21 @@
+---
+// Permits app — the jurisdiction permit catalog: each jurisdiction's permits under
+// their local names, with submittal requirements and where they come from. A permit
+// added to a project starts from its entry here.
+import PermitsShell from '../../../layouts/PermitsShell.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import BcnPermitCatalog from '../../../components/bcn/BcnPermitCatalog.astro';
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - page header -> esa-page-header
+    - catalog     -> bcn-permit-catalog      # jurisdictions › entries, requirements, turnaround, used on
+-->
+<PermitsShell title="Permit Catalog" active="catalog">
+  <div class="stack" data-gap="lg">
+    <EsaPageHeader title="Permit Catalog" />
+    <BcnPermitCatalog />
+  </div>
+</PermitsShell>

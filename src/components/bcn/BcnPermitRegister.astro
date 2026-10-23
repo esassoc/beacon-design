@@ -1,0 +1,176 @@
+---
+// <BcnPermitRegister> — a project's permit register: every permit on the project in
+// one AG Grid, grouped (Level by default, Federal → State → Local). The default view
+// of a project page in the Permits app.
+//
+// Composes: esa-card (title "Permits", compact) holding BcnGridChrome in its actions,
+// a toolbar of esa-button-toggle (Group By) + esa-filter-dropdown ×2 (Assignee,
+// Status) in esa-filter-container, the grid host, and BcnGridFooter in its footer.
+// The grid itself is the spoke's shared beacon-grid kit, mounted by
+// setupPermitRegister() in ./permit-register.ts (mountBeaconGrid + full-width group
+// header rows + postSortRows, since AG Grid Community has no row grouping).
+//
+// Rows come from the client store (initFromIsland() reads the page's #permits-data
+// island), not from props, so a saved edit or a permit added from the catalog shows
+// up; the register repaints on `bcn-permit-updated` / `bcn-permit-added`. A row click
+// or Enter on a focused row calls openPermit(id) → `bcn-permit-open`.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists (the nearest are esa-card, a box,
+// and esa-link-column, a card of links); checked Beacon — its permit list is an AG
+// Grid, which this spoke ships as the ported beacon-grid kit. Every control here is a
+// lego (esa-card, esa-button-toggle, esa-filter-dropdown, esa-filter-container, and
+// BcnGridChrome / BcnGridFooter for search, Clear Filters, CSV and counts). The CSS
+// below is grid-host geometry plus the cell looks AG Grid injects outside Astro's
+// scope (name/reference pair, quiet expiry chip, group header) — :global, the same
+// convention permitting-details.astro and BcnComponentGrid document.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaFilterContainer from '@esa/ecology/esa-filter-container.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import { permitsForProject, type Project } from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+// SSR'd starting total for the footer; the controller re-reads it from the store
+// (browser-added permits included) once the grid mounts.
+const total = permitsForProject(project.id).length;
+---
+
+<section
+  class="bcn-permit-register"
+  data-permit-register
+  data-project-id={project.id}
+  data-csv-name={`${project.id}-permits.csv`}
+  aria-label="Permits"
+>
+  <EsaCard title="Permits" padding="compact">
+    <Fragment slot="actions">
+      <BcnGridChrome prefix="pr" searchPlaceholder="Search permits, numbers, agencies…" />
+    </Fragment>
+
+    <div class="stack" data-gap="sm">
+      <div class="repel bcn-permit-register__toolbar" data-gap="sm" data-align="end">
+        <esa-button-toggle data-pr-group-by label="Group By" value="level" size="sm"></esa-button-toggle>
+        <EsaFilterContainer>
+          <esa-filter-dropdown data-pr-filter-assignee label="Assignee" multiple size="md"></esa-filter-dropdown>
+          <esa-filter-dropdown data-pr-filter-status label="Status" multiple size="md"></esa-filter-dropdown>
+        </EsaFilterContainer>
+      </div>
+      <div class="bcn-permit-register__host" data-pr-host></div>
+    </div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="pr" total={total} downloadLabel="Download as CSV" />
+    </Fragment>
+  </EsaCard>
+</section>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-filter-dropdown';
+  import { setupPermitRegister } from './permit-register';
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-permit-register]')) {
+    setupPermitRegister(mount);
+  }
+</script>
+
+<style>
+  /* Stable height: the grid fills the card and scrolls inside it, at every width
+     (at 390px the columns scroll sideways within the card, never the page). */
+  .bcn-permit-register__host {
+    inline-size: 100%;
+    block-size: calc(100vh - 360px);
+    min-block-size: 26rem;
+  }
+
+  /* ── Cells (AG Grid renders them outside Astro's scope) ──
+     Sizes are the grid's own literal px scale (14px data / 13px meta, set in the
+     theme params) — the fluid --font-size-* steps and the meta composite (12px) would
+     drift from the grid text beside them and drop meta under the 13px floor. */
+  /* Every cell: content centred vertically at its natural line-height, wrapping
+     rather than truncating. The theme sets line-height to the row height, which is
+     what turned the status chip into a tall blob and would make autoHeight measure
+     one wrapped line as a whole row. The padding gives wrapped rows breathing room. */
+  :global(.ag-cell.bcn-permit-register__cell) {
+    display: flex;
+    align-items: center;
+    line-height: 1.3;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    padding-block: var(--spacing-200);
+  }
+  :global(.bcn-permit-register__chip-cell) {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.3;
+  }
+  :global(.bcn-permit-register__permit),
+  :global(.bcn-permit-register__review),
+  :global(.bcn-permit-register__expires) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2px;
+    min-inline-size: 0;
+  }
+  :global(.bcn-permit-register__name) {
+    font-weight: var(--typography-font-weight-medium, 500);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-register__ref) {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  /* The quiet 4px warning chip — esa-badge's warning variant, hand-built because the
+     cell is JS-rendered and the .astro lego only exists at build time. */
+  :global(.bcn-permit-register__expiry-chip) {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--spacing-150);
+    border: 1px solid var(--color-border-utility-warning, #f3d673);
+    border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+    background: var(--color-background-utility-warning-muted, #fff7c2);
+    color: var(--color-content-utility-warning, #ab6400);
+    font-size: 0.8125rem;
+    font-weight: var(--typography-font-weight-semibold, 600);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* Not Required reads quieter, never faint. */
+  :global(.bcn-permit-register__row--muted) {
+    color: var(--color-content-default-secondary);
+  }
+  :global(.bcn-permit-register__row--muted .bcn-permit-register__name) {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Group header: name + count on the grid's own surface — not a colored band, no
+     zebra, no hover (it is a heading, not a row you open). */
+  :global(.bcn-permit-register__group-row) {
+    --ag-row-hover-color: transparent;
+    background: var(--ag-background-color, var(--color-background-elevation-raised));
+  }
+  :global(.bcn-permit-register__group) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    block-size: 100%;
+    padding-inline: var(--spacing-400);
+  }
+  :global(.bcn-permit-register__group-name) {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-register__group-count) {
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

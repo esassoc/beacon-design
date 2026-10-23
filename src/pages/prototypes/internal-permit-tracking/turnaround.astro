@@ -1,0 +1,20 @@
+---
+// Permits app — turnaround: how long each permit takes in each jurisdiction, derived
+// from every permit ESA has seen issued, across every project.
+import PermitsShell from '../../../layouts/PermitsShell.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import BcnPermitTurnaround from '../../../components/bcn/BcnPermitTurnaround.astro';
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - page header -> esa-page-header
+    - turnaround  -> bcn-permit-turnaround   # per permit × jurisdiction: median, range, rounds, spread
+-->
+<PermitsShell title="Turnaround" active="turnaround">
+  <div class="stack" data-gap="lg">
+    <EsaPageHeader title="Turnaround" />
+    <BcnPermitTurnaround />
+  </div>
+</PermitsShell>

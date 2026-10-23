@@ -1,0 +1,328 @@
+---
+// <BcnPermitCatalog> — the Permits app's jurisdiction permit catalog: the menu of
+// permits each jurisdiction issues, as that jurisdiction names and requires them.
+// Left, the jurisdictions grouped Federal / State / Local; right, the selected
+// jurisdiction's entries, one slim esa-card each: local name (+ abbreviation), the
+// canonical type when the local name differs, where the submittal requirements come
+// from, the requirement list a new permit starts from, validity, turnaround here
+// (derived from every issued permit of this entry), and the projects that use it.
+//
+// Everything is server-rendered from src/data/internal-permits.ts. permit-catalog.ts
+// only switches panes: the URL hash `#<jurisdictionId>` is the selection (load +
+// hashchange), default City of Bothell. Below 40rem the rail gives way to an
+// esa-select jurisdiction picker, so the entries sit at the top of a phone screen
+// instead of under a ten-row list.
+//
+// Composes: the .sidebar / .stack / .cluster / .repel layout primitives, typography
+// composites, esa-card (one per entry, compact), esa-badge (agency level),
+// esa-button (Add Permit Type), esa-select (phone picker), esa-empty-state (guard).
+//
+// bcn-lego-checked: no esa-* lego is a master-detail rail whose rows carry a meta line
+// — esa-sidebar-nav is app navigation (shadow-DOM, property-driven items, uppercase
+// group headings, a single badge slot, no second line), and BcnSettingsNav is bound to
+// the settings registry and to build-time routes rather than in-page hash selection.
+// The entry facts are a bespoke <dl> because BcnKeyValue's row layout locks a 6.5rem key
+// column (wrapping "Turnaround Here" / "Requirements From") with a semibold value tier,
+// and BcnDetailFacts is 16px semibold label-over-value with hairlines — both too loud for
+// five facts inside a slim card. Checked Beacon (prod has no permit catalog). The only
+// CSS is the rail rows, the facts grid and the phone swap; bcn-permit-catalog is the
+// reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import { withBase } from '../../lib/base';
+import {
+  CATALOG,
+  JURISDICTIONS,
+  LEVEL_ORDER,
+  PERMITS,
+  PROJECTS,
+  REQUIREMENT_SOURCE_LABEL,
+  ROUTES,
+  formatMonths,
+  turnaroundFor,
+  type CatalogEntry,
+  type Jurisdiction,
+  type Project,
+} from '../../data/internal-permits';
+
+interface EntryView {
+  entry: CatalogEntry;
+  title: string;
+  /** The canonical type, only when it says something the local name does not. */
+  typeLabel?: string;
+  sourceLabel: string;
+  /** Omitted when it only restates the source label ("… pre-application meeting"). */
+  sourceRef?: string;
+  turnaround?: { median: number; issued: number };
+  usedOn: Project[];
+}
+
+const entriesFor = (j: Jurisdiction): EntryView[] =>
+  CATALOG.filter((c) => c.jurisdictionId === j.id).map((entry) => {
+    const sourceLabel = REQUIREMENT_SOURCE_LABEL[entry.source];
+    const ta = turnaroundFor(entry.id);
+    const projectIds = new Set(PERMITS.filter((p) => p.catalogId === entry.id).map((p) => p.projectId));
+    return {
+      entry,
+      title: entry.abbreviation ? `${entry.localName} (${entry.abbreviation})` : entry.localName,
+      typeLabel: entry.type.toLowerCase() !== entry.localName.toLowerCase() ? entry.type : undefined,
+      sourceLabel,
+      sourceRef: entry.sourceRef.toLowerCase().includes(sourceLabel.toLowerCase()) ? undefined : entry.sourceRef,
+      turnaround: ta && ta.spans.length > 0 ? { median: ta.median, issued: ta.spans.length } : undefined,
+      usedOn: PROJECTS.filter((p) => projectIds.has(p.id)),
+    };
+  });
+
+const groups = LEVEL_ORDER.map((level) => ({
+  level,
+  jurisdictions: JURISDICTIONS.filter((j) => j.level === level).map((j) => ({ j, entries: entriesFor(j) })),
+})).filter((g) => g.jurisdictions.length > 0);
+
+const all = groups.flatMap((g) => g.jurisdictions);
+const defaultId = all.find(({ j }) => j.id === 'bothell')?.j.id ?? all.find(({ j }) => j.level === 'Local')?.j.id ?? all[0]?.j.id;
+
+const pickerOptions = all.map(({ j }) => ({ label: j.name, value: j.id }));
+const countLabel = (n: number): string => `${n} permit ${n === 1 ? 'type' : 'types'}`;
+const turnaroundHref = withBase(ROUTES.turnaround);
+---
+
+<div class="bcn-permit-catalog" data-permit-catalog data-default={defaultId} data-options={JSON.stringify(pickerOptions)}>
+  <div class="bcn-permit-catalog__picker">
+    <esa-select data-permit-catalog-picker label="Jurisdiction" size="md"></esa-select>
+  </div>
+
+  <div class="sidebar bcn-permit-catalog__layout" data-gap="lg">
+    <nav class="stack bcn-permit-catalog__rail" data-gap="md" aria-label="Jurisdictions">
+      {groups.map((g) => (
+        <div class="stack bcn-permit-catalog__group" data-gap="xs">
+          <p class="typography-label-sm bcn-permit-catalog__group-label" id={`bcn-permit-catalog-level-${g.level}`}>
+            {g.level}
+          </p>
+          <ul class="bcn-permit-catalog__rows" role="list" aria-labelledby={`bcn-permit-catalog-level-${g.level}`}>
+            {g.jurisdictions.map(({ j, entries }) => (
+              <li>
+                <a
+                  class="bcn-permit-catalog__row"
+                  href={`#${j.id}`}
+                  data-jurisdiction-row={j.id}
+                  aria-current={j.id === defaultId ? 'true' : undefined}
+                >
+                  <span class="typography-label-sm bcn-permit-catalog__row-name">{j.name}</span>
+                  <span class="typography-body-sm bcn-permit-catalog__row-meta">
+                    {countLabel(entries.length)}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+
+    <div class="bcn-permit-catalog__main">
+      {all.map(({ j, entries }) => (
+        <section
+          class="stack bcn-permit-catalog__pane"
+          data-gap="md"
+          data-jurisdiction-pane={j.id}
+          hidden={j.id !== defaultId}
+          aria-labelledby={`bcn-permit-catalog-${j.id}`}
+        >
+          <header class="repel bcn-permit-catalog__head" data-gap="md">
+            <div class="stack" data-gap="xs">
+              <h2 class="typography-title-strong bcn-permit-catalog__title" id={`bcn-permit-catalog-${j.id}`}>
+                {j.name}
+              </h2>
+              <div class="cluster" data-gap="sm">
+                <EsaBadge value={j.level} size="sm" />
+                {j.codeUpdated && (
+                  <span class="typography-body-sm bcn-permit-catalog__secondary">
+                    Critical areas code updated {j.codeUpdated}
+                  </span>
+                )}
+              </div>
+            </div>
+            <EsaButton variant="secondary" size="sm" icon="plus" data-permit-catalog-add={j.id}>
+              Add Permit Type
+            </EsaButton>
+          </header>
+
+          {entries.length === 0 ? (
+            <EsaEmptyState title="No permit types yet" description="Add the first permit type for this jurisdiction." size="sm" />
+          ) : (
+            <div class="stack" data-gap="sm">
+              {entries.map((v) => (
+                <EsaCard
+                  title={v.title}
+                  meta={v.typeLabel ? [{ label: 'Type', value: v.typeLabel }] : undefined}
+                  padding="compact"
+                >
+                  <dl class="typography-body-sm bcn-permit-catalog__facts">
+                    <dt class="typography-label-sm">Requirements From</dt>
+                    <dd>
+                      {v.sourceLabel}
+                      {v.sourceRef && <span class="bcn-permit-catalog__ref">{v.sourceRef}</span>}
+                    </dd>
+
+                    <dt class="typography-label-sm">Submittal Requirements</dt>
+                    <dd>
+                      <ul class="bcn-permit-catalog__reqs">
+                        {v.entry.requirements.map((r) => <li>{r}</li>)}
+                      </ul>
+                    </dd>
+
+                    {v.entry.validMonths != null && (
+                      <>
+                        <dt class="typography-label-sm">Valid</dt>
+                        <dd>{formatMonths(v.entry.validMonths)}</dd>
+                      </>
+                    )}
+
+                    {v.turnaround && (
+                      <>
+                        <dt class="typography-label-sm">Turnaround Here</dt>
+                        <dd>
+                          <a class="bcn-permit-catalog__link" href={turnaroundHref}>
+                            Median {formatMonths(v.turnaround.median)} across {v.turnaround.issued} issued
+                          </a>
+                        </dd>
+                      </>
+                    )}
+
+                    {v.usedOn.length > 0 && (
+                      <>
+                        <dt class="typography-label-sm">Used On</dt>
+                        <dd>
+                          {v.usedOn.map((p, i) => (
+                            <>
+                              {p.detailed ? (
+                                <a class="bcn-permit-catalog__link" href={withBase(ROUTES.project(p.id))}>{p.name}</a>
+                              ) : (
+                                <span>{p.name}</span>
+                              )}
+                              {i < v.usedOn.length - 1 && ', '}
+                            </>
+                          ))}
+                        </dd>
+                      </>
+                    )}
+                  </dl>
+                </EsaCard>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-select';
+  import { setupPermitCatalog } from './permit-catalog';
+  setupPermitCatalog();
+</script>
+
+<style>
+  .bcn-permit-catalog {
+    --_rail-width: 17rem;
+    container: bcn-permit-catalog / inline-size;
+  }
+
+  /* ── Phone swap: the picker replaces the rail below 40rem ── */
+  .bcn-permit-catalog__picker {
+    display: none;
+    margin-block-end: var(--spacing-400, 1rem);
+  }
+  @container bcn-permit-catalog (max-width: 40rem) {
+    .bcn-permit-catalog__picker { display: block; }
+    .bcn-permit-catalog__rail { display: none; }
+  }
+
+  .bcn-permit-catalog__layout {
+    --sidebar-width: var(--_rail-width);
+    align-items: flex-start;
+  }
+
+  /* ── Rail ── */
+  .bcn-permit-catalog__group-label {
+    padding-inline: var(--spacing-300, 0.75rem);
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-permit-catalog__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 2px);
+  }
+  .bcn-permit-catalog__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 2px);
+    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    border-radius: var(--radius-sm, 0.25rem);
+    color: var(--color-content-default, #202020);
+    text-decoration: none;
+  }
+  .bcn-permit-catalog__row-meta {
+    color: var(--color-content-default-secondary, #646464);
+  }
+  /* Hover is half the selected wash, so the current row stays the darkest in the rail. */
+  .bcn-permit-catalog__row:hover {
+    background: color-mix(in srgb, var(--color-background-elevation-sunken, #f0f0f0) 50%, transparent);
+  }
+  .bcn-permit-catalog__row[aria-current='true'] {
+    background: var(--color-background-elevation-sunken, #f0f0f0);
+  }
+  .bcn-permit-catalog__row:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-border-brand, #46a758));
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  /* ── Pane ── */
+  .bcn-permit-catalog__main {
+    container: bcn-permit-catalog-main / inline-size;
+  }
+  .bcn-permit-catalog__pane[hidden] { display: none; }
+  .bcn-permit-catalog__head { align-items: flex-start; }
+  .bcn-permit-catalog__title { color: var(--color-content-default, #202020); }
+  .bcn-permit-catalog__secondary { color: var(--color-content-default-secondary, #646464); }
+
+  /* ── Entry facts: one grid, so every key column lines up ── */
+  .bcn-permit-catalog__facts {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--spacing-200, 0.5rem) var(--spacing-500, 1.5rem);
+    margin: 0;
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-permit-catalog__facts dt {
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-permit-catalog__facts dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  @container bcn-permit-catalog-main (max-width: 30rem) {
+    .bcn-permit-catalog__facts { grid-template-columns: minmax(0, 1fr); row-gap: var(--spacing-050, 2px); }
+    .bcn-permit-catalog__facts dd:not(:last-child) { margin-block-end: var(--spacing-200, 0.5rem); }
+  }
+  .bcn-permit-catalog__ref {
+    display: block;
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-permit-catalog__reqs {
+    margin: 0;
+    padding-inline-start: 1.1em;
+  }
+  .bcn-permit-catalog__link {
+    color: var(--color-content-link, #0b6e4f);
+  }
+  .bcn-permit-catalog__link:hover {
+    color: var(--color-content-link-hover, #085a40);
+  }
+</style>

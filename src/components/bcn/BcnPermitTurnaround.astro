@@ -1,0 +1,320 @@
+---
+// <BcnPermitTurnaround> — "how long does it take to get this permit here?", answered
+// from ESA's own history. One row per catalog entry (a permit as one jurisdiction
+// names it; federal permits are per Corps district or agency office, so the
+// jurisdiction column already carries that), derived at build time from every issued
+// permit's submitted → issued span across every project, plus the ones still open.
+//
+// Composes: esa-card (title + compact padding) with BcnGridChrome in its actions and
+// BcnGridFooter in its footer, an esa-button-toggle Level filter, AG Grid through
+// mountBeaconGrid (src/lib/beacon-grid.ts), and one esa-tooltip for the dot and Open
+// Now hover labels. The client half is permit-turnaround.ts.
+//
+// The Spread column is a dot strip on ONE months axis shared by every row, so spans
+// compare down the column: a filled dot per issued permit at its span, a hollow dot per
+// open permit at months so far, a short tick at the median. A dot of a fully seeded
+// project links to that permit on its project page (#permit=<id>, which the detail
+// dialog opens).
+//
+// bcn-lego-checked: no esa- lego plots marks on a shared numeric axis inside a grid
+// cell — esa-progress-bar is a single bar, esa-chart is the AG Charts wrapper (a full
+// chart per instance, not a per-row cell mark), and BcnVizStrip is a per-day coverage
+// strip with no numeric axis. esa-tooltip carries the hover label but positions inside
+// its own wrapper, which an AG Grid cell clips, so one instance sits outside the grid
+// and is moved onto the hovered mark. No esa- legend lego exists for the key. Checked
+// Beacon: permits carry no turnaround view. bcn-permit-turnaround is the reusable home;
+// its own CSS is the mark geometry, the axis header, the key and the grid-host size.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import {
+  LEVEL_ORDER,
+  PROJECTS,
+  ROUTES,
+  catalogById,
+  formatMonths,
+  jurisdictionById,
+  permitById,
+  turnaroundByEntry,
+} from '../../data/internal-permits';
+import { withBase } from '../../lib/base';
+import type { TurnaroundGridRow, TurnaroundMark } from './permit-turnaround';
+
+const EM_DASH = '—';
+/** Axis ticks every six months; the axis ends on the first tick past the longest span. */
+const TICK_STEP = 6;
+
+const projectById = new Map(PROJECTS.map((p) => [p.id, p]));
+/** "8.3" / "6" — formatMonths without the unit, for the low end of a range. */
+const num = (n: number): string => (n % 1 === 0 ? n.toFixed(0) : n.toFixed(1));
+
+function markFor(permitId: string, projectId: string, months: number, kind: 'issued' | 'open'): TurnaroundMark {
+  const project = projectById.get(projectId);
+  const permit = permitById(permitId);
+  const span = kind === 'issued' ? `Issued in ${formatMonths(months)}` : `Open ${formatMonths(months)} so far`;
+  return {
+    months,
+    label: [project?.name, permit?.name, span].filter(Boolean).join(' · '),
+    href: project?.detailed ? `${withBase(ROUTES.project(projectId))}#permit=${permitId}` : null,
+  };
+}
+
+const entries = turnaroundByEntry();
+
+const rows: TurnaroundGridRow[] = entries
+  .map((r) => {
+    const catalog = catalogById(r.catalogId);
+    const jurisdiction = jurisdictionById(r.jurisdictionId);
+    const has = r.spans.length > 0;
+    const longestOpen = r.open.reduce((m, o) => Math.max(m, o.months), 0);
+    return {
+      id: r.catalogId,
+      permit: catalog?.localName ?? r.localName,
+      jurisdiction: jurisdiction?.short ?? EM_DASH,
+      jurisdictionName: jurisdiction?.name ?? '',
+      type: r.type,
+      level: r.level,
+      issued: r.spans.length,
+      median: has ? r.median : null,
+      medianLabel: has ? formatMonths(r.median) : EM_DASH,
+      rangeMin: r.spans.length > 1 ? r.min : null,
+      rangeLabel: r.spans.length > 1 ? `${num(r.min)} to ${formatMonths(r.max)}` : EM_DASH,
+      medianRounds: has ? r.medianRounds : null,
+      openCount: r.open.length,
+      longestOpenLabel: r.open.length ? formatMonths(longestOpen) : '',
+      issuedMarks: r.spans.map((s) => markFor(s.permitId, s.projectId, s.months, 'issued')),
+      openMarks: r.open.map((o) => markFor(o.permitId, o.projectId, o.months, 'open')),
+    };
+  })
+  // Federal, State, Local; within a level, entries with issued history before the
+  // ones that are only open; then by permit name.
+  .sort(
+    (a, b) =>
+      LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level) ||
+      Number(b.issued > 0) - Number(a.issued > 0) ||
+      a.permit.localeCompare(b.permit),
+  );
+
+const longest = entries.reduce(
+  (m, r) => Math.max(m, r.max, ...r.open.map((o) => o.months)),
+  0,
+);
+const axisMax = Math.max(TICK_STEP, Math.ceil(longest / TICK_STEP) * TICK_STEP);
+const ticks = Array.from({ length: axisMax / TICK_STEP + 1 }, (_, i) => i * TICK_STEP);
+
+const LEVEL_OPTIONS = [
+  { label: 'All', value: 'all' },
+  ...LEVEL_ORDER.map((l) => ({ label: l, value: l.toLowerCase() })),
+];
+---
+
+<section
+  class="bcn-permit-turnaround"
+  data-ta
+  data-ta-axis-max={axisMax}
+  data-ta-ticks={JSON.stringify(ticks)}
+  aria-label="Turnaround"
+>
+  <EsaCard title="Turnaround" padding="compact">
+    <Fragment slot="actions">
+      <BcnGridChrome prefix="ta" searchPlaceholder="Search permits or jurisdictions…" />
+    </Fragment>
+
+    <div class="stack" data-gap="sm">
+      <div class="repel bcn-permit-turnaround__bar" data-gap="md">
+        <esa-button-toggle
+          size="sm"
+          label="Level"
+          value="all"
+          options={JSON.stringify(LEVEL_OPTIONS)}
+          data-ta-level></esa-button-toggle>
+        <ul class="cluster bcn-permit-turnaround__key typography-label-md" data-gap="md" aria-label="Key">
+          <li class="cluster" data-gap="xs">
+            <svg width="14" height="14" aria-hidden="true">
+              <circle class="bcn-permit-turnaround__dot bcn-permit-turnaround__dot--issued" cx="7" cy="7" r="4"></circle>
+            </svg>
+            Issued
+          </li>
+          <li class="cluster" data-gap="xs">
+            <svg width="14" height="14" aria-hidden="true">
+              <circle class="bcn-permit-turnaround__dot bcn-permit-turnaround__dot--open" cx="7" cy="7" r="4"></circle>
+            </svg>
+            Still Open
+          </li>
+          <li class="cluster" data-gap="xs">
+            <svg width="14" height="18" aria-hidden="true">
+              <line class="bcn-permit-turnaround__median" x1="7" x2="7" y1="0" y2="18"></line>
+            </svg>
+            Median
+          </li>
+        </ul>
+      </div>
+
+      <div class="bcn-permit-turnaround__host" data-ta-host></div>
+    </div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="ta" total={rows.length} />
+    </Fragment>
+  </EsaCard>
+
+  <span class="bcn-permit-turnaround__tip-anchor" data-ta-tip-anchor>
+    <esa-tooltip position="above" data-ta-tip>
+      <span class="bcn-permit-turnaround__tip-target" data-ta-tip-target></span>
+    </esa-tooltip>
+  </span>
+
+  <script type="application/json" data-ta-data set:html={JSON.stringify(rows)}></script>
+</section>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-tooltip';
+  import { setupPermitTurnaround } from './permit-turnaround';
+
+  document.querySelectorAll<HTMLElement>('[data-ta]').forEach((root) => setupPermitTurnaround(root));
+</script>
+
+<style>
+  /* The tooltip anchor is positioned against the section, outside the card and the
+     grid, so no cell or card overflow clips the bubble. */
+  .bcn-permit-turnaround {
+    position: relative;
+    min-inline-size: 0;
+  }
+
+  /* Stable frame: the grid holds its height whatever the filter leaves in it. */
+  .bcn-permit-turnaround__host {
+    inline-size: 100%;
+    block-size: calc(100vh - 320px);
+    min-block-size: 24rem;
+  }
+
+  /* The key sits level with the toggle's buttons, not its label. */
+  .bcn-permit-turnaround__bar {
+    align-items: flex-end;
+  }
+  .bcn-permit-turnaround__key {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Floored at 13px: the label-md composite clamps below it at phone width. */
+    font-size: max(0.8125rem, var(--typography-label-md-font-size));
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-permit-turnaround__key li {
+    align-items: center;
+  }
+
+  /* ── Marks — shared by the key (here) and the grid cells (injected by AG Grid,
+     outside Astro's scope, hence :global under this section). One hue: filled vs
+     hollow carries issued vs open; the median tick is ink. ── */
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__dot) {
+    stroke-width: 2px;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__dot--issued) {
+    fill: var(--color-content-brand);
+    /* A surface ring, so dots at nearly the same span stay countable. */
+    stroke: var(--color-background-elevation-raised, #ffffff);
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__dot--open) {
+    fill: var(--color-background-elevation-raised, #ffffff);
+    stroke: var(--color-content-brand);
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__median) {
+    stroke: var(--color-content-default);
+    stroke-width: 2px;
+    stroke-linecap: round;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__gridline) {
+    stroke: var(--color-border-subtle);
+    stroke-width: 1px;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__hit) {
+    fill: transparent;
+  }
+  .bcn-permit-turnaround :global(a.bcn-permit-turnaround__mark) {
+    cursor: pointer;
+  }
+  .bcn-permit-turnaround :global(a.bcn-permit-turnaround__mark:hover .bcn-permit-turnaround__dot),
+  .bcn-permit-turnaround :global(a.bcn-permit-turnaround__mark:focus-visible .bcn-permit-turnaround__dot) {
+    stroke: var(--color-content-default);
+  }
+
+  /* Wrapped cells (Permit, Jurisdiction) read at normal leading. AG Grid sets a cell's
+     line-height to the row height to centre one line, which leaves a row-tall gap
+     between wrapped lines. */
+  .bcn-permit-turnaround :global(.ag-cell.ag-cell-wrap-text) {
+    line-height: 1.35;
+    padding-block: var(--spacing-250);
+  }
+
+  /* ── Spread column: the cell and its header share one horizontal inset, so the
+     header's tick labels sit over the strip's gridlines. ── */
+  .bcn-permit-turnaround :global(.ag-cell.bcn-permit-turnaround__spread-cell),
+  .bcn-permit-turnaround :global(.ag-header-cell.bcn-permit-turnaround__spread-head) {
+    padding-inline: var(--spacing-300);
+  }
+  .bcn-permit-turnaround :global(.ag-cell.bcn-permit-turnaround__spread-cell) {
+    display: flex;
+    align-items: center;
+  }
+  /* The plot and the axis both fill their cell edge to edge, so one percentage means
+     the same month in the header and in every row. */
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__spread-cell > *),
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__spread-head .ag-header-cell-comp-wrapper) {
+    flex: 1 1 auto;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__plot),
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__axis-scale) {
+    box-sizing: border-box;
+    inline-size: 100%;
+    padding-inline: var(--spacing-200);
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__strip) {
+    display: block;
+    overflow: visible;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__axis) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    inline-size: 100%;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__axis-scale) {
+    display: block;
+    font-weight: var(--typography-font-weight-regular, 400);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__axis-track) {
+    position: relative;
+    display: block;
+    block-size: 1.25em;
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__axis-tick) {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .bcn-permit-turnaround :global(.bcn-permit-turnaround__open) {
+    cursor: default;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Hover label: one esa-tooltip, moved onto the hovered mark by the controller.
+     It never takes the pointer, or it would steal the hover from the mark under it. ── */
+  .bcn-permit-turnaround__tip-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    /* The label is one nowrap line; let it run its natural width. */
+    --tooltip-max-width: none;
+  }
+  .bcn-permit-turnaround__tip-target {
+    display: block;
+  }
+</style>

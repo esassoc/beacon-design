@@ -1,0 +1,145 @@
+---
+// <BcnPermitEdit> — the Permits app's edit panel for one permit: the standard slide-in side
+// panel (right, 560px; full width on a phone) holding every tracked field as one flat stack,
+// then Review Rounds (one row per agency round: Sent, Returned, Outcome) with Add Round.
+//
+// Opens on `bcn-permit-edit` ({ permitId }) — fired by the detail dialog's Edit button — and
+// fills from the store's getPermit(id). Save writes only the changed fields through
+// updatePermit(id, patch) (the store then fires `bcn-permit-updated`), then closes; Cancel,
+// Esc, the close button and the backdrop close without saving. The panel can open over the
+// XL permit dialog: both are native <dialog>s opened with showModal(), so the later one
+// stacks on top in the top layer with no z-index work.
+//
+// ONE pre-rendered shell driven by ./permit-edit.ts. Round rows are cloned from a <template>
+// so every node keeps this component's scoped-CSS attribute; nothing is built from strings.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog; Status / Assignee / Outcome ARE esa-select;
+// Trigger IS esa-textarea; Reference No. / Agency Contact / Number of Conditions ARE
+// esa-text-field; the dates ARE esa-date-picker; Conditions IS esa-radio-group; Track in
+// Beacon IS esa-switch-toggle; Save / Cancel / Add Round / remove ARE esa-button. Checked
+// Ecology for a repeatable field-row (a "round" of three fields with a remove control) and
+// found none — esa-form-field wraps one control, esa-card is a container — so the round row
+// is a layout of legos authored here. Checked Beacon: BcnPlanElementDrawer is the precedent
+// for template-cloned rows inside a side dialog; this follows it.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { Project } from '../../data/internal-permits';
+import { PEOPLE, STATUS_META, STATUS_ORDER } from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+const STATUS_OPTIONS = STATUS_ORDER.map((s) => ({ value: s, label: STATUS_META[s].label }));
+const PEOPLE_OPTIONS = PEOPLE.map((p) => ({ value: p.id, label: p.name }));
+const CONDITIONS_OPTIONS = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+  { value: 'unknown', label: 'Not Known Yet' },
+];
+const OUTCOME_OPTIONS = [
+  { value: 'comments', label: 'Comments' },
+  { value: 'decision', label: 'Decision' },
+];
+---
+
+<div class="bcn-permit-edit" data-bcn-permit-edit data-project-id={project.id}>
+  <esa-side-dialog class="bcn-permit-edit__dialog" position="right">
+    <div slot="header" class="bcn-permit-edit__head">
+      <h2 class="bcn-permit-edit__title typography-title">Edit Permit</h2>
+      <p class="bcn-permit-edit__name typography-body-sm" data-pe="name"></p>
+    </div>
+
+    <form class="stack" data-gap="md" data-pe="form" novalidate>
+      <esa-select label="Status" data-pe="status" data-options={JSON.stringify(STATUS_OPTIONS)}></esa-select>
+      <esa-select label="Assignee" data-pe="assignee" data-options={JSON.stringify(PEOPLE_OPTIONS)}></esa-select>
+      <esa-textarea label="Trigger" rows="3" auto-resize data-pe="trigger"></esa-textarea>
+      <esa-text-field label="Reference No." data-pe="reference"></esa-text-field>
+      <esa-text-field label="Agency Contact" data-pe="contact"></esa-text-field>
+      <esa-date-picker label="Estimated Issue" data-pe="estimated"></esa-date-picker>
+      <esa-date-picker label="Issued" data-pe="issued"></esa-date-picker>
+      <esa-date-picker label="Expires" data-pe="expires"></esa-date-picker>
+      <esa-radio-group
+        label="Conditions"
+        orientation="horizontal"
+        data-pe="conditions"
+        data-options={JSON.stringify(CONDITIONS_OPTIONS)}
+      ></esa-radio-group>
+      <div class="stack" data-gap="md" data-pe="conditions-detail" hidden>
+        <esa-text-field label="Number of Conditions" type="number" inputmode="numeric" data-pe="conditions-count"></esa-text-field>
+        <esa-switch-toggle label="Track in Beacon" data-pe="conditions-beacon"></esa-switch-toggle>
+      </div>
+
+      <section class="stack bcn-permit-edit__rounds" data-gap="sm" aria-labelledby="bcn-permit-edit-rounds-heading">
+        <h3 class="bcn-permit-edit__heading typography-title-sm-strong" id="bcn-permit-edit-rounds-heading">Review Rounds</h3>
+        <ol class="stack bcn-permit-edit__round-list" data-gap="md" data-pe="rounds"></ol>
+        <div>
+          <EsaButton variant="ghost" size="sm" icon="plus" data-pe="add-round">Add Round</EsaButton>
+        </div>
+      </section>
+    </form>
+
+    <div slot="footer" class="cluster" data-justify="end" data-gap="xs">
+      <EsaButton variant="primary" data-pe="save">Save</EsaButton>
+      <EsaButton variant="secondary" appearance="outline" data-pe="cancel">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <!-- One review round, cloned per round by the controller. -->
+  <template data-pe-tpl="round">
+    <li class="stack bcn-permit-edit__round" data-gap="xs">
+      <div class="repel" data-gap="xs">
+        <span class="bcn-permit-edit__round-label typography-label-md-strong" data-row="label"></span>
+        <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Remove Round" data-row="remove" />
+      </div>
+      <div class="grid bcn-permit-edit__round-fields">
+        <esa-date-picker label="Sent" data-row="sent"></esa-date-picker>
+        <esa-date-picker label="Returned" data-row="returned"></esa-date-picker>
+        <esa-select label="Outcome" data-row="outcome" data-options={JSON.stringify(OUTCOME_OPTIONS)}></esa-select>
+      </div>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-radio-group';
+  import '@esa/ecology/esa-switch-toggle';
+  import { setupPermitEdit } from './permit-edit';
+  setupPermitEdit();
+</script>
+
+<style>
+  /* The legos set their own display; inside this panel `hidden` must always win. */
+  .bcn-permit-edit :global([hidden]) { display: none !important; }
+
+  /* 560px on desktop; on a phone the panel takes the whole viewport (the lego clamps its
+     width to 100vw minus the inset, so the inset is the only thing to zero). The 560px is
+     a sanctioned hard-code: the hub's width ramp stops at lg = 520px. */
+  .bcn-permit-edit__dialog { --side-dialog-width: 560px; }
+  @media (max-width: 480px) {
+    .bcn-permit-edit__dialog { --side-dialog-inset: 0px; }
+  }
+
+  .bcn-permit-edit__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-permit-edit__title { margin: 0; color: var(--color-content-default); }
+  .bcn-permit-edit__name { margin: 0; color: var(--color-content-default-secondary); overflow-wrap: anywhere; }
+
+  .bcn-permit-edit__rounds { padding-top: var(--spacing-200); }
+  .bcn-permit-edit__heading { margin: 0; color: var(--color-content-default); }
+  .bcn-permit-edit__round-list { margin: 0; padding: 0; list-style: none; }
+  .bcn-permit-edit__round-list:empty { display: none; }
+  .bcn-permit-edit__round-label { color: var(--color-content-default); }
+  /* Sent / Returned / Outcome side by side in the panel, stacked on a phone. */
+  .bcn-permit-edit__round-fields { --gap: var(--spacing-300); --grid-min: 9.5rem; align-items: start; }
+</style>

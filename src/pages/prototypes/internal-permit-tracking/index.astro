@@ -1,0 +1,25 @@
+---
+// Permits app — home. Every ESA project that tracks permits here, so anyone can find
+// a project (an inherited one especially) and see where its permits stand.
+import PermitsShell from '../../../layouts/PermitsShell.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPermitProjects from '../../../components/bcn/BcnPermitProjects.astro';
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - page header -> esa-page-header
+    - projects    -> bcn-permit-projects     # every project, its permit standing, next expiration
+-->
+<PermitsShell title="Projects" active="projects">
+  <div class="stack" data-gap="lg">
+    <EsaPageHeader title="Projects">
+      <Fragment slot="actions">
+        <EsaButton variant="primary" icon="plus">New Project</EsaButton>
+      </Fragment>
+    </EsaPageHeader>
+    <BcnPermitProjects />
+  </div>
+</PermitsShell>

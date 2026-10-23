@@ -1,0 +1,406 @@
+---
+// <BcnPermitProjects> — the Permits app's home: every ESA project that tracks its
+// permits here, across offices, in one grid. Its job is FINDING — the permitting lead
+// who just inherited a project looks it up by name, client, place or PM, and sees at a
+// glance where its permits stand (issued of required, with the agency, the next
+// expiration) before clicking through to the project.
+//
+// Composes: esa-card (title + actions slot + footer slot are the whole grid chrome),
+// BcnGridChrome / BcnGridFooter + mountBeaconGrid() (the shared carded-grid kit),
+// esa-button-toggle for the Active / Closed / All scope, and esa-badge for the phase
+// chip and the expiring-soon flag. The badges are SSR'd once into <template>s and
+// cloned into AG Grid cells, so the cells wear the real lego rather than a lookalike.
+//
+// Everything is derived at build time from PROJECTS + summarizeProject(); this view
+// never mutates, so it does not need the client store.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists (esa-card is a box, esa-link-column
+// a card of bare links); Beacon's list surfaces are AG Grid, which this spoke ships as
+// the shared beacon-grid kit — the same composition BcnComponentGrid and
+// permitting-details use. Scope is esa-button-toggle, flags are esa-badge. The only CSS
+// below is grid-host geometry and the two-line cell layout AG Grid injects outside
+// Astro's scope; bcn-permit-projects is the reusable home for the cross-project index.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import {
+  PROJECTS,
+  ROUTES,
+  TODAY,
+  currentPm,
+  daysBetween,
+  permitById,
+  personName,
+  summarizeProject,
+  type Project,
+  type ProjectPhase,
+} from '../../data/internal-permits';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** Override the fixture's project list (defaults to every project in PROJECTS). */
+  projects?: Project[];
+}
+const { projects = PROJECTS } = Astro.props;
+
+const PHASE_ORDER: ProjectPhase[] = ['Permitting', 'Construction', 'Monitoring', 'Closed'];
+/** Days ahead of TODAY at which an upcoming expiration gets the warning flag. */
+const EXPIRING_WINDOW = 90;
+
+// Rows are ordered ONCE here (phase, then name) — AG Grid keeps rowData order until the
+// user sorts, so the grid opens in that order without a sort model fighting the first
+// header click.
+const rows = projects
+  .map((p) => {
+    const s = summarizeProject(p.id);
+    const next = s.nextExpiration;
+    const daysToExpiry = next ? daysBetween(TODAY, next.date) : null;
+    return {
+      id: p.id,
+      href: withBase(ROUTES.project(p.id)),
+      name: p.name,
+      client: p.client,
+      location: p.location,
+      phase: p.phase,
+      phaseRank: PHASE_ORDER.indexOf(p.phase),
+      pm: personName(currentPm(p)),
+      issued: s.issued,
+      // Not-required permits are off the ladder; counting them would leave a finished
+      // project reading "14 of 16 issued" forever.
+      required: s.total - s.notRequired,
+      withAgency: s.withAgency,
+      nextExpDate: next?.date ?? '',
+      nextExpName: next ? (permitById(next.permitId)?.name ?? '') : '',
+      daysToExpiry,
+      expiringSoon: daysToExpiry != null && daysToExpiry >= 0 && daysToExpiry <= EXPIRING_WINDOW,
+    };
+  })
+  .sort((a, b) => a.phaseRank - b.phaseRank || a.name.localeCompare(b.name));
+
+const SCOPES = [
+  { label: 'Active', value: 'active' },
+  { label: 'Closed', value: 'closed' },
+  { label: 'All', value: 'all' },
+];
+---
+
+<section class="bcn-pj" data-pj aria-label="Projects">
+  <EsaCard title="Projects" padding="compact">
+    <Fragment slot="actions">
+      <BcnGridChrome prefix="pj" only="search" searchPlaceholder="Search projects, clients, places…" />
+    </Fragment>
+
+    <div class="stack bcn-pj__body" data-gap="sm">
+      <esa-button-toggle
+        class="bcn-pj__scope"
+        size="sm"
+        value="active"
+        aria-label="Projects to show"
+        data-pj-scope
+        data-options={JSON.stringify(SCOPES)}></esa-button-toggle>
+      <div class="bcn-pj__host" data-pj-host></div>
+    </div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="pj" total={rows.length} />
+    </Fragment>
+  </EsaCard>
+
+  <template data-pj-badge="neutral"><EsaBadge value="" size="sm" /></template>
+  <template data-pj-badge="warning"><EsaBadge value="" variant="warning" size="sm" /></template>
+  <script type="application/json" data-pj-data set:html={JSON.stringify(rows)}></script>
+</section>
+
+<script>
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { settingsTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { formatDate } from '../../data/internal-permits';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+
+  interface Row {
+    id: string;
+    href: string;
+    name: string;
+    client: string;
+    location: string;
+    phase: string;
+    phaseRank: number;
+    pm: string;
+    issued: number;
+    required: number;
+    withAgency: number;
+    nextExpDate: string;
+    nextExpName: string;
+    daysToExpiry: number | null;
+    expiringSoon: boolean;
+  }
+
+  type Scope = 'active' | 'closed' | 'all';
+  type Toggle = HTMLElement & { options: unknown[]; value: string };
+
+  const EM_DASH = '—';
+
+  // The card-hosted variant at the 14px dense floor; rows are tall enough for the
+  // two-line Project and Next Expiration cells.
+  const theme = settingsTheme.withParams({
+    dataFontSize: '14px',
+    headerFontSize: '14px',
+    rowHeight: 58,
+  });
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-pj]')) {
+    const data = mount.querySelector('[data-pj-data]');
+    if (!data) continue;
+    const rows: Row[] = JSON.parse(data.textContent || '[]');
+
+    // Clone the SSR'd esa-badge so a cell carries the real lego (and its scoped CSS).
+    function badge(kind: 'neutral' | 'warning', text: string): HTMLElement | null {
+      const tpl = mount.querySelector<HTMLTemplateElement>(`template[data-pj-badge="${kind}"]`);
+      const el = tpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+      if (!el) return null;
+      const label = el.querySelector('.esa-badge__text');
+      if (label) label.textContent = text;
+      return el;
+    }
+
+    function twoLine(primary: Node, secondary: string): HTMLElement {
+      const cell = document.createElement('span');
+      cell.className = 'bcn-pj__cell';
+      const top = document.createElement('span');
+      top.className = 'bcn-pj__primary';
+      top.append(primary);
+      cell.append(top);
+      if (secondary) {
+        const sub = document.createElement('span');
+        sub.className = 'bcn-pj__secondary';
+        sub.textContent = secondary;
+        cell.append(sub);
+      }
+      return cell;
+    }
+
+    // Name as a real <a> (keyboard-reachable, opens in a new tab), client beneath it.
+    function projectRenderer(p: ICellRendererParams<Row>): HTMLElement | string {
+      if (!p.data) return '';
+      const link = document.createElement('a');
+      link.className = 'bcn-pj__name';
+      link.href = p.data.href;
+      link.textContent = p.data.name;
+      return twoLine(link, p.data.client);
+    }
+
+    function phaseRenderer(p: ICellRendererParams<Row>): HTMLElement | string {
+      return p.value ? (badge('neutral', String(p.value)) ?? String(p.value)) : '';
+    }
+
+    // Date on top (with the warning flag inside the window), the permit's name beneath.
+    function expiryRenderer(p: ICellRendererParams<Row>): HTMLElement | string {
+      const r = p.data;
+      if (!r?.nextExpDate) return EM_DASH;
+      const top = document.createElement('span');
+      top.className = 'bcn-pj__date';
+      top.append(formatDate(r.nextExpDate));
+      if (r.expiringSoon && r.daysToExpiry != null) {
+        const flag = badge('warning', r.daysToExpiry === 1 ? 'In 1 Day' : `In ${r.daysToExpiry} Days`);
+        if (flag) top.append(flag);
+      }
+      const cell = twoLine(top, r.nextExpName);
+      cell.title = r.nextExpName;
+      return cell;
+    }
+
+    const issuedRatio = (r?: Row) => (r && r.required ? r.issued / r.required : -1);
+
+    const columnDefs: ColDef<Row>[] = [
+      {
+        field: 'name',
+        headerName: 'Project',
+        flex: 2,
+        minWidth: 220,
+        cellRenderer: projectRenderer,
+        // Search and CSV both see the client, which the cell shows as its second line.
+        getQuickFilterText: (p) => `${p.data?.name ?? ''} ${p.data?.client ?? ''}`,
+        valueFormatter: (p) => (p.data ? `${p.data.name} (${p.data.client})` : ''),
+      },
+      { field: 'location', headerName: 'Location', flex: 1.1, minWidth: 140, wrapText: true, cellClass: 'bcn-pj__wrap' },
+      {
+        field: 'phase',
+        headerName: 'Phase',
+        flex: 0.8,
+        minWidth: 120,
+        cellRenderer: phaseRenderer,
+        comparator: (_a, _b, nodeA, nodeB) => (nodeA.data?.phaseRank ?? 0) - (nodeB.data?.phaseRank ?? 0),
+      },
+      { field: 'pm', headerName: 'Project Manager', flex: 1, minWidth: 140, wrapText: true, cellClass: 'bcn-pj__wrap' },
+      {
+        field: 'issued',
+        headerName: 'Permits',
+        flex: 0.9,
+        minWidth: 130,
+        cellClass: 'bcn-pj__num',
+        valueFormatter: (p) => (p.data?.required ? `${p.data.issued} of ${p.data.required} issued` : EM_DASH),
+        comparator: (_a, _b, nodeA, nodeB) => issuedRatio(nodeA.data) - issuedRatio(nodeB.data),
+      },
+      {
+        field: 'withAgency',
+        headerName: 'With Agency',
+        flex: 0.7,
+        minWidth: 100,
+        cellClass: 'bcn-pj__num',
+        valueFormatter: (p) => (p.value ? String(p.value) : EM_DASH),
+        cellClassRules: { 'bcn-pj__quiet': (p) => !p.value },
+      },
+      {
+        field: 'nextExpDate',
+        headerName: 'Next Expiration',
+        flex: 1.4,
+        minWidth: 200,
+        cellRenderer: expiryRenderer,
+        valueFormatter: (p) => (p.value ? `${formatDate(p.value)} (${p.data?.nextExpName ?? ''})` : ''),
+        getQuickFilterText: (p) => p.data?.nextExpName ?? '',
+        // Soonest first; projects with nothing expiring sort after every dated one.
+        comparator: (a: string, b: string) => {
+          if (!a && !b) return 0;
+          if (!a) return 1;
+          if (!b) return -1;
+          return a.localeCompare(b);
+        },
+      },
+    ];
+
+    // Scope: Active (Permitting + Construction + Monitoring) / Closed / All.
+    let scope: Scope = 'active';
+    const inScope = (r?: Row) =>
+      !r || scope === 'all' || (scope === 'closed' ? r.phase === 'Closed' : r.phase !== 'Closed');
+
+    const go = (r?: Row) => {
+      if (r?.href) window.location.href = r.href;
+    };
+
+    const gridOptions: GridOptions<Row> = {
+      theme,
+      rowData: rows,
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      // A short list: the grid takes its rows' height rather than holding an empty frame.
+      domLayout: 'autoHeight',
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        // Search and the scope toggle are this list's filters; no per-column funnels.
+        filter: false,
+        suppressHeaderMenuButton: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+      },
+      isExternalFilterPresent: () => scope !== 'all',
+      doesExternalFilterPass: (node) => inScope(node.data),
+      // The name anchor navigates on its own (and honours Cmd/Ctrl-click for a new
+      // tab), so a click that lands on it is left to the link.
+      onRowClicked: (e) => {
+        if ((e.event?.target as Element | null)?.closest('a')) return;
+        go(e.data);
+      },
+      onCellKeyDown: (e) => {
+        if ((e.event as KeyboardEvent | undefined)?.key === 'Enter') go(e.data);
+      },
+    };
+
+    const handle = mountBeaconGrid<Row>({
+      mount,
+      prefix: 'pj',
+      gridOptions,
+      csvName: 'projects.csv',
+      totalRows: () => rows.length,
+    });
+
+    const toggle = mount.querySelector<Toggle>('[data-pj-scope]');
+    if (toggle) {
+      customElements.whenDefined('esa-button-toggle').then(() => {
+        toggle.options = JSON.parse(toggle.dataset.options ?? '[]');
+        toggle.value = scope;
+      });
+      toggle.addEventListener('change', (e) => {
+        const next = ((e as CustomEvent).detail?.value ?? toggle.value) as Scope;
+        if (next === scope) return;
+        scope = next;
+        handle?.api.onFilterChanged();
+      });
+    }
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry plus the two-line cell layout AG Grid injects
+     outside Astro's scope. Chips are cloned esa-badge; chrome and footer are
+     bcn-grid-chrome / bcn-grid-footer. See the header note for the full lookup. */
+  .bcn-pj,
+  .bcn-pj__body {
+    min-inline-size: 0;
+  }
+
+  /* The grid sizes to its rows (domLayout autoHeight — the list stays short); at phone
+     width it scrolls horizontally inside the card. */
+  .bcn-pj__host {
+    inline-size: 100%;
+  }
+
+  .bcn-pj__scope {
+    align-self: flex-start;
+  }
+
+  /* ── Injected cells ─────────────────────────────────────────────────────── */
+  .bcn-pj :global(.ag-row) {
+    cursor: pointer;
+  }
+
+  .bcn-pj :global(.bcn-pj__cell) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    block-size: 100%;
+    min-inline-size: 0;
+    line-height: 1.3;
+  }
+  .bcn-pj :global(.bcn-pj__primary),
+  .bcn-pj :global(.bcn-pj__secondary) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Meta line: 13px floor, secondary ink (darkened, not grayed out). */
+  .bcn-pj :global(.bcn-pj__secondary) {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-pj :global(.bcn-pj__name) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    font-weight: var(--typography-font-weight-medium);
+  }
+
+  .bcn-pj :global(.bcn-pj__date) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+
+  /* Wrapping cells (Location, PM): two lines inside the 58px row, vertically centred,
+     instead of AG Grid's row-height line-height. */
+  .bcn-pj :global(.bcn-pj__wrap) {
+    display: flex;
+    align-items: center;
+    line-height: 1.3;
+  }
+
+  .bcn-pj :global(.bcn-pj__num) {
+    font-variant-numeric: tabular-nums;
+  }
+  /* An em-dash is genuine absence, so it alone recedes. */
+  .bcn-pj :global(.bcn-pj__quiet) {
+    color: var(--bcn-content-muted);
+  }
+</style>

@@ -1,0 +1,322 @@
+---
+// <BcnPermitTimeline> — a project's permits cradle to grave: when each went in,
+// each agency review round, the gaps spent answering comments, issuance, how long
+// it stays valid, the expected issue date for an open one, and which permit waits
+// on which (connector lines over the chart).
+//
+// Composes: esa-card (title "Timeline") around a key + a horizontally scrolling
+// chart. Rows are grouped Federal / State / Local, the name column is sticky, and
+// the rows render client-side from the permits store (permit-timeline.ts) so a
+// browser edit or an added permit repaints in place. Clicking or pressing Enter on
+// a row calls openPermit(id) → `bcn-permit-open`.
+//
+// bcn-lego-checked: NO esa-* lego plots dated bars on a shared time axis (checked
+// the full catalog — esa-progress-bar is one bar, esa-chart is a data chart with no
+// per-row segments, sticky labels or dependency connectors). Checked Beacon prod
+// (no gantt; permit dates are form fields). BcnScheduleTimeline is the spoke's
+// gantt but it is bound to the fish water-year model (phase bands, milestones,
+// plan-status colors); BcnActionTimeline/BcnProjectTimeline are date lanes for
+// actions and seasons, not round-by-round bars. bcn-permit-timeline is the reusable
+// home for review-round timelines.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import type { Project } from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<EsaCard title="Timeline">
+  <div class="bcn-permit-timeline stack" data-gap="sm" data-bcn-permit-timeline data-project-id={project.id} data-project-start={project.started}>
+    <ul class="bcn-permit-timeline__key cluster" data-gap="md">
+      <li class="bcn-permit-timeline__key-item typography-label-sm">
+        <span class="bcn-permit-timeline__swatch bcn-permit-timeline__swatch--agency" aria-hidden="true"></span>With Agency
+      </li>
+      <li class="bcn-permit-timeline__key-item typography-label-sm">
+        <span class="bcn-permit-timeline__swatch bcn-permit-timeline__swatch--responding" aria-hidden="true"></span>Responding to Comments
+      </li>
+      <li class="bcn-permit-timeline__key-item typography-label-sm">
+        <span class="bcn-permit-timeline__swatch bcn-permit-timeline__swatch--valid" aria-hidden="true"></span>Valid
+      </li>
+      <li class="bcn-permit-timeline__key-item typography-label-sm">
+        <span class="bcn-permit-timeline__swatch bcn-permit-timeline__swatch--expected" aria-hidden="true"></span>Expected
+      </li>
+    </ul>
+
+    <div class="bcn-permit-timeline__scroll" data-timeline-scroll>
+      <div class="bcn-permit-timeline__canvas" data-timeline-canvas>
+        <div class="bcn-permit-timeline__axis" aria-hidden="true">
+          <div class="bcn-permit-timeline__corner" data-timeline-corner></div>
+          <div class="bcn-permit-timeline__ticks typography-label-sm" data-timeline-axis></div>
+        </div>
+        <div class="bcn-permit-timeline__body" data-timeline-body></div>
+      </div>
+    </div>
+  </div>
+</EsaCard>
+
+<script>
+  import { setupPermitTimeline } from './permit-timeline';
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-permit-timeline]').forEach(setupPermitTimeline);
+</script>
+
+<style>
+  /* Rows, ticks, segments and the connector SVG are built in permit-timeline.ts, so
+     their rules are :global() — Astro's scoped attribute never reaches injected nodes.
+     Every class is bcn-permit-timeline__ prefixed, so nothing leaks. */
+  .bcn-permit-timeline {
+    container-type: inline-size;
+    min-width: 0;
+    --_label-w: 16rem;
+    --_row-h: 2.5rem;
+    --_bar-h: 0.875rem;
+    --_tone-agency: var(--bcn-status-in-progress, #e0a400);
+    --_tone-valid: var(--bcn-status-completed, #46a758);
+    --_tone-neutral: var(--color-content-default-secondary, #646464);
+    --_hatch: repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--_tone-neutral) 40%, transparent) 0 1.5px,
+      transparent 1.5px 4px
+    );
+    --_tint-hover: color-mix(in srgb, var(--color-content-default, #202020) 4%, transparent);
+  }
+
+  /* ── Key ── */
+  .bcn-permit-timeline__key {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-permit-timeline__key-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-permit-timeline__swatch {
+    display: inline-block;
+    width: 1.5rem;
+    height: var(--_bar-h);
+    border-radius: var(--radius-xs);
+  }
+  .bcn-permit-timeline__swatch--agency { background: var(--_tone-agency); }
+  .bcn-permit-timeline__swatch--responding {
+    background: var(--_hatch);
+    box-shadow: inset 0 0 0 1px var(--color-border-default-strong);
+  }
+  .bcn-permit-timeline__swatch--valid { background: color-mix(in srgb, var(--_tone-valid) 30%, transparent); }
+  .bcn-permit-timeline__swatch--expected { border: 1.5px dashed var(--_tone-valid); }
+
+  /* ── Scroller + canvas ── */
+  .bcn-permit-timeline__scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .bcn-permit-timeline__canvas {
+    --_plot-w: 0px;
+    width: max(100%, calc(var(--_label-w) + var(--_plot-w)));
+  }
+  .bcn-permit-timeline__axis,
+  .bcn-permit-timeline__canvas :global(.bcn-permit-timeline__row),
+  .bcn-permit-timeline__canvas :global(.bcn-permit-timeline__group) {
+    display: grid;
+    grid-template-columns: var(--_label-w) var(--_plot-w);
+  }
+
+  /* ── Axis ── */
+  .bcn-permit-timeline__axis { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-permit-timeline__corner {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: var(--color-background-elevation-raised);
+    border-right: 1px solid var(--color-border-default);
+  }
+  .bcn-permit-timeline__ticks {
+    position: relative;
+    height: 1.75rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-permit-timeline__ticks :global(.bcn-permit-timeline__tick) {
+    position: absolute;
+    bottom: var(--spacing-100);
+    padding-left: var(--spacing-100);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-permit-timeline__ticks :global(.bcn-permit-timeline__tick--year) { color: var(--color-content-default); }
+  .bcn-permit-timeline__ticks :global(.bcn-permit-timeline__today-mark) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--border-width-emphasis);
+    translate: -50% 0;
+    background: var(--color-content-default);
+  }
+  .bcn-permit-timeline__ticks :global(.bcn-permit-timeline__today-tag) {
+    position: absolute;
+    bottom: var(--spacing-100);
+    transform: translateX(-100%);
+    padding-right: var(--spacing-100);
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+  .bcn-permit-timeline__ticks :global(.bcn-permit-timeline__today-tag.is-after) {
+    transform: none;
+    padding-right: 0;
+    padding-left: var(--spacing-100);
+  }
+
+  /* ── Body: gridlines + connector layer behind/over the rows ── */
+  .bcn-permit-timeline__body {
+    position: relative;
+    isolation: isolate;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__grid),
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__links) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--_label-w);
+    width: var(--_plot-w);
+    pointer-events: none;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__grid) { z-index: 0; }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__links) { z-index: 2; overflow: visible; }
+  /* Vertical rules are filled hairlines, not borders. */
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__gridline),
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__today) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--border-width-default);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__gridline--year) { background: var(--color-border-default-subtle); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__gridline--quarter) {
+    background: linear-gradient(var(--color-border-default-subtle) 50%, transparent 0) 0 0 / 100% var(--spacing-100);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__today) {
+    width: var(--border-width-emphasis);
+    translate: -50% 0;
+    background: var(--color-content-default);
+  }
+
+  /* ── Group label rows (Federal / State / Local) ── */
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__group) {
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__group-label) {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    padding: var(--spacing-200) var(--spacing-300) var(--spacing-100);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border-right: 1px solid var(--color-border-default);
+  }
+
+  /* ── Permit rows ── */
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row) {
+    min-height: var(--_row-h);
+    cursor: pointer;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, currentColor);
+    outline-offset: -2px;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__label) {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: var(--spacing-100) var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border-right: 1px solid var(--color-border-default);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:hover .bcn-permit-timeline__label),
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:focus-visible .bcn-permit-timeline__label) {
+    background: color-mix(in srgb, var(--color-content-default) 4%, var(--color-background-elevation-raised));
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:hover .bcn-permit-timeline__plot),
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:focus-visible .bcn-permit-timeline__plot) {
+    background: var(--_tint-hover);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__name),
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__agency) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__name) { color: var(--color-content-default); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__agency) { color: var(--color-content-default-secondary); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__row:hover .bcn-permit-timeline__name) { text-decoration: underline; }
+
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__plot) { position: relative; }
+
+  /* ── Bar marks ── */
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__seg) {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    height: var(--_bar-h);
+    transform: translateY(-50%);
+    border-radius: var(--radius-xs);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__seg--agency) { background: var(--_tone-agency); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__seg--responding) {
+    background: var(--_hatch), var(--color-background-elevation-raised);
+    box-shadow: inset 0 0 0 1px var(--color-border-default-strong);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__seg--valid) {
+    height: calc(var(--_bar-h) * 0.6);
+    background: color-mix(in srgb, var(--_tone-valid) 30%, transparent);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__seg--expected) {
+    border: 1.5px dashed var(--_tone-valid);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__issued) {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 0.625rem;
+    height: 0.625rem;
+    background: var(--_tone-valid);
+    border: 1.5px solid var(--color-background-elevation-raised);
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__note) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* ── Dependency connectors ── */
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__link) {
+    fill: none;
+    stroke-width: 1.25;
+    transition: opacity 120ms ease, stroke-width 120ms ease;
+  }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__link--met) { stroke: var(--color-border-default-strong); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__link--unmet) { stroke: var(--color-content-default); stroke-width: 1.75; }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__marker--met) { fill: var(--color-border-default-strong); }
+  .bcn-permit-timeline__body :global(.bcn-permit-timeline__marker--unmet) { fill: var(--color-content-default); }
+  .bcn-permit-timeline__body[data-focus] :global(.bcn-permit-timeline__link) { opacity: 0.15; }
+  .bcn-permit-timeline__body[data-focus] :global(.bcn-permit-timeline__link.is-lit) { opacity: 1; stroke-width: 2.25; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-permit-timeline__body :global(.bcn-permit-timeline__link) { transition: none; }
+  }
+
+  /* Phone width: a narrower sticky name column; the plot keeps its scale and scrolls. */
+  @container (max-width: 37.5rem) {
+    .bcn-permit-timeline__scroll { --_label-w: 9.5rem; }
+  }
+</style>

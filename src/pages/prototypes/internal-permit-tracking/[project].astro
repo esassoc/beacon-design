@@ -1,0 +1,89 @@
+---
+// Permits app — one project's permits. The register (grouped by level, jurisdiction or
+// status), the cradle-to-grave timeline with review rounds and the dependency chain,
+// and submittal readiness; any permit opens its full record over the page.
+//
+// Submittal readiness is one of two placements being compared for the submittal
+// checklist: this project-level tab, or only inside each permit's record (which has it
+// either way).
+import PermitsShell from '../../../layouts/PermitsShell.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPermitRegister from '../../../components/bcn/BcnPermitRegister.astro';
+import BcnPermitTimeline from '../../../components/bcn/BcnPermitTimeline.astro';
+import BcnPermitReadiness from '../../../components/bcn/BcnPermitReadiness.astro';
+import BcnPermitDialog from '../../../components/bcn/BcnPermitDialog.astro';
+import BcnPermitEdit from '../../../components/bcn/BcnPermitEdit.astro';
+import BcnPermitAdd from '../../../components/bcn/BcnPermitAdd.astro';
+import BcnPermitHandOff from '../../../components/bcn/BcnPermitHandOff.astro';
+import { withBase } from '../../../lib/base';
+import { PROJECTS, ROUTES, permitsForProject, personName, formatMonth, type Project } from '../../../data/internal-permits';
+
+export function getStaticPaths() {
+  return PROJECTS.map((project) => ({ params: { project: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const permits = permitsForProject(project.id);
+const [pm, ...earlier] = project.pms;
+
+const meta = [
+  { label: 'Client', value: project.client },
+  { label: 'Location', value: project.location },
+  { label: 'Phase', value: project.phase },
+  { label: 'Project Manager', value: personName(pm?.personId) },
+  ...earlier.map((t) => ({ label: 'Previous Project Manager', value: `${personName(t.personId)}, ${formatMonth(t.from)} to ${formatMonth(t.to)}` })),
+  { label: 'Started', value: formatMonth(project.started) },
+  ...(project.sites.length > 1 ? [{ label: 'Sites', value: project.sites.join(', ') }] : []),
+];
+
+const TABS = [{ label: 'Permits' }, { label: 'Timeline' }, { label: 'Submittal Readiness' }];
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - page header         -> esa-page-header        # project name, client, phase, PMs; Add Permit + Hand Off
+    - views               -> esa-tab-layout         # Permits · Timeline · Submittal Readiness
+    - register            -> bcn-permit-register    # grouped AG Grid
+    - timeline            -> bcn-permit-timeline    # rounds, validity, dependency connectors
+    - submittal readiness -> bcn-permit-readiness   # placement option B for the checklist
+    - permit record       -> bcn-permit-dialog      # XL modal, Jira layout
+    - permit editor       -> bcn-permit-edit        # side panel
+    - add from catalog    -> bcn-permit-add         # side panel
+    - client hand-off     -> bcn-permit-hand-off    # export + shared view
+-->
+<PermitsShell title={project.name} active={project.detailed ? project.id : 'projects'}>
+  <div class="stack" data-gap="lg">
+    <EsaPageHeader title={project.name} meta={meta}>
+      <EsaBreadcrumbs slot="breadcrumbs" items={[{ label: 'Projects', href: withBase(ROUTES.home) }, { label: project.name }]} />
+      <Fragment slot="actions">
+        <span data-permit-handoff><EsaButton variant="secondary">Hand Off</EsaButton></span>
+        <span data-permit-add><EsaButton variant="primary" icon="plus">Add Permit</EsaButton></span>
+      </Fragment>
+    </EsaPageHeader>
+
+    <esa-tab-layout tabs={JSON.stringify(TABS)} size="md" active-index="0">
+      <div slot="panel-0"><BcnPermitRegister project={project} /></div>
+      <div slot="panel-1"><BcnPermitTimeline project={project} /></div>
+      <div slot="panel-2"><BcnPermitReadiness project={project} /></div>
+    </esa-tab-layout>
+  </div>
+
+  <script type="application/json" id="permits-data" set:html={JSON.stringify(permits)}></script>
+
+  <Fragment slot="overlays">
+    <BcnPermitDialog project={project} />
+    <BcnPermitEdit project={project} />
+    <BcnPermitAdd project={project} />
+    <BcnPermitHandOff project={project} />
+  </Fragment>
+</PermitsShell>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+</script>

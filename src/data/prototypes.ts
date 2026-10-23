@@ -9,7 +9,7 @@
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
 /** The tenant an effort was built for. 'platform' = ships to every tenant. */
-export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'platform';
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'esa' | 'platform';
 
 /** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
 export const TENANT_LABEL: Record<PrototypeTenant, string> = {
@@ -17,6 +17,7 @@ export const TENANT_LABEL: Record<PrototypeTenant, string> = {
   prologis: 'Prologis',
   aws: 'AWS',
   beale: 'Beale',
+  esa: 'ESA internal',
   platform: 'All tenants',
 };
 
@@ -88,6 +89,47 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 }
 
 export const prototypeGroups: PrototypeGroup[] = [
+  {
+    slug: 'internal-permit-tracking',
+    tenant: 'esa',
+    title: 'Internal Permit Tracking',
+    description:
+      'A standalone permit tracker for ESA staff, a satellite of Beacon: its own shell, Beacon’s components and tokens. Every project’s permits from trigger to expiration, with review rounds, dependencies, submittal requirements, a jurisdiction catalog and turnaround from ESA’s own history.',
+    pages: [
+      {
+        slug: 'internal-permit-tracking',
+        title: 'Projects',
+        description: 'Every ESA project tracking permits, with where each one’s permits stand and what expires next.',
+        route: '/prototypes/internal-permit-tracking',
+        createdAt: '2026-10-22',
+        status: 'in-progress',
+      },
+      {
+        slug: 'internal-permit-tracking-project',
+        title: 'Project permits (inherited project)',
+        description: 'A project running since 2018: the register grouped by level or jurisdiction, the timeline with review rounds and dependencies, submittal readiness, and each permit’s full record.',
+        route: '/prototypes/internal-permit-tracking/north-creek-commons',
+        createdAt: '2026-10-22',
+        status: 'in-progress',
+      },
+      {
+        slug: 'internal-permit-tracking-catalog',
+        title: 'Permit Catalog',
+        description: 'Permits per jurisdiction under their local names, with submittal requirements and where each jurisdiction publishes them.',
+        route: '/prototypes/internal-permit-tracking/catalog',
+        createdAt: '2026-10-22',
+        status: 'in-progress',
+      },
+      {
+        slug: 'internal-permit-tracking-turnaround',
+        title: 'Turnaround',
+        description: 'How long each permit takes in each jurisdiction, from every permit ESA has seen issued.',
+        route: '/prototypes/internal-permit-tracking/turnaround',
+        createdAt: '2026-10-22',
+        status: 'in-progress',
+      },
+    ],
+  },
   {
     slug: 'comments',
     tenant: 'platform',

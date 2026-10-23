@@ -1,0 +1,143 @@
+---
+// <BcnPermitAdd> — add a permit to a project from the jurisdiction catalog. The standard
+// slide-in side panel (right, 560px; full width on a phone): Jurisdiction, then that
+// jurisdiction's Permit, Site (only when the project has more than one), Trigger and
+// Assignee. Once a permit is picked, a read-only preview of what it will start with: its
+// Submittal Requirements (where they come from, how long it stays valid) and Turnaround
+// Here, derived from every issued permit of that kind.
+//
+// Opens when any element carrying `data-permit-add` is clicked (delegated on document).
+// "Add Permit" builds a Permit from the catalog entry, calls addPermit() (the store fires
+// `bcn-permit-added`), closes, then openPermit(id) so the new permit opens in the detail
+// dialog. Disabled until Jurisdiction, Permit and Trigger are set.
+//
+// The catalog (with each entry's turnaround already worded) rides in a JSON island so the
+// client never ships the whole permit fixture. ONE pre-rendered shell driven by
+// ./permit-add.ts.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog; Jurisdiction / Permit / Site / Assignee
+// ARE esa-select; Trigger IS esa-textarea; Add Permit / Cancel ARE esa-button; the preview's
+// label/value tier IS BcnKeyValue. Checked Ecology for a read-only "what this starts with"
+// preview and found none (esa-card is a container, esa-collapsible hides content); checked
+// Beacon: no add-from-catalog drawer exists. The only CSS is panel width and the preview's
+// list rhythm.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import type { Project } from '../../data/internal-permits';
+import type { PermitAddCatalogEntry } from './permit-add';
+import {
+  CATALOG,
+  CURRENT_USER_ID,
+  JURISDICTIONS,
+  LEVEL_ORDER,
+  PEOPLE,
+  REQUIREMENT_SOURCE_LABEL,
+  formatMonths,
+  turnaroundByEntry,
+} from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+const turnaround = new Map(turnaroundByEntry().map((r) => [r.catalogId, r]));
+const catalog: PermitAddCatalogEntry[] = CATALOG.map((c) => {
+  const t = turnaround.get(c.id);
+  const n = t?.spans.length ?? 0;
+  return {
+    id: c.id,
+    jurisdictionId: c.jurisdictionId,
+    localName: c.localName,
+    label: c.abbreviation ? `${c.localName} (${c.abbreviation})` : c.localName,
+    requirements: c.requirements,
+    source: `${REQUIREMENT_SOURCE_LABEL[c.source]}: ${c.sourceRef}`,
+    validity: c.validMonths ? `Valid ${formatMonths(c.validMonths)}` : null,
+    turnaround: t && n ? `Median ${formatMonths(t.median)} across ${n} issued ${n === 1 ? 'permit' : 'permits'}` : null,
+  };
+});
+
+// Federal → State → Local; only jurisdictions with something in the catalog.
+const withEntries = new Set(CATALOG.map((c) => c.jurisdictionId));
+const JURISDICTION_OPTIONS = [...JURISDICTIONS]
+  .filter((j) => withEntries.has(j.id))
+  .sort((a, b) => LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level))
+  .map((j) => ({ value: j.id, label: j.name }));
+const PEOPLE_OPTIONS = PEOPLE.map((p) => ({ value: p.id, label: p.name }));
+const WHOLE_PROJECT = '__whole-project';
+const SITE_OPTIONS = [{ value: WHOLE_PROJECT, label: 'Whole project' }, ...project.sites.map((s) => ({ value: s, label: s }))];
+const multiSite = project.sites.length > 1;
+---
+
+<div
+  class="bcn-permit-add"
+  data-bcn-permit-add
+  data-project-id={project.id}
+  data-current-user={CURRENT_USER_ID}
+  data-whole-project={WHOLE_PROJECT}
+>
+  <esa-side-dialog class="bcn-permit-add__dialog" position="right" heading="Add Permit">
+    <form class="stack" data-gap="lg" data-pa="form" novalidate>
+      <div class="stack" data-gap="md">
+        <esa-select label="Jurisdiction" required data-pa="jurisdiction" data-options={JSON.stringify(JURISDICTION_OPTIONS)}></esa-select>
+        <esa-select label="Permit" required disabled data-pa="permit"></esa-select>
+        {multiSite && <esa-select label="Site" data-pa="site" data-options={JSON.stringify(SITE_OPTIONS)}></esa-select>}
+        <esa-textarea label="Trigger" required rows="3" auto-resize data-pa="trigger"></esa-textarea>
+        <esa-select label="Assignee" data-pa="assignee" data-options={JSON.stringify(PEOPLE_OPTIONS)}></esa-select>
+      </div>
+
+      <div class="stack bcn-permit-add__preview" data-gap="md" data-pa="preview" hidden>
+        <BcnKeyValue label="Submittal Requirements">
+          <ul class="bcn-permit-add__reqs typography-body-md" data-pa="reqs"></ul>
+          <span class="bcn-permit-add__meta typography-body-sm" data-pa="source"></span>
+          <span class="bcn-permit-add__meta typography-body-sm" data-pa="validity"></span>
+        </BcnKeyValue>
+        <div data-pa="turnaround-wrap">
+          <BcnKeyValue label="Turnaround Here">
+            <span class="bcn-permit-add__value typography-body-md" data-pa="turnaround"></span>
+          </BcnKeyValue>
+        </div>
+      </div>
+    </form>
+
+    <div slot="footer" class="cluster" data-justify="end" data-gap="xs">
+      <EsaButton variant="primary" disabled data-pa="add">Add Permit</EsaButton>
+      <EsaButton variant="secondary" appearance="outline" data-pa="cancel">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <script type="application/json" data-pa="catalog" set:html={JSON.stringify(catalog)}></script>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import { setupPermitAdd } from './permit-add';
+  setupPermitAdd();
+</script>
+
+<style>
+  /* The legos set their own display; inside this panel `hidden` must always win. */
+  .bcn-permit-add :global([hidden]) { display: none !important; }
+
+  /* 560px on desktop (a sanctioned hard-code: the hub's width ramp stops at lg = 520px);
+     on a phone the inset goes to zero so the panel takes the whole viewport. */
+  .bcn-permit-add__dialog { --side-dialog-width: 560px; }
+  @media (max-width: 480px) {
+    .bcn-permit-add__dialog { --side-dialog-inset: 0px; }
+  }
+
+  .bcn-permit-add__preview {
+    padding-top: var(--spacing-500);
+    border-top: var(--border-width-default, 1px) solid var(--color-border-default-subtle);
+  }
+  .bcn-permit-add__reqs {
+    margin: var(--spacing-100) 0 var(--spacing-200);
+    padding-left: var(--spacing-500);
+    color: var(--color-content-default);
+  }
+  .bcn-permit-add__meta { color: var(--color-content-default-secondary); }
+  .bcn-permit-add__meta:empty { display: none; }
+  .bcn-permit-add__value { color: var(--color-content-default); }
+</style>

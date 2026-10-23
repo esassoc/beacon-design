@@ -1,0 +1,151 @@
+---
+// PermitsShell — the frame of the standalone Permits app, a satellite of Beacon. It is
+// NOT Beacon's AppShell: no Beacon side nav, no project switcher, no compliance
+// sections. It is the hub's canonical esa-app-shell (neutral chrome, sidebar toggle,
+// omnibox, profile menu) carrying the Permits app's own three destinations, worn in
+// the Beacon theme (BaseLayout sets data-theme="beacon"), so every esa-* lego and
+// bcn-* component inside reads exactly as it does in Beacon.
+//
+// Two pieces of glue live here because the shell owns them:
+//   • Phone width: esa-sidebar-nav has a drawer mode the host is meant to drive from a
+//     matchMedia, and esa-app-shell does not drive it yet — so this layout does, and
+//     stacks the shell body so the drawer's head becomes a bar above the content.
+//   • --st-* for BcnStatusChip: the chip reads a runtime --st-<status> property (it
+//     was built for Permit Tracking's palette switcher). Here the ladder maps once onto
+//     Beacon's semantic status tokens, so every chip in the app agrees.
+//
+// bcn-lego-checked: composed from esa-app-shell (esa-app-bar + esa-sidebar-nav +
+// esa-entity-search + esa-dropdown-menu). Checked Beacon's AppShell (it is the Beacon
+// product nav this app must not carry). The only CSS is the viewport frame and the
+// --st-* mapping; hub gap: esa-app-shell should drive esa-sidebar-nav's drawer below
+// its own 720px breakpoint.
+import BaseLayout from './BaseLayout.astro';
+import EsaAppShell, { type AppShellNavItem, type AppShellSearchEntry } from '@esa/ecology/esa-app-shell.astro';
+import { withBase } from '../lib/base';
+import {
+  CURRENT_USER_ID,
+  JURISDICTIONS,
+  PERMITS,
+  PROJECTS,
+  ROUTES,
+  STATUS_META,
+  personName,
+  projectById,
+} from '../data/internal-permits';
+
+interface Props {
+  title: string;
+  /** Nav key of the current destination: 'projects' | 'catalog' | 'turnaround' | a project id. */
+  active: string;
+}
+const { title, active } = Astro.props;
+
+// Lucide inner paths.
+const ICON = {
+  projects: '<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/>',
+  catalog: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>',
+  turnaround: '<path d="M10 2h4"/><path d="M12 14v-4"/><path d="M4 13a8 8 0 0 1 8-7 8 8 0 1 1-5.3 14L4 17.6"/><path d="M9 17H4v5"/>',
+  project: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+};
+
+const activeProjects = PROJECTS.filter((p) => p.detailed);
+const items: AppShellNavItem[] = [
+  { key: 'projects', label: 'Projects', href: withBase(ROUTES.home), icon: ICON.projects },
+  { key: 'catalog', label: 'Permit Catalog', href: withBase(ROUTES.catalog), icon: ICON.catalog },
+  { key: 'turnaround', label: 'Turnaround', href: withBase(ROUTES.turnaround), icon: ICON.turnaround },
+  ...activeProjects.map((p) => ({ key: p.id, label: p.name, href: withBase(ROUTES.project(p.id)), icon: ICON.project, group: 'Active Projects' })),
+];
+
+const searchIndex: AppShellSearchEntry[] = [
+  ...PROJECTS.map((p) => ({ id: withBase(ROUTES.project(p.id)), title: p.name, subtitle: p.client, category: 'Projects' })),
+  ...PERMITS.filter((p) => projectById(p.projectId)?.detailed).map((p) => ({
+    id: `${withBase(ROUTES.project(p.projectId))}#permit=${p.id}`,
+    title: p.referenceNumber ? `${p.name} (${p.referenceNumber})` : p.name,
+    subtitle: projectById(p.projectId)?.name,
+    category: 'Permits',
+  })),
+  ...JURISDICTIONS.map((j) => ({ id: `${withBase(ROUTES.catalog)}#${j.id}`, title: j.name, subtitle: j.level, category: 'Jurisdictions' })),
+];
+
+const stVars = [
+  `--st-not-started: ${STATUS_META['not-started'].tone}`,
+  `--st-in-preparation: ${STATUS_META['in-preparation'].tone}`,
+  `--st-submitted: ${STATUS_META.submitted.tone}`,
+  `--st-under-review: ${STATUS_META['under-review'].tone}`,
+  `--st-cleared: ${STATUS_META.issued.tone}`,
+  `--st-not-required: ${STATUS_META['not-required'].tone}`,
+].join('; ');
+---
+
+<BaseLayout title={`${title} · Beacon Permits`}>
+  <div class="permits-app" style={stVars}>
+    <EsaAppShell
+      id="permits"
+      title="Permits"
+      active={active}
+      items={items}
+      userName={personName(CURRENT_USER_ID)}
+      searchIndex={searchIndex}
+      searchPlaceholder="Search projects, permits, jurisdictions…"
+      brandHref={withBase(ROUTES.home)}
+    >
+      <Fragment slot="logo">
+        <img class="permits-app__mark" src={withBase('/beacon-icon.svg')} alt="" width="28" height="28" />
+        <span class="permits-app__wordmark typography-title-strong">Permits</span>
+      </Fragment>
+      <slot />
+    </EsaAppShell>
+  </div>
+  <slot name="overlays" />
+</BaseLayout>
+
+<script>
+  // Phone width: the rail becomes esa-sidebar-nav's drawer, opened by the drawer's own
+  // Menu toggle (the corner toggle is hidden at this width, see the style block).
+  type Nav = HTMLElement & { drawer: boolean; collapsed: boolean; label: string };
+  const nav = document.getElementById('permits-nav') as Nav | null;
+  const mq = window.matchMedia('(max-width: 720px)');
+  const apply = () => {
+    if (!nav) return;
+    nav.drawer = mq.matches;
+    nav.label = mq.matches ? 'Menu' : 'Sidebar';
+    if (mq.matches) nav.collapsed = false;
+  };
+  apply();
+  mq.addEventListener('change', apply);
+</script>
+
+<style>
+  .permits-app {
+    block-size: 100dvh;
+  }
+  .permits-app__mark {
+    display: block;
+    flex: none;
+  }
+  .permits-app__wordmark {
+    color: var(--color-content-default);
+  }
+  :global(esa-sidebar-nav[collapsed]) .permits-app__wordmark {
+    display: none;
+  }
+  /* Phone: in drawer mode the rail's head (logo + its own menu toggle) is all that
+     stays in flow, so the body stacks it above the content as a bar instead of
+     reserving a column, and the corner toggle (which collapses a rail that is no
+     longer there) steps aside. */
+  @media (max-width: 720px) {
+    .permits-app :global(.esa-app-shell__body) {
+      flex-direction: column;
+    }
+    .permits-app :global(.esa-app-shell__toggle) {
+      display: none;
+    }
+    .permits-app :global(.esa-app-shell__nav) {
+      padding-inline: var(--spacing-400);
+      border-block-end: var(--border-width-default) solid var(--color-border-default);
+    }
+    .permits-app :global(.esa-app-shell__content) {
+      padding: var(--spacing-400);
+    }
+  }
+</style>

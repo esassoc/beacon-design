@@ -1,0 +1,153 @@
+---
+// <BcnPermitReadiness> — a project's "what is stopping us from submitting?" view.
+// Lists every permit not yet submitted (Not Started / In Preparation), most ready
+// first: fewest open items, then earliest estimated issue date. Each permit is a slim
+// item: its name (opens the permit detail), agency and assignee, status chip, an
+// "N of M ready" count with a bar, and the open items blocking submittal. Open
+// requirements are checkable in place (esa-checkbox → toggleRequirement); one that is
+// another permit's outcome shows that permit's name + status chip and is done when
+// that permit is issued (not checkable); unmet dependencies read "Waits on <permit>
+// to be <issued|submitted>" and are not checkable either.
+//
+// Reads the client store (initFromIsland) and repaints on bcn-permit-updated /
+// bcn-permit-added, so the list is built client-side by permit-readiness.ts. The
+// page must render the `permits-data` island.
+//
+// bcn-lego-checked: esa-card is the shell, esa-empty-state the all-submitted state,
+// esa-progress-bar the bar (one SSR instance in a <template>, cloned per item so the
+// lego's scoped CSS still applies), esa-checkbox the checkable items, BcnStatusChip
+// markup the status, BcnCount the header count. Checked BcnReadiness (fish back-
+// planning chains) and BcnFieldDocReadiness (campaign count strip): neither is a
+// per-record checklist. Checked Beacon (no submittal-readiness surface). The CSS here
+// is item layout and list resets only.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import BcnCount from './BcnCount.astro';
+import type { Project } from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<section class="bcn-permit-readiness" data-bcn-permit-readiness data-project-id={project.id}>
+  <EsaCard padding="none">
+    <div slot="header" class="cluster bcn-permit-readiness__header" data-gap="xs">
+      <h3 class="bcn-permit-readiness__title">Submittal Readiness</h3>
+      <span data-bcn-permit-readiness-count><BcnCount value="" /></span>
+    </div>
+
+    <ul class="bcn-permit-readiness__list" role="list" data-bcn-permit-readiness-list></ul>
+
+    <div data-bcn-permit-readiness-empty hidden>
+      <EsaEmptyState title="Every permit is submitted" size="md" />
+    </div>
+
+    <template data-bcn-permit-readiness-bar>
+      <EsaProgressBar value={0} size="sm" showValue={false} />
+    </template>
+  </EsaCard>
+</section>
+
+<script>
+  import '@esa/ecology/esa-checkbox';
+  import { setupPermitReadiness } from './permit-readiness';
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-permit-readiness]').forEach(setupPermitReadiness);
+</script>
+
+<style>
+  /* padding="none" zeroes the card's own header inset; put it back so the title lines
+     up with the items below. */
+  .bcn-permit-readiness__header {
+    padding-inline: var(--spacing-500, 1.5rem);
+  }
+
+  .bcn-permit-readiness__title {
+    margin: 0;
+    font: inherit;
+  }
+
+  .bcn-permit-readiness__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Everything below is built by permit-readiness.ts, so it is reached with :global(). */
+  .bcn-permit-readiness :global(.bcn-permit-readiness__item) {
+    padding: var(--spacing-400, 1rem) var(--spacing-500, 1.5rem);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__item + .bcn-permit-readiness__item) {
+    border-top: var(--border-width-default, 1px) solid var(--color-border-default-subtle, #d9d9d9);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__layout) {
+    --sidebar-width: 22rem;
+    --sidebar-content-min: 50%;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__head .bcn-status-chip) {
+    flex-shrink: 0;
+  }
+
+  /* A requirement that is another permit's outcome: its name and status, not a checkbox. */
+  .bcn-permit-readiness :global(.bcn-permit-readiness__linked) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__name) {
+    margin: 0;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__name-link) {
+    color: var(--color-content-default, #202020);
+    text-decoration: none;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__name-link:hover),
+  .bcn-permit-readiness :global(.bcn-permit-readiness__dep-link:hover) {
+    text-decoration: underline;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__meta),
+  .bcn-permit-readiness :global(.bcn-permit-readiness__count) {
+    color: var(--color-content-default-secondary, #646464);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__count) {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* The cloned esa-progress-bar sits beside its count instead of spanning the row. */
+  .bcn-permit-readiness :global(.bcn-permit-readiness__progress > .esa-progress-bar) {
+    flex: 1 1 6rem;
+    width: auto;
+    max-inline-size: 14rem;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__open-list) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__dep) {
+    color: var(--color-content-default, #202020);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__dep-link) {
+    color: var(--color-content-link, #0d74ce);
+  }
+
+  .bcn-permit-readiness :global(.bcn-permit-readiness__ready) {
+    color: var(--color-content-utility-success, #218358);
+  }
+</style>

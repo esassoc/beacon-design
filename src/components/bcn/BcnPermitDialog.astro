@@ -1,0 +1,335 @@
+---
+// <BcnPermitDialog> — the permit record: everything about one permit, the place an
+// inherited project's history is found. An XL modal over the project page in the Jira
+// layout — the record's substance in the main column (Trigger, Review History,
+// Submittal Requirements, Dependencies, Conditions, Files, Comments), small facts in a
+// right rail. A fixed ~86vh x min(1120px, 94vw) footprint that never resizes as the
+// content changes; the body scrolls. At phone width the hub dialog becomes a full-width
+// sheet and the rail drops under the main column (stage media query).
+//
+// The fixed chrome is server-rendered here: the esa-dialog shell, the header (name,
+// status chip, Edit), every section heading, the esa-file-upload dropzone and the
+// comment composer. Everything that varies per permit is painted client-side by
+// ./permit-dialog.ts from the permits store, because any permit — including one added
+// in the browser — can open here. That is why the CSS for injected rows is :global().
+//
+// Wiring: listens for `bcn-permit-open` ({ permitId }) and `#permit=<id>` (load +
+// hashchange), sets/clears that hash; repaints on `bcn-permit-updated`; Edit fires
+// `bcn-permit-edit` ({ permitId }) on document. The page must render the
+// `#permits-data` island the store reads.
+//
+// bcn-lego-checked: the shell IS esa-dialog (native <dialog>: Esc, backdrop click and
+// its own close button), the header and composer actions ARE esa-button, the composer
+// IS esa-textarea, the dropzone IS esa-file-upload, requirement ticks ARE esa-checkbox,
+// the rail IS an esa-card of BcnKeyValue rows (row layout), status IS BcnStatusChip,
+// the expiring flag IS esa-badge, layout IS .stack/.cluster/.repel plus a two-area stage grid. No esa-*
+// lego renders a dated review ladder, a file-trail row or a client-rendered comment
+// list — checked esa-file-list (picked File objects, not a stored trail) and
+// BcnDiscussion (SSR-only from props, avatar lego markup cannot be built in JS); the
+// comment rows keep BcnDiscussion's author / time / text look. Checked Beacon: prod has
+// no permit record view (permits are a Source with a files tab). bcn-permit-dialog is
+// the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import { ROUTES, type Project } from '../../data/internal-permits';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const turnaroundHref = withBase(ROUTES.turnaround);
+---
+
+<esa-dialog
+  class="bcn-permit-dialog"
+  data-permit-dialog
+  data-project-id={project.id}
+  data-turnaround-href={turnaroundHref}
+  style="--_dialog-width: min(1120px, 94vw); --_dialog-max-height: 86vh;"
+>
+  <div slot="header" class="repel bcn-permit-dialog__head" data-gap="sm">
+    <div class="cluster bcn-permit-dialog__ident" data-gap="sm">
+      <h2 class="bcn-permit-dialog__title typography-title-strong" data-pd="name"></h2>
+      <span data-pd="status"><BcnStatusChip status="not-started" label="Not Started" hex="var(--bcn-status-not-started)" /></span>
+    </div>
+    <EsaButton variant="secondary" size="sm" class="bcn-permit-dialog__edit" data-pd-edit>Edit</EsaButton>
+  </div>
+
+  <div class="bcn-permit-dialog__stage">
+    <aside class="bcn-permit-dialog__rail" aria-label="Permit facts">
+      <EsaCard title="Details" variant="outlined" padding="compact">
+        <div class="stack bcn-permit-dialog__facts" data-gap="xs" data-pd="facts"></div>
+      </EsaCard>
+    </aside>
+
+    <div class="stack bcn-permit-dialog__main" data-gap="xl">
+      <section class="stack" data-gap="xs" data-pd-section="trigger">
+        <h3 class="typography-title-sm-strong">Trigger</h3>
+        <p class="typography-body-md" data-pd="trigger"></p>
+      </section>
+
+      <section class="stack" data-gap="sm" data-pd-section="history">
+        <h3 class="typography-title-sm-strong">Review History</h3>
+        <ol class="bcn-permit-dialog__ladder" data-pd="history"></ol>
+      </section>
+
+      <section class="stack" data-gap="sm" data-pd-section="requirements">
+        <div class="cluster" data-gap="sm" data-align="baseline">
+          <h3 class="typography-title-sm-strong">Submittal Requirements</h3>
+          <span class="bcn-permit-dialog__meta typography-meta" data-pd="req-count"></span>
+        </div>
+        <ul class="bcn-permit-dialog__reqs" data-pd="requirements"></ul>
+        <p class="bcn-permit-dialog__meta typography-meta" data-pd="req-source"></p>
+      </section>
+
+      <section class="stack" data-gap="sm" data-pd-section="dependencies">
+        <h3 class="typography-title-sm-strong">Dependencies</h3>
+        <div class="stack" data-gap="xs" data-pd-side="waits">
+          <h4 class="typography-label-md-strong">Waits On</h4>
+          <ul class="bcn-permit-dialog__deps" data-pd="waits"></ul>
+        </div>
+        <div class="stack" data-gap="xs" data-pd-side="holds">
+          <h4 class="typography-label-md-strong">Holds Up</h4>
+          <ul class="bcn-permit-dialog__deps" data-pd="holds"></ul>
+        </div>
+      </section>
+
+      <section class="stack" data-gap="xs" data-pd-section="conditions">
+        <h3 class="typography-title-sm-strong">Conditions</h3>
+        <div class="cluster" data-gap="md">
+          <span class="typography-body-md" data-pd="conditions"></span>
+          <a class="typography-body-sm" href="#" data-pd="tracked">Tracked in Beacon</a>
+          <span data-pd="track"><EsaButton variant="secondary" appearance="outline" size="sm" data-pd-track>Track in Beacon</EsaButton></span>
+        </div>
+      </section>
+
+      <section class="stack" data-gap="sm" data-pd-section="files">
+        <h3 class="typography-title-sm-strong">Files</h3>
+        <ul class="bcn-permit-dialog__files" data-pd="files"></ul>
+        <esa-file-upload label="Add Files" multiple max-size-mb="100"></esa-file-upload>
+      </section>
+
+      <section class="stack" data-gap="sm" data-pd-section="comments">
+        <h3 class="typography-title-sm-strong">Comments</h3>
+        <ul class="bcn-permit-dialog__comments" data-pd="comments"></ul>
+        <div class="stack" data-gap="xs">
+          <esa-textarea rows="2" aria-label="New comment" placeholder="Write a comment"></esa-textarea>
+          <div class="cluster bcn-permit-dialog__post" data-gap="xs">
+            <EsaButton variant="primary" size="sm" data-pd-post>Post</EsaButton>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <template data-pd-tpl="fact"><BcnKeyValue label="Label" value="Value" layout="row" size="sm" /></template>
+  <template data-pd-tpl="badge"><EsaBadge value="Badge" size="sm" /></template>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-file-upload';
+  import { setupPermitDialog } from './permit-dialog';
+
+  const root = document.querySelector<HTMLElement>('[data-permit-dialog]');
+  if (root) setupPermitDialog(root);
+</script>
+
+<style>
+  /* bcn-lego-checked: dialog geometry and the injected list rows only — the shell is
+     esa-dialog, layout is .stack/.cluster/.repel, type is the composites. */
+
+  /* Fixed footprint: the stage holds the frame at ~86vh minus the header and body
+     padding, so the dialog never grows or shrinks between permits; the hub body
+     (overflow-y: auto) scrolls. */
+  .bcn-permit-dialog {
+    --_pd-stage: calc(86vh - 9.5rem);
+  }
+  /* Jira layout: main left, rail right; below ~720px of dialog width (a ~766px
+     viewport at 94vw) the rail stacks under the main column. */
+  .bcn-permit-dialog__stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    grid-template-areas: 'main rail';
+    gap: var(--spacing-600);
+    align-items: start;
+    min-height: var(--_pd-stage);
+  }
+  .bcn-permit-dialog__main { grid-area: main; }
+  .bcn-permit-dialog__rail { grid-area: rail; }
+  @media (max-width: 766px) {
+    .bcn-permit-dialog__stage {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'main' 'rail';
+    }
+  }
+  .bcn-permit-dialog :global([hidden]) { display: none !important; }
+
+  /* The name wraps inside its own column; Edit stays beside the dialog's close button. */
+  .bcn-permit-dialog__head { flex: 1; min-width: 0; flex-wrap: nowrap; align-items: flex-start; }
+  .bcn-permit-dialog__ident { flex: 1; min-width: 0; }
+  .bcn-permit-dialog__edit { flex: none; }
+  .bcn-permit-dialog__title { margin: 0; color: var(--color-content-default); }
+  .bcn-permit-dialog__main { min-width: 0; }
+  .bcn-permit-dialog__rail { min-width: 0; }
+
+  .bcn-permit-dialog__meta { color: var(--color-content-default-secondary); }
+  .bcn-permit-dialog__post { justify-content: flex-end; }
+
+  /* The rail's key column fits "Turnaround Here" / "Agency Contact" on one line. */
+  .bcn-permit-dialog__facts :global(.bcn-key-value[data-layout='row']) { grid-template-columns: 7.5rem minmax(0, 1fr); }
+  .bcn-permit-dialog__facts :global(.bcn-key-value__val) { overflow-wrap: anywhere; }
+  .bcn-permit-dialog__facts :global(.bcn-key-value__val .esa-badge) { margin-top: var(--spacing-100); }
+  /* A long status ("Under Agency Review") wraps inside the rail instead of overflowing it. */
+  .bcn-permit-dialog__facts :global(.bcn-status-chip) { max-width: 100%; white-space: normal; }
+  :global(.bcn-permit-dialog__fact-sub) {
+    display: block;
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Links inside the record (permit names, Tracked in Beacon, turnaround). */
+  .bcn-permit-dialog :global(a) {
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+  .bcn-permit-dialog :global(a:hover) { text-decoration: underline; }
+
+  /* Injected lists share one reset. */
+  .bcn-permit-dialog :global(:is(.bcn-permit-dialog__ladder, .bcn-permit-dialog__reqs, .bcn-permit-dialog__deps, .bcn-permit-dialog__files, .bcn-permit-dialog__comments)) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── Review History ladder: a node per step on a connecting rail ── */
+  :global(.bcn-permit-dialog__step) {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr) auto;
+    column-gap: var(--spacing-300);
+    align-items: baseline;
+    padding-bottom: var(--spacing-300);
+    font-size: var(--typography-body-sm-font-size);
+    line-height: var(--typography-body-sm-line-height);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-dialog__step:last-child) { padding-bottom: 0; }
+  :global(.bcn-permit-dialog__step:not(:last-child))::before {
+    content: '';
+    position: absolute;
+    left: calc(0.5rem - 1px);
+    top: 1.1em;
+    bottom: -0.1em;
+    width: 2px;
+    background: var(--color-border-default-subtle);
+  }
+  :global(.bcn-permit-dialog__node) {
+    position: relative;
+    z-index: 1;
+    justify-self: center;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-content-default-secondary);
+    background: var(--color-content-default-secondary);
+    box-sizing: border-box;
+    transform: translateY(0.05em);
+  }
+  :global(.bcn-permit-dialog__step[data-state='current'] .bcn-permit-dialog__node) {
+    border-color: var(--bcn-status-in-progress);
+    background: var(--bcn-status-in-progress);
+  }
+  :global(.bcn-permit-dialog__step[data-state='upcoming'] .bcn-permit-dialog__node) {
+    border-color: var(--color-border-default-strong);
+    background: var(--color-background-elevation-floating);
+  }
+  :global(.bcn-permit-dialog__step[data-state='current'] .bcn-permit-dialog__step-label) {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  :global(.bcn-permit-dialog__step-date) {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* ── Submittal Requirements ── */
+  :global(.bcn-permit-dialog__reqs) { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  :global(.bcn-permit-dialog__req[data-linked]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-300);
+    font-size: var(--typography-body-md-font-size);
+  }
+
+  /* ── Dependencies ── */
+  :global(.bcn-permit-dialog__deps) { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  :global(.bcn-permit-dialog__dep) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-200) var(--spacing-300);
+    font-size: var(--typography-body-sm-font-size);
+  }
+  :global(.bcn-permit-dialog__dep-needs) { color: var(--color-content-default-secondary); }
+  :global(.bcn-permit-dialog__dep-state) {
+    margin-left: auto;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-dialog__dep-state[data-met='true']) { color: var(--color-content-utility-success); }
+
+  /* ── Files: standardized label + date, the uploaded filename beneath ── */
+  :global(.bcn-permit-dialog__files) { display: flex; flex-direction: column; }
+  :global(.bcn-permit-dialog__file) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--spacing-300);
+    padding: var(--spacing-200) 0;
+    border-bottom: var(--border-width-default, 1px) solid var(--color-border-default-subtle);
+  }
+  :global(.bcn-permit-dialog__file:first-child) { padding-top: 0; }
+  :global(.bcn-permit-dialog__file-label) {
+    font-size: var(--typography-body-sm-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-dialog__file-date) { color: var(--color-content-default-secondary); white-space: nowrap; }
+  :global(.bcn-permit-dialog__file-original) {
+    grid-column: 1 / -1;
+    color: var(--color-content-default-secondary);
+    overflow-wrap: anywhere;
+  }
+
+  /* ── Comments: BcnDiscussion's author / time / text tier, oldest first ── */
+  :global(.bcn-permit-dialog__comments) { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  :global(.bcn-permit-dialog__comment) { display: flex; flex-direction: column; gap: var(--spacing-050); }
+  :global(.bcn-permit-dialog__comment-meta) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  :global(.bcn-permit-dialog__comment-author) {
+    font-size: var(--typography-body-sm-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  :global(.bcn-permit-dialog__comment-text) {
+    margin: 0;
+    font-size: var(--typography-body-sm-font-size);
+    line-height: var(--typography-body-sm-line-height);
+    color: var(--color-content-default);
+    white-space: pre-wrap;
+  }
+
+  .bcn-permit-dialog esa-textarea,
+  .bcn-permit-dialog esa-file-upload { width: 100%; }
+</style>

@@ -1,0 +1,104 @@
+---
+// <BcnPermitHandOff> — handing a project's permit record to the client at the end
+// ("easy to hand it off to the client at the end so that they have that information").
+// Whether that hand-off is an export, a shared read-only view, or both is undecided,
+// so the dialog carries both as peers: Export Package (pick the parts, download) and
+// Shared View (turn client access on, name who gets it). Either half can be cut
+// without touching the other.
+//
+// Opens when any element with `data-permit-handoff` is clicked.
+//
+// bcn-lego-checked: composed from esa-dialog, esa-checkbox-group, esa-switch-toggle,
+// esa-input-tag and esa-button. Checked Beacon (no hand-off or share surface; exports
+// are per-grid CSV) and this spoke (BcnHandOffDialog is the developer hand-off tool,
+// not a client export). The only CSS is the two sections' spacing.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { Project } from '../../data/internal-permits';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+const EXPORT_OPTIONS = [
+  { value: 'register-pdf', label: 'Permit register (PDF)' },
+  { value: 'register-csv', label: 'Permit register (CSV)' },
+  { value: 'issued', label: 'Issued permits and conditions' },
+  { value: 'history', label: 'Applications, agency comments and responses' },
+];
+---
+
+<esa-dialog id="bcn-handoff" heading="Hand Off to Client" size="lg" show-close-button data-bcn-handoff>
+  <div class="stack bcn-handoff" data-gap="xl">
+    <section class="stack" data-gap="sm">
+      <h3 class="typography-title bcn-handoff__heading">Export Package</h3>
+      <esa-checkbox-group
+        label="Include"
+        size="md"
+        options={JSON.stringify(EXPORT_OPTIONS)}
+        data-bcn-handoff-parts
+      ></esa-checkbox-group>
+      <div class="cluster">
+        <span data-bcn-handoff-download><EsaButton variant="primary" icon="download">Download</EsaButton></span>
+      </div>
+    </section>
+
+    <section class="stack" data-gap="sm">
+      <h3 class="typography-title bcn-handoff__heading">Shared View</h3>
+      <esa-switch-toggle label={`${project.client} can view this project`} data-bcn-handoff-share></esa-switch-toggle>
+      <div class="stack" data-gap="sm" data-bcn-handoff-people hidden>
+        <esa-input-tag label="People" placeholder="Add an email address" tags-below></esa-input-tag>
+        <div class="cluster">
+          <span data-bcn-handoff-invite><EsaButton variant="secondary">Send Invite</EsaButton></span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div slot="footer" class="cluster" data-justify="end">
+    <span data-bcn-handoff-done><EsaButton variant="ghost" appearance="outline">Done</EsaButton></span>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-input-tag';
+
+  type Dialog = HTMLElement & { open: boolean; show?: () => void; close?: () => void };
+  const dialog = document.querySelector<Dialog>('[data-bcn-handoff]');
+  const parts = document.querySelector<HTMLElement & { value: string[] }>('[data-bcn-handoff-parts]');
+  const share = document.querySelector<HTMLElement & { checked: boolean }>('[data-bcn-handoff-share]');
+  const people = document.querySelector<HTMLElement>('[data-bcn-handoff-people]');
+
+  if (parts) parts.value = ['register-pdf', 'register-csv', 'issued'];
+
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest('[data-permit-handoff]');
+    if (!trigger || !dialog) return;
+    if (dialog.show) dialog.show();
+    else dialog.open = true;
+  });
+
+  share?.addEventListener('change', () => {
+    if (people) people.hidden = !share.checked;
+  });
+
+  const close = () => {
+    if (!dialog) return;
+    if (dialog.close) dialog.close();
+    else dialog.open = false;
+  };
+  document.querySelector('[data-bcn-handoff-done]')?.addEventListener('click', close);
+</script>
+
+<style>
+  .bcn-handoff__heading {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  /* .stack sets display, which outranks the [hidden] UA rule. */
+  .bcn-handoff [hidden] {
+    display: none;
+  }
+</style>
