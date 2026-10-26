@@ -1,0 +1,28 @@
+---
+// <BcnPlanDraftBar> — a draft's actions in the page header (the plan page's utilities slot). New design, not ported
+// (Beacon has no drafts yet): "Plan Editing: Proposed Direction" (2026-10-19), reworked 2026-10-21. While a draft is
+// open the page header is the draft's (its name as the title, a Draft badge) with these actions, side by side: Back
+// to the live plan, Discard, Save as draft (an unsaved draft only) and Publish; Copy to my drafts on someone else's
+// draft. Undo / Redo and the draft's state ride the edit bar card over the chart (BcnPlanDraftKey); how to edit is the
+// dismissable note on the page (BcnPlanWorkspace).
+//
+// The runtime is plan-draft-bar.ts (setupPlanDraftBar), driven by plan-workspace.ts.
+//
+// bcn-lego-checked: every action IS esa-button. No esa- lego is a work-mode action group; checked Beacon (no drafts).
+// bcn-plan-draft-bar is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<span class="bcn-plan-draft-bar" data-bcn-plan-draft-bar hidden>
+  <span data-db="back"><EsaButton variant="ghost" size="sm" icon="arrow-left">Live plan</EsaButton></span>
+  <span data-db-own data-db="discard"><EsaButton variant="ghost" appearance="outline" size="sm">Discard</EsaButton></span>
+  <span data-db-own data-db="save-as"><EsaButton variant="ghost" appearance="outline" size="sm">Save as draft</EsaButton></span>
+  <span data-db="copy"><EsaButton variant="ghost" appearance="outline" size="sm">Copy to my drafts</EsaButton></span>
+  <span data-db-own data-db="publish"><EsaButton variant="primary" size="sm">Publish</EsaButton></span>
+</span>
+
+<style>
+  .bcn-plan-draft-bar[hidden],
+  .bcn-plan-draft-bar :global([hidden]) { display: none !important; }
+  .bcn-plan-draft-bar { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-200); }
+</style>

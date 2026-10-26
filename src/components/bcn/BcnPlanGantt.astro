@@ -23,6 +23,7 @@
 // it was adapted FROM and has a different, CSS-grid geometry). The caret, Apply and Revert are EsaButtons; the
 // readout panel is ui-viz-tip's chrome. bcn-plan-gantt is the reusable home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 
 interface Props {
   /** The accessible-name prefix for the plot's role="img". */
@@ -36,6 +37,8 @@ const { label, id } = Astro.props;
 
 <div class="bcn-plan-gantt-host" id={id} data-bcn-plan-gantt data-label={label}>
   <div class="bcn-plan-gantt" hidden></div>
+  <!-- A quiet row marker (new design: "Scheduled", and "Unsaved changes" visible only to its author); the runtime sets its text. -->
+  <template data-gantt-tpl="badge"><EsaBadge value="Unsaved changes" variant="secondary" size="sm" /></template>
   <template data-gantt-tpl="caret"><EsaButton variant="ghost" iconOnly icon="chevron-down" label="Collapse" size="xs" /></template>
   <template data-gantt-tpl="apply"><EsaButton variant="primary" iconOnly icon="check" label="Apply change" size="sm" /></template>
   <template data-gantt-tpl="revert"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert change" size="sm" data-fill-icon="undo-2" /></template>
@@ -45,9 +48,11 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host {
     /* `contain: inline-size` requires a block container, so the explicit display matters. */
     display: block;
+    position: relative;
     min-inline-size: 0;
     contain: inline-size;
-    --_s: var(--color-background-elevation-raised);
+    /* --bcn-plan-gantt-surface: the consumer's hook for the chart's surface (a draft takes a whisper of its hue). */
+    --_s: var(--bcn-plan-gantt-surface, var(--color-background-elevation-raised));
     --_text: var(--color-content-default);
     --_muted: var(--color-content-default-secondary);
     --_subtle: var(--color-content-default-tertiary);
@@ -64,11 +69,17 @@ const { label, id } = Astro.props;
     --_warn-text: var(--color-content-utility-warning);
     --_danger: var(--color-background-utility-danger);
     --_danger-hover: var(--color-background-utility-danger-hover);
+    /* An overrun's edge (new): its own colour a step darker. The utility -hover steps don't do that evenly (warning's
+       is lighter than its fill), so each is its fill mixed a fifth of the way toward the text colour. */
+    --_warn-edge: color-mix(in srgb, var(--_warn) 80%, var(--_text));
+    --_danger-edge: color-mix(in srgb, var(--_danger) 80%, var(--_text));
     --_accent: var(--color-background-accent);
     --_accent-surface: color-mix(in srgb, var(--color-background-accent) 14%, var(--_s));
     /* Beacon's $type-size-meta (0.8125rem); the spoke's font sizes are fluid, Beacon's are fixed. */
     --_meta: 0.8125rem;
     --_indent: var(--spacing-400);
+    /* The Budget column's width: a compact figure ("$2.4M") with room to breathe. */
+    --_budget-w: 3.75rem;
   }
 
   /* THE FRAME: the one scroller. --bcn-plan-gantt-max-height is the consumer hook (ui-viz-gantt's
@@ -111,7 +122,10 @@ const { label, id } = Astro.props;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__axis) { z-index: 2; overflow: hidden; }
+  /* --bcn-plan-gantt-plot-surface: the consumer's hook for the timeline side alone (the plot and its axis), leaving the
+     outline as it is — a draft tints just its working area. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__axis) { z-index: 2; overflow: hidden; background: var(--bcn-plan-gantt-plot-surface, var(--_s)); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot) { background: var(--bcn-plan-gantt-plot-surface, transparent); }
 
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__year) {
     position: absolute;
@@ -122,6 +136,24 @@ const { label, id } = Astro.props;
     box-shadow: inset 1px 0 0 var(--_b-subtle);
   }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__year--emphasis) { box-shadow: inset 1px 0 0 var(--_b-strong); }
+  /* Zoomed (new): a year cut by the window's left edge has no gridline there; with finer ticks the year moves up. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year--clipped) { box-shadow: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year--top) { align-items: flex-start; padding-block: var(--spacing-050) 0; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__tick) {
+    position: absolute;
+    inset-block-start: 50%;
+    display: flex;
+    align-items: flex-end;
+    padding-block-end: var(--spacing-100);
+    box-shadow: inset 1px 0 0 var(--_b-subtle);
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__tick-label) {
+    padding-inline-start: var(--spacing-100);
+    font-size: var(--_meta);
+    color: var(--_subtle);
+    line-height: 1;
+    white-space: nowrap;
+  }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__year-label) {
     padding-inline-start: var(--spacing-100);
     font-size: var(--_meta);
@@ -187,6 +219,8 @@ const { label, id } = Astro.props;
     padding-inline: calc(var(--spacing-200) + var(--bcn-plan-gantt-depth, 0) * var(--_indent)) var(--spacing-200);
     border-block-end: 1px solid var(--_b-subtle);
     min-inline-size: 0;
+    /* An explicit surface, so the row actions laid over the Budget column (background: inherit) cover it. */
+    background: var(--_s);
   }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0) { background: color-mix(in srgb, var(--_text) 3%, var(--_s)); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-1) { background: color-mix(in srgb, var(--_text) 1.5%, var(--_s)); }
@@ -237,11 +271,18 @@ const { label, id } = Astro.props;
   }
 
   /* The caller's row controls: revealed by OPACITY only, so they never leave the tab order. */
+  /* Revealed over the END OF THE NAME, just left of the Budget column, rather than holding their own room: hidden, they
+     take no width from the name, and the budget figure stays in view (new, 2026-10-21). They carry the row's own
+     background, so the name's tail reads as tucked under them. */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions) {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: calc(var(--spacing-200) + var(--_budget-w) + var(--spacing-150));
     display: flex;
-    flex-shrink: 0;
     align-items: center;
     gap: var(--spacing-100);
+    padding-inline-start: var(--spacing-200);
+    background: inherit;
     opacity: 0;
     transition: opacity 120ms ease;
   }
@@ -254,20 +295,51 @@ const { label, id } = Astro.props;
     .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions) { opacity: 1; }
   }
 
+  /* The level tag reads as a quiet prefix, the name as the content: the tag a step lighter than her secondary grey, the
+     name in the body colour at medium weight (parents keep their semibold). */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__tag) {
     flex-shrink: 0;
     font-size: var(--_meta);
     font-weight: 400;
-    color: var(--_muted);
+    color: var(--_subtle);
     white-space: nowrap;
   }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__badge) { flex-shrink: 0; }
+  /* The Budget column (new, 2026-10-21): pinned to the outline's right edge, after the row actions, so the figures line
+     up down the column under the corner's "Budget"; a compact figure keeps it narrow without crowding the name. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__budget) {
+    flex: 0 0 var(--_budget-w);
+    margin-inline-start: auto;
+    font-size: var(--_meta);
+    font-variant-numeric: tabular-nums;
+    color: var(--_muted);
+    text-align: end;
+    white-space: nowrap;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0 .bcn-plan-gantt__budget),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-1 .bcn-plan-gantt__budget) { color: var(--_text); }
+  /* A draft's Change column: the shift, bold where the planner moved it, regular where a cascade did. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__delta) { color: var(--_muted); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__delta--own) { color: var(--_text); font-weight: 600; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner-heading) { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  /* The corner is inset a step more than a row; the heading reaches back so it sits over the column's figures. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner-budget) {
+    flex: 0 0 var(--_budget-w);
+    margin-inline-end: calc(var(--spacing-200) - var(--spacing-300));
+    text-align: end;
+  }
+  /* A milestone row (new): the chart's diamond, in its colour, centred in the caret's place left of the tag. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-spacer) { display: inline-flex; align-items: center; justify-content: center; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone-icon) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
+  /* The name takes only its own width, so a row marker sits right after it. */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__name) {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-inline-size: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: var(--font-size-150);
+    font-weight: 500;
     color: var(--_text);
   }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0 .bcn-plan-gantt__name),
@@ -280,6 +352,7 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__selected) { fill: var(--_brand-surface); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__grid) { stroke: var(--_b-subtle); stroke-width: 1; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__grid--emphasis) { stroke: var(--_b); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__grid--minor) { stroke: var(--_b-subtle); stroke-dasharray: 2 3; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__rule) { stroke: var(--_b-subtle); stroke-width: 1; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark) {
     stroke: color-mix(in srgb, var(--_brand) 35%, transparent);
@@ -289,29 +362,66 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark-hit) { fill: transparent; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__today-line) { fill: var(--_warn); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__bar) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-0) {
-    fill: color-mix(in srgb, var(--_text) 24%, transparent);
-    stroke: var(--_subtle);
-    stroke-width: 1;
-  }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-1) {
-    fill: color-mix(in srgb, var(--_text) 15%, transparent);
+  /* EXPERIMENT (2026-10-20): a parent's roll-up bracket is the children's teal, lightening one step per level outward
+     — the deepest parent (nearest its bars) strongest, the program lightest — in place of her greys. */
+  /* EXPERIMENT (2026-10-21): no edge on any parent bracket (hers carried a grey one on the top two tiers, for weight
+     only), so every tier reads alike and differs only in teal depth and height. The end ticks and an overrun's are
+     the bracket's own fill colour; an end in the overrun takes its amber, or red past a Scheduled window. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-0),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick--tier-0) { fill: color-mix(in srgb, var(--_brand) 30%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-1),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick--tier-1) { fill: color-mix(in srgb, var(--_brand) 50%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-2),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick--tier-2) { fill: color-mix(in srgb, var(--_brand) 72%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick--overrun) { fill: var(--_warn); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick--overrun-scheduled) { fill: var(--_danger); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick) { stroke: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
+  /* EXPERIMENT (2026-10-21): the planned window reads a little more strongly than her 6% fill / default border, so the
+     box a parent's bracket should sit in is visible at a glance without going heavy. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window) {
+    fill: color-mix(in srgb, var(--_text) 7%, transparent);
     stroke: var(--_b-strong);
     stroke-width: 1;
   }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-2) { fill: color-mix(in srgb, var(--_text) 10%, transparent); }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick) { fill: var(--_subtle); }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window) {
-    fill: color-mix(in srgb, var(--_text) 6%, transparent);
-    stroke: var(--_b);
-    stroke-width: 1;
-  }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun) { fill: var(--_warn); }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun--scheduled) { fill: var(--_danger); }
+  /* An overrun carries its own edge, a darker step of its colour, over the bar's teal or grey one; a borderless
+     sub-study bracket's overrun stays borderless. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun) { fill: var(--_warn); stroke: var(--_warn-edge); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun--scheduled) { fill: var(--_danger); stroke: var(--_danger-edge); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun--borderless) { stroke: none; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone--overrun) { fill: var(--_warn); stroke: var(--_warn-hover); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone--overrun-scheduled) { fill: var(--_danger); stroke: var(--_danger-hover); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__cutoff) { fill: var(--_muted); }
+  /* A Scheduled (fixed) planned window is outlined a step darker; an Estimated one keeps the strong border grey, still
+     clearly visible. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window:not(.bcn-plan-gantt__window--estimated)) { stroke: var(--_subtle); }
+
+
+  /* The outline's divider (new): drag, arrow keys or double-click to reset. A wide transparent grip over the outline's
+     right border, showing a brand line while hovered, focused or dragged. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter) {
+    position: absolute;
+    inset-block: 0;
+    z-index: 4;
+    inline-size: 9px;
+    margin-inline-start: -5px;
+    cursor: col-resize;
+    touch-action: none;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter[hidden]) { display: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter)::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 4px;
+    inline-size: 2px;
+    background: transparent;
+    transition: background 120ms ease;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter:hover)::after,
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter--dragging)::after,
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter:focus-visible)::after { background: var(--_brand); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__splitter:focus-visible) { outline: none; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link) { pointer-events: none; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-line) { fill: none; stroke: var(--_subtle); stroke-width: 1; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-head) { fill: var(--_subtle); }
@@ -342,6 +452,33 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--resize),
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--resizing),
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--resizing .bcn-plan-gantt__hit) { cursor: ew-resize; }
+
+  /* ── Drafts (new design): the live plan behind, who moved what, broken dependencies ──
+     Each state differs by more than colour: the baseline is dashed, a cascade is hatched, the planner's own edit has a
+     dark outline, a broken link is dashed — and every one also reads out in the row's tooltip and summary. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__baseline) {
+    fill: color-mix(in srgb, var(--_text) 6%, transparent);
+    stroke: var(--_muted);
+    stroke-width: 1;
+    stroke-dasharray: 3 2;
+    pointer-events: none;
+  }
+  /* A changed row (simplified 2026-10-21): one look whoever moved it — a dark edge; who moved it is in the readout. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--draft-changed .bcn-plan-gantt__bar),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--draft-changed .bcn-plan-gantt__milestone) { stroke: var(--_text); stroke-width: 1.5; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--draft-pending) { animation: bcn-plan-gantt-pending 0.7s ease-in-out infinite alternate; }
+  @keyframes bcn-plan-gantt-pending {
+    from { opacity: 0.35; }
+    to { opacity: 0.8; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--draft-pending) { animation: none; opacity: 0.5; }
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--conflict .bcn-plan-gantt__bar),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--conflict .bcn-plan-gantt__summary),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--conflict .bcn-plan-gantt__milestone) { stroke: var(--_danger); stroke-width: 2; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link--broken .bcn-plan-gantt__link-line) { stroke: var(--_danger); stroke-width: 1.5; stroke-dasharray: 4 2; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link--broken .bcn-plan-gantt__link-head) { fill: var(--_danger); }
 
   /* The drag popup: chrome mirrors the readout panel. */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-popup) {
@@ -383,7 +520,7 @@ const { label, id } = Astro.props;
     position: fixed;
     inset: auto;
     margin: 0;
-    padding: var(--spacing-200) var(--spacing-250);
+    padding: var(--spacing-300) var(--spacing-400);
     z-index: 50;
     background-color: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
@@ -391,13 +528,46 @@ const { label, id } = Astro.props;
     box-shadow: var(--shadow-100);
     pointer-events: none;
     text-align: start;
-    font-size: 0.8125rem;
+    font-size: var(--font-size-150);
     color: var(--color-content-default);
   }
-  :global(.bcn-plan-gantt-tip__panel) { display: flex; flex-direction: column; gap: var(--spacing-050); white-space: nowrap; }
-  :global(.bcn-plan-gantt-tip__title) { font-weight: 600; }
-  :global(.bcn-plan-gantt-tip__row) { display: flex; align-items: center; gap: var(--spacing-100); }
+  /* EXPERIMENT (2026-10-21): a readout easier to scan — the title at body size, the facts as a label | value grid with the
+     note set apart by a dot, and warnings under a rule with an icon, in their colour. */
+  :global(.bcn-plan-gantt-tip__panel) { display: flex; flex-direction: column; gap: var(--spacing-200); max-inline-size: 26rem; }
+  :global(.bcn-plan-gantt-tip__title) { font-size: var(--font-size-150); font-weight: 600; line-height: 1.3; }
+  :global(.bcn-plan-gantt-tip__facts) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-100) var(--spacing-300);
+    margin: 0;
+    white-space: nowrap;
+  }
   :global(.bcn-plan-gantt-tip__label) { color: var(--color-content-default-secondary); }
-  :global(.bcn-plan-gantt-tip__value) { color: var(--color-content-default); font-variant-numeric: tabular-nums; font-weight: 600; }
-  :global(.bcn-plan-gantt-tip__note) { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  :global(.bcn-plan-gantt-tip__value) { margin: 0; color: var(--color-content-default); font-variant-numeric: tabular-nums; font-weight: 600; }
+  :global(.bcn-plan-gantt-tip__note) { font-weight: 400; color: var(--color-content-default-secondary); }
+  /* Notes: regular weight, wrapping, two lines at most. */
+  :global(.bcn-plan-gantt-tip__value--clamp) {
+    display: -webkit-box;
+    max-inline-size: 20rem;
+    overflow: hidden;
+    font-weight: 400;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  :global(.bcn-plan-gantt-tip__note)::before { content: '·'; margin-inline: var(--spacing-150); }
+  :global(.bcn-plan-gantt-tip__warnings) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding: var(--spacing-200) 0 0;
+    border-top: 1px solid var(--color-border-default-subtle);
+    list-style: none;
+  }
+  :global(.bcn-plan-gantt-tip__warning) { display: flex; align-items: flex-start; gap: var(--spacing-150); font-weight: 600; white-space: normal; }
+  :global(.bcn-plan-gantt-tip__warning svg) { flex-shrink: 0; margin-block-start: 1px; }
+  :global(.bcn-plan-gantt-tip__warning--warning) { color: var(--color-content-utility-warning); }
+  :global(.bcn-plan-gantt-tip__warning--danger) { color: var(--color-content-utility-danger); }
 </style>

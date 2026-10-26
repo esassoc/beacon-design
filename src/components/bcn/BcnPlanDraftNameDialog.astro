@@ -1,0 +1,36 @@
+---
+// <BcnPlanDraftNameDialog> — names a draft: Save as draft (a scratch copy becomes a kept, shared draft) and Copy to my
+// drafts (someone else's draft becomes one of yours). New design, not ported: "Plan Editing: Proposed Direction".
+//
+// ONE pre-rendered shell per page, found by [data-bcn-plan-draft-name-dialog] and driven by ./plan-draft-name-dialog.ts
+// (openPlanDraftNameDialog). Nothing is saved here: it resolves the name for the opener to save.
+//
+// bcn-lego-checked: the shell IS esa-dialog (size sm), the name IS esa-text-field, the buttons ARE esa-button; the only
+// CSS is the form's stack and the footer row, as BcnPlanMoveDialog's.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-plan-draft-name" data-bcn-plan-draft-name-dialog>
+  <esa-dialog class="bcn-plan-draft-name__dialog" size="sm" heading="Save as draft">
+    <form class="bcn-plan-draft-name__form" novalidate data-dn-form>
+      <esa-text-field label="Name" required maxlength="120" data-dn-name></esa-text-field>
+      <p class="bcn-plan-draft-name__hint" data-dn-hint></p>
+    </form>
+    <div slot="footer" class="bcn-plan-draft-name__actions">
+      <EsaButton variant="primary" type="button" data-dn-save>Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" type="button" data-dn-cancel>Cancel</EsaButton>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  .bcn-plan-draft-name__dialog { --dialog-width-sm: min(90vw, 440px); }
+  .bcn-plan-draft-name__form { display: flex; flex-direction: column; gap: var(--spacing-300); margin: 0; }
+  .bcn-plan-draft-name__hint { margin: 0; font-size: var(--font-size-150); color: var(--color-content-default-secondary); }
+  .bcn-plan-draft-name__actions { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+</style>

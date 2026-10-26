@@ -1,10 +1,19 @@
 ---
 // <BcnPlanWorkspace> — the body of a plan's page: Beacon's PlanGanttComponent template (pages/plan-gantt/
-// plan-gantt.component.html + .scss on origin/develop, Jamie Quishenberry, BCN-1788 / 1866 / 1867). In her order:
-// the plan's description, the Edit mode switch at the chart's top right, edit mode's four instructions (dismissible,
-// back every time edit mode is turned on), the Gantt — or, with no elements, the empty-list box with Add — and the
-// row actions stamped on every Gantt row (+ Add child, and the ellipsis menu: Move up, Move down, Move…, Delete).
-// The page utilities (Plan settings, Move plan, Add) are the page's own EsaButtons, found by data-plan-* hooks.
+// plan-gantt.component.html + .scss on origin/develop, Jamie Quishenberry, BCN-1788 / 1866 / 1867): the Gantt — or,
+// with no elements, the empty-list box with Add — and the row actions stamped on every Gantt row (+ Add child, and the
+// ellipsis menu: Move up, Move down, Move…, Delete).
+//
+// DRAFTS (new design, "Plan Editing: Proposed Direction", 2026-10-19): her Edit mode switch became drafts. The Gantt
+// opens on the live plan, read-only; a scratch copy left from last time is offered back ("You have an unsaved draft ·
+// Continue · Discard"). EXPERIMENT (2026-10-21): in a draft the page header is the draft's (the plan page fills it: the
+// draft's name, a Draft badge, BcnPlanDraftBar's actions); on the page, a dismissable note says how to edit, the edit
+// bar (BcnPlanDraftKey: Undo / Redo, the draft's state, Compare with live plan, Drags push dependents) is its own card
+// just above the Gantt, and the chart turns a subtle blue.
+//
+// ONE TOOLBAR (2026-10-21): the chart's toolbar (BcnPlanGanttRange) carries Drafts (with a count of the named drafts;
+// New draft is in its list) and, rightmost, Add <top level> (the one primary: "Add Program"). Move plan and Plan settings are in the page header's
+// More menu. The plan's description above the chart is gone; it is still edited in Plan settings.
 //
 // Runtime: plan-workspace.ts (setupPlanWorkspace), which owns the orchestration her component class does.
 //
@@ -15,32 +24,64 @@
 // bcn-plan-workspace is the reusable home for the composition.
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
+import BcnPlanDraftKey from './BcnPlanDraftKey.astro';
+import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 ---
 
 <div class="bcn-plan-workspace" data-bcn-plan-workspace>
-  <p class="bcn-plan-workspace__description typography-body-md" data-pw-description hidden></p>
-
-  <div class="bcn-plan-workspace__toolbar" data-pw-toolbar hidden>
-    <esa-switch-toggle size="sm" label="Edit mode" data-pw-edit-mode></esa-switch-toggle>
-  </div>
-
-  <div data-pw-instructions hidden>
+  <div data-pw-recover hidden>
     <EsaAlertBox variant="info">
       <div class="bcn-plan-workspace__instructions">
-        <ul class="bcn-plan-workspace__instructions-list typography-body-sm">
-          <li>Drag the middle of a bar to move it, or drag either end to change its start or end date.</li>
-          <li>A parent's dashed outline is its planned window; drag it like a bar.</li>
-          <li>Shift + click to select multiple items and move them together. Press esc to clear the selection.</li>
-          <li>Shift + click on a parent item to select all of its children.</li>
-        </ul>
-        <span data-pw-dismiss><EsaButton variant="ghost" iconOnly icon="x" label="Dismiss instructions" size="sm" /></span>
+        <span class="bcn-plan-workspace__recover-text typography-body-sm" data-pw-recover-text>You have an unsaved draft.</span>
+        <span class="bcn-plan-workspace__toolbar-actions">
+          <span data-pw-recover-continue><EsaButton variant="primary" size="sm">Continue</EsaButton></span>
+          <span data-pw-recover-discard><EsaButton variant="ghost" appearance="outline" size="sm">Discard</EsaButton></span>
+        </span>
       </div>
     </EsaAlertBox>
   </div>
 
+
+
   <div class="bcn-plan-workspace__chart">
-    <BcnPlanGantt label="Plan schedule" />
+    <BcnPlanGanttRange>
+      <!-- The chart's actions, at the bar's 32px: Drafts with its count, then Add (the primary) on the right. -->
+      <span slot="actions" class="bcn-plan-workspace__toolbar-actions">
+        <span data-pw-drafts>
+          <!-- An icon, as Add has: an xs button is as tall as its tallest content, so without one Drafts fell short of
+               Add's 32px whenever the count was hidden. "copy": a draft is a copy of the plan's dates. -->
+          <EsaButton variant="ghost" appearance="outline" size="xs" icon="copy">
+            Drafts
+            <span class="bcn-plan-workspace__count" data-pw-drafts-count hidden><EsaBadge value="0" variant="secondary" size="xs" /></span>
+          </EsaButton>
+        </span>
+        <!-- "Add Program": the plan's top level, named from its levels at runtime. -->
+        <span data-pw-add><EsaButton variant="primary" size="xs" icon="plus">Add</EsaButton></span>
+      </span>
+    </BcnPlanGanttRange>
+    <!-- Presence (new design): who else has a drawer open on this plan. Nothing is locked. -->
+    <p class="bcn-plan-workspace__presence typography-body-sm" data-pw-presence role="status" hidden></p>
+    <!-- In a draft: how to edit (dismissable, back each time a draft opens). -->
+    <div data-pw-instructions hidden>
+      <EsaAlertBox variant="info">
+        <div class="bcn-plan-workspace__instructions">
+          <ul class="bcn-plan-workspace__instructions-list typography-body-sm">
+            <li>Drag the middle of a bar to move it, or either end to change its start or end date. Every drop applies to this draft at once; Ctrl+Z undoes.</li>
+            <li>Select a parent to show its planned window, then drag the window like a bar.</li>
+            <li>Shift + click to select several items and move them together. Shift + click a parent to select its children. Esc clears the selection.</li>
+            <li>Open an element to set exact dates. Nothing reaches the live plan until you publish.</li>
+          </ul>
+          <span data-pw-dismiss><EsaButton variant="ghost" iconOnly icon="x" label="Dismiss instructions" size="sm" /></span>
+        </div>
+      </EsaAlertBox>
+    </div>
+    <!-- In a draft, the edit bar's card sits just above the Gantt's. -->
+    <div class="bcn-plan-workspace__card">
+      <BcnPlanDraftKey />
+      <BcnPlanGantt label="Plan schedule" />
+    </div>
   </div>
 
   <div class="bcn-plan-workspace__box" data-pw-empty hidden>
@@ -59,7 +100,6 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 </div>
 
 <script>
-  import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-dropdown-menu';
 </script>
 
@@ -70,28 +110,48 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     gap: var(--spacing-300);
   }
   .bcn-plan-workspace [hidden] { display: none; }
-  .bcn-plan-workspace__description {
+  .bcn-plan-workspace__presence {
     margin: 0;
     color: var(--color-content-default-secondary);
   }
-  /* Edit mode's switch, at the chart's top right. */
-  .bcn-plan-workspace__toolbar {
+  /* The Drafts count sits inside its button, after the label. */
+  /* The badge's box is taller than the xs button's text line; pulling it in keeps Drafts exactly as tall as Add beside it
+     (measured at xs: 36px without, 34px at -1px, 32px at -2px). */
+  .bcn-plan-workspace__count { display: inline-flex; margin-inline-start: var(--spacing-100); margin-block: -2px; }
+  .bcn-plan-workspace__toolbar-actions {
     display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-plan-workspace__recover-text { flex: 1 1 auto; }
+  .bcn-plan-workspace__instructions-list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding-inline-start: var(--spacing-400);
   }
   .bcn-plan-workspace__instructions {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-200);
   }
-  .bcn-plan-workspace__instructions-list {
-    flex: 1 1 auto;
-    margin: 0;
-    padding-inline-start: var(--spacing-400);
-  }
+  /* In a draft the whole chart (outline, plot and axis) takes the draft surface, and the edit bar above it the same;
+     the page around stays as it is. */
+  .bcn-plan-workspace__chart[data-draft] { --bcn-plan-gantt-surface: var(--bcn-draft-surface); }
+  .bcn-plan-workspace__chart[data-draft] :global(.bcn-plan-gantt) { border-color: var(--bcn-draft-border); }
+  /* The edit bar is its own card over the chart, a step apart from it. */
+  .bcn-plan-workspace__card { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
   /* Bounds the Gantt's frame to the viewport so it scrolls inside itself and its axis header stays stuck to the
      top. 16rem is the app header, breadcrumbs and page title above it. */
   .bcn-plan-workspace__chart {
+    display: flex;
+    flex-direction: column;
+    /* Room between the toolbar above the chart and the chart. */
+    gap: var(--spacing-500);
     --bcn-plan-gantt-max-height: max(20rem, calc(100vh - 16rem));
   }
   /* Beacon's empty-list: a dashed box, its content centred. */

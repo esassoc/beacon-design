@@ -7,7 +7,7 @@
 // call reads the store fresh, which is what makes a second tab's edit show up in the first on its next status poll.
 // The calling user is "Andy Lovseth" unless the page URL carries ?user=Name (the second tab's identity).
 
-import { SAMPLE_PLAN, type SampleElement } from '../../data/sample-plan';
+import { SAMPLE_BUDGETS, SAMPLE_NOTES, SAMPLE_PLAN, type SampleElement } from '../../data/sample-plan';
 import { HttpErrorResponse } from './ng-shim';
 import {
   PlanDateTypeEnum,
@@ -31,7 +31,18 @@ import {
   type PlanStatusDto,
   type PlanUpdateDto,
 } from './model';
-import { MAX_DEPTH, PlanLinkValidationResult, PlanSchedule, PlanScheduler, toDay, toIso, type PlanScheduleChangeSet, type PlanScheduleNode } from './plan-scheduler';
+import { MAX_DEPTH, PlanLinkValidationResult, PlanSchedule, PlanScheduler, toDay, toIso, type PlanScheduleChangeSet, type PlanScheduleFlag, type PlanScheduleNode } from './plan-scheduler';
+import { planConflicts } from './plan-conflicts';
+import type {
+  PlanDraftChangeDto,
+  PlanDraftDto,
+  PlanDraftOverrideDto,
+  PlanDraftPublishDto,
+  PlanDraftSimpleDto,
+  PlanDraftStaleDto,
+  PlanDraftViewDto,
+  PlanPresenceDto,
+} from './plan-draft-model';
 
 const STORE_KEY = 'bcn-planning-store-v1';
 const LATENCY_MS = 220;
@@ -49,6 +60,9 @@ interface StoredElement {
   EndDate: string | null;
   UpdateDate: string;
   UpdateUserName: string;
+  /** New (2026-10-21): whole dollars; absent on elements stored before budgets existed. */
+  Budget?: number | null;
+  Notes?: string | null;
   /** The program's version, kept on its root element as the API keeps it on the root's row. */
   Version: number;
 }
@@ -67,9 +81,38 @@ interface StoredPlan {
   UpdateUserName: string;
 }
 
+/** A draft as stored: outside the plan row, so saving one never moves the plan's version (drafts stay off it). */
+type StoredDraft = PlanDraftDto;
+
+interface StoredSnapshot {
+  PlanSnapshotID: string;
+  PlanID: string;
+  Name: string;
+  CreateDate: string;
+  CreateUserName: string;
+  Plan: StoredPlan;
+}
+
+/** A drawer's heartbeat: who has which part of the plan open. Lapses after PRESENCE_TTL_MS without one. */
+interface StoredPresence {
+  PlanID: string;
+  UserName: string;
+  /** One tab's drawer: a user can have two tabs open. */
+  SessionID: string;
+  ProgramPlanElementID: string | null;
+  Subject: string;
+  Seen: number;
+}
+
 interface Store {
   plans: StoredPlan[];
+  drafts?: StoredDraft[];
+  snapshots?: StoredSnapshot[];
+  presence?: StoredPresence[];
 }
+
+/** Presence rides the 10-second status poll; a drawer that stops checking in (closed, or a hidden tab) lapses. */
+const PRESENCE_TTL_MS = 25_000;
 
 export const PLAN_RULES: PlanRulesDto = { MaxLevels: MAX_DEPTH, MinDate: '1900-01-01', MaxDate: '2199-12-31', MaxShiftDays: 36500 };
 
@@ -86,11 +129,26 @@ export function currentUserName(): string {
 function load(): Store {
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) return JSON.parse(raw) as Store;
+    if (raw) return backfillSample(JSON.parse(raw) as Store);
   } catch {
     /* a blocked store starts empty */
   }
   return { plans: [] };
+}
+
+/**
+ * New (2026-10-21): a sample plan staged before budgets and notes existed gets the sample's values, once, on elements
+ * that have never had either field (undefined, not null), so an open prototype shows them without reloading the sample.
+ */
+function backfillSample(store: Store): Store {
+  for (const plan of store.plans) {
+    if (plan.PlanName !== SAMPLE_PLAN.name) continue;
+    for (const e of plan.Elements) {
+      if (e.Budget === undefined) e.Budget = e.IsMilestone ? null : (SAMPLE_BUDGETS[e.PlanElementName] ?? null);
+      if (e.Notes === undefined) e.Notes = SAMPLE_NOTES[e.PlanElementName] ?? null;
+    }
+  }
+  return store;
 }
 
 function save(store: Store): void {
@@ -193,6 +251,8 @@ function buildDetail(plan: StoredPlan): PlanDetailDto {
       EndDate: e.EndDate ?? undefined,
       SpanStartDate: toIso(span?.StartDate),
       SpanEndDate: toIso(span?.EndDate),
+      Budget: e.IsMilestone ? null : (e.Budget ?? null),
+      Notes: e.Notes ?? null,
       Children: [],
     });
   }
@@ -333,6 +393,10 @@ function applyUpdate(element: StoredElement, dto: PlanElementUpdateDto): void {
   element.EndDate = dto.EndDate ?? null;
   element.PlanDateType = dto.PlanDateType ?? PlanDateTypeEnum.Estimated;
   element.IsMilestone = !!dto.IsMilestone;
+  // A request that doesn't carry them (an older caller) leaves them be; a milestone never keeps a budget.
+  if ('Budget' in dto) element.Budget = dto.Budget ?? null;
+  if ('Notes' in dto) element.Notes = dto.Notes?.trim() || null;
+  if (element.IsMilestone) element.Budget = null;
 }
 
 function applyDateChanges(plan: StoredPlan, changeSet: PlanScheduleChangeSet): string[] {
@@ -362,6 +426,7 @@ function validateElement(plan: StoredPlan, dto: PlanElementUpdateDto, parent: St
   if (!!dto.StartDate !== !!dto.EndDate) badRequest('', dto.IsMilestone ? 'A milestone needs a start and end date on the same day.' : 'Give both a start and an end date, or neither.');
   if (dto.IsMilestone && (!dto.StartDate || dto.StartDate !== dto.EndDate)) badRequest('', 'A milestone needs a start and end date on the same day.');
   if (dto.StartDate && dto.EndDate && dto.EndDate < dto.StartDate) badRequest('EndDate', 'End date cannot be before the start date.');
+  if (dto.Budget !== null && dto.Budget !== undefined && (!Number.isFinite(dto.Budget) || dto.Budget < 0)) badRequest('Budget', 'Budget must be zero or more.');
 }
 
 function elementEdit(plan: StoredPlan, planElementID: string, dto: PlanElementScheduleChangeDto): PlanScheduleChangeSet {
@@ -413,6 +478,8 @@ function stageSample(projectID: string): StoredPlan {
         PlanDateType: node.type as PlanDateTypeEnum,
         StartDate: node.start,
         EndDate: node.end,
+        Budget: node.milestone ? null : (SAMPLE_BUDGETS[node.name] ?? null),
+        Notes: SAMPLE_NOTES[node.name] ?? null,
         UpdateDate: stamp,
         UpdateUserName: user,
         Version: 1,
@@ -424,6 +491,140 @@ function stageSample(projectID: string): StoredPlan {
     plan.Dependencies.push({ PlanElementDependencyID: uuid(), PredecessorPlanElementID: byName.get(from)!, SuccessorPlanElementID: byName.get(to)!, LagDays: lag });
   }
   return plan;
+}
+
+// ── Drafts (new design: "Plan Editing: Proposed Direction", 2026-10-19) ─────────────────────────────────────────────
+
+interface DraftReplay {
+  /** The live plan with the overrides applied and each one's cascade rerun. */
+  work: StoredPlan;
+  /** The last thing that moved each element: the planner, or the cascade from one of their edits. */
+  movedBy: Map<string, { cause: 'own' } | { cause: 'cascade'; by: string }>;
+  stale: PlanDraftStaleDto[];
+  flags: PlanScheduleFlag[];
+}
+
+const sameDates = (a: { StartDate: string | null; EndDate: string | null }, start: string | null, end: string | null) => a.StartDate === start && a.EndDate === end;
+
+/**
+ * Replays a draft's overrides on a copy of the live plan, in the order they were made. Only the planner's own edits are
+ * stored; each one's cascade is recomputed here, against the plan as it is now, so it can never go stale (ADR-0069). An
+ * override whose element's live dates moved since the draft touched it is reported stale (and skipped when the planner
+ * chose the live dates at publish); one whose element was deleted is reported missing and skipped.
+ */
+function replayDraft(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[], keepLive: ReadonlySet<string> = new Set()): DraftReplay {
+  const work: StoredPlan = JSON.parse(JSON.stringify(plan));
+  const movedBy: DraftReplay['movedBy'] = new Map();
+  const stale: PlanDraftStaleDto[] = [];
+  const flags = new Map<string, PlanScheduleFlag>();
+  for (const override of overrides) {
+    const live = plan.Elements.find((e) => e.PlanElementID === override.PlanElementID);
+    const element = work.Elements.find((e) => e.PlanElementID === override.PlanElementID);
+    if (!live || !element) {
+      stale.push({
+        PlanElementID: override.PlanElementID,
+        PlanElementName: 'An element since deleted',
+        Missing: true,
+        LoadedStartDate: override.LoadedStartDate,
+        LoadedEndDate: override.LoadedEndDate,
+        DraftStartDate: override.StartDate,
+        DraftEndDate: override.EndDate,
+      });
+      continue;
+    }
+    if (!sameDates(live, override.LoadedStartDate, override.LoadedEndDate)) {
+      stale.push({
+        PlanElementID: live.PlanElementID,
+        PlanElementName: live.PlanElementName,
+        Missing: false,
+        LoadedStartDate: override.LoadedStartDate,
+        LoadedEndDate: override.LoadedEndDate,
+        LiveStartDate: live.StartDate ?? undefined,
+        LiveEndDate: live.EndDate ?? undefined,
+        DraftStartDate: override.StartDate,
+        DraftEndDate: override.EndDate,
+      });
+      if (keepLive.has(live.PlanElementID)) continue;
+    }
+    if (override.Cascade) {
+      const start = toDay(override.StartDate);
+      const end = toDay(override.EndDate);
+      const changeSet = PlanScheduler.ChangeElement(toSchedule(work), {
+        ElementID: element.PlanElementID,
+        NewDates: start !== null && end !== null ? { StartDate: start, EndDate: end } : null,
+        PlanDateType: override.PlanDateType,
+        Mode: PlanScheduleChangeModeEnum.ThisItemOnly,
+      });
+      for (const change of changeSet.Changes) {
+        if (change.ElementID === element.PlanElementID) continue;
+        const pushed = work.Elements.find((e) => e.PlanElementID === change.ElementID);
+        if (!pushed) continue;
+        pushed.StartDate = toIso(change.NewDates.StartDate) ?? null;
+        pushed.EndDate = toIso(change.NewDates.EndDate) ?? null;
+        movedBy.set(change.ElementID, { cause: 'cascade', by: element.PlanElementID });
+      }
+      for (const flag of changeSet.Flags) flags.set(`${flag.ElementID}|${flag.Reason}`, flag);
+    }
+    element.StartDate = override.StartDate;
+    element.EndDate = override.EndDate;
+    element.PlanDateType = override.PlanDateType;
+    movedBy.set(element.PlanElementID, { cause: 'own' });
+  }
+  return { work, movedBy, stale, flags: [...flags.values()] };
+}
+
+function draftView(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[], keepLive: ReadonlySet<string> = new Set()): PlanDraftViewDto {
+  const { work, movedBy, stale, flags } = replayDraft(plan, overrides, keepLive);
+  const detail = buildDetail(work);
+  const name = (id: string | undefined) => (id ? plan.Elements.find((e) => e.PlanElementID === id)?.PlanElementName : undefined);
+  const changes: PlanDraftChangeDto[] = [];
+  const visit = (parentID: string | null) =>
+    orderedElements(work)
+      .filter((e) => e.ParentPlanElementID === parentID)
+      .forEach((e) => {
+        const live = plan.Elements.find((x) => x.PlanElementID === e.PlanElementID)!;
+        if (!sameDates(live, e.StartDate, e.EndDate) || live.PlanDateType !== e.PlanDateType) {
+          const moved = movedBy.get(e.PlanElementID);
+          const by = moved?.cause === 'cascade' ? moved.by : undefined;
+          changes.push({
+            PlanElementID: e.PlanElementID,
+            PlanElementName: e.PlanElementName,
+            Cause: moved?.cause ?? 'cascade',
+            CausedByPlanElementID: by,
+            CausedByPlanElementName: name(by),
+            LiveStartDate: live.StartDate ?? undefined,
+            LiveEndDate: live.EndDate ?? undefined,
+            DraftStartDate: e.StartDate ?? undefined,
+            DraftEndDate: e.EndDate ?? undefined,
+            LivePlanDateType: live.PlanDateType,
+            DraftPlanDateType: e.PlanDateType,
+          });
+        }
+        visit(e.PlanElementID);
+      });
+  visit(null);
+  return { Plan: detail, Changes: changes, Stale: stale, Conflicts: planConflicts(detail), Flags: changeSetDto(work, { Changes: [], Flags: flags }).Flags };
+}
+
+function findDraft(store: Store, planID: string, planDraftID: string): StoredDraft {
+  return (store.drafts ?? []).find((d) => d.PlanDraftID === planDraftID && d.PlanID === planID) ?? notFound();
+}
+
+/** Only the owner edits, publishes or deletes a draft; others view it and copy it. */
+function ownDraft(store: Store, planID: string, planDraftID: string): StoredDraft {
+  const draft = findDraft(store, planID, planDraftID);
+  if (draft.OwnerUserName !== currentUserName()) throw new HttpErrorResponse(403, { title: 'Only the owner can change this draft.' });
+  return draft;
+}
+
+function draftSimple(draft: StoredDraft): PlanDraftSimpleDto {
+  return { PlanDraftID: draft.PlanDraftID, OwnerUserName: draft.OwnerUserName, Name: draft.Name, ChangeCount: draft.Overrides.length, UpdateDate: draft.UpdateDate };
+}
+
+function livePresence(store: Store, planID: string): StoredPresence[] {
+  const cutoff = Date.now() - PRESENCE_TTL_MS;
+  store.presence = (store.presence ?? []).filter((p) => p.Seen >= cutoff);
+  return store.presence.filter((p) => p.PlanID === planID);
 }
 
 // ── The API ─────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -523,6 +724,8 @@ export const planApi = {
           PlanDateType: dto.PlanDateType ?? PlanDateTypeEnum.Estimated,
           StartDate: dto.StartDate ?? null,
           EndDate: dto.IsMilestone ? (dto.StartDate ?? null) : (dto.EndDate ?? null),
+          Budget: dto.IsMilestone ? null : (dto.Budget ?? null),
+          Notes: dto.Notes?.trim() || null,
           UpdateDate: now(),
           UpdateUserName: currentUserName(),
           Version: 1,
@@ -787,6 +990,148 @@ export const planApi = {
         applyDateChanges(plan, PlanScheduler.ShiftElements(toSchedule(plan), dto.PlanElementIDs ?? [], dto.Days ?? 0))
       )
     ),
+
+  // ── Drafts ──
+
+  /** The Drafts list: the caller's named drafts first, then everyone else's. Scratch copies are never listed. */
+  listDrafts: (planID: string): Promise<PlanDraftSimpleDto[]> =>
+    delay(() => {
+      const store = load();
+      findPlan(store, planID);
+      const me = currentUserName();
+      const named = (store.drafts ?? []).filter((d) => d.PlanID === planID && d.Name !== null).sort((a, b) => b.UpdateDate.localeCompare(a.UpdateDate));
+      return [...named.filter((d) => d.OwnerUserName === me), ...named.filter((d) => d.OwnerUserName !== me)].map(draftSimple);
+    }),
+
+  /** The caller's scratch copy of this plan, if they left one. */
+  getScratchDraft: (planID: string): Promise<PlanDraftDto | null> =>
+    delay(() => {
+      const me = currentUserName();
+      return (load().drafts ?? []).find((d) => d.PlanID === planID && d.Name === null && d.OwnerUserName === me) ?? null;
+    }),
+
+  getDraft: (planID: string, planDraftID: string): Promise<PlanDraftDto> => delay(() => findDraft(load(), planID, planDraftID)),
+
+  /**
+   * Creates or saves the caller's draft. Not a plan write: no version is sent or moved. A new scratch copy replaces the
+   * caller's old one (one per planner per plan); naming a draft keeps it and shows it to other editors.
+   */
+  saveDraft: (planID: string, dto: { PlanDraftID?: string; Name: string | null; Overrides: PlanDraftOverrideDto[] }): Promise<PlanDraftDto> =>
+    delay(() => {
+      const store = load();
+      findPlan(store, planID);
+      const me = currentUserName();
+      const stamp = now();
+      const name = dto.Name === null ? null : dto.Name.trim();
+      if (name !== null && !name) badRequest('Name', 'Give the draft a name.');
+      store.drafts = store.drafts ?? [];
+      let draft = dto.PlanDraftID ? ownDraft(store, planID, dto.PlanDraftID) : null;
+      if (!draft) {
+        if (name === null) store.drafts = store.drafts.filter((d) => !(d.PlanID === planID && d.Name === null && d.OwnerUserName === me));
+        draft = { PlanDraftID: uuid(), PlanID: planID, OwnerUserName: me, Name: name, Overrides: [], CreateDate: stamp, UpdateDate: stamp };
+        store.drafts.push(draft);
+      }
+      draft.Name = name;
+      draft.Overrides = dto.Overrides.map((o) => ({ ...o }));
+      draft.UpdateDate = stamp;
+      save(store);
+      return draft;
+    }),
+
+  deleteDraft: (planID: string, planDraftID: string): Promise<void> =>
+    delay(() => {
+      const store = load();
+      ownDraft(store, planID, planDraftID);
+      store.drafts = (store.drafts ?? []).filter((d) => d.PlanDraftID !== planDraftID);
+      save(store);
+    }),
+
+  /**
+   * The draft as the chart draws it, recomputed against the live plan as it is now. Writes nothing. Publish's summary
+   * passes the stale elements the planner set to keep their live dates, so it shows what publishing would really do.
+   */
+  previewDraft: (planID: string, overrides: PlanDraftOverrideDto[], keepLivePlanElementIDs: string[] = []): Promise<PlanDraftViewDto> =>
+    delay(() => draftView(findPlan(load(), planID), overrides, new Set(keepLivePlanElementIDs))),
+
+  /**
+   * Publish: replays the draft on the live plan once more (keeping the live dates where the planner chose them), saves
+   * the result through the checked path, and deletes the draft. Other people's work since the draft started is kept,
+   * because only the elements whose dates the replay changes are written. A snapshot is taken first only when the
+   * planner asked for one (open question 10: offered, not automatic).
+   */
+  publishDraft: (planID: string, planDraftID: string, dto: PlanDraftPublishDto, token?: string | null) =>
+    delay(() => {
+      const draft = ownDraft(load(), planID, planDraftID);
+      const keepLive = new Set(dto.KeepLivePlanElementIDs ?? []);
+      const ids = draft.Overrides.map((o) => o.PlanElementID);
+      return write(
+        planID,
+        token,
+        (plan) => programsOf(...ids.filter((id) => plan.Elements.some((e) => e.PlanElementID === id)))(plan),
+        (plan, store) => {
+          if (dto.SnapshotName?.trim()) {
+            store.snapshots = store.snapshots ?? [];
+            store.snapshots.push({
+              PlanSnapshotID: uuid(),
+              PlanID: planID,
+              Name: dto.SnapshotName.trim(),
+              CreateDate: now(),
+              CreateUserName: currentUserName(),
+              Plan: JSON.parse(JSON.stringify(plan)),
+            });
+          }
+          const { work } = replayDraft(plan, draft.Overrides, keepLive);
+          const touched: string[] = [];
+          for (const e of work.Elements) {
+            const live = plan.Elements.find((x) => x.PlanElementID === e.PlanElementID);
+            if (!live || (sameDates(live, e.StartDate, e.EndDate) && live.PlanDateType === e.PlanDateType)) continue;
+            live.StartDate = e.StartDate;
+            live.EndDate = e.EndDate;
+            live.PlanDateType = e.PlanDateType;
+            live.UpdateDate = now();
+            live.UpdateUserName = currentUserName();
+            touched.push(e.PlanElementID);
+          }
+          store.drafts = (store.drafts ?? []).filter((d) => d.PlanDraftID !== planDraftID);
+          return touched;
+        }
+      );
+    }),
+
+  // ── Presence (open question 8: who's editing, with nothing enforced) ──
+
+  /** A drawer's check-in: on open, then with each status poll while its tab is visible. */
+  checkIn: (planID: string, sessionID: string, programPlanElementID: string | null, subject: string): Promise<void> =>
+    delay(() => {
+      const store = load();
+      livePresence(store, planID);
+      store.presence = (store.presence ?? []).filter((p) => p.SessionID !== sessionID);
+      store.presence.push({ PlanID: planID, UserName: currentUserName(), SessionID: sessionID, ProgramPlanElementID: programPlanElementID, Subject: subject, Seen: Date.now() });
+      save(store);
+    }),
+
+  checkOut: (sessionID: string): Promise<void> =>
+    delay(() => {
+      const store = load();
+      store.presence = (store.presence ?? []).filter((p) => p.SessionID !== sessionID);
+      save(store);
+    }),
+
+  /** Everyone else with a drawer open on this plan, by program. */
+  presence: (planID: string): Promise<PlanPresenceDto[]> =>
+    delay(() => {
+      const store = load();
+      const plan = findPlan(store, planID);
+      const me = currentUserName();
+      return livePresence(store, planID)
+        .filter((p) => p.UserName !== me)
+        .map((p) => ({
+          UserName: p.UserName,
+          ProgramPlanElementID: p.ProgramPlanElementID,
+          ProgramName: p.ProgramPlanElementID ? (plan.Elements.find((e) => e.PlanElementID === p.ProgramPlanElementID)?.PlanElementName ?? null) : null,
+          Subject: p.Subject,
+        }));
+    }),
 };
 
 export type PlanApi = typeof planApi;

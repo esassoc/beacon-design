@@ -10,7 +10,7 @@
 // openPlanElementDrawer(). The Waits on / Blocks rows are <template>s cloned at runtime so every node keeps this
 // component's scoped-CSS attribute; nothing is built from markup strings.
 //
-// bcn-lego-checked: the shell IS esa-side-dialog; Name / lag inputs ARE esa-text-field; Level IS esa-select; the
+// bcn-lego-checked: the shell IS esa-side-dialog; Name / lag / Budget inputs ARE esa-text-field; Notes IS esa-textarea; Level IS esa-select; the
 // Predecessor picker IS esa-combobox (type-to-filter with a loading state — Beacon's ui-search-select); the dates
 // ARE esa-date-picker; "Apply the new dates to" and Date type ARE esa-button-toggle; Milestone IS
 // esa-switch-toggle; every button IS esa-button (icon-only ones wrapped in esa-tooltip). Checked Ecology for a
@@ -20,6 +20,8 @@
 // her .plan-element block mapped onto the semantic tokens.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 ---
 
 <div class="bcn-ped" data-bcn-plan-element-drawer>
@@ -30,22 +32,46 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     </div>
 
     <div class="plan-element">
+      <!-- New design ("Plan Editing: Proposed Direction"): presence in place of edit locks, and unsaved changes. -->
+      <div data-ped="presence" hidden>
+        <EsaAlertBox variant="info"><span data-ped="presence-text"></span></EsaAlertBox>
+      </div>
+      <div data-ped="kept" hidden>
+        <EsaAlertBox variant="warning">
+          <div class="bcn-ped__kept">
+            <span data-ped="kept-text"></span>
+            <span class="bcn-ped__kept-actions">
+              <span data-ped="kept-resume"><EsaButton variant="primary" size="sm">Resume editing</EsaButton></span>
+              <span data-ped="kept-discard"><EsaButton variant="ghost" appearance="outline" size="sm">Discard my changes</EsaButton></span>
+            </span>
+          </div>
+        </EsaAlertBox>
+      </div>
+
       <form class="plan-element__fields" data-ped="form" novalidate>
+        <!-- Draft mode (new design): only the dates and date type change in a draft. -->
+        <p class="plan-element__hint" data-ped="draft-note" hidden>In a draft you change dates and the date type. The name, level, dependencies and structure are edited on the live plan.</p>
         <section class="plan-element__section">
           <esa-text-field data-ped="name" label="Name" required maxlength="500"></esa-text-field>
 
-          <div class="bcn-ped__level">
-            <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
-            <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
-              <esa-tooltip text="Add level">
-                <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add level" data-ped="add-level" />
-              </esa-tooltip>
-            </span>
+          <!-- Level and Milestone side by side: whether it is a milestone shapes everything under Scheduling, so it sits
+               up here with what the element is, not at the end of the dates. -->
+          <div class="bcn-ped__kind">
+            <div class="bcn-ped__level">
+              <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
+              <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
+                <esa-tooltip text="Add level">
+                  <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add level" data-ped="add-level" />
+                </esa-tooltip>
+              </span>
+            </div>
+            <!-- The reason shows as the toggle's hint, so touch and screen readers get it too. -->
+            <div class="plan-element__milestone">
+              <esa-switch-toggle data-ped="milestone" label="Milestone" size="sm"></esa-switch-toggle>
+              <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
+            </div>
           </div>
-        </section>
 
-        <section class="plan-element__section" aria-labelledby="plan-element-drawer-dates-heading">
-          <h3 class="plan-element__heading" id="plan-element-drawer-dates-heading">Scheduling</h3>
           <!-- Each picker carries its own label; the group keeps the pair's name for assistive tech. -->
           <div class="plan-element__dates" role="group" aria-label="Date range" data-ped="dates">
             <esa-date-picker data-ped="start" label="Start date"></esa-date-picker>
@@ -58,20 +84,33 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
             </p>
             <p class="plan-element__hint">Drawn from its child elements. The dates above are its planned window.</p>
           </div>
-          <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the new dates to" hidden></esa-button-toggle>
-          <esa-button-toggle data-ped="date-type" label="Date type"></esa-button-toggle>
-          <!-- The reason shows as the toggle's hint, so touch and screen readers get it too. -->
-          <div class="plan-element__milestone">
-            <esa-switch-toggle data-ped="milestone" label="Milestone"></esa-switch-toggle>
-            <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
+          <div class="plan-element__field">
+            <esa-button-toggle data-ped="date-type" label="Date type" aria-describedby="plan-element-drawer-date-type-hint"></esa-button-toggle>
+            <!-- Help text, set as help: small, quieter, behind an info glyph — not a line of body copy. -->
+            <p class="plan-element__help" id="plan-element-drawer-date-type-hint"><EsaIcon name="info" size="xs" /><span data-ped="date-type-hint"></span></p>
           </div>
+          <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the new dates to" hidden></esa-button-toggle>
+
+          <!-- New (2026-10-21): budget and notes. A milestone is a date, not work, so it has no budget. -->
+          <div class="plan-element__budget" data-ped="budget-wrap">
+            <esa-text-field data-ped="budget" label="Budget" type="number" prefix="$" min="0" step="1000"></esa-text-field>
+          </div>
+          <esa-textarea data-ped="notes" label="Notes" rows="3" maxlength="2000"></esa-textarea>
         </section>
       </form>
 
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-waits-on-heading" data-ped="waits-on">
-        <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits on</h3>
+        <!-- The section's own action beside its heading, so an empty list and a full one both read heading → list. -->
+        <div class="plan-element__heading-row">
+          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits on</h3>
+          <div data-ped="add-pred-open-wrap">
+            <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add predecessor</EsaButton>
+          </div>
+        </div>
         <ul class="plan-element__dependencies" data-ped="pred-list"></ul>
-        <p class="plan-element__hint" data-ped="pred-none">Doesn't wait on any other element.</p>
+        <div class="plan-element__empty" data-ped="pred-none">
+          <EsaEmptyState title="No predecessors" description="Nothing has to finish before this starts." size="xs" />
+        </div>
 
         <form class="plan-element__add-predecessor" data-ped="add-pred" novalidate hidden>
           <p class="plan-element__hint" data-ped="cand-failed" hidden>The elements it could wait on couldn't be loaded.</p>
@@ -85,15 +124,14 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
             <EsaButton variant="secondary" appearance="outline" size="sm" data-ped="pred-cancel">Cancel</EsaButton>
           </div>
         </form>
-        <div data-ped="add-pred-open-wrap">
-          <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add predecessor</EsaButton>
-        </div>
       </section>
 
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-blocks-heading" data-ped="blocks">
         <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading">Blocks</h3>
         <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
-        <p class="plan-element__hint" data-ped="succ-none">No other element waits on this one.</p>
+        <div class="plan-element__empty" data-ped="succ-none">
+          <EsaEmptyState title="Nothing waits on this" description="Add it as a predecessor from another element." size="xs" />
+        </div>
       </section>
     </div>
 
@@ -151,6 +189,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 <script>
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-combobox';
   import '@esa/ecology/esa-date-picker';
@@ -177,12 +216,48 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
   .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; }
   .bcn-ped__subtitle { margin: 0; color: var(--color-content-default-secondary); }
 
-  /* ── The level picker with its inline Add level beside it (Beacon slots it as the select's suffix) ── */
+  /* ── Unsaved changes: the notice's sentence, its two actions under it ── */
+  .bcn-ped__kept { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-ped__kept-actions { display: flex; flex-wrap: wrap; gap: var(--spacing-200); }
+
+  /* ── One field height (EXPERIMENT 2026-10-21): the md fields at 14px text, their padding solved for 36px — the
+     BcnFilterBar compact technique (each lego's private padding hook, from its own line box). The legos' sm step would
+     drop the text to ~11px, under the 14px dense floor. An <input> is never shorter than its font's normal line
+     height (~1.3em), so the text fields solve from that; the select's trigger from 1lh. Worth a /request-lego: one
+     shared control-height scale. ── */
+  .bcn-ped__dialog {
+    --typography-microcopy-md-font-size: 14px;
+    --typography-microcopy-md-strong-font-size: 14px;
+    --typography-microcopy-md-subtle-font-size: 14px;
+  }
+  .bcn-ped__dialog :global(esa-text-field:not([size='sm'])),
+  .bcn-ped__dialog :global(esa-date-picker),
+  .bcn-ped__dialog :global(esa-combobox) {
+    /* Solved for 38px from 1.3em: the input's real line box runs ~2px under that estimate, landing them on 36px. */
+    --_field-padding-y: calc((38px - 1.3em) / 2 - var(--form-border-width, 1px));
+  }
+  .bcn-ped__dialog :global(esa-select) {
+    /* A chosen value sets in body-md (15px+), not the placeholder's microcopy: stepped to the fields' 14px too. */
+    --typography-body-md-font-size: 14px;
+    --_field-padding-y: calc((36px - 1lh) / 2 - var(--form-border-width, 1px));
+  }
+  .bcn-ped__dialog :global(esa-button-toggle) {
+    --_pad-y: calc((30px - 1lh) / 2);
+  }
+
+  /* ── Level (with its inline Add level, Beacon's select suffix) beside Milestone ── */
+  .bcn-ped__kind {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--spacing-300) var(--spacing-500);
+  }
   .bcn-ped__level { display: flex; align-items: flex-end; gap: var(--spacing-100); }
   .bcn-ped__level-select { flex: 1; min-width: 0; }
   .bcn-ped__level-add { flex-shrink: 0; padding-bottom: var(--spacing-100); }
 
-  /* ── .plan-element (Jamie's rhythm: stacked sections, a heading over each, the date pair side by side) ── */
+  /* ── .plan-element: stacked sections, each after a hairline (EXPERIMENT 2026-10-21: separators between sections, sm
+     controls, a tighter rhythm), a heading over each, the date pair side by side. ── */
   .plan-element {
     display: flex;
     flex-direction: column;
@@ -197,14 +272,33 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
   .plan-element__section {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-400);
+    gap: var(--spacing-300);
+  }
+  /* Every section after the first sits under a hairline, across the form and the dependency lists alike. */
+  .plan-element__section + .plan-element__section,
+  .plan-element__fields + .plan-element__section {
+    padding-top: var(--spacing-500);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .plan-element__heading {
     margin: 0;
-    font-size: var(--font-size-250);
+    font-size: var(--font-size-200);
     font-weight: 600;
     color: var(--color-content-default);
   }
+  .plan-element__heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    min-height: 2rem;
+  }
+  /* An empty list: the empty-state lego on a quiet sunken panel, in the list's place. */
+  .plan-element__empty {
+    border-radius: var(--radius-lg);
+    background: var(--color-background-elevation-sunken);
+  }
+  .plan-element__empty :global(.esa-empty-state) { padding: var(--spacing-400); }
   .plan-element__dates {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -343,11 +437,31 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     color: var(--color-content-default-secondary);
   }
 
+  /* A field and its own help text, held close. */
+  .plan-element__field { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .plan-element__help {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+    margin: 0;
+    font-size: 0.8125rem; /* the meta size, as the Gantt's tags; the spoke has no meta token */
+    line-height: 1.35;
+    color: var(--color-content-default-tertiary);
+  }
+  .plan-element__help :global(svg) { flex-shrink: 0; margin-block-start: 0.15em; }
+
+  /* Budget keeps to a figure's width rather than the drawer's. */
+  .plan-element__budget { max-inline-size: 14rem; }
+  .bcn-ped__dialog :global(esa-textarea) { --typography-body-md-font-size: 14px; }
+
+  /* Milestone, level with the Level picker's field; its reason (a parent can't be one) under it. */
   .plan-element__milestone {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-end;
     gap: var(--spacing-100);
+    min-height: 36px;
   }
 
   .plan-element__actions {

@@ -1,0 +1,132 @@
+---
+// <BcnPlanPublishDialog> — "Publish draft": the draft's one approval. New design, not ported: "Plan Editing: Proposed
+// Direction" (2026-10-19), Publishing. You approve when you change the shared plan, never inside your own draft, so
+// this is the only place a draft asks: one summary of what moves and any warnings, then Publish.
+//
+// In order: elements whose LIVE dates changed since the draft touched them (each set to keep the live dates unless the
+// planner picks the draft's); who else is editing an affected program (presence — publishing goes ahead, their next
+// save is refused with their values kept); the warnings the published plan would carry; what moves; and the offered
+// snapshot (open question 10: offered, not automatic). Publishing deletes the draft.
+//
+// ONE pre-rendered shell per page, found by [data-bcn-plan-publish-dialog] and driven by ./plan-publish-dialog.ts.
+//
+// bcn-lego-checked: the panel IS esa-side-dialog, each stale row's choice IS esa-button-toggle, the snapshot offer IS
+// esa-checkbox, the presence notice IS esa-alert-box, the buttons ARE esa-button, the icons ARE esa-icon. The change
+// and warning rows are BcnPlanSchedulePreview's rows (the same quiet "name / from → to" row and warning-bordered
+// sentence row, which no lego renders — see that component's note), restyled here only by name.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-plan-publish" data-bcn-plan-publish-dialog>
+  <esa-side-dialog class="bcn-plan-publish__dialog" position="right">
+    <div slot="header" class="bcn-plan-publish__head">
+      <h2 class="bcn-plan-publish__title typography-title">Publish draft</h2>
+      <span class="bcn-plan-publish__subtitle" data-pub-subject></span>
+    </div>
+
+    <div class="bcn-plan-publish__body">
+      <section class="bcn-plan-publish__section" aria-labelledby="plan-publish-stale-heading" data-pub-stale-section hidden>
+        <h3 class="bcn-plan-publish__heading" id="plan-publish-stale-heading">Changed on the live plan since</h3>
+        <p class="bcn-plan-publish__hint">Someone changed these on the live plan after your draft moved them. Choose which dates to keep.</p>
+        <ul class="bcn-plan-publish__rows" data-pub-stale></ul>
+      </section>
+
+      <div data-pub-presence hidden>
+        <EsaAlertBox variant="warning"><span data-pub-presence-text></span></EsaAlertBox>
+      </div>
+
+      <section class="bcn-plan-publish__section" aria-labelledby="plan-publish-warnings-heading" data-pub-warnings-section hidden>
+        <h3 class="bcn-plan-publish__heading" id="plan-publish-warnings-heading">Warnings</h3>
+        <ul class="bcn-plan-publish__rows" data-pub-warnings></ul>
+      </section>
+
+      <section class="bcn-plan-publish__section" aria-labelledby="plan-publish-changes-heading">
+        <h3 class="bcn-plan-publish__heading" id="plan-publish-changes-heading" data-pub-heading></h3>
+        <ul class="bcn-plan-publish__rows" data-pub-changes></ul>
+      </section>
+
+      <div class="bcn-plan-publish__snapshot">
+        <esa-checkbox label="Take a snapshot of the live plan first" data-pub-snapshot></esa-checkbox>
+        <p class="bcn-plan-publish__hint">Publishing applies only these changes and deletes the draft. A snapshot keeps the plan as it is now, so you can restore it later.</p>
+      </div>
+    </div>
+
+    <div slot="footer" class="bcn-plan-publish__actions">
+      <EsaButton variant="primary" type="button" data-pub-confirm>Publish</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" type="button" data-pub-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <template data-pub-tpl="change">
+    <li class="bcn-plan-publish__row">
+      <span class="bcn-plan-publish__name" data-pub-name></span>
+      <span class="bcn-plan-publish__dates">
+        <span class="bcn-plan-publish__from" data-pub-from></span>
+        <EsaIcon name="arrow-right" size="sm" />
+        <span class="visually-hidden"> to </span>
+        <span data-pub-to></span>
+      </span>
+      <span class="bcn-plan-publish__cause" data-pub-cause></span>
+    </li>
+  </template>
+  <template data-pub-tpl="stale">
+    <li class="bcn-plan-publish__row">
+      <span class="bcn-plan-publish__name" data-pub-name></span>
+      <span class="bcn-plan-publish__cause" data-pub-detail></span>
+      <esa-button-toggle size="sm" data-pub-choice></esa-button-toggle>
+    </li>
+  </template>
+  <template data-pub-tpl="warning">
+    <li class="bcn-plan-publish__row bcn-plan-publish__warning">
+      <span class="bcn-plan-publish__warning-icon"><EsaIcon name="triangle-alert" size="sm" /></span>
+      <span data-pub-sentence></span>
+    </li>
+  </template>
+  <template data-pub-tpl="strong"><strong class="bcn-plan-publish__strong"></strong></template>
+  <template data-pub-tpl="spinner"><EsaButton variant="primary" loading>Publish</EsaButton></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-checkbox';
+</script>
+
+<style>
+  .bcn-plan-publish__dialog { --side-dialog-width: 480px; }
+  .bcn-plan-publish :global([hidden]) { display: none !important; }
+
+  .bcn-plan-publish__head { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-plan-publish__title { margin: 0; color: var(--color-content-default); }
+  .bcn-plan-publish__subtitle { font-size: var(--type-size-200); color: var(--color-content-default-secondary); overflow-wrap: anywhere; }
+
+  /* BcnPlanSchedulePreview's rhythm and rows. */
+  .bcn-plan-publish__body { display: flex; flex-direction: column; gap: var(--spacing-500); color: var(--color-content-default); }
+  .bcn-plan-publish__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-plan-publish__heading { margin: 0; font-size: var(--type-size-250); font-weight: 600; }
+  .bcn-plan-publish__hint { margin: 0; font-size: var(--type-size-150); color: var(--color-content-default-secondary); }
+  .bcn-plan-publish__rows { display: flex; flex-direction: column; gap: var(--spacing-100); margin: 0; padding: 0; list-style: none; }
+  .bcn-plan-publish__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-width: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-elevation-raised);
+    font-size: var(--type-size-200);
+  }
+  .bcn-plan-publish__name { font-weight: 500; overflow-wrap: anywhere; }
+  .bcn-plan-publish__dates { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100); font-size: 0.8125rem; /* Beacon $type-size-meta */ }
+  .bcn-plan-publish__from,
+  .bcn-plan-publish__cause { color: var(--color-content-default-secondary); }
+  .bcn-plan-publish__cause { font-size: 0.8125rem; /* Beacon $type-size-meta */ }
+  .bcn-plan-publish__warning { flex-direction: row; align-items: flex-start; gap: var(--spacing-200); border-color: var(--color-border-warning); }
+  .bcn-plan-publish__warning-icon { display: inline-flex; flex-shrink: 0; color: var(--color-content-warning); }
+  .bcn-plan-publish__strong { font-weight: 600; }
+  .bcn-plan-publish__snapshot { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-plan-publish__actions { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+</style>

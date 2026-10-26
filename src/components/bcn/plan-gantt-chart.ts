@@ -7,6 +7,11 @@
 // Angular signals and computeds become one `view()` recomputed per render, the template becomes string markup, and
 // her `(event)` bindings become listeners delegated from the one persistent frame.
 //
+// DRAFTS (new design, "Plan Editing: Proposed Direction"): edit mode became drafts, so the chart also takes a draft
+// overlay — the live plan's dates as faint baseline bars behind each changed row, and each changed row marked as moved
+// by the planner, moved by a cascade, or still waiting on the cascade — plus broken dependencies drawn as conflicts
+// (BCN-1906) and extra readout rows per row. All of it is a drawing layer: nothing in it is interactive.
+//
 // Two render passes, so a drag never tears down the element holding its pointer capture:
 //   render()        — the whole canvas, on new data, collapse, selection, edit mode, frame width.
 //   renderOverlay() — the ghosts, the drag popup, the dimmed originals, the cursors and the hovered mark.
@@ -30,6 +35,7 @@ import {
   stackTags,
   visibleRows,
   xOfDay,
+  yearPositionOfDay,
 } from '../../lib/planning/gantt-geometry';
 import type {
   GanttDragMode,
@@ -46,15 +52,32 @@ import type { GanttDragEvent, GanttDragTarget, GanttDropState, UiVizGanttNote } 
 
 /* ── Layout constants (verbatim). ─────────────────────────────────────────────────────────────────────────────── */
 const OUTLINE_PX = 420;
+/** The outline column is resizable (new): by its divider, between these widths, remembered per browser. */
+const OUTLINE_MIN_PX = 200;
+const OUTLINE_MIN_PLOT_PX = 160;
+const OUTLINE_KEY_STEP_PX = 16;
+const OUTLINE_WIDTH_KEY = 'bcn-plan-gantt-outline-width';
+const SPLITTER_LABEL = 'Resize the outline column';
 const ROW_PX = 28;
 const AXIS_PX = 40;
 const BAR_HEIGHT_PX = 16;
 const BAR_MIN_WIDTH_PX = 5;
 const MARK_RADIUS_PX = 2;
-const SUMMARY_HEIGHT_PX = [10, 7, 4] as const;
-const SUMMARY_TICK_WIDTH_PX = 2;
-const SUMMARY_TICK_OVERHANG_PX = 3;
-const SUMMARY_TICKED_TIERS = 2;
+/**
+ * A parent bracket's height by tier. EXPERIMENT (2026-10-21): her brackets thin out with depth (10 / 7 / 4px), which
+ * left a sub-study a hairline. Here they grow toward their children instead — the program shortest, the deepest
+ * parent tallest, in small steps and well under a task bar's 16px — matching the colour, which deepens toward the children too.
+ */
+const SUMMARY_HEIGHT_PX = [6, 7, 8] as const;
+/**
+ * EXPERIMENT (2026-10-21): a parent's bracket ends in a small tick hanging below each end, in the bracket's own colour,
+ * in place of her 2px end rules overhanging both edges (on the top two tiers only). Every tier gets them, 4px wide
+ * and 3px deep.
+ */
+const SUMMARY_TICK_WIDTH_PX = 4;
+const SUMMARY_TICK_DROP_PX = 3;
+/** A tick starts this far inside the mark it hangs from, so no anti-aliased seam shows between them. */
+const TICK_OVERLAP_PX = 0.5;
 const MILESTONE_SIZE_PX = 12;
 const HIT_PAD_PX = 4;
 const EMPHASIS_EVERY_YEARS = 5;
@@ -86,6 +109,17 @@ const TIP_PLANNED_WINDOW = 'Planned window';
 const TIP_OVERRUN = 'Overrun';
 const KIND_ESTIMATED = 'Estimated';
 const KIND_SCHEDULED = 'Scheduled';
+/**
+ * EXPERIMENT (2026-10-21): how Scheduled (fixed) dates read. Her design draws a thick cut-off rule at a Scheduled
+ * element's end and nothing for Estimated. Tried instead, on the chart and never as a second colour (colour already
+ * tells a parent from its children): a Scheduled bar has square, hard corners and an Estimated one rounded corners; a
+ * parent's planned window keeps one corner (a box around a bar) and reads by its outline — a step darker when
+ * Scheduled. Milestones stay diamonds. The cut-off rule is off; set SHOW_SCHEDULED_CUTOFF true to bring it
+ * back.
+ */
+/** An Estimated bar's corner radius: clearly rounder than a Scheduled bar's square one, short of a full pill. */
+const BAR_ESTIMATED_RADIUS_PX = 4;
+const SHOW_SCHEDULED_CUTOFF = false;
 const OVERRUN_PREFIX = 'Runs';
 const OVERRUN_ESTIMATED_SUFFIX = 'past planned window';
 const OVERRUN_SCHEDULED_SUFFIX = 'past scheduled window';
@@ -93,6 +127,8 @@ const LABEL_OVERRUN_ONE = 'running past its planned window';
 const LABEL_OVERRUN_MANY = 'running past their planned window';
 const LABEL_SCHEDULED_OF_THEM = 'of them';
 const LABEL_SCHEDULED_CUTOFF = 'past a scheduled cut-off';
+const LABEL_CONFLICT_ONE = 'broken dependency';
+const LABEL_CONFLICT_MANY = 'broken dependencies';
 const LABEL_LANDMARK_ONE = 'landmark';
 const LABEL_LANDMARK_MANY = 'landmarks';
 const LABEL_LANDMARK_ON = 'on';
@@ -119,9 +155,58 @@ export interface PlanGanttTipRow {
   label: string;
   value: string | number;
   note?: string;
+  /**
+   * A warning (new, 2026-10-21): the readout sets it apart under the facts, with an icon and its colour — amber for an
+   * Estimated overrun, red past a Scheduled one or for a broken dependency — so it is seen, not read past.
+   */
+  tone?: 'warning' | 'danger';
+  /** Long text (notes): wraps, clamped to two lines in the readout. */
+  clamp?: boolean;
 }
 
+/** The outline's Budget column: compact ("$1.3M", "$185K"), the whole figure in its title and the readout. */
+const BUDGET_COMPACT = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 1 });
+const BUDGET_FULL = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const TIP_BUDGET = 'Budget';
+const TIP_NOTES = 'Notes';
+const BUDGET_HEADING = 'Budget';
+const CHANGE_HEADING = 'Change';
+
+/** The readout's warning glyph (Lucide triangle-alert), inline: the tip lives on <body>, outside any lego. */
+const TIP_WARNING_ICON =
+  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+
 const roundPx = (value: number): number => Math.round(value * 100) / 100;
+
+/** A rect rounded on its right side only (a bar's overrun: it starts inside the bar and ends where the bar does). */
+function rightRoundedPath(x: number, y: number, width: number, height: number, radius: number): string {
+  const r = Math.max(0, Math.min(radius, width, height / 2));
+  if (r === 0) return `M${x},${y} H${x + width} V${y + height} H${x} Z`;
+  return `M${x},${y} H${x + width - r} A${r},${r} 0 0 1 ${x + width},${y + r} V${y + height - r} A${r},${r} 0 0 1 ${x + width - r},${y + height} H${x} Z`;
+}
+
+/** A rect with only its top corners rounded: a parent bracket, whose end ticks hang from its square bottom corners. */
+function topRoundedPath(x: number, y: number, width: number, height: number, radius: number): string {
+  const r = Math.max(0, Math.min(radius, width / 2, height / 2));
+  return `M${x},${y + height} V${y + r} Q${x},${y} ${x + r},${y} H${x + width - r} Q${x + width},${y} ${x + width},${y + r} V${y + height} Z`;
+}
+
+function readOutlineWidth(): number {
+  try {
+    const stored = Number(localStorage.getItem(OUTLINE_WIDTH_KEY));
+    return Number.isFinite(stored) && stored >= OUTLINE_MIN_PX ? stored : OUTLINE_PX;
+  } catch {
+    return OUTLINE_PX;
+  }
+}
+
+function writeOutlineWidth(width: number): void {
+  try {
+    localStorage.setItem(OUTLINE_WIDTH_KEY, String(width));
+  } catch {
+    /* a blocked store keeps the width for this page only */
+  }
+}
 const plural = (count: number, one: string, many: string): string => `${count} ${count === 1 ? one : many}`;
 const esc = (value: unknown): string =>
   String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -167,7 +252,8 @@ interface GanttMarkView {
   y: number;
   height: number;
   diamond: string;
-  ticks: readonly GanttRect[];
+  /** A parent bracket's end caps: polygon points, and whether their end is in the overrun. */
+  ticks: readonly { points: string; overrun: boolean }[];
   overrunRect: GanttRect | null;
   overrun: boolean;
   startEdge: number;
@@ -201,6 +287,26 @@ interface GanttYearView {
   emphasis: boolean;
 }
 
+/** A zoomed axis's finer divisions: quarters or months, each a gridline and a label. */
+interface GanttTickView {
+  x: number;
+  label: string;
+}
+
+/** A date range to show (new design, 2026-10-21): the plot fits it to the frame's width. Null shows the whole plan. */
+export interface GanttRange {
+  start: string;
+  end: string;
+}
+
+/** Zoomed in past these scales, the axis divides each year into quarters, then months. */
+const QUARTER_TICKS_MIN_PX_PER_YEAR = 240;
+const MONTH_TICKS_MIN_PX_PER_YEAR = 540;
+const FULL_YEAR_LABEL_MIN_PX_PER_YEAR = 160;
+/** The room an axis label needs before the plot's right edge, else it is left off. */
+const AXIS_LABEL_ROOM_PX = 34;
+const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 interface GanttLandmarkView {
   landmark: UiVizGanttLandmark;
   lineX: number;
@@ -214,6 +320,40 @@ interface GanttLandmarkView {
 }
 
 type GanttHover = { kind: 'row'; id: string } | { kind: 'landmark'; id: string };
+
+/**
+ * How a draft changed a row (simplified 2026-10-21): changed — by the planner or by a cascade from their edit; which
+ * one is in the readout, not the drawing — or pending, while the cascade is on its way.
+ */
+export type GanttDraftMark = 'changed' | 'pending';
+
+/** A changed row's live-plan dates, drawn behind it. A parent's window and span are kept apart, as the row draws them. */
+export interface GanttBaseline {
+  start: string | null;
+  end: string | null;
+  windowStart: string | null;
+  windowEnd: string | null;
+}
+
+export interface GanttDraftOverlay {
+  /** Live-plan positions, drawn as ghosts behind task bars and milestones only — never behind a parent. */
+  baseline: ReadonlyMap<string, GanttBaseline>;
+  marks: ReadonlyMap<string, GanttDraftMark>;
+  /** Parents whose planned window the draft changed: their window stays drawn. */
+  changedWindows: ReadonlySet<string>;
+}
+
+/** A changed row's shift, for the outline's Change column in a draft: "+3 mo", bold where the planner moved it. */
+export interface GanttRowDelta {
+  text: string;
+  own: boolean;
+}
+
+/** A finish-to-start link the plan's dates break. */
+export interface GanttConflict {
+  fromId: string;
+  toId: string;
+}
 
 interface GanttEditTarget {
   target: GanttDragTarget;
@@ -290,16 +430,20 @@ interface GanttView {
   window: UiVizGanttWindow | null;
   plotWidth: number;
   years: GanttYearView[];
+  ticks: GanttTickView[];
+  pxPerYear: number;
   rowViews: GanttRowView[];
   plotHeight: number;
   landmarkViews: GanttLandmarkView[];
   landmarkBandPx: number;
   axisPx: number;
-  linkViews: { path: string; head: string }[];
+  linkViews: { path: string; head: string; broken: boolean }[];
   todayX: number | null;
   plotLabel: string;
   editTargets: Map<string, GanttEditTarget>;
   windowEditViews: GanttWindowEditView[];
+  baselineViews: { id: string; diamond: string | null; rect: GanttRect }[];
+  conflictIds: ReadonlySet<string>;
 }
 
 export interface PlanGanttChartOptions {
@@ -319,6 +463,8 @@ export interface PlanGanttChartOptions {
 /** Pre-rendered EsaButton shells the chart clones (EsaButton is compile-time, so it cannot be built at runtime). */
 export interface PlanGanttTemplates {
   caret: HTMLTemplateElement;
+  /** A quiet EsaBadge for a row marker ("Unsaved changes"); its text is set per row. */
+  badge?: HTMLTemplateElement;
   apply: HTMLTemplateElement;
   revert: HTMLTemplateElement;
 }
@@ -335,6 +481,15 @@ export class PlanGanttChart {
   private dependentCount: number | null = null;
   private dropState: GanttDropState = 'idle';
   private dropNotes: readonly UiVizGanttNote[] = [];
+  private draft: GanttDraftOverlay | null = null;
+  private conflicts: readonly GanttConflict[] = [];
+  private rowNotes: ReadonlyMap<string, readonly PlanGanttTipRow[]> = new Map();
+  /** Row markers by row id; one inside a collapsed parent shows on the nearest visible row. */
+  private rowBadges: ReadonlyMap<string, string> = new Map();
+  private rowDeltas: ReadonlyMap<string, GanttRowDelta> | null = null;
+  /** Whether the drag readout counts dependents (the live plan's server preview); a draft shows the result instead. */
+  private countsDependents = true;
+  private range: GanttRange | null = null;
 
   // ── Internal state ──
   private collapsed: ReadonlySet<string> = new Set();
@@ -348,6 +503,8 @@ export class PlanGanttChart {
   private held: GanttHeldDrop | null = null;
   private gripHover: { id: string; mode: GanttDragMode } | null = null;
 
+  private outlineWidth = OUTLINE_PX;
+  private readonly splitter: HTMLElement;
   private readonly idPrefix = `${P}-${++nextId}`;
   private readonly frame: HTMLElement;
   private readonly tip: HTMLElement;
@@ -364,6 +521,18 @@ export class PlanGanttChart {
     this.tip.setAttribute('aria-hidden', 'true');
     this.tip.setAttribute('popover', 'manual');
     document.body.append(this.tip);
+
+    // The divider between the outline and the plot: outside the frame's markup, so a render never drops its capture.
+    this.outlineWidth = readOutlineWidth();
+    this.splitter = document.createElement('div');
+    this.splitter.className = `${P}__splitter`;
+    this.splitter.setAttribute('role', 'separator');
+    this.splitter.setAttribute('aria-orientation', 'vertical');
+    this.splitter.setAttribute('aria-label', SPLITTER_LABEL);
+    this.splitter.title = `${SPLITTER_LABEL} (double-click to reset)`;
+    this.splitter.tabIndex = 0;
+    host.append(this.splitter);
+    this.wireSplitter();
 
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(() => {
@@ -423,7 +592,46 @@ export class PlanGanttChart {
     this.renderOverlay();
   }
 
+  /**
+   * What the chart draws over the rows: a draft's overlay (null on the live plan), the broken dependencies, extra
+   * readout rows per row (a draft's "Live plan" dates, a conflict) and whether a drag counts dependents (the live plan's
+   * server preview; a draft shows the result instead). Takes effect on the next setData(), which the host always sends
+   * after it, so one redraw paints both.
+   */
+  setAnnotations(annotations: {
+    draft: GanttDraftOverlay | null;
+    conflicts: readonly GanttConflict[];
+    rowNotes: ReadonlyMap<string, readonly PlanGanttTipRow[]>;
+    countsDependents: boolean;
+    rowBadges?: ReadonlyMap<string, string>;
+    /** A draft's comparison: each changed row's shift, shown in place of its budget. Absent, the Budget column shows. */
+    rowDeltas?: ReadonlyMap<string, GanttRowDelta> | null;
+  }): void {
+    this.rowBadges = annotations.rowBadges ?? new Map();
+    this.rowDeltas = annotations.rowDeltas ?? null;
+    this.draft = annotations.draft;
+    this.conflicts = annotations.conflicts;
+    this.rowNotes = annotations.rowNotes;
+    this.countsDependents = annotations.countsDependents;
+  }
+
+  /** The date range to show, fitted to the frame; null shows the whole plan at the fixed scale. */
+  setRange(range: GanttRange | null): void {
+    this.range = range;
+    this.render();
+  }
+
   // ── The view ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Whether a parent's planned window is drawn. Always on the live plan; in a draft (simplified 2026-10-21) only for the
+   * parent selected or picked, or one whose window the draft changed — so changed parents read as one bracket, not a
+   * stack of window, edit outline and bracket.
+   */
+  private windowShown(id: string): boolean {
+    if (!this.draft) return true;
+    return id === this.selectedId || this.picked.has(id) || this.draft.changedWindows.has(id);
+  }
 
   private heldDrop(): GanttHeldDrop | null {
     return this.held && this.held.rows === this.rows ? this.held : null;
@@ -462,17 +670,44 @@ export class PlanGanttChart {
     for (const dated of datedLandmarks) extents.push(dated.span);
     const data = ganttWindow(extents);
 
-    const availablePlotPx = Math.max(0, this.frameWidth - OUTLINE_PX);
-    const window: UiVizGanttWindow | null = data
-      ? { startYear: data.startYear, endYear: Math.max(data.endYear, data.startYear + Math.ceil(availablePlotPx / GANTT_PX_PER_YEAR)) }
-      : null;
-    const dataPx = data ? (data.endYear - data.startYear) * GANTT_PX_PER_YEAR : 0;
-    const plotWidth = Math.max(dataPx, Math.floor(availablePlotPx));
+    const availablePlotPx = Math.max(0, this.frameWidth - this.shownOutlineWidth());
+    // A chosen range is fitted to the frame (it never scrolls sideways); the whole plan keeps her fixed scale.
+    const rangeStart = dayNumber(this.range?.start);
+    const rangeEnd = dayNumber(this.range?.end);
+    const zoomed = rangeStart !== null && rangeEnd !== null && rangeEnd >= rangeStart && availablePlotPx > 0;
+    let window: UiVizGanttWindow | null;
+    let plotWidth: number;
+    if (zoomed) {
+      const startYear = yearPositionOfDay(rangeStart!);
+      const endYear = yearPositionOfDay(rangeEnd! + 1);
+      plotWidth = Math.floor(availablePlotPx);
+      window = { startYear, endYear, pxPerYear: plotWidth / (endYear - startYear) };
+    } else {
+      window = data
+        ? { startYear: data.startYear, endYear: Math.max(data.endYear, data.startYear + Math.ceil(availablePlotPx / GANTT_PX_PER_YEAR)) }
+        : null;
+      const dataPx = data ? (data.endYear - data.startYear) * GANTT_PX_PER_YEAR : 0;
+      plotWidth = Math.max(dataPx, Math.floor(availablePlotPx));
+    }
+    const pxPerYear = window?.pxPerYear ?? GANTT_PX_PER_YEAR;
 
     const years: GanttYearView[] = [];
+    const ticks: GanttTickView[] = [];
     if (window) {
-      for (let year = window.startYear; year < window.endYear; year++) {
-        years.push({ year, x: (year - window.startYear) * GANTT_PX_PER_YEAR, label: `’${String(year).slice(-2)}`, emphasis: year % EMPHASIS_EVERY_YEARS === 0 });
+      const fullYear = pxPerYear >= FULL_YEAR_LABEL_MIN_PX_PER_YEAR;
+      for (let year = Math.floor(window.startYear); year < window.endYear; year++) {
+        years.push({ year, x: (year - window.startYear) * pxPerYear, label: fullYear ? String(year) : `’${String(year).slice(-2)}`, emphasis: year % EMPHASIS_EVERY_YEARS === 0 });
+        const months = pxPerYear >= MONTH_TICKS_MIN_PX_PER_YEAR ? 1 : pxPerYear >= QUARTER_TICKS_MIN_PX_PER_YEAR ? 3 : 0;
+        if (!months) continue;
+        for (let month = months; month < 12; month += months) {
+          const x = xOfDay(Date.UTC(year, month, 1) / 86_400_000, window);
+          // Half a pixel either side absorbs rounding: a range starting on the 1st shows that month at x = 0, and the
+          // month after its last day (at the right edge) has nothing to label.
+          if (x < -0.5 || x > plotWidth - 1) continue;
+          ticks.push({ x, label: months === 1 ? MONTH_LABELS[month] : `Q${month / 3 + 1}` });
+        }
+        const jan = xOfDay(Date.UTC(year, 0, 1) / 86_400_000, window);
+        if (jan >= -0.5 && jan <= plotWidth - 1) ticks.push({ x: jan, label: months === 1 ? MONTH_LABELS[0] : 'Q1' });
       }
     }
 
@@ -482,9 +717,9 @@ export class PlanGanttChart {
       const expanded = !this.collapsed.has(row.id);
       const schedule = schedules.get(row.id)!;
       const mark = schedule.span && window ? this.markFor(row, schedule.span, schedule.overrun, window, centre) : null;
-      const band = row.kind === 'summary' && schedule.plannedWindow && window ? this.bandFor(schedule.plannedWindow, window, top) : null;
-      const cutoff = schedule.scheduled && window ? this.cutoffFor(schedule, mark, window, centre) : null;
-      const tipRows = this.tipRowsFor(mark, schedule);
+      const band = row.kind === 'summary' && schedule.plannedWindow && window && this.windowShown(row.id) ? this.bandFor(schedule.plannedWindow, window, top) : null;
+      const cutoff = SHOW_SCHEDULED_CUTOFF && schedule.scheduled && window ? this.cutoffFor(schedule, mark, window, centre) : null;
+      const tipRows = [...this.tipRowsFor(mark, schedule), ...this.detailRowsFor(row), ...(this.rowNotes.get(row.id) ?? [])];
       const summary = tipRowsText(tipRows);
       return {
         row,
@@ -508,13 +743,39 @@ export class PlanGanttChart {
     const byId = new Map<string, GanttRowView>();
     for (const view of rowViews) if (view.mark) byId.set(view.row.id, view);
     const edgeX = (mark: GanttMarkView, edge: UiVizGanttEdge): number => (edge === 'start' ? mark.startEdge : mark.endEdge);
-    const linkViews: { path: string; head: string }[] = [];
+    const brokenLinks = new Set(this.conflicts.map((c) => `${c.fromId}>${c.toId}`));
+    const conflictIds = new Set(this.conflicts.map((c) => c.toId));
+    const linkViews: { path: string; head: string; broken: boolean }[] = [];
     for (const link of this.links) {
       const from = byId.get(link.fromId);
       const to = byId.get(link.toId);
       if (!from?.mark || !to?.mark || from === to) continue;
       const edges = LINK_EDGES[link.type];
-      linkViews.push(routeLink({ x: edgeX(from.mark, edges.from), y: from.centre }, edges.from, { x: edgeX(to.mark, edges.to), y: to.centre }, edges.to, ROW_PX));
+      const route = routeLink({ x: edgeX(from.mark, edges.from), y: from.centre }, edges.from, { x: edgeX(to.mark, edges.to), y: to.centre }, edges.to, ROW_PX);
+      linkViews.push({ ...route, broken: brokenLinks.has(`${link.fromId}>${link.toId}`) });
+    }
+
+    // The draft's baseline: each changed row's live-plan dates, where the row draws them.
+    const baselineViews: GanttView['baselineViews'] = [];
+    if (this.draft && window) {
+      for (const view of rowViews) {
+        const live = this.draft.baseline.get(view.row.id);
+        // Ghosts for task bars and milestones only: a parent's change shows through its children.
+        if (!live || view.row.kind === 'summary') continue;
+        const span = spanOf({ ...view.row, start: live.start, end: live.end });
+        if (span && view.row.kind === 'milestone') {
+          const cx = roundPx(xOfDay(span.startDay, window));
+          const half = MILESTONE_SIZE_PX / 2;
+          const c = view.centre;
+          baselineViews.push({ id: view.row.id, diamond: `${cx},${c - half} ${cx + half},${c} ${cx},${c + half} ${cx - half},${c}`, rect: { x: cx - half, y: c - half, width: MILESTONE_SIZE_PX, height: MILESTONE_SIZE_PX } });
+          continue;
+        }
+        if (span) {
+          const x = xOfDay(span.startDay, window);
+          const width = Math.max(BAR_MIN_WIDTH_PX, xOfDay(span.endDay + 1, window) - x);
+          baselineViews.push({ id: view.row.id, diamond: null, rect: { x: roundPx(x), y: view.centre - BAR_HEIGHT_PX / 2, width: roundPx(width), height: BAR_HEIGHT_PX } });
+        }
+      }
     }
 
     let todayX: number | null = null;
@@ -526,13 +787,16 @@ export class PlanGanttChart {
 
     let landmarkViews: GanttLandmarkView[] = [];
     if (window) {
-      const placed = datedLandmarks.map(({ landmark, span }) => {
-        const lineX = Math.round(xOfDay(span.startDay, window)) + LANDMARK_LINE_PX / 2;
-        const tagWidth = Math.min(LANDMARK_TAG_MAX_PX, landmark.label.length * LANDMARK_TAG_CHAR_PX + LANDMARK_TAG_CHROME_PX);
-        const half = tagWidth / 2;
-        const tagCentre = Math.min(Math.max(lineX, half), Math.max(half, plotWidth - half));
-        return { landmark, span, lineX, tagWidth, tagCentre };
-      });
+      const placed = datedLandmarks
+        .map(({ landmark, span }) => {
+          const lineX = Math.round(xOfDay(span.startDay, window)) + LANDMARK_LINE_PX / 2;
+          const tagWidth = Math.min(LANDMARK_TAG_MAX_PX, landmark.label.length * LANDMARK_TAG_CHAR_PX + LANDMARK_TAG_CHROME_PX);
+          const half = tagWidth / 2;
+          const tagCentre = Math.min(Math.max(lineX, half), Math.max(half, plotWidth - half));
+          return { landmark, span, lineX, tagWidth, tagCentre };
+        })
+        // Zoomed, a landmark outside the range is left out: clamped to the plot's edge, its tag would pile up there.
+        .filter(({ lineX }) => !zoomed || (lineX >= 0 && lineX <= plotWidth));
       const lanes = stackTags(placed.map((tag) => ({ centre: tag.tagCentre, width: tag.tagWidth })), LANDMARK_TAG_GAP_PX);
       landmarkViews = placed.map(({ landmark, span, lineX, tagWidth, tagCentre }, index) => {
         const dateLabel = this.dayLabel(span.startDay);
@@ -559,10 +823,11 @@ export class PlanGanttChart {
       const last = Math.max(...spans.map((span) => span.endDay));
       const summary = `${this.options.label}: ${rows} from ${this.dayLabel(first)} to ${this.dayLabel(last)}, ${plural(this.links.length, 'dependency', 'dependencies')}`;
       const late = [...schedules.values()].filter((schedule) => schedule.overrun !== null);
-      if (late.length === 0) return summary;
+      const broken = this.conflicts.length === 0 ? '' : `, ${plural(this.conflicts.length, LABEL_CONFLICT_ONE, LABEL_CONFLICT_MANY)}`;
+      if (late.length === 0) return `${summary}${broken}`;
       const pastCutoff = late.filter((schedule) => schedule.scheduled).length;
       const overrunning = `${summary}, ${plural(late.length, LABEL_OVERRUN_ONE, LABEL_OVERRUN_MANY)}`;
-      return pastCutoff === 0 ? overrunning : `${overrunning}, ${pastCutoff} ${LABEL_SCHEDULED_OF_THEM} ${LABEL_SCHEDULED_CUTOFF}`;
+      return `${pastCutoff === 0 ? overrunning : `${overrunning}, ${pastCutoff} ${LABEL_SCHEDULED_OF_THEM} ${LABEL_SCHEDULED_CUTOFF}`}${broken}`;
     })();
     const plotLabel =
       landmarkViews.length === 0
@@ -611,6 +876,8 @@ export class PlanGanttChart {
       window,
       plotWidth,
       years,
+      ticks,
+      pxPerYear,
       rowViews,
       plotHeight,
       landmarkViews,
@@ -621,6 +888,8 @@ export class PlanGanttChart {
       plotLabel,
       editTargets,
       windowEditViews,
+      baselineViews,
+      conflictIds,
     };
   }
 
@@ -672,11 +941,11 @@ export class PlanGanttChart {
     const above = primary.top + ROW_PX + DRAG_POPUP_ROOM_PX > v.plotHeight && primary.top >= DRAG_POPUP_ROOM_PX;
     const held = this.heldDrop() !== null && this.dragging === null;
     return {
-      left: OUTLINE_PX + Math.max(0, ghost.x),
+      left: this.shownOutlineWidth() + Math.max(0, ghost.x),
       top: v.axisPx + (above ? primary.top : primary.top + ROW_PX),
       above,
       dates: this.rangeLabel({ startDay: first, endDay: last }),
-      dependents: count === null ? DEPENDENTS_PENDING : count > 0 ? `${DEPENDENTS_PREFIX} ${plural(count, DEPENDENT_ONE, DEPENDENT_MANY)}` : null,
+      dependents: !this.countsDependents ? null : count === null ? DEPENDENTS_PENDING : count > 0 ? `${DEPENDENTS_PREFIX} ${plural(count, DEPENDENT_ONE, DEPENDENT_MANY)}` : null,
       saving: held && this.dropState === 'saving',
       confirm: held && this.dropState === 'confirm',
     };
@@ -700,12 +969,14 @@ export class PlanGanttChart {
     if (this.rows.length === 0) {
       // RENDERS NOTHING WITH NO ROWS: the page's own empty state owns that case.
       this.frame.hidden = true;
+      this.splitter.hidden = true;
       this.frame.replaceChildren();
       this.v = null;
       this.hideTip();
       return;
     }
     this.frame.hidden = false;
+    this.placeSplitter();
     const v = (this.v = this.view());
     const pickedIds = new Set(this.pickedRowIds());
     const pickedTops = pickedIds.size === 0 ? [] : v.rowViews.filter((view) => pickedIds.has(view.row.id)).map((view) => view.top);
@@ -714,9 +985,20 @@ export class PlanGanttChart {
     const axis = `
       <div class="${P}__axis" style="height:${v.axisPx}px" aria-hidden="true">
         ${v.years
+          .map((year) => {
+            // A year that starts left of a zoomed window keeps its label at the plot's left edge.
+            const left = Math.max(0, year.x);
+            const width = v.pxPerYear + Math.min(0, year.x);
+            const classes = [`${P}__year`, year.emphasis ? `${P}__year--emphasis` : '', year.x < 0 ? `${P}__year--clipped` : '', v.ticks.length ? `${P}__year--top` : ''].filter(Boolean).join(' ');
+            // A label with no room before the plot's right edge is left off rather than cut ("202…"); its line stays.
+            const label = v.plotWidth - left < AXIS_LABEL_ROOM_PX ? '' : `<span class="${P}__year-label">${year.label}</span>`;
+            return `<span class="${classes}" style="left:${left}px;width:${width}px;inset-block-end:${v.landmarkBandPx}px">${label}</span>`;
+          })
+          .join('')}
+        ${v.ticks
           .map(
-            (year) =>
-              `<span class="${P}__year${year.emphasis ? ` ${P}__year--emphasis` : ''}" style="left:${year.x}px;width:${GANTT_PX_PER_YEAR}px;inset-block-end:${v.landmarkBandPx}px"><span class="${P}__year-label">${year.label}</span></span>`
+            (tick) =>
+              `<span class="${P}__tick" style="left:${tick.x}px;inset-block-end:${v.landmarkBandPx}px">${v.plotWidth - tick.x < AXIS_LABEL_ROOM_PX ? '' : `<span class="${P}__tick-label">${tick.label}</span>`}</span>`
           )
           .join('')}
         ${v.todayX !== null ? `<span class="${P}__today" style="left:${v.todayX}px;width:${TODAY_LINE_PX}px"><span class="${P}__today-flag">${TODAY_FLAG}</span></span>` : ''}
@@ -732,6 +1014,16 @@ export class PlanGanttChart {
         }
       </div>`;
 
+    // Row markers, lifted to the nearest visible row when theirs is inside a collapsed parent.
+    const visibleIds = new Set(v.rowViews.map((view) => view.row.id));
+    const parentOf = new Map(this.rows.map((row) => [row.id, row.parentId]));
+    const badges = new Map<string, string[]>();
+    for (const [id, text] of this.rowBadges) {
+      let at: string | null | undefined = id;
+      while (at && !visibleIds.has(at)) at = parentOf.get(at);
+      if (at) badges.set(at, [...(badges.get(at) ?? []), text]);
+    }
+
     const outline = `<ul class="${P}__outline">${v.rowViews
       .map((view) => {
         const classes = [`${P}__item`];
@@ -740,13 +1032,26 @@ export class PlanGanttChart {
         if (view.row.id === this.selectedId) classes.push(`${P}__item--selected`);
         if (pickedIds.has(view.row.id)) classes.push(`${P}__item--picked`);
         return `<li class="${classes.join(' ')}" data-row-id="${esc(view.row.id)}" style="height:${ROW_PX}px;--bcn-plan-gantt-depth:${view.row.depth}" aria-level="${view.row.depth + 1}">
-          ${view.row.hasChildren ? `<span data-caret-slot></span>` : `<span class="${P}__caret-spacer"></span>`}
+          ${
+            view.row.hasChildren
+              ? `<span data-caret-slot></span>`
+              : // A milestone isn't a stretch of work: the chart's diamond hangs in the caret's place, left of its tag, so
+                // the "Milestone" tag lines up with the level tags of the rows around it.
+                `<span class="${P}__caret-spacer">${view.row.kind === 'milestone' ? `<svg class="${P}__milestone-icon" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><polygon points="5,0.5 9.5,5 5,9.5 0.5,5"/></svg>` : ''}</span>`
+          }
           <button type="button" class="${P}__select" data-select="${esc(view.row.id)}"${view.row.id === this.selectedId ? ' aria-current="true"' : ''}${view.summaryId ? ` aria-describedby="${view.summaryId}"` : ''}>
             ${view.row.tag ? `<span class="${P}__tag">${esc(view.row.tag)}</span>` : ''}
             <span class="${P}__name" title="${esc(view.row.label)}">${esc(view.row.label)}</span>
           </button>
-          ${view.summaryId ? `<span class="${P}__schedule-summary" id="${view.summaryId}">${esc(view.summary)}</span>` : ''}
+          ${badges.has(view.row.id) && this.templates.badge ? `<span data-badge-slot></span>` : ''}
           ${this.options.rowActions ? `<div class="${P}__actions"></div>` : ''}
+          ${
+            this.rowDeltas
+              ? // In a draft's comparison the column shows each changed row's shift instead of its budget.
+                `<span class="${P}__budget ${P}__delta${this.rowDeltas.get(view.row.id)?.own ? ` ${P}__delta--own` : ''}">${esc(this.rowDeltas.get(view.row.id)?.text ?? '')}</span>`
+              : `<span class="${P}__budget"${typeof view.row.budget === 'number' ? ` title="${esc(BUDGET_FULL.format(view.row.budget))}"` : ''}>${typeof view.row.budget === 'number' ? esc(BUDGET_COMPACT.format(view.row.budget)) : ''}</span>`
+          }
+          ${view.summaryId ? `<span class="${P}__schedule-summary" id="${view.summaryId}">${esc(view.summary)}</span>` : ''}
         </li>`;
       })
       .join('')}</ul>`;
@@ -760,29 +1065,59 @@ export class PlanGanttChart {
     }
     if (selectedTop !== null) svg.push(`<rect class="${P}__selected" x="0" y="${selectedTop}" width="${W}" height="${ROW_PX}"/>`);
     for (const top of pickedTops) svg.push(`<rect class="${P}__picked" x="0" y="${top}" width="${W}" height="${ROW_PX}"/>`);
-    for (const year of v.years) svg.push(`<line class="${P}__grid${year.emphasis ? ` ${P}__grid--emphasis` : ''}" x1="${year.x + 0.5}" x2="${year.x + 0.5}" y1="0" y2="${H}"/>`);
+    for (const tick of v.ticks) svg.push(`<line class="${P}__grid ${P}__grid--minor" x1="${roundPx(tick.x) + 0.5}" x2="${roundPx(tick.x) + 0.5}" y1="0" y2="${H}"/>`);
+    for (const year of v.years) {
+      if (year.x < 0) continue;
+      svg.push(`<line class="${P}__grid${year.emphasis ? ` ${P}__grid--emphasis` : ''}" x1="${roundPx(year.x) + 0.5}" x2="${roundPx(year.x) + 0.5}" y1="0" y2="${H}"/>`);
+    }
     for (const view of v.rowViews) svg.push(`<line class="${P}__rule" x1="0" x2="${W}" y1="${view.top + ROW_PX - 0.5}" y2="${view.top + ROW_PX - 0.5}"/>`);
     for (const view of v.landmarkViews) svg.push(`<line class="${P}__landmark" data-landmark-id="${esc(view.landmark.id)}" x1="${view.lineX}" x2="${view.lineX}" y1="0" y2="${H}"/>`);
     if (v.todayX !== null) svg.push(`<rect class="${P}__today-line" x="${v.todayX}" y="0" width="${TODAY_LINE_PX}" height="${H}"/>`);
     for (const view of v.rowViews) {
       const band = view.band;
-      if (band) svg.push(`<rect class="${P}__window" data-row-id="${esc(view.row.id)}" x="${band.x}" y="${band.y}" width="${band.width}" height="${band.height}" rx="${r}"/>`);
+      if (band) svg.push(`<rect class="${P}__window${view.scheduled ? '' : ` ${P}__window--estimated`}" data-row-id="${esc(view.row.id)}" x="${band.x}" y="${band.y}" width="${band.width}" height="${band.height}" rx="${r}"/>`);
+    }
+    for (const base of v.baselineViews) {
+      svg.push(
+        base.diamond
+          ? `<polygon class="${P}__baseline" data-row-id="${esc(base.id)}" points="${base.diamond}"/>`
+          : `<rect class="${P}__baseline" data-row-id="${esc(base.id)}" x="${base.rect.x + 0.5}" y="${base.rect.y + 0.5}" width="${Math.max(0, base.rect.width - 1)}" height="${base.rect.height - 1}" rx="${r}"/>`
+      );
     }
     for (const view of v.rowViews) {
       const mark = view.mark;
       if (!mark) continue;
       const classes = [`${P}__mark`];
       if (pickedIds.has(view.row.id)) classes.push(`${P}__mark--picked`);
-      const overrun = mark.overrunRect
-        ? `<rect class="${P}__overrun${view.scheduled ? ` ${P}__overrun--scheduled` : ''}" x="${mark.overrunRect.x}" y="${mark.overrunRect.y}" width="${mark.overrunRect.width}" height="${mark.overrunRect.height}" rx="${r}"/>`
-        : '';
+      const draftMark = this.draft?.marks.get(view.row.id) ?? null;
+      if (draftMark) classes.push(`${P}__mark--draft-${draftMark}`);
+      if (v.conflictIds.has(view.row.id)) classes.push(`${P}__mark--conflict`);
+      const overrunClass = `${P}__overrun${view.scheduled ? ` ${P}__overrun--scheduled` : ''}${mark.kind === 'summary' ? ` ${P}__overrun--borderless` : ''}`;
+      const o = mark.overrunRect;
+      const overrun = !o
+        ? ''
+        : mark.kind === 'summary'
+          ? // A parent's overrun runs to its end: square on the left (it starts inside the bracket), round at the
+            // top right, square at the bottom right where the end tick hangs.
+            `<path class="${overrunClass}" d="M${o.x},${o.y} H${o.x + o.width - r} Q${o.x + o.width},${o.y} ${o.x + o.width},${o.y + r} V${o.y + o.height} H${o.x} Z"/>`
+          : // A bar's overrun runs to its end, so it takes the bar's end shape on the right and starts square.
+            `<path class="${overrunClass}" d="${rightRoundedPath(o.x, o.y, o.width, o.height, view.scheduled ? 0 : BAR_ESTIMATED_RADIUS_PX)}"/>`;
       let body = '';
       if (mark.kind === 'bar') {
-        body = `<rect class="${P}__bar" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${r}"/>${overrun}`;
+        // Scheduled: square, hard corners. Estimated: rounded ones.
+        const barRadius = view.scheduled ? 0 : BAR_ESTIMATED_RADIUS_PX;
+        body = `<rect class="${P}__bar" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${barRadius}"/>${overrun}`;
       } else if (mark.kind === 'summary') {
         body =
-          `<rect class="${P}__summary ${P}__summary--tier-${view.tier}" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${r}"/>${overrun}` +
-          mark.ticks.map((tick) => `<rect class="${P}__summary-tick" x="${tick.x}" y="${tick.y}" width="${tick.width}" height="${tick.height}"/>`).join('');
+          // Round at the top, square at the bottom, so the end ticks hang straight off the corners.
+          `<path class="${P}__summary ${P}__summary--tier-${view.tier}" d="${topRoundedPath(mark.x, mark.y, mark.width, mark.height, r)}"/>${overrun}` +
+          mark.ticks
+            .map((tick) => {
+              // An end in the overrun takes the overrun's colour (amber, or red past a Scheduled window).
+              const overrunClass = tick.overrun ? ` ${P}__summary-tick--overrun${view.scheduled ? ` ${P}__summary-tick--overrun-scheduled` : ''}` : '';
+              return `<polygon class="${P}__summary-tick ${P}__summary-tick--tier-${view.tier}${overrunClass}" points="${tick.points}"/>`;
+            })
+            .join('');
       } else {
         const overrunClass = mark.overrun ? ` ${P}__milestone--overrun${view.scheduled ? ` ${P}__milestone--overrun-scheduled` : ''}` : '';
         body = `<polygon class="${P}__milestone${overrunClass}" points="${mark.diamond}"/>`;
@@ -800,7 +1135,7 @@ export class PlanGanttChart {
           .join('')}</g>`
       );
     }
-    for (const link of v.linkViews) svg.push(`<g class="${P}__link"><path class="${P}__link-line" d="${link.path}"/><polygon class="${P}__link-head" points="${link.head}"/></g>`);
+    for (const link of v.linkViews) svg.push(`<g class="${P}__link${link.broken ? ` ${P}__link--broken` : ''}"><path class="${P}__link-line" d="${link.path}"/><polygon class="${P}__link-head" points="${link.head}"/></g>`);
     svg.push(`<g data-layer="ghosts"></g>`);
     for (const view of v.landmarkViews) svg.push(`<rect class="${P}__landmark-hit" data-landmark-id="${esc(view.landmark.id)}" x="${view.hitX}" y="0" width="${view.hitWidth}" height="${H}"/>`);
     for (const view of v.rowViews) {
@@ -810,8 +1145,8 @@ export class PlanGanttChart {
     }
 
     this.frame.innerHTML = `
-      <div class="${P}__canvas" style="grid-template-columns:${OUTLINE_PX}px ${W}px">
-        <div class="${P}__corner" style="height:${v.axisPx}px">${esc(this.outlineHeading)}</div>
+      <div class="${P}__canvas" style="grid-template-columns:${this.shownOutlineWidth()}px ${W}px">
+        <div class="${P}__corner" style="height:${v.axisPx}px"><span class="${P}__corner-heading">${esc(this.outlineHeading)}</span><span class="${P}__corner-budget">${this.rowDeltas ? CHANGE_HEADING : BUDGET_HEADING}</span></div>
         ${axis}
         ${outline}
         <svg class="${P}__plot" role="img" aria-label="${esc(v.plotLabel)}" width="${W}" height="${H}">${svg.join('')}</svg>
@@ -830,6 +1165,16 @@ export class PlanGanttChart {
         caret.setAttribute('aria-expanded', String(view.expanded));
         caret.dataset.caret = view.row.id;
         slot.replaceWith(caret);
+      }
+      const badgeSlot = item.querySelector('[data-badge-slot]');
+      if (badgeSlot && this.templates.badge) {
+        const texts = badges.get(view.row.id)!;
+        const badge = this.templates.badge.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        badge.classList.add(`${P}__badge`);
+        const label = texts.length > 1 ? `${texts[0]} (${texts.length})` : texts[0];
+        badge.querySelector('.esa-badge__text')!.textContent = label;
+        badge.title = view.row.hasChildren && texts.length ? `${label}: inside ${view.row.label}` : label;
+        badgeSlot.replaceWith(badge);
       }
       const actions = item.querySelector(`.${P}__actions`);
       if (actions && this.options.rowActions) {
@@ -932,14 +1277,28 @@ export class PlanGanttChart {
     }
     const title = landmark ? landmark.landmark.label : row!.row.tag ? `${row!.row.tag}${TAG_SEPARATOR}${row!.row.label}` : row!.row.label;
     const rows = landmark?.tipRows ?? row!.tipRows;
-    this.tip.innerHTML = `<div class="${P}-tip__panel"><span class="${P}-tip__title">${esc(title)}</span>${rows
-      .map(
-        (line) =>
-          `<span class="${P}-tip__row"><span class="${P}-tip__label">${esc(line.label)}:</span><span class="${P}-tip__value">${esc(line.value)}</span>${
-            line.note ? `<span class="${P}-tip__note">${esc(line.note)}</span>` : ''
-          }</span>`
-      )
-      .join('')}</div>`;
+    // The facts as a two-column list (label | value, a quiet note set apart after the value), then any warnings under
+    // a rule, each with its icon and colour.
+    const facts = rows.filter((line) => !line.tone);
+    const warnings = rows.filter((line) => line.tone);
+    this.tip.innerHTML = `<div class="${P}-tip__panel"><span class="${P}-tip__title">${esc(title)}</span>${
+      facts.length
+        ? `<dl class="${P}-tip__facts">${facts
+            .map(
+              (line) =>
+                `<dt class="${P}-tip__label">${esc(line.label)}</dt><dd class="${P}-tip__value${line.clamp ? ` ${P}-tip__value--clamp` : ''}">${esc(line.value)}${
+                  line.note ? `<span class="${P}-tip__note">${esc(line.note)}</span>` : ''
+                }</dd>`
+            )
+            .join('')}</dl>`
+        : ''
+    }${
+      warnings.length
+        ? `<ul class="${P}-tip__warnings">${warnings
+            .map((line) => `<li class="${P}-tip__warning ${P}-tip__warning--${line.tone}">${TIP_WARNING_ICON}<span>${esc(line.value)}</span></li>`)
+            .join('')}</ul>`
+        : ''
+    }</div>`;
     if (typeof this.tip.showPopover === 'function' && !this.tip.matches(':popover-open')) this.tip.showPopover();
     // bottom-start of a zero-size rect at the cursor, flipped where it would leave the viewport.
     const rect = this.tip.getBoundingClientRect();
@@ -1029,6 +1388,75 @@ export class PlanGanttChart {
     });
     window.addEventListener('resize', () => this.hideTip(), { passive: true });
     window.addEventListener('scroll', () => this.hideTip(), { capture: true, passive: true });
+  }
+
+  // ── The outline's divider ──────────────────────────────────────────────────────────────────────────────────────
+
+  private maxOutlineWidth(): number {
+    return Math.max(OUTLINE_MIN_PX, this.frame.clientWidth - OUTLINE_MIN_PLOT_PX);
+  }
+
+  /** The width the outline draws at: the chosen one, narrowed when the frame is too small to keep a plot beside it. */
+  private shownOutlineWidth(): number {
+    return this.frame.clientWidth ? Math.min(this.outlineWidth, this.maxOutlineWidth()) : this.outlineWidth;
+  }
+
+  private placeSplitter(): void {
+    const width = this.shownOutlineWidth();
+    this.splitter.hidden = false;
+    // The frame's own border sits left of the outline.
+    this.splitter.style.left = `${this.frame.clientLeft + width}px`;
+    this.splitter.setAttribute('aria-valuemin', String(OUTLINE_MIN_PX));
+    this.splitter.setAttribute('aria-valuemax', String(Math.round(this.maxOutlineWidth())));
+    this.splitter.setAttribute('aria-valuenow', String(Math.round(width)));
+  }
+
+  private setOutlineWidth(width: number, remember: boolean): void {
+    const next = Math.round(Math.min(Math.max(width, OUTLINE_MIN_PX), this.maxOutlineWidth()));
+    if (next !== this.outlineWidth) {
+      this.outlineWidth = next;
+      this.render();
+    }
+    if (remember) writeOutlineWidth(this.outlineWidth);
+  }
+
+  private wireSplitter(): void {
+    const el = this.splitter;
+    let drag: { pointerId: number; startX: number; startWidth: number } | null = null;
+    let frame = 0;
+    el.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      el.setPointerCapture(event.pointerId);
+      drag = { pointerId: event.pointerId, startX: event.clientX, startWidth: this.outlineWidth };
+      el.classList.add(`${P}__splitter--dragging`);
+      this.hideTip();
+    });
+    el.addEventListener('pointermove', (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const width = drag.startWidth + event.clientX - drag.startX;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => this.setOutlineWidth(width, false));
+    });
+    const end = (event: PointerEvent) => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      drag = null;
+      el.classList.remove(`${P}__splitter--dragging`);
+      if (el.hasPointerCapture(event.pointerId)) el.releasePointerCapture(event.pointerId);
+      writeOutlineWidth(this.outlineWidth);
+    };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+    el.addEventListener('dblclick', () => this.setOutlineWidth(OUTLINE_PX, true));
+    el.addEventListener('keydown', (event) => {
+      const step = event.shiftKey ? OUTLINE_KEY_STEP_PX * 4 : OUTLINE_KEY_STEP_PX;
+      if (event.key === 'ArrowLeft') this.setOutlineWidth(this.outlineWidth - step, true);
+      else if (event.key === 'ArrowRight') this.setOutlineWidth(this.outlineWidth + step, true);
+      else if (event.key === 'Home') this.setOutlineWidth(OUTLINE_MIN_PX, true);
+      else if (event.key === 'End') this.setOutlineWidth(this.maxOutlineWidth(), true);
+      else return;
+      event.preventDefault();
+    });
   }
 
   private toggle(id: string): void {
@@ -1226,6 +1654,14 @@ export class PlanGanttChart {
     return { x: left, width: right - left };
   }
 
+  /** A row's Budget (the whole figure) and Notes (clamped) for the readout; none when the element has neither. */
+  private detailRowsFor(row: UiVizGanttRow): PlanGanttTipRow[] {
+    const rows: PlanGanttTipRow[] = [];
+    if (typeof row.budget === 'number') rows.push({ label: TIP_BUDGET, value: BUDGET_FULL.format(row.budget) });
+    if (row.notes) rows.push({ label: TIP_NOTES, value: row.notes, clamp: true });
+    return rows;
+  }
+
   private tipRowsFor(mark: GanttMarkView | null, schedule: GanttRowSchedule): readonly PlanGanttTipRow[] {
     const kind = schedule.scheduled ? KIND_SCHEDULED : KIND_ESTIMATED;
     const rows: PlanGanttTipRow[] = [...(mark?.tipRows ?? [])];
@@ -1235,7 +1671,7 @@ export class PlanGanttChart {
         const late = daysPast(schedule.span, schedule.plannedWindow.endDay);
         if (late > 0) {
           const suffix = schedule.scheduled ? OVERRUN_SCHEDULED_SUFFIX : OVERRUN_ESTIMATED_SUFFIX;
-          rows.push({ label: TIP_OVERRUN, value: `${OVERRUN_PREFIX} ${plural(late, 'day', 'days')} ${suffix}` });
+          rows.push({ label: TIP_OVERRUN, value: `${OVERRUN_PREFIX} ${plural(late, 'day', 'days')} ${suffix}`, tone: schedule.scheduled ? 'danger' : 'warning' });
         }
       }
     } else if (rows.length > 0) {
@@ -1270,13 +1706,25 @@ export class PlanGanttChart {
     const tier = tierOf(row.depth);
     const height = row.kind === 'summary' ? SUMMARY_HEIGHT_PX[tier] : BAR_HEIGHT_PX;
     const y = centre - height / 2;
-    const ticked = row.kind === 'summary' && tier < SUMMARY_TICKED_TIERS;
-    const tickY = y - SUMMARY_TICK_OVERHANG_PX;
-    const tickHeight = height + 2 * SUMMARY_TICK_OVERHANG_PX;
-    const bodyLeft = x + 0.5;
-    const bodyRight = x + width - 0.5;
+    const summary = row.kind === 'summary';
+    // A parent bracket has no edge, so it fills its whole box; a bar's 1px edge is drawn half a pixel in.
+    const inset = summary ? 0 : 0.5;
+    const bodyLeft = x + inset;
+    const bodyRight = x + width - inset;
     const overrunLeft = overrun ? Math.max(bodyLeft, xOfDay(overrun.startDay, window)) : bodyRight;
-    const overrunRect = bodyRight > overrunLeft ? { x: roundPx(overrunLeft), y: y + 0.5, width: roundPx(bodyRight - overrunLeft), height: height - 1 } : null;
+    const overrunRect = bodyRight > overrunLeft ? { x: roundPx(overrunLeft), y: y + inset, width: roundPx(bodyRight - overrunLeft), height: height - 2 * inset } : null;
+    const startInOverrun = overrunRect !== null && overrunRect.x <= bodyLeft + 0.5;
+    const endInOverrun = overrunRect !== null;
+    // Each cap: a small right triangle off a corner, its square side on the end, its other side along the edge.
+    const cap = (cornerX: number, inward: 1 | -1, edgeY: number, outward: 1 | -1) => {
+      const y0 = roundPx(edgeY - outward * TICK_OVERLAP_PX);
+      const y1 = roundPx(edgeY + outward * SUMMARY_TICK_DROP_PX);
+      return `${roundPx(cornerX)},${y0} ${roundPx(cornerX)},${y1} ${roundPx(cornerX + inward * SUMMARY_TICK_WIDTH_PX)},${y0}`;
+    };
+    const ticks: { points: string; overrun: boolean }[] = [];
+    if (summary) {
+      ticks.push({ points: cap(x, 1, y + height, 1), overrun: startInOverrun }, { points: cap(x + width, -1, y + height, 1), overrun: endInOverrun });
+    }
     return {
       kind: row.kind,
       x,
@@ -1284,12 +1732,8 @@ export class PlanGanttChart {
       y,
       height,
       diamond: '',
-      ticks: ticked
-        ? [
-            { x, y: tickY, width: SUMMARY_TICK_WIDTH_PX, height: tickHeight },
-            { x: x + width - SUMMARY_TICK_WIDTH_PX, y: tickY, width: SUMMARY_TICK_WIDTH_PX, height: tickHeight },
-          ]
-        : [],
+      // The overrun runs to the mark's end, so it reaches the start's caps only when the whole mark is past.
+      ticks,
       overrunRect,
       overrun: overrunRect !== null,
       startEdge: x,

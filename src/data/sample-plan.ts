@@ -116,3 +116,34 @@ export const SAMPLE_PLAN = {
     { name: '60% design', date: '2032-01-01' },
   ],
 };
+
+/**
+ * New (2026-10-21): illustrative budgets (whole dollars) and notes for the sample's elements, by name. Invented for the
+ * prototype, not contract values. Milestones carry no budget.
+ */
+export const SAMPLE_BUDGETS: Record<string, number> = {
+  'Fisheries Evaluation Studies': 350_000,
+  'Detailed baseline study plan': 185_000,
+  'Acoustic tag & receiver procurement': 640_000,
+  'Fabricate & install acoustic receiver array': 1_250_000,
+  'Winter-freshet acoustic tagging season': 480_000,
+  'Receiver retrieval & detection QA': 210_000,
+  'Draft near-field survival memo': 95_000,
+  'Receiver-site encroachment permits': 120_000,
+  'Regional receiver network build-out': 1_800_000,
+  'Multi-year tag release & tracking': 2_400_000,
+  'Through-Delta survival model fit': 310_000,
+  'Predation study plan & permitting': 140_000,
+  'Baseline predator hydroacoustic survey': 520_000,
+  'Predation hotspot mapping': 260_000,
+  'Diet & eDNA sampling': 380_000,
+  'Predation exposure model build': 290_000,
+};
+
+export const SAMPLE_NOTES: Record<string, string> = {
+  'Fabricate & install acoustic receiver array':
+    'Array design follows the receiver spec from procurement. Installation has to fit the June–September in-water work window, so a late permit pushes it a full year.',
+  'Multi-year tag release & tracking': 'Three release seasons. Hatchery fish supply is confirmed for the first two; the third depends on a supply agreement still in review.',
+  'Receiver-site encroachment permits': 'Two of the nine sites need landowner access agreements before the applications can go in.',
+  'Predation hotspot mapping': 'Built from the hydroacoustic survey; scope narrows if the survey misses its spring window.',
+};
