@@ -42,6 +42,10 @@ export interface UiVizGanttRow {
      * window is painted in danger rather than warning.
      */
     scheduled?: boolean;
+    /** New (2026-10-21): the element's budget in whole dollars, shown in the outline; null or absent when none. */
+    budget?: number | null;
+    /** New (2026-10-21): the element's notes, shown (clamped) in the readout. */
+    notes?: string | null;
     /**
      * Optional short secondary label — a classifier the caller owns (e.g. a level or type name), drawn
      * quietly before the name in the outline and leading the hover readout's title. Never truncates;
@@ -76,10 +80,17 @@ export interface UiVizGanttLandmark {
 /** An edge of a scheduled mark. */
 export type UiVizGanttEdge = "start" | "end";
 
-/** A whole-year window: `startYear` inclusive, `endYear` exclusive. */
+/**
+ * A whole-year window: `startYear` inclusive, `endYear` exclusive.
+ *
+ * ZOOM (new design, 2026-10-21): a chosen date range is a window too. Its ends are then FRACTIONAL year positions
+ * (2027.5 is July 2, 2027, by {@link yearPositionOfDay}) and it carries the scale that fits it to the frame, which
+ * {@link xOfDay} and {@link dayOfX} use in place of the fixed one.
+ */
 export interface UiVizGanttWindow {
     startYear: number;
     endYear: number;
+    pxPerYear?: number;
 }
 
 /**
@@ -140,7 +151,7 @@ export function firstDayOfYear(year: number): number {
  * 365.25-day year, so January 1 lands exactly on the year's gridline whatever the leap years —
  * a bar starting on New Year's Day must start on the line, not a pixel beside it.
  */
-export function xOfDay(day: number, window: UiVizGanttWindow, pxPerYear: number = GANTT_PX_PER_YEAR): number {
+export function xOfDay(day: number, window: UiVizGanttWindow, pxPerYear: number = window.pxPerYear ?? GANTT_PX_PER_YEAR): number {
     const year = yearOfDay(day);
     const jan1 = firstDayOfYear(year);
     const yearLength = firstDayOfYear(year + 1) - jan1;
@@ -389,12 +400,20 @@ const RESIZE_EDGE_MAX_FRACTION = 1 / 3;
  * The fractional day at `x` px from the window's left edge — the inverse of {@link xOfDay}, so
  * `dayOfX(xOfDay(d, w), w) === d`. Read within its own year, as `xOfDay` places it.
  */
-export function dayOfX(x: number, window: UiVizGanttWindow, pxPerYear: number = GANTT_PX_PER_YEAR): number {
-    const yearOffset = x / pxPerYear;
-    const year = window.startYear + Math.floor(yearOffset);
+export function dayOfX(x: number, window: UiVizGanttWindow, pxPerYear: number = window.pxPerYear ?? GANTT_PX_PER_YEAR): number {
+    // The absolute year position, so a window starting partway through a year (a zoom) reads right too.
+    const position = window.startYear + x / pxPerYear;
+    const year = Math.floor(position);
     const jan1 = firstDayOfYear(year);
     const yearLength = firstDayOfYear(year + 1) - jan1;
-    return jan1 + (yearOffset - Math.floor(yearOffset)) * yearLength;
+    return jan1 + (position - year) * yearLength;
+}
+
+/** A day's START as a fractional year position: its year plus the share of that year before it. */
+export function yearPositionOfDay(day: number): number {
+    const year = yearOfDay(day);
+    const jan1 = firstDayOfYear(year);
+    return year + (day - jan1) / (firstDayOfYear(year + 1) - jan1);
 }
 
 /**
@@ -402,7 +421,7 @@ export function dayOfX(x: number, window: UiVizGanttWindow, pxPerYear: number = 
  * rounded to the nearest day, never coarser. Measured through {@link dayOfX} from where the drag
  * began, so a drag across a leap year's boundary counts that year's days, not an average.
  */
-export function dayDeltaOfPx(fromX: number, deltaPx: number, window: UiVizGanttWindow, pxPerYear: number = GANTT_PX_PER_YEAR): number {
+export function dayDeltaOfPx(fromX: number, deltaPx: number, window: UiVizGanttWindow, pxPerYear: number = window.pxPerYear ?? GANTT_PX_PER_YEAR): number {
     const days = Math.round(dayOfX(fromX + deltaPx, window, pxPerYear) - dayOfX(fromX, window, pxPerYear));
     // Normalises -0, so a drag that returns home reads as exactly no change.
     return days === 0 ? 0 : days;

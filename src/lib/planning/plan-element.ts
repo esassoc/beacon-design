@@ -137,7 +137,13 @@ export type PlanElementFormGroup = FormGroup<{
     EndDate: FormControl<string>;
     PlanDateType: FormControl<PlanDateTypeEnum>;
     IsMilestone: FormControl<boolean>;
+    /** New (2026-10-21): whole dollars; null when blank. Not sent for a milestone. */
+    Budget: FormControl<number | null>;
+    Notes: FormControl<string>;
 }>;
+
+/** New (2026-10-21): notes are free text, kept to a readable length. */
+export const PLAN_ELEMENT_NOTES_MAX_LENGTH = 2000;
 
 export type PlanElementFormValue = ReturnType<PlanElementFormGroup["getRawValue"]>;
 
@@ -194,6 +200,10 @@ export function createPlanElementForm(initial: Partial<PlanElementFormValue>, da
         EndDate: new FormControl(initial.EndDate ?? "", { nonNullable: true, validators: [planElementDateValidator("EndDate"), inRange] }),
         PlanDateType: new FormControl<PlanDateTypeEnum>(initial.PlanDateType ?? PlanDateTypeEnum.Estimated, { nonNullable: true }),
         IsMilestone: new FormControl(initial.IsMilestone ?? false, { nonNullable: true }),
+        Budget: new FormControl<number | null>(initial.Budget ?? null, {
+            validators: [(control) => (control.value !== null && control.value !== undefined && !(Number(control.value) >= 0) ? { planElementBudget: { message: "Enter zero or more." } } : null)],
+        }),
+        Notes: new FormControl(initial.Notes ?? "", { nonNullable: true, validators: [Validators.maxLength(PLAN_ELEMENT_NOTES_MAX_LENGTH)] }),
     });
 }
 
@@ -206,6 +216,8 @@ export function planElementFormValue(element: PlanElementDto): PlanElementFormVa
         EndDate: element.EndDate ?? "",
         PlanDateType: element.PlanDateType ?? PlanDateTypeEnum.Estimated,
         IsMilestone: element.IsMilestone ?? false,
+        Budget: element.Budget ?? null,
+        Notes: element.Notes ?? "",
     };
 }
 
@@ -218,6 +230,8 @@ export function newPlanElementFormValue(validLevels: readonly PlanLevelDto[]): P
         EndDate: "",
         PlanDateType: PlanDateTypeEnum.Estimated,
         IsMilestone: false,
+        Budget: null,
+        Notes: "",
     };
 }
 
@@ -231,6 +245,9 @@ export function toPlanElementUpdateDto(value: PlanElementFormValue): PlanElement
         EndDate: value.IsMilestone ? startDate : value.EndDate || undefined,
         PlanDateType: value.PlanDateType,
         IsMilestone: value.IsMilestone,
+        // A milestone is a date, not work: it carries no budget.
+        Budget: value.IsMilestone ? null : value.Budget,
+        Notes: value.Notes.trim() || null,
     };
 }
 

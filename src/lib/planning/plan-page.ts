@@ -117,13 +117,15 @@ const conflictListeners = new Set<(updateUserName: string | null) => void>();
 /** A drawer's hold on the version its form loaded, released when the drawer closes. */
 export interface PlanVersionPin {
   versionToken(): string | null;
+  /** A refused save the editor chose to keep: the next save is checked against the plan they now see. */
+  moveTo(versionToken: string | null): void;
   release(): void;
 }
 
 export function pinPlanVersion(): PlanVersionPin {
   const entry = { token: planStore.plan.VersionToken ?? null };
   pins.add(entry);
-  return { versionToken: () => entry.token, release: () => pins.delete(entry) };
+  return { versionToken: () => entry.token, moveTo: (token) => (entry.token = token), release: () => pins.delete(entry) };
 }
 
 export function isOwnVersion(token: string | null | undefined): boolean {
@@ -141,8 +143,16 @@ export class PlanConflictAnswered extends Error {}
 /**
  * Sends one write to the plan once every write queued before it has finished, with the pinned version (a drawer's) or
  * the page's. A version it produces is this tab's own; a pin that sent the old one moves on with it.
+ *
+ * `keepsValuesOnConflict` (new design, "Plan Editing: Proposed Direction" — Unsaved changes): the caller answers a
+ * refused (409) save itself, keeping what the editor typed, so the page's "This plan has changed" dialog — whose Reload
+ * closes every drawer and loses it — is not raised and the 409 is rethrown as it came.
  */
-export function planWrite<T extends PlanDetailDto | void>(send: (versionToken: string | null) => Promise<T>, pin?: PlanVersionPin): Promise<T> {
+export function planWrite<T extends PlanDetailDto | void>(
+  send: (versionToken: string | null) => Promise<T>,
+  pin?: PlanVersionPin,
+  options: { keepsValuesOnConflict?: boolean } = {}
+): Promise<T> {
   const run = async (): Promise<T> => {
     const sent = pin ? pin.versionToken() : (planStore.loaded ? planStore.plan.VersionToken ?? null : null);
     planStore.inFlight += 1;
@@ -156,7 +166,7 @@ export function planWrite<T extends PlanDetailDto | void>(send: (versionToken: s
       }
       return result;
     } catch (error) {
-      if (error instanceof HttpErrorResponse && error.status === 409) {
+      if (error instanceof HttpErrorResponse && error.status === 409 && !options.keepsValuesOnConflict) {
         conflictListeners.forEach((l) => l(error.error?.UpdateUserName ?? null));
         throw new PlanConflictAnswered();
       }

@@ -20,7 +20,7 @@ Then open http://localhost:4321/prototypes/plans/ and click **Load sample plan**
    - **Plan settings drawer:** details, levels, landmarks and delete.
    - **Move plan:** shift the plan by days or to a new start date. The schedule preview ("This change moves N items") comes before Confirm.
    - **Move… (element):** re-parent a row under another parent.
-4. **Edit mode.** Four dismissible instructions appear. Drag a bar's middle to move it, or its ends to resize it. Drag a parent's dashed window. Shift+click multi-selects, Shift+click on a parent selects its children, and Esc clears. A drop with consequences holds a popup (new dates, "Shifts N dependents") with Apply or Revert.
+4. **Edit mode** (replaced by drafts on the `experiment/fish-gantt-updates` branch — see [plan-drafts-experiment.md](plan-drafts-experiment.md)). Four dismissible instructions appear. Drag a bar's middle to move it, or its ends to resize it. Drag a parent's dashed window. Shift+click multi-selects, Shift+click on a parent selects its children, and Esc clears. A drop with consequences holds a popup (new dates, "Shifts N dependents") with Apply or Revert.
 5. **Live refresh.** The page polls every 10 seconds. Someone else's save shows "X updated <plan>" as a toast and the chart redraws. A stale write gets "This plan has changed … Your change wasn't saved." with Reload. A plan deleted elsewhere warns, then returns to the list.
 
 ## Where the replica approximates

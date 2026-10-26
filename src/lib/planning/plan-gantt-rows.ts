@@ -58,6 +58,8 @@ export function planGanttRows(elements: readonly PlanElementDto[] | null | undef
             windowEnd: hasChildren ? (element.EndDate ?? null) : null,
             scheduled: element.PlanDateType === PlanDateTypeEnum.Scheduled,
             tag: element.IsMilestone ? MILESTONE_TAG : (element.LevelSingularName ?? null),
+            budget: element.IsMilestone ? null : (element.Budget ?? null),
+            notes: element.Notes ?? null,
         });
         children.forEach((child) => visit(child, element.PlanElementID));
     };

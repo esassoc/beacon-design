@@ -1,0 +1,111 @@
+---
+// <BcnPlanDraftsDrawer> — the Drafts list. New design, not ported: "Plan Editing: Proposed Direction" (2026-10-19),
+// Sharing. Every editor sees every named draft in one list, the viewer's own first; scratch copies are never listed.
+// A row opens its draft: the viewer's own to keep working, anyone else's view-only against the live plan. New draft, at
+// the top, starts the viewer's private scratch copy.
+//
+// ONE pre-rendered shell per page, found by [data-bcn-plan-drafts-drawer] and filled by ./plan-drafts-drawer.ts
+// (openPlanDraftsDrawer). Rows are cloned from the <template> so they keep this component's scoped CSS.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog, the empty state IS esa-empty-state. No esa- lego is a list of
+// whole-row link buttons with a name over a meta line (esa-card is a container with header/body chrome, esa-button a
+// single control); checked Beacon (no drafts list; the nearest row is plan-element-drawer's Blocks row, ported in
+// BcnPlanElementDrawer — this reuses its anatomy: whole row a button, chevron at the end). bcn-plan-drafts is the home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+---
+
+<div class="bcn-plan-drafts" data-bcn-plan-drafts-drawer>
+  <esa-side-dialog class="bcn-plan-drafts__dialog" heading="Drafts" size="md">
+    <div class="bcn-plan-drafts__body">
+      <div class="bcn-plan-drafts__intro">
+        <p class="bcn-plan-drafts__lede">Try date changes in a draft without touching the live plan. Named drafts are visible to every editor of this plan; only the owner edits or publishes one.</p>
+        <span data-pd-new><EsaButton variant="primary" size="sm" icon="plus">New draft</EsaButton></span>
+      </div>
+
+      <section class="bcn-plan-drafts__section" aria-labelledby="plan-drafts-yours-heading">
+        <h3 class="bcn-plan-drafts__heading" id="plan-drafts-yours-heading">Yours</h3>
+        <ul class="bcn-plan-drafts__rows" data-pd-yours></ul>
+        <p class="bcn-plan-drafts__none" data-pd-yours-none>You have no saved drafts. Start one with New draft, then Save as draft to keep it.</p>
+      </section>
+
+      <section class="bcn-plan-drafts__section" aria-labelledby="plan-drafts-others-heading" data-pd-others-section>
+        <h3 class="bcn-plan-drafts__heading" id="plan-drafts-others-heading">Others'</h3>
+        <ul class="bcn-plan-drafts__rows" data-pd-others></ul>
+      </section>
+
+      <div data-pd-loading hidden><p class="bcn-plan-drafts__none">Loading drafts…</p></div>
+      <div data-pd-failed hidden>
+        <EsaEmptyState title="Drafts couldn't be loaded" description="Close this and open Drafts again." size="sm" />
+      </div>
+    </div>
+  </esa-side-dialog>
+
+  <template data-pd-tpl="row">
+    <li>
+      <button type="button" class="bcn-plan-drafts__row" data-pd-open>
+        <span class="bcn-plan-drafts__text">
+          <span class="bcn-plan-drafts__name" data-pd-name></span>
+          <span class="bcn-plan-drafts__meta" data-pd-meta></span>
+        </span>
+        <span class="bcn-plan-drafts__chevron"><EsaIcon name="chevron-right" size="sm" /></span>
+      </button>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+</script>
+
+<style>
+  .bcn-plan-drafts :global([hidden]) { display: none !important; }
+  .bcn-plan-drafts__dialog { --side-dialog-width: 480px; }
+
+  .bcn-plan-drafts__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    color: var(--color-content-default);
+  }
+  .bcn-plan-drafts__lede,
+  .bcn-plan-drafts__none {
+    margin: 0;
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-plan-drafts__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-plan-drafts__intro { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-300); }
+  .bcn-plan-drafts__heading { margin: 0; font-size: var(--type-size-250); font-weight: 600; }
+  .bcn-plan-drafts__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* The Blocks row's anatomy (BcnPlanElementDrawer): the whole row is the button, a chevron at its end. */
+  .bcn-plan-drafts__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    inline-size: 100%;
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-elevation-raised);
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-plan-drafts__row:hover { background: var(--color-background-default-hover); }
+  .bcn-plan-drafts__row:focus-visible { outline: var(--focus-ring-width) solid var(--focus-ring-color); outline-offset: 2px; }
+  .bcn-plan-drafts__text { display: flex; flex: 1; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-plan-drafts__name { font-weight: 500; overflow-wrap: anywhere; }
+  .bcn-plan-drafts__meta { font-size: var(--font-size-150); color: var(--color-content-default-secondary); }
+  .bcn-plan-drafts__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-secondary); }
+</style>

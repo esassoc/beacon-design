@@ -1,7 +1,9 @@
 ---
 // A plan — a faithful replica of Beacon's plan Gantt page (pages/plan-gantt on origin/develop, Jamie Quishenberry,
 // BCN-1788 / 1819 / 1820 / 1805 / 1822 / 1866 / 1867): the plan's Gantt, Plan settings, Move plan with its schedule
-// preview, the element drawer, row actions, edit-mode drag and live refresh. The plan id is the `?id=` query (Beacon's
+// preview, the element drawer, row actions and live refresh — with her edit mode replaced by DRAFTS (new design, "Plan
+// Editing: Proposed Direction", 2026-10-19): private copies of the plan's dates to drag, undo and compare, published in
+// one approval. The plan id is the `?id=` query (Beacon's
 // /projects/:projectID/plans/:planID route, which a static build cannot mint). Open a second tab with `&user=Name` to
 // be someone else: its saves show up here as a toast and a redraw, and a stale write gets "This plan has changed".
 import AppShell from '../../../layouts/AppShell.astro';
@@ -14,6 +16,11 @@ import BcnPlanLevelPanel from '../../../components/bcn/BcnPlanLevelPanel.astro';
 import BcnPlanSchedulePreview from '../../../components/bcn/BcnPlanSchedulePreview.astro';
 import BcnPlanMoveDialog from '../../../components/bcn/BcnPlanMoveDialog.astro';
 import BcnPlanElementMoveDialog from '../../../components/bcn/BcnPlanElementMoveDialog.astro';
+import BcnPlanDraftsDrawer from '../../../components/bcn/BcnPlanDraftsDrawer.astro';
+import BcnPlanDraftNameDialog from '../../../components/bcn/BcnPlanDraftNameDialog.astro';
+import BcnPlanPublishDialog from '../../../components/bcn/BcnPlanPublishDialog.astro';
+import BcnPlanDraftBar from '../../../components/bcn/BcnPlanDraftBar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
 import { withBase } from '../../../lib/base';
 ---
@@ -21,14 +28,18 @@ import { withBase } from '../../../lib/base';
 <!-- manifest:
   layout: AppShell > PageLayout                       # SPINE
   sections:
-    - utilities        -> esa-button                  # Plan settings, Move plan, Add
-    - workspace        -> bcn-plan-workspace          # description, Edit mode, instructions, Gantt / empty state
+    - utilities        -> esa-dropdown-menu           # More: Move plan, Plan settings
+    - workspace        -> bcn-plan-workspace          # draft bar, instructions, the chart's toolbar (dates, New draft, Drafts, More), Gantt / empty state
+    - draft header     -> bcn-plan-draft-bar          # in a draft: ← the plan it drafts against, Draft badge, ?, More, Publish
     - plan settings    -> bcn-plan-settings-drawer    # details, levels, landmarks, delete
     - element drawer   -> bcn-plan-element-drawer     # create / edit an element, its dependencies
     - add level        -> bcn-plan-level-panel        # stacked over the element drawer
     - schedule preview -> bcn-plan-schedule-preview   # what a date change or a shift moves, Confirm saves
     - move plan        -> bcn-plan-move-dialog        # shift the whole plan
     - move element     -> bcn-plan-element-move-dialog # Move… a row under another parent
+    - drafts list      -> bcn-plan-drafts-drawer      # yours first, then others' (view-only)
+    - draft name       -> bcn-plan-draft-name-dialog  # Save as draft, Copy to my drafts
+    - publish          -> bcn-plan-publish-dialog     # a draft's one approval: what moves, warnings, snapshot
 -->
 
 <AppShell title="Plan" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" showPlanning>
@@ -38,11 +49,14 @@ import { withBase } from '../../../lib/base';
     iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
     breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans/') }, { label: 'Plan' }]}
   >
-    <span slot="utilities" class="cluster" data-gap="sm">
-      <span data-plan-util="settings" hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="settings">Plan settings</EsaButton></span>
-      <span data-plan-util="move" hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="calendar">Move plan</EsaButton></span>
-      <span data-plan-util="add" hidden><EsaButton variant="primary" size="sm" icon="plus">Add</EsaButton></span>
-    </span>
+    <!-- In a draft (new design) the header is the draft's: its name as the H1 (set at runtime), a Draft badge, and the
+         draft's actions. -->
+    <span slot="title-badge" data-plan-draft-tag hidden><EsaBadge value="Draft" variant="info" size="md" /></span>
+    <BcnPlanDraftBar slot="utilities" />
+    <!-- Round trigger: esa-button's own radius hook re-pointed on the element (the page carries no CSS). -->
+    <esa-dropdown-menu slot="utilities" position="below-end" data-plan-more style="--button-radius-sm: var(--radius-full)" hidden>
+      <EsaButton variant="ghost" appearance="outline" size="sm" iconOnly icon="ellipsis-vertical" label="More actions" data-fill-icon="ellipsis-vertical" />
+    </esa-dropdown-menu>
     <BcnPlanWorkspace />
     <BcnPlanSettingsDrawer />
     <BcnPlanElementDrawer />
@@ -50,10 +64,14 @@ import { withBase } from '../../../lib/base';
     <BcnPlanSchedulePreview />
     <BcnPlanMoveDialog />
     <BcnPlanElementMoveDialog />
+    <BcnPlanDraftsDrawer />
+    <BcnPlanDraftNameDialog />
+    <BcnPlanPublishDialog />
   </PageLayout>
 </AppShell>
 
 <script>
+  import '@esa/ecology/esa-dropdown-menu';
   import { planApi, planStore, plansHref, pushAlert } from '../../../lib/planning/plan-page';
   import { setupPlanWorkspace } from '../../../components/bcn/plan-workspace';
 

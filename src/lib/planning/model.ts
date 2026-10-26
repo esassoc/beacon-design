@@ -34,6 +34,10 @@ export interface PlanElementCreateDto {
     EndDate?: string;
     PlanDateType?: PlanDateTypeEnum;
     IsMilestone?: boolean;
+    /** New (2026-10-21): the element's budget in whole dollars; null when unset. A milestone has none. */
+    Budget?: number | null;
+    /** New (2026-10-21): free-text notes; null when unset. */
+    Notes?: string | null;
 }
 
 export interface PlanElementDependencyCreateDto { 
@@ -75,6 +79,10 @@ export interface PlanElementDto {
     EndDate?: string;
     SpanStartDate?: string;
     SpanEndDate?: string;
+    /** New (2026-10-21): the element's budget in whole dollars; null when unset. A milestone has none. */
+    Budget?: number | null;
+    /** New (2026-10-21): free-text notes; null when unset. */
+    Notes?: string | null;
     Children?: Array<PlanElementDto>;
 }
 
@@ -103,6 +111,10 @@ export interface PlanElementUpdateDto {
     EndDate?: string;
     PlanDateType?: PlanDateTypeEnum;
     IsMilestone?: boolean;
+    /** New (2026-10-21): the element's budget in whole dollars; null when unset. A milestone has none. */
+    Budget?: number | null;
+    /** New (2026-10-21): free-text notes; null when unset. */
+    Notes?: string | null;
 }
 
 export interface PlanElementsShiftDto { 

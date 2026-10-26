@@ -17,7 +17,7 @@ import '@esa/ecology/esa-switch-toggle';
 import '@esa/ecology/esa-tooltip';
 
 import { controlErrorMessage, formatDate, FormControl, HttpErrorResponse, type AbstractControl, type FormGroup } from '../../lib/planning/ng-shim';
-import type { PlanDetailDto, PlanElementDto, PlanElementScheduleChangeDto, PlanScheduleChangeModeEnum as PlanScheduleChangeModeType } from '../../lib/planning/model';
+import type { PlanDateTypeEnum, PlanDetailDto, PlanElementDto, PlanElementScheduleChangeDto, PlanScheduleChangeModeEnum as PlanScheduleChangeModeType } from '../../lib/planning/model';
 import { PlanScheduleChangeModeEnum } from '../../lib/planning/model';
 import {
   canAddPlanLevelInline,
@@ -80,6 +80,33 @@ import {
 } from '../../lib/planning/plan-page';
 import { openPlanSchedulePreview } from './plan-schedule-preview';
 import { openPlanLevelPanel } from './plan-level-panel';
+import { onPlanPresence, planPresence, planPresenceSentence, startPlanPresence } from '../../lib/planning/plan-presence';
+import {
+  discardPlanUnsavedChanges,
+  keepPlanUnsavedChanges,
+  planElementFieldLabel,
+  planElementFieldsChanged,
+  planUnsavedChanges,
+  planUnsavedExpiryLabel,
+  type PlanUnsavedChanges,
+} from '../../lib/planning/plan-unsaved';
+import type { PlanElementFormValue } from '../../lib/planning/plan-element';
+
+/**
+ * DRAFT MODE (new design, "Plan Editing: Proposed Direction"): opening an element from inside a draft opens this drawer
+ * over the draft. Only the dates and date type are editable, and Save writes them to the draft (no preview: the draft
+ * shows the cascade on the chart, and Undo takes it back). Everything else reads as it is and says it is edited on the
+ * live plan. Someone else's draft opens it read-only.
+ */
+export interface PlanElementDrawerDraft {
+  /** The header's subtitle: "Draft · Permits slip 6 mo". */
+  label: string;
+  readOnly: boolean;
+  /** The plan as the draft has it. */
+  plan(): PlanDetailDto;
+  subscribe(listener: () => void): () => void;
+  save(edit: { PlanElementID: string; StartDate: string | null; EndDate: string | null; PlanDateType: PlanDateTypeEnum }): void;
+}
 
 export interface PlanElementDrawerHandle {
   target: PlanElementDrawerTarget;
@@ -214,17 +241,22 @@ function focusAfterRender(target: () => HTMLElement | null | undefined): void {
 
 // ── One drawer ──────────────────────────────────────────────────────────────────────────────────────────────────────
 
-export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; onOpenElement: (planElementID: string) => void }): PlanElementDrawerHandle {
+export function openPlanElementDrawer(args: {
+  target: PlanElementDrawerTarget;
+  onOpenElement: (planElementID: string) => void;
+  draft?: PlanElementDrawerDraft;
+}): PlanElementDrawerHandle {
   const s = getShell();
   const { dialog, q } = s;
   const target = args.target;
   const rights: PlanElementRights = { canUpdate: PLAN_RIGHTS.canUpdate, canCreate: PLAN_RIGHTS.canCreate, canDelete: PLAN_RIGHTS.canDelete };
   const isCreate = target.kind === 'create';
   /** Create needs the Create right to open at all; edit without Update shows the element read-only. */
-  const canSave = isCreate || rights.canUpdate;
+  const draft = args.draft ?? null;
+  const canSave = (isCreate || rights.canUpdate) && !draft?.readOnly;
 
   // ── Derived from the page's plan (her computed() values) ──
-  const plan = () => planStore.plan;
+  const plan = () => (draft ? draft.plan() : planStore.plan);
   const element = (): PlanElementDto | null =>
     target.kind === 'edit' ? findPlanElement(plan().Elements, target.planElementID)?.element ?? null : null;
   const parent = (): PlanElementDto | null => {
@@ -247,12 +279,38 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     () => dateRange()
   );
   const formValue = () => form.getRawValue();
+
+  // ── Unsaved changes and presence (new design, "Plan Editing: Proposed Direction") ──
+  // A refused save keeps what the editor typed, here in the open drawer, with every field someone else changed flagged;
+  // the next Save is checked against the plan they now see. Closing a drawer that holds kept values keeps them for
+  // UNSAVED_KEEP_DAYS, and reopening the element offers them back. Never inside a draft: a draft has no refused saves.
+  type FieldKey = keyof PlanElementFormValue;
+  const keeps = !draft;
+  /** The element as this form last loaded it: what "someone else changed" is measured from. */
+  let loadedValue: PlanElementFormValue = formValue();
+  /** The refused save in hand: who changed the plan, the fields they changed, and which of those the editor changed too. */
+  let refused: { userName: string | null; theirs: FieldKey[]; overlap: FieldKey[] } | null = null;
+  /** Kept values from an earlier refused save, offered back on open. */
+  let offer: PlanUnsavedChanges | null = keeps && target.kind === 'edit' ? (planUnsavedChanges(plan().PlanID ?? '').get(target.planElementID) ?? null) : null;
+  /** Once the editor has values that were refused (or resumed them), closing keeps them instead of discarding them. */
+  let keepOnClose = false;
+  let flags: Partial<Record<FieldKey, string>> = {};
+  const programID = (): string | null => {
+    let id = target.kind === 'edit' ? target.planElementID : target.parentPlanElementID;
+    let root: string | null = null;
+    while (id) {
+      root = id;
+      id = findPlanElement(plan().Elements, id)?.parent?.PlanElementID ?? null;
+    }
+    return root;
+  };
   const isMilestone = () => formValue().IsMilestone;
   const startDate = () => formValue().StartDate || null;
   const dateTypeHint = () => PLAN_DATE_TYPE_HINTS[formValue().PlanDateType];
   const selectedLevel = () => levelOptions().find((level) => level.Depth === formValue().LevelDepth) ?? null;
   const title = () => (isCreate ? `New ${selectedLevel()?.SingularName ?? 'element'}` : element()?.PlanElementName ?? '');
   const subtitle = () => {
+    if (draft) return draft.label;
     if (!isCreate) return element()?.LevelSingularName ?? '';
     const p = parent();
     return p ? `Under ${p.PlanElementName}` : 'Top level';
@@ -301,6 +359,9 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
   const modeField = q<OptionsEl>('mode');
   const dateTypeField = q<OptionsEl>('date-type');
   const milestoneField = q<SwitchEl>('milestone');
+  const budgetWrap = q('budget-wrap');
+  const budgetField = q<ValueEl & { helpText: string }>('budget');
+  const notesField = q<ValueEl & { helpText: string }>('notes');
   const milestoneHint = q('milestone-hint');
   const predList = q('pred-list');
   const succList = q('succ-list');
@@ -316,6 +377,7 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
   const closeButton = q('close');
 
   modeField.options = PLAN_SCHEDULE_CHANGE_MODE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
+
   dateTypeField.options = PLAN_DATE_TYPE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
   nameIconButton(addLevelButton, 'Add level');
 
@@ -328,6 +390,8 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     endField.value = v.EndDate;
     dateTypeField.value = v.PlanDateType;
     milestoneField.checked = v.IsMilestone;
+    budgetField.value = v.Budget === null ? '' : String(v.Budget);
+    notesField.value = v.Notes;
     modeField.value = scheduleModeControl.value;
   };
 
@@ -338,8 +402,10 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     form.controls.IsMilestone.disable();
   }
   const fieldsDisabled = !canSave;
-  for (const el of [nameField, levelField, startField, endField, dateTypeField] as ValueEl[]) el.disabled = fieldsDisabled;
+  for (const el of [nameField, levelField, startField, endField, dateTypeField, budgetField, notesField] as ValueEl[]) el.disabled = fieldsDisabled;
   milestoneField.disabled = form.controls.IsMilestone.disabled;
+  // A draft changes dates and Estimated/Scheduled only; the rest is edited on the live plan.
+  if (draft) for (const el of [nameField, levelField, milestoneField, budgetField, notesField] as ValueEl[]) el.disabled = true;
   milestoneField.removeAttribute('aria-describedby');
 
   // ── render(): everything her template binds ──
@@ -353,13 +419,21 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     show(q('subtitle'), !!sub);
     (dialog as unknown as { requestUpdate?: () => void }).requestUpdate?.();
 
+    renderKept();
+
     // Name + Level
     nameField.errorText = errorOf(form.controls.PlanElementName);
+    (nameField as ValueEl & { helpText: string }).helpText = flags.PlanElementName ?? '';
+    (levelField as OptionsEl).helpText = flags.LevelDepth ?? '';
+    (startField as ValueEl & { helpText: string }).helpText = flags.StartDate ?? '';
+    (endField as ValueEl & { helpText: string }).helpText = flags.EndDate ?? '';
     const levels = levelOptions();
     const levelOpts = levels.map((level) => ({ label: level.SingularName ?? '', value: String(level.Depth) }));
     if (JSON.stringify(levelField.options) !== JSON.stringify(levelOpts)) levelField.options = levelOpts;
     levelField.errorText = errorOf(form.controls.LevelDepth);
-    show(addLevelWrap, canAddLevel());
+    show(addLevelWrap, canAddLevel() && !draft);
+    show(q('draft-note'), !!draft);
+
 
     // Scheduling
     const milestone = isMilestone();
@@ -381,15 +455,24 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
       spanValue.textContent =
         el?.SpanStartDate && el?.SpanEndDate ? `${formatDate(el.SpanStartDate, 'MMM d, y')} – ${formatDate(el.SpanEndDate, 'MMM d, y')}` : 'Not yet scheduled';
     }
-    show(modeField, showScheduleMode());
+    show(modeField, showScheduleMode() && !draft);
     modeField.helpText = scheduleModeHint();
-    dateTypeField.helpText = dateTypeHint();
+    // A refused save's flag rides the toggle's own help (it is about this value); the type's meaning is the hint under it.
+    dateTypeField.helpText = flags.PlanDateType ?? '';
+    q('date-type-hint').textContent = dateTypeHint();
     show(milestoneHint, children);
 
+    // Budget and notes: no budget on a milestone.
+    show(budgetWrap, !milestone);
+    budgetField.errorText = errorOf(form.controls.Budget);
+    budgetField.helpText = flags.Budget ?? '';
+    notesField.errorText = errorOf(form.controls.Notes);
+    notesField.helpText = flags.Notes ?? '';
+
     // Waits on / Blocks (edit only)
-    show(q('waits-on'), !isCreate);
-    show(q('blocks'), !isCreate);
-    if (!isCreate) {
+    show(q('waits-on'), !isCreate && !draft);
+    show(q('blocks'), !isCreate && !draft);
+    if (!isCreate && !draft) {
       renderPredecessors();
       renderAddPredecessor();
       renderSuccessors();
@@ -592,6 +675,12 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     render();
 
     const value = form.getRawValue();
+    if (draft && target.kind === 'edit') {
+      isSaving = false;
+      draft.save({ PlanElementID: target.planElementID, StartDate: value.StartDate || null, EndDate: (value.IsMilestone ? value.StartDate : value.EndDate) || null, PlanDateType: value.PlanDateType });
+      close();
+      return;
+    }
     if (target.kind === 'edit' && datesChanged()) {
       void saveSchedule(target.planElementID, toPlanElementScheduleChangeDto(value, planScheduleChangeMode(hasChildren(), scheduleModeControl.value)));
       return;
@@ -600,7 +689,7 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     const planID = current.PlanID!;
     const request =
       target.kind === 'edit'
-        ? planWrite((token) => planApi.updateElement(planID, target.planElementID, toPlanElementUpdateDto(value), token), versionPin)
+        ? planWrite((token) => planApi.updateElement(planID, target.planElementID, toPlanElementUpdateDto(value), token), versionPin, { keepsValuesOnConflict: keeps })
         : planWrite(
             (token) =>
               planApi.createElement(
@@ -608,7 +697,8 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
                 toPlanElementCreateDto(value, target.parentPlanElementID, nextPlanElementSortOrder(parent()?.Children ?? current.Elements)),
                 token
               ),
-            versionPin
+            versionPin,
+            { keepsValuesOnConflict: keeps }
           );
     const name = value.PlanElementName.trim();
 
@@ -630,7 +720,16 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     isSaving = true;
     render();
     const planID = plan().PlanID!;
-    const confirmSave = () => planWrite((token) => planApi.updateElementSchedule(planID, planElementID, change, token), versionPin) as Promise<PlanDetailDto>;
+    // A refusal inside the stacked preview closes it as if confirmed with the current plan, and the drawer keeps the values.
+    let refusedBy: { userName: string | null } | null = null;
+    const confirmSave = () =>
+      (planWrite((token) => planApi.updateElementSchedule(planID, planElementID, change, token), versionPin, { keepsValuesOnConflict: keeps }) as Promise<PlanDetailDto>).catch(
+        async (error) => {
+          if (!(keeps && error instanceof HttpErrorResponse && error.status === 409)) throw error;
+          refusedBy = { userName: error.error?.UpdateUserName ?? null };
+          return planApi.getPlan(planID);
+        }
+      );
     try {
       const changeSet = await planApi.previewElementSchedule(planID, planElementID, change);
       let updated: PlanDetailDto | null;
@@ -648,7 +747,9 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
           over: dialog,
         });
       }
-      if (updated) applySaved(updated, change.PlanElementName ?? '');
+      const refusal = refusedBy as { userName: string | null } | null;
+      if (refusal) await keepRefused(refusal.userName);
+      else if (updated) applySaved(updated, change.PlanElementName ?? '');
     } catch (error) {
       handleSaveError(error);
     } finally {
@@ -659,6 +760,8 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
 
   /** A saved element: the page redraws from the returned plan and the drawer closes. */
   const applySaved = (updated: PlanDetailDto, name: string) => {
+    if (keeps && target.kind === 'edit') discardPlanUnsavedChanges(updated.PlanID ?? '', target.planElementID);
+    keepOnClose = false;
     applyPlanChange(updated);
     close();
     // pushAlertAfterClose
@@ -666,9 +769,123 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
   };
 
   const handleSaveError = (error: unknown) => {
+    if (keeps && error instanceof HttpErrorResponse && error.status === 409) {
+      void keepRefused(error.error?.UpdateUserName ?? null);
+      return;
+    }
     // A field 400 sits on its input; a form-level one is alerted.
     applyServerErrorsAndAlert(form, error, `Failed to ${isCreate ? 'add' : 'save'} the element. Please try again.`);
     render();
+  };
+
+  /** A field's value as the notice and the field flags read it. */
+  const readable = (key: FieldKey, value: PlanElementFormValue): string => {
+    const v = value[key];
+    if (key === 'StartDate' || key === 'EndDate') return v ? formatDate(String(v), 'MMM d, y') : 'no date';
+    if (key === 'LevelDepth') return plan().Levels?.find((l) => l.Depth === v)?.SingularName ?? String(v ?? '');
+    if (key === 'IsMilestone') return v ? 'a milestone' : 'not a milestone';
+    if (key === 'Budget') return v === null || v === undefined || v === '' ? 'no budget' : `$${Number(v).toLocaleString('en-US')}`;
+    if (key === 'Notes') return v ? `"${String(v).slice(0, 60)}${String(v).length > 60 ? '…' : ''}"` : 'no notes';
+    return String(v ?? '');
+  };
+  const list = (keys: FieldKey[]) => keys.map((k) => planElementFieldLabel(k).toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' and $1');
+
+  /** Flags each field someone else changed, with what it is now. */
+  const flagTheirs = (who: string | null, theirs: FieldKey[], now: PlanElementFormValue) => {
+    flags = Object.fromEntries(theirs.map((key) => [key, `${who ?? 'Someone'} changed this to ${readable(key, now)}`]));
+  };
+
+  /**
+   * The version check refused a save: someone changed the plan since this form loaded. The drawer stays open on what
+   * the editor typed; the page takes the current plan; the next Save is checked against it. Where nobody else changed
+   * the same fields, that Save just applies the editor's changes to the current plan.
+   */
+  const keepRefused = async (who: string | null) => {
+    const planID = plan().PlanID ?? '';
+    try {
+      const fresh = await planApi.getPlan(planID);
+      if (!isOpen) return;
+      applyPlanChange(fresh);
+      versionPin.moveTo(fresh.VersionToken ?? null);
+    } catch {
+      /* the next poll catches up; the values stay */
+    }
+    const current = target.kind === 'edit' ? element() : null;
+    const now = current ? planElementFormValue(current) : loadedValue;
+    const theirs = target.kind === 'edit' ? planElementFieldsChanged(loadedValue, now) : [];
+    const mine = planElementFieldsChanged(loadedValue, formValue());
+    refused = { userName: who, theirs, overlap: theirs.filter((key) => mine.includes(key)) };
+    flagTheirs(who, theirs, now);
+    loadedValue = now;
+    keepOnClose = target.kind === 'edit';
+    isSaving = false;
+    render();
+  };
+
+  /** Keeps what the editor typed for later, as unsaved changes on the element. */
+  const keepForLater = () => {
+    if (target.kind !== 'edit') return;
+    keepPlanUnsavedChanges({
+      PlanID: plan().PlanID ?? '',
+      PlanElementID: target.planElementID,
+      PlanElementName: element()?.PlanElementName ?? formValue().PlanElementName,
+      Values: formValue(),
+      Loaded: loadedValue,
+      ConflictUserName: refused?.userName ?? offer?.ConflictUserName ?? null,
+    });
+    pushAlert(`Your changes to '${element()?.PlanElementName ?? formValue().PlanElementName}' were kept. Open it again to resume editing.`, 'info', 6000);
+  };
+
+  const resumeKept = () => {
+    const kept = offer;
+    if (!kept) return;
+    offer = null;
+    form.reset(kept.Values);
+    form.markAsDirty();
+    syncFields();
+    const now = loadedValue;
+    const theirs = planElementFieldsChanged(kept.Loaded, now);
+    flagTheirs(kept.ConflictUserName, theirs, now);
+    const mine = planElementFieldsChanged(kept.Loaded, kept.Values);
+    refused = { userName: kept.ConflictUserName, theirs, overlap: theirs.filter((key) => mine.includes(key)) };
+    keepOnClose = true;
+    render();
+  };
+
+  const discardKept = () => {
+    if (target.kind === 'edit') discardPlanUnsavedChanges(plan().PlanID ?? '', target.planElementID);
+    offer = null;
+    if (refused) {
+      refused = null;
+      flags = {};
+      keepOnClose = false;
+      form.reset(loadedValue);
+      syncFields();
+    }
+    render();
+  };
+
+  const renderKept = () => {
+    const presenceText = keeps ? planPresenceSentence(planPresence(), programID()) : null;
+    show(q('presence'), !!presenceText);
+    q('presence-text').textContent = presenceText ?? '';
+
+    let text = '';
+    if (offer) {
+      const when = formatDate(offer.KeptAt.slice(0, 10), 'MMM d, y');
+      text = `You have unsaved changes to this element from ${when}. ${planUnsavedExpiryLabel(offer)}.`;
+    } else if (refused) {
+      const who = refused.userName ?? 'Someone';
+      const base = `${who} changed this plan after you opened this. Your changes are kept here.`;
+      text = refused.overlap.length
+        ? `${base} They also changed the ${list(refused.overlap)} — check the flagged fields, then Save.`
+        : refused.theirs.length
+          ? `${base} They changed the ${list(refused.theirs)}, which you didn't. Save applies your changes to the current plan.`
+          : `${base} Save applies them to the current plan.`;
+    }
+    show(q('kept'), !!text);
+    q('kept-text').textContent = text;
+    show(q('kept-resume'), !!offer);
   };
 
   const editLag = (row: PlanDependencyRow) => {
@@ -839,6 +1056,11 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
   const canClose = (): boolean | Promise<boolean> => {
     if (isLinkBusy()) return false;
     const editingLink = (lagEditorID !== null && lagForm.dirty) || (isAddingPredecessor && predecessorForm.dirty);
+    // Values a save already tried to send are never discarded by a close: they're kept for later.
+    if (keepOnClose && form.dirty) {
+      keepForLater();
+      return true;
+    }
     if (!form.dirty && !editingLink) return true;
     return confirm({
       header: 'Discard unsaved changes?',
@@ -888,6 +1110,13 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     render();
   });
   on(dateTypeField, 'change', (e) => edit('PlanDateType', detailValue(e, dateTypeField) as PlanElementFormGroup['controls']['PlanDateType']['value']));
+  on(budgetField, 'change', (e) => {
+    const raw = detailValue(e, budgetField).trim();
+    edit('Budget', raw === '' ? null : Number(raw));
+  });
+  on(budgetField, 'focusout', touch(form.controls.Budget));
+  on(notesField, 'change', (e) => edit('Notes', detailValue(e, notesField)));
+  on(notesField, 'input', (e) => edit('Notes', String((e.target as { value?: string }).value ?? notesField.value ?? '')));
   on(milestoneField, 'change', (e) => edit('IsMilestone', !!((e as CustomEvent<{ checked: boolean }>).detail?.checked ?? milestoneField.checked)));
 
   // The element's fields are one form: Enter in a field saves, as her (ngSubmit) does.
@@ -936,12 +1165,18 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     }
   });
 
+  on(q('kept-resume'), 'click', () => resumeKept());
+  on(q('kept-discard'), 'click', () => discardKept());
   on(saveButton, 'click', () => save());
   on(cancelButton, 'click', () => cancel());
   on(closeButton, 'click', () => cancel());
 
   // Her signals over the page's plan: every plan change redraws what derives from it.
-  const unsubscribe = planStore.subscribe(() => render());
+  const unsubscribe = draft ? draft.subscribe(() => render()) : planStore.subscribe(() => render());
+  const unsubscribePresence = keeps ? onPlanPresence(() => render()) : () => undefined;
+  const checkOut = keeps
+    ? startPlanPresence(plan().PlanID ?? '', programID(), target.kind === 'edit' ? (initialElement?.PlanElementName ?? 'an element') : `a new element in ${parent()?.PlanElementName ?? 'the plan'}`)
+    : () => undefined;
 
   const teardown = () => {
     if (!isOpen) return;
@@ -949,6 +1184,8 @@ export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; o
     ac.abort();
     formSub.unsubscribe();
     unsubscribe();
+    unsubscribePresence();
+    checkOut();
     versionPin.release();
     candidatesRequest += 1;
     predRowEls.clear();

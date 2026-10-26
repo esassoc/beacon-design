@@ -1,0 +1,66 @@
+---
+// <BcnPlanDraftKey> — the draft's edit bar (EXPERIMENT 2026-10-21): its own card just above the Gantt while a draft
+// is open, in the draft colour (a subtle blue) the chart's timeline takes too, so the draft's working controls sit
+// with the work surface. Undo / Redo and the draft's state ("1 change · Saved for you
+// only"); Compare with live plan; Drags push dependents; and, when a dependency is broken, "N broken dependencies ·
+// Push dependents". No legend: the chart reads without one.
+//
+// Its controls are wired by plan-draft-bar.ts (setupPlanDraftBar), with the header's.
+//
+// bcn-lego-checked: Undo / Redo / Push dependents ARE esa-button, the settings ARE esa-switch-toggle. No lego is a
+// chart-card header row; checked Beacon (no drafts). bcn-plan-draft-key is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-plan-draft-key" data-bcn-plan-draft-key hidden>
+  <div class="bcn-plan-draft-key__history">
+    <span data-db-own class="bcn-plan-draft-key__undo">
+      <span data-db="undo"><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" data-fill-icon="undo-2" label="Undo (Ctrl+Z)" /></span>
+      <span data-db="redo"><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" data-fill-icon="redo-2" label="Redo (Ctrl+Shift+Z)" /></span>
+    </span>
+    <span class="bcn-plan-draft-key__meta" data-db-meta role="status"></span>
+  </div>
+  <div class="bcn-plan-draft-key__settings">
+    <esa-switch-toggle data-db="compare" size="sm" label="Compare with live plan"></esa-switch-toggle>
+    <esa-switch-toggle data-db-own data-db="cascade" size="sm" label="Drags push dependents"></esa-switch-toggle>
+  </div>
+  <div class="bcn-plan-draft-key__conflicts" data-db-conflicts hidden>
+    <span data-db-conflicts-text></span>
+    <span data-db="push" hidden><EsaButton variant="ghost" appearance="outline" size="xs">Push dependents</EsaButton></span>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+</script>
+
+<style>
+  .bcn-plan-draft-key[hidden],
+  .bcn-plan-draft-key :global([hidden]) { display: none !important; }
+
+  /* Its own card, above the chart: the draft border and surface, full corners. */
+  .bcn-plan-draft-key {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-200) var(--spacing-600);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--bcn-draft-border);
+    border-radius: var(--radius-md);
+    background: var(--bcn-draft-surface);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default);
+  }
+  .bcn-plan-draft-key__history { display: flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-plan-draft-key__undo { display: inline-flex; gap: var(--spacing-050); }
+  .bcn-plan-draft-key__meta { color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-plan-draft-key__settings { display: flex; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-500); }
+  .bcn-plan-draft-key__conflicts {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-inline-start: auto;
+    font-weight: 600;
+    color: var(--color-content-utility-danger);
+  }
+</style>

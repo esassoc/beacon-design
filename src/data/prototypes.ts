@@ -177,7 +177,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'plans',
         title: 'Plans (Jamie replica)',
         description:
-          "A faithful replica of Jamie's Planning feature on Beacon develop (BCN-1652): the plan list, a plan's Gantt with planned windows, cut-offs, landmarks and dependencies, Plan settings, the element drawer, Move plan with its schedule preview, row actions, edit-mode drag and live refresh across tabs. Replicated as built, not redesigned.",
+          "A replica of Jamie's Planning feature on Beacon develop (BCN-1652) — the plan list, a plan's Gantt with planned windows, cut-offs, landmarks and dependencies, Plan settings, the element drawer, Move plan, row actions and live refresh across tabs — with edit mode replaced by the proposed drafts: private copies of the plan's dates to drag with Undo, ghost bars of the live plan, broken dependencies drawn on the chart, named drafts shared view-only, and one Publish summary. Drawers show who else is editing, and a refused save keeps what you typed.",
         route: '/prototypes/plans/',
         createdAt: '2026-10-17',
         status: 'in-progress',

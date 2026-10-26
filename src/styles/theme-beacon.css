@@ -182,6 +182,12 @@
   --color-obligation-monitor: #ff7c43;
   --color-obligation-notify:  #ffa600;
 
+  /* Plan drafts (new, 2026-10-21): the colour of "you are in a draft, not the live plan" — a subtle blue the whole
+     chart card takes (its key row and its frame), so it can't be mistaken for the brand teal the bars use, the warning
+     amber or the danger red. Drawn from the info utility ramp: the card's border, and a surface a whisper of it. */
+  --bcn-draft-border:  var(--color-border-utility-info);
+  --bcn-draft-surface: color-mix(in srgb, var(--color-background-utility-info-muted) 45%, var(--color-background-elevation-raised));
+
   /* Semantic success ramp Beacon exposes as CSS vars. */
   --color-success-50:  #f0fdf4;
   --color-success-100: #dcfce7;

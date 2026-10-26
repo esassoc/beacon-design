@@ -30,9 +30,17 @@
 //             way to narrow the list.
 //   default — the filter dropdowns; wrapped in esa-filter-container (the lego) for you.
 //   actions — optional; the clear-all, pinned right on the bottom band.
+//   verbs   — optional; the page's own actions (Add, a menu), pinned right on the TOP band,
+//             after the search when there is one: "anything that narrows goes left, anything
+//             that acts goes right" (BcnSwFilterRow's rule, Beacon's grid header). Added
+//             2026-10-21 for the plan Gantt's toolbar.
 //
-// The top band renders only when `lead` or `search` is filled, so a filters-only bar
-// collapses to a single band instead of leaving an empty strip.
+// `plain` drops the card (surface, border, divider, inset) for a toolbar that heads the surface it
+// controls. `fillFilters` lets the filters band's LAST control take the rest of the band's width — for one
+// wide control (the plan Gantt's range strip) rather than a row of facet triggers.
+//
+// The top band renders only when `lead`, `scope`, `search` or `verbs` is filled, so a
+// filters-only bar collapses to a single band instead of leaving an empty strip.
 //
 // bcn-lego-checked: no esa-* lego is a two-band filter-bar CARD. esa-filter-container is
 // only the flex row of dropdowns (composed INSIDE here, not reimplemented); esa-search-panel
@@ -56,8 +64,13 @@ interface Props {
   /** Every control on both bands lands on the facets' 32px — pivots, search, sort —
    *  so the two bands read as one set. Off by default; existing bars keep their sizes. */
   compact?: boolean;
+  /** The filters band's content takes the band's whole width (one wide control). */
+  fillFilters?: boolean;
+  /** No card: the two bands sit straight on the page, with no surface, border, divider or inset — for a toolbar that
+   *  heads the surface it controls (the plan Gantt's), where a card is only more whitespace. */
+  plain?: boolean;
 }
-const { leadLabel, scopeLabel, sortLabel, filtersLabel = 'Filters', searchPlacement = 'top', compact = false } = Astro.props;
+const { leadLabel, scopeLabel, sortLabel, filtersLabel = 'Filters', searchPlacement = 'top', compact = false, fillFilters = false, plain = false } = Astro.props;
 
 const hasLead = Astro.slots.has('lead');
 const hasScope = Astro.slots.has('scope');
@@ -65,11 +78,12 @@ const hasSort = Astro.slots.has('sort');
 const hasSearch = Astro.slots.has('search');
 const searchOnTop = hasSearch && searchPlacement === 'top';
 const searchInFilters = hasSearch && searchPlacement === 'filters';
-const hasTop = hasLead || hasScope || searchOnTop;
+const hasVerbs = Astro.slots.has('verbs');
+const hasTop = hasLead || hasScope || searchOnTop || hasVerbs;
 const hasActions = Astro.slots.has('actions');
 ---
 
-<div class:list={['bcn-filterbar', compact && 'bcn-filterbar--compact']}>
+<div class:list={['bcn-filterbar', compact && 'bcn-filterbar--compact', fillFilters && 'bcn-filterbar--fill', plain && 'bcn-filterbar--plain']}>
   {
     hasTop && (
       <div class="bcn-filterbar__top">
@@ -88,6 +102,11 @@ const hasActions = Astro.slots.has('actions');
         {searchOnTop && (
           <div class:list={['bcn-filterbar__search', !hasLead && 'bcn-filterbar__search--alone']}>
             <slot name="search" />
+          </div>
+        )}
+        {hasVerbs && (
+          <div class:list={['bcn-filterbar__verbs', searchOnTop && 'bcn-filterbar__verbs--after-search']}>
+            <slot name="verbs" />
           </div>
         )}
       </div>
@@ -260,6 +279,52 @@ const hasActions = Astro.slots.has('actions');
 
   .bcn-filterbar__clear {
     margin-left: auto;
+  }
+
+  /* Plain: the bands without the card — no surface, border or side inset — a hairline between them, a little closer. */
+  .bcn-filterbar--plain {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+  .bcn-filterbar--plain .bcn-filterbar__top,
+  .bcn-filterbar--plain .bcn-filterbar__bottom {
+    padding: 0;
+  }
+  /* Between the bands, a hairline: BcnSwFilterRow's — the no-card filter row ported from prod — subtle rule. */
+  .bcn-filterbar--plain .bcn-filterbar__top + .bcn-filterbar__bottom {
+    padding-top: var(--spacing-200);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* The page's verbs, pinned right on the top band — right after the search when the search
+     already took the push. */
+  .bcn-filterbar__verbs {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-filterbar__verbs--after-search {
+    margin-left: 0;
+  }
+
+  /* One wide control on the filters band: the container takes the width, and its LAST control fills it — anything
+     before it (a pair of date fields) keeps its own size. */
+  .bcn-filterbar--fill .bcn-filterbar__bottom :global(.esa-filter-container) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .bcn-filterbar--fill .bcn-filterbar__bottom :global(.esa-filter-container > :last-child) {
+    flex: 1 1 auto;
+  }
+
+  /* Compact date pickers: an <input> like the text field's, solved the same way. */
+  .bcn-filterbar--compact :global(esa-date-picker) {
+    --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
   }
 
   /* Narrow: the search drops to its own line rather than crushing the lead. */
