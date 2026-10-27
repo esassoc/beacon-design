@@ -206,17 +206,16 @@ const TIP_WARNING_ICON =
 const roundPx = (value: number): number => Math.round(value * 100) / 100;
 
 /**
- * A tactile bar's lit top half and its grips (new, 2026-10-26): a pale band over the bar's upper half, rounded as the
- * bar is, and two short vertical lines inside each end, where a resize starts. Drawing only — the hit rect takes the
- * pointer.
+ * A tactile bar's grips (new, 2026-10-26): two short vertical lines inside each end, where a resize starts, shown on
+ * hover. Revised 2026-10-27: the lit top band is gone; the bar's depth is a gentle gradient fill (see the plot's
+ * <defs>) and one soft shadow. Drawing only — the hit rect takes the pointer.
  */
-function tactileBarDetail(x: number, y: number, width: number, height: number, radius: number): string {
-  const shine = `<rect class="${P}__bar-shine" x="${x + 1.5}" y="${y + 1.5}" width="${Math.max(0, width - 3)}" height="${Math.max(0, height / 2 - 2)}" rx="${Math.max(0, radius - 1.5)}"/>`;
-  if (width < GRIP_MIN_WIDTH_PX) return shine;
-  const top = y + height * 0.3;
-  const bottom = y + height * 0.7;
+function tactileBarDetail(x: number, y: number, width: number, height: number): string {
+  if (width < GRIP_MIN_WIDTH_PX) return '';
+  const top = y + height * 0.32;
+  const bottom = y + height * 0.68;
   const grip = (gx: number) => `<line class="${P}__bar-grip" x1="${gx}" x2="${gx}" y1="${top}" y2="${bottom}"/><line class="${P}__bar-grip" x1="${gx + 3}" x2="${gx + 3}" y1="${top}" y2="${bottom}"/>`;
-  return shine + grip(x + GRIP_INSET_PX - 1.5) + grip(x + width - GRIP_INSET_PX - 1.5);
+  return grip(x + GRIP_INSET_PX - 1.5) + grip(x + width - GRIP_INSET_PX - 1.5);
 }
 
 /** A rect rounded on its right side only (a bar's overrun: it starts inside the bar and ends where the bar does). */
@@ -551,6 +550,7 @@ export class PlanGanttChart {
   private outlineWidth = OUTLINE_PX;
   private readonly splitter: HTMLElement;
   private readonly idPrefix = `${P}-${++nextId}`;
+  private readonly fillId = `${this.idPrefix}-fill`;
   private readonly frame: HTMLElement;
   private readonly tip: HTMLElement;
   private v: GanttView | null = null;
@@ -1107,6 +1107,10 @@ export class PlanGanttChart {
     const H = v.plotHeight;
     const r = MARK_RADIUS_PX;
     const svg: string[] = [];
+    // Tactile (revised 2026-10-27): the bars' fill, a few percent lighter at the top than at the bottom.
+    if (density === 'tactile') {
+      svg.push(`<defs><linearGradient id="${this.fillId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="${P}__fill-top"/><stop offset="1" class="${P}__fill-bottom"/></linearGradient></defs>`);
+    }
     for (const view of v.rowViews) {
       if (view.tier < 2) svg.push(`<rect class="${P}__band ${P}__band--tier-${view.tier}" x="0" y="${view.top}" width="${W}" height="${ROW_PX}"/>`);
     }
@@ -1154,7 +1158,7 @@ export class PlanGanttChart {
         // Scheduled: square, hard corners. Estimated: rounded ones.
         const barRadius = view.scheduled ? 0 : BAR_ESTIMATED_RADIUS_PX;
         body = `<rect class="${P}__bar" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${barRadius}"/>${overrun}`;
-        if (density === 'tactile') body += tactileBarDetail(mark.x, mark.y, mark.width, mark.height, barRadius);
+        if (density === 'tactile') body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
       } else if (mark.kind === 'summary') {
         body =
           // Round at the top, square at the bottom, so the end ticks hang straight off the corners.
@@ -1245,7 +1249,7 @@ export class PlanGanttChart {
       .map((ghost) =>
         ghost.diamond
           ? `<polygon class="${P}__ghost" data-row-id="${esc(ghost.id)}" points="${ghost.diamond}"/>`
-          : `<rect class="${P}__ghost" data-row-id="${esc(ghost.id)}" x="${ghost.x}" y="${ghost.y}" width="${ghost.width}" height="${ghost.height}" rx="${MARK_RADIUS_PX}"/>`
+          : `<rect class="${P}__ghost" data-row-id="${esc(ghost.id)}" x="${ghost.x}" y="${ghost.y}" width="${ghost.width}" height="${ghost.height}" rx="${MARK_RADIUS_PX}"${density === 'tactile' ? ` style="fill:url(#${this.fillId})"` : ''}/>`
       )
       .join('');
 
