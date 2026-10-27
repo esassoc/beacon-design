@@ -113,7 +113,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     r<HTMLElement>('[data-pri-version]').textContent = `v${s.latest.number}`;
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);
-    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} versions`;
+    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'version' : 'versions'}`;
     r<HTMLElement>('[data-pri-watch]').textContent = String(s.repo.watchers.length);
     r<HTMLElement>('[data-pri-stars]').textContent = String(s.repo.starredBy.length);
     r<HTMLElement>('[data-pri-span]').textContent = `${year(s.start)}–${year(s.end)} · ${s.elementCount} items`;

@@ -6,12 +6,12 @@
 // filter (All · Has drafts · Watching) head the list. Rows are built by ./plan-repo-index.ts from <template>s here,
 // so the scoped CSS reaches them.
 //
-// bcn-lego-checked: the find field IS esa-text-field, the filter IS esa-button-toggle, visibility IS esa-pill, the
+// bcn-lego-checked: the find field IS esa-text-field, the filter IS esa-button-toggle, visibility IS esa-badge, the
 // spinner IS esa-loading-spinner, avatars ARE esa-avatar (cloned from BcnPlanPeople). No esa- lego is a list of
 // repo-style rows with child rows and a timeline miniature (esa-card is a card; esa-link-column is a nav column);
 // checked Beacon (pages/plan-list is a plain linked list — BcnPlanList is its port, with no history or drafts).
 // bcn-plan-repo-index is the reusable home for a plans index in the repo model.
-import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 ---
 
@@ -36,7 +36,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
         <div class="bcn-pri__title">
           <span class="bcn-pri__glyph" data-glyph="square-chart-gantt"></span>
           <a class="bcn-pri__name" data-pri-name></a>
-          <EsaPill label="Project" size="xs" shape="round" />
+          <EsaBadge value="Project" variant="neutral" size="sm" />
           <span class="bcn-pri__label" data-pri-label hidden><span data-glyph="tag"></span><span data-pri-label-text></span></span>
         </div>
         <p class="bcn-pri__desc" data-pri-desc></p>
