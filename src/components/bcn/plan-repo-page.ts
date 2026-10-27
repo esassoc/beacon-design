@@ -72,17 +72,21 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   // ── The chart and its range ─────────────────────────────────────────────────────────────────────────────────────
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
-  if (study.levels) host.dataset.levels = study.levels;
+  // Levels (adopted 2026-10-27, the levels study): the full rules by default, Sections once a plan has more than one
+  // Program; Budget lives in the readout and About, not the outline.
+  const programs = (live.Elements ?? []).filter((e) => !e.ParentPlanElementID).length;
+  host.dataset.levels = study.levels ?? (programs > 1 ? 'sections' : 'rules');
+  host.dataset.budget = study.budget ?? 'off';
   if (study.sched) host.dataset.sched = study.sched;
   if (study.cascade) host.dataset.cascade = study.cascade;
-  if (study.budget) host.dataset.budget = study.budget;
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',
     density: (study.density as 'compact' | 'medium' | 'tactile' | null) ?? 'medium',
     cascadePreview: !!study.cascade && study.cascade !== 'none',
-    // Adopted 2026-10-27 from the density study: medium rows and a 280px outline.
-    outlineWidth: study.outline ? Number(study.outline) : 280,
+    // Adopted 2026-10-27 from the density and levels studies: medium rows, a 360px outline (every name fits once the
+    // level words and Budget leave the outline).
+    outlineWidth: study.outline ? Number(study.outline) : 360,
     onRowSelect: (id) => chart.setSelectedId(id),
     onDragEnd: (drag) => void drop(drag),
     onLinkSelect: (link, at) => openLink(link, at),
