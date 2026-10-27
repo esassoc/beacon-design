@@ -56,7 +56,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const me = currentUserName();
 
   // The design studies (2026-10-27) switch variants from the URL; navigation keeps them.
-  const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline'] as const;
+  const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline', 'budget'] as const;
   const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<(typeof STUDY_KEYS)[number], string | null>;
   const keep = (href: string) => href + STUDY_KEYS.filter((k) => study[k]).map((k) => `&${k}=${encodeURIComponent(study[k]!)}`).join('');
   const editStyle = study.edit ?? 'quiet';
@@ -75,6 +75,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   if (study.levels) host.dataset.levels = study.levels;
   if (study.sched) host.dataset.sched = study.sched;
   if (study.cascade) host.dataset.cascade = study.cascade;
+  if (study.budget) host.dataset.budget = study.budget;
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',

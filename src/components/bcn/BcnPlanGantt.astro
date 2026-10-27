@@ -503,6 +503,18 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='3'] .bcn-plan-gantt__name) { font-weight: 550; color: var(--_muted); }
   .bcn-plan-gantt-host[data-levels='ladder'] :global(li[aria-level='4'] .bcn-plan-gantt__name),
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='4'] .bcn-plan-gantt__name) { font-weight: 450; color: var(--_text); }
+  /* rules: the ladder, plus only Tasks and Milestones look movable (parents lose the lift and shadow and read as flat
+     brackets), and parents' budgets step back to grey. */
+  .bcn-plan-gantt-host[data-levels='rules'] :global(.bcn-plan-gantt__tag) { display: none; }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(li[aria-level='1'] .bcn-plan-gantt__name) { font-weight: 650; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(li[aria-level='2'] .bcn-plan-gantt__name) { font-weight: 600; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(li[aria-level='3'] .bcn-plan-gantt__name) { font-weight: 550; color: var(--_muted); }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(li[aria-level='4'] .bcn-plan-gantt__name) { font-weight: 450; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(li:not([aria-level='4']) .bcn-plan-gantt__budget) { color: var(--_subtle); font-weight: 400; }
+  /* budget=off (the levels study): the Budget column leaves the outline; the readout and About still carry it. */
+  .bcn-plan-gantt-host[data-budget='off'] :global(.bcn-plan-gantt__budget),
+  .bcn-plan-gantt-host[data-budget='off'] :global(.bcn-plan-gantt__corner-budget) { display: none; }
+  .bcn-plan-gantt-host[data-levels='rules'] :global(.bcn-plan-gantt__mark:has(.bcn-plan-gantt__summary)) { filter: none; transform: none; }
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='1']),
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='2']) { background: var(--color-background-elevation-sunken); }
   .bcn-plan-gantt-host[data-levels='sections'] :global(.bcn-plan-gantt__band--tier-0),
