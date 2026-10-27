@@ -1,0 +1,237 @@
+---
+// <BcnPlanRepoPage> — one plan in the repo model (new design, 2026-10-26): a plan page laid out like a repo page.
+//
+//   bar      the branch picker (Live, your draft, other people's drafts), the drafts and versions counts, then
+//            Watch and Star, and the one primary action: "Edit in a draft" on Live, "Review and publish" in yours
+//   status   on Live, the latest version as a commit line (who, the sentence, v7 · 4 min ago, N versions);
+//            in a draft, the draft's own line: whose it is, what it's based on, how far behind Live, Undo / Redo
+//   main     Jamie's scrubber (BcnPlanGanttRange) over her Gantt (BcnPlanGantt) at the tactile density
+//   aside    About (description, span, counts), the latest named version, drafts, watchers, contributors
+//
+// In a draft the whole page changes surface (the check-in: "maybe the whole page should be subtly blue"): the content
+// area takes the info tint and the status band becomes the draft's. Drags on Live check out the viewer's draft
+// (one per person per plan) and land in it; nothing reaches Live until Publish, which is reviewed on the revisions
+// page. The runtime is ./plan-repo-page.ts.
+//
+// bcn-lego-checked: every control IS esa-button (the branch picker's trigger too) inside esa-popover; avatars ARE
+// esa-avatar (BcnPlanPeople); counts ARE esa-badge; the chart and the range ARE Jamie's BcnPlanGantt and
+// BcnPlanGanttRange. No esa- lego is a repo header, a commit line, a branch list or an About rail; checked Beacon
+// (pages/plan-gantt has a title row and a toolbar only). bcn-plan-repo-page is the reusable home for a plan page in
+// the repo model.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPlanGantt from './BcnPlanGantt.astro';
+import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
+---
+
+<div class="bcn-prp" data-bcn-plan-repo-page>
+  <div class="bcn-prp__bar">
+    <esa-popover position="bottom" trigger="click" data-prp-branch-popover>
+      <span data-prp-branch-trigger>
+        <EsaButton variant="secondary" appearance="outline" size="sm" icon="git-branch" iconRight="chevron-down" data-fill-icon="git-branch">
+          <span data-prp-branch-label>Live plan</span>
+        </EsaButton>
+      </span>
+      <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Switch between Live and drafts"></div>
+    </esa-popover>
+    <span class="bcn-prp__count"><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
+    <a class="bcn-prp__count" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> versions</a>
+    <span class="bcn-prp__spacer"></span>
+    <span data-prp-watch>
+      <EsaButton variant="secondary" appearance="outline" size="sm" icon="eye">
+        <span data-prp-watch-label>Watch</span>
+        <EsaBadge value="0" variant="neutral" size="xs" />
+      </EsaButton>
+    </span>
+    <span data-prp-star>
+      <EsaButton variant="secondary" appearance="outline" size="sm" icon="star">
+        <span data-prp-star-label>Star</span>
+        <EsaBadge value="0" variant="neutral" size="xs" />
+      </EsaButton>
+    </span>
+    <span data-prp-edit><EsaButton variant="primary" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
+    <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
+    <span data-prp-copy hidden><EsaButton variant="secondary" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
+  </div>
+
+  <div class="bcn-prp__status" data-prp-status>
+    <span data-prp-status-avatar></span>
+    <span class="bcn-prp__status-text">
+      <strong data-prp-status-who></strong>
+      <span data-prp-status-message></span>
+    </span>
+    <span class="bcn-prp__status-meta" data-prp-status-meta></span>
+    <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
+      <span data-prp-undo><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></span>
+      <span data-prp-redo><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></span>
+      <span data-prp-discard><EsaButton variant="danger" appearance="soft" size="sm">Discard draft</EsaButton></span>
+    </span>
+  </div>
+
+  <div class="bcn-prp__grid">
+    <div class="bcn-prp__main">
+      <div class="bcn-prp__chart">
+        <BcnPlanGanttRange />
+        <p class="bcn-prp__hint" data-prp-hint></p>
+        <BcnPlanGantt label="Plan schedule" />
+      </div>
+    </div>
+
+    <aside class="bcn-prp__aside" aria-label="About this plan">
+      <section class="bcn-prp__about">
+        <h2>About</h2>
+        <p data-prp-desc></p>
+        <dl class="bcn-prp__facts">
+          <div><dt><span data-glyph="calendar"></span>Span</dt><dd data-prp-span></dd></div>
+          <div><dt><span data-glyph="list-tree"></span>Items</dt><dd data-prp-items></dd></div>
+          <div><dt><span data-glyph="link-2"></span>Dependencies</dt><dd data-prp-deps></dd></div>
+          <div><dt><span data-glyph="eye"></span>Watching</dt><dd data-prp-watchers></dd></div>
+        </dl>
+      </section>
+      <section>
+        <h2>Versions <span class="bcn-prp__aside-count" data-prp-aside-versions></span></h2>
+        <div data-prp-releases></div>
+      </section>
+      <section>
+        <h2>Drafts <span class="bcn-prp__aside-count" data-prp-aside-drafts></span></h2>
+        <ul class="bcn-prp__draftlist" data-prp-draftlist></ul>
+      </section>
+      <section>
+        <h2>Contributors <span class="bcn-prp__aside-count" data-prp-aside-people></span></h2>
+        <div data-prp-people></div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-popover';
+</script>
+
+<style>
+  .bcn-prp { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-prp :global([hidden]) { display: none !important; }
+  .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
+  .bcn-prp :global([data-glyph] svg) { display: block; }
+
+  /* ── The repo bar ── */
+  .bcn-prp__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
+  .bcn-prp__count {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+    text-decoration: none;
+  }
+  .bcn-prp__count b { color: var(--color-content-default); font-weight: 600; }
+  a.bcn-prp__count:hover { color: var(--color-content-brand); }
+  .bcn-prp__spacer { flex: 1; }
+
+  .bcn-prp__branches { display: flex; flex-direction: column; min-inline-size: 22rem; max-inline-size: 28rem; padding: var(--spacing-100) 0; }
+  .bcn-prp__branches :global(.bcn-prp__branch-head) {
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    color: var(--color-content-default-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: var(--spacing-200) var(--spacing-300) var(--spacing-100);
+  }
+  .bcn-prp__branches :global(.bcn-prp__branch-row) {
+    display: grid;
+    grid-template-columns: 1.25rem auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    color: var(--color-content-default);
+    text-decoration: none;
+    font-size: var(--font-size-150);
+  }
+  .bcn-prp__branches :global(.bcn-prp__branch-row:hover),
+  .bcn-prp__branches :global(.bcn-prp__branch-row:focus-visible) { background: var(--color-background-default-hover, var(--bcn-gray-100)); }
+  .bcn-prp__branches :global(.bcn-prp__branch-row[aria-current='true']) { font-weight: 600; }
+  .bcn-prp__branches :global(.bcn-prp__branch-check) { color: var(--color-content-brand); }
+  .bcn-prp__branches :global(.bcn-prp__branch-name) { display: flex; flex-direction: column; min-inline-size: 0; }
+  .bcn-prp__branches :global(.bcn-prp__branch-sub) { font-weight: 400; color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
+
+  /* ── The status band: Live's latest version, or the draft you're in ── */
+  .bcn-prp__status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200, 6px);
+    background: var(--color-background-elevation-raised);
+    font-size: var(--font-size-150);
+    min-block-size: 3rem;
+  }
+  .bcn-prp__status-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-prp__status-text strong { font-weight: 600; margin-inline-end: var(--spacing-100); }
+  .bcn-prp__status-meta { margin-inline-start: auto; color: var(--color-content-default-tertiary); white-space: nowrap; display: inline-flex; gap: var(--spacing-300); align-items: center; }
+  .bcn-prp__status-meta :global(a) { color: inherit; text-decoration: none; display: inline-flex; gap: var(--spacing-100); align-items: center; }
+  .bcn-prp__status-meta :global(a:hover) { color: var(--color-content-brand); }
+  .bcn-prp__status-actions { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+
+  /* ── Body ── */
+  .bcn-prp__grid { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-500); align-items: start; }
+  .bcn-prp__main { min-inline-size: 0; }
+  .bcn-prp__chart { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-prp__hint { margin: 0; font-size: var(--font-size-100); color: var(--color-content-default-tertiary); display: flex; align-items: center; gap: var(--spacing-100); }
+
+  .bcn-prp__aside { display: flex; flex-direction: column; gap: var(--spacing-500); font-size: var(--font-size-150); }
+  .bcn-prp__aside section { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-prp__aside section + section { border-block-start: 1px solid var(--color-border-default-subtle); padding-block-start: var(--spacing-400); }
+  .bcn-prp__aside h2 { margin: 0; font-size: var(--font-size-200, 1rem); font-weight: 600; display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-prp__aside p { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-prp__aside-count {
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    background: var(--bcn-gray-100);
+    color: var(--color-content-default-secondary);
+    border-radius: 999px;
+    padding: 0 var(--spacing-200);
+  }
+  .bcn-prp__facts { margin: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-prp__facts div { display: flex; justify-content: space-between; gap: var(--spacing-200); }
+  .bcn-prp__facts dt { display: inline-flex; gap: var(--spacing-150); align-items: center; color: var(--color-content-default-secondary); }
+  .bcn-prp__facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-prp__aside :global(.bcn-prp__release) { display: flex; flex-direction: column; gap: var(--spacing-050, 2px); }
+  .bcn-prp__aside :global(.bcn-prp__release-name) { display: inline-flex; align-items: center; gap: var(--spacing-150); font-weight: 600; }
+  .bcn-prp__aside :global(.bcn-prp__release-name [data-glyph]) { color: var(--color-content-utility-success, var(--color-content-brand)); }
+  .bcn-prp__aside :global(.bcn-prp__release-sub) { color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
+  .bcn-prp__aside :global(a.bcn-prp__more) { color: var(--color-content-brand); font-size: var(--font-size-100); text-decoration: none; }
+  .bcn-prp__draftlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-prp__draftlist :global(li) { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--spacing-200); align-items: start; }
+  .bcn-prp__draftlist :global(a) { color: var(--color-content-default); font-weight: 600; text-decoration: none; }
+  .bcn-prp__draftlist :global(a:hover) { color: var(--color-content-brand); text-decoration: underline; }
+  .bcn-prp__draftlist :global(small) { display: block; color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
+
+  .bcn-prp :global(.bcn-plan-people-stack) { display: inline-flex; flex-wrap: wrap; }
+  .bcn-prp :global(.bcn-plan-people-stack > *) { margin-inline-start: -4px; box-shadow: 0 0 0 2px var(--bcn-gray-50); border-radius: 999px; }
+  .bcn-prp :global(.bcn-plan-people-stack > :first-child) { margin-inline-start: 0; }
+  .bcn-prp :global(.bcn-plan-people-stack__more) { font-size: var(--font-size-100); padding-inline-start: var(--spacing-150); box-shadow: none; }
+
+  /* ── The draft surface (the check-in: a draft "shouldn't feel like you're looking at the main tool") ──
+     The whole content area takes the info tint, the status band becomes the draft's (info border, a branch glyph),
+     and the chart frame picks up the same hue. Live keeps the default grey page. */
+  :global(body[data-plan-surface='draft'] .page-layout) {
+    /* The info hue at 7% over the page grey: a clear change of room that still reads as the same app (the subtle
+       token alone is near-white). */
+    background: color-mix(in srgb, var(--color-background-utility-info) 7%, var(--bcn-gray-50));
+    transition: background 240ms ease;
+  }
+  :global(body[data-plan-surface='draft']) .bcn-prp__status {
+    border-color: var(--color-border-utility-info, var(--color-border-info));
+    background: var(--color-background-elevation-raised);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-border-utility-info, var(--color-border-info)) 18%, transparent);
+  }
+  :global(body[data-plan-surface='draft']) .bcn-prp__chart :global(.bcn-plan-gantt-host) { --bcn-plan-gantt-surface: var(--color-background-elevation-raised); }
+  :global(body[data-plan-surface='view'] .page-layout) {
+    background: color-mix(in srgb, var(--bcn-gray-100) 60%, var(--bcn-gray-50));
+  }
+
+  @media (max-width: 1100px) {
+    .bcn-prp__grid { grid-template-columns: 1fr; }
+  }
+</style>

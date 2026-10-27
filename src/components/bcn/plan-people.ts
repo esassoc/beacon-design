@@ -27,3 +27,12 @@ export function planAvatarStack(names: readonly string[], max = 5, size: PlanAva
   }
   return stack;
 }
+
+/** EsaButton draws its disabled state from a class as well as the attribute, so a runtime toggle sets both. */
+export function setButtonDisabled(btn: HTMLButtonElement | null | undefined, disabled: boolean): void {
+  if (!btn) return;
+  btn.disabled = disabled;
+  btn.classList.toggle('esa-button--disabled', disabled);
+  if (disabled) btn.setAttribute('aria-disabled', 'true');
+  else btn.removeAttribute('aria-disabled');
+}

@@ -1,4 +1,5 @@
 // <BcnPlanRepoIndex>'s runtime: seeds the sample history on a first visit, then draws one row per plan from
+import { withBase } from '../../lib/base';
 // plan-repo.ts — the latest version as a commit line, open drafts as child rows, the counts and a schedule miniature.
 
 import { planIcon } from '../../lib/planning/icons';
@@ -15,8 +16,8 @@ const FILTERS = [
   { label: 'Watching', value: 'watching' },
 ];
 
-export const PLAN_HREF = (planID: string, extra = '') => `/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`;
-export const REVISIONS_HREF = (planID: string, extra = '') => `/prototypes/plans-repo/revisions/?id=${encodeURIComponent(planID)}${extra}`;
+export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
+export const REVISIONS_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/revisions/?id=${encodeURIComponent(planID)}${extra}`);
 
 export function fillGlyphs(root: ParentNode): void {
   root.querySelectorAll<HTMLElement>('[data-glyph]').forEach((el) => {

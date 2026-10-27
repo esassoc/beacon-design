@@ -1,0 +1,38 @@
+---
+// One plan, in the repo model (new design, 2026-10-26). `?id=` is the plan; `&draft=` opens a draft (yours to edit,
+// anyone else's read-only). Dragging a bar on Live checks out your draft. Review and publish opens the revisions page.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPlanRepoPage from '../../../../components/bcn/BcnPlanRepoPage.astro';
+import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - title badge -> esa-badge                        # "Your draft" / "Alex's draft", hidden on Live
+    - page        -> bcn-plan-repo-page               # repo bar, status band, scrubber + tactile Gantt, About rail
+    - people      -> bcn-plan-people                  # the avatar bank
+-->
+
+<AppShell title="Plan" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" showPlanning>
+  <PageLayout
+    title="Plan"
+    icon="square-chart-gantt"
+    iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan' }]}
+  >
+    <span slot="title-badge" data-prp-title-badge hidden><EsaBadge value="Your draft" variant="info" size="md" /></span>
+    <BcnPlanRepoPage />
+    <BcnPlanPeople />
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { setupPlanRepoPage } from '../../../../components/bcn/plan-repo-page';
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-repo-page]');
+  if (root) void setupPlanRepoPage(root);
+</script>

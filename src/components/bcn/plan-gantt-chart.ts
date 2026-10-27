@@ -501,6 +501,8 @@ export interface PlanGanttChartOptions {
   onSelectionChange?: (ids: string[]) => void;
   /** Her compact geometry (default), or the tactile one: bigger, lit, lifting marks. */
   density?: PlanGanttDensity;
+  /** The outline column's starting width, in place of the remembered one (a narrow host, e.g. beside a change list). */
+  outlineWidth?: number;
 }
 
 /** Pre-rendered EsaButton shells the chart clones (EsaButton is compile-time, so it cannot be built at runtime). */
@@ -568,7 +570,7 @@ export class PlanGanttChart {
     document.body.append(this.tip);
 
     // The divider between the outline and the plot: outside the frame's markup, so a render never drops its capture.
-    this.outlineWidth = readOutlineWidth();
+    this.outlineWidth = options.outlineWidth ?? readOutlineWidth();
     this.splitter = document.createElement('div');
     this.splitter.className = `${P}__splitter`;
     this.splitter.setAttribute('role', 'separator');
