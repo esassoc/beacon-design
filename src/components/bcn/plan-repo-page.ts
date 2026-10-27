@@ -5,12 +5,13 @@
 // The chart is Jamie's PlanGanttChart at the tactile density, the range is her setupPlanGanttRange; the draft
 // arithmetic (edits from a drag, overrides, the cascade) is hers too (plan-draft.ts, the mock's previewDraft).
 
-import { PlanGanttChart } from './plan-gantt-chart';
+import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
-import { planDraftEditsForDrag, planDraftWithEdits } from '../../lib/planning/plan-draft';
+import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits } from '../../lib/planning/plan-draft';
+import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { toLocalIsoDate } from '../../lib/planning/plan-page';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto } from '../../lib/planning/model';
@@ -42,9 +43,10 @@ import {
   type PlanRevision,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, planAvatarStack, setButtonDisabled } from './plan-people';
-import { PLAN_HREF, REVISIONS_HREF, fillGlyphs } from './plan-repo-index';
+import { PLAN_HREF, REVISIONS_HREF, STUDY_KEYS, fillGlyphs, keepStudy, type StudyKey } from './plan-repo-index';
 
 type Mode = 'live' | 'own' | 'view';
+
 const firstName = (name: string) => name.split(' ')[0];
 
 export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
@@ -56,10 +58,17 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const me = currentUserName();
 
   // The design studies (2026-10-27) switch variants from the URL; navigation keeps them.
-  const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline'] as const;
-  const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<(typeof STUDY_KEYS)[number], string | null>;
-  const keep = (href: string) => href + STUDY_KEYS.filter((k) => study[k]).map((k) => `&${k}=${encodeURIComponent(study[k]!)}`).join('');
-  const editStyle = study.edit ?? 'quiet';
+  const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<StudyKey, string | null>;
+  const keep = (href: string) => keepStudy(href, params);
+  // The draft-mode concepts (2026-10-27, second round): what being in a draft looks like on the work surface. Every one
+  // carries the band; they differ in what happens to the chart. pencil: what the draft changed is pencilled in, and inks
+  // in on publish. drafting: graph paper, with each move measured. night: the chart is a different room. bench: the draft
+  // is a workbench the app folds away for.
+  // pencil-paper is the recommended combination: drafting's graph paper as the ground, pencil for what changed.
+  const concept = study.concept as 'pencil' | 'drafting' | 'night' | 'bench' | 'pencil-paper' | null;
+  const look = concept === 'pencil-paper' ? 'pencil' : concept;
+  const paper = concept === 'drafting' || concept === 'pencil-paper';
+  const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
 
   let repo: PlanRepo = getRepo(planID);
   let live: PlanDetailDto = await planApi.getPlan(planID);
@@ -68,10 +77,22 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   let shown: PlanDetailDto = draft ? (await draftState(draft)).Plan : live;
   const redo: PlanRevision[] = [];
   let busy = false;
+  /** The drop that checks out a draft: its first draw crossfades, so entering the draft reads as one change of state. */
+  let entering = false;
+  /** The drafting concept's delta tags: the edit that last moved each row. */
+  let editOf: ReadonlyMap<string, number> = new Map();
+  /** The pencil concept, after a publish: the rows that just went from pencil to ink, animated once on Live. */
+  let inked: ReadonlySet<string> = new Set();
   const today = toLocalIsoDate(new Date());
 
   // ── The chart and its range ─────────────────────────────────────────────────────────────────────────────────────
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
+  if (concept) {
+    root.dataset.concept = concept;
+    host.dataset.draftLook = look!;
+    host.toggleAttribute('data-paper', paper);
+    if (study.marks) host.dataset.pencil = study.marks;
+  }
   if (study.levels) host.dataset.levels = study.levels;
   if (study.sched) host.dataset.sched = study.sched;
   if (study.cascade) host.dataset.cascade = study.cascade;
@@ -116,6 +137,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       }
       draft = mine ?? startDraft(planID!);
       mode = 'own';
+      entering = true;
       history.replaceState(null, '', keep(PLAN_HREF(planID!, `&draft=${draft.id}`)));
     }
     const edits = planDraftEditsForDrag(shown, drag);
@@ -210,7 +232,28 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function refresh(): void {
     repo = getRepo(planID!);
     if (draft) draft = repo.drafts.find((d) => d.id === draft!.id) ?? draft;
-    draw();
+    const paint = async () => {
+      if (concept === 'drafting' && draft && mode !== 'live') editOf = await editIndex(draft);
+      draw();
+    };
+    if (!entering) return void paint();
+    entering = false;
+    // Entering a draft is one change of state, so it crossfades (where the browser can).
+    const doc = document as Document & { startViewTransition?: (cb: () => Promise<void>) => unknown };
+    if (doc.startViewTransition) doc.startViewTransition(paint);
+    else void paint();
+  }
+
+  /** Which edit last moved each row: replay the draft one revision at a time and note what each one changed. */
+  async function editIndex(d: PlanRepoDraft): Promise<Map<string, number>> {
+    const out = new Map<string, number>();
+    let before = live;
+    for (let i = 1; i <= d.revisions.length; i++) {
+      const after = (await draftState(d, i)).Plan;
+      for (const c of planCompare(before, after)) out.set(c.id, i);
+      before = after;
+    }
+    return out;
   }
 
   // ── Draw ──────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -224,7 +267,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     document.title = draft ? `${draft.name} · ${name} | Beacon` : `${name} | Beacon`;
     const badge = document.querySelector<HTMLElement>('[data-prp-title-badge]');
     if (badge) {
-      badge.hidden = mode === 'live';
+      // The band names the draft, so the title's badge would say it twice.
+      badge.hidden = mode === 'live' || editStyle === 'band';
       const t = badge.querySelector('.esa-badge__text');
       if (t) t.textContent = mode === 'own' ? 'Your draft' : `${draft ? firstName(draft.owner) : ''}'s draft`;
     }
@@ -235,25 +279,76 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
     const view = planGanttView(shown);
     chart.setEditable(mode !== 'view');
+    drawConcept();
     chart.setAnnotations({
-      draft: null,
+      draft: conceptOverlay(),
       conflicts: planConflicts(shown).map((c) => ({ fromId: c.PredecessorPlanElementID, toId: c.SuccessorPlanElementID })),
-      rowNotes: new Map(),
+      rowNotes: conceptNotes(),
       countsDependents: false,
+      paper: paper && mode !== 'live',
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
   }
 
+  /**
+   * What the draft looks like on the chart, by concept: one mark per row (never a ghost of Live), each row the draft
+   * changed marked so the concept can draw it (pencil, dimension lines); on Live after a publish, the rows that just
+   * inked in.
+   */
+  function conceptOverlay(): GanttDraftOverlay | null {
+    // Night and bench change the room, not the marks: the chart draws the draft as plainly as Live.
+    if (!concept || concept === 'night' || concept === 'bench') return null;
+    if (mode === 'live') {
+      if (!inked.size) return null;
+      return { baseline: new Map(), marks: new Map([...inked].map((id) => [id, 'inked' as const])), changedWindows: new Set(), ghosts: false };
+    }
+    const own = new Set((draft?.revisions.at(-1)?.overrides ?? []).map((o) => o.PlanElementID));
+    const overlay = planDraftOverlay(live, shown, null, new Set(), own, true);
+    const marks = new Map(overlay.marks);
+    for (const c of planCompare(live, shown)) marks.set(c.id, 'changed');
+    return { ...overlay, marks, ghosts: false, measure: concept === 'drafting', edits: concept === 'drafting' ? editOf : undefined };
+  }
+
+  /** In a draft, a changed row's readout says where Live has it. */
+  function conceptNotes(): Map<string, { label: string; value: string }[]> {
+    if (!concept || mode === 'live') return new Map();
+    return new Map(planCompare(live, shown).map((c) => [c.id, [{ label: 'Live', value: formatPlanDateRange(c.fromStart, c.fromEnd, 'en-US') }]]));
+  }
+
+  /** The page around the chart, by concept: night dims the chart into its own scheme; bench folds the app away. */
+  function drawConcept(): void {
+    const inDraft = mode !== 'live';
+    host.toggleAttribute('data-in-draft', inDraft);
+    if (concept === 'night') {
+      // The chart is the room; the band stays the page's neutral, as in every concept.
+      if (inDraft) host.dataset.scheme = 'night';
+      else delete host.dataset.scheme;
+    }
+    if (concept === 'bench') {
+      document.documentElement.toggleAttribute('data-bench', inDraft);
+      const nav = document.querySelector<HTMLElement>('.side-nav');
+      const toggle = document.getElementById('sidebar-toggle');
+      if (nav && toggle && nav.classList.contains('collapsed') !== inDraft) toggle.click();
+      const name = q<HTMLElement>('[data-prp-plan-name]');
+      name.hidden = !inDraft;
+      name.textContent = live.PlanName ?? '';
+    }
+  }
+
   /** The edit-mode study's band and tabs (quiet, the default, is the branch menu and the status line alone). */
   function drawEditStyle(): void {
-    const band = q<HTMLElement>('[data-prp-band]');
-    band.hidden = !(editStyle === 'band' && mode !== 'live');
-    if (!band.hidden && draft) {
+    const bar = q<HTMLElement>('[data-prp-bar]');
+    const banded = editStyle === 'band' && mode !== 'live';
+    bar.toggleAttribute('data-band', banded);
+    q<HTMLElement>('[data-prp-base]').hidden = !banded;
+    if (banded && draft) {
+      // The band: the branch menu is its name, the base revision beside it, the draft's actions at its end.
       const behind = versionsBehind(repo, draft);
-      q<HTMLElement>('[data-prp-band-text]').innerHTML = `<b>${mode === 'own' ? 'Your draft' : `${firstName(draft.owner)}'s draft`}</b> · based on Rev ${draft.baseVersion}${behind > 0 ? ` · Live has ${behind} newer` : ''}`;
-      const actions = q<HTMLElement>('[data-prp-band-actions]');
-      actions.append(q<HTMLElement>('[data-prp-draft-actions]'), q<HTMLElement>('[data-prp-review]'), q<HTMLElement>('[data-prp-copy]'));
+      q<HTMLElement>('[data-prp-base-rev]').textContent = `Based on Rev ${draft.baseVersion}`;
+      q<HTMLElement>('[data-prp-base-behind]').hidden = behind <= 0;
+      q<HTMLElement>('[data-prp-base-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}`;
+      q<HTMLElement>('[data-prp-review]').before(q<HTMLElement>('[data-prp-draft-actions]'));
     }
     const tabs = q<HTMLElement & { options: { label: string; value: string }[]; value: string }>('[data-prp-tabs]');
     const tabbed = editStyle === 'tabs' && mode !== 'view';
@@ -358,11 +453,22 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const d = draft!;
     const last = d.revisions.at(-1);
     avatarSlot.replaceChildren(planAvatar(d.owner, 'xs'));
-    who.textContent = mode === 'own' ? 'Your draft' : `${firstName(d.owner)}'s draft`;
-    message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
     const behind = versionsBehind(repo, d);
     const n = d.revisions.length;
-    meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on Rev ${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
+    if (editStyle === 'band') {
+      // The band names the draft and its base, so the line is the latest edit alone: what, then how many and when.
+      who.textContent = '';
+      message.textContent = last ? last.message : 'No edits yet';
+      meta.innerHTML = '';
+      meta.append(
+        Object.assign(document.createElement('span'), { textContent: `${n} ${n === 1 ? 'edit' : 'edits'}` }),
+        Object.assign(document.createElement('span'), { textContent: last ? timeAgo(last.at) : '' })
+      );
+    } else {
+      who.textContent = mode === 'own' ? 'Your draft' : `${firstName(d.owner)}'s draft`;
+      message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
+      meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on Rev ${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
+    }
     actions.hidden = mode !== 'own';
     const undoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-undo] button');
     const redoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-redo] button');
@@ -491,6 +597,18 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
   q<HTMLElement>('[data-prp-about-close]').addEventListener('click', () => setAbout(false));
   q<HTMLElement>('[data-prp-about-open]').addEventListener('click', () => setAbout(true));
+  // The pencil concept: a publish just landed, so the rows it changed ink in once.
+  if (look === 'pencil' && mode === 'live') {
+    try {
+      const key = `bcn-prp-inked-${planID}`;
+      inked = new Set(JSON.parse(sessionStorage.getItem(key) ?? '[]') as string[]);
+      sessionStorage.removeItem(key);
+      if (inked.size) setTimeout(() => ((inked = new Set()), draw()), 1600);
+    } catch {
+      /* a blocked store just skips the moment */
+    }
+  }
   fillIcons(root);
+  if (concept === 'drafting' && draft && mode !== 'live') editOf = await editIndex(draft);
   draw();
 }

@@ -188,6 +188,32 @@
   --bcn-draft-border:  var(--color-border-utility-info);
   --bcn-draft-surface: color-mix(in srgb, var(--color-background-utility-info-muted) 45%, var(--color-background-elevation-raised));
 
+  /* Plan drafts, the drafting concept (2026-10-27): the draft as a working drawing. A drafting blue for the ruling and
+     the measurements, kept off the brand teal (the bars), the amber and the red: paper a whisper of it, the ruling two
+     light steps, the ink for dimension lines and delta tags its text step. Drawn from the hub's blue ramp. */
+  --bcn-drafting-paper:      var(--color-blue-1);
+  --bcn-drafting-rule-minor: color-mix(in srgb, var(--color-blue-5) 70%, var(--color-blue-1));
+  --bcn-drafting-rule-major: var(--color-blue-6);
+  --bcn-drafting-ink:        var(--color-blue-11);
+
+  /* Plan drafts, the night concept (2026-10-27): the chart as a different room. A cool near-black from the hub's slate
+     dark ramp, layered by value like the light chrome (surface < band < hover), with Beacon's own teal lifted a step for
+     the bars so they read on the dark ground. The semantic re-points are the [data-scheme="night"] block below. */
+  --bcn-night-surface:  var(--color-slate-dark-2);
+  --bcn-night-sunken:   var(--color-slate-dark-1);
+  --bcn-night-raised:   var(--color-slate-dark-3);
+  --bcn-night-hover:    var(--color-slate-dark-4);
+  --bcn-night-border-subtle: var(--color-slate-dark-4);
+  --bcn-night-border:   var(--color-slate-dark-6);
+  --bcn-night-border-strong: var(--color-slate-dark-7);
+  --bcn-night-text:     var(--color-slate-dark-12);
+  --bcn-night-text-secondary: var(--color-slate-dark-11);
+  --bcn-night-text-tertiary:  var(--color-slate-dark-10);
+  --bcn-night-brand:       var(--bcn-teal-500);
+  --bcn-night-brand-hover: var(--bcn-teal-600);
+  --bcn-night-brand-subtle: color-mix(in srgb, var(--bcn-teal-500) 18%, var(--color-slate-dark-2));
+  --bcn-night-brand-text:  var(--bcn-teal-200);
+
   /* Semantic success ramp Beacon exposes as CSS vars. */
   --color-success-50:  #f0fdf4;
   --color-success-100: #dcfce7;
@@ -460,4 +486,34 @@ html,
   .modern-layout__content {
     scroll-behavior: auto;
   }
+}
+
+/* ===== Plan drafts, the night concept (2026-10-27): a scheme scope, not a theme =====
+   Set data-scheme="night" on one element (the plan's chart, while it shows a draft) and everything inside it, the
+   esa-* legos included, reads the dark semantic layer: custom properties inherit into shadow roots, so nothing inside
+   is restyled by hand. The values are the --bcn-night-* re-point material above. The focus ring is the one role the
+   theme never sets; a dark island is the standing tier-3 exception (design-principles), so it is re-pointed here, on
+   the island only, to the lifted teal text step. */
+[data-theme="beacon"] [data-scheme="night"] {
+  color-scheme: dark;
+  --color-background-default: var(--bcn-night-surface);
+  --color-background-elevation-raised: var(--bcn-night-surface);
+  --color-background-elevation-sunken: var(--bcn-night-sunken);
+  --color-background-default-hover: var(--bcn-night-hover);
+  --color-content-default: var(--bcn-night-text);
+  --color-content-default-secondary: var(--bcn-night-text-secondary);
+  --color-content-default-tertiary: var(--bcn-night-text-tertiary);
+  --color-border-default-subtle: var(--bcn-night-border-subtle);
+  --color-border-default: var(--bcn-night-border);
+  --color-border-default-strong: var(--bcn-night-border-strong);
+  --color-background-brand: var(--bcn-night-brand);
+  --color-background-brand-hover: var(--bcn-night-brand-hover);
+  --color-background-brand-subtle: var(--bcn-night-brand-subtle);
+  --color-border-brand: var(--bcn-night-brand);
+  --color-content-brand: var(--bcn-night-brand-text);
+  --color-background-utility-warning: var(--color-amber-dark-9);
+  --color-content-utility-warning: var(--color-amber-dark-11);
+  --color-background-utility-danger: var(--color-red-dark-9);
+  --color-background-utility-danger-hover: var(--color-red-dark-10);
+  --focus-ring-color: var(--bcn-night-brand-text);
 }

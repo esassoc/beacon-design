@@ -32,7 +32,7 @@ import {
   type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
-import { PLAN_HREF, fillGlyphs } from './plan-repo-index';
+import { PLAN_HREF, fillGlyphs, keepStudy } from './plan-repo-index';
 
 type SwitchEl = HTMLElement & { checked: boolean };
 const firstName = (name: string) => name.split(' ')[0];
@@ -95,15 +95,28 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const planCrumb = [...crumbs].find((c) => c.textContent?.trim() === 'Plan');
   if (planCrumb) {
     planCrumb.textContent = live.PlanName ?? 'Plan';
-    if (planCrumb instanceof HTMLAnchorElement) planCrumb.href = PLAN_HREF(planID, draft ? `&draft=${draft.id}` : '');
+    if (planCrumb instanceof HTMLAnchorElement) planCrumb.href = keepStudy(PLAN_HREF(planID, draft ? `&draft=${draft.id}` : ''));
   }
-  q<HTMLAnchorElement>('[data-prv-exit]').href = PLAN_HREF(planID, draft ? `&draft=${draft.id}` : '');
+  q<HTMLAnchorElement>('[data-prv-exit]').href = keepStudy(PLAN_HREF(planID, draft ? `&draft=${draft.id}` : ''));
+  // The draft-mode concepts (2026-10-27): reviewing a draft keeps the draft's look until it is published.
+  const concept = draft ? params.get('concept') : null;
   const behind = draft ? versionsBehind(repo, draft) : 0;
   q<HTMLElement>('[data-prv-behind]').hidden = behind <= 0;
   q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'} than Rev ${draft?.baseVersion}`;
 
   // ── Chart ──
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
+  if (concept) {
+    root.dataset.concept = concept;
+    host.dataset.draftLook = concept === 'pencil-paper' ? 'pencil' : concept;
+    host.toggleAttribute('data-paper', concept === 'drafting' || concept === 'pencil-paper');
+    host.toggleAttribute('data-in-draft', true);
+    if (concept === 'night') host.dataset.scheme = 'night';
+    if (concept === 'bench') {
+      document.documentElement.toggleAttribute('data-bench', true);
+      document.getElementById('sidebar-toggle')?.click();
+    }
+  }
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: `${live.PlanName} compared`,
@@ -117,6 +130,8 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string> } | null = null;
   let selected: string | null = null;
   let token = 0;
+  /** What each of the draft's edits moved, by edit number (the drafting concept's delta tags). */
+  const editMoves = new Map<number, string[]>();
 
   async function compute(): Promise<void> {
     const mine = ++token;
@@ -134,6 +149,10 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
         if (!was || was.StartDate !== o.StartDate || was.EndDate !== o.EndDate) own.add(o.PlanElementID);
       }
     }
+    if (concept === 'drafting' && draft && !editMoves.size) {
+      for (let i = 1; i < stops.length; i++) editMoves.set(i, planCompare(await stateAt(i - 1), await stateAt(i)).map((c) => c.id));
+      if (mine !== token) return;
+    }
     current = { from, to, changes: planCompare(from, to), own };
     draw();
   }
@@ -146,8 +165,11 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     const on = show.checked;
     const changed = new Set(changes.map((c) => c.id));
     const deltas = new Map<string, GanttRowDelta>(changes.filter((c) => c.status === 'moved').map((c) => [c.id, { text: c.endOnly ? `end ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays), own: own.has(c.id) }]));
+    const overlay = on ? planDraftOverlay(from, to, null, new Set(), changed, true) : null;
     chart.setAnnotations({
-      draft: on ? planDraftOverlay(from, to, null, new Set(), changed, true) : null,
+      // Drafting measures each change in its lane instead of drawing where it was, and tags it with its edit.
+      draft: overlay && concept === 'drafting' ? { ...overlay, ghosts: false, measure: true, edits: editAt(changes) } : overlay,
+      paper: concept === 'drafting' || concept === 'pencil-paper',
       rowDeltas: on ? deltas : null,
       conflicts: planConflicts(to).map((c) => ({ fromId: c.PredecessorPlanElementID, toId: c.SuccessorPlanElementID })),
       rowNotes: new Map(
@@ -186,6 +208,15 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     }
     const pad = (iso: string, days: number) => new Date(Date.parse(iso) + days * 86_400_000).toISOString().slice(0, 10);
     return { start: pad(dates[0], -60), end: pad(dates[dates.length - 1], 60) };
+  }
+
+  /** Which edit last moved each changed row, from the stops between the handles (a draft's review only). */
+  function editAt(changes: PlanChange[]): Map<string, number> {
+    const out = new Map<string, number>();
+    if (!draft) return out;
+    const ids = new Set(changes.map((c) => c.id));
+    for (let i = Math.max(1, sel.from + 1); i <= sel.to; i++) for (const id of editMoves.get(i) ?? []) if (ids.has(id)) out.set(id, i);
+    return out;
   }
 
   function drawCards(): void {
@@ -286,12 +317,20 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     if (btn?.disabled) return;
     setButtonDisabled(btn, true);
     if (draft) {
+      // The pencil concept: what this publish changes inks in once on Live.
+      if ((concept === 'pencil' || concept === 'pencil-paper') && current) {
+        try {
+          sessionStorage.setItem(`bcn-prp-inked-${planID}`, JSON.stringify(current.changes.map((c) => c.id)));
+        } catch {
+          /* a blocked store just skips the moment */
+        }
+      }
       await publishDraft(planID, draft.id, sel.to);
     } else {
       const target = repo.versions[sel.to].number;
       await restoreVersion(planID, target);
     }
-    location.href = PLAN_HREF(planID);
+    location.href = keepStudy(PLAN_HREF(planID));
   });
   show.addEventListener('change', () => draw());
 

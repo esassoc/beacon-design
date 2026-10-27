@@ -27,14 +27,10 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
   <section class="bcn-prp__head">
-    <!-- Edit-mode study, "band": in a draft, a neutral strip across the top of the card carries the draft and its actions. -->
-    <div class="bcn-prp__band typography-body-sm" data-prp-band hidden>
-      <span data-glyph="git-branch"></span>
-      <span class="bcn-prp__band-text" data-prp-band-text></span>
-      <span class="bcn-prp__spacer"></span>
-      <span class="bcn-prp__band-actions" data-prp-band-actions></span>
-    </div>
-    <div class="bcn-prp__bar">
+    <!-- In a draft (the band, kept 2026-10-27), this row becomes a neutral strip across the top of the card: the branch
+         menu is its name, then the revision it's based on, then the draft's actions. One row, never a second switcher. -->
+    <div class="bcn-prp__bar" data-prp-bar>
+      <span class="bcn-prp__plan typography-title" data-prp-plan-name hidden></span>
       <!-- Edit-mode study, "tabs": Live and your draft as a two-way switch in place of the branch menu. -->
       <esa-button-toggle size="sm" label="" data-prp-tabs hidden></esa-button-toggle>
       <esa-popover position="bottom" trigger="click" data-prp-branch-popover>
@@ -45,8 +41,12 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         </span>
         <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Live plan and drafts"></div>
       </esa-popover>
+      <span class="bcn-prp__base typography-body-sm" data-prp-base hidden>
+        <span data-prp-base-rev></span>
+        <span class="bcn-prp__behind" data-prp-base-behind hidden><span data-glyph="triangle-alert"></span><span data-prp-base-behind-text></span></span>
+      </span>
       <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> revisions</a>
-      <span class="bcn-prp__count typography-label-sm"><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
+      <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
       <span class="bcn-prp__spacer"></span>
       <span data-prp-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
       <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
@@ -146,20 +146,21 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
-  .bcn-prp__band {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
+  .bcn-prp__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
+  /* The band: the bar itself, run to the card's edges on the sunken neutral, as the About pane's header band is. */
+  .bcn-prp__bar[data-band] {
     margin: calc(-1 * var(--spacing-400)) calc(-1 * var(--spacing-400)) 0;
-    padding: var(--spacing-200) var(--spacing-400);
-    background: var(--color-background-elevation-sunken);
+    padding: var(--spacing-250) var(--spacing-400);
+    background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken));
     border-block-end: 1px solid var(--color-border-default);
     border-start-start-radius: var(--radius-200);
     border-start-end-radius: var(--radius-200);
   }
-  .bcn-prp__band-text b { font-weight: 600; }
-  .bcn-prp__band-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-prp__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
+  .bcn-prp__bar[data-band] .bcn-prp__count { display: none; }
+  .bcn-prp__base { display: inline-flex; align-items: center; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-prp__behind { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default); }
+  .bcn-prp__behind [data-glyph] { color: var(--color-content-utility-warning); }
+  .bcn-prp__plan { white-space: nowrap; }
   .bcn-prp__count { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default-secondary); text-decoration: none; }
   .bcn-prp__count b { color: var(--color-content-default); font-weight: 600; }
   a.bcn-prp__count:hover { color: var(--color-content-default); }
@@ -193,7 +194,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   }
   .bcn-prp__status-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-prp__status-text strong { font-weight: 600; }
-  .bcn-prp__status-meta { margin-inline-start: auto; color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-prp__status-meta { display: inline-flex; gap: var(--spacing-300); margin-inline-start: auto; color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-prp__status-actions { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* ── Body: the chart beside About (the wizard's Library pane, on the right) ── */
@@ -279,4 +280,24 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     .bcn-prp__body, .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: 1fr; }
     .bcn-prp__rail { display: none !important; }
   }
+
+  /* ── Draft-mode concepts (2026-10-27): the page around the chart ──
+     Moving between Live, a draft and its review is a change of state, so the plan and revisions pages crossfade where the
+     browser can (both opt in). */
+  @view-transition { navigation: auto; }
+
+  /* Bench: a draft is a workbench. The app's nav folds to its rail and the page header steps aside (the runtime sets
+     html[data-bench]); the head card becomes the bench's toolbar, the plan name leading the band, and the chart takes
+     the rest of the window, scrolling inside its own frame so the axis stays put. The card and the chart morph into
+     place rather than jump. */
+  :global(html[data-bench] .page-layout__breadcrumbs),
+  :global(html[data-bench] .page-layout__title) { display: none; }
+  :global(html[data-bench] .page-layout) { padding: var(--spacing-400); }
+  :global(html[data-bench] .page-layout__content) { padding-block: 0; }
+  :global(html[data-bench]) .bcn-prp { --bcn-plan-gantt-max-height: calc(100vh - 20.75rem); }
+  :global(html[data-bench]) .bcn-prp__bar[data-band] { gap: var(--spacing-200) var(--spacing-400); }
+  .bcn-prp[data-concept='bench'] .bcn-prp__head { view-transition-name: bcn-prp-head; }
+  .bcn-prp[data-concept='bench'] .bcn-prp__main { view-transition-name: bcn-prp-chart; }
+  :global(::view-transition-group(bcn-prp-head)),
+  :global(::view-transition-group(bcn-prp-chart)) { animation-duration: 420ms; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
 </style>

@@ -18,6 +18,12 @@ const FILTERS = [
 export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
 export const REVISIONS_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/revisions/?id=${encodeURIComponent(planID)}${extra}`);
 
+/** The design studies' URL keys (2026-10-27): the plan and revisions pages carry them through their links. */
+export const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline', 'concept', 'marks'] as const;
+export type StudyKey = (typeof STUDY_KEYS)[number];
+export const keepStudy = (href: string, params: URLSearchParams = new URLSearchParams(location.search)) =>
+  href + STUDY_KEYS.filter((k) => params.get(k)).map((k) => `&${k}=${encodeURIComponent(params.get(k)!)}`).join('');
+
 export function fillGlyphs(root: ParentNode): void {
   root.querySelectorAll<HTMLElement>('[data-glyph]').forEach((el) => {
     if (!el.firstChild) el.innerHTML = planIcon(el.dataset.glyph!, 14);

@@ -143,4 +143,14 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     .bcn-prv__diff, .bcn-prv__compare { grid-template-columns: 1fr; }
     .bcn-prv__changes { position: static; max-block-size: none; }
   }
+
+  /* The draft-mode concepts (2026-10-27): the plan page and this one crossfade between each other (both opt in). Bench
+     reviews in the same folded frame as the draft it came from: the page header steps aside and the chart takes the
+     window's height. */
+  @view-transition { navigation: auto; }
+  :global(html[data-bench] .page-layout) { padding: var(--spacing-400); }
+  :global(html[data-bench] .page-layout__breadcrumbs) { display: none; }
+  :global(html[data-bench] .page-layout__title) { padding-block: 0 var(--spacing-300); border: 0; }
+  :global(html[data-bench] .page-layout__content) { padding-block: 0; }
+  :global(html[data-bench]) .bcn-prv { --bcn-plan-gantt-max-height: calc(100vh - 22rem); }
 </style>

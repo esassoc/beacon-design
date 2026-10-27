@@ -97,6 +97,13 @@ const DRAG_POPUP_ROOM_PX = 72;
 const WINDOW_HANDLE_PX = 3;
 /** ui-viz-tip's FLOATING_OFFSET_PX. */
 const TIP_OFFSET_PX = 4;
+/** The drafting concept (2026-10-27): a delta tag sits this far past its mark; a dimension label is measured at this
+ *  advance per character plus padding each side; graph paper aims for cells about this wide. */
+const DELTA_GAP_PX = 6;
+const DELTA_W_PX = 17;
+const DIMENSION_CHAR_PX = 7;
+const DIMENSION_LABEL_PAD_PX = 4;
+const PAPER_CELL_PX = 9;
 
 /**
  * Density (new, 2026-10-26, the repo-model prototype): `compact` is her geometry, above. `tactile` makes every mark an
@@ -206,6 +213,15 @@ const TIP_WARNING_ICON =
   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
 
 const roundPx = (value: number): number => Math.round(value * 100) / 100;
+
+/** A shift as the draft's dimension lines label it: "+8 mo", "−3 wk", "+5 d" (a minus sign, not a hyphen). */
+function shiftLabelOf(days: number): string {
+  const sign = days < 0 ? '\u2212' : '+';
+  const n = Math.abs(days);
+  if (n >= 60) return `${sign}${Math.round(n / 30.44)} mo`;
+  if (n >= 14) return `${sign}${Math.round(n / 7)} wk`;
+  return `${sign}${n} d`;
+}
 
 /**
  * A tactile bar's grips (new, 2026-10-26): two short vertical lines inside each end, where a resize starts, shown on
@@ -367,7 +383,7 @@ type GanttHover = { kind: 'row'; id: string } | { kind: 'landmark'; id: string }
  * How a draft changed a row (simplified 2026-10-21): changed — by the planner or by a cascade from their edit; which
  * one is in the readout, not the drawing — or pending, while the cascade is on its way.
  */
-export type GanttDraftMark = 'changed' | 'pending';
+export type GanttDraftMark = 'changed' | 'pending' | 'inked';
 
 /** A changed row's live-plan dates, drawn behind it. A parent's window and span are kept apart, as the row draws them. */
 export interface GanttBaseline {
@@ -383,6 +399,18 @@ export interface GanttDraftOverlay {
   marks: ReadonlyMap<string, GanttDraftMark>;
   /** Parents whose planned window the draft changed: their window stays drawn. */
   changedWindows: ReadonlySet<string>;
+  /**
+   * Draw the baseline as ghost bars behind the changed rows (the default). False keeps the live plan out of the
+   * drawing (the draft-mode concepts, 2026-10-27): one mark per row, and every planned window drawn as on Live.
+   */
+  ghosts?: boolean;
+  /**
+   * Each changed task bar and milestone's shift as a dimension line in its own lane, from where Live has it to where the
+   * draft does, labelled with the shift (the drafting concept: a measurement, never a second bar).
+   */
+  measure?: boolean;
+  /** The draft edit that last moved each row (1-based), drawn as a delta tag past the mark's end. */
+  edits?: ReadonlyMap<string, number>;
 }
 
 /** A changed row's shift, for the outline's Change column in a draft: "+3 mo", bold where the planner moved it. */
@@ -485,6 +513,11 @@ interface GanttView {
   editTargets: Map<string, GanttEditTarget>;
   windowEditViews: GanttWindowEditView[];
   baselineViews: { id: string; diamond: string | null; rect: GanttRect }[];
+  /** The drafting concept's dimension lines and delta tags, per changed row. */
+  dimensionViews: { id: string; x1: number; x2: number; y: number; label: string; labelX: number; later: boolean }[];
+  deltaViews: { id: string; x: number; y: number; edit: number }[];
+  /** Graph paper under the plot: month columns (split nearer square when zoomed) and quarter-row lines. */
+  paperPath: string | null;
   conflictIds: ReadonlySet<string>;
   /** What a drag of each grabbable row would move with it (the study's cascade preview), by row id. */
   chains: ReadonlyMap<string, readonly string[]>;
@@ -537,6 +570,8 @@ export class PlanGanttChart {
   private dropState: GanttDropState = 'idle';
   private dropNotes: readonly UiVizGanttNote[] = [];
   private draft: GanttDraftOverlay | null = null;
+  /** The drafting concept's ground: graph paper ruled to the time scale. */
+  private paper = false;
   private conflicts: readonly GanttConflict[] = [];
   private rowNotes: ReadonlyMap<string, readonly PlanGanttTipRow[]> = new Map();
   /** Row markers by row id; one inside a collapsed parent shows on the nearest visible row. */
@@ -669,7 +704,10 @@ export class PlanGanttChart {
     rowBadges?: ReadonlyMap<string, string>;
     /** A draft's comparison: each changed row's shift, shown in place of its budget. Absent, the Budget column shows. */
     rowDeltas?: ReadonlyMap<string, GanttRowDelta> | null;
+    /** Graph paper under the plot, ruled to months and rows (the drafting concept). */
+    paper?: boolean;
   }): void {
+    this.paper = annotations.paper ?? false;
     this.rowBadges = annotations.rowBadges ?? new Map();
     this.rowDeltas = annotations.rowDeltas ?? null;
     this.draft = annotations.draft;
@@ -692,7 +730,7 @@ export class PlanGanttChart {
    * stack of window, edit outline and bracket.
    */
   private windowShown(id: string): boolean {
-    if (!this.draft) return true;
+    if (!this.draft || this.draft.ghosts === false) return true;
     return id === this.selectedId || this.picked.has(id) || this.draft.changedWindows.has(id);
   }
 
@@ -847,7 +885,7 @@ export class PlanGanttChart {
 
     // The draft's baseline: each changed row's live-plan dates, where the row draws them.
     const baselineViews: GanttView['baselineViews'] = [];
-    if (this.draft && window) {
+    if (this.draft && this.draft.ghosts !== false && window) {
       for (const view of rowViews) {
         const live = this.draft.baseline.get(view.row.id);
         // Ghosts for task bars and milestones only: a parent's change shows through its children.
@@ -866,6 +904,83 @@ export class PlanGanttChart {
           baselineViews.push({ id: view.row.id, diamond: null, rect: { x: roundPx(x), y: view.centre - BAR_HEIGHT_PX / 2, width: roundPx(width), height: BAR_HEIGHT_PX } });
         }
       }
+    }
+
+    // The drafting concept (2026-10-27): each moved task bar or milestone measured in its own lane, through the space it
+    // left, from Live's edge to the draft's: a later move from the old start to the new one, an earlier move from the new
+    // end to the old one. A resize that keeps its start has no free lane and is left to the readout. The line rides above
+    // the row's centre, where a dependency comes in, and the edit's delta tag sits at its outer end; with no line, the tag
+    // sits past the mark's end, raised the same way clear of the link that leaves it.
+    const dimensionViews: GanttView['dimensionViews'] = [];
+    const deltaViews: GanttView['deltaViews'] = [];
+    if (this.draft && window) {
+      const raise = Math.round(BAR_HEIGHT_PX * 0.35);
+      for (const view of rowViews) {
+        const mark = view.mark;
+        if (!mark || mark.kind === 'summary') continue;
+        const live = this.draft.baseline.get(view.row.id);
+        const now = spanOf(view.row);
+        const was = live ? spanOf({ ...view.row, start: live.start, end: live.end }) : null;
+        const edit = this.draft.edits?.get(view.row.id);
+        const y = view.centre - raise;
+        let dim: GanttView['dimensionViews'][number] | null = null;
+        if (this.draft.measure && now && was) {
+          const startShift = now.startDay - was.startDay;
+          const endShift = now.endDay - was.endDay;
+          let span: [number, number, number] | null = null;
+          if (mark.kind === 'milestone') {
+            const half = MILESTONE_SIZE_PX / 2;
+            const a = xOfDay(was.startDay, window);
+            const b = xOfDay(now.startDay, window);
+            if (startShift) span = startShift > 0 ? [a, b - half, startShift] : [b + half, a, startShift];
+          } else if (startShift > 0) span = [xOfDay(was.startDay, window), xOfDay(now.startDay, window), startShift];
+          else if (startShift < 0) span = [xOfDay(now.endDay + 1, window), xOfDay(was.endDay + 1, window), endShift || startShift];
+          if (span && span[1] - span[0] >= 2) {
+            const [x1, x2, days] = span;
+            const label = shiftLabelOf(days);
+            const labelW = label.length * DIMENSION_CHAR_PX + 2 * DIMENSION_LABEL_PAD_PX;
+            // The label sits in a break in the line when it fits, else just outside the line's free end.
+            const labelX = x2 - x1 >= labelW + 12 ? (x1 + x2) / 2 : days > 0 ? x1 - labelW / 2 - 4 : x2 + labelW / 2 + 4;
+            dim = { id: view.row.id, x1: roundPx(x1), x2: roundPx(x2), y, label, labelX: roundPx(labelX), later: days > 0 };
+            dimensionViews.push(dim);
+          }
+        }
+        if (edit) {
+          // Left of the measurement for a later move, right of it for an earlier one: the group stays in the lane.
+          const labelHalf = dim ? (dim.label.length * DIMENSION_CHAR_PX) / 2 + DIMENSION_LABEL_PAD_PX : 0;
+          const x = !dim
+            ? (mark.kind === 'milestone' ? xOfDay(now?.startDay ?? 0, window) + MILESTONE_SIZE_PX / 2 : mark.x + mark.width) + DELTA_GAP_PX
+            : dim.later
+              ? Math.min(dim.x1, dim.labelX - labelHalf) - DELTA_GAP_PX - DELTA_W_PX
+              : Math.max(dim.x2, dim.labelX + labelHalf) + DELTA_GAP_PX;
+          deltaViews.push({ id: view.row.id, x: roundPx(x), y, edit });
+        }
+      }
+    }
+
+    // Graph paper (the drafting concept): month columns, split nearer square when zoomed in, and each row ruled in quarters.
+    let paperPath: string | null = null;
+    if (this.paper && window) {
+      const parts: string[] = [];
+      const monthPx = pxPerYear / 12;
+      const split = Math.max(1, Math.round(monthPx / PAPER_CELL_PX));
+      const plotH = rowViews.length * ROW_PX;
+      for (let year = Math.floor(window.startYear); year < window.endYear; year++) {
+        for (let month = 0; month < 12; month++) {
+          const from = Date.UTC(year, month, 1) / 86_400_000;
+          const to = Date.UTC(year, month + 1, 1) / 86_400_000;
+          for (let k = 0; k < split; k++) {
+            if (month === 0 && k === 0) continue; // the year line is drawn by the grid
+            const x = roundPx(xOfDay(from + ((to - from) * k) / split, window)) + 0.5;
+            if (x < 0 || x > plotWidth) continue;
+            parts.push(`M${x} 0V${plotH}`);
+          }
+        }
+      }
+      for (let i = 0; i < rowViews.length; i++) {
+        for (let k = 1; k < 4; k++) parts.push(`M0 ${roundPx(i * ROW_PX + (ROW_PX * k) / 4) + 0.5}H${plotWidth}`);
+      }
+      paperPath = parts.join('');
     }
 
     let todayX: number | null = null;
@@ -979,6 +1094,9 @@ export class PlanGanttChart {
       editTargets,
       windowEditViews,
       baselineViews,
+      dimensionViews,
+      deltaViews,
+      paperPath,
       conflictIds,
       chains,
       chainIds: new Set(),
@@ -1161,6 +1279,7 @@ export class PlanGanttChart {
     }
     if (selectedTop !== null) svg.push(`<rect class="${P}__selected" x="0" y="${selectedTop}" width="${W}" height="${ROW_PX}"/>`);
     for (const top of pickedTops) svg.push(`<rect class="${P}__picked" x="0" y="${top}" width="${W}" height="${ROW_PX}"/>`);
+    if (v.paperPath) svg.push(`<path class="${P}__paper" d="${v.paperPath}"/>`);
     for (const tick of v.ticks) svg.push(`<line class="${P}__grid ${P}__grid--minor" x1="${roundPx(tick.x) + 0.5}" x2="${roundPx(tick.x) + 0.5}" y1="0" y2="${H}"/>`);
     for (const year of v.years) {
       if (year.x < 0) continue;
@@ -1233,6 +1352,23 @@ export class PlanGanttChart {
     for (const view of v.rowViews) {
       const c = view.cutoff;
       if (c) svg.push(`<rect class="${P}__cutoff" data-row-id="${esc(view.row.id)}" x="${c.x}" y="${c.y}" width="${c.width}" height="${c.height}"/>`);
+    }
+    // The drafting concept's measurements: a dimension line with slash ticks at both ends and its shift in a break in the
+    // line, then each row's delta tag (the edit that last moved it), past the mark's end.
+    for (const dim of v.dimensionViews) {
+      const t = 3.5;
+      svg.push(
+        `<g class="${P}__dimension" data-row-id="${esc(dim.id)}"><path class="${P}__dimension-line" d="M${dim.x1} ${dim.y}H${dim.x2}M${dim.x1 - t} ${dim.y + t}L${dim.x1 + t} ${dim.y - t}M${dim.x2 - t} ${dim.y + t}L${dim.x2 + t} ${dim.y - t}M${dim.x1} ${dim.y - 4.5}V${dim.y + 4.5}M${dim.x2} ${dim.y - 4.5}V${dim.y + 4.5}"/>` +
+          `<text class="${P}__dimension-label" x="${dim.labelX}" y="${dim.y}" text-anchor="middle" dominant-baseline="central">${esc(dim.label)}</text></g>`
+      );
+    }
+    for (const delta of v.deltaViews) {
+      const w = DELTA_W_PX;
+      const h = 15;
+      svg.push(
+        `<g class="${P}__delta" data-row-id="${esc(delta.id)}"><polygon class="${P}__delta-mark" points="${delta.x},${delta.y + h / 2} ${delta.x + w / 2},${delta.y - h / 2} ${delta.x + w},${delta.y + h / 2}"/>` +
+          `<text class="${P}__delta-label" x="${delta.x + w / 2}" y="${delta.y + 2.5}" text-anchor="middle" dominant-baseline="central">${delta.edit}</text></g>`
+      );
     }
     for (const edit of v.windowEditViews) {
       svg.push(
@@ -1315,7 +1451,13 @@ export class PlanGanttChart {
     const svg = this.frame.querySelector<SVGSVGElement>(`.${P}__plot`)!;
     const ghosts = this.ghostViews(v);
     const layer = svg.querySelector('[data-layer="ghosts"]')!;
-    layer.innerHTML = ghosts
+    // The drafting concept: while a bar is carried, construction lines drop from its ends through the whole plot, so it
+    // can be squared up against the rows above and below.
+    const primaryGhost = this.draft?.measure ? ghosts.find((g) => g.id === (this.dragging?.primaryId ?? this.press?.primaryId)) : undefined;
+    const construct = primaryGhost && !primaryGhost.diamond
+      ? [primaryGhost.x, primaryGhost.x + primaryGhost.width].map((x) => `<line class="${P}__construct" x1="${roundPx(x) + 0.5}" x2="${roundPx(x) + 0.5}" y1="0" y2="${v.plotHeight}"/>`).join('')
+      : '';
+    layer.innerHTML = construct + ghosts
       .map((ghost) =>
         ghost.diamond
           ? `<polygon class="${P}__ghost" data-row-id="${esc(ghost.id)}" points="${ghost.diamond}"/>`
