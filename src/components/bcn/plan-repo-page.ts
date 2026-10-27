@@ -77,13 +77,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const programs = (live.Elements ?? []).filter((e) => !e.ParentPlanElementID).length;
   host.dataset.levels = study.levels ?? (programs > 1 ? 'sections' : 'rules');
   host.dataset.budget = study.budget ?? 'off';
-  if (study.sched) host.dataset.sched = study.sched;
-  if (study.cascade) host.dataset.cascade = study.cascade;
+  host.dataset.sched = study.sched ?? 'pin';
+  host.dataset.cascade = study.cascade ?? 'spotlight';
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',
     density: (study.density as 'compact' | 'medium' | 'tactile' | null) ?? 'medium',
-    cascadePreview: !!study.cascade && study.cascade !== 'none',
+    // Adopted 2026-10-27: the cascade preview is on (spotlight), Scheduled shows as a pin.
+    cascadePreview: study.cascade !== 'none',
     // Adopted 2026-10-27 from the density and levels studies: medium rows, a 360px outline (every name fits once the
     // level words and Budget leave the outline).
     outlineWidth: study.outline ? Number(study.outline) : 360,
