@@ -20,18 +20,30 @@
 // Beacon (ui-viz-gantt has a fixed scale and no zoom). The overview is this component's own: the mini-map, the window
 // and its two edge handles (each a role="slider" for the keyboard).
 import BcnFilterBar from './BcnFilterBar.astro';
+
+interface Props {
+  /** The overview on its own row under the bar, the full width of the host and taller (new, 2026-10-27: the repo-model
+   *  prototype, after the setup wizard's page strip). Off, it sits in the Dates band beside the pickers (Jamie's). */
+  stacked?: boolean;
+}
+const { stacked = false } = Astro.props;
 ---
 
-<div class="bcn-plan-range" data-bcn-plan-range>
-  <BcnFilterBar compact plain fillFilters leadLabel="Show" filtersLabel="Dates">
-    <esa-button-toggle slot="lead" size="sm" label="" data-pr-preset></esa-button-toggle>
-    <slot name="actions" slot="verbs" />
-
-    <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
-      <esa-date-picker size="sm" data-pr-start></esa-date-picker>
-      <esa-date-picker size="sm" data-pr-end></esa-date-picker>
-    </span>
-
+<div class:list={['bcn-plan-range', stacked && 'bcn-plan-range--stacked']} data-bcn-plan-range>
+  {stacked ? (
+    <>
+      {/* Stacked (the setup wizard's console over its strip): one row, Show left and Dates right, then the strip. */}
+      <div class="bcn-plan-range__console">
+        <span class="bcn-plan-range__label typography-label-sm">Show</span>
+        <esa-button-toggle size="sm" label="" data-pr-preset></esa-button-toggle>
+        <span class="bcn-plan-range__spacer"></span>
+        <slot name="actions" />
+        <span class="bcn-plan-range__label typography-label-sm">Dates</span>
+        <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
+          <esa-date-picker size="sm" data-pr-start></esa-date-picker>
+          <esa-date-picker size="sm" data-pr-end></esa-date-picker>
+        </span>
+      </div>
     <div class="bcn-plan-range__overview" data-pr-overview role="group" aria-label="Range">
       <svg class="bcn-plan-range__mini" data-pr-mini aria-hidden="true" preserveAspectRatio="none"></svg>
       <div class="bcn-plan-range__shade" data-pr-shade="start"></div>
@@ -41,7 +53,27 @@ import BcnFilterBar from './BcnFilterBar.astro';
         <span class="bcn-plan-range__handle bcn-plan-range__handle--end" data-pr-handle="end" role="slider" tabindex="0" aria-label="Range end"></span>
       </div>
     </div>
-  </BcnFilterBar>
+    </>
+  ) : (
+    <BcnFilterBar compact plain fillFilters leadLabel="Show" filtersLabel="Dates">
+      <esa-button-toggle slot="lead" size="sm" label="" data-pr-preset></esa-button-toggle>
+      <slot name="actions" slot="verbs" />
+
+      <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
+        <esa-date-picker size="sm" data-pr-start></esa-date-picker>
+        <esa-date-picker size="sm" data-pr-end></esa-date-picker>
+      </span>
+    <div class="bcn-plan-range__overview" data-pr-overview role="group" aria-label="Range">
+      <svg class="bcn-plan-range__mini" data-pr-mini aria-hidden="true" preserveAspectRatio="none"></svg>
+      <div class="bcn-plan-range__shade" data-pr-shade="start"></div>
+      <div class="bcn-plan-range__shade" data-pr-shade="end"></div>
+      <div class="bcn-plan-range__window" data-pr-window tabindex="0" role="group">
+        <span class="bcn-plan-range__handle bcn-plan-range__handle--start" data-pr-handle="start" role="slider" tabindex="0" aria-label="Range start"></span>
+        <span class="bcn-plan-range__handle bcn-plan-range__handle--end" data-pr-handle="end" role="slider" tabindex="0" aria-label="Range end"></span>
+      </div>
+    </div>
+    </BcnFilterBar>
+  )}
 </div>
 
 <script>
@@ -70,6 +102,11 @@ import BcnFilterBar from './BcnFilterBar.astro';
     touch-action: none;
     user-select: none;
   }
+  .bcn-plan-range--stacked { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-plan-range__console { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
+  .bcn-plan-range__label { color: var(--color-content-default-secondary); }
+  .bcn-plan-range__spacer { flex: 1; }
+  .bcn-plan-range--stacked .bcn-plan-range__overview { block-size: 2.75rem; max-inline-size: none; inline-size: 100%; }
   .bcn-plan-range__mini { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; clip-path: inset(0 round var(--radius-md)); }
   /* The parents' lanes, in the chart's tier teals: lightest at the top level, deepest nearest the tasks. */
   .bcn-plan-range__mini :global(.bcn-plan-range__mini-bar--tier-0) { fill: color-mix(in srgb, var(--color-background-brand) 30%, transparent); }

@@ -9,6 +9,8 @@ export function planAvatar(name: string, size: PlanAvatarSize = 'xs'): HTMLEleme
     bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person="${CSS.escape(name)}"][data-size="${size}"]`) ??
     bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person=""][data-size="${size}"]`);
   const node = (tpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined) ?? document.createElement('span');
+  // Neutral, not the lego's per-name hue (Andy, 2026-10-27): people are not a colour code here.
+  node.style.setProperty('--avatar-bg', 'var(--color-content-default-secondary)');
   node.setAttribute('title', name);
   node.setAttribute('aria-label', name);
   return node;

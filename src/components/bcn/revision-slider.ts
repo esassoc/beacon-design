@@ -93,7 +93,6 @@ export function setupRevisionSlider(root: HTMLElement, stops: readonly RevisionS
     const next = q<HTMLButtonElement>('[data-rvs-next] button');
     setButtonDisabled(prev, sel.to <= (sel.compareTwo ? sel.from + 1 : 1));
     setButtonDisabled(next, sel.to >= last);
-    q<HTMLElement>('[data-rvs-count]').textContent = `${stops.length} ${stops.length === 1 ? 'stop' : 'stops'} · ← → to step`;
     compare.checked = sel.compareTwo;
     showTip(dragging ? (dragging === 'from' ? sel.from : sel.to) : hovering);
   }

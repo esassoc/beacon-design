@@ -93,8 +93,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const go = (href: string): void => {
     location.href = href;
   };
-  const hint = q<HTMLElement>('[data-prp-hint]');
-  const say = (text: string) => (hint.innerHTML = `${planIcon('info', 13)}<span>${text}</span>`);
 
   // ── Drops: Live checks out your draft; your draft takes a revision per drop ──
   async function drop(drag: GanttDragEvent): Promise<void> {
@@ -103,13 +101,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const mine = myDraft(planID!);
       if (mine && mine.revisions.length) {
         // One draft per person: you already have one, so it opens instead of a second one starting.
-        sessionStorage.setItem('bcn-prp-note', `You already had a draft with ${mine.revisions.length} ${mine.revisions.length === 1 ? 'edit' : 'edits'}, so it opened. Drag again to keep going.`);
         return go(PLAN_HREF(planID!, `&draft=${mine.id}`));
       }
       draft = mine ?? startDraft(planID!);
       mode = 'own';
       history.replaceState(null, '', PLAN_HREF(planID!, `&draft=${draft.id}`));
-      say('Started your draft. Live stays as it is until you publish.');
     }
     const edits = planDraftEditsForDrag(shown, drag);
     if (!edits.length) return draw();
@@ -156,7 +152,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   // ── Draw ──────────────────────────────────────────────────────────────────────────────────────────────────────────
   function draw(): void {
-    document.body.dataset.planSurface = mode === 'live' ? 'live' : mode === 'own' ? 'draft' : 'view';
     const name = live.PlanName ?? 'Plan';
     const h1 = document.querySelector('.page-layout__title h1');
     const text = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
@@ -185,15 +180,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
-    if (!hint.textContent) {
-      say(
-        mode === 'live'
-          ? 'Drag any bar to try new dates. That starts your draft, and Live stays as it is until you publish.'
-          : mode === 'own'
-            ? 'Drag bars to try dates. Anything that depends on a bar moves with it. Every drop is saved as a revision.'
-            : `This is ${firstName(draft!.owner)}'s draft, so it's read-only. Copy it to your draft to change it.`
-      );
-    }
   }
 
   function drawBar(): void {
@@ -292,7 +278,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
     const behind = versionsBehind(repo, d);
     const n = d.revisions.length;
-    meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on v${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'}</b>` : ''}</span>${n ? `<a href="${REVISIONS_HREF(planID!, `&draft=${d.id}`)}">${planIcon('file-diff', 14)}Compare with Live</a>` : ''}`;
+    meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on v${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'}</b>` : ''}</span>`;
     actions.hidden = mode !== 'own';
     const undoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-undo] button');
     const redoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-redo] button');
@@ -303,53 +289,44 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function drawAside(): void {
     q<HTMLElement>('[data-prp-desc]').textContent = live.Description ?? '';
     const span = planSpan(shown);
-    q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${shortDate(span.start)} – ${shortDate(span.end)}` : '—';
+    q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : '—';
     q<HTMLElement>('[data-prp-items]').textContent = String(flattenPlan(shown.Elements).length);
     q<HTMLElement>('[data-prp-deps]').textContent = String(shown.Dependencies?.length ?? 0);
-    q<HTMLElement>('[data-prp-watchers]').textContent = String(repo.watchers.length);
-    q<HTMLElement>('[data-prp-aside-versions]').textContent = String(repo.versions.length);
-    q<HTMLElement>('[data-prp-aside-drafts]').textContent = String(repo.drafts.length);
-    const people = contributorsOf(repo);
-    q<HTMLElement>('[data-prp-aside-people]').textContent = String(people.length);
-    q<HTMLElement>('[data-prp-people]').replaceChildren(planAvatarStack(people, 8, 'sm'));
+    q<HTMLElement>('[data-prp-people]').replaceChildren(planAvatarStack(contributorsOf(repo), 8, 'sm'));
 
-    const releases = q<HTMLElement>('[data-prp-releases]');
-    const latest = latestVersion(repo);
-    const named = [...repo.versions].reverse().find((v) => v.label);
-    const items: HTMLElement[] = [];
-    const block = (glyph: string, title: string, sub: string) => {
+    const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string) => {
       const el = document.createElement('div');
-      el.className = 'bcn-prp__release';
-      el.innerHTML = `<span class="bcn-prp__release-name"><span data-glyph="${glyph}"></span><span></span></span><span class="bcn-prp__release-sub"></span>`;
-      el.querySelector('.bcn-prp__release-name span:last-child')!.textContent = title;
-      el.querySelector('.bcn-prp__release-sub')!.textContent = sub;
+      el.className = 'bcn-prp__item';
+      const lead = avatarName ? planAvatar(avatarName, 'xs') : Object.assign(document.createElement('span'), { innerHTML: '' });
+      if (glyph) lead.dataset.glyph = glyph;
+      const body = document.createElement('div');
+      const name = document.createElement(href ? 'a' : 'b');
+      name.textContent = title;
+      if (href) (name as HTMLAnchorElement).href = href;
+      const small = document.createElement('small');
+      small.textContent = sub;
+      body.append(name, small);
+      el.append(lead, body);
       return el;
     };
-    items.push(block('git-commit-vertical', `v${latest.number} · Latest`, `${shortDate(latest.at)} · ${latest.author}`));
-    if (named) items.push(block('tag', named.label!, `v${named.number} · ${shortDate(named.at)} · ${named.author}`));
-    const more = document.createElement('a');
-    more.className = 'bcn-prp__more';
-    more.href = REVISIONS_HREF(planID!);
-    more.textContent = `See all ${repo.versions.length} versions`;
-    items.push(more);
-    releases.replaceChildren(...items);
+    const latest = latestVersion(repo);
+    const named = [...repo.versions].reverse().find((v) => v.label);
+    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: REVISIONS_HREF(planID!), textContent: `All ${repo.versions.length} versions` });
+    q<HTMLElement>('[data-prp-releases]').replaceChildren(
+      item(latest.author, null, `v${latest.number}`, `${shortDate(latest.at)} · ${firstName(latest.author)}`),
+      ...(named ? [item(null, 'tag', named.label!, `v${named.number} · ${shortDate(named.at)}`)] : []),
+      more
+    );
 
     const list = q<HTMLUListElement>('[data-prp-draftlist]');
     list.replaceChildren(
       ...repo.drafts.map((d) => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = PLAN_HREF(planID!, `&draft=${d.id}`);
-        a.textContent = d.owner === me ? `${d.name} (yours)` : d.name;
-        const small = document.createElement('small');
-        small.textContent = `${firstName(d.owner)} · ${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}`;
-        const body = document.createElement('div');
-        body.append(a, small);
-        li.append(planAvatar(d.owner, 'xs'), body);
+        li.append(item(d.owner, null, d.owner === me ? `${d.name} (yours)` : d.name, `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}`, PLAN_HREF(planID!, `&draft=${d.id}`)));
         return li;
       })
     );
-    if (!repo.drafts.length) list.innerHTML = '<li><span></span><small>No open drafts.</small></li>';
+    if (!repo.drafts.length) list.innerHTML = '<li><small>None open</small></li>';
     fillGlyphs(root);
   }
 
@@ -388,11 +365,23 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`));
     return;
   }
-  const note = sessionStorage.getItem('bcn-prp-note');
-  if (note) {
-    sessionStorage.removeItem('bcn-prp-note');
-    say(note);
+  // About folds into a rail from its own header (the setup wizard's Library), remembered in this browser.
+  const ABOUT_KEY = 'bcn-prp-about';
+  const setAbout = (open: boolean) => {
+    root.dataset.about = open ? 'open' : 'closed';
+    try {
+      localStorage.setItem(ABOUT_KEY, root.dataset.about);
+    } catch {
+      /* a blocked store keeps this page's state only */
+    }
+  };
+  try {
+    if (localStorage.getItem(ABOUT_KEY) === 'closed') root.dataset.about = 'closed';
+  } catch {
+    /* as above */
   }
+  q<HTMLElement>('[data-prp-about-close]').addEventListener('click', () => setAbout(false));
+  q<HTMLElement>('[data-prp-about-open]').addEventListener('click', () => setAbout(true));
   fillIcons(root);
   draw();
 }

@@ -14,55 +14,36 @@
 // The chart is Jamie's BcnPlanGantt at her compact density: review is for scanning many rows, not grabbing one.
 // The runtime is ./plan-revisions.ts.
 //
-// bcn-lego-checked: actions ARE esa-button, Show changes IS esa-switch-toggle, the behind-Live notice IS
-// esa-alert-box, avatars ARE esa-avatar, the slider IS bcn-revision-slider and the chart IS bcn-plan-gantt. No esa-
+// bcn-lego-checked: actions ARE esa-button, Show changes IS esa-switch-toggle, avatars ARE esa-avatar, the slider IS bcn-revision-slider and the chart IS bcn-plan-gantt. No esa-
 // lego is a two-sided version comparison or a change list with struck and new values; checked Beacon (no diff or
 // history surface; the replica's publish dialog is a summary, not a comparison). bcn-plan-revisions is the reusable
 // home for comparing two states of a plan.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnRevisionSlider from './BcnRevisionSlider.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 ---
 
 <div class="bcn-prv" data-bcn-plan-revisions>
-  <div class="bcn-prv__head">
-    <p class="bcn-prv__lede" data-prv-lede></p>
-    <span class="bcn-prv__head-actions">
-      <esa-switch-toggle data-prv-show label="Show changes" checked></esa-switch-toggle>
-      <a data-prv-exit><EsaButton variant="secondary" appearance="outline" size="sm">Exit</EsaButton></a>
-    </span>
-  </div>
-
-  <section class="bcn-prv__controls">
+  <section class="bcn-prv__console">
+    <div class="bcn-prv__compare typography-body-sm">
+      <span class="bcn-prv__side" data-prv-card="from"><span data-prv-avatar></span><span class="bcn-prv__side-text"><b data-prv-title></b> <span class="bcn-prv__msg" data-prv-msg></span></span><span class="typography-meta" data-prv-when></span></span>
+      <span class="bcn-prv__arrow" data-glyph="arrow-right" aria-label="to"></span>
+      <span class="bcn-prv__side" data-prv-card="to"><span data-prv-avatar></span><span class="bcn-prv__side-text"><b data-prv-title></b> <span class="bcn-prv__msg" data-prv-msg></span></span><span class="typography-meta" data-prv-when></span></span>
+    </div>
     <BcnRevisionSlider />
   </section>
 
-  <div class="bcn-prv__cards">
-    <article class="bcn-prv__card" data-prv-card="from">
-      <span class="bcn-prv__card-label">From</span>
-      <div class="bcn-prv__card-who"><span data-prv-avatar></span><span><b data-prv-title></b><small data-prv-when></small></span></div>
-      <p data-prv-msg></p>
-    </article>
-    <article class="bcn-prv__card" data-prv-card="to">
-      <span class="bcn-prv__card-label">To</span>
-      <div class="bcn-prv__card-who"><span data-prv-avatar></span><span><b data-prv-title></b><small data-prv-when></small></span></div>
-      <p data-prv-msg></p>
-      <div class="bcn-prv__card-action">
-        <span data-prv-act><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge"><span data-prv-act-label>Publish this revision</span></EsaButton></span>
-        <small data-prv-act-note></small>
-      </div>
-    </article>
-  </div>
-
-  <div data-prv-behind hidden>
-    <EsaAlertBox variant="warning"><span data-prv-behind-text></span></EsaAlertBox>
+  <div class="bcn-prv__bar">
+    <esa-switch-toggle data-prv-show label="Show changes" checked size="sm"></esa-switch-toggle>
+    <div data-prv-behind class="bcn-prv__behind typography-body-sm" hidden><span data-glyph="triangle-alert"></span><span data-prv-behind-text></span></div>
+    <span class="bcn-prv__spacer"></span>
+    <a data-prv-exit><EsaButton variant="ghost" size="sm" icon="x">Exit</EsaButton></a>
+    <span data-prv-act><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge"><span data-prv-act-label>Publish</span></EsaButton></span>
   </div>
 
   <div class="bcn-prv__diff">
-    <aside class="bcn-prv__changes" aria-label="What changes">
-      <h2 data-prv-summary></h2>
-      <p class="bcn-prv__summary-sub" data-prv-summary-sub></p>
+    <aside class="bcn-prv__changes" aria-label="Changes">
+      <header class="bcn-prv__changes-head"><span class="typography-label-md-strong">Changes</span><span data-prv-summary></span></header>
       <ul data-prv-list></ul>
     </aside>
     <div class="bcn-prv__canvas">
@@ -79,42 +60,34 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 <style>
   .bcn-prv { display: flex; flex-direction: column; gap: var(--spacing-400); }
   .bcn-prv :global([hidden]) { display: none !important; }
+  .bcn-prv :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
+  .bcn-prv :global([data-glyph] svg) { display: block; }
 
-  .bcn-prv__head { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-prv__lede { margin: 0; color: var(--color-content-default-secondary); max-inline-size: 70ch; }
-  .bcn-prv__head-actions { margin-inline-start: auto; display: inline-flex; align-items: center; gap: var(--spacing-400); }
-  .bcn-prv__head-actions a { text-decoration: none; }
-
-  .bcn-prv__controls {
-    padding: var(--spacing-500) var(--spacing-500) var(--spacing-300);
-    padding-block-start: var(--spacing-800, 4.5rem);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-300, 8px);
-  }
-
-  .bcn-prv__cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-400); }
-  .bcn-prv__card {
+  /* The console: the setup wizard's step panel, From → To over the slider. */
+  .bcn-prv__console {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-200);
-    padding: var(--spacing-300) var(--spacing-400);
+    gap: var(--spacing-400);
+    padding: var(--spacing-400);
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-300, 8px);
-    min-inline-size: 0;
+    border-radius: var(--radius-200);
+    box-shadow: var(--elevation-2);
   }
-  .bcn-prv__card[data-prv-card='from'] { border-inline-start: 4px solid var(--bcn-gray-400); }
-  .bcn-prv__card[data-prv-card='to'] { border-inline-start: 4px solid var(--color-background-brand); }
-  .bcn-prv__card-label { font-size: var(--font-size-100); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-content-default-tertiary); }
-  .bcn-prv__card-who { display: flex; gap: var(--spacing-200); align-items: center; }
-  .bcn-prv__card-who > span:last-child { display: flex; flex-direction: column; }
-  .bcn-prv__card-who small { color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
-  .bcn-prv__card p { margin: 0; color: var(--color-content-default-secondary); font-size: var(--font-size-150); }
-  .bcn-prv__card-action { display: flex; align-items: center; gap: var(--spacing-300); margin-block-start: auto; padding-block-start: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-prv__card-action small { color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
+  .bcn-prv__compare { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--spacing-300); }
+  .bcn-prv__side { display: flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; }
+  .bcn-prv__side-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-prv__side b { font-weight: 600; }
+  .bcn-prv__msg { color: var(--color-content-default-secondary); }
+  .bcn-prv__side .typography-meta { margin-inline-start: auto; white-space: nowrap; color: var(--color-content-default-secondary); }
 
-  .bcn-prv__diff { display: grid; grid-template-columns: 22rem minmax(0, 1fr); gap: var(--spacing-400); align-items: start; }
+  .bcn-prv__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-prv__bar a { text-decoration: none; }
+  .bcn-prv__spacer { flex: 1; }
+  .bcn-prv__behind { display: inline-flex; align-items: center; gap: var(--spacing-150); color: var(--color-content-default-secondary); }
+  .bcn-prv__behind [data-glyph] { color: var(--color-content-utility-warning); }
+
+  .bcn-prv__diff { display: grid; grid-template-columns: 20rem minmax(0, 1fr); gap: var(--spacing-400); align-items: start; }
   .bcn-prv__changes {
     position: sticky;
     top: var(--spacing-400);
@@ -122,64 +95,52 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     overflow: auto;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-300, 8px);
-    padding: var(--spacing-400);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
+    border-radius: var(--radius-200);
+    box-shadow: var(--elevation-2);
   }
-  .bcn-prv__changes h2 { margin: 0; font-size: var(--font-size-300, 1.2rem); font-weight: 600; }
-  .bcn-prv__summary-sub { margin: 0; font-size: var(--font-size-150); color: var(--color-content-default-secondary); }
-  .bcn-prv__changes ul { list-style: none; margin: var(--spacing-200) 0 0; padding: 0; display: flex; flex-direction: column; }
-  .bcn-prv__changes :global(li) { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-prv__changes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-block-end: 1px solid var(--color-border-default);
+    position: sticky;
+    top: 0;
+  }
+  .bcn-prv__changes ul { list-style: none; margin: 0; padding: var(--spacing-100) var(--spacing-200); display: flex; flex-direction: column; }
+  .bcn-prv__changes :global(li + li) { border-block-start: 1px solid var(--color-border-default-subtle); }
   .bcn-prv__changes :global(a.bcn-prv__change) {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    padding: var(--spacing-200) var(--spacing-200);
-    margin-inline: calc(-1 * var(--spacing-200));
-    border-radius: var(--radius-200, 6px);
+    gap: 2px;
+    padding: var(--spacing-200);
+    border-radius: var(--radius-100, 4px);
     color: inherit;
     text-decoration: none;
-    font-size: var(--font-size-150);
   }
   .bcn-prv__changes :global(a.bcn-prv__change:hover),
-  .bcn-prv__changes :global(a.bcn-prv__change[aria-current='true']) { background: var(--color-background-brand-subtle, var(--bcn-gray-100)); }
+  .bcn-prv__changes :global(a.bcn-prv__change[aria-current='true']) { background: var(--color-background-elevation-sunken); }
   .bcn-prv__changes :global(.bcn-prv__change-top) { display: flex; gap: var(--spacing-200); align-items: baseline; justify-content: space-between; }
   .bcn-prv__changes :global(.bcn-prv__change-name) { font-weight: 600; }
-  .bcn-prv__changes :global(.bcn-prv__change-path) { color: var(--color-content-default-tertiary); font-size: var(--font-size-100); }
-  .bcn-prv__changes :global(.bcn-prv__change-dates) { display: flex; flex-direction: column; font-variant-numeric: tabular-nums; font-size: var(--font-size-100); }
-  /* WordPress's diff colours, on dates: the old value struck on red, the new one on green. */
-  .bcn-prv__changes :global(del) { color: var(--color-content-utility-danger, #b42318); text-decoration: line-through; background: color-mix(in srgb, var(--color-background-utility-danger, #d63638) 8%, transparent); border-radius: 3px; padding: 0 3px; align-self: flex-start; }
-  .bcn-prv__changes :global(ins) { color: var(--color-content-utility-success, #146c2e); text-decoration: none; background: color-mix(in srgb, var(--color-background-utility-success, #00a32a) 10%, transparent); border-radius: 3px; padding: 0 3px; align-self: flex-start; }
+  .bcn-prv__changes :global(.bcn-prv__change-dates) { display: flex; flex-wrap: wrap; gap: 0 var(--spacing-200); font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); }
+  /* WordPress's diff, on dates: the old value struck, the new one plain. Colour only on the strike. */
+  .bcn-prv__changes :global(del) { text-decoration: line-through; text-decoration-color: var(--color-content-utility-danger); }
+  .bcn-prv__changes :global(ins) { text-decoration: none; color: var(--color-content-default); }
   .bcn-prv__changes :global(.bcn-prv__shift) { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .bcn-prv__changes :global(.bcn-prv__cause) { font-size: var(--font-size-100); color: var(--color-content-default-tertiary); }
-  .bcn-prv__changes :global(.bcn-prv__cause[data-own]) { color: var(--color-content-brand); font-weight: 600; }
-  .bcn-prv__changes :global(.bcn-prv__empty) { color: var(--color-content-default-tertiary); padding-block: var(--spacing-300); border: 0; }
+  .bcn-prv__changes :global(.bcn-prv__cause) { color: var(--color-content-default-secondary); }
+  .bcn-prv__changes :global(.bcn-prv__empty) { color: var(--color-content-default-secondary); padding: var(--spacing-300) var(--spacing-200); }
 
-  .bcn-prv__canvas { position: relative; min-inline-size: 0; padding-inline-end: 22px; }
+  .bcn-prv__canvas { position: relative; min-inline-size: 0; padding-inline-end: 18px; }
   /* Gutenberg's minimap rail: one mark per changed row, at its place in the plan; click to go to it. */
-  .bcn-prv__rail {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-end: 0;
-    inline-size: 14px;
-    background: var(--bcn-gray-100);
-    border-radius: 999px;
-  }
-  .bcn-prv__rail :global(a) {
-    position: absolute;
-    inset-inline: 2px;
-    min-block-size: 6px;
-    border-radius: 3px;
-    background: var(--color-background-utility-warning, #9a7000);
-  }
-  .bcn-prv__rail :global(a[data-own]) { background: var(--color-background-brand); }
+  .bcn-prv__rail { position: absolute; inset-block: 0; inset-inline-end: 0; inline-size: 10px; background: var(--color-background-elevation-sunken); border-radius: 999px; }
+  .bcn-prv__rail :global(a) { position: absolute; inset-inline: 1px; min-block-size: 6px; border-radius: 3px; background: var(--color-content-default-tertiary); }
+  .bcn-prv__rail :global(a[data-own]) { background: var(--color-content-default); }
   .bcn-prv__rail :global(a:hover) { opacity: 0.7; }
-  .bcn-prv__rail :global(a:focus-visible) { outline: 2px solid var(--color-content-default); outline-offset: 1px; }
+  .bcn-prv__rail :global(a:focus-visible) { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: 1px; }
 
   @media (max-width: 1100px) {
-    .bcn-prv__diff, .bcn-prv__cards { grid-template-columns: 1fr; }
+    .bcn-prv__diff, .bcn-prv__compare { grid-template-columns: 1fr; }
     .bcn-prv__changes { position: static; max-block-size: none; }
   }
 </style>

@@ -32,7 +32,7 @@ import {
   type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
-import { PLAN_HREF } from './plan-repo-index';
+import { PLAN_HREF, fillGlyphs } from './plan-repo-index';
 
 type SwitchEl = HTMLElement & { checked: boolean };
 const firstName = (name: string) => name.split(' ')[0];
@@ -97,13 +97,10 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     planCrumb.textContent = live.PlanName ?? 'Plan';
     if (planCrumb instanceof HTMLAnchorElement) planCrumb.href = PLAN_HREF(planID, draft ? `&draft=${draft.id}` : '');
   }
-  q<HTMLElement>('[data-prv-lede]').textContent = draft
-    ? `Slide through ${draft.owner === me ? 'your' : `${firstName(draft.owner)}'s`} draft one revision at a time, or compare any two. The first stop is Live as it is now. Publish whichever revision is right; it becomes v${latest.number + 1}.`
-    : `Every version of this plan, oldest on the left. Compare any two, or restore one: it comes back as a new version, and nothing is erased.`;
   q<HTMLAnchorElement>('[data-prv-exit]').href = PLAN_HREF(planID, draft ? `&draft=${draft.id}` : '');
   const behind = draft ? versionsBehind(repo, draft) : 0;
   q<HTMLElement>('[data-prv-behind]').hidden = behind <= 0;
-  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'} since this draft started from v${draft?.baseVersion}. You're comparing against Live as it is now, so their changes are kept, and where your draft moved the same items, your dates win.`;
+  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'} than v${draft?.baseVersion}`;
 
   // ── Chart ──
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
@@ -145,7 +142,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     if (!current) return;
     const { from, to, changes, own } = current;
     drawCards();
-    drawList(changes, own, from, to);
+    drawList(changes, own);
     const on = show.checked;
     const changed = new Set(changes.map((c) => c.id));
     const deltas = new Map<string, GanttRowDelta>(changes.filter((c) => c.status === 'moved').map((c) => [c.id, { text: c.endOnly ? `end ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays), own: own.has(c.id) }]));
@@ -194,56 +191,35 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   function drawCards(): void {
     for (const side of ['from', 'to'] as const) {
       const card = q<HTMLElement>(`[data-prv-card="${side}"]`);
-      const i = side === 'from' ? sel.from : sel.to;
-      const stop = stops[i];
-      card.querySelector('[data-prv-avatar]')!.replaceChildren(planAvatar(stop.author, 'md'));
+      const stop = stops[side === 'from' ? sel.from : sel.to];
+      card.querySelector('[data-prv-avatar]')!.replaceChildren(planAvatar(stop.author, 'xs'));
       card.querySelector('[data-prv-title]')!.textContent = stop.title;
-      card.querySelector('[data-prv-when]')!.textContent = stop.when;
       card.querySelector('[data-prv-msg]')!.textContent = stop.message;
+      const when = card.querySelector<HTMLElement>('[data-prv-when]')!;
+      when.textContent = stop.when.replace(/ \(.*\)$/, '');
+      when.title = stop.when;
     }
     const act = q<HTMLElement>('[data-prv-act]');
     const btn = act.querySelector<HTMLButtonElement>('button');
     const label = q<HTMLElement>('[data-prv-act-label]');
-    const note = q<HTMLElement>('[data-prv-act-note]');
     if (draft) {
-      const mine = draft.owner === me;
-      act.hidden = !mine;
+      act.hidden = draft.owner !== me;
       const isLast = sel.to === stops.length - 1;
-      label.textContent = sel.to === 0 ? 'Publish' : isLast ? `Publish as v${latest.number + 1}` : `Publish revision ${sel.to} as v${latest.number + 1}`;
+      label.textContent = sel.to === 0 || isLast ? `Publish as v${latest.number + 1}` : `Publish revision ${sel.to} as v${latest.number + 1}`;
       setButtonDisabled(btn, sel.to === 0 || !current?.changes.length);
-      note.textContent = !mine
-        ? `Only ${firstName(draft.owner)} can publish this draft.`
-        : sel.to === 0
-          ? 'Move the handle to a revision to publish it.'
-          : isLast
-            ? 'Publishes the whole draft and closes it.'
-            : `Publishes the draft as it stood at revision ${sel.to}. Later revisions are dropped.`;
     } else {
       const isLatest = sel.to === stops.length - 1;
       act.hidden = false;
-      label.textContent = isLatest ? 'Restore this version' : `Restore v${repo.versions[sel.to].number}`;
+      label.textContent = isLatest ? 'Restore' : `Restore v${repo.versions[sel.to].number}`;
       setButtonDisabled(btn, isLatest);
-      note.textContent = isLatest ? 'This is the live plan.' : `Comes back as v${latest.number + 1}. Nothing is erased.`;
     }
   }
 
-  function drawList(changes: PlanChange[], own: ReadonlySet<string>, from: PlanDetailDto, to: PlanDetailDto): void {
-    const byHand = changes.filter((c) => own.has(c.id)).length;
-    q<HTMLElement>('[data-prv-summary]').textContent = changes.length ? `${changes.length} ${changes.length === 1 ? 'item changes' : 'items change'}` : 'No differences';
-    const a = planSpan(from).end;
-    const b = planSpan(to).end;
-    const endShift = a && b ? Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000) : 0;
-    const conflictsDelta = planConflicts(to).length - planConflicts(from).length;
-    const parts = [
-      draft && changes.length ? `${byHand} moved by hand, ${changes.length - byHand} followed` : '',
-      endShift ? `the plan ends ${shiftWords(endShift)}` : changes.length ? 'the plan still ends on the same day' : '',
-      conflictsDelta > 0 ? `${conflictsDelta} new broken ${conflictsDelta === 1 ? 'dependency' : 'dependencies'}` : conflictsDelta < 0 ? `${-conflictsDelta} broken ${conflictsDelta === -1 ? 'dependency' : 'dependencies'} fixed` : '',
-    ].filter(Boolean);
-    const sub = parts.join(' · ');
-    q<HTMLElement>('[data-prv-summary-sub]').textContent = sub ? sub.charAt(0).toUpperCase() + sub.slice(1) + '.' : '';
+  function drawList(changes: PlanChange[], own: ReadonlySet<string>): void {
+    q<HTMLElement>('[data-prv-summary]').textContent = String(changes.length);
     const list = q<HTMLUListElement>('[data-prv-list]');
     if (!changes.length) {
-      list.innerHTML = '<li class="bcn-prv__empty">These two stops have the same dates.</li>';
+      list.innerHTML = '<li class="bcn-prv__empty typography-body-sm">No differences</li>';
       return;
     }
     // The planner's own moves first, then what followed, each in plan order.
@@ -252,20 +228,17 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       ...ordered.map((c) => {
         const li = document.createElement('li');
         const a = document.createElement('a');
-        a.className = 'bcn-prv__change';
+        a.className = 'bcn-prv__change typography-body-sm';
         a.href = `#row-${c.id}`;
         if (c.id === selected) a.setAttribute('aria-current', 'true');
-        a.innerHTML = `<span class="bcn-prv__change-top"><span class="bcn-prv__change-name"></span><span class="bcn-prv__shift"></span></span><span class="bcn-prv__change-path"></span><span class="bcn-prv__change-dates"><del></del><ins></ins></span><span class="bcn-prv__cause"></span>`;
+        a.innerHTML = `<span class="bcn-prv__change-top"><span class="bcn-prv__change-name"></span><span class="bcn-prv__shift"></span></span><span class="bcn-prv__change-dates typography-meta"><del></del><ins></ins></span><span class="bcn-prv__cause typography-meta"></span>`;
         a.querySelector('.bcn-prv__change-name')!.textContent = c.name;
         a.querySelector('.bcn-prv__shift')!.textContent = c.status === 'moved' ? (c.endOnly ? `end ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays)) : c.status;
-        a.querySelector('.bcn-prv__change-path')!.textContent = c.path.slice(1).join(' › ') || c.path.join(' › ');
         a.querySelector('del')!.textContent = formatPlanDateRange(c.fromStart, c.fromEnd, 'en-US');
         a.querySelector('ins')!.textContent = formatPlanDateRange(c.toStart, c.toEnd, 'en-US');
         const cause = a.querySelector<HTMLElement>('.bcn-prv__cause')!;
-        if (draft) {
-          cause.textContent = own.has(c.id) ? 'Moved by hand' : 'Followed its dependency';
-          if (own.has(c.id)) cause.dataset.own = '';
-        } else cause.remove();
+        if (draft) cause.textContent = own.has(c.id) ? 'Moved' : 'Followed its dependency';
+        else cause.remove();
         a.addEventListener('click', (e) => {
           e.preventDefault();
           select(c.id);
@@ -313,12 +286,10 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     if (btn?.disabled) return;
     setButtonDisabled(btn, true);
     if (draft) {
-      const v = await publishDraft(planID, draft.id, sel.to);
-      sessionStorage.setItem('bcn-prp-note', `Published as v${v.number}. Your draft is closed.`);
+      await publishDraft(planID, draft.id, sel.to);
     } else {
       const target = repo.versions[sel.to].number;
-      const v = await restoreVersion(planID, target);
-      sessionStorage.setItem('bcn-prp-note', `Restored v${target} as v${v.number}. Nothing was erased; every earlier version is still in History.`);
+      await restoreVersion(planID, target);
     }
     location.href = PLAN_HREF(planID);
   });
@@ -329,5 +300,6 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     void compute();
   });
   fillIcons(root);
+  fillGlyphs(root);
   await compute();
 }
