@@ -324,6 +324,9 @@ interface SeedEdit {
   draftName?: string;
 }
 
+/** Tasks the sample holds as Scheduled (fixed dates). */
+const FIXED_TASKS = ['Winter-freshet acoustic tagging', 'Receiver-site encroachment'];
+
 /** The sample's published history: what the team did to it over three months. */
 const FISH_HISTORY: SeedEdit[] = [
   { by: 'Jamie Quishenberry', daysAgo: 81, name: 'Detailed baseline study plan', days: 14, draftName: 'Baseline kickoff slip' },
@@ -386,6 +389,30 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     planApi.updatePlan(planID, { PlanName: 'Fisheries Evaluation Studies', Description: created.Description }, created.VersionToken)
   );
   let live = renamed ?? (await planApi.getPlan(planID));
+  // Two tasks whose dates are fixed from outside the plan, so Scheduled shows up in the sample: the tagging season is
+  // set by the winter-freshet run, the encroachment permits by the agency's review window.
+  for (const name of FIXED_TASKS) {
+    const element = elementByName(live, name);
+    if (!element?.PlanElementID) continue;
+    await as('Jamie Quishenberry', () =>
+      planApi.updateElement(
+        planID,
+        element.PlanElementID!,
+        {
+          PlanElementName: element.PlanElementName,
+          LevelDepth: element.LevelDepth,
+          StartDate: element.StartDate ?? undefined,
+          EndDate: element.EndDate ?? undefined,
+          PlanDateType: PlanDateTypeEnum.Scheduled,
+          IsMilestone: element.IsMilestone,
+          Budget: (element as { Budget?: number | null }).Budget ?? null,
+          Notes: (element as { Notes?: string | null }).Notes ?? null,
+        },
+        live.VersionToken
+      )
+    );
+    live = await planApi.getPlan(planID);
+  }
   const repo: PlanRepo = {
     planID,
     visibility: 'Project',

@@ -27,7 +27,16 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
   <section class="bcn-prp__head">
+    <!-- Edit-mode study, "band": in a draft, a neutral strip across the top of the card carries the draft and its actions. -->
+    <div class="bcn-prp__band typography-body-sm" data-prp-band hidden>
+      <span data-glyph="git-branch"></span>
+      <span class="bcn-prp__band-text" data-prp-band-text></span>
+      <span class="bcn-prp__spacer"></span>
+      <span class="bcn-prp__band-actions" data-prp-band-actions></span>
+    </div>
     <div class="bcn-prp__bar">
+      <!-- Edit-mode study, "tabs": Live and your draft as a two-way switch in place of the branch menu. -->
+      <esa-button-toggle size="sm" label="" data-prp-tabs hidden></esa-button-toggle>
       <esa-popover position="bottom" trigger="click" data-prp-branch-popover>
         <span data-prp-branch-trigger>
           <EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" iconRight="chevron-down" data-fill-icon="git-branch">
@@ -117,6 +126,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 <script>
   import '@esa/ecology/esa-popover';
   import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
 </script>
 
 <style>
@@ -136,6 +146,19 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
+  .bcn-prp__band {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: calc(-1 * var(--spacing-400)) calc(-1 * var(--spacing-400)) 0;
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-block-end: 1px solid var(--color-border-default);
+    border-start-start-radius: var(--radius-200);
+    border-start-end-radius: var(--radius-200);
+  }
+  .bcn-prp__band-text b { font-weight: 600; }
+  .bcn-prp__band-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); }
   .bcn-prp__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
   .bcn-prp__count { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default-secondary); text-decoration: none; }
   .bcn-prp__count b { color: var(--color-content-default); font-weight: 600; }

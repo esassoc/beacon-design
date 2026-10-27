@@ -455,21 +455,21 @@ const { label, id } = Astro.props;
      floats highest while the original it left fades. Motion is cut under prefers-reduced-motion. */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__fill-top) { stop-color: color-mix(in srgb, var(--_brand) 86%, white); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__fill-bottom) { stop-color: color-mix(in srgb, var(--_brand) 92%, black); }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__mark) {
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark) {
     filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
     transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 160ms ease;
   }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__mark--hovered) {
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--hovered) {
     transform: translateY(-2px);
     filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.14));
   }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__mark--pressed) {
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--pressed) {
     transform: translateY(0);
     filter: brightness(0.97) drop-shadow(0 1px 1px rgb(0 0 0 / 0.12));
     transition-duration: 60ms;
   }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__mark--previewed) { opacity: 0.25; filter: none; transform: none; }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__bar) { stroke: none; }
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--previewed) { opacity: 0.25; filter: none; transform: none; }
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__bar) { stroke: none; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__bar-grip) {
     stroke: rgb(255 255 255 / 0.6);
     stroke-width: 1.25;
@@ -480,7 +480,7 @@ const { label, id } = Astro.props;
   }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--hovered .bcn-plan-gantt__bar-grip),
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--pressed .bcn-plan-gantt__bar-grip) { opacity: 1; }
-  .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__ghost) {
+  .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__ghost) {
     stroke: none;
     stroke-dasharray: none;
     rx: 7px;
@@ -488,9 +488,55 @@ const { label, id } = Astro.props;
     transform: translateY(-4px);
   }
   .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__name) { font-size: var(--font-size-200, 0.9375rem); }
+  /* ── Study variants (2026-10-27): set by the page from its URL, one data attribute each ── */
+
+  /* Levels: how Program, Study, Sub-study, Task and Milestone differ. Default (equal): Jamie's, every row a level word
+     and a name at one size. ladder: no level words (the indent and the header say it); weight and colour step down
+     from Program to Task. sections: the ladder, plus Programs and Studies read as section heads on a grey band. */
+  .bcn-plan-gantt-host[data-levels='ladder'] :global(.bcn-plan-gantt__tag),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(.bcn-plan-gantt__tag) { display: none; }
+  .bcn-plan-gantt-host[data-levels='ladder'] :global(li[aria-level='1'] .bcn-plan-gantt__name),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='1'] .bcn-plan-gantt__name) { font-weight: 650; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='ladder'] :global(li[aria-level='2'] .bcn-plan-gantt__name),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='2'] .bcn-plan-gantt__name) { font-weight: 600; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='ladder'] :global(li[aria-level='3'] .bcn-plan-gantt__name),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='3'] .bcn-plan-gantt__name) { font-weight: 550; color: var(--_muted); }
+  .bcn-plan-gantt-host[data-levels='ladder'] :global(li[aria-level='4'] .bcn-plan-gantt__name),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='4'] .bcn-plan-gantt__name) { font-weight: 450; color: var(--_text); }
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='1']),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='2']) { background: var(--color-background-elevation-sunken); }
+  .bcn-plan-gantt-host[data-levels='sections'] :global(.bcn-plan-gantt__band--tier-0),
+  .bcn-plan-gantt-host[data-levels='sections'] :global(.bcn-plan-gantt__band--tier-1) { fill: var(--color-background-elevation-sunken); }
+
+  /* Scheduled: what a fixed date looks like. Default: Jamie's square corners only. pin: a white pin at the bar's start.
+     caps: a dark cap at each end, a stake in the ground. tentative: Estimated bars go light and dashed; Scheduled stay
+     solid, so firm reads as the strong form. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__sched-pin),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__sched-cap) { display: none; pointer-events: none; }
+  .bcn-plan-gantt-host[data-sched='pin'] :global(.bcn-plan-gantt__sched-pin) { display: inline; fill: var(--color-background-elevation-raised); stroke: var(--_text); stroke-width: 1.5; }
+  .bcn-plan-gantt-host[data-sched='caps'] :global(.bcn-plan-gantt__sched-cap) { display: inline; fill: var(--_text); }
+  .bcn-plan-gantt-host[data-sched='tentative'] :global(.bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--scheduled) .bcn-plan-gantt__bar) {
+    fill-opacity: 0.4;
+    stroke: var(--_brand);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 3;
+  }
+
+  /* Cascade preview: what a drag will move, before the drop. spotlight: everything else fades. outline: the chain gets
+     a dark ring and its links darken. rows: the chain's outline rows tint and its bars lift with the one you hold. */
+  .bcn-plan-gantt-host[data-cascade='spotlight'] :global(.bcn-plan-gantt__plot--chaining .bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--chain):not(.bcn-plan-gantt__mark--chain-root)),
+  .bcn-plan-gantt-host[data-cascade='spotlight'] :global(.bcn-plan-gantt__plot--chaining .bcn-plan-gantt__link:not(.bcn-plan-gantt__link--chain)) { opacity: 0.22; }
+  .bcn-plan-gantt-host[data-cascade='outline'] :global(.bcn-plan-gantt__mark--chain .bcn-plan-gantt__bar),
+  .bcn-plan-gantt-host[data-cascade='outline'] :global(.bcn-plan-gantt__mark--chain .bcn-plan-gantt__milestone) { stroke: var(--_text); stroke-width: 2; }
+  .bcn-plan-gantt-host[data-cascade]:not([data-cascade='none']) :global(.bcn-plan-gantt__link--chain .bcn-plan-gantt__link-line) { stroke: var(--_text); stroke-width: 1.75; }
+  .bcn-plan-gantt-host[data-cascade]:not([data-cascade='none']) :global(.bcn-plan-gantt__link--chain .bcn-plan-gantt__link-head) { fill: var(--_text); }
+  .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__item--chain),
+  .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__item--chain-root) { background: var(--color-background-elevation-sunken); }
+  .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__mark--chain) { transform: translateY(-2px); filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.14)); }
+
   @media (prefers-reduced-motion: reduce) {
-    .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__mark),
-    .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__ghost) { transition: none; transform: none; }
+    .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark),
+    .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__ghost) { transition: none; transform: none; }
   }
 
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--editable) { touch-action: none; }

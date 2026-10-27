@@ -55,6 +55,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   if (!planID) return;
   const me = currentUserName();
 
+  // The design studies (2026-10-27) switch variants from the URL; navigation keeps them.
+  const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline'] as const;
+  const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<(typeof STUDY_KEYS)[number], string | null>;
+  const keep = (href: string) => href + STUDY_KEYS.filter((k) => study[k]).map((k) => `&${k}=${encodeURIComponent(study[k]!)}`).join('');
+  const editStyle = study.edit ?? 'quiet';
+
   let repo: PlanRepo = getRepo(planID);
   let live: PlanDetailDto = await planApi.getPlan(planID);
   let draft: PlanRepoDraft | null = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
@@ -66,10 +72,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   // ── The chart and its range ─────────────────────────────────────────────────────────────────────────────────────
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
+  if (study.levels) host.dataset.levels = study.levels;
+  if (study.sched) host.dataset.sched = study.sched;
+  if (study.cascade) host.dataset.cascade = study.cascade;
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',
-    density: 'tactile',
+    density: (study.density as 'compact' | 'medium' | 'tactile' | null) ?? 'tactile',
+    cascadePreview: !!study.cascade && study.cascade !== 'none',
+    outlineWidth: study.outline ? Number(study.outline) : undefined,
     onRowSelect: (id) => chart.setSelectedId(id),
     onDragEnd: (drag) => void drop(drag),
     onLinkSelect: (link, at) => openLink(link, at),
@@ -91,7 +102,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   // ── Navigation: mode changes reload the page, so the URL is always the truth ──
   const go = (href: string): void => {
-    location.href = href;
+    location.href = keep(href);
   };
 
   // ── Drops: Live checks out your draft; your draft takes a revision per drop ──
@@ -105,7 +116,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       }
       draft = mine ?? startDraft(planID!);
       mode = 'own';
-      history.replaceState(null, '', PLAN_HREF(planID!, `&draft=${draft.id}`));
+      history.replaceState(null, '', keep(PLAN_HREF(planID!, `&draft=${draft.id}`)));
     }
     const edits = planDraftEditsForDrag(shown, drag);
     if (!edits.length) return draw();
@@ -234,7 +245,33 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
   }
 
+  /** The edit-mode study's band and tabs (quiet, the default, is the branch menu and the status line alone). */
+  function drawEditStyle(): void {
+    const band = q<HTMLElement>('[data-prp-band]');
+    band.hidden = !(editStyle === 'band' && mode !== 'live');
+    if (!band.hidden && draft) {
+      const behind = versionsBehind(repo, draft);
+      q<HTMLElement>('[data-prp-band-text]').innerHTML = `<b>${mode === 'own' ? 'Your draft' : `${firstName(draft.owner)}'s draft`}</b> · based on Rev ${draft.baseVersion}${behind > 0 ? ` · Live has ${behind} newer` : ''}`;
+      const actions = q<HTMLElement>('[data-prp-band-actions]');
+      actions.append(q<HTMLElement>('[data-prp-draft-actions]'), q<HTMLElement>('[data-prp-review]'), q<HTMLElement>('[data-prp-copy]'));
+    }
+    const tabs = q<HTMLElement & { options: { label: string; value: string }[]; value: string }>('[data-prp-tabs]');
+    const tabbed = editStyle === 'tabs' && mode !== 'view';
+    tabs.hidden = !tabbed;
+    q<HTMLElement>('[data-prp-branch-popover]').style.display = tabbed ? 'none' : '';
+    if (tabbed) {
+      void customElements.whenDefined('esa-button-toggle').then(() => {
+        tabs.options = [
+          { label: 'Live plan', value: 'live' },
+          { label: 'Your draft', value: 'draft' },
+        ];
+        tabs.value = mode === 'own' ? 'draft' : 'live';
+      });
+    }
+  }
+
   function drawBar(): void {
+    drawEditStyle();
     q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live plan' : mode === 'own' ? 'Your draft' : `${firstName(draft!.owner)}'s draft`;
     q<HTMLElement>('[data-prp-draft-count]').textContent = String(repo.drafts.length);
     q<HTMLElement>('[data-prp-version-count]').textContent = String(repo.versions.length);
@@ -245,6 +282,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const reviewBtn = q<HTMLElement>('[data-prp-review] button');
     setButtonDisabled(reviewBtn as HTMLButtonElement | null, !draft?.revisions.length);
     drawBranches();
+    if (editStyle === 'tabs') q<HTMLElement>('[data-prp-edit]').hidden = true;
   }
 
   /**
@@ -404,6 +442,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   // ── Wiring ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  q<HTMLElement>('[data-prp-tabs]').addEventListener('change', (e) => {
+    const value = (e.currentTarget as HTMLElement & { value: string }).value;
+    if (value === 'live' && mode !== 'live') go(PLAN_HREF(planID!));
+    if (value === 'draft' && mode !== 'own') go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`));
+  });
   q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`)));
   q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && go(REVISIONS_HREF(planID!, `&draft=${draft.id}`)));
   q<HTMLElement>('[data-prp-copy]').addEventListener('click', () => {
@@ -441,7 +484,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     }
   };
   try {
-    if (localStorage.getItem(ABOUT_KEY) === 'closed') root.dataset.about = 'closed';
+    if (study.about) root.dataset.about = study.about;
+    else if (localStorage.getItem(ABOUT_KEY) === 'closed') root.dataset.about = 'closed';
   } catch {
     /* as above */
   }

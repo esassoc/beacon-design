@@ -103,9 +103,11 @@ const TIP_OFFSET_PX = 4;
  * object you want to pick up: taller rows and bars, a lit top edge, a shadow that lifts on hover and on the grab, and
  * grip lines at a bar's ends. The geometry is module state (one density per page), set by the constructor.
  */
-export type PlanGanttDensity = 'compact' | 'tactile';
+export type PlanGanttDensity = 'compact' | 'medium' | 'tactile';
 const DENSITY_GEOMETRY: Record<PlanGanttDensity, { row: number; bar: number; radius: number; milestone: number; summary: readonly [number, number, number]; hitPad: number }> = {
   compact: { row: 28, bar: 16, radius: 4, milestone: 12, summary: [6, 7, 8], hitPad: 4 },
+  /** Between the two (2026-10-27, the density study): the tactile look on a tighter row. */
+  medium: { row: 34, bar: 20, radius: 5, milestone: 15, summary: [6, 8, 9], hitPad: 5 },
   tactile: { row: 44, bar: 26, radius: 7, milestone: 20, summary: [8, 10, 12], hitPad: 6 },
 };
 /** Grip lines show on a tactile bar this wide or wider; each sits this far in from its end. */
@@ -484,6 +486,10 @@ interface GanttView {
   windowEditViews: GanttWindowEditView[];
   baselineViews: { id: string; diamond: string | null; rect: GanttRect }[];
   conflictIds: ReadonlySet<string>;
+  /** What a drag of each grabbable row would move with it (the study's cascade preview), by row id. */
+  chains: ReadonlyMap<string, readonly string[]>;
+  /** The hovered row's chain, for the marks (filled in by renderOverlay). */
+  chainIds: Set<string>;
 }
 
 export interface PlanGanttChartOptions {
@@ -503,6 +509,8 @@ export interface PlanGanttChartOptions {
   /** A click on a dependency's line (new, 2026-10-27): the link and where the pointer was, for a popover. Absent, links
    *  stay a drawing that takes no pointer. */
   onLinkSelect?: (link: { fromId: string; toId: string }, at: { x: number; y: number }) => void;
+  /** Show what a drag will move before it happens (the study's cascade preview). */
+  cascadePreview?: boolean;
   /** The outline column's starting width, in place of the remembered one (a narrow host, e.g. beside a change list). */
   outlineWidth?: number;
 }
@@ -554,6 +562,9 @@ export class PlanGanttChart {
   private readonly splitter: HTMLElement;
   private readonly idPrefix = `${P}-${++nextId}`;
   private readonly fillId = `${this.idPrefix}-fill`;
+  private get cascadePreview(): boolean {
+    return !!this.options.cascadePreview;
+  }
   private readonly frame: HTMLElement;
   private readonly tip: HTMLElement;
   private v: GanttView | null = null;
@@ -566,6 +577,8 @@ export class PlanGanttChart {
     this.frame = host.querySelector<HTMLElement>(`.${P}`)!;
     applyDensity(options.density ?? 'compact');
     host.dataset.density = density;
+    // The tactile look (gradient, soft shadow, lift) rides every density but Jamie's compact one.
+    host.dataset.feel = density === 'compact' ? 'flat' : 'tactile';
     this.tip = document.createElement('div');
     this.tip.className = `${P}-tip`;
     this.tip.setAttribute('aria-hidden', 'true');
@@ -761,6 +774,27 @@ export class PlanGanttChart {
       }
     }
 
+    // The cascade a drag would make, per row (the study's preview, 2026-10-27): every finish-to-start successor, then
+    // theirs, stopping at a Scheduled row, which holds its dates. Only while editing.
+    const chains = new Map<string, string[]>();
+    if (this.editable) {
+      const rowById = new Map(this.rows.map((row) => [row.id, row]));
+      const next = new Map<string, string[]>();
+      for (const link of this.links) next.set(link.fromId, [...(next.get(link.fromId) ?? []), link.toId]);
+      for (const row of this.rows) {
+        if (row.kind === 'summary') continue;
+        const seen = new Set<string>();
+        const queue = [...(next.get(row.id) ?? [])];
+        while (queue.length) {
+          const id = queue.shift()!;
+          if (seen.has(id) || id === row.id || rowById.get(id)?.scheduled) continue;
+          seen.add(id);
+          queue.push(...(next.get(id) ?? []));
+        }
+        if (seen.size) chains.set(row.id, [...seen]);
+      }
+    }
+
     const rowViews: GanttRowView[] = visibleRows(this.rows, this.collapsed).map((row, index) => {
       const top = index * ROW_PX;
       const centre = top + ROW_PX / 2;
@@ -769,7 +803,13 @@ export class PlanGanttChart {
       const mark = schedule.span && window ? this.markFor(row, schedule.span, schedule.overrun, window, centre) : null;
       const band = row.kind === 'summary' && schedule.plannedWindow && window && this.windowShown(row.id) ? this.bandFor(schedule.plannedWindow, window, top) : null;
       const cutoff = SHOW_SCHEDULED_CUTOFF && schedule.scheduled && window ? this.cutoffFor(schedule, mark, window, centre) : null;
-      const tipRows = [...this.tipRowsFor(mark, schedule), ...this.detailRowsFor(row), ...(this.rowNotes.get(row.id) ?? [])];
+      const chain = chains.get(row.id);
+      const tipRows = [
+        ...this.tipRowsFor(mark, schedule),
+        ...this.detailRowsFor(row),
+        ...(this.rowNotes.get(row.id) ?? []),
+        ...(chain && this.cascadePreview ? [{ label: 'Moves with it', value: `${chain.length} ${chain.length === 1 ? 'item' : 'items'}` }] : []),
+      ];
       const summary = tipRowsText(tipRows);
       return {
         row,
@@ -940,6 +980,8 @@ export class PlanGanttChart {
       windowEditViews,
       baselineViews,
       conflictIds,
+      chains,
+      chainIds: new Set(),
     };
   }
 
@@ -1111,7 +1153,7 @@ export class PlanGanttChart {
     const r = MARK_RADIUS_PX;
     const svg: string[] = [];
     // Tactile (revised 2026-10-27): the bars' fill, a few percent lighter at the top than at the bottom.
-    if (density === 'tactile') {
+    if (density !== 'compact') {
       svg.push(`<defs><linearGradient id="${this.fillId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="${P}__fill-top"/><stop offset="1" class="${P}__fill-bottom"/></linearGradient></defs>`);
     }
     for (const view of v.rowViews) {
@@ -1146,6 +1188,8 @@ export class PlanGanttChart {
       const draftMark = this.draft?.marks.get(view.row.id) ?? null;
       if (draftMark) classes.push(`${P}__mark--draft-${draftMark}`);
       if (v.conflictIds.has(view.row.id)) classes.push(`${P}__mark--conflict`);
+      if (view.scheduled) classes.push(`${P}__mark--scheduled`);
+      if (v.chainIds.has(view.row.id)) classes.push(`${P}__mark--chain`);
       const overrunClass = `${P}__overrun${view.scheduled ? ` ${P}__overrun--scheduled` : ''}${mark.kind === 'summary' ? ` ${P}__overrun--borderless` : ''}`;
       const o = mark.overrunRect;
       const overrun = !o
@@ -1161,7 +1205,14 @@ export class PlanGanttChart {
         // Scheduled: square, hard corners. Estimated: rounded ones.
         const barRadius = view.scheduled ? 0 : BAR_ESTIMATED_RADIUS_PX;
         body = `<rect class="${P}__bar" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${barRadius}"/>${overrun}`;
-        if (density === 'tactile') body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
+        // Scheduled marks for the study (2026-10-27): a pin at the start and a cap at each end, drawn for every bar and
+        // shown by the host's data-sched variant only.
+        if (view.scheduled) {
+          const cy = mark.y + mark.height / 2;
+          body += `<circle class="${P}__sched-pin" cx="${mark.x + Math.min(9, mark.width / 2)}" cy="${cy}" r="${Math.max(2.5, mark.height * 0.14)}"/>`;
+          body += `<rect class="${P}__sched-cap" x="${mark.x}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/><rect class="${P}__sched-cap" x="${mark.x + mark.width - 3}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/>`;
+        }
+        if (density !== 'compact') body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
       } else if (mark.kind === 'summary') {
         body =
           // Round at the top, square at the bottom, so the end ticks hang straight off the corners.
@@ -1268,16 +1319,30 @@ export class PlanGanttChart {
       .map((ghost) =>
         ghost.diamond
           ? `<polygon class="${P}__ghost" data-row-id="${esc(ghost.id)}" points="${ghost.diamond}"/>`
-          : `<rect class="${P}__ghost" data-row-id="${esc(ghost.id)}" x="${ghost.x}" y="${ghost.y}" width="${ghost.width}" height="${ghost.height}" rx="${MARK_RADIUS_PX}"${density === 'tactile' ? ` style="fill:url(#${this.fillId})"` : ''}/>`
+          : `<rect class="${P}__ghost" data-row-id="${esc(ghost.id)}" x="${ghost.x}" y="${ghost.y}" width="${ghost.width}" height="${ghost.height}" rx="${MARK_RADIUS_PX}"${density !== 'compact' ? ` style="fill:url(#${this.fillId})"` : ''}/>`
       )
       .join('');
 
     const previewIds = new Set(this.preview()?.rowIds ?? []);
     const hoveredRowId = this.hoveredRow()?.row.id ?? null;
+    // The cascade preview: what a drag of the hovered (or pressed, or carried) bar moves with it.
+    const chainRoot = this.cascadePreview ? (this.dragging?.primaryId ?? this.press?.primaryId ?? hoveredRowId) : null;
+    const chainIds = new Set(chainRoot ? (v.chains.get(chainRoot) ?? []) : []);
+    svg.classList.toggle(`${P}__plot--chaining`, chainIds.size > 0);
+    this.frame.querySelectorAll<HTMLElement>(`.${P}__item`).forEach((li) => {
+      li.classList.toggle(`${P}__item--chain`, chainIds.has(li.dataset.rowId!));
+      li.classList.toggle(`${P}__item--chain-root`, chainIds.size > 0 && li.dataset.rowId === chainRoot);
+    });
+    svg.querySelectorAll<SVGGElement>(`.${P}__link`).forEach((g) => {
+      const [from, to] = (g.dataset.linkKey ?? '').split('>');
+      g.classList.toggle(`${P}__link--chain`, chainIds.has(to) && (chainIds.has(from) || from === chainRoot));
+    });
     svg.querySelectorAll<SVGGElement>(`.${P}__mark`).forEach((g) => {
       const id = g.dataset.rowId!;
       g.classList.toggle(`${P}__mark--previewed`, previewIds.has(id));
       g.classList.toggle(`${P}__mark--hovered`, id === hoveredRowId);
+      g.classList.toggle(`${P}__mark--chain`, chainIds.has(id));
+      g.classList.toggle(`${P}__mark--chain-root`, chainIds.size > 0 && id === chainRoot);
       g.classList.toggle(`${P}__mark--pressed`, !!this.press && !this.press.active && this.press.primaryId === id);
     });
 
