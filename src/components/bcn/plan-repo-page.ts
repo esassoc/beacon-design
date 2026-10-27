@@ -215,7 +215,26 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     drawBranches();
   }
 
+  /**
+   * esa-popover centres its panel under its anchor (an inline-block around the slotted trigger) and has no start
+   * alignment: a lego gap, noted for /request-lego. Workaround: the trigger's wrapper is as wide as the panel with the
+   * button at its left, a negative end margin gives the bar its space back, and pointer events pass through the
+   * empty part (the button and the panel's rows take them back).
+   */
+  function alignBranchMenu(): void {
+    const pop = q<HTMLElement>('[data-prp-branch-popover]');
+    const trigger = q<HTMLElement>('[data-prp-branch-trigger]');
+    const button = trigger.querySelector<HTMLElement>('button');
+    if (!button) return;
+    const PANEL_REM = 24;
+    Object.assign(trigger.style, { display: 'inline-block', inlineSize: `${PANEL_REM}rem`, pointerEvents: 'none' });
+    button.style.pointerEvents = 'auto';
+    Object.assign(pop.style, { pointerEvents: 'none', marginInlineEnd: `calc(${button.getBoundingClientRect().width}px - ${PANEL_REM}rem)` });
+    q<HTMLElement>('[data-prp-branches]').style.pointerEvents = 'auto';
+  }
+
   function drawBranches(): void {
+    requestAnimationFrame(alignBranchMenu);
     const list = q<HTMLElement>('[data-prp-branches]');
     const latest = latestVersion(repo);
     const row = (href: string, current: boolean, avatarName: string | null, title: string, sub: string) => {

@@ -174,6 +174,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'plans-repo',
+        title: 'Plans as a repo',
+        description:
+          "Planning rebuilt on the shape of a git repo, in planners' words: the Plans index lists each plan with its latest version as a commit line and its open drafts as child rows; a plan page has a branch picker (Live, your one draft, others' drafts read-only), the scrubber over a tactile Gantt whose bars lift, press and float when carried, and dragging on Live checks out your draft. Review and publish opens a WordPress-style revisions screen (slider with tooltips, compare any two, From / To cards, struck and new dates, a minimap rail) that also serves History and Restore. Case study: docs/case-studies/plans-repo/.",
+        route: '/prototypes/plans-repo/',
+        createdAt: '2026-10-27',
+        status: 'in-progress',
+      },
+      {
         slug: 'plans',
         title: 'Plans (Jamie replica)',
         description:
