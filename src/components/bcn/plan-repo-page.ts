@@ -102,15 +102,22 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     host.toggleAttribute('data-paper', paper);
     if (study.marks) host.dataset.pencil = study.marks;
   }
-  if (study.levels) host.dataset.levels = study.levels;
-  if (study.sched) host.dataset.sched = study.sched;
-  if (study.cascade) host.dataset.cascade = study.cascade;
+  // Levels (adopted 2026-10-27, the levels study): the full rules by default, Sections once a plan has more than one
+  // Program; Budget lives in the readout and About, not the outline.
+  const programs = (live.Elements ?? []).filter((e) => !e.ParentPlanElementID).length;
+  host.dataset.levels = study.levels ?? (programs > 1 ? 'sections' : 'rules');
+  host.dataset.budget = study.budget ?? 'off';
+  host.dataset.sched = study.sched ?? 'pin';
+  host.dataset.cascade = study.cascade ?? 'spotlight';
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',
-    density: (study.density as 'compact' | 'medium' | 'tactile' | null) ?? 'tactile',
-    cascadePreview: !!study.cascade && study.cascade !== 'none',
-    outlineWidth: study.outline ? Number(study.outline) : undefined,
+    density: (study.density as 'compact' | 'medium' | 'tactile' | null) ?? 'medium',
+    // Adopted 2026-10-27: the cascade preview is on (spotlight), Scheduled shows as a pin.
+    cascadePreview: study.cascade !== 'none',
+    // Adopted 2026-10-27 from the density and levels studies: medium rows, a 360px outline (every name fits once the
+    // level words and Budget leave the outline).
+    outlineWidth: study.outline ? Number(study.outline) : 360,
     readFlat: issued,
     onRowSelect: (id) => chart.setSelectedId(id),
     onDragEnd: (drag) => void drop(drag),
@@ -645,8 +652,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     }
   };
   try {
+    // About is folded by default below 1600px wide (the density study); a choice made in this browser wins.
+    const remembered = localStorage.getItem(ABOUT_KEY);
     if (study.about) root.dataset.about = study.about;
-    else if (localStorage.getItem(ABOUT_KEY) === 'closed') root.dataset.about = 'closed';
+    else if (remembered) root.dataset.about = remembered;
+    else if (window.innerWidth < 1600) root.dataset.about = 'closed';
   } catch {
     /* as above */
   }
