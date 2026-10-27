@@ -104,6 +104,8 @@ const DELTA_W_PX = 17;
 const DIMENSION_CHAR_PX = 7;
 const DIMENSION_LABEL_PAD_PX = 4;
 const PAPER_CELL_PX = 9;
+/** The header's least height when the corner carries a title block over the outline heading. */
+const TITLED_AXIS_MIN_PX = 58;
 
 /**
  * Density (new, 2026-10-26, the repo-model prototype): `compact` is her geometry, above. `tactile` makes every mark an
@@ -413,6 +415,16 @@ export interface GanttDraftOverlay {
   edits?: ReadonlyMap<string, number>;
 }
 
+/**
+ * The chart's title block (the draft study's direction D, 2026-10-27), after a drawing's: what this chart is (Issued,
+ * Draft, a person's draft) and the facts that pin it down (revision, date, what it's based on). It sits in the corner,
+ * which stays pinned with the axis while the chart scrolls, so it's in view wherever the bars are.
+ */
+export interface GanttTitleBlock {
+  status: string;
+  facts: readonly string[];
+}
+
 /** A changed row's shift, for the outline's Change column in a draft: "+3 mo", bold where the planner moved it. */
 export interface GanttRowDelta {
   text: string;
@@ -546,6 +558,11 @@ export interface PlanGanttChartOptions {
   cascadePreview?: boolean;
   /** The outline column's starting width, in place of the remembered one (a narrow host, e.g. beside a change list). */
   outlineWidth?: number;
+  /**
+   * Read views print flat (direction A of the draft study, 2026-10-27): while the chart isn't editable its marks drop
+   * the tactile depth, lift and grips, so depth only ever means "you can move this".
+   */
+  readFlat?: boolean;
 }
 
 /** Pre-rendered EsaButton shells the chart clones (EsaButton is compile-time, so it cannot be built at runtime). */
@@ -572,6 +589,8 @@ export class PlanGanttChart {
   private draft: GanttDraftOverlay | null = null;
   /** The drafting concept's ground: graph paper ruled to the time scale. */
   private paper = false;
+  private titleBlock: GanttTitleBlock | null = null;
+  private stamp: string | null = null;
   private conflicts: readonly GanttConflict[] = [];
   private rowNotes: ReadonlyMap<string, readonly PlanGanttTipRow[]> = new Map();
   /** Row markers by row id; one inside a collapsed parent shows on the nearest visible row. */
@@ -613,7 +632,7 @@ export class PlanGanttChart {
     applyDensity(options.density ?? 'compact');
     host.dataset.density = density;
     // The tactile look (gradient, soft shadow, lift) rides every density but Jamie's compact one.
-    host.dataset.feel = density === 'compact' ? 'flat' : 'tactile';
+    this.applyFeel();
     this.tip = document.createElement('div');
     this.tip.className = `${P}-tip`;
     this.tip.setAttribute('aria-hidden', 'true');
@@ -663,10 +682,16 @@ export class PlanGanttChart {
     this.render();
   }
 
+  /** The look of the marks: Jamie's flat compact, the tactile one, or print (a read view, with readFlat). */
+  private applyFeel(): void {
+    this.host.dataset.feel = density === 'compact' ? 'flat' : this.options.readFlat && !this.editable ? 'print' : 'tactile';
+  }
+
   /** Leaving edit mode drops everything it was holding: a drag in hand, a held drop, the selection. */
   setEditable(editable: boolean): void {
     if (editable === this.editable) return;
     this.editable = editable;
+    this.applyFeel();
     if (!editable) {
       this.cancelDrag();
       this.held = null;
@@ -706,8 +731,14 @@ export class PlanGanttChart {
     rowDeltas?: ReadonlyMap<string, GanttRowDelta> | null;
     /** Graph paper under the plot, ruled to months and rows (the drafting concept). */
     paper?: boolean;
+    /** The chart's title block (direction D): its status and a few facts, in the corner over the outline heading. */
+    titleBlock?: GanttTitleBlock | null;
+    /** A faint stamp repeated across the plot, so a screenshot of any part of a draft still says what it is. */
+    stamp?: string | null;
   }): void {
     this.paper = annotations.paper ?? false;
+    this.titleBlock = annotations.titleBlock ?? null;
+    this.stamp = annotations.stamp ?? null;
     this.rowBadges = annotations.rowBadges ?? new Map();
     this.rowDeltas = annotations.rowDeltas ?? null;
     this.draft = annotations.draft;
@@ -1087,7 +1118,8 @@ export class PlanGanttChart {
       plotHeight,
       landmarkViews,
       landmarkBandPx,
-      axisPx: AXIS_PX + landmarkBandPx,
+      // A title block needs two lines in the corner: the header grows to fit them on a short (compact) axis.
+      axisPx: Math.max(AXIS_PX + landmarkBandPx, this.titleBlock ? TITLED_AXIS_MIN_PX : 0),
       linkViews,
       todayX,
       plotLabel,
@@ -1280,6 +1312,14 @@ export class PlanGanttChart {
     if (selectedTop !== null) svg.push(`<rect class="${P}__selected" x="0" y="${selectedTop}" width="${W}" height="${ROW_PX}"/>`);
     for (const top of pickedTops) svg.push(`<rect class="${P}__picked" x="0" y="${top}" width="${W}" height="${ROW_PX}"/>`);
     if (v.paperPath) svg.push(`<path class="${P}__paper" d="${v.paperPath}"/>`);
+    if (this.stamp) {
+      // The stamp: one line of text on a tilted tile, repeated across the plot under the marks.
+      const id = `${this.fillId}-stamp`;
+      svg.push(
+        `<defs><pattern id="${id}" width="560" height="220" patternUnits="userSpaceOnUse" patternTransform="rotate(-14)"><text class="${P}__stamp-text" x="20" y="120">${esc(this.stamp)}</text></pattern></defs>` +
+          `<rect class="${P}__stamp" x="0" y="0" width="${W}" height="${H}" fill="url(#${id})"/>`
+      );
+    }
     for (const tick of v.ticks) svg.push(`<line class="${P}__grid ${P}__grid--minor" x1="${roundPx(tick.x) + 0.5}" x2="${roundPx(tick.x) + 0.5}" y1="0" y2="${H}"/>`);
     for (const year of v.years) {
       if (year.x < 0) continue;
@@ -1331,7 +1371,7 @@ export class PlanGanttChart {
           body += `<circle class="${P}__sched-pin" cx="${mark.x + Math.min(9, mark.width / 2)}" cy="${cy}" r="${Math.max(2.5, mark.height * 0.14)}"/>`;
           body += `<rect class="${P}__sched-cap" x="${mark.x}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/><rect class="${P}__sched-cap" x="${mark.x + mark.width - 3}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/>`;
         }
-        if (density !== 'compact') body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
+        if (density !== 'compact' && this.host.dataset.feel !== 'print') body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
       } else if (mark.kind === 'summary') {
         body =
           // Round at the top, square at the bottom, so the end ticks hang straight off the corners.
@@ -1394,7 +1434,11 @@ export class PlanGanttChart {
 
     this.frame.innerHTML = `
       <div class="${P}__canvas" style="grid-template-columns:${this.shownOutlineWidth()}px ${W}px">
-        <div class="${P}__corner" style="height:${v.axisPx}px"><span class="${P}__corner-heading">${esc(this.outlineHeading)}</span><span class="${P}__corner-budget">${this.rowDeltas ? CHANGE_HEADING : BUDGET_HEADING}</span></div>
+        ${
+          this.titleBlock
+            ? `<div class="${P}__corner ${P}__corner--titled" style="height:${v.axisPx}px"><div class="${P}__title-block"><span class="${P}__title-status">${esc(this.titleBlock.status)}</span>${this.titleBlock.facts.map((f) => `<span class="${P}__title-fact">${esc(f)}</span>`).join('')}</div><div class="${P}__corner-row"><span class="${P}__corner-heading">${esc(this.outlineHeading)}</span><span class="${P}__corner-budget">${this.rowDeltas ? CHANGE_HEADING : BUDGET_HEADING}</span></div></div>`
+            : `<div class="${P}__corner" style="height:${v.axisPx}px"><span class="${P}__corner-heading">${esc(this.outlineHeading)}</span><span class="${P}__corner-budget">${this.rowDeltas ? CHANGE_HEADING : BUDGET_HEADING}</span></div>`
+        }
         ${axis}
         ${outline}
         <svg class="${P}__plot" role="img" aria-label="${esc(v.plotLabel)}" width="${W}" height="${H}">${svg.join('')}</svg>

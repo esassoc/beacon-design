@@ -51,6 +51,9 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <span data-prp-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
       <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
       <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
+      <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
+      <span data-prp-ask hidden><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to publish</EsaButton></span>
+      <span data-prp-asked hidden><EsaBadge value="Publish requested" variant="neutral" size="sm" /></span>
     </div>
 
     <div class="bcn-prp__status typography-body-sm" data-prp-status>
@@ -161,6 +164,9 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__behind { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default); }
   .bcn-prp__behind [data-glyph] { color: var(--color-content-utility-warning); }
   .bcn-prp__plan { white-space: nowrap; }
+  /* Issued and working (2026-10-27): the chart scrolls inside its own frame, short enough that the page can never push
+     its top under the app bar, so its axis and the title block in its corner stay in view while the rows scroll. */
+  .bcn-prp[data-concept='issued'] { --bcn-plan-gantt-max-height: calc(100vh - 7rem); }
   .bcn-prp__count { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default-secondary); text-decoration: none; }
   .bcn-prp__count b { color: var(--color-content-default); font-weight: 600; }
   a.bcn-prp__count:hover { color: var(--color-content-default); }

@@ -539,6 +539,53 @@ const { label, id } = Astro.props;
     .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__ghost) { transition: none; transform: none; }
   }
 
+  /* ── Issued and working (the draft study's directions A and D, 2026-10-27) ──
+     Print: a read view (Live, someone else's draft) draws its marks flat, the brand fill with no gradient, shadow, lift
+     or grips, and the cursor stays an arrow; the readout still opens on hover. Depth means "you can move this". */
+  .bcn-plan-gantt-host[data-feel='print'] :global(.bcn-plan-gantt__mark) { filter: none; transform: none; transition: none; }
+  .bcn-plan-gantt-host[data-feel='print'] :global(.bcn-plan-gantt__bar) { stroke: none; }
+  .bcn-plan-gantt-host[data-feel='print'] :global(.bcn-plan-gantt__bar-grip) { display: none; }
+  .bcn-plan-gantt-host[data-feel='print'] :global(.bcn-plan-gantt__hit) { cursor: default; }
+  /* Entering your draft: the bars stand up onto their shadow, once. */
+  .bcn-plan-gantt-host[data-rise] :global(.bcn-plan-gantt__mark) { animation: bcn-plan-gantt-stand 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  @keyframes bcn-plan-gantt-stand {
+    from { filter: none; transform: translateY(1px); }
+    to { filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)); transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-plan-gantt-host[data-rise] :global(.bcn-plan-gantt__mark) { animation: none; }
+  }
+  /* The title block: the corner, pinned with the axis, says what this chart is. Live's sits on the chart's surface; a
+     draft's on the sunken neutral the band uses, so the two read as one statement. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner--titled) {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--spacing-100);
+  }
+  .bcn-plan-gantt-host[data-in-draft] :global(.bcn-plan-gantt__corner--titled) { background: var(--color-background-elevation-sunken); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__title-block) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__title-status) { font-size: var(--font-size-150); font-weight: 650; color: var(--_text); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__title-fact) { font-size: var(--_meta); font-weight: 500; color: var(--_muted); overflow: hidden; text-overflow: ellipsis; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner-row) { display: flex; align-items: flex-end; min-inline-size: 0; }
+  /* The stamp: one line repeated faintly across a draft's plot, under the marks, never taking the pointer. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__stamp) { pointer-events: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__stamp-text) {
+    fill: var(--_text);
+    fill-opacity: 0.05;
+    font-size: 1.75rem;
+    font-weight: 650;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
   /* ── Draft-mode concepts (2026-10-27, second round): what being in a draft looks like on the chart ──
      The page sets data-draft-look to the concept and data-in-draft while it shows a draft; the draft overlay marks the
      rows the draft changed (never a ghost of Live). */

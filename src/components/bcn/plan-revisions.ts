@@ -100,6 +100,9 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   q<HTMLAnchorElement>('[data-prv-exit]').href = keepStudy(PLAN_HREF(planID, draft ? `&draft=${draft.id}` : ''));
   // The draft-mode concepts (2026-10-27): reviewing a draft keeps the draft's look until it is published.
   const concept = draft ? params.get('concept') : null;
+  // Who may publish (2026-10-27): the prototype's stand-in for the permission is &role=contributor. Someone who can
+  // publishes their own draft, or someone else's that was asked.
+  const canPublish = params.get('role') !== 'contributor';
   const behind = draft ? versionsBehind(repo, draft) : 0;
   q<HTMLElement>('[data-prv-behind]').hidden = behind <= 0;
   q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'} than Rev ${draft?.baseVersion}`;
@@ -170,6 +173,8 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       // Drafting measures each change in its lane instead of drawing where it was, and tags it with its edit.
       draft: overlay && concept === 'drafting' ? { ...overlay, ghosts: false, measure: true, edits: editAt(changes) } : overlay,
       paper: concept === 'drafting' || concept === 'pencil-paper',
+      // Issued: the title block says what the chart shows, the "to" side of the comparison.
+      titleBlock: concept === 'issued' && draft ? { status: sel.to === 0 ? 'Issued' : 'Draft', facts: [sel.to === 0 ? `Rev ${latest.number}` : `Not issued, edit ${sel.to}`] } : null,
       rowDeltas: on ? deltas : null,
       conflicts: planConflicts(to).map((c) => ({ fromId: c.PredecessorPlanElementID, toId: c.SuccessorPlanElementID })),
       rowNotes: new Map(
@@ -234,7 +239,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     const btn = act.querySelector<HTMLButtonElement>('button');
     const label = q<HTMLElement>('[data-prv-act-label]');
     if (draft) {
-      act.hidden = draft.owner !== me;
+      act.hidden = !canPublish || (draft.owner !== me && !draft.publishRequestedAt);
       const isLast = sel.to === stops.length - 1;
       label.textContent = sel.to === 0 || isLast ? `Publish as Revision ${latest.number + 1}` : `Publish up to edit ${sel.to}`;
       setButtonDisabled(btn, sel.to === 0 || !current?.changes.length);

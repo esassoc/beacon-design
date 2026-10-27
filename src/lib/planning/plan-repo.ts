@@ -62,6 +62,8 @@ export interface PlanRepoDraft {
   /** The live version the draft started from ("branched from v7"). */
   baseVersion: number;
   revisions: PlanRevision[];
+  /** When its owner, who can't publish, asked someone who can (the draft study, 2026-10-27: "Ask to publish"). */
+  publishRequestedAt?: string;
 }
 
 export interface PlanRepo {
@@ -338,11 +340,12 @@ const FISH_HISTORY: SeedEdit[] = [
 ];
 
 /** Open drafts on the sample: a scenario someone is still shaping, revision by revision. */
-const FISH_DRAFTS: { name: string; owner: string; startedDaysAgo: number; edits: { daysAgo: number; name: string; days: number; endOnly?: boolean }[] }[] = [
+const FISH_DRAFTS: { name: string; owner: string; startedDaysAgo: number; askedDaysAgo?: number; edits: { daysAgo: number; name: string; days: number; endOnly?: boolean }[] }[] = [
   {
     name: 'Permit delay scenario',
     owner: 'Alex Rivera',
     startedDaysAgo: 4,
+    askedDaysAgo: 0.8,
     edits: [
       { daysAgo: 4, name: 'Receiver-site encroachment', days: 45 },
       { daysAgo: 3, name: 'Regional receiver network build-out', days: 30 },
@@ -452,6 +455,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
       createdAt: daysAgo(seed.startedDaysAgo, 9),
       baseVersion: repo.versions.length,
       revisions: [],
+      ...(seed.askedDaysAgo ? { publishRequestedAt: daysAgo(seed.askedDaysAgo, 16) } : {}),
     };
     let overrides: PlanDraftOverrideDto[] = [];
     let shown = live;
@@ -664,6 +668,16 @@ export function addRevision(planID: string, draftID: string, overrides: PlanDraf
   draft.revisions.push(revision);
   save(store);
   return revision;
+}
+
+/** Ask to publish: the owner of a draft, who can't publish, asks someone who can. A request, not a lock: the draft
+ *  stays editable, and publishing (by anyone who can) closes it as usual. */
+export function requestPublish(planID: string, draftID: string): void {
+  const store = load();
+  const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
+  if (!draft) return;
+  draft.publishRequestedAt = new Date().toISOString();
+  save(store);
 }
 
 export function discardDraft(planID: string, draftID: string): void {
