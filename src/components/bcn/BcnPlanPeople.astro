@@ -1,0 +1,24 @@
+---
+// <BcnPlanPeople> — the planners the repo-model prototype names (plan-repo.ts PLAN_PEOPLE) as a bank of pre-rendered
+// esa-avatars, one <template> per person and size, for rows the client builds at runtime (version lines, draft rows,
+// contributors, the revision slider's tooltip). plan-people.ts reads it: planAvatar(name, size).
+//
+// esa-avatar is .astro (compile-time), so script cannot create one; this is the bank-and-clone BcnTeamAvatars uses.
+// Include it once per page.
+//
+// bcn-lego-checked: every avatar IS esa-avatar; the bank is only a carrier for runtime clones, as BcnTeamAvatars'.
+// Checked Beacon (people are ui-avatar, the same lego). bcn-plan-people is the home for the planning module's people.
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import { PLAN_PEOPLE } from '../../lib/planning/plan-repo';
+
+const SIZES = ['xs', 'sm', 'md'] as const;
+// The default viewer and the sample's watchers who never edit, so every name the pages print has a face.
+const PEOPLE = [...PLAN_PEOPLE, 'Dana Whitfield'];
+---
+
+<div hidden data-bcn-plan-people>
+  {PEOPLE.flatMap((name) => SIZES.map((size) => (
+    <template data-plan-person={name} data-size={size}><EsaAvatar name={name} size={size} /></template>
+  )))}
+  {SIZES.map((size) => <template data-plan-person="" data-size={size}><EsaAvatar icon="user" size={size} /></template>)}
+</div>

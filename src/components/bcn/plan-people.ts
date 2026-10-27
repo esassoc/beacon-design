@@ -1,0 +1,29 @@
+// The runtime half of <BcnPlanPeople>: an esa-avatar for a planner, cloned from the page's bank. Someone the bank
+// doesn't know (a ?user= name) gets the bank's blank avatar, labelled with their name.
+
+export type PlanAvatarSize = 'xs' | 'sm' | 'md';
+
+export function planAvatar(name: string, size: PlanAvatarSize = 'xs'): HTMLElement {
+  const bank = document.querySelector('[data-bcn-plan-people]');
+  const tpl =
+    bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person="${CSS.escape(name)}"][data-size="${size}"]`) ??
+    bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person=""][data-size="${size}"]`);
+  const node = (tpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined) ?? document.createElement('span');
+  node.setAttribute('title', name);
+  node.setAttribute('aria-label', name);
+  return node;
+}
+
+/** An overlapping stack of avatars, at most `max`, then "+N". */
+export function planAvatarStack(names: readonly string[], max = 5, size: PlanAvatarSize = 'xs'): HTMLElement {
+  const stack = document.createElement('span');
+  stack.className = 'bcn-plan-people-stack';
+  for (const name of names.slice(0, max)) stack.append(planAvatar(name, size));
+  if (names.length > max) {
+    const more = document.createElement('span');
+    more.className = 'bcn-plan-people-stack__more';
+    more.textContent = `+${names.length - max}`;
+    stack.append(more);
+  }
+  return stack;
+}

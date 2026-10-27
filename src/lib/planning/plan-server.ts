@@ -45,7 +45,12 @@ import type {
 } from './plan-draft-model';
 
 const STORE_KEY = 'bcn-planning-store-v1';
-const LATENCY_MS = 220;
+let LATENCY_MS = 220;
+
+/** The repo-model prototype seeds three months of history through this API; it turns the latency off while it does (new, 2026-10-26). */
+export function setPlanApiLatency(ms: number): void {
+  LATENCY_MS = ms;
+}
 export const PROJECT_ID = 'delta-conveyance';
 
 interface StoredElement {

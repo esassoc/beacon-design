@@ -1,0 +1,41 @@
+---
+// Plans, in the repo model (new design, 2026-10-26) — the prototype's front door. Every plan reads as a repo: its
+// latest version as a commit line, its open drafts as child rows, its history and watchers counted. Data is
+// plan-repo.ts over Jamie's mock plan API (plan-server.ts); a first visit seeds three plans with three months of history.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanRepoIndex from '../../../components/bcn/BcnPlanRepoIndex.astro';
+import BcnPlanPeople from '../../../components/bcn/BcnPlanPeople.astro';
+import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - utilities -> esa-button                         # Start over (re-seeds the sample history)
+    - plans     -> bcn-plan-repo-index                # find + filter, one repo-style row per plan, drafts as child rows
+    - people    -> bcn-plan-people                    # the avatar bank rows clone from
+-->
+
+<AppShell title="Plans" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" showPlanning>
+  <PageLayout title="Plans" icon="square-chart-gantt" iconPaths={PLAN_ICON_PATHS['square-chart-gantt']} breadcrumbs={[{ label: 'Plans' }]}>
+    <span slot="utilities" data-pri-reset>
+      <EsaButton variant="ghost" size="sm" icon="rotate-ccw">Start sample over</EsaButton>
+    </span>
+    <BcnPlanRepoIndex />
+    <BcnPlanPeople />
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { setupPlanRepoIndex } from '../../../components/bcn/plan-repo-index';
+  import { resetSample } from '../../../lib/planning/plan-repo';
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-repo-index]');
+  if (root) void setupPlanRepoIndex(root);
+  document.querySelector('[data-pri-reset]')?.addEventListener('click', async () => {
+    if (!confirm('Start the sample over? Every plan, draft and version in this browser is replaced with the original three months of history.')) return;
+    await resetSample();
+    location.reload();
+  });
+</script>

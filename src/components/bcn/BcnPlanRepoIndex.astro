@@ -1,0 +1,206 @@
+---
+// <BcnPlanRepoIndex> — the Plans index in the repo model (new design, 2026-10-26): the project's plans as a list of
+// repos. Each row is one plan: its name and visibility, the description, the latest version as a commit line (who,
+// what, when), its open drafts as child rows (the check-in: "a child node to the list"), the counts a repo shows
+// (versions, watchers, stars, contributors), and a miniature of its schedule with today marked. A find field and a
+// filter (All · Has drafts · Watching) head the list. Rows are built by ./plan-repo-index.ts from <template>s here,
+// so the scoped CSS reaches them.
+//
+// bcn-lego-checked: the find field IS esa-text-field, the filter IS esa-button-toggle, visibility IS esa-pill, the
+// spinner IS esa-loading-spinner, avatars ARE esa-avatar (cloned from BcnPlanPeople). No esa- lego is a list of
+// repo-style rows with child rows and a timeline miniature (esa-card is a card; esa-link-column is a nav column);
+// checked Beacon (pages/plan-list is a plain linked list — BcnPlanList is its port, with no history or drafts).
+// bcn-plan-repo-index is the reusable home for a plans index in the repo model.
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+---
+
+<section class="bcn-pri" data-bcn-plan-repo-index>
+  <div class="bcn-pri__bar">
+    <esa-text-field class="bcn-pri__find" data-pri-find placeholder="Find a plan…" size="sm" aria-label="Find a plan"></esa-text-field>
+    <esa-button-toggle size="sm" data-pri-filter label=""></esa-button-toggle>
+    <span class="bcn-pri__count" data-pri-count></span>
+  </div>
+
+  <div class="bcn-pri__loading" data-pri-loading>
+    <EsaLoadingSpinner decorative />
+    <span data-pri-progress>Loading plans…</span>
+  </div>
+
+  <ul class="bcn-pri__rows" data-pri-rows hidden></ul>
+  <p class="bcn-pri__none" data-pri-none hidden>No plans match.</p>
+
+  <template data-pri-row>
+    <li class="bcn-pri__row">
+      <div class="bcn-pri__main">
+        <div class="bcn-pri__title">
+          <span class="bcn-pri__glyph" data-glyph="square-chart-gantt"></span>
+          <a class="bcn-pri__name" data-pri-name></a>
+          <EsaPill label="Project" size="xs" shape="round" />
+          <span class="bcn-pri__label" data-pri-label hidden><span data-glyph="tag"></span><span data-pri-label-text></span></span>
+        </div>
+        <p class="bcn-pri__desc" data-pri-desc></p>
+        <div class="bcn-pri__latest">
+          <span data-pri-avatar></span>
+          <span class="bcn-pri__latest-text">
+            <strong data-pri-author></strong>
+            <span data-pri-message></span>
+          </span>
+          <span class="bcn-pri__when" data-pri-when></span>
+        </div>
+        <ul class="bcn-pri__drafts" data-pri-drafts></ul>
+        <div class="bcn-pri__meta">
+          <span class="bcn-pri__live"><span data-glyph="git-branch"></span>Live <span data-pri-version></span></span>
+          <a class="bcn-pri__metalink" data-pri-history><span data-glyph="history"></span><span data-pri-versions></span></a>
+          <span title="Watching"><span data-glyph="eye"></span><span data-pri-watch></span></span>
+          <span title="Stars"><span data-glyph="star"></span><span data-pri-stars></span></span>
+          <span class="bcn-pri__span" data-pri-span></span>
+          <span class="bcn-pri__people" data-pri-people></span>
+        </div>
+      </div>
+      <a class="bcn-pri__mini" data-pri-mini tabindex="-1" aria-hidden="true"></a>
+    </li>
+  </template>
+
+  <template data-pri-draft>
+    <li class="bcn-pri__draft">
+      <span class="bcn-pri__draft-elbow" aria-hidden="true"></span>
+      <span data-glyph="git-branch"></span>
+      <span data-pri-draft-avatar></span>
+      <a class="bcn-pri__draft-name" data-pri-draft-name></a>
+      <span class="bcn-pri__draft-meta" data-pri-draft-meta></span>
+    </li>
+  </template>
+</section>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+</script>
+
+<style>
+  .bcn-pri { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-pri :global([hidden]) { display: none !important; }
+
+  .bcn-pri__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-pri__find { inline-size: min(22rem, 100%); }
+  .bcn-pri__count { margin-inline-start: auto; color: var(--color-content-default-secondary); font-size: var(--font-size-150); }
+
+  .bcn-pri__loading { display: flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default-secondary); padding-block: var(--spacing-600); }
+  .bcn-pri__none { color: var(--color-content-default-secondary); padding-block: var(--spacing-400); }
+
+  .bcn-pri__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-300, 8px);
+    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+  }
+  .bcn-pri__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: var(--spacing-500);
+    padding: var(--spacing-400) var(--spacing-500);
+  }
+  .bcn-pri__row + .bcn-pri__row { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-pri__main { display: flex; flex-direction: column; gap: var(--spacing-150); min-inline-size: 0; }
+
+  .bcn-pri :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
+  .bcn-pri :global([data-glyph] svg) { display: block; }
+
+  .bcn-pri__title { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-pri__name {
+    font-size: var(--font-size-300, 1.25rem);
+    font-weight: 600;
+    color: var(--color-content-brand);
+    text-decoration: none;
+  }
+  .bcn-pri__name:hover { text-decoration: underline; }
+  .bcn-pri__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    color: var(--color-content-utility-success, var(--color-content-default-secondary));
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0 var(--spacing-200);
+    line-height: 1.6;
+  }
+  .bcn-pri__label :global([data-glyph]) { color: inherit; }
+  .bcn-pri__desc { margin: 0; color: var(--color-content-default-secondary); font-size: var(--font-size-150); max-inline-size: 60ch; }
+
+  .bcn-pri__latest {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--font-size-150);
+    padding: var(--spacing-150) var(--spacing-200);
+    background: var(--color-background-default-subtle, var(--color-background-default));
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200, 6px);
+    min-inline-size: 0;
+  }
+  .bcn-pri__latest-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-pri__latest-text strong { font-weight: 600; margin-inline-end: var(--spacing-100); }
+  .bcn-pri__when { margin-inline-start: auto; color: var(--color-content-default-tertiary); white-space: nowrap; }
+
+  .bcn-pri__drafts { list-style: none; margin: 0; padding: 0 0 0 var(--spacing-300); display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-pri__draft { display: flex; align-items: center; gap: var(--spacing-150); font-size: var(--font-size-150); }
+  .bcn-pri__draft-elbow {
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    border-inline-start: 1.5px solid var(--color-border-default);
+    border-block-end: 1.5px solid var(--color-border-default);
+    border-end-start-radius: 4px;
+    translate: 0 -0.3rem;
+  }
+  .bcn-pri__draft-name { font-weight: 600; color: var(--color-content-default); text-decoration: none; }
+  .bcn-pri__draft-name:hover { color: var(--color-content-brand); text-decoration: underline; }
+  .bcn-pri__draft-meta { color: var(--color-content-default-tertiary); }
+
+  .bcn-pri__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-400);
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+  .bcn-pri__meta > * { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-pri__live { font-weight: 600; color: var(--color-content-default); }
+  .bcn-pri__metalink { color: inherit; text-decoration: none; }
+  .bcn-pri__metalink:hover { color: var(--color-content-brand); }
+  .bcn-pri__people { margin-inline-start: auto; }
+
+  .bcn-pri__mini {
+    display: block;
+    align-self: start;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200, 6px);
+    background: var(--color-background-default);
+    padding: var(--spacing-200);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-pri__row:hover .bcn-pri__mini { border-color: var(--color-border-default); box-shadow: var(--shadow-100); }
+  .bcn-pri__mini :global(svg) { display: block; inline-size: 100%; block-size: auto; }
+  .bcn-pri__mini :global(.mini-axis) { fill: var(--color-content-default-tertiary); font-size: 9px; }
+  .bcn-pri__mini :global(.mini-grid) { stroke: var(--color-border-default-subtle); stroke-width: 1; }
+  .bcn-pri__mini :global(.mini-bar) { fill: var(--color-background-brand); }
+  .bcn-pri__mini :global(.mini-bar--0) { opacity: 0.35; }
+  .bcn-pri__mini :global(.mini-bar--1) { opacity: 0.6; }
+  .bcn-pri__mini :global(.mini-today) { stroke: var(--color-background-utility-warning); stroke-width: 1.5; }
+
+  .bcn-pri :global(.bcn-plan-people-stack) { display: inline-flex; }
+  .bcn-pri :global(.bcn-plan-people-stack > *) { margin-inline-start: -4px; box-shadow: 0 0 0 2px var(--color-background-elevation-raised); border-radius: 999px; }
+  .bcn-pri :global(.bcn-plan-people-stack > :first-child) { margin-inline-start: 0; }
+  .bcn-pri :global(.bcn-plan-people-stack__more) { font-size: var(--font-size-100); padding-inline-start: var(--spacing-150); box-shadow: none; }
+
+  @media (max-width: 900px) {
+    .bcn-pri__row { grid-template-columns: 1fr; }
+    .bcn-pri__mini { max-inline-size: 22rem; }
+  }
+</style>

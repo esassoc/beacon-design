@@ -58,9 +58,9 @@ const OUTLINE_MIN_PLOT_PX = 160;
 const OUTLINE_KEY_STEP_PX = 16;
 const OUTLINE_WIDTH_KEY = 'bcn-plan-gantt-outline-width';
 const SPLITTER_LABEL = 'Resize the outline column';
-const ROW_PX = 28;
+let ROW_PX = 28;
 const AXIS_PX = 40;
-const BAR_HEIGHT_PX = 16;
+let BAR_HEIGHT_PX = 16;
 const BAR_MIN_WIDTH_PX = 5;
 const MARK_RADIUS_PX = 2;
 /**
@@ -68,7 +68,7 @@ const MARK_RADIUS_PX = 2;
  * left a sub-study a hairline. Here they grow toward their children instead — the program shortest, the deepest
  * parent tallest, in small steps and well under a task bar's 16px — matching the colour, which deepens toward the children too.
  */
-const SUMMARY_HEIGHT_PX = [6, 7, 8] as const;
+let SUMMARY_HEIGHT_PX: readonly [number, number, number] = [6, 7, 8];
 /**
  * EXPERIMENT (2026-10-21): a parent's bracket ends in a small tick hanging below each end, in the bracket's own colour,
  * in place of her 2px end rules overhanging both edges (on the top two tiers only). Every tier gets them, 4px wide
@@ -78,14 +78,14 @@ const SUMMARY_TICK_WIDTH_PX = 4;
 const SUMMARY_TICK_DROP_PX = 3;
 /** A tick starts this far inside the mark it hangs from, so no anti-aliased seam shows between them. */
 const TICK_OVERLAP_PX = 0.5;
-const MILESTONE_SIZE_PX = 12;
-const HIT_PAD_PX = 4;
+let MILESTONE_SIZE_PX = 12;
+let HIT_PAD_PX = 4;
 const EMPHASIS_EVERY_YEARS = 5;
 const TODAY_LINE_PX = 2;
 const WINDOW_BAND_INSET_PX = 4;
 const WINDOW_BAND_MIN_WIDTH_PX = BAR_MIN_WIDTH_PX;
 const CUTOFF_WIDTH_PX = 2;
-const CUTOFF_HEIGHT_PX = ROW_PX - 2 * WINDOW_BAND_INSET_PX;
+let CUTOFF_HEIGHT_PX = ROW_PX - 2 * WINDOW_BAND_INSET_PX;
 const LANDMARK_LINE_PX = 1;
 const LANDMARK_LANE_PX = 18;
 const LANDMARK_BAND_INSET_PX = 2;
@@ -97,6 +97,33 @@ const DRAG_POPUP_ROOM_PX = 72;
 const WINDOW_HANDLE_PX = 3;
 /** ui-viz-tip's FLOATING_OFFSET_PX. */
 const TIP_OFFSET_PX = 4;
+
+/**
+ * Density (new, 2026-10-26, the repo-model prototype): `compact` is her geometry, above. `tactile` makes every mark an
+ * object you want to pick up: taller rows and bars, a lit top edge, a shadow that lifts on hover and on the grab, and
+ * grip lines at a bar's ends. The geometry is module state (one density per page), set by the constructor.
+ */
+export type PlanGanttDensity = 'compact' | 'tactile';
+const DENSITY_GEOMETRY: Record<PlanGanttDensity, { row: number; bar: number; radius: number; milestone: number; summary: readonly [number, number, number]; hitPad: number }> = {
+  compact: { row: 28, bar: 16, radius: 4, milestone: 12, summary: [6, 7, 8], hitPad: 4 },
+  tactile: { row: 44, bar: 26, radius: 7, milestone: 20, summary: [8, 10, 12], hitPad: 6 },
+};
+/** Grip lines show on a tactile bar this wide or wider; each sits this far in from its end. */
+const GRIP_MIN_WIDTH_PX = 40;
+const GRIP_INSET_PX = 7;
+let density: PlanGanttDensity = 'compact';
+
+function applyDensity(next: PlanGanttDensity): void {
+  const g = DENSITY_GEOMETRY[next];
+  density = next;
+  ROW_PX = g.row;
+  BAR_HEIGHT_PX = g.bar;
+  BAR_ESTIMATED_RADIUS_PX = g.radius;
+  MILESTONE_SIZE_PX = g.milestone;
+  SUMMARY_HEIGHT_PX = g.summary;
+  HIT_PAD_PX = g.hitPad;
+  CUTOFF_HEIGHT_PX = ROW_PX - 2 * WINDOW_BAND_INSET_PX;
+}
 
 /* ── Copy (verbatim). ─────────────────────────────────────────────────────────────────────────────────────────── */
 const TODAY_FLAG = 'Today';
@@ -118,7 +145,7 @@ const KIND_SCHEDULED = 'Scheduled';
  * back.
  */
 /** An Estimated bar's corner radius: clearly rounder than a Scheduled bar's square one, short of a full pill. */
-const BAR_ESTIMATED_RADIUS_PX = 4;
+let BAR_ESTIMATED_RADIUS_PX = 4;
 const SHOW_SCHEDULED_CUTOFF = false;
 const OVERRUN_PREFIX = 'Runs';
 const OVERRUN_ESTIMATED_SUFFIX = 'past planned window';
@@ -177,6 +204,20 @@ const TIP_WARNING_ICON =
   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
 
 const roundPx = (value: number): number => Math.round(value * 100) / 100;
+
+/**
+ * A tactile bar's lit top half and its grips (new, 2026-10-26): a pale band over the bar's upper half, rounded as the
+ * bar is, and two short vertical lines inside each end, where a resize starts. Drawing only — the hit rect takes the
+ * pointer.
+ */
+function tactileBarDetail(x: number, y: number, width: number, height: number, radius: number): string {
+  const shine = `<rect class="${P}__bar-shine" x="${x + 1.5}" y="${y + 1.5}" width="${Math.max(0, width - 3)}" height="${Math.max(0, height / 2 - 2)}" rx="${Math.max(0, radius - 1.5)}"/>`;
+  if (width < GRIP_MIN_WIDTH_PX) return shine;
+  const top = y + height * 0.3;
+  const bottom = y + height * 0.7;
+  const grip = (gx: number) => `<line class="${P}__bar-grip" x1="${gx}" x2="${gx}" y1="${top}" y2="${bottom}"/><line class="${P}__bar-grip" x1="${gx + 3}" x2="${gx + 3}" y1="${top}" y2="${bottom}"/>`;
+  return shine + grip(x + GRIP_INSET_PX - 1.5) + grip(x + width - GRIP_INSET_PX - 1.5);
+}
 
 /** A rect rounded on its right side only (a bar's overrun: it starts inside the bar and ends where the bar does). */
 function rightRoundedPath(x: number, y: number, width: number, height: number, radius: number): string {
@@ -458,6 +499,8 @@ export interface PlanGanttChartOptions {
   onDropConfirm?: () => void;
   onDropRevert?: () => void;
   onSelectionChange?: (ids: string[]) => void;
+  /** Her compact geometry (default), or the tactile one: bigger, lit, lifting marks. */
+  density?: PlanGanttDensity;
 }
 
 /** Pre-rendered EsaButton shells the chart clones (EsaButton is compile-time, so it cannot be built at runtime). */
@@ -516,6 +559,8 @@ export class PlanGanttChart {
     private readonly options: PlanGanttChartOptions
   ) {
     this.frame = host.querySelector<HTMLElement>(`.${P}`)!;
+    applyDensity(options.density ?? 'compact');
+    host.dataset.density = density;
     this.tip = document.createElement('div');
     this.tip.className = `${P}-tip`;
     this.tip.setAttribute('aria-hidden', 'true');
@@ -1107,6 +1152,7 @@ export class PlanGanttChart {
         // Scheduled: square, hard corners. Estimated: rounded ones.
         const barRadius = view.scheduled ? 0 : BAR_ESTIMATED_RADIUS_PX;
         body = `<rect class="${P}__bar" x="${mark.x + 0.5}" y="${mark.y + 0.5}" width="${mark.width - 1}" height="${mark.height - 1}" rx="${barRadius}"/>${overrun}`;
+        if (density === 'tactile') body += tactileBarDetail(mark.x, mark.y, mark.width, mark.height, barRadius);
       } else if (mark.kind === 'summary') {
         body =
           // Round at the top, square at the bottom, so the end ticks hang straight off the corners.
@@ -1207,6 +1253,7 @@ export class PlanGanttChart {
       const id = g.dataset.rowId!;
       g.classList.toggle(`${P}__mark--previewed`, previewIds.has(id));
       g.classList.toggle(`${P}__mark--hovered`, id === hoveredRowId);
+      g.classList.toggle(`${P}__mark--pressed`, !!this.press && !this.press.active && this.press.primaryId === id);
     });
 
     const cursors = this.cursors();
