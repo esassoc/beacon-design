@@ -602,6 +602,10 @@ export class PlanGanttChart {
 
   // ── Internal state ──
   private collapsed: ReadonlySet<string> = new Set();
+  /** The search (2026-10-27): lowercased, trimmed; empty shows every row. */
+  private query = '';
+  /** The rows whose names hold the search, by id. */
+  private matched: ReadonlySet<string> = new Set();
   private frameWidth = 0;
   private hovered: GanttHover | null = null;
   private hoveredPoint: { x: number; y: number } | null = null;
@@ -668,6 +672,7 @@ export class PlanGanttChart {
   /** New rows: a held drop on the old ones is released (the host settled by handing over new data). */
   setData(data: { rows: readonly UiVizGanttRow[]; links: readonly UiVizGanttLink[]; landmarks: readonly UiVizGanttLandmark[]; today: string | null; outlineHeading: string }): void {
     this.rows = data.rows;
+    if (this.query) this.matched = new Set(this.rows.filter((row) => row.label.toLowerCase().includes(this.query)).map((row) => row.id));
     this.links = data.links;
     this.landmarks = data.landmarks;
     this.today = data.today;
@@ -745,6 +750,62 @@ export class PlanGanttChart {
     this.conflicts = annotations.conflicts;
     this.rowNotes = annotations.rowNotes;
     this.countsDependents = annotations.countsDependents;
+  }
+
+  /**
+   * Narrow the rows to a search (2026-10-27): a row whose name holds it, the parents above it, and everything under it
+   * (a matching phase brings its work). Collapsed parents above a match open while it lasts; the names mark the hits.
+   * Returns how many rows matched; none hides the chart, like no rows, for the page's own empty state.
+   */
+  setFilter(query: string): number {
+    const next = query.trim().toLowerCase();
+    if (next !== this.query) {
+      this.query = next;
+      this.matched = new Set(next ? this.rows.filter((row) => row.label.toLowerCase().includes(next)).map((row) => row.id) : []);
+      this.render();
+    }
+    return this.matched.size;
+  }
+
+  /** The rows on show: the collapse applied, and the search when there is one. */
+  private shownRows(): UiVizGanttRow[] {
+    if (!this.query) return visibleRows(this.rows, this.collapsed);
+    const parentOf = new Map(this.rows.map((row) => [row.id, row.parentId]));
+    const keep = new Set<string>();
+    const opened = new Set<string>();
+    let under: number | null = null;
+    for (const row of this.rows) {
+      if (under !== null && row.depth > under) {
+        keep.add(row.id);
+        continue;
+      }
+      under = null;
+      if (!this.matched.has(row.id)) continue;
+      keep.add(row.id);
+      under = row.depth;
+      for (let at = row.parentId; at; at = parentOf.get(at) ?? null) {
+        keep.add(at);
+        opened.add(at);
+      }
+    }
+    const collapsed = new Set([...this.collapsed].filter((id) => !opened.has(id)));
+    return visibleRows(
+      this.rows.filter((row) => keep.has(row.id)),
+      collapsed
+    );
+  }
+
+  /** A row's name, escaped, with the search marked wherever it occurs. */
+  private nameHtml(label: string): string {
+    if (!this.query || !this.matched.size) return esc(label);
+    const lower = label.toLowerCase();
+    let out = '';
+    let from = 0;
+    for (let at = lower.indexOf(this.query); at !== -1; at = lower.indexOf(this.query, from)) {
+      out += `${esc(label.slice(from, at))}<mark class="${P}__match">${esc(label.slice(at, at + this.query.length))}</mark>`;
+      from = at + this.query.length;
+    }
+    return out + esc(label.slice(from));
   }
 
   /** The date range to show, fitted to the frame; null shows the whole plan at the fixed scale. */
@@ -864,7 +925,7 @@ export class PlanGanttChart {
       }
     }
 
-    const rowViews: GanttRowView[] = visibleRows(this.rows, this.collapsed).map((row, index) => {
+    const rowViews: GanttRowView[] = this.shownRows().map((row, index) => {
       const top = index * ROW_PX;
       const centre = top + ROW_PX / 2;
       const expanded = !this.collapsed.has(row.id);
@@ -1208,8 +1269,8 @@ export class PlanGanttChart {
   // ── Render ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
   render(): void {
-    if (this.rows.length === 0) {
-      // RENDERS NOTHING WITH NO ROWS: the page's own empty state owns that case.
+    if (this.rows.length === 0 || (this.query && this.matched.size === 0)) {
+      // RENDERS NOTHING WITH NO ROWS (or none matching the search): the page's own empty state owns that case.
       this.frame.hidden = true;
       this.splitter.hidden = true;
       this.frame.replaceChildren();
@@ -1283,7 +1344,7 @@ export class PlanGanttChart {
           }
           <button type="button" class="${P}__select" data-select="${esc(view.row.id)}"${view.row.id === this.selectedId ? ' aria-current="true"' : ''}${view.summaryId ? ` aria-describedby="${view.summaryId}"` : ''}>
             ${view.row.tag ? `<span class="${P}__tag">${esc(view.row.tag)}</span>` : ''}
-            <span class="${P}__name" title="${esc(view.row.label)}">${esc(view.row.label)}</span>
+            <span class="${P}__name" title="${esc(view.row.label)}">${this.nameHtml(view.row.label)}</span>
           </button>
           ${badges.has(view.row.id) && this.templates.badge ? `<span data-badge-slot></span>` : ''}
           ${this.options.rowActions ? `<div class="${P}__actions"></div>` : ''}

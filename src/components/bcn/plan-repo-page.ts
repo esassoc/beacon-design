@@ -79,6 +79,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const paper = concept === 'drafting' || concept === 'pencil-paper';
   const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
 
+  // A door into your draft from elsewhere (the branch menu on another page): opened here, the URL put right.
+  if (params.get('start')) {
+    params.set('draft', startDraft(planID).id);
+    history.replaceState(null, '', keep(PLAN_HREF(planID, `&draft=${params.get('draft')}`)));
+  }
+
   let repo: PlanRepo = getRepo(planID);
   let live: PlanDetailDto = await planApi.getPlan(planID);
   let draft: PlanRepoDraft | null = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
@@ -138,10 +144,52 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     onChange: (next) => chart.setRange(next),
   });
 
-  // ── Navigation: mode changes reload the page, so the URL is always the truth ──
+  // ── Navigation ──
+  // Another page (Review, the revisions) is a page load; the URL carries the study.
   const go = (href: string): void => {
     location.href = keep(href);
   };
+
+  /**
+   * Live, your draft, someone else's: switched in place (2026-10-27, Andy: "switching to edit mode looks really janky,
+   * everything disappears"). A reload blanked the page while it rebuilt; now the head, the scope and the chart stay
+   * put, only what differs redraws, and the URL follows so Back and a shared link still land on the same state.
+   */
+  async function switchTo(next: PlanRepoDraft | null, how: { push?: boolean; rise?: boolean } = {}): Promise<void> {
+    if (busy) return;
+    repo = getRepo(planID!);
+    const target = next ? (repo.drafts.find((d) => d.id === next.id) ?? null) : null;
+    if (target?.id === draft?.id && !!target === !!draft) return;
+    busy = true;
+    draft = target;
+    mode = !draft ? 'live' : draft.owner === me ? 'own' : 'view';
+    shown = draft ? (await draftState(draft)).Plan : live;
+    redo.length = 0;
+    if (how.push !== false) history.pushState(null, '', keep(PLAN_HREF(planID!, draft ? `&draft=${draft.id}` : '')));
+    // Issued: the bars stand up as your draft opens.
+    if (how.rise && issued && mode === 'own') {
+      host.setAttribute('data-rise', '');
+      setTimeout(() => host.removeAttribute('data-rise'), 900);
+    }
+    busy = false;
+    refresh();
+  }
+  window.addEventListener('popstate', () => {
+    const id = new URLSearchParams(location.search).get('draft');
+    void switchTo(id ? (getRepo(planID!).drafts.find((d) => d.id === id) ?? null) : null, { push: false });
+  });
+  /** The menu's and About's links to Live and the drafts: switched in place, unless asked for a new tab. */
+  root.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-prp-to]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const pop = q<HTMLElement & { open: boolean }>('[data-prp-branch-popover]');
+    pop.open = false;
+    const to = a.dataset.prpTo!;
+    if (to === 'live') return void switchTo(null);
+    if (to === 'start') return void switchTo(startDraft(planID!), { rise: true });
+    void switchTo(getRepo(planID!).drafts.find((d) => d.id === to) ?? null);
+  });
 
   // ── Drops: Live checks out your draft; your draft takes a revision per drop ──
   async function drop(drag: GanttDragEvent): Promise<void> {
@@ -152,7 +200,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const mine = myDraft(planID!);
       if (mine && mine.revisions.length) {
         // One draft per person: you already have one, so it opens instead of a second one starting.
-        return go(PLAN_HREF(planID!, `&draft=${mine.id}`));
+        return switchTo(mine);
       }
       draft = mine ?? startDraft(planID!);
       mode = 'own';
@@ -385,6 +433,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       // Issued: the chart's title block says what the draft is based on; the band keeps only a warning that Live moved.
       q<HTMLElement>('[data-prp-base-rev]').hidden = issued;
       q<HTMLElement>('[data-prp-base-behind]').hidden = behind <= 0;
+      q<HTMLElement>('[data-prp-base]').hidden = issued && behind <= 0;
       q<HTMLElement>('[data-prp-base-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}`;
       q<HTMLElement>('[data-prp-review]').before(q<HTMLElement>('[data-prp-draft-actions]'));
     }
@@ -449,10 +498,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     requestAnimationFrame(alignBranchMenu);
     const list = q<HTMLElement>('[data-prp-branches]');
     const latest = latestVersion(repo);
-    const row = (href: string, current: boolean, avatarName: string | null, title: string, sub: string) => {
+    const row = (to: string, current: boolean, avatarName: string | null, title: string, sub: string) => {
       const a = document.createElement('a');
       a.className = 'bcn-prp__branch-row';
-      a.href = keep(href);
+      a.href = keep(PLAN_HREF(planID!, to === 'live' ? '' : to === 'start' ? '&start=1' : `&draft=${to}`));
+      a.dataset.prpTo = to;
       a.setAttribute('role', 'menuitem');
       if (current) a.setAttribute('aria-current', 'true');
       const check = document.createElement('span');
@@ -472,13 +522,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const others = repo.drafts.filter((d) => d.owner !== me);
     const sub = (d: PlanRepoDraft) => {
       const behind = versionsBehind(repo, d);
-      return `${d.publishRequestedAt ? 'Publish requested · ' : ''}${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? ` · ${behind} behind Live` : ''}`;
+      return `${d.publishRequestedAt ? 'Publish requested, ' : ''}${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}`;
     };
     list.replaceChildren(
-      row(PLAN_HREF(planID!), mode === 'live', null, 'Live plan', `Rev ${latest.number} · ${firstName(latest.author)} · ${timeAgo(latest.at)}`),
+      row('live', mode === 'live', null, 'Live plan', `Rev ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`),
       head(yours),
-      mine ? row(PLAN_HREF(planID!, `&draft=${mine.id}`), mode === 'own', me, mine.name, sub(mine)) : row(PLAN_HREF(planID!, '&start=1'), false, null, `Start your ${noun}`, 'A private copy to try dates in'),
-      ...(others.length ? [head("Other people's drafts · read-only"), ...others.map((d) => row(PLAN_HREF(planID!, `&draft=${d.id}`), draft?.id === d.id, d.owner, d.name, `${firstName(d.owner)} · ${sub(d)}`))] : [])
+      mine ? row(mine.id, mode === 'own', me, mine.name, sub(mine)) : row('start', false, null, `Start your ${noun}`, 'A private copy to try dates in'),
+      ...(others.length ? [head("Other people's drafts, read-only"), ...others.map((d) => row(d.id, draft?.id === d.id, d.owner, d.name, `${firstName(d.owner)}, ${sub(d)}`))] : [])
     );
   }
 
@@ -495,7 +545,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       message.textContent = latest.message;
       meta.innerHTML = issued
         ? `<span title="${new Date(latest.at).toLocaleString()}">${timeAgo(latest.at)}</span>`
-        : `<span title="${new Date(latest.at).toLocaleString()}">Rev ${latest.number} · ${timeAgo(latest.at)}</span>`;
+        : `<span title="${new Date(latest.at).toLocaleString()}">Rev ${latest.number}, ${timeAgo(latest.at)}</span>`;
       actions.hidden = true;
       return;
     }
@@ -509,14 +559,16 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       who.textContent = '';
       message.textContent = last ? last.message : 'No edits yet';
       meta.innerHTML = '';
-      meta.append(
-        Object.assign(document.createElement('span'), { textContent: `${n} ${n === 1 ? 'edit' : 'edits'}` }),
-        Object.assign(document.createElement('span'), { textContent: last ? timeAgo(last.at) : '' })
-      );
+      // With no edits the message says so; a "0 edits" beside it would say it twice.
+      if (n)
+        meta.append(
+          Object.assign(document.createElement('span'), { textContent: `${n} ${n === 1 ? 'edit' : 'edits'}` }),
+          Object.assign(document.createElement('span'), { textContent: timeAgo(last!.at) })
+        );
     } else {
       who.textContent = mode === 'own' ? yours : `${firstName(d.owner)}'s draft`;
       message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
-      meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on Rev ${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
+      meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'}, based on Rev ${d.baseVersion}${behind > 0 ? `, <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
     }
     actions.hidden = mode !== 'own';
     const undoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-undo] button');
@@ -538,7 +590,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         const text = document.createElement('div');
         text.textContent = rev.message;
         const small = document.createElement('small');
-        small.textContent = `Edit ${i + 1} · ${timeAgo(rev.at)}`;
+        small.textContent = `Edit ${i + 1}, ${timeAgo(rev.at)}`;
         text.append(small);
         li.append(text);
         if (i === n - 1) li.dataset.current = '';
@@ -560,7 +612,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-deps]').textContent = String(shown.Dependencies?.length ?? 0);
     q<HTMLElement>('[data-prp-people]').replaceChildren(planAvatarStack(contributorsOf(repo), 8, 'sm'));
 
-    const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string) => {
+    const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string, to?: string) => {
       const el = document.createElement('div');
       el.className = 'bcn-prp__item';
       const lead = avatarName ? planAvatar(avatarName, 'xs') : Object.assign(document.createElement('span'), { innerHTML: '' });
@@ -569,6 +621,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const name = document.createElement(href ? 'a' : 'b');
       name.textContent = title;
       if (href) (name as HTMLAnchorElement).href = keep(href);
+      if (to) name.dataset.prpTo = to;
       const small = document.createElement('small');
       small.textContent = sub;
       body.append(name, small);
@@ -579,8 +632,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const named = [...repo.versions].reverse().find((v) => v.label);
     const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: `All ${repo.versions.length} revisions` });
     q<HTMLElement>('[data-prp-releases]').replaceChildren(
-      item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)} · ${firstName(latest.author)}`),
-      ...(named ? [item(null, 'tag', named.label!, `Rev ${named.number} · ${shortDate(named.at)}`)] : []),
+      item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)}, ${firstName(latest.author)}`),
+      ...(named ? [item(null, 'tag', named.label!, `Rev ${named.number}, ${shortDate(named.at)}`)] : []),
       more
     );
 
@@ -588,7 +641,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     list.replaceChildren(
       ...repo.drafts.map((d) => {
         const li = document.createElement('li');
-        li.append(item(d.owner, null, d.owner === me ? `${d.name} (yours)` : d.name, `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}`, PLAN_HREF(planID!, `&draft=${d.id}`)));
+        li.append(item(d.owner, null, d.owner === me ? `${d.name} (yours)` : d.name, `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}`, PLAN_HREF(planID!, `&draft=${d.id}`), d.id));
         return li;
       })
     );
@@ -599,18 +652,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // ── Wiring ──────────────────────────────────────────────────────────────────────────────────────────────────────
   q<HTMLElement>('[data-prp-tabs]').addEventListener('change', (e) => {
     const value = (e.currentTarget as HTMLElement & { value: string }).value;
-    if (value === 'live' && mode !== 'live') go(PLAN_HREF(planID!));
-    if (value === 'draft' && mode !== 'own') go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`));
+    if (value === 'live' && mode !== 'live') void switchTo(null);
+    if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!), { rise: true });
   });
-  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => {
-    // Issued: the bars stand up as the draft opens.
-    try {
-      sessionStorage.setItem('bcn-prp-rise', '1');
-    } catch {
-      /* a blocked store just skips the moment */
-    }
-    go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`));
-  });
+  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!), { rise: true }));
   q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
     if (!draft || !draft.revisions.length) return;
     requestPublish(planID!, draft.id);
@@ -620,12 +665,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-copy]').addEventListener('click', () => {
     const mine = myDraft(planID!);
     if (mine?.revisions.length && !confirm(`Replace your draft "${mine.name}" (${mine.revisions.length} edits) with a copy of ${firstName(draft!.owner)}'s?`)) return;
-    go(PLAN_HREF(planID!, `&draft=${startDraft(planID!, draft!).id}`));
+    void switchTo(startDraft(planID!, draft!), { rise: true });
   });
   q<HTMLElement>('[data-prp-discard]').addEventListener('click', () => {
     if (!draft || (draft.revisions.length && !confirm(`Discard your draft and its ${draft.revisions.length} edits? Live is not affected.`))) return;
     discardDraft(planID!, draft.id);
-    go(PLAN_HREF(planID!));
+    void switchTo(null);
   });
   q<HTMLElement>('[data-prp-undo]').addEventListener('click', () => void undo());
   q<HTMLElement>('[data-prp-redo]').addEventListener('click', () => void redoStep());
@@ -637,10 +682,31 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     void (e.shiftKey ? redoStep() : undo());
   });
 
-  if (params.get('start')) {
-    go(PLAN_HREF(planID!, `&draft=${startDraft(planID!).id}`));
-    return;
-  }
+
+  // ── Search (2026-10-27): narrows the rows to the matches, their parents and contents; the names mark the hits ──
+  const search = q<HTMLElement & { value: string }>('[data-prp-search]');
+  const noMatch = q<HTMLElement>('[data-prp-no-match]');
+  let searchTimer = 0;
+  const applySearch = () => {
+    const text = (search.value ?? '').trim();
+    const found = chart.setFilter(text);
+    noMatch.hidden = !text || found > 0;
+    if (text && !found) noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing matches “${text}”`;
+  };
+  search.addEventListener('change', () => {
+    clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(applySearch, 120);
+  });
+  search.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key !== 'Escape' || !search.value) return;
+    search.value = '';
+    applySearch();
+  });
+  q<HTMLElement>('[data-prp-search-clear]').addEventListener('click', () => {
+    search.value = '';
+    applySearch();
+    search.focus();
+  });
   // About folds into a rail from its own header (the setup wizard's Library), remembered in this browser.
   const ABOUT_KEY = 'bcn-prp-about';
   const setAbout = (open: boolean) => {
@@ -671,17 +737,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       if (inked.size) setTimeout(() => ((inked = new Set()), draw()), 1600);
     } catch {
       /* a blocked store just skips the moment */
-    }
-  }
-  if (issued && mode === 'own') {
-    try {
-      if (sessionStorage.getItem('bcn-prp-rise')) {
-        sessionStorage.removeItem('bcn-prp-rise');
-        host.setAttribute('data-rise', '');
-        setTimeout(() => host.removeAttribute('data-rise'), 900);
-      }
-    } catch {
-      /* as above */
     }
   }
   fillIcons(root);

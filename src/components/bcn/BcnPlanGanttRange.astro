@@ -34,14 +34,19 @@ const { stacked = false } = Astro.props;
     <>
       {/* Stacked (the setup wizard's console over its strip): one row, Show left and Dates right, then the strip. */}
       <div class="bcn-plan-range__console">
+        <!-- lead: the page's own scoping control that comes first (the plan page's search, 2026-10-27). -->
+        <slot name="lead" />
         <span class="bcn-plan-range__label typography-label-sm">Show</span>
         <esa-button-toggle size="sm" label="" data-pr-preset></esa-button-toggle>
         <span class="bcn-plan-range__spacer"></span>
         <slot name="actions" />
-        <span class="bcn-plan-range__label typography-label-sm">Dates</span>
-        <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
-          <esa-date-picker size="sm" data-pr-start></esa-date-picker>
-          <esa-date-picker size="sm" data-pr-end></esa-date-picker>
+        {/* The label and its pickers wrap as one, never "Dates" alone at the end of a line. */}
+        <span class="bcn-plan-range__group">
+          <span class="bcn-plan-range__label typography-label-sm">Dates</span>
+          <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
+            <esa-date-picker size="sm" data-pr-start></esa-date-picker>
+            <esa-date-picker size="sm" data-pr-end></esa-date-picker>
+          </span>
         </span>
       </div>
     <div class="bcn-plan-range__overview" data-pr-overview role="group" aria-label="Range">
@@ -105,6 +110,7 @@ const { stacked = false } = Astro.props;
   .bcn-plan-range--stacked { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-plan-range__console { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
   .bcn-plan-range__label { color: var(--color-content-default-secondary); }
+  .bcn-plan-range__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
   .bcn-plan-range__spacer { flex: 1; }
   .bcn-plan-range--stacked .bcn-plan-range__overview { block-size: 2.75rem; max-inline-size: none; inline-size: 100%; }
   .bcn-plan-range__mini { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; clip-path: inset(0 round var(--radius-md)); }

@@ -344,6 +344,14 @@ const { label, id } = Astro.props;
   }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0 .bcn-plan-gantt__name),
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-1 .bcn-plan-gantt__name) { font-weight: 600; }
+  /* The search's hits in the names (2026-10-27): the house highlighter yellow (the work breakdown's and the setup
+     wizard's), tight to the letters. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__match) {
+    background: var(--bcn-marker-selection);
+    color: inherit;
+    border-radius: 2px;
+    padding-inline: 1px;
+  }
 
   /* ── The plot ── */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot) { display: block; }

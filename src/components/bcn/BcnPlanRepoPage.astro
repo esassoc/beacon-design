@@ -21,6 +21,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 ---
@@ -47,7 +48,17 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       </span>
       <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> revisions</a>
       <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
-      <span class="bcn-prp__spacer"></span>
+      <!-- The latest change, in the same row (2026-10-27): who, what, when. It takes the row's free width and truncates. -->
+      <span class="bcn-prp__status typography-body-sm" data-prp-status>
+        <span data-prp-status-avatar></span>
+        <span class="bcn-prp__status-text"><strong data-prp-status-who></strong> <span data-prp-status-message></span></span>
+        <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
+      </span>
+      <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
+        <span data-prp-undo><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></span>
+        <span data-prp-redo><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></span>
+        <span data-prp-discard><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></span>
+      </span>
       <span data-prp-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
       <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
       <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
@@ -56,23 +67,26 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <span data-prp-asked hidden><EsaBadge value="Publish requested" variant="neutral" size="sm" /></span>
     </div>
 
-    <div class="bcn-prp__status typography-body-sm" data-prp-status>
-      <span data-prp-status-avatar></span>
-      <span class="bcn-prp__status-text"><strong data-prp-status-who></strong> <span data-prp-status-message></span></span>
-      <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
-      <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
-        <span data-prp-undo><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></span>
-        <span data-prp-redo><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></span>
-        <span data-prp-discard><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></span>
-      </span>
-    </div>
+  </section>
 
-    <BcnPlanGanttRange stacked />
+  <!-- Scope (2026-10-27): what the chart shows, apart from which plan and version it is. Search narrows the rows to
+       the ones that match (with their parents, and the contents of a matching parent) and marks the hits; Show, Dates
+       and the overview set the stretch of time. -->
+  <section class="bcn-prp__scope" aria-label="What the chart shows">
+    <BcnPlanGanttRange stacked>
+      <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the plan" aria-label="Search the plan" autocomplete="off" data-prp-search></esa-text-field>
+    </BcnPlanGanttRange>
   </section>
 
   <div class="bcn-prp__body">
     <div class="bcn-prp__main">
       <BcnPlanGantt label="Plan schedule" />
+      <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
+      <div class="bcn-prp__no-match" data-prp-no-match hidden>
+        <EsaEmptyState size="sm" title="Nothing matches" description="Try another word.">
+          <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear search</EsaButton></span>
+        </EsaEmptyState>
+      </div>
       <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
       <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
         <span class="bcn-prp__link-anchor" data-prp-link-anchor></span>
@@ -139,7 +153,10 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp :global([data-glyph] svg) { display: block; }
 
   /* ── The head card: the wizard's step panel ── */
-  .bcn-prp__head {
+  /* The head card is one row: which plan and version this is, and what's happened to it. The scope card under it
+     holds what the chart shows. In a draft the head card is the band: the whole strip takes the sunken neutral. */
+  .bcn-prp__head,
+  .bcn-prp__scope {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
@@ -149,16 +166,11 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
-  .bcn-prp__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
-  /* The band: the bar itself, run to the card's edges on the sunken neutral, as the About pane's header band is. */
-  .bcn-prp__bar[data-band] {
-    margin: calc(-1 * var(--spacing-400)) calc(-1 * var(--spacing-400)) 0;
-    padding: var(--spacing-250) var(--spacing-400);
-    background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken));
-    border-block-end: 1px solid var(--color-border-default);
-    border-start-start-radius: var(--radius-200);
-    border-start-end-radius: var(--radius-200);
-  }
+  .bcn-prp__head { padding-block: var(--spacing-300); transition: background-color 200ms ease; }
+  .bcn-prp__head:has(.bcn-prp__bar[data-band]) { background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken)); }
+  /* Narrow enough that search, Show and Dates share one line beside a folded About. */
+  .bcn-prp__search { inline-size: 12rem; }
+  .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__bar[data-band] .bcn-prp__count { display: none; }
   .bcn-prp__base { display: inline-flex; align-items: center; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-prp__behind { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default); }
@@ -190,13 +202,14 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__branches :global(.bcn-prp__branch-name) { display: flex; flex-direction: column; min-inline-size: 0; }
   .bcn-prp__branches :global(.bcn-prp__branch-sub) { color: var(--color-content-default-secondary); }
 
+  /* The latest change takes the row's free width, a step in from the counts, and truncates before anything else does. */
   .bcn-prp__status {
     display: flex;
+    flex: 1 1 auto;
     align-items: center;
     gap: var(--spacing-200);
-    min-block-size: 2rem;
-    padding-block-start: var(--spacing-300);
-    border-block-start: 1px solid var(--color-border-default-subtle);
+    min-inline-size: 0;
+    margin-inline-start: var(--spacing-200);
   }
   .bcn-prp__status-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-prp__status-text strong { font-weight: 600; }
@@ -207,6 +220,12 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: start; }
   .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: minmax(0, 1fr) 2.75rem; }
   .bcn-prp__main { min-inline-size: 0; position: relative; }
+  .bcn-prp__no-match {
+    padding: var(--spacing-800) var(--spacing-400);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
   .bcn-prp__link-pop { position: absolute; inset-inline-start: 0; inset-block-start: 0; }
   .bcn-prp__link-anchor { display: block; inline-size: 1px; block-size: 1px; }
   .bcn-prp__link { display: flex; flex-direction: column; gap: var(--spacing-300); inline-size: 20rem; }
@@ -287,10 +306,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     .bcn-prp__rail { display: none !important; }
   }
 
-  /* ── Draft-mode concepts (2026-10-27): the page around the chart ──
-     Moving between Live, a draft and its review is a change of state, so the plan and revisions pages crossfade where the
-     browser can (both opt in). */
-  @view-transition { navigation: auto; }
+  /* ── Draft-mode concepts (2026-10-27): the page around the chart ── */
 
   /* Bench: a draft is a workbench. The app's nav folds to its rail and the page header steps aside (the runtime sets
      html[data-bench]); the head card becomes the bench's toolbar, the plan name leading the band, and the chart takes
