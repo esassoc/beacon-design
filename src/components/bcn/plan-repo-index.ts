@@ -13,7 +13,6 @@ type FieldEl = HTMLElement & { value: string };
 const FILTERS = [
   { label: 'All', value: 'all' },
   { label: 'Has drafts', value: 'drafts' },
-  { label: 'Watching', value: 'watching' },
 ];
 
 export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
@@ -83,7 +82,6 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     const shown = summaries.filter((s) => {
       if (text && !`${s.name} ${s.description}`.toLowerCase().includes(text)) return false;
       if (mode === 'drafts' && !s.repo.drafts.length) return false;
-      if (mode === 'watching' && !s.repo.watchers.includes(me)) return false;
       return true;
     });
     count.textContent = `${shown.length} ${shown.length === 1 ? 'plan' : 'plans'}`;
@@ -103,20 +101,18 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     const labelled = [...s.repo.versions].reverse().find((v) => v.label);
     if (labelled) {
       r<HTMLElement>('[data-pri-label]').hidden = false;
-      r<HTMLElement>('[data-pri-label-text]').textContent = `${labelled.label} · v${labelled.number}`;
+      r<HTMLElement>('[data-pri-label-text]').textContent = `${labelled.label} · Rev ${labelled.number}`;
     }
     r<HTMLElement>('[data-pri-avatar]').replaceWith(planAvatar(s.latest.author, 'xs'));
     r<HTMLElement>('[data-pri-author]').textContent = s.latest.author;
     r<HTMLElement>('[data-pri-message]').textContent = s.latest.message;
     const when = r<HTMLElement>('[data-pri-when]');
-    when.textContent = `v${s.latest.number} · ${timeAgo(s.latest.at)}`;
+    when.textContent = `Rev ${s.latest.number} · ${timeAgo(s.latest.at)}`;
     when.title = new Date(s.latest.at).toLocaleString();
-    r<HTMLElement>('[data-pri-version]').textContent = `v${s.latest.number}`;
+    r<HTMLElement>('[data-pri-version]').textContent = `Rev ${s.latest.number}`;
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);
-    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'version' : 'versions'}`;
-    r<HTMLElement>('[data-pri-watch]').textContent = String(s.repo.watchers.length);
-    r<HTMLElement>('[data-pri-stars]').textContent = String(s.repo.starredBy.length);
+    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'revision' : 'revisions'}`;
     r<HTMLElement>('[data-pri-span]').textContent = `${year(s.start)}–${year(s.end)} · ${s.elementCount} items`;
     r<HTMLElement>('[data-pri-people]').replaceWith(planAvatarStack(s.contributors, 5));
     const drafts = r<HTMLUListElement>('[data-pri-drafts]');
@@ -131,7 +127,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
       const behind = s.latest.number - d.baseVersion;
       const n = d.revisions.length;
       item.querySelector('[data-pri-draft-meta]')!.textContent =
-        `${d.owner.split(' ')[0]} · ${n} ${n === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? ` · ${behind} ${behind === 1 ? 'version' : 'versions'} behind Live` : ''}`;
+        `${d.owner.split(' ')[0]} · ${n} ${n === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? ` · ${behind} ${behind === 1 ? 'revision' : 'revisions'} behind Live` : ''}`;
       drafts.append(item);
     }
     const mini = r<HTMLElement>('[data-pri-mini]');

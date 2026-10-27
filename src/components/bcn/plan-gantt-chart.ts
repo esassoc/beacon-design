@@ -477,7 +477,7 @@ interface GanttView {
   landmarkViews: GanttLandmarkView[];
   landmarkBandPx: number;
   axisPx: number;
-  linkViews: { path: string; head: string; broken: boolean }[];
+  linkViews: { path: string; head: string; broken: boolean; fromId: string; toId: string }[];
   todayX: number | null;
   plotLabel: string;
   editTargets: Map<string, GanttEditTarget>;
@@ -500,6 +500,9 @@ export interface PlanGanttChartOptions {
   onSelectionChange?: (ids: string[]) => void;
   /** Her compact geometry (default), or the tactile one: bigger, lit, lifting marks. */
   density?: PlanGanttDensity;
+  /** A click on a dependency's line (new, 2026-10-27): the link and where the pointer was, for a popover. Absent, links
+   *  stay a drawing that takes no pointer. */
+  onLinkSelect?: (link: { fromId: string; toId: string }, at: { x: number; y: number }) => void;
   /** The outline column's starting width, in place of the remembered one (a narrow host, e.g. beside a change list). */
   outlineWidth?: number;
 }
@@ -792,14 +795,14 @@ export class PlanGanttChart {
     const edgeX = (mark: GanttMarkView, edge: UiVizGanttEdge): number => (edge === 'start' ? mark.startEdge : mark.endEdge);
     const brokenLinks = new Set(this.conflicts.map((c) => `${c.fromId}>${c.toId}`));
     const conflictIds = new Set(this.conflicts.map((c) => c.toId));
-    const linkViews: { path: string; head: string; broken: boolean }[] = [];
+    const linkViews: GanttView['linkViews'] = [];
     for (const link of this.links) {
       const from = byId.get(link.fromId);
       const to = byId.get(link.toId);
       if (!from?.mark || !to?.mark || from === to) continue;
       const edges = LINK_EDGES[link.type];
       const route = routeLink({ x: edgeX(from.mark, edges.from), y: from.centre }, edges.from, { x: edgeX(to.mark, edges.to), y: to.centre }, edges.to, ROW_PX);
-      linkViews.push({ ...route, broken: brokenLinks.has(`${link.fromId}>${link.toId}`) });
+      linkViews.push({ ...route, broken: brokenLinks.has(`${link.fromId}>${link.toId}`), fromId: link.fromId, toId: link.toId });
     }
 
     // The draft's baseline: each changed row's live-plan dates, where the row draws them.
@@ -1187,7 +1190,12 @@ export class PlanGanttChart {
           .join('')}</g>`
       );
     }
-    for (const link of v.linkViews) svg.push(`<g class="${P}__link${link.broken ? ` ${P}__link--broken` : ''}"><path class="${P}__link-line" d="${link.path}"/><polygon class="${P}__link-head" points="${link.head}"/></g>`);
+    // A dependency is an object (new, 2026-10-27): with onLinkSelect, each link carries a wide invisible hit line, drawn
+    // over the rows' hit targets but trimmed 12px at each end (after render), so a bar's end and its resize grip still
+    // win where the link leaves and meets it.
+    const linkHit = (link: GanttView['linkViews'][number]) =>
+      this.options.onLinkSelect ? `<path class="${P}__link-hit" data-link-from="${esc(link.fromId)}" data-link-to="${esc(link.toId)}" d="${link.path}"/>` : '';
+    for (const link of v.linkViews) svg.push(`<g class="${P}__link${link.broken ? ` ${P}__link--broken` : ''}" data-link-key="${esc(link.fromId)}>${esc(link.toId)}"><path class="${P}__link-line" d="${link.path}"/><polygon class="${P}__link-head" points="${link.head}"/></g>`);
     svg.push(`<g data-layer="ghosts"></g>`);
     for (const view of v.landmarkViews) svg.push(`<rect class="${P}__landmark-hit" data-landmark-id="${esc(view.landmark.id)}" x="${view.hitX}" y="0" width="${view.hitWidth}" height="${H}"/>`);
     for (const view of v.rowViews) {
@@ -1195,6 +1203,7 @@ export class PlanGanttChart {
       if (!hit) continue;
       svg.push(`<rect class="${P}__hit${this.editable ? ` ${P}__hit--editable` : ''}" data-hit="${esc(view.row.id)}" x="${hit.x}" y="${view.top}" width="${hit.width}" height="${ROW_PX}"/>`);
     }
+    if (this.options.onLinkSelect) for (const link of v.linkViews) svg.push(linkHit(link));
 
     this.frame.innerHTML = `
       <div class="${P}__canvas" style="grid-template-columns:${this.shownOutlineWidth()}px ${W}px">
@@ -1234,8 +1243,18 @@ export class PlanGanttChart {
         if (node) actions.append(node);
       }
     }
+    this.trimLinkHits();
     this.renderOverlay();
     this.renderTip();
+  }
+
+  /** Each link's hit line leaves 12px free at both ends, by dashing it: the bar ends there keep the pointer. */
+  private trimLinkHits(): void {
+    const TRIM = 12;
+    this.frame.querySelectorAll<SVGPathElement>(`.${P}__link-hit`).forEach((path) => {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length > TRIM * 2 + 4 ? `0 ${TRIM} ${length - TRIM * 2} ${TRIM}` : '0 9999';
+    });
   }
 
   /** The drag-and-hover layer: what changes on every pointer move without rebuilding the canvas. */
@@ -1389,6 +1408,11 @@ export class PlanGanttChart {
       if (select) return this.options.onRowSelect?.(select.dataset.select!);
       if (target.closest('[data-drop-apply]')) return this.options.onDropConfirm?.();
       if (target.closest('[data-drop-revert]')) return this.options.onDropRevert?.();
+      const linkHit = target.closest<SVGPathElement>(`.${P}__link-hit`);
+      if (linkHit) {
+        const me = e as MouseEvent;
+        return this.options.onLinkSelect?.({ fromId: linkHit.dataset.linkFrom!, toId: linkHit.dataset.linkTo! }, { x: me.clientX, y: me.clientY });
+      }
       const hit = hitOf(e);
       if (hit) {
         if (this.editable) this.onEditClick(hit.dataset.hit!, e as MouseEvent);
@@ -1398,6 +1422,10 @@ export class PlanGanttChart {
 
     // mouseenter / mouseleave: the hit targets and landmark marks are leaves, so over / out on them is enter / leave.
     f.addEventListener('mouseover', (e) => {
+      // A selectable link darkens while its hit line is under the pointer.
+      const overLink = (e.target as Element).closest?.(`.${P}__link-hit`) as SVGPathElement | null;
+      const key = overLink ? `${overLink.dataset.linkFrom}>${overLink.dataset.linkTo}` : null;
+      f.querySelectorAll<SVGGElement>(`.${P}__link`).forEach((g) => g.classList.toggle(`${P}__link--hovered`, g.dataset.linkKey === key));
       const hit = hitOf(e);
       if (hit) return this.setHover({ kind: 'row', id: hit.dataset.hit! }, e);
       const landmark = landmarkOf(e);

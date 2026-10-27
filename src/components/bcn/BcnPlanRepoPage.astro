@@ -36,15 +36,9 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         </span>
         <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Live plan and drafts"></div>
       </esa-popover>
-      <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> versions</a>
+      <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> revisions</a>
       <span class="bcn-prp__count typography-label-sm"><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
       <span class="bcn-prp__spacer"></span>
-      <span data-prp-watch>
-        <EsaButton variant="ghost" size="sm" icon="eye"><span data-prp-watch-label>Watch</span> <EsaBadge value="0" variant="neutral" size="xs" /></EsaButton>
-      </span>
-      <span data-prp-star>
-        <EsaButton variant="ghost" size="sm" icon="star"><span data-prp-star-label>Star</span> <EsaBadge value="0" variant="neutral" size="xs" /></EsaButton>
-      </span>
       <span data-prp-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
       <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
       <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
@@ -67,14 +61,30 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   <div class="bcn-prp__body">
     <div class="bcn-prp__main">
       <BcnPlanGantt label="Plan schedule" />
+      <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
+      <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
+        <span class="bcn-prp__link-anchor" data-prp-link-anchor></span>
+        <div slot="content" class="bcn-prp__link typography-body-sm">
+          <div class="bcn-prp__link-names"><b data-prp-link-from></b><span data-glyph="arrow-right"></span><b data-prp-link-to></b></div>
+          <esa-text-field data-prp-link-lag label="Lag (days)" type="number" size="sm"></esa-text-field>
+          <div class="bcn-prp__link-actions">
+            <span data-prp-link-unlink><EsaButton variant="danger" appearance="soft" size="sm" icon="x">Unlink</EsaButton></span>
+            <span data-prp-link-save><EsaButton variant="primary" size="sm">Save</EsaButton></span>
+          </div>
+        </div>
+      </esa-popover>
     </div>
 
     <aside class="bcn-prp__about" aria-label="About this plan">
       <header class="bcn-prp__about-head">
-        <span class="typography-label-md-strong">About</span>
+        <span class="typography-label-md-strong" data-prp-pane-title>About</span>
         <EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse About" size="xs" data-prp-about-close />
       </header>
       <div class="bcn-prp__about-body typography-body-sm">
+        <section data-prp-edits hidden>
+          <h2 class="typography-label-md-strong">Edits</h2>
+          <ol class="bcn-prp__edits" data-prp-edit-list></ol>
+        </section>
         <p data-prp-desc></p>
         <dl class="bcn-prp__facts">
           <div><dt>Span</dt><dd data-prp-span></dd></div>
@@ -82,7 +92,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
           <div><dt>Dependencies</dt><dd data-prp-deps></dd></div>
         </dl>
         <section>
-          <h2 class="typography-label-md-strong">Versions</h2>
+          <h2 class="typography-label-md-strong">Revisions</h2>
           <div class="bcn-prp__list" data-prp-releases></div>
         </section>
         <section>
@@ -95,6 +105,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         </section>
       </div>
     </aside>
+    <template data-prp-tpl="back"><EsaButton variant="ghost" size="xs" iconOnly icon="rotate-ccw" label="Go back to this edit" /></template>
     <!-- Collapsed: a narrow rail, as the setup wizard's Library and the app's side nav fold. -->
     <button type="button" class="bcn-prp__rail" data-prp-about-open aria-label="Show About" title="Show About">
       <EsaIcon name="chevrons-left" size="sm" />
@@ -105,6 +116,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <script>
   import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-text-field';
 </script>
 
 <style>
@@ -164,7 +176,12 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   /* ── Body: the chart beside About (the wizard's Library pane, on the right) ── */
   .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: start; }
   .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: minmax(0, 1fr) 2.75rem; }
-  .bcn-prp__main { min-inline-size: 0; }
+  .bcn-prp__main { min-inline-size: 0; position: relative; }
+  .bcn-prp__link-pop { position: absolute; inset-inline-start: 0; inset-block-start: 0; }
+  .bcn-prp__link-anchor { display: block; inline-size: 1px; block-size: 1px; }
+  .bcn-prp__link { display: flex; flex-direction: column; gap: var(--spacing-300); inline-size: 20rem; }
+  .bcn-prp__link-names { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-prp__link-actions { display: flex; justify-content: flex-end; gap: var(--spacing-200); }
 
   .bcn-prp__about {
     display: flex;
@@ -192,6 +209,17 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__facts div { display: flex; justify-content: space-between; gap: var(--spacing-200); }
   .bcn-prp__facts dt { color: var(--color-content-default-secondary); }
   .bcn-prp__facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-prp__edits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-prp__edits :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--spacing-200);
+    align-items: start;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-prp__edits :global(li + li) { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-prp__edits :global(small) { display: block; color: var(--color-content-default-secondary); }
+  .bcn-prp__edits :global(li[data-current]) { font-weight: 600; }
   .bcn-prp__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-prp__about :global(.bcn-prp__item) { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--spacing-200); align-items: start; }
   .bcn-prp__about :global(.bcn-prp__item a),

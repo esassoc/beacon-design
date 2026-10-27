@@ -26,6 +26,7 @@ import {
   flattenPlan,
   getRepo,
   latestVersion,
+  recordLiveEdit,
   listPlanSummaries,
   myDraft,
   planCompare,
@@ -35,8 +36,6 @@ import {
   shortDate,
   startDraft,
   timeAgo,
-  toggleStar,
-  toggleWatch,
   versionsBehind,
   type PlanRepo,
   type PlanRepoDraft,
@@ -73,6 +72,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     density: 'tactile',
     onRowSelect: (id) => chart.setSelectedId(id),
     onDragEnd: (drag) => void drop(drag),
+    onLinkSelect: (link, at) => openLink(link, at),
   });
   const extent = () => {
     const span = planSpan(shown);
@@ -124,6 +124,45 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     refresh();
   }
 
+  // ── A dependency as an object, on Live: change its lag or unlink it; either is the next revision ──
+  const linkPop = q<HTMLElement & { open: boolean }>('[data-prp-link-pop]');
+  const lagField = q<HTMLElement & { value: string }>('[data-prp-link-lag]');
+  let openDep: { id: string; from: string; to: string; lag: number } | null = null;
+  const nameOf = (id: string) => flattenPlan(live.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
+  function openLink(link: { fromId: string; toId: string }, at: { x: number; y: number }): void {
+    if (mode !== 'live') return;
+    const dep = (live.Dependencies ?? []).find((d) => d.PredecessorPlanElementID === link.fromId && d.SuccessorPlanElementID === link.toId);
+    if (!dep?.PlanElementDependencyID) return;
+    openDep = { id: dep.PlanElementDependencyID, from: nameOf(link.fromId), to: nameOf(link.toId), lag: dep.LagDays ?? 0 };
+    q<HTMLElement>('[data-prp-link-from]').textContent = openDep.from;
+    q<HTMLElement>('[data-prp-link-to]').textContent = openDep.to;
+    lagField.value = String(openDep.lag);
+    const box = q<HTMLElement>('.bcn-prp__main').getBoundingClientRect();
+    linkPop.style.left = `${at.x - box.left}px`;
+    linkPop.style.top = `${at.y - box.top}px`;
+    // Opened on the next frame, so the click that opened it isn't read as a click outside.
+    requestAnimationFrame(() => (linkPop.open = true));
+  }
+  async function afterLinkEdit(message: string): Promise<void> {
+    linkPop.open = false;
+    live = await planApi.getPlan(planID!);
+    await recordLiveEdit(planID!, message);
+    shown = live;
+    refresh();
+  }
+  q<HTMLElement>('[data-prp-link-unlink]').addEventListener('click', async () => {
+    if (!openDep) return;
+    await planApi.deleteDependency(planID!, openDep.id, live.VersionToken);
+    await afterLinkEdit(`Unlinked ${openDep.to} from ${openDep.from}`);
+  });
+  q<HTMLElement>('[data-prp-link-save]').addEventListener('click', async () => {
+    if (!openDep) return;
+    const lag = Math.round(Number(lagField.value));
+    if (!Number.isFinite(lag) || lag === openDep.lag) return void (linkPop.open = false);
+    await planApi.updateDependency(planID!, openDep.id, lag, live.VersionToken);
+    await afterLinkEdit(`Set ${openDep.to} to start ${lag === 0 ? 'right after' : `${Math.abs(lag)} ${Math.abs(lag) === 1 ? 'day' : 'days'} ${lag > 0 ? 'after' : 'before the end of'}`} ${openDep.from}`);
+  });
+
   async function undo(): Promise<void> {
     if (mode !== 'own' || !draft?.revisions.length || busy) return;
     const dropped = dropLastRevision(planID!, draft.id);
@@ -134,6 +173,19 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   async function redoStep(): Promise<void> {
     if (mode !== 'own' || !redo.length || busy) return;
     restoreRevision(planID!, draft!.id, redo.pop()!);
+    await reload();
+  }
+
+  /** Back to edit `count`: the later edits go onto the redo stack, newest last, so Redo brings them back in order. */
+  async function backTo(count: number): Promise<void> {
+    if (mode !== 'own' || !draft || busy) return;
+    const dropped: PlanRevision[] = [];
+    while ((getRepo(planID!).drafts.find((d) => d.id === draft!.id)?.revisions.length ?? 0) > count) {
+      const rev = dropLastRevision(planID!, draft.id);
+      if (!rev) break;
+      dropped.push(rev);
+    }
+    redo.push(...dropped);
     await reload();
   }
 
@@ -192,12 +244,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-copy]').hidden = mode !== 'view';
     const reviewBtn = q<HTMLElement>('[data-prp-review] button');
     setButtonDisabled(reviewBtn as HTMLButtonElement | null, !draft?.revisions.length);
-    const watching = repo.watchers.includes(me);
-    q<HTMLElement>('[data-prp-watch-label]').textContent = watching ? 'Watching' : 'Watch';
-    q<HTMLElement>('[data-prp-watch] .esa-badge__text').textContent = String(repo.watchers.length);
-    const starred = repo.starredBy.includes(me);
-    q<HTMLElement>('[data-prp-star-label]').textContent = starred ? 'Starred' : 'Star';
-    q<HTMLElement>('[data-prp-star] .esa-badge__text').textContent = String(repo.starredBy.length);
     drawBranches();
   }
 
@@ -249,7 +295,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       return `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? ` · ${behind} behind Live` : ''}`;
     };
     list.replaceChildren(
-      row(PLAN_HREF(planID!), mode === 'live', null, 'Live plan', `v${latest.number} · ${firstName(latest.author)} · ${timeAgo(latest.at)}`),
+      row(PLAN_HREF(planID!), mode === 'live', null, 'Live plan', `Rev ${latest.number} · ${firstName(latest.author)} · ${timeAgo(latest.at)}`),
       head('Your draft'),
       mine ? row(PLAN_HREF(planID!, `&draft=${mine.id}`), mode === 'own', me, mine.name, sub(mine)) : row(PLAN_HREF(planID!, '&start=1'), false, null, 'Start your draft', 'A private copy to try dates in'),
       ...(others.length ? [head("Other people's drafts · read-only"), ...others.map((d) => row(PLAN_HREF(planID!, `&draft=${d.id}`), draft?.id === d.id, d.owner, d.name, `${firstName(d.owner)} · ${sub(d)}`))] : [])
@@ -267,7 +313,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       avatarSlot.replaceChildren(planAvatar(latest.author, 'xs'));
       who.textContent = latest.author;
       message.textContent = latest.message;
-      meta.innerHTML = `<span title="${new Date(latest.at).toLocaleString()}">v${latest.number} · ${timeAgo(latest.at)}</span><a href="${REVISIONS_HREF(planID!)}">${planIcon('history', 14)}<b>${repo.versions.length}</b>&nbsp;versions</a>`;
+      meta.innerHTML = `<span title="${new Date(latest.at).toLocaleString()}">Rev ${latest.number} · ${timeAgo(latest.at)}</span>`;
       actions.hidden = true;
       return;
     }
@@ -278,7 +324,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
     const behind = versionsBehind(repo, d);
     const n = d.revisions.length;
-    meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on v${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'}</b>` : ''}</span>`;
+    meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'} · based on Rev ${d.baseVersion}${behind > 0 ? ` · <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
     actions.hidden = mode !== 'own';
     const undoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-undo] button');
     const redoBtn = actions.querySelector<HTMLButtonElement>('[data-prp-redo] button');
@@ -287,6 +333,33 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   function drawAside(): void {
+    // In a draft the pane leads with the draft itself: its edits, newest first, each one a place to go back to.
+    q<HTMLElement>('[data-prp-pane-title]').textContent = mode === 'live' ? 'About' : mode === 'own' ? 'Your draft' : `${firstName(draft!.owner)}'s draft`;
+    const editsSection = q<HTMLElement>('[data-prp-edits]');
+    editsSection.hidden = mode === 'live';
+    if (draft && mode !== 'live') {
+      const ol = q<HTMLOListElement>('[data-prp-edit-list]');
+      const n = draft.revisions.length;
+      const rows = draft.revisions.map((rev, i) => {
+        const li = document.createElement('li');
+        const text = document.createElement('div');
+        text.textContent = rev.message;
+        const small = document.createElement('small');
+        small.textContent = `Edit ${i + 1} · ${timeAgo(rev.at)}`;
+        text.append(small);
+        li.append(text);
+        if (i === n - 1) li.dataset.current = '';
+        else if (mode === 'own') {
+          const back = (q<HTMLTemplateElement>('[data-prp-tpl="back"]').content.firstElementChild!.cloneNode(true) as HTMLElement);
+          back.querySelector('button')?.setAttribute('aria-label', `Go back to edit ${i + 1}`);
+          back.addEventListener('click', () => void backTo(i + 1));
+          li.append(back);
+        }
+        return li;
+      });
+      ol.replaceChildren(...rows.reverse());
+      if (!n) ol.innerHTML = '<li><small>No edits yet</small></li>';
+    }
     q<HTMLElement>('[data-prp-desc]').textContent = live.Description ?? '';
     const span = planSpan(shown);
     q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : '—';
@@ -311,10 +384,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     };
     const latest = latestVersion(repo);
     const named = [...repo.versions].reverse().find((v) => v.label);
-    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: REVISIONS_HREF(planID!), textContent: `All ${repo.versions.length} versions` });
+    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: REVISIONS_HREF(planID!), textContent: `All ${repo.versions.length} revisions` });
     q<HTMLElement>('[data-prp-releases]').replaceChildren(
-      item(latest.author, null, `v${latest.number}`, `${shortDate(latest.at)} · ${firstName(latest.author)}`),
-      ...(named ? [item(null, 'tag', named.label!, `v${named.number} · ${shortDate(named.at)}`)] : []),
+      item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)} · ${firstName(latest.author)}`),
+      ...(named ? [item(null, 'tag', named.label!, `Rev ${named.number} · ${shortDate(named.at)}`)] : []),
       more
     );
 
@@ -345,14 +418,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   });
   q<HTMLElement>('[data-prp-undo]').addEventListener('click', () => void undo());
   q<HTMLElement>('[data-prp-redo]').addEventListener('click', () => void redoStep());
-  q<HTMLElement>('[data-prp-watch]').addEventListener('click', () => {
-    toggleWatch(planID!);
-    refresh();
-  });
-  q<HTMLElement>('[data-prp-star]').addEventListener('click', () => {
-    toggleStar(planID!);
-    refresh();
-  });
   document.addEventListener('keydown', (e) => {
     if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'z' || mode !== 'own') return;
     const t = e.target as HTMLElement | null;

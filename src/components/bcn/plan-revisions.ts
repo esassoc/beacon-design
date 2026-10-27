@@ -61,10 +61,10 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const cache = new Map<number, Promise<PlanDetailDto>>();
   const stops: Stop[] = draft
     ? [
-        { author: latest.author, title: `Live plan · v${latest.number}`, when: when(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
+        { author: latest.author, title: `Live · Rev ${latest.number}`, when: when(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
         ...draft.revisions.map((rev, i) => ({
           author: rev.author,
-          title: `Revision ${i + 1} by ${rev.author}`,
+          title: `Edit ${i + 1} by ${rev.author}`,
           when: when(rev.at),
           message: rev.message,
           state: async () => (await draftState(draft, i + 1)).Plan,
@@ -73,7 +73,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       ]
     : repo.versions.map((v) => ({
         author: v.author,
-        title: `v${v.number}${v.label ? ` · ${v.label}` : ''} by ${v.author}`,
+        title: `Revision ${v.number}${v.label ? ` · ${v.label}` : ''} by ${v.author}`,
         when: when(v.at),
         message: v.message,
         mark: v.label ? ('labelled' as const) : undefined,
@@ -86,7 +86,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   };
 
   // ── Head ──
-  const title = draft ? `Review ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`}` : 'History';
+  const title = draft ? `Review ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`}` : 'Revisions';
   const h1 = document.querySelector('.page-layout__title h1');
   const text = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
   if (text) text.textContent = `${title} · ${live.PlanName}`;
@@ -100,7 +100,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   q<HTMLAnchorElement>('[data-prv-exit]').href = PLAN_HREF(planID, draft ? `&draft=${draft.id}` : '');
   const behind = draft ? versionsBehind(repo, draft) : 0;
   q<HTMLElement>('[data-prv-behind]').hidden = behind <= 0;
-  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'version' : 'versions'} than v${draft?.baseVersion}`;
+  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'} than Rev ${draft?.baseVersion}`;
 
   // ── Chart ──
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
@@ -205,12 +205,12 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
     if (draft) {
       act.hidden = draft.owner !== me;
       const isLast = sel.to === stops.length - 1;
-      label.textContent = sel.to === 0 || isLast ? `Publish as v${latest.number + 1}` : `Publish revision ${sel.to} as v${latest.number + 1}`;
+      label.textContent = sel.to === 0 || isLast ? `Publish as Revision ${latest.number + 1}` : `Publish up to edit ${sel.to}`;
       setButtonDisabled(btn, sel.to === 0 || !current?.changes.length);
     } else {
       const isLatest = sel.to === stops.length - 1;
       act.hidden = false;
-      label.textContent = isLatest ? 'Restore' : `Restore v${repo.versions[sel.to].number}`;
+      label.textContent = isLatest ? 'Restore' : `Restore Revision ${repo.versions[sel.to].number}`;
       setButtonDisabled(btn, isLatest);
     }
   }

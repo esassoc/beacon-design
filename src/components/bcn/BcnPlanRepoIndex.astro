@@ -2,8 +2,8 @@
 // <BcnPlanRepoIndex> — the Plans index in the repo model (new design, 2026-10-26): the project's plans as a list of
 // repos. Each row is one plan: its name and visibility, the description, the latest version as a commit line (who,
 // what, when), its open drafts as child rows (the check-in: "a child node to the list"), the counts a repo shows
-// (versions, watchers, stars, contributors), and a miniature of its schedule with today marked. A find field and a
-// filter (All · Has drafts · Watching) head the list. Rows are built by ./plan-repo-index.ts from <template>s here,
+// (versions, contributors), and a miniature of its schedule with today marked. A find field and a
+// filter (All · Has drafts · ) head the list. Rows are built by ./plan-repo-index.ts from <template>s here,
 // so the scoped CSS reaches them.
 //
 // bcn-lego-checked: the find field IS esa-text-field, the filter IS esa-button-toggle, visibility IS esa-badge, the
@@ -52,8 +52,6 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
         <div class="bcn-pri__meta">
           <span class="bcn-pri__live"><span data-glyph="git-branch"></span>Live <span data-pri-version></span></span>
           <a class="bcn-pri__metalink" data-pri-history><span data-glyph="history"></span><span data-pri-versions></span></a>
-          <span title="Watching"><span data-glyph="eye"></span><span data-pri-watch></span></span>
-          <span title="Stars"><span data-glyph="star"></span><span data-pri-stars></span></span>
           <span class="bcn-pri__span" data-pri-span></span>
           <span class="bcn-pri__people" data-pri-people></span>
         </div>

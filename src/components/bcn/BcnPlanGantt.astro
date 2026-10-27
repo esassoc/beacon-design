@@ -425,6 +425,10 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link) { pointer-events: none; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-line) { fill: none; stroke: var(--_subtle); stroke-width: 1; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-head) { fill: var(--_subtle); }
+  /* A selectable dependency (new, 2026-10-27): a 12px invisible hit line along the route; hovered, the line darkens. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-hit) { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; cursor: pointer; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link--hovered .bcn-plan-gantt__link-line) { stroke: var(--_text); stroke-width: 2; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link--hovered .bcn-plan-gantt__link-head) { fill: var(--_text); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit) { fill: transparent; cursor: pointer; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--hovered) { filter: brightness(1.08); }
 

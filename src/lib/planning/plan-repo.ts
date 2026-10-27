@@ -38,7 +38,8 @@ export interface PlanVersion {
   /** A release-style name, when someone gave it one ("Submitted to CDFW"). */
   label: string | null;
   /** Where it came from: the plan's creation, a published draft, or a restore. */
-  source: 'created' | 'draft' | 'restore';
+  /** Where it came from: the plan's creation, a published draft, a restore, or an exact edit made on Live. */
+  source: 'created' | 'draft' | 'restore' | 'edit';
   draftName: string | null;
   plan: PlanDetailDto;
 }
@@ -710,7 +711,7 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
     number: latestVersion(fresh).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    message: `Restored v${number}${target.label ? ` (${target.label})` : ''}`,
+    message: `Restored Revision ${number}${target.label ? ` (${target.label})` : ''}`,
     changeCount: planCompare(live, next).length,
     label: null,
     source: 'restore',
@@ -718,6 +719,31 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
     plan: clone(next),
   };
   fresh.versions.push(version);
+  save(store);
+  return version;
+}
+
+/**
+ * An exact edit made straight on Live (a dependency unlinked, a lag changed: the drawer's kind of change, which Jamie's
+ * split keeps out of drafts) becomes the next revision, with its sentence.
+ */
+export async function recordLiveEdit(planID: string, message: string): Promise<PlanVersion> {
+  const plan = await planApi.getPlan(planID);
+  const store = load();
+  const repo = findRepo(store, planID);
+  const before = latestVersion(repo).plan;
+  const version: PlanVersion = {
+    number: latestVersion(repo).number + 1,
+    author: currentUserName(),
+    at: new Date().toISOString(),
+    message,
+    changeCount: planCompare(before, plan).length,
+    label: null,
+    source: 'edit',
+    draftName: null,
+    plan: clone(plan),
+  };
+  repo.versions.push(version);
   save(store);
   return version;
 }
