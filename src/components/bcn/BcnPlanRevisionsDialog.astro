@@ -1,0 +1,154 @@
+---
+// <BcnPlanRevisionsDialog> — a plan's revisions in a modal over the plan page (2026-10-28, Andy: "this experience in a
+// modal", after TalentBridge's proposal-editor revisions modal, section-revisions.component, itself after WordPress's
+// revisions screen). One dialog, two jobs:
+//
+//   history   every revision of the plan; Restore the one under the handle
+//   review    Live, then each edit of a draft; Publish the one under the handle (Review and Publish)
+//
+//   controls  Previous, the slider, Next; Compare Any Two Revisions, Changes Only, the counts (TalentBridge's panel)
+//   heads     From and To: avatar, "Revision 6 by Priya Natarajan", when, what it did; To carries Current
+//   rows      TalentBridge's side by side, adapted from prose blocks to plan items: each item as it was (From) and as
+//             it became (To), the changed date struck on the left and marked on the right, the shift at the end
+//   chart     the To state with the From positions behind, zoomed to what changed
+//
+// The slider is cloned from its template on each open, so its listeners are new for each plan's stops. The runtime is
+// ./plan-revisions-dialog.ts.
+//
+// bcn-lego-checked: the shell IS esa-dialog, the options ARE esa-checkbox, Close / Restore / Publish ARE esa-button,
+// the slider IS bcn-revision-slider, the chart IS bcn-plan-gantt, avatars ARE esa-avatar (BcnPlanPeople), Current IS
+// esa-badge. No esa- lego is a two-sided comparison of items with struck and marked values; checked Beacon (no
+// revisions UI) and TalentBridge (section-revisions: prose blocks, the pattern this ports). The CSS is the layout of
+// the panel, the heads and the rows grid.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnRevisionSlider from './BcnRevisionSlider.astro';
+import BcnPlanGantt from './BcnPlanGantt.astro';
+---
+
+<esa-dialog class="bcn-prvd" data-bcn-plan-revisions-dialog heading="Revisions" show-close-button>
+  <div class="bcn-prvd__body">
+    <section class="bcn-prvd__controls" data-prvd-controls>
+      <div data-prvd-slider-slot></div>
+    </section>
+
+    <div class="bcn-prvd__split">
+      <div class="bcn-prvd__heads">
+        {['from', 'to'].map((side) => (
+          <div class="bcn-prvd__head" data-prvd-head={side}>
+            <span class="bcn-prvd__side typography-label-sm">{side === 'from' ? 'From' : 'To'}</span>
+            <div class="bcn-prvd__author">
+              <span data-prvd-avatar></span>
+              <span class="bcn-prvd__author-text">
+                <span class="bcn-prvd__author-name typography-label-md-strong"><span data-prvd-title></span>{side === 'to' && <span data-prvd-current hidden><EsaBadge value="Current" variant="neutral" size="sm" /></span>}</span>
+                <span class="bcn-prvd__when typography-body-xs" data-prvd-when></span>
+                <span class="bcn-prvd__msg typography-body-xs" data-prvd-msg></span>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="bcn-prvd__rows typography-body-sm" data-prvd-rows aria-live="polite"></div>
+    </div>
+
+    <section class="bcn-prvd__chart">
+      <h3 class="typography-label-md-strong">On the Chart</h3>
+      <BcnPlanGantt label="Plan compared" />
+    </section>
+  </div>
+
+  <div slot="footer" class="bcn-prvd__footer">
+    <p class="bcn-prvd__note typography-body-sm" data-prvd-note hidden></p>
+    <span data-prvd-close><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
+    <span data-prvd-restore hidden><EsaButton variant="primary" icon="rotate-ccw" data-fill-icon="rotate-ccw"><span data-prvd-act-label>Restore</span></EsaButton></span>
+    <span data-prvd-publish hidden><EsaButton variant="primary" icon="git-merge" data-fill-icon="git-merge"><span data-prvd-act-label>Publish</span></EsaButton></span>
+  </div>
+</esa-dialog>
+
+<template data-prvd-slider-tpl>
+  <BcnRevisionSlider>
+    <div slot="foot" class="bcn-prvd__options">
+      <esa-checkbox data-prvd-only label="Changes Only" size="sm" checked></esa-checkbox>
+      <span class="bcn-prvd__counts typography-label-sm" data-prvd-counts></span>
+    </div>
+  </BcnRevisionSlider>
+</template>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox';
+</script>
+
+<style>
+  .bcn-prvd {
+    --dialog-width: min(84rem, calc(100vw - 4rem));
+    /* The compare chart sits in the dialog's scroll, so it keeps to a height of its own. */
+    --bcn-plan-gantt-max-height: 26rem;
+  }
+  .bcn-prvd :global([hidden]) { display: none !important; }
+  .bcn-prvd__body { display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  /* TalentBridge's controls panel: a sunken box around the slider and its options. */
+  .bcn-prvd__controls {
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  :global(.bcn-prvd__options) { display: flex; flex: 1; align-items: center; gap: var(--spacing-500); }
+  :global(.bcn-prvd__counts) { display: flex; gap: var(--spacing-300); margin-inline-start: auto; color: var(--color-content-default-secondary); }
+  :global(.bcn-prvd__counts b) { color: var(--color-content-default); font-weight: 600; }
+
+  /* Side by side: one grid per row, so an item and its counterpart line up across the two columns. */
+  .bcn-prvd__split { border: 1px solid var(--color-border-default); border-radius: var(--radius-200); }
+  .bcn-prvd__heads,
+  .bcn-prvd__rows :global(.bcn-prvd__row) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .bcn-prvd__heads {
+    position: sticky;
+    top: calc(-1 * var(--spacing-500, 1.5rem));
+    z-index: 1;
+    background: var(--color-background-elevation-raised);
+    border-block-end: 1px solid var(--color-border-default);
+    border-start-start-radius: var(--radius-200);
+    border-start-end-radius: var(--radius-200);
+  }
+  .bcn-prvd__head { display: flex; flex-direction: column; gap: var(--spacing-100); padding: var(--spacing-300) var(--spacing-400); min-inline-size: 0; }
+  .bcn-prvd__head + .bcn-prvd__head { border-inline-start: 1px solid var(--color-border-default); }
+  .bcn-prvd__side { color: var(--color-content-default-secondary); }
+  .bcn-prvd__author { display: flex; gap: var(--spacing-200); align-items: flex-start; min-inline-size: 0; }
+  .bcn-prvd__author-text { display: flex; flex-direction: column; min-inline-size: 0; }
+  .bcn-prvd__author-name { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-prvd__when,
+  .bcn-prvd__msg { color: var(--color-content-default-secondary); }
+  .bcn-prvd__msg { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .bcn-prvd__rows :global(.bcn-prvd__row + .bcn-prvd__row) { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-prvd__rows :global(.bcn-prvd__cell) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: var(--spacing-100) var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-200) calc(var(--spacing-400) + var(--depth, 0) * var(--spacing-400));
+    min-inline-size: 0;
+  }
+  .bcn-prvd__rows :global(.bcn-prvd__cell--to) { border-inline-start: 1px solid var(--color-border-default); }
+  /* A changed item's two sides tinted, as TalentBridge tints a changed block: red where it was, green where it went. */
+  .bcn-prvd__rows :global(.bcn-prvd__row[data-kind='moved'] .bcn-prvd__cell--from),
+  .bcn-prvd__rows :global(.bcn-prvd__row[data-kind='removed'] .bcn-prvd__cell--from) { background: color-mix(in srgb, var(--color-background-utility-danger-muted) 55%, transparent); }
+  .bcn-prvd__rows :global(.bcn-prvd__row[data-kind='moved'] .bcn-prvd__cell--to),
+  .bcn-prvd__rows :global(.bcn-prvd__row[data-kind='added'] .bcn-prvd__cell--to) { background: color-mix(in srgb, var(--color-background-utility-success-muted) 55%, transparent); }
+  .bcn-prvd__rows :global(.bcn-prvd__name) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-prvd__rows :global(.bcn-prvd__name[data-parent]) { font-weight: 600; }
+  .bcn-prvd__rows :global(.bcn-prvd__dates) { grid-column: 1; color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .bcn-prvd__rows :global(del) { color: var(--color-content-utility-danger); background: var(--color-background-utility-danger-muted); text-decoration: line-through; }
+  .bcn-prvd__rows :global(ins) { color: var(--color-content-utility-success); background: var(--color-background-utility-success-muted); text-decoration: none; }
+  .bcn-prvd__rows :global(.bcn-prvd__shift) { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bcn-prvd__rows :global(.bcn-prvd__shift[data-followed]) { font-weight: 400; color: var(--color-content-default-secondary); }
+  .bcn-prvd__rows :global(.bcn-prvd__none) { margin: 0; padding: var(--spacing-400); color: var(--color-content-default-secondary); }
+
+  .bcn-prvd__chart { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-prvd__chart h3 { margin: 0; }
+
+  .bcn-prvd__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
+  .bcn-prvd__note { margin: 0 auto 0 0; color: var(--color-content-default-secondary); }
+</style>

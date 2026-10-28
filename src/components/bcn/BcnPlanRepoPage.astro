@@ -24,6 +24,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
+import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
@@ -146,6 +147,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <span class="bcn-prp__railname typography-label-sm-strong">About</span>
     </button>
   </div>
+  <!-- Revisions in a modal (2026-10-28, after TalentBridge): the history, and a draft's review before it publishes. -->
+  <BcnPlanRevisionsDialog />
 </div>
 
 <script>

@@ -7,6 +7,7 @@
 
 import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
+import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
@@ -672,6 +673,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const latest = latestVersion(repo);
     const named = [...repo.versions].reverse().find((v) => v.label);
     const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: `All ${repo.versions.length} Revisions` });
+    more.dataset.prpRevisions = '';
     q<HTMLElement>('[data-prp-releases]').replaceChildren(
       item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)}, ${firstName(latest.author)}`),
       ...(named ? [item(null, 'tag', named.label!, `Revision ${named.number}, ${shortDate(named.at)}`)] : []),
@@ -702,7 +704,29 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     requestPublish(planID!, draft.id);
     refresh();
   });
-  q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && go(REVISIONS_HREF(planID!, `&draft=${draft.id}`)));
+  // Revisions in a modal (2026-10-28): the history from the Revisions link and About; a draft's review from Review and
+  // Publish. A publish or a restore lands back here, on Live, without a reload.
+  const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive });
+  async function landOnLive(): Promise<void> {
+    live = await planApi.getPlan(planID!);
+    repo = getRepo(planID!);
+    if (draft) {
+      draft = null;
+      mode = 'live';
+      redo.length = 0;
+      history.pushState(null, '', keep(PLAN_HREF(planID!)));
+    }
+    shown = live;
+    refresh();
+  }
+  q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && void revisions.open(draft.id));
+  q<HTMLElement>('[data-prp-history-link]').setAttribute('data-prp-revisions', '');
+  root.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest('a[data-prp-revisions]');
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    void revisions.open(null);
+  });
   /** The page's guard: esa-confirm-dialog, answered as a promise. A dismiss (Esc, the backdrop) is a no. */
   type ConfirmEl = HTMLElement & { heading: string; message: string; confirmLabel: string; cancelLabel: string; open: boolean };
   const guard = q<ConfirmEl>('[data-prp-confirm]');

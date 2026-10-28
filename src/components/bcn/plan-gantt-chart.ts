@@ -610,6 +610,8 @@ export class PlanGanttChart {
   private query = '';
   /** The rows whose names hold the search, by id. */
   private matched: ReadonlySet<string> = new Set();
+  /** Rows to show by id (the revisions dialog's Changes Only), with their parents; null shows them all. */
+  private only: ReadonlySet<string> | null = null;
   private frameWidth = 0;
   private hovered: GanttHover | null = null;
   private hoveredPoint: { x: number; y: number } | null = null;
@@ -772,14 +774,21 @@ export class PlanGanttChart {
     return this.matched.size;
   }
 
-  /** The rows on show: the collapse applied, and the search when there is one. */
+  /** Show only these rows and the parents above them (null: every row). A search, when there is one, wins. */
+  setRowFilter(ids: ReadonlySet<string> | null): void {
+    this.only = ids && ids.size ? ids : null;
+    this.render();
+  }
+
+  /** The rows on show: the collapse applied, then the search or the row filter when there is one. */
   private shownRows(): UiVizGanttRow[] {
-    if (!this.query) return visibleRows(this.rows, this.collapsed);
+    const hits = this.query ? this.matched : this.only;
+    if (!hits) return visibleRows(this.rows, this.collapsed);
     const parentOf = new Map(this.rows.map((row) => [row.id, row.parentId]));
     const keep = new Set<string>();
     const opened = new Set<string>();
     for (const row of this.rows) {
-      if (!this.matched.has(row.id)) continue;
+      if (!hits.has(row.id)) continue;
       keep.add(row.id);
       for (let at = row.parentId; at; at = parentOf.get(at) ?? null) {
         keep.add(at);

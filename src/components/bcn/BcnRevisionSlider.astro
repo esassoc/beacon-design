@@ -35,7 +35,9 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     <span data-rvs-next><EsaButton variant="ghost" appearance="outline" size="sm" iconRight="chevron-right" data-fill-icon="chevron-right">Next</EsaButton></span>
   </div>
   <div class="bcn-rvs__foot">
-    <esa-checkbox data-rvs-compare label="Compare any two revisions" size="sm"></esa-checkbox>
+    <esa-checkbox data-rvs-compare label="Compare Any Two Revisions" size="sm"></esa-checkbox>
+    <!-- foot: the host's own options beside Compare (the revisions dialog's Changes Only and counts, 2026-10-28). -->
+    <slot name="foot" />
   </div>
 </div>
 
