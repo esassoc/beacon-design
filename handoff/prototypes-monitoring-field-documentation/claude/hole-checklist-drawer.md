@@ -590,6 +590,23 @@ _145 repeated elements are collapsed in the markup below; the comments say where
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 .bcn-key-value {
   flex-direction: column;
   gap: 2px;
@@ -646,23 +663,6 @@ _145 repeated elements are collapsed in the markup below; the comments say where
   flex-shrink: 0;
   width: 8px;
   height: 8px;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -2,6 +2,36 @@
 
 Links are relative to https://esassoc.github.io/beacon-design/handoff/
 
+## Projects
+
+[README](prototypes-permit-tracker/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/permit-tracker/) · 2 sections
+
+My projects · All projects
+
+## Project
+
+[README](prototypes-permit-tracker-projects-coal-creek-fish-passage/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/permit-tracker/projects/coal-creek-fish-passage/) · 3 sections
+
+Ready to break ground? · Permits (List view) · Add permit
+
+## Permits
+
+[README](prototypes-permit-tracker-permits/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/permit-tracker/permits/) · 1 section
+
+All permits
+
+## Permit
+
+[README](prototypes-permit-tracker-permits-cc1-cao/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/permit-tracker/permits/cc1-cao/) · 4 sections
+
+Timeline · Application needs and waits on · Details · Permit type
+
+## Permit types
+
+[README](prototypes-permit-tracker-permit-types/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/permit-tracker/permit-types/) · 2 sections
+
+Permit types · Timelines by agency
+
 ## Submissions
 
 [README](prototypes-comments/README.md) · [prototype](https://esassoc.github.io/beacon-design/prototypes/comments/) · 5 sections

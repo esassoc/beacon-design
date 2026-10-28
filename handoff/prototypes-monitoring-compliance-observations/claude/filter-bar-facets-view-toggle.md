@@ -397,13 +397,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-sm-line-height);
   letter-spacing: var(--typography-microcopy-sm-letter-spacing);
 }
-.esa-filter-container {
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-  padding: var(--filter-container-padding, 0);
-  flex-wrap: wrap;
-  display: flex;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -420,6 +413,13 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-filter-container {
+  align-items: center;
+  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
+  padding: var(--filter-container-padding, 0);
+  flex-wrap: wrap;
+  display: flex;
 }
 .esa-filter-clear-button {
   --_clear-text: var(--color-content-default-secondary, #646464);

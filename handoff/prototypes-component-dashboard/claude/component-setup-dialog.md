@@ -29,7 +29,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 ## Components
 
 - `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
-- `bcn-cs` (spoke) · `src/components/bcn/BcnComponentSetup.astro`
+- `bcn-cs` (spoke) · `src/components/bcn/BcnCaoRules.astro`
 - `bcn-cs-opt` (spoke) · `src/components/bcn/BcnComponentSetup.astro`
 - `bcn-entity-logo` (spoke) · `src/components/bcn/BcnComponentPicker.astro`
 - `bcn-hmap` (spoke) · `src/components/bcn/BcnHabitatMap.astro`

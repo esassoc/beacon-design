@@ -368,43 +368,6 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
 }
-.esa-breadcrumbs {
-  --_crumb-link-color: var(--breadcrumbs-link-color, #646464);
-  --_crumb-link-hover: var(--breadcrumbs-link-hover, #202020);
-  --_crumb-current-color: var(--color-content-default, #202020);
-  --_crumb-separator-color: var(--color-border-default-strong, #bbb);
-  --_crumb-gap: var(--spacing-200, 8px);
-  background: var(--breadcrumbs-bg, transparent);
-  display: block;
-}
-.esa-breadcrumbs__list {
-  align-items: center;
-  gap: var(--_crumb-gap);
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.esa-breadcrumbs__item {
-  align-items: center;
-  gap: var(--_crumb-gap);
-  display: flex;
-}
-.esa-breadcrumbs__current {
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--_crumb-current-color);
-  display: inline-flex;
-}
-.esa-breadcrumbs__icon {
-  align-items: center;
-  display: inline-flex;
-}
-.esa-breadcrumbs__separator {
-  color: var(--_crumb-separator-color);
-  flex-shrink: 0;
-}
 .bcn-sw3ip {
   flex-direction: column;
   min-height: 100%;
@@ -886,6 +849,43 @@ summary.esa-button:focus-visible {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.esa-breadcrumbs {
+  --_crumb-link-color: var(--breadcrumbs-link-color, #646464);
+  --_crumb-link-hover: var(--breadcrumbs-link-hover, #202020);
+  --_crumb-current-color: var(--color-content-default, #202020);
+  --_crumb-separator-color: var(--color-border-default-strong, #bbb);
+  --_crumb-gap: var(--spacing-200, 8px);
+  background: var(--breadcrumbs-bg, transparent);
+  display: block;
+}
+.esa-breadcrumbs__list {
+  align-items: center;
+  gap: var(--_crumb-gap);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.esa-breadcrumbs__item {
+  align-items: center;
+  gap: var(--_crumb-gap);
+  display: flex;
+}
+.esa-breadcrumbs__current {
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--_crumb-current-color);
+  display: inline-flex;
+}
+.esa-breadcrumbs__icon {
+  align-items: center;
+  display: inline-flex;
+}
+.esa-breadcrumbs__separator {
+  color: var(--_crumb-separator-color);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

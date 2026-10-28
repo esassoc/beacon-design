@@ -38,14 +38,14 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-fish-sci
           class="bcn-aldo-mark__glyph"
           viewBox="12 12 40 40"
           fill="none"
-          stroke="url(#bcn-aldo-ring-26ud8ii)"
+          stroke="url(#bcn-aldo-ring-opqpkk5)"
           stroke-width="3.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
           <defs>
             <linearGradient
-              id="bcn-aldo-ring-26ud8ii"
+              id="bcn-aldo-ring-opqpkk5"
               x1="14"
               y1="12"
               x2="52"
@@ -63,7 +63,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-fish-sci
             cx="33.2"
             cy="31.1"
             r="2"
-            fill="url(#bcn-aldo-ring-26ud8ii)"
+            fill="url(#bcn-aldo-ring-opqpkk5)"
             stroke="none"
           ></circle></svg
       ></span></button></esa-tooltip

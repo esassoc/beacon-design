@@ -1,54 +1,6 @@
 # Monitoring Portal: styles, part 2 of 2
 
 ```css
-  background: var(--_btn-tint-active);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
-}
-.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
-.esa-button--appearance-soft.esa-button--active .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent);
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
-.esa-button--variant-ghost.esa-button--active .esa-button__native {
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
-.esa-button--variant-chrome.esa-button--active .esa-button__native,
-.esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-}
-.esa-button--variant-chrome .esa-button__native:focus-visible {
-  outline-color: currentColor;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
   padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
   border: var(--border-width-default, 1px) solid transparent;
@@ -505,5 +457,47 @@ a.breadcrumb-item:hover {
 .esa-stat__sub {
   font-size: var(--_stat-sub-size);
   color: var(--_stat-sub-color);
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card--header-primary .esa-card__header {
+  --_card-header-bg: var(--color-background-brand, #46a758);
+  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-card--header-muted .esa-card__header {
+  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-card__header {
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  display: flex;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
+  background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 ```

@@ -25,7 +25,7 @@ The last step: every commitment with no decision yet lands in one of two columns
 ## Components
 
 - `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
-- `bcn-cs` (spoke) · `src/components/bcn/BcnComponentSetup.astro`
+- `bcn-cs` (spoke) · `src/components/bcn/BcnCaoRules.astro`
 - `bcn-cs-opt` (spoke) · `src/components/bcn/BcnComponentSetup.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app

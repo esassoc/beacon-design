@@ -25,7 +25,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
 ## Components
 
 - `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
-- `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
+- `bcn-ap` (spoke) · `src/components/bcn/BcnAddPermit.astro`
 - `bcn-cbt` (spoke) · `src/components/bcn/BcnCommentsByTopic.astro`
 - `bcn-ri` (spoke) · `src/components/bcn/BcnResponseIndex.astro`
 - `bcn-si` (spoke) · `src/components/bcn/BcnSubmissionInbox.astro`

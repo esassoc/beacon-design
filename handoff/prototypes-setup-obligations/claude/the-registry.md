@@ -45,7 +45,7 @@ The registry as a nested tree — 17 subject areas over 69 headings over 402 sta
 
 - `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
 - `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
-- `bcn-rt` (spoke) · `src/components/bcn/BcnRegistryTree.astro`
+- `bcn-rt` (spoke) · `src/components/bcn/BcnCaoRules.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
 - `esa-checkbox` (hub) · `packages/ecology/src/components/esa-checkbox.ts`

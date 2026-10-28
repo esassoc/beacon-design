@@ -59,14 +59,14 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
           class="bcn-aldo-mark__glyph"
           viewBox="12 12 40 40"
           fill="none"
-          stroke="url(#bcn-aldo-ring-g114f0e)"
+          stroke="url(#bcn-aldo-ring-qlhyzi1)"
           stroke-width="3.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
           <defs>
             <linearGradient
-              id="bcn-aldo-ring-g114f0e"
+              id="bcn-aldo-ring-qlhyzi1"
               x1="14"
               y1="12"
               x2="52"
@@ -84,7 +84,7 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
             cx="33.2"
             cy="31.1"
             r="2"
-            fill="url(#bcn-aldo-ring-g114f0e)"
+            fill="url(#bcn-aldo-ring-qlhyzi1)"
             stroke="none"
           ></circle></svg
       ></span></button></esa-tooltip

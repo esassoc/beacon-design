@@ -37,7 +37,7 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
 ## Components
 
 - `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
-- `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
+- `bcn-ap` (spoke) · `src/components/bcn/BcnAddPermit.astro`
 - `bcn-cbt` (spoke) · `src/components/bcn/BcnCommentsByTopic.astro`
 - `bcn-topic-dot` (spoke) · `src/components/bcn/BcnSubmissionInbox.astro`
 - `esa-avatar` (hub) · `packages/ecology/src/components/esa-avatar.astro`

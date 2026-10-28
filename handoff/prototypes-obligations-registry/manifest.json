@@ -452,7 +452,7 @@
         {
           "name": "bcn-rt",
           "origin": "spoke",
-          "source": "src/components/bcn/BcnRegistryTree.astro",
+          "source": "src/components/bcn/BcnCaoRules.astro",
           "target": null
         },
         {
@@ -484,8 +484,8 @@
         "desktop": "claude/the-registry-read-only.desktop.png",
         "phone": "claude/the-registry-read-only.phone.png"
       },
-      "bytes": 67162,
-      "specBytes": 8608,
+      "bytes": 67158,
+      "specBytes": 8604,
       "files": 3,
       "collapsed": 97
     }

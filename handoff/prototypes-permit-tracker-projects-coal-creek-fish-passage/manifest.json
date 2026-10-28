@@ -1,0 +1,1261 @@
+{
+  "name": "permit-tracker-project",
+  "title": "Project",
+  "description": "One project: whether its permits will all be issued by the construction start, overall and site by site, and the permits as a List, a Board whose statuses each project configures (the Actions board model), or a Schedule of bars on a calendar with each permit under the one it waits on. Team adds and removes the people working on it.",
+  "dir": "prototypes-permit-tracker-projects-coal-creek-fish-passage",
+  "url": "https://esassoc.github.io/beacon-design/prototypes/permit-tracker/projects/coal-creek-fish-passage/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracker-projects-coal-creek-fish-passage/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Ready to break ground?",
+      "tag": "div",
+      "selector": "[data-bcn-pr]",
+      "html": "<div class=\"bcn-pr stack\" data-gap=\"md\" data-bcn-pr=\"\" data-project-id=\"coal-creek-fish-passage\">\n  <div class=\"bcn-pr__figures grid\" data-gap=\"md\">\n    <div class=\"stack\" data-gap=\"xs\" data-pr-issued=\"\">\n      <div class=\"esa-stat\">\n        <div class=\"esa-stat__value typography-display-sm\">4 of 10</div>\n        <div class=\"esa-stat__label typography-label-md\">Permits issued</div>\n      </div>\n      <div\n        class=\"esa-progress-bar esa-progress-bar--sm esa-progress-bar--primary\"\n        role=\"progressbar\"\n        aria-valuenow=\"40\"\n        aria-valuemin=\"0\"\n        aria-valuemax=\"100\"\n        aria-label=\"Permits issued\"\n      >\n        <div class=\"esa-progress-bar__header typography-body-xs\">\n          <span class=\"esa-progress-bar__label typography-label-xs\">Permits issued</span>\n        </div>\n        <div class=\"esa-progress-bar__track\">\n          <div class=\"esa-progress-bar__fill\" style=\"width: 40%\"></div>\n        </div>\n      </div>\n    </div>\n    <div class=\"stack\" data-gap=\"2xs\" data-pr-expected=\"\">\n      <div class=\"esa-stat\">\n        <div class=\"esa-stat__value typography-display-sm\">Mar 14, 2027</div>\n        <div class=\"esa-stat__label typography-label-md\">Expected all issued</div>\n      </div>\n      <span class=\"bcn-pr__vs typography-body-sm\" data-pr-vs=\"\" data-tone=\"early\"\n        ><span class=\"bcn-pr__vs-icon\" data-icon=\"late\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n              ></path>\n              <path d=\"M12 9v4\"></path>\n              <path d=\"M12 17h.01\"></path></svg></span></span\n        ><span class=\"bcn-pr__vs-icon\" data-icon=\"early\"\n          ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n        ><span data-pr-vs-text=\"\">109 days before construction start</span></span\n      >\n    </div>\n    <div data-pr-start=\"\">\n      <div class=\"esa-stat\">\n        <div class=\"esa-stat__value typography-display-sm\">Jul 1, 2027</div>\n        <div class=\"esa-stat__label typography-label-md\">Construction start</div>\n        <div class=\"esa-stat__sub typography-body-sm\">In 251 days</div>\n      </div>\n    </div>\n  </div>\n  <section\n    class=\"bcn-pr__sites-block stack\"\n    data-gap=\"xs\"\n    aria-labelledby=\"bcn-pr-sites-coal-creek-fish-passage\"\n  >\n    <div class=\"repel\" data-gap=\"sm\">\n      <h3\n        id=\"bcn-pr-sites-coal-creek-fish-passage\"\n        class=\"bcn-pr__subhead typography-label-lg-strong\"\n      >\n        Sites\n      </h3>\n      <span\n        class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-site-edit=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M5 12h14\"></path>\n              <path d=\"M12 5v14\"></path></svg></span\n          ><span class=\"esa-button__label\">Add site</span>\n        </button></span\n      >\n    </div>\n    <table\n      class=\"bcn-pr__sites typography-body-sm\"\n      aria-labelledby=\"bcn-pr-sites-coal-creek-fish-passage\"\n    >\n      <thead>\n        <tr>\n          <th scope=\"col\">Site</th>\n          <th scope=\"col\">Issued</th>\n          <!-- …and 2 more like this (<th>) -->\n        </tr>\n      </thead>\n      <tbody data-pr-site-rows=\"\">\n        <tr>\n          <th scope=\"row\">\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"name\">Project-wide</span\n              ><span class=\"bcn-pr__meta typography-body-sm\" data-cell=\"location\"\n                >Covers every site</span\n              ></span\n            >\n          </th>\n          <td class=\"bcn-pr__num\" data-cell=\"issued\">2 of 4</td>\n          <td>\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"expected\">Jan 2, 2027</span\n              ><span class=\"bcn-pr__vs typography-body-sm\" data-cell=\"vs\" data-tone=\"early\"\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"late\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path\n                        d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n                      ></path>\n                      <path d=\"M12 9v4\"></path>\n                      <path d=\"M12 17h.01\"></path></svg></span></span\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"early\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                      <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n                ><span data-cell=\"vs-text\">180 days before start</span></span\n              ></span\n            >\n          </td>\n          <td class=\"bcn-pr__state\">\n            <span class=\"bcn-pr__state-cell cluster\" data-gap=\"xs\"\n              ><span data-cell=\"state\"\n                ><span\n                  class=\"esa-badge esa-badge--success esa-badge--md typography-microcopy-sm-strong\"\n                  ><span class=\"esa-badge__text\">On track</span></span\n                ></span\n              ><span class=\"bcn-pr__edit\" data-cell=\"edit\" data-empty=\"\"\n                ><span\n                  class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-xs\"\n                    type=\"button\"\n                    aria-label=\"Edit Project-wide\"\n                    title=\"Edit site\"\n                    data-site-edit=\"true\"\n                    data-site-id=\"\"\n                  >\n                    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"16\"\n                        height=\"16\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path\n                          d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                        ></path>\n                        <path d=\"m15 5 4 4\"></path></svg\n                    ></span></button></span></span\n            ></span>\n          </td>\n        </tr>\n        <tr>\n          <th scope=\"row\">\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"name\">SE 60th St culvert</span\n              ><span class=\"bcn-pr__meta typography-body-sm\" data-cell=\"location\"\n                >Coal Creek, RM 1.4</span\n              ></span\n            >\n          </th>\n          <td class=\"bcn-pr__num\" data-cell=\"issued\">3 of 7</td>\n          <td>\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"expected\">Feb 26, 2027</span\n              ><span class=\"bcn-pr__vs typography-body-sm\" data-cell=\"vs\" data-tone=\"early\"\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"late\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path\n                        d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n                      ></path>\n                      <path d=\"M12 9v4\"></path>\n                      <path d=\"M12 17h.01\"></path></svg></span></span\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"early\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                      <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n                ><span data-cell=\"vs-text\">125 days before start</span></span\n              ></span\n            >\n          </td>\n          <td class=\"bcn-pr__state\">\n            <span class=\"bcn-pr__state-cell cluster\" data-gap=\"xs\"\n              ><span data-cell=\"state\"\n                ><span\n                  class=\"esa-badge esa-badge--success esa-badge--md typography-microcopy-sm-strong\"\n                  ><span class=\"esa-badge__text\">On track</span></span\n                ></span\n              ><span class=\"bcn-pr__edit\" data-cell=\"edit\"\n                ><span\n                  class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-xs\"\n                    type=\"button\"\n                    aria-label=\"Edit SE 60th St culvert\"\n                    title=\"Edit site\"\n                    data-site-edit=\"true\"\n                    data-site-id=\"cc-se60\"\n                  >\n                    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"16\"\n                        height=\"16\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path\n                          d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                        ></path>\n                        <path d=\"m15 5 4 4\"></path></svg\n                    ></span></button></span></span\n            ></span>\n          </td>\n        </tr>\n        <tr>\n          <th scope=\"row\">\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"name\">Newport Way crossing</span\n              ><span class=\"bcn-pr__meta typography-body-sm\" data-cell=\"location\"\n                >Coal Creek, RM 2.9</span\n              ></span\n            >\n          </th>\n          <td class=\"bcn-pr__num\" data-cell=\"issued\">3 of 7</td>\n          <td>\n            <span class=\"stack\" data-gap=\"3xs\"\n              ><span data-cell=\"expected\">Mar 14, 2027</span\n              ><span class=\"bcn-pr__vs typography-body-sm\" data-cell=\"vs\" data-tone=\"early\"\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"late\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path\n                        d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n                      ></path>\n                      <path d=\"M12 9v4\"></path>\n                      <path d=\"M12 17h.01\"></path></svg></span></span\n                ><span class=\"bcn-pr__vs-icon\" data-icon=\"early\"\n                  ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                      <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n                ><span data-cell=\"vs-text\">109 days before start</span></span\n              ></span\n            >\n          </td>\n          <td class=\"bcn-pr__state\">\n            <span class=\"bcn-pr__state-cell cluster\" data-gap=\"xs\"\n              ><span data-cell=\"state\"\n                ><span\n                  class=\"esa-badge esa-badge--success esa-badge--md typography-microcopy-sm-strong\"\n                  ><span class=\"esa-badge__text\">On track</span></span\n                ></span\n              ><span class=\"bcn-pr__edit\" data-cell=\"edit\"\n                ><span\n                  class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-xs\"\n                    type=\"button\"\n                    aria-label=\"Edit Newport Way crossing\"\n                    title=\"Edit site\"\n                    data-site-edit=\"true\"\n                    data-site-id=\"cc-newport\"\n                  >\n                    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"16\"\n                        height=\"16\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path\n                          d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                        ></path>\n                        <path d=\"m15 5 4 4\"></path></svg\n                    ></span></button></span></span\n            ></span>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </section>\n  <div class=\"bcn-pr__counts cluster\" data-gap=\"md\">\n    <ul class=\"cluster\" data-gap=\"md\">\n      <li class=\"bcn-pr__count typography-body-sm\">\n        <span\n          class=\"bcn-pr__dot\"\n          style=\"--_c: var(--bcn-status-not-started)\"\n          aria-hidden=\"true\"\n        ></span\n        ><span class=\"bcn-pr__n\" data-pr-count=\"NotStarted\">0</span> Not Started\n      </li>\n      <li class=\"bcn-pr__count typography-body-sm\">\n        <span\n          class=\"bcn-pr__dot\"\n          style=\"--_c: var(--bcn-status-in-progress)\"\n          aria-hidden=\"true\"\n        ></span\n        ><span class=\"bcn-pr__n\" data-pr-count=\"InProgress\">6</span> In Progress\n      </li>\n      <li class=\"bcn-pr__count typography-body-sm\">\n        <span\n          class=\"bcn-pr__dot\"\n          style=\"--_c: var(--bcn-status-completed)\"\n          aria-hidden=\"true\"\n        ></span\n        ><span class=\"bcn-pr__n\" data-pr-count=\"Completed\">4</span> Completed\n      </li>\n    </ul>\n    <ul class=\"bcn-pr__flags cluster\" data-gap=\"md\">\n      <li class=\"bcn-pr__count typography-body-sm\">\n        <span class=\"bcn-pr__n\">2</span> waiting on another permit\n      </li>\n    </ul>\n  </div>\n  <div class=\"bcn-pr__risks stack\" data-gap=\"xs\" data-pr-risks=\"\">\n    <ul class=\"bcn-pr__list typography-body-sm\" data-pr-risk-lines=\"\">\n      <li>3 permits past their typical review time</li>\n      <li>3 permits not yet submitted, forecast from past timelines</li>\n    </ul>\n    <div class=\"stack\" data-gap=\"2xs\" data-pr-expiring=\"\" hidden=\"\">\n      <h3 class=\"bcn-pr__subhead typography-label-md-strong\">Expires before construction start</h3>\n      <ul class=\"bcn-pr__list typography-body-sm\">\n        <li data-expires=\"2031-04-08\" hidden=\"\">\n          <a href=\"/beacon-design/prototypes/permit-tracker/permits/cc1-hpa\"\n            >Hydraulic Project Approval</a\n          ><span class=\"bcn-pr__meta\"> SE 60th St culvert, expires Apr 8, 2031</span>\n        </li>\n        <li data-expires=\"2031-05-21\" hidden=\"\">\n          <a href=\"/beacon-design/prototypes/permit-tracker/permits/cc2-hpa\"\n            >Hydraulic Project Approval</a\n          ><span class=\"bcn-pr__meta\"> Newport Way crossing, expires May 21, 2031</span>\n        </li>\n        <li data-expires=\"2031-08-11\" hidden=\"\">\n          <a href=\"/beacon-design/prototypes/permit-tracker/permits/cc-401\"\n            >Section 401 Water Quality Certification</a\n          ><span class=\"bcn-pr__meta\"> Project-wide, expires Aug 11, 2031</span>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>",
+      "css": ".typography-display-sm {\n  font-family: var(--typography-display-sm-font-family);\n  font-size: var(--typography-display-sm-font-size);\n  font-weight: var(--typography-display-sm-font-weight);\n  line-height: var(--typography-display-sm-line-height);\n  letter-spacing: var(--typography-display-sm-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-xs {\n  font-family: var(--typography-label-xs-font-family);\n  font-size: var(--typography-label-xs-font-size);\n  font-weight: var(--typography-label-xs-font-weight);\n  line-height: var(--typography-label-xs-line-height);\n  letter-spacing: var(--typography-label-xs-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-label-lg-strong {\n  font-family: var(--typography-label-lg-strong-font-family);\n  font-size: var(--typography-label-lg-strong-font-size);\n  font-weight: var(--typography-label-lg-strong-font-weight);\n  line-height: var(--typography-label-lg-strong-line-height);\n  letter-spacing: var(--typography-label-lg-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.visually-hidden {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  border: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n}\n.bcn-pr__figures {\n  --grid-min: 12rem;\n}\n.bcn-pr__counts {\n  padding-top: var(--spacing-300, 0.75rem);\n  border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);\n}\n.bcn-pr__counts ul {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-pr__count {\n  align-items: center;\n  gap: var(--spacing-150, 0.375rem);\n  color: var(--color-content-default-secondary, #646464);\n  display: inline-flex;\n}\n.bcn-pr__n {\n  font-weight: var(--typography-font-weight-semibold, 600);\n  color: var(--color-content-default, #202020);\n  font-variant-numeric: tabular-nums;\n}\n.bcn-pr__dot {\n  border-radius: var(--radius-full, 9999px);\n  background: var(--_c);\n  flex-shrink: 0;\n  width: 9px;\n  height: 9px;\n}\n.bcn-pr__sites {\n  border-collapse: collapse;\n  inline-size: 100%;\n  color: var(--color-content-default);\n}\n.bcn-pr__sites-block {\n  padding-top: var(--spacing-300, 0.75rem);\n  border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);\n}\n.bcn-pr__state-cell {\n  flex-wrap: nowrap;\n  justify-content: end;\n}\n.bcn-pr__edit[data-empty] {\n  visibility: hidden;\n}\n.bcn-pr__sites th,\n.bcn-pr__sites td {\n  text-align: start;\n  padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem) var(--spacing-150, 0.375rem) 0;\n  border-bottom: 1px solid var(--color-border-default-subtle, #e8e8e8);\n  vertical-align: middle;\n}\n.bcn-pr__sites thead th {\n  font-weight: var(--typography-font-weight-regular, 400);\n  color: var(--color-content-default-secondary, #646464);\n}\n.bcn-pr__sites tbody th {\n  font-weight: var(--typography-font-weight-semibold, 600);\n}\n.bcn-pr__num {\n  font-variant-numeric: tabular-nums;\n  white-space: nowrap;\n}\n.bcn-pr__state {\n  text-align: end;\n  padding-inline-end: 0;\n}\n.bcn-pr__vs {\n  align-items: center;\n  gap: var(--spacing-100);\n  color: var(--color-content-default-secondary);\n  display: inline-flex;\n}\n.bcn-pr__vs[data-tone=\"late\"] {\n  color: var(--color-content-utility-danger);\n  font-weight: var(--typography-font-weight-semibold, 600);\n}\n.bcn-pr__vs[data-tone=\"early\"] {\n  color: var(--color-content-utility-success);\n}\n.bcn-pr__vs-icon {\n  display: none;\n}\n.bcn-pr__vs[data-tone=\"late\"] [data-icon=\"late\"],\n.bcn-pr__vs[data-tone=\"early\"] [data-icon=\"early\"] {\n  display: inline-flex;\n}\n.bcn-pr [hidden] {\n  display: none;\n}\n.bcn-pr__risks {\n  padding-top: var(--spacing-300, 0.75rem);\n  border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);\n}\n.bcn-pr__subhead {\n  color: var(--color-content-default, #202020);\n  margin: 0;\n}\n.bcn-pr__list {\n  padding-left: var(--spacing-500, 1.25rem);\n  color: var(--color-content-default, #202020);\n  margin: 0;\n}\n.bcn-pr__list a {\n  color: var(--color-content-link, #0d74ce);\n}\n.bcn-pr__meta {\n  color: var(--color-content-default-secondary, #646464);\n}\n.visually-hidden {\n  white-space: nowrap;\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n  border: 0;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  position: absolute;\n  overflow: hidden;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);\n  --_badge-text: var(--color-content-utility-success, #218358);\n  --_badge-border: var(--color-border-utility-success, #adddc0);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.typography-display-sm {\n  font-family: var(--typography-display-sm-font-family);\n  font-size: var(--typography-display-sm-font-size);\n  font-weight: var(--typography-display-sm-font-weight);\n  line-height: var(--typography-display-sm-line-height);\n  letter-spacing: var(--typography-display-sm-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-body-xs {\n  font-family: var(--typography-body-xs-font-family);\n  font-size: var(--typography-body-xs-font-size);\n  font-weight: var(--typography-body-xs-font-weight);\n  line-height: var(--typography-body-xs-line-height);\n  letter-spacing: var(--typography-body-xs-letter-spacing);\n}\n.typography-label-xs {\n  font-family: var(--typography-label-xs-font-family);\n  font-size: var(--typography-label-xs-font-size);\n  font-weight: var(--typography-label-xs-font-weight);\n  line-height: var(--typography-label-xs-line-height);\n  letter-spacing: var(--typography-label-xs-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-label-lg-strong {\n  font-family: var(--typography-label-lg-strong-font-family);\n  font-size: var(--typography-label-lg-strong-font-size);\n  font-weight: var(--typography-label-lg-strong-font-weight);\n  line-height: var(--typography-label-lg-strong-line-height);\n  letter-spacing: var(--typography-label-lg-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.esa-progress-bar {\n  --_progress-height: var(--progress-bar-height-md, 8px);\n  --_progress-radius: var(--radius-pill, 9999px);\n  --_progress-track-bg: var(--color-background-elevation-sunken, #f0f0f0);\n  --_progress-fill-bg: var(--color-background-brand, #46a758);\n  width: 100%;\n  display: block;\n}\n.esa-progress-bar__header {\n  margin-bottom: var(--spacing-100, 0.25rem);\n  justify-content: space-between;\n  align-items: baseline;\n  display: flex;\n}\n.esa-progress-bar__label {\n  color: var(--color-content-default, #202020);\n}\n.esa-progress-bar__track {\n  height: var(--_progress-height);\n  border-radius: var(--_progress-radius);\n  background: var(--_progress-track-bg);\n  position: relative;\n  overflow: hidden;\n}\n.esa-progress-bar__fill {\n  border-radius: var(--_progress-radius);\n  background: var(--_progress-fill-bg);\n  height: 100%;\n  transition: width 0.3s;\n}\n.esa-progress-bar--sm {\n  --_progress-height: var(--progress-bar-height-sm, 4px);\n}\n.esa-progress-bar--indeterminate .esa-progress-bar__fill {\n  animation: esa-progress-indeterminate var(--animation-indeterminate, 1.5s ease-in-out infinite);\n  width: 40% !important;\n}\n@media (prefers-reduced-motion: reduce) {\n  .esa-progress-bar--indeterminate .esa-progress-bar__fill {\n    animation: 2s ease-in-out infinite esa-progress-pulse;\n    width: 100% !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  .esa-progress-bar__fill {\n    transition: none;\n  }\n}\n@media (forced-colors: active) {\n  .esa-progress-bar__track {\n    background: canvas;\n    border: 1px solid canvastext;\n  }\n}\n@media (forced-colors: active) {\n  .esa-progress-bar__fill {\n    background: highlight;\n  }\n}\n.esa-stat {\n  --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));\n  --_stat-value-font: var(\n    --typography-font-family-display,\n    var(\n      --typography-display-sm-font-family,\n      var(--typography-font-family-display, \"DM Sans\", sans-serif)\n    )\n  );\n  --_stat-value-size: var(\n    --stat-value-size,\n    var(--typography-display-sm-font-size, var(--font-size-700, 2.25rem))\n  );\n  --_stat-value-weight: var(\n    --typography-font-weight-bold,\n    var(--typography-display-sm-font-weight, var(--typography-font-weight-bold, 650))\n  );\n  --_stat-label-color: var(--color-content-default-secondary, #646464);\n  --_stat-label-size: var(\n    --font-size-200,\n    var(--typography-label-md-font-size, var(--font-size-200, 0.9375rem))\n  );\n  --_stat-label-weight: var(\n    --typography-font-weight-medium,\n    var(--typography-label-md-font-weight, var(--typography-font-weight-medium, 500))\n  );\n  --_stat-sub-color: var(--color-content-default-secondary, #646464);\n  --_stat-sub-size: var(\n    --font-size-150,\n    var(--typography-body-sm-font-size, var(--font-size-150, 0.875rem))\n  );\n  --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));\n  --_stat-gap: var(--spacing-050, 0.125rem);\n  gap: var(--_stat-gap);\n  background: 0 0;\n  flex-direction: column;\n  display: flex;\n}\n.esa-stat__value {\n  font-family: var(--_stat-value-font);\n  font-size: var(--_stat-value-size);\n  font-weight: var(--_stat-value-weight);\n  color: var(--_stat-value-color);\n}\n.esa-stat--accent .esa-stat__value {\n  color: var(--_stat-accent-color);\n}\n.esa-stat__label {\n  font-size: var(--_stat-label-size);\n  font-weight: var(--_stat-label-weight);\n  color: var(--_stat-label-color);\n}\n.esa-stat__sub {\n  font-size: var(--_stat-sub-size);\n  color: var(--_stat-sub-color);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}\n.repel {\n  --gap: var(--spacing-400, 1rem);\n  --align: center;\n  gap: var(--gap);\n  align-items: var(--align);\n  flex-wrap: wrap;\n  justify-content: space-between;\n  display: flex;\n}\n.grid {\n  --gap: var(--spacing-400, 1rem);\n  --grid-min: 16rem;\n  gap: var(--gap);\n  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));\n  display: grid;\n}",
+      "guide": {
+        "intent": "Whether every permit will be issued by construction start: permits issued of total, the expected all-issued date with how many days before or after construction start it falls (a warning icon when after), the construction start, then a Sites table with the same answer site by site.",
+        "decisions": [
+          "The expected all-issued date is the latest permit forecast: issued date, or submittal plus the median days for that permit type at that agency, or (not yet submitted) its prerequisites' forecasts plus prep time.",
+          "Sites table: a Project-wide row first (the project-wide permits), then each site with its location and its own permits plus the project-wide ones, since those gate every site. Add site and a pencil per site open the site drawer. A site has no agency; each permit on it names its own.",
+          "Issued-of-total and the status counts follow live status changes (Board, Change status) and added permits.",
+          "Editing construction start (Edit project) re-dates every figure and badge."
+        ],
+        "gotchas": [
+          "A site with permits cannot be removed; the drawer only offers Remove on an empty site."
+        ],
+        "acceptance": [
+          "Moving a permit to Issued on the Board raises \"N of M issued\" without a reload.",
+          "A construction start earlier than the expected date shows \"N days after construction start\" with a warning icon and an At risk badge."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--animation-indeterminate",
+          "value": "1.5s ease-in-out infinite",
+          "tier": "semantic"
+        },
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-muted",
+          "value": "#e6f6eb",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-success",
+          "value": "#adddc0",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-700",
+          "value": "clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--gap",
+          "value": "1rem",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--progress-bar-height-md",
+          "value": "8px",
+          "tier": "component"
+        },
+        {
+          "name": "--progress-bar-height-sm",
+          "value": "4px",
+          "tier": "component"
+        },
+        {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-pill",
+          "value": "9999px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--stat-accent-color",
+          "value": "#005862",
+          "tier": "component"
+        },
+        {
+          "name": "--stat-value-color",
+          "value": "#3d3d3d",
+          "tier": "component"
+        },
+        {
+          "name": "--stat-value-size",
+          "value": "clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-xs-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-xs-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-display-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-display-sm-font-size",
+          "value": "clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-display-sm-font-weight",
+          "value": "650",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-display-sm-letter-spacing",
+          "value": "-.01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-display-sm-line-height",
+          "value": "1.3",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-family-display",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-bold",
+          "value": "650",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-regular",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-size",
+          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-xs-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-pr",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitReadiness.astro",
+          "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-progress-bar",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-progress-bar.astro",
+          "target": null
+        },
+        {
+          "name": "esa-stat",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-stat.astro",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/ready-to-break-ground.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-projects-coal-creek-fish-passage/claude/ready-to-break-ground.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/ready-to-break-ground.desktop.png",
+        "phone": "claude/ready-to-break-ground.phone.png"
+      },
+      "bytes": 47495,
+      "specBytes": 47495,
+      "files": 1,
+      "collapsed": 2
+    },
+    {
+      "label": "Permits (List view)",
+      "tag": "section",
+      "selector": "[data-ptl]",
+      "html": "<section class=\"bcn-ptl\" data-ptl=\"\" data-project-id=\"coal-creek-fish-passage\" aria-label=\"Permits\">\n  <div class=\"esa-card esa-card--padding-compact\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">Permits</h3>\n        </div>\n      </div>\n      <div class=\"esa-card__actions typography-label-md\">\n        <div class=\"cluster\" data-gap=\"xs\">\n          <esa-filter-dropdown\n            data-ptl-scope=\"true\"\n            name=\"scope\"\n            label=\"Applies to\"\n            multiple=\"\"\n            size=\"sm\"\n            options='[{\"label\":\"Project-wide\",\"value\":\"project\"},{\"label\":\"SE 60th St culvert\",\"value\":\"cc-se60\"},{\"label\":\"Newport Way crossing\",\"value\":\"cc-newport\"}]'\n          ></esa-filter-dropdown\n          ><span class=\"bcn-gchrome__search\"\n            ><esa-text-field\n              placeholder=\"Search permits…\"\n              size=\"sm\"\n              data-ptl-search=\"true\"\n            ></esa-text-field\n            ><span data-ptl-search-clear=\"true\" class=\"astro-kspn7qo2\" hidden=\"\"\n              ><span\n                class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n                ><button\n                  class=\"esa-button__native typography-microcopy-xs\"\n                  type=\"button\"\n                  aria-label=\"Clear search\"\n                  title=\"Clear search\"\n                >\n                  <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                    ><svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path d=\"M18 6 6 18\"></path>\n                      <path d=\"m6 6 12 12\"></path></svg\n                  ></span></button></span></span></span\n          ><span data-ptl-clear-filters=\"true\" class=\"astro-kspn7qo2\"\n            ><span\n              class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n              ><button class=\"esa-button__native typography-microcopy-xs\" type=\"button\">\n                <span class=\"esa-button__label\">Clear Filters</span>\n              </button></span\n            ></span\n          >\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <div class=\"bcn-ptl__host\" data-ptl-host=\"\">\n        <div\n          class=\"ag-theme-buttonStyle-1 ag-theme-columnDropStyle-2 ag-theme-batchEditStyle-3 ag-theme-checkboxStyle-4 ag-theme-iconSet-5 ag-theme-tabStyle-6 ag-theme-inputStyle-7 ag-theme-columnDropStyle-2 ag-theme-part-8 ag-theme-params-1\"\n          style=\"height: 100%; --ag-internal-row-border-width: 1px\"\n        >\n          <div class=\"ag-measurement-container\">\n            <div style=\"width: var(--ag-list-item-height, 15538px)\"></div>\n            <div style=\"width: var(--ag-row-height, 15538px)\"></div>\n            <div style=\"width: var(--ag-header-height, 15538px)\"></div>\n            <div\n              class=\"ag-measurement-element-border\"\n              style=\"--ag-internal-measurement-border: var(--ag-row-border, solid 15538px)\"\n            ></div>\n            <div\n              class=\"ag-measurement-element-border\"\n              style=\"--ag-internal-measurement-border: var(--ag-pinned-row-border, solid 15538px)\"\n            ></div>\n            <div\n              class=\"ag-measurement-element-border\"\n              style=\"--ag-internal-measurement-border: var(--ag-header-row-border, solid 15538px)\"\n            ></div>\n          </div>\n          <div\n            class=\"ag-aria-description-container\"\n            aria-live=\"polite\"\n            aria-relevant=\"additions text\"\n            aria-atomic=\"true\"\n          ></div>\n          <div class=\"ag-root-wrapper ag-layout-normal ag-ltr\" role=\"presentation\" grid-id=\"1\">\n            <div\n              class=\"ag-root-wrapper-body ag-layout-normal ag-focus-managed\"\n              data-ref=\"rootWrapperBody\"\n              role=\"presentation\"\n            >\n              <div class=\"ag-tab-guard ag-tab-guard-top\" role=\"presentation\" tabindex=\"0\"></div>\n              <!--AG-GRID-BODY-->\n              <div\n                class=\"ag-root ag-unselectable ag-layout-normal ag-body-horizontal-content-no-gap ag-body-vertical-content-no-gap\"\n                data-ref=\"eGridRoot\"\n                role=\"grid\"\n                aria-colcount=\"11\"\n                aria-rowcount=\"11\"\n              >\n                <!--AG-HEADER-ROOT-->\n                <div\n                  class=\"ag-header ag-focus-managed ag-pivot-off ag-header-allow-overflow\"\n                  role=\"presentation\"\n                  style=\"height: 49px; min-height: 49px\"\n                >\n                  <div\n                    class=\"ag-pinned-left-header ag-hidden\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <div class=\"ag-header-viewport\" role=\"rowgroup\" tabindex=\"-1\">\n                    <div\n                      class=\"ag-header-container\"\n                      data-ref=\"eCenterContainer\"\n                      role=\"presentation\"\n                      style=\"width: 1645px\"\n                    >\n                      <div\n                        class=\"ag-header-row ag-header-row-column\"\n                        role=\"row\"\n                        tabindex=\"0\"\n                        aria-rowindex=\"1\"\n                        style=\"top: 0px; height: 48px; width: 1645px\"\n                      >\n                        <div\n                          class=\"ag-header-cell ag-column-first ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed\"\n                          role=\"columnheader\"\n                          col-id=\"name\"\n                          aria-colindex=\"1\"\n                          tabindex=\"-1\"\n                          aria-sort=\"none\"\n                          style=\"\n                            top: 0px;\n                            height: 48px;\n                            width: 220px;\n                            touch-action: none;\n                            left: 0px;\n                          \"\n                        >\n                          <div\n                            class=\"ag-header-cell-resize\"\n                            data-ref=\"eResize\"\n                            role=\"presentation\"\n                            aria-hidden=\"false\"\n                            style=\"touch-action: none\"\n                          ></div>\n                          <div\n                            class=\"ag-header-cell-comp-wrapper\"\n                            data-ref=\"eHeaderCompWrapper\"\n                            role=\"presentation\"\n                          >\n                            <div class=\"ag-cell-label-container\" role=\"presentation\">\n                              <span\n                                class=\"ag-header-icon ag-header-cell-filter-button\"\n                                data-ref=\"eFilterButton\"\n                                aria-hidden=\"true\"\n                                ><span\n                                  class=\"ag-icon ag-icon-filter\"\n                                  role=\"presentation\"\n                                  unselectable=\"on\"\n                                ></span\n                              ></span>\n                              <div\n                                class=\"ag-header-cell-label\"\n                                data-ref=\"eLabel\"\n                                role=\"presentation\"\n                              >\n                                <span class=\"ag-header-cell-text\" data-ref=\"eText\">Permit</span>\n                                <!--AG-SORT-INDICATOR--><span\n                                  class=\"ag-sort-indicator-container\"\n                                  data-ref=\"eSortIndicator\"\n                                >\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\"\n                                    data-ref=\"eSortOrder\"\n                                    aria-hidden=\"true\"\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-asc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-descending-icon ag-hidden\"\n                                    data-ref=\"eSortDesc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-desc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden\"\n                                    data-ref=\"eSortMixed\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-none\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAbsoluteAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-aasc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span></span\n                                  ><!-- …and 2 more like this (<span class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\">) -->\n                                </span>\n                              </div>\n                            </div>\n                          </div>\n                        </div>\n                        <div\n                          class=\"ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed\"\n                          role=\"columnheader\"\n                          col-id=\"scope\"\n                          aria-colindex=\"2\"\n                          tabindex=\"-1\"\n                          aria-sort=\"none\"\n                          style=\"\n                            top: 0px;\n                            height: 48px;\n                            width: 160px;\n                            touch-action: none;\n                            left: 220px;\n                          \"\n                        >\n                          <div\n                            class=\"ag-header-cell-resize\"\n                            data-ref=\"eResize\"\n                            role=\"presentation\"\n                            aria-hidden=\"false\"\n                            style=\"touch-action: none\"\n                          ></div>\n                          <div\n                            class=\"ag-header-cell-comp-wrapper\"\n                            data-ref=\"eHeaderCompWrapper\"\n                            role=\"presentation\"\n                          >\n                            <div class=\"ag-cell-label-container\" role=\"presentation\">\n                              <span\n                                class=\"ag-header-icon ag-header-cell-filter-button\"\n                                data-ref=\"eFilterButton\"\n                                aria-hidden=\"true\"\n                                ><span\n                                  class=\"ag-icon ag-icon-filter\"\n                                  role=\"presentation\"\n                                  unselectable=\"on\"\n                                ></span\n                              ></span>\n                              <div\n                                class=\"ag-header-cell-label\"\n                                data-ref=\"eLabel\"\n                                role=\"presentation\"\n                              >\n                                <span class=\"ag-header-cell-text\" data-ref=\"eText\">Applies to</span>\n                                <!--AG-SORT-INDICATOR--><span\n                                  class=\"ag-sort-indicator-container\"\n                                  data-ref=\"eSortIndicator\"\n                                >\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\"\n                                    data-ref=\"eSortOrder\"\n                                    aria-hidden=\"true\"\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-asc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-descending-icon ag-hidden\"\n                                    data-ref=\"eSortDesc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-desc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden\"\n                                    data-ref=\"eSortMixed\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-none\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAbsoluteAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-aasc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span></span\n                                  ><!-- …and 2 more like this (<span class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\">) -->\n                                </span>\n                              </div>\n                            </div>\n                          </div>\n                        </div>\n                        <div\n                          class=\"ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-right-aligned-header ag-focus-managed\"\n                          role=\"columnheader\"\n                          col-id=\"reviews\"\n                          aria-colindex=\"8\"\n                          tabindex=\"-1\"\n                          aria-sort=\"none\"\n                          style=\"\n                            top: 0px;\n                            height: 48px;\n                            width: 105px;\n                            touch-action: none;\n                            left: 1160px;\n                          \"\n                        >\n                          <div\n                            class=\"ag-header-cell-resize\"\n                            data-ref=\"eResize\"\n                            role=\"presentation\"\n                            aria-hidden=\"false\"\n                            style=\"touch-action: none\"\n                          ></div>\n                          <div\n                            class=\"ag-header-cell-comp-wrapper\"\n                            data-ref=\"eHeaderCompWrapper\"\n                            role=\"presentation\"\n                          >\n                            <div class=\"ag-cell-label-container\" role=\"presentation\">\n                              <span\n                                class=\"ag-header-icon ag-header-cell-filter-button\"\n                                data-ref=\"eFilterButton\"\n                                aria-hidden=\"true\"\n                                ><span\n                                  class=\"ag-icon ag-icon-filter\"\n                                  role=\"presentation\"\n                                  unselectable=\"on\"\n                                ></span\n                              ></span>\n                              <div\n                                class=\"ag-header-cell-label\"\n                                data-ref=\"eLabel\"\n                                role=\"presentation\"\n                              >\n                                <span class=\"ag-header-cell-text\" data-ref=\"eText\">Reviews</span>\n                                <!--AG-SORT-INDICATOR--><span\n                                  class=\"ag-sort-indicator-container\"\n                                  data-ref=\"eSortIndicator\"\n                                >\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\"\n                                    data-ref=\"eSortOrder\"\n                                    aria-hidden=\"true\"\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-asc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-descending-icon ag-hidden\"\n                                    data-ref=\"eSortDesc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-desc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden\"\n                                    data-ref=\"eSortMixed\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-none\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAbsoluteAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-aasc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span></span\n                                  ><!-- …and 2 more like this (<span class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\">) -->\n                                </span>\n                              </div>\n                            </div>\n                          </div>\n                        </div>\n                        <div\n                          class=\"ag-header-cell ag-column-last ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed\"\n                          role=\"columnheader\"\n                          col-id=\"conditions\"\n                          aria-colindex=\"11\"\n                          tabindex=\"-1\"\n                          aria-sort=\"none\"\n                          style=\"\n                            top: 0px;\n                            height: 48px;\n                            width: 120px;\n                            touch-action: none;\n                            left: 1525px;\n                          \"\n                        >\n                          <div\n                            class=\"ag-header-cell-resize\"\n                            data-ref=\"eResize\"\n                            role=\"presentation\"\n                            aria-hidden=\"false\"\n                            style=\"touch-action: none\"\n                          ></div>\n                          <div\n                            class=\"ag-header-cell-comp-wrapper\"\n                            data-ref=\"eHeaderCompWrapper\"\n                            role=\"presentation\"\n                          >\n                            <div class=\"ag-cell-label-container\" role=\"presentation\">\n                              <span\n                                class=\"ag-header-icon ag-header-cell-filter-button\"\n                                data-ref=\"eFilterButton\"\n                                aria-hidden=\"true\"\n                                ><span\n                                  class=\"ag-icon ag-icon-filter\"\n                                  role=\"presentation\"\n                                  unselectable=\"on\"\n                                ></span\n                              ></span>\n                              <div\n                                class=\"ag-header-cell-label\"\n                                data-ref=\"eLabel\"\n                                role=\"presentation\"\n                              >\n                                <span class=\"ag-header-cell-text\" data-ref=\"eText\">Conditions</span>\n                                <!--AG-SORT-INDICATOR--><span\n                                  class=\"ag-sort-indicator-container\"\n                                  data-ref=\"eSortIndicator\"\n                                >\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\"\n                                    data-ref=\"eSortOrder\"\n                                    aria-hidden=\"true\"\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-asc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-descending-icon ag-hidden\"\n                                    data-ref=\"eSortDesc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-desc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden\"\n                                    data-ref=\"eSortMixed\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-none\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span\n                                  ></span>\n                                  <span\n                                    class=\"ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden\"\n                                    data-ref=\"eSortAbsoluteAsc\"\n                                    aria-hidden=\"true\"\n                                    ><span\n                                      class=\"ag-icon ag-icon-aasc\"\n                                      role=\"presentation\"\n                                      unselectable=\"on\"\n                                    ></span></span\n                                  ><!-- …and 2 more like this (<span class=\"ag-sort-indicator-icon ag-sort-order ag-hidden\">) -->\n                                </span>\n                              </div>\n                            </div>\n                          </div>\n                        </div>\n                        <!-- …and 7 more like this (<div class=\"ag-header-cell ag-column-first ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed\">) -->\n                      </div>\n                    </div>\n                  </div>\n                  <div\n                    class=\"ag-pinned-right-header ag-hidden\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                </div>\n                <div\n                  class=\"ag-floating-top ag-invisible\"\n                  data-ref=\"eTop\"\n                  role=\"presentation\"\n                  style=\"min-height: 0px; height: 0px; overflow-y: scroll\"\n                >\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-left-floating-top ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-viewport ag-floating-top-viewport\"\n                    data-ref=\"eViewport\"\n                    role=\"rowgroup\"\n                  >\n                    <div\n                      class=\"ag-floating-top-container\"\n                      data-ref=\"eContainer\"\n                      role=\"presentation\"\n                      style=\"width: 1645px\"\n                    ></div>\n                  </div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-right-floating-top ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-floating-top-full-width-container\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                  ></div>\n                </div>\n                <div class=\"ag-body ag-layout-normal\" data-ref=\"eBody\" role=\"presentation\">\n                  <div\n                    class=\"ag-body-viewport ag-layout-normal ag-row-animation\"\n                    data-ref=\"eBodyViewport\"\n                    role=\"presentation\"\n                    style=\"width: calc(100% + 16px)\"\n                  >\n                    <!--AG-ROW-CONTAINER-->\n                    <div\n                      class=\"ag-pinned-left-cols-container ag-hidden\"\n                      data-ref=\"eContainer\"\n                      role=\"rowgroup\"\n                      aria-hidden=\"true\"\n                      style=\"height: 584px; width: 0px; max-width: 0px; min-width: 0px\"\n                    ></div>\n                    <!--AG-ROW-CONTAINER-->\n                    <div\n                      class=\"ag-viewport ag-center-cols-viewport\"\n                      data-ref=\"eViewport\"\n                      role=\"rowgroup\"\n                      style=\"height: 584px\"\n                    >\n                      <div\n                        class=\"ag-center-cols-container\"\n                        data-ref=\"eContainer\"\n                        role=\"presentation\"\n                        style=\"width: 1645px; height: 584px\"\n                      >\n                        <div\n                          role=\"row\"\n                          comp-id=\"72\"\n                          tabindex=\"0\"\n                          row-index=\"0\"\n                          class=\"ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first\"\n                          aria-rowindex=\"2\"\n                          row-id=\"cc-sepa\"\n                          style=\"transform: translateY(0px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"73\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc-sepa\"\n                                  >SEPA Threshold Determination</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"74\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Project-wide</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"80\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">1</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"83\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Yes</span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"84\"\n                          tabindex=\"0\"\n                          row-index=\"1\"\n                          class=\"ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"3\"\n                          row-id=\"cc-401\"\n                          style=\"transform: translateY(56px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"85\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc-401\"\n                                  >Section 401 Water Quality Certification</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"86\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Project-wide</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"92\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">1</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"95\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Yes</span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"96\"\n                          tabindex=\"0\"\n                          row-index=\"2\"\n                          class=\"ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"4\"\n                          row-id=\"cc-404\"\n                          style=\"transform: translateY(112px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"97\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc-404\"\n                                  >Section 404 Permit (Nationwide)</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"98\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Project-wide</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"104\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">2</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"107\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"108\"\n                          tabindex=\"0\"\n                          row-index=\"3\"\n                          class=\"ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"5\"\n                          row-id=\"cc-cswgp\"\n                          style=\"transform: translateY(168px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"109\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc-cswgp\"\n                                  >Construction Stormwater General Permit</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"110\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Project-wide</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"116\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">—</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"119\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"120\"\n                          tabindex=\"0\"\n                          row-index=\"4\"\n                          class=\"ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"6\"\n                          row-id=\"cc1-cao\"\n                          style=\"transform: translateY(224px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"121\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc1-cao\"\n                                  >Critical Areas Land Use Permit</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"122\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >SE 60th St culvert</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"128\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">3</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"131\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"132\"\n                          tabindex=\"0\"\n                          row-index=\"5\"\n                          class=\"ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"7\"\n                          row-id=\"cc1-hpa\"\n                          style=\"transform: translateY(280px); height: 44px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"133\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc1-hpa\"\n                                  >Hydraulic Project Approval</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"134\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >SE 60th St culvert</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"140\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">1</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"143\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Yes</span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"144\"\n                          tabindex=\"0\"\n                          row-index=\"6\"\n                          class=\"ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"8\"\n                          row-id=\"cc1-grading\"\n                          style=\"transform: translateY(324px); height: 74px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"145\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc1-grading\"\n                                  >Clearing and Grading Permit</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"146\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >SE 60th St culvert</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"152\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">—</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"155\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"156\"\n                          tabindex=\"0\"\n                          row-index=\"7\"\n                          class=\"ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"9\"\n                          row-id=\"cc2-cao\"\n                          style=\"transform: translateY(398px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"157\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc2-cao\"\n                                  >Critical Areas Review</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"158\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >Newport Way crossing</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"164\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">2</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"167\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"168\"\n                          tabindex=\"0\"\n                          row-index=\"8\"\n                          class=\"ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute\"\n                          aria-rowindex=\"10\"\n                          row-id=\"cc2-hpa\"\n                          style=\"transform: translateY(454px); height: 56px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"169\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc2-hpa\"\n                                  >Hydraulic Project Approval</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"170\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >Newport Way crossing</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"176\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">1</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"179\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">Yes</span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                        <div\n                          role=\"row\"\n                          comp-id=\"180\"\n                          tabindex=\"0\"\n                          row-index=\"9\"\n                          class=\"ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last\"\n                          aria-rowindex=\"11\"\n                          row-id=\"cc2-grading\"\n                          style=\"transform: translateY(510px); height: 74px\"\n                        >\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"181\"\n                            col-id=\"name\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\"\n                            aria-colindex=\"1\"\n                            style=\"left: 0px; width: 220px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                ><a\n                                  class=\"bcn-ptl__name\"\n                                  href=\"/beacon-design/prototypes/permit-tracker/permits/cc2-grading\"\n                                  >Clearing and Grading Permit</a\n                                ></span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"182\"\n                            col-id=\"scope\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text\"\n                            aria-colindex=\"2\"\n                            style=\"left: 220px; width: 160px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"\n                                >Newport Way crossing</span\n                              >\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"188\"\n                            col-id=\"reviews\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-right-aligned-cell\"\n                            aria-colindex=\"8\"\n                            style=\"left: 1160px; width: 105px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\">—</span>\n                            </div>\n                          </div>\n                          <div\n                            role=\"gridcell\"\n                            comp-id=\"191\"\n                            col-id=\"conditions\"\n                            tabindex=\"-1\"\n                            class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-last\"\n                            aria-colindex=\"11\"\n                            style=\"left: 1525px; width: 120px\"\n                          >\n                            <div class=\"ag-cell-wrapper\" role=\"presentation\">\n                              <span class=\"ag-cell-value\" role=\"presentation\"></span>\n                            </div>\n                          </div>\n                          <!-- …and 7 more like this (<div class=\"ag-cell ag-cell-not-inline-editing ag-cell-auto-height ag-cell-wrap-text ag-column-first\">) -->\n                        </div>\n                      </div>\n                    </div>\n                    <!--AG-ROW-CONTAINER-->\n                    <div\n                      class=\"ag-pinned-right-cols-container ag-hidden\"\n                      data-ref=\"eContainer\"\n                      role=\"rowgroup\"\n                      aria-hidden=\"true\"\n                      style=\"height: 584px; width: 0px; max-width: 0px; min-width: 0px\"\n                    ></div>\n                    <!--AG-ROW-CONTAINER-->\n                    <div\n                      class=\"ag-full-width-container\"\n                      data-ref=\"eContainer\"\n                      role=\"rowgroup\"\n                      style=\"height: 584px\"\n                    ></div>\n                  </div>\n                  <!--AG-FAKE-VERTICAL-SCROLL-->\n                  <div\n                    class=\"ag-body-vertical-scroll ag-scrollbar-invisible\"\n                    aria-hidden=\"true\"\n                    style=\"width: 16px; max-width: 16px; min-width: 16px\"\n                  >\n                    <div\n                      class=\"ag-body-vertical-scroll-viewport\"\n                      data-ref=\"eViewport\"\n                      style=\"width: 16px; max-width: 16px; min-width: 16px\"\n                    >\n                      <div\n                        class=\"ag-body-vertical-scroll-container\"\n                        data-ref=\"eContainer\"\n                        style=\"height: 584px; width: 16px; max-width: 16px; min-width: 16px\"\n                      ></div>\n                    </div>\n                  </div>\n                </div>\n                <div\n                  class=\"ag-sticky-top\"\n                  data-ref=\"eStickyTop\"\n                  role=\"presentation\"\n                  style=\"top: 49px; height: 0px; width: calc(100% + 0px)\"\n                >\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-left-sticky-top ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-viewport ag-sticky-top-viewport\"\n                    data-ref=\"eViewport\"\n                    role=\"rowgroup\"\n                  >\n                    <div\n                      class=\"ag-sticky-top-container\"\n                      data-ref=\"eContainer\"\n                      role=\"presentation\"\n                      style=\"width: 1645px\"\n                    ></div>\n                  </div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-right-sticky-top ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-sticky-top-full-width-container\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                  ></div>\n                </div>\n                <div\n                  class=\"ag-sticky-bottom ag-invisible\"\n                  data-ref=\"eStickyBottom\"\n                  role=\"presentation\"\n                  style=\"bottom: 0px; height: 0px; width: calc(100% + 0px)\"\n                >\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-left-sticky-bottom ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-viewport ag-sticky-bottom-viewport\"\n                    data-ref=\"eViewport\"\n                    role=\"rowgroup\"\n                  >\n                    <div\n                      class=\"ag-sticky-bottom-container\"\n                      data-ref=\"eContainer\"\n                      role=\"presentation\"\n                      style=\"width: 1645px\"\n                    ></div>\n                  </div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-right-sticky-bottom ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-sticky-bottom-full-width-container\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                  ></div>\n                </div>\n                <div\n                  class=\"ag-floating-bottom ag-invisible\"\n                  data-ref=\"eBottom\"\n                  role=\"presentation\"\n                  style=\"min-height: 0px; height: 0px; overflow-y: scroll\"\n                >\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-left-floating-bottom ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-viewport ag-floating-bottom-viewport\"\n                    data-ref=\"eViewport\"\n                    role=\"rowgroup\"\n                  >\n                    <div\n                      class=\"ag-floating-bottom-container\"\n                      data-ref=\"eContainer\"\n                      role=\"presentation\"\n                      style=\"width: 1645px\"\n                    ></div>\n                  </div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-pinned-right-floating-bottom ag-hidden\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                    aria-hidden=\"true\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <!--AG-ROW-CONTAINER-->\n                  <div\n                    class=\"ag-floating-bottom-full-width-container\"\n                    data-ref=\"eContainer\"\n                    role=\"rowgroup\"\n                  ></div>\n                </div>\n                <!--AG-FAKE-HORIZONTAL-SCROLL-->\n                <div\n                  class=\"ag-body-horizontal-scroll ag-scrollbar-invisible ag-scrollbar-scrolling\"\n                  aria-hidden=\"true\"\n                  style=\"bottom: 0px; height: 16px; max-height: 16px; min-height: 16px\"\n                >\n                  <div\n                    class=\"ag-horizontal-left-spacer ag-scroller-corner\"\n                    data-ref=\"eLeftSpacer\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                  <div\n                    class=\"ag-body-horizontal-scroll-viewport\"\n                    data-ref=\"eViewport\"\n                    style=\"height: 16px; max-height: 16px; min-height: 16px\"\n                  >\n                    <div\n                      class=\"ag-body-horizontal-scroll-container\"\n                      data-ref=\"eContainer\"\n                      style=\"width: 1645px; height: 16px; max-height: 16px; min-height: 16px\"\n                    ></div>\n                  </div>\n                  <div\n                    class=\"ag-horizontal-right-spacer ag-scroller-corner\"\n                    data-ref=\"eRightSpacer\"\n                    style=\"width: 0px; max-width: 0px; min-width: 0px\"\n                  ></div>\n                </div>\n                <!--AG-OVERLAY-WRAPPER-->\n                <div class=\"ag-overlay ag-hidden\" role=\"presentation\">\n                  <div class=\"ag-overlay-panel\" role=\"presentation\">\n                    <div\n                      class=\"ag-overlay-wrapper ag-layout-normal\"\n                      data-ref=\"eOverlayWrapper\"\n                      role=\"presentation\"\n                      style=\"padding-top: 0px\"\n                    ></div>\n                  </div>\n                </div>\n              </div>\n              <div class=\"ag-tab-guard ag-tab-guard-bottom\" role=\"presentation\" tabindex=\"0\"></div>\n            </div>\n            <!--AG-PAGINATION-->\n            <div\n              class=\"ag-paging-panel ag-unselectable ag-focus-managed ag-hidden\"\n              id=\"ag-29\"\n              aria-hidden=\"true\"\n            >\n              <div class=\"ag-tab-guard ag-tab-guard-top\" role=\"presentation\" tabindex=\"0\"></div>\n              <span class=\"ag-paging-page-size\"\n                ><div\n                  class=\"ag-picker-field ag-labeled ag-label-align-left ag-select\"\n                  role=\"presentation\"\n                >\n                  <div data-ref=\"eLabel\" class=\"ag-label\" aria-hidden=\"false\" id=\"ag-31-label\">\n                    Page Size:\n                  </div>\n                  <div\n                    class=\"ag-wrapper ag-picker-field-wrapper ag-picker-collapsed\"\n                    data-ref=\"eWrapper\"\n                    tabindex=\"0\"\n                    aria-expanded=\"false\"\n                    role=\"combobox\"\n                    aria-controls=\"ag-select-list-32\"\n                    aria-label=\"Page Size\"\n                  >\n                    <div\n                      class=\"ag-picker-field-display\"\n                      data-ref=\"eDisplayField\"\n                      id=\"ag-31-display\"\n                    >\n                      100\n                    </div>\n                    <div class=\"ag-picker-field-icon\" data-ref=\"eIcon\" aria-hidden=\"true\">\n                      <span\n                        class=\"ag-icon ag-icon-small-down\"\n                        role=\"presentation\"\n                        unselectable=\"on\"\n                      ></span>\n                    </div>\n                  </div></div></span\n              ><span class=\"ag-paging-row-summary-panel\">\n                <span\n                  class=\"ag-paging-row-summary-panel-number\"\n                  data-ref=\"lbFirstRowOnPage\"\n                  id=\"ag-29-first-row\"\n                  >1</span\n                >\n                <span id=\"ag-29-to\">to</span>\n                <span\n                  class=\"ag-paging-row-summary-panel-number\"\n                  data-ref=\"lbLastRowOnPage\"\n                  id=\"ag-29-last-row\"\n                  >0</span\n                >\n                <span id=\"ag-29-of\">of</span>\n                <span\n                  class=\"ag-paging-row-summary-panel-number\"\n                  data-ref=\"lbRecordCount\"\n                  id=\"ag-29-row-count\"\n                  >0</span\n                > </span\n              ><span class=\"ag-paging-page-summary-panel\" role=\"presentation\">\n                <div\n                  class=\"ag-button ag-paging-button ag-disabled\"\n                  data-ref=\"btFirst\"\n                  role=\"button\"\n                  aria-label=\"First Page\"\n                  tabindex=\"0\"\n                  aria-disabled=\"true\"\n                >\n                  <span class=\"ag-icon ag-icon-first\" role=\"presentation\" unselectable=\"on\"></span>\n                </div>\n                <div\n                  class=\"ag-button ag-paging-button ag-disabled\"\n                  data-ref=\"btPrevious\"\n                  role=\"button\"\n                  aria-label=\"Previous Page\"\n                  tabindex=\"0\"\n                  aria-disabled=\"true\"\n                >\n                  <span\n                    class=\"ag-icon ag-icon-previous\"\n                    role=\"presentation\"\n                    unselectable=\"on\"\n                  ></span>\n                </div>\n                <span class=\"ag-paging-description\">\n                  <span id=\"ag-29-start-page\">Page</span>\n                  <span class=\"ag-paging-number\" data-ref=\"lbCurrent\" id=\"ag-29-start-page-number\"\n                    >1</span\n                  >\n                  <span id=\"ag-29-of-page\">of</span>\n                  <span class=\"ag-paging-number\" data-ref=\"lbTotal\" id=\"ag-29-of-page-number\"\n                    >1</span\n                  >\n                </span>\n                <div\n                  class=\"ag-button ag-paging-button ag-disabled\"\n                  data-ref=\"btNext\"\n                  role=\"button\"\n                  aria-label=\"Next Page\"\n                  tabindex=\"0\"\n                  aria-disabled=\"true\"\n                >\n                  <span class=\"ag-icon ag-icon-next\" role=\"presentation\" unselectable=\"on\"></span>\n                </div>\n                <div\n                  class=\"ag-button ag-paging-button ag-disabled\"\n                  data-ref=\"btLast\"\n                  role=\"button\"\n                  aria-label=\"Last Page\"\n                  tabindex=\"0\"\n                  aria-disabled=\"true\"\n                >\n                  <span class=\"ag-icon ag-icon-last\" role=\"presentation\" unselectable=\"on\"></span>\n                </div>\n              </span>\n              <div class=\"ag-tab-guard ag-tab-guard-bottom\" role=\"presentation\" tabindex=\"0\"></div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__footer typography-meta\">\n      <div class=\"repel bcn-gfoot\" data-gap=\"md\">\n        <span data-ptl-download=\"true\" class=\"astro-lujwycoi\"\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n            ><button class=\"esa-button__native typography-microcopy-xs\" type=\"button\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path>\n                  <polyline points=\"7 10 12 15 17 10\"></polyline>\n                  <line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"></line></svg></span\n              ><span class=\"esa-button__label\">Download as CSV</span>\n            </button></span\n          ></span\n        >\n        <div class=\"cluster bcn-gfoot__count\" data-gap=\"md\">\n          <span>Total Records: <span data-ptl-total=\"true\" class=\"astro-lujwycoi\">10</span></span\n          ><span class=\"bcn-gfoot__filtered\" data-ptl-filtered=\"true\" hidden=\"\"></span>\n        </div>\n      </div>\n    </div>\n  </div>\n  <!-- script type=\"application/json\" removed (7 KB) --><!-- Cell templates: cloned into AG Grid cells so they keep the legos' scoped styles. --><template\n    data-ptl-tpl-chip=\"\"\n    ><span\n      class=\"bcn-status-chip\"\n      data-status=\"permit\"\n      style=\"--_chip: var(--st-permit, var(--bcn-status-completed))\"\n      ><span class=\"bcn-status-chip__dot\"></span\n      ><span class=\"bcn-status-chip__label\">Issued</span></span\n    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's\n     client script rebuilds its By Status list after applying saved overrides) hand-builds\n     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped\n     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),\n     so a client-injected chip carries the classes but not that attribute and would render\n     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is\n     specific to this one component) that this trades a hairline collision risk for the\n     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's\n     style block already documents. --></template\n  ><template data-ptl-tpl-waiting=\"\"\n    ><span\n      class=\"esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong\"\n      data-astro-cid-yahmuvtj=\"\"\n      ><span class=\"esa-badge__text\" data-astro-cid-yahmuvtj=\"\">Waiting on</span></span\n    ></template\n  ><!-- …and 2 more like this (<template>) -->\n</section>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--neutral {\n  --_badge-bg: var(--color-content-default-secondary, #646464);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.bcn-gchrome__search {\n  align-items: center;\n  gap: var(--spacing-100);\n  min-inline-size: 15rem;\n  display: inline-flex;\n}\n.bcn-gchrome__search esa-text-field {\n  inline-size: 100%;\n}\n.bcn-gfoot__count {\n  font-size: var(--font-size-150);\n  color: var(--color-content-default-secondary);\n  font-variant-numeric: tabular-nums;\n}\n.bcn-gfoot__filtered {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-gfoot__filtered[hidden] {\n  display: none;\n}\n.bcn-status-chip {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: 2px var(--spacing-250);\n  border-radius: var(--radius-full);\n  font-size: var(--font-size-100);\n  font-weight: var(--typography-font-weight-semibold);\n  white-space: nowrap;\n  background: color-mix(in srgb, var(--_chip) 16%, transparent);\n  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);\n  display: inline-flex;\n}\n.bcn-status-chip__dot {\n  border-radius: var(--radius-full);\n  background: var(--_chip);\n  flex-shrink: 0;\n  width: 8px;\n  height: 8px;\n}\n.bcn-ptl__host {\n  block-size: 34rem;\n  inline-size: 100%;\n}\n.bcn-ptl[data-all-projects] .bcn-ptl__host {\n  block-size: max(34rem, 100dvh - 24rem);\n}\n.bcn-ptl .ag-cell-wrap-text {\n  padding-block: var(--spacing-200);\n  line-height: 1.35;\n}\n.bcn-ptl .bcn-ptl__name {\n  color: var(--color-content-link);\n  text-decoration: underline;\n}\n.bcn-ptl .bcn-ptl__name:hover {\n  color: var(--color-content-link-hover);\n}\n.bcn-ptl .bcn-ptl__status {\n  padding-block: var(--spacing-050);\n  align-items: center;\n}\n.bcn-ptl .ag-cell {\n  font-size: 0.875rem;\n}\n.esa-card {\n  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));\n  --_card-radius: var(--radius-md, 0.5rem);\n  --_card-padding: var(--spacing-500, 1.5rem);\n  --_card-header-bg: var(--card-header-bg, transparent);\n  --_card-header-color: var(--color-content-default, #202020);\n  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);\n  --_card-meta-label-color: var(--color-content-default-secondary, #646464);\n  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);\n  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);\n  background: var(--_card-bg);\n  border: var(--border-width-default, 1px) solid var(--_card-border);\n  border-radius: var(--_card-radius);\n  display: block;\n  overflow: hidden;\n}\n.esa-card--header-primary .esa-card__header {\n  --_card-header-bg: var(--color-background-brand, #46a758);\n  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);\n}\n.esa-card--header-muted .esa-card__header {\n  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-card--padding-compact {\n  --_card-padding: var(--spacing-300, 0.75rem);\n}\n.esa-card__header {\n  padding: var(--spacing-400, 1rem) var(--_card-padding);\n  background: var(--_card-header-bg);\n  color: var(--_card-header-color);\n  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);\n  justify-content: space-between;\n  align-items: center;\n  min-height: 56px;\n  display: flex;\n}\n.esa-card__header-content {\n  align-items: center;\n  gap: var(--spacing-300, 0.75rem);\n  display: flex;\n}\n.esa-card__titles {\n  gap: var(--spacing-050, 0.125rem);\n  flex-direction: column;\n  display: flex;\n}\n.esa-card__title {\n  color: inherit;\n  margin: 0;\n}\n.esa-card__actions {\n  align-items: center;\n  gap: var(--spacing-200, 0.5rem);\n  display: flex;\n}\n.esa-card__body {\n  padding: var(--_card-padding);\n}\n.esa-card__footer {\n  padding: var(--spacing-300, 0.75rem) var(--_card-padding);\n  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}\n.repel {\n  --gap: var(--spacing-400, 1rem);\n  --align: center;\n  gap: var(--gap);\n  align-items: var(--align);\n  flex-wrap: wrap;\n  justify-content: space-between;\n  display: flex;\n}",
+      "guide": {
+        "intent": "Every permit on the project as an AG Grid: permit (links to its page), applies to, level, agency, assigned to, status with flags, submitted, reviews, issued, expires, conditions. Board and Schedule are the other two tabs.",
+        "decisions": [
+          "Status is user data: each project configures its own status columns per workflow (Configure statuses); rows resolve through the status store and follow board moves.",
+          "Two derived flags ride beside the status and are never statuses: \"Waiting on <permit>\" (unissued prerequisites) and \"Expires soon\" / \"Expired\".",
+          "The Board is one column per status of the chosen workflow (or All permits by backbone category); dragging a card logs a status change. The Schedule draws one bar per permit on a calendar with Today and Construction start lines, each permit indented under the one it waits on.",
+          "Permits added with Add permit join the List, Board and Schedule and link to their own page."
+        ],
+        "acceptance": [
+          "The Applies to filter narrows to one site (project-wide permits stay listed under Project-wide)."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--card-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-header-bg",
+          "value": "transparent",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--gap",
+          "value": "2rem",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-gchrome",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGridChrome.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-gfoot",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGridFooter.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-ptl",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitTable.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-status-chip",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnActionTable.astro",
+          "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-card",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-card.astro",
+          "target": null
+        },
+        {
+          "name": "esa-filter-dropdown",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-filter-dropdown.ts",
+          "target": null
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-text-field",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-text-field.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/permits-list-view.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-projects-coal-creek-fish-passage/claude/permits-list-view.md",
+      "parts": [
+        "claude/permits-list-view.markup-1.md",
+        "claude/permits-list-view.markup-2.md",
+        "claude/permits-list-view.styles.md"
+      ],
+      "shots": {
+        "desktop": "claude/permits-list-view.desktop.png",
+        "phone": "claude/permits-list-view.phone.png"
+      },
+      "bytes": 106941,
+      "specBytes": 7665,
+      "files": 4,
+      "collapsed": 87
+    },
+    {
+      "label": "Add permit",
+      "tag": "esa-side-dialog",
+      "selector": "[data-bcn-ap] esa-side-dialog",
+      "apply": [
+        {
+          "click": "[data-add-permit]"
+        }
+      ],
+      "html": "<esa-side-dialog\n  class=\"bcn-ap__dialog\"\n  data-ap-drawer=\"true\"\n  heading=\"Add permit\"\n  size=\"lg\"\n  position=\"right\"\n  open=\"\"\n  ><div class=\"stack\" data-gap=\"lg\">\n    <esa-select\n      data-ap=\"type\"\n      label=\"Permit type\"\n      size=\"md\"\n      required=\"true\"\n      placeholder=\"Choose a permit type\"\n      data-options='[{\"value\":\"usace-404\",\"label\":\"Section 404 Permit (Nationwide) (Federal)\"},{\"value\":\"ecy-401\",\"label\":\"Section 401 Water… [571 characters]'\n    ></esa-select\n    ><esa-select data-ap=\"scope\" label=\"Applies to\" size=\"md\"></esa-select\n    ><!-- …and 2 more like this (<esa-select>) --><esa-textarea\n      data-ap=\"trigger\"\n      label=\"Why it applies\"\n      size=\"md\"\n      rows=\"3\"\n      placeholder=\"e.g. Work within a regulated stream buffer\"\n    ></esa-textarea\n    ><esa-select\n      data-ap=\"depends\"\n      label=\"Waits on\"\n      size=\"md\"\n      multiple=\"true\"\n      chip-mode=\"true\"\n      placeholder=\"No other permits\"\n    ></esa-select>\n  </div>\n  <div slot=\"footer\" class=\"cluster bcn-ap__footer\" data-gap=\"sm\">\n    <span class=\"esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md\"\n      ><button class=\"esa-button__native typography-microcopy-md\" type=\"button\" data-ap-save=\"true\">\n        <span class=\"esa-button__label\">Add permit</span>\n      </button></span\n    ><span\n      class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md\"\n      ><button\n        class=\"esa-button__native typography-microcopy-md\"\n        type=\"button\"\n        data-ap-cancel=\"true\"\n      >\n        <span class=\"esa-button__label\">Cancel</span>\n      </button></span\n    >\n  </div></esa-side-dialog\n>",
+      "css": ".typography-microcopy-md {\n  font-family: var(--typography-microcopy-md-font-family);\n  font-size: var(--typography-microcopy-md-font-size);\n  font-weight: var(--typography-microcopy-md-font-weight);\n  line-height: var(--typography-microcopy-md-line-height);\n  letter-spacing: var(--typography-microcopy-md-letter-spacing);\n}\n.bcn-ap__dialog {\n  --side-dialog-width-lg: 32rem;\n}\n.bcn-ap__footer {\n  justify-content: end;\n  inline-size: 100%;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--variant-primary {\n  --_accent-text: var(--color-content-brand);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.typography-microcopy-md {\n  font-family: var(--typography-microcopy-md-font-family);\n  font-size: var(--typography-microcopy-md-font-size);\n  font-weight: var(--typography-microcopy-md-font-weight);\n  line-height: var(--typography-microcopy-md-line-height);\n  letter-spacing: var(--typography-microcopy-md-letter-spacing);\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}",
+      "guide": {
+        "intent": "A side drawer that adds a permit: permit type (required), applies to (project-wide or a site), agency, assigned to, why it applies, and the permits it waits on.",
+        "decisions": [
+          "State and federal permit types have one issuing office, so the agency is locked with \"Issued by <office>\". Local types pick the city or county, defaulting to the chosen site's agency, else the project's lead agency.",
+          "The new permit is built like any other: named from its type (a critical areas permit takes the agency's own name for it), first status of its workflow, and the type's application checklist."
+        ],
+        "acceptance": [
+          "Adding a permit shows it in the List and on the Board, raises the issued total, and its name opens its permit page."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-md-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-ap",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnAddPermit.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-select",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-select.ts",
+          "target": null
+        },
+        {
+          "name": "esa-side-dialog",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-side-dialog.ts",
+          "target": null
+        },
+        {
+          "name": "esa-textarea",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-textarea.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/add-permit.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-projects-coal-creek-fish-passage/claude/add-permit.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/add-permit.desktop.png",
+        "phone": "claude/add-permit.phone.png"
+      },
+      "bytes": 10391,
+      "specBytes": 10391,
+      "files": 1,
+      "collapsed": 2
+    }
+  ]
+}

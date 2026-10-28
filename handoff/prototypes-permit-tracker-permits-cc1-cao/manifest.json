@@ -1,0 +1,1340 @@
+{
+  "name": "permit-tracker-permit",
+  "title": "Permit",
+  "description": "One permit: a timeline of submittal, agency review rounds, issuance and expiry read from its status history (Change status logs each step); what the application needs and which permits it waits on; the permit file; the full status history; and how long this permit usually takes at this agency. Each editable section opens its own side drawer.",
+  "dir": "prototypes-permit-tracker-permits-cc1-cao",
+  "url": "https://esassoc.github.io/beacon-design/prototypes/permit-tracker/permits/cc1-cao/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracker-permits-cc1-cao/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Timeline",
+      "tag": "section",
+      "selector": "[data-ptl-root]",
+      "html": "<section class=\"bcn-ptl-root\" data-ptl-root=\"\" aria-label=\"Timeline\">\n  <div class=\"esa-card\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">Timeline</h3>\n        </div>\n      </div>\n      <div class=\"esa-card__actions typography-label-md\">\n        <div class=\"cluster\" data-gap=\"md\">\n          <span\n            data-permit-status=\"\"\n            data-project-id=\"coal-creek-fish-passage\"\n            data-permit-id=\"cc1-cao\"\n            data-type-id=\"critical-areas\"\n            data-status-id=\"land-use-corrections-requested\"\n            data-category=\"InProgress\"\n            ><span\n              class=\"bcn-status-chip\"\n              data-status=\"permit\"\n              style=\"--_chip: var(--bcn-status-in-progress)\"\n              ><span class=\"bcn-status-chip__dot\"></span\n              ><span class=\"bcn-status-chip__label\">Corrections Requested</span></span\n            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's\n     client script rebuilds its By Status list after applying saved overrides) hand-builds\n     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped\n     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),\n     so a client-injected chip carries the classes but not that attribute and would render\n     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is\n     specific to this one component) that this trades a hairline collision risk for the\n     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's\n     style block already documents. --></span\n          ><span class=\"bcn-ptl__summary typography-body-md\" data-ptl-summary=\"\"\n            >Day 256 in agency review</span\n          ><span data-ptl-pace-badge=\"\"\n            ><span class=\"esa-badge esa-badge--danger esa-badge--md typography-microcopy-sm-strong\"\n              ><span class=\"esa-badge__text\">Taking longer than typical</span></span\n            ></span\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              data-permit-edit=\"status\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path></svg></span\n              ><span class=\"esa-button__label\">Change status</span>\n            </button></span\n          >\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <p class=\"bcn-ptl__pace typography-body-md\" data-ptl-pace=\"\" data-level=\"over\">\n        Day 256; City of Bellevue typically issues in 129 days.\n      </p>\n      <ol class=\"bcn-ptl\" data-ptl=\"cc1-cao\" data-project-id=\"coal-creek-fish-passage\">\n        <li class=\"bcn-ptl__step\" data-state=\"done\">\n          <span class=\"bcn-ptl__mark\" aria-hidden=\"true\"></span>\n          <div class=\"bcn-ptl__body repel\" data-gap=\"sm\">\n            <div class=\"stack\" data-gap=\"3xs\">\n              <span class=\"bcn-ptl__label typography-label-md-strong\">Application submitted</span\n              ><span class=\"bcn-ptl__detail typography-body-md\">Feb 9, 2026</span>\n            </div>\n            <div class=\"cluster\" data-gap=\"xs\"></div>\n          </div>\n        </li>\n        <li class=\"bcn-ptl__step\" data-state=\"done\">\n          <span class=\"bcn-ptl__mark\" aria-hidden=\"true\"></span>\n          <div class=\"bcn-ptl__body repel\" data-gap=\"sm\">\n            <div class=\"stack\" data-gap=\"3xs\">\n              <span class=\"bcn-ptl__label typography-label-md-strong\">1st review</span\n              ><span class=\"bcn-ptl__detail typography-body-md\">Apr 2, 2026</span>\n            </div>\n            <div class=\"cluster\" data-gap=\"xs\">\n              <span class=\"bcn-ptl__delta typography-label-sm\">+52 days</span>\n            </div>\n          </div>\n        </li>\n        <!-- …and 5 more like this (<li class=\"bcn-ptl__step\">) -->\n      </ol>\n      <template data-ptl-badge-tpl=\"\"\n        ><span\n          class=\"esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong\"\n          data-astro-cid-yahmuvtj=\"\"\n          ><span class=\"esa-badge__text\" data-astro-cid-yahmuvtj=\"\">__BADGE__</span></span\n        ></template\n      ><template data-ptl-pace-tpl=\"over\"\n        ><span\n          class=\"esa-badge esa-badge--danger esa-badge--md typography-microcopy-sm-strong\"\n          data-astro-cid-yahmuvtj=\"\"\n          ><span class=\"esa-badge__text\" data-astro-cid-yahmuvtj=\"\">__BADGE__</span></span\n        ></template\n      ><!-- …and 2 more like this (<template>) -->\n    </div>\n  </div>\n</section>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.bcn-ptl__pace {\n  margin: 0 0 var(--spacing-400);\n  color: var(--color-content-default);\n}\n.bcn-ptl__pace[hidden] {\n  display: none;\n}\n.bcn-ptl {\n  --_rail: var(--color-border-default, #cecece);\n  --_done: var(--color-background-brand, #0d7377);\n  --_mark: 0.75rem;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-ptl__step {\n  grid-template-columns: var(--_mark) 1fr;\n  column-gap: var(--spacing-300, 0.75rem);\n  padding-block-end: var(--spacing-400, 1rem);\n  display: grid;\n  position: relative;\n}\n.bcn-ptl__step:last-child {\n  padding-block-end: 0;\n}\n.bcn-ptl__step:not(:last-child):before {\n  content: \"\";\n  inset-block: calc(0.375rem + var(--_mark)) 0;\n  background: var(--_rail);\n  width: 2px;\n  position: absolute;\n  inset-inline-start: calc(var(--_mark) / 2 - 1px);\n}\n.bcn-ptl__mark {\n  width: var(--_mark);\n  height: var(--_mark);\n  border-radius: var(--radius-full, 9999px);\n  background: var(--_done);\n  border: 2px solid var(--_done);\n  box-sizing: border-box;\n  margin-block-start: 0.375rem;\n}\n.bcn-ptl__step[data-state=\"pending\"] .bcn-ptl__mark {\n  background: var(--color-background-elevation-raised, #fcfcfc);\n  border-color: var(--_rail);\n}\n.bcn-ptl__step[data-state=\"today\"] .bcn-ptl__mark {\n  background: var(--color-background-elevation-raised, #fcfcfc);\n  border-color: var(--_done);\n  box-shadow: 0 0 0 3px color-mix(in srgb, var(--_done) 20%, transparent);\n}\n.bcn-ptl__body {\n  align-items: flex-start;\n}\n.bcn-ptl__label {\n  color: var(--color-content-default);\n}\n.bcn-ptl__detail,\n.bcn-ptl__step[data-state=\"pending\"] .bcn-ptl__label {\n  color: var(--color-content-default-secondary);\n}\n.bcn-ptl__note {\n  color: var(--color-content-utility-warning);\n}\n.bcn-ptl__delta {\n  color: var(--color-content-default-tertiary);\n  white-space: nowrap;\n}\n.bcn-ptl__summary {\n  color: var(--color-content-default);\n  white-space: nowrap;\n}\n.bcn-ptl__summary[hidden] {\n  display: none;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);\n  --_badge-text: var(--color-content-utility-danger, #ce2c31);\n  --_badge-border: var(--color-border-utility-danger, #fdbdbe);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-md {\n  font-family: var(--typography-label-md-font-family);\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-label-md-font-weight);\n  line-height: var(--typography-label-md-line-height);\n  letter-spacing: var(--typography-label-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.bcn-key-value__key .esa-icon {\n  color: var(--color-content-default-tertiary);\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}\n.repel {\n  --gap: var(--spacing-400, 1rem);\n  --align: center;\n  gap: var(--gap);\n  align-items: var(--align);\n  flex-wrap: wrap;\n  justify-content: space-between;\n  display: flex;\n}\n.bcn-status-chip {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: 2px var(--spacing-250);\n  border-radius: var(--radius-full);\n  font-size: var(--font-size-100);\n  font-weight: var(--typography-font-weight-semibold);\n  white-space: nowrap;\n  background: color-mix(in srgb, var(--_chip) 16%, transparent);\n  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);\n  display: inline-flex;\n}\n.bcn-status-chip__dot {\n  border-radius: var(--radius-full);\n  background: var(--_chip);\n  flex-shrink: 0;\n  width: 8px;\n  height: 8px;\n}\n.esa-card {\n  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));\n  --_card-radius: var(--radius-md, 0.5rem);\n  --_card-padding: var(--spacing-500, 1.5rem);\n  --_card-header-bg: var(--card-header-bg, transparent);\n  --_card-header-color: var(--color-content-default, #202020);\n  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);\n  --_card-meta-label-color: var(--color-content-default-secondary, #646464);\n  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);\n  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);\n  background: var(--_card-bg);\n  border: var(--border-width-default, 1px) solid var(--_card-border);\n  border-radius: var(--_card-radius);\n  display: block;\n  overflow: hidden;\n}\n.esa-card--header-primary .esa-card__header {\n  --_card-header-bg: var(--color-background-brand, #46a758);\n  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);\n}\n.esa-card--header-muted .esa-card__header {\n  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-card__header {\n  padding: var(--spacing-400, 1rem) var(--_card-padding);\n  background: var(--_card-header-bg);\n  color: var(--_card-header-color);\n  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);\n  justify-content: space-between;\n  align-items: center;\n  min-height: 56px;\n  display: flex;\n}\n.esa-card__header-content {\n  align-items: center;\n  gap: var(--spacing-300, 0.75rem);\n  display: flex;\n}\n.esa-card__titles {\n  gap: var(--spacing-050, 0.125rem);\n  flex-direction: column;\n  display: flex;\n}\n.esa-card__title {\n  color: inherit;\n  margin: 0;\n}\n.esa-card__actions {\n  align-items: center;\n  gap: var(--spacing-200, 0.5rem);\n  display: flex;\n}\n.esa-card__body {\n  padding: var(--_card-padding);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}",
+      "guide": {
+        "intent": "The permit's history with the agency (submittal, each review round, issuance, expiry) read from its status log, with a pace badge comparing it with the typical time for this permit type at this agency.",
+        "decisions": [
+          "Dates are never typed in: they come from status changes (Change status logs the change, its date and a note; an issued status also takes the expiry).",
+          "Pace: Took longer than typical / Within typical time once issued; Taking longer than typical once past the median; Likely to take longer when the remaining review rounds, at the rate so far, project past 115% of the median (the Issued step then shows the projected date)."
+        ],
+        "acceptance": [
+          "Changing status to Issued with an expiry adds both to the timeline and updates the project's readiness."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--card-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-header-bg",
+          "value": "transparent",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-muted",
+          "value": "#feebec",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-danger",
+          "value": "#fdbdbe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--gap",
+          "value": "1.5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-ptl",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitTable.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-status-chip",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnActionTable.astro",
+          "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-card",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-card.astro",
+          "target": null
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/timeline.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-permits-cc1-cao/claude/timeline.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/timeline.desktop.png",
+        "phone": "claude/timeline.phone.png"
+      },
+      "bytes": 29064,
+      "specBytes": 29064,
+      "files": 1,
+      "collapsed": 7
+    },
+    {
+      "label": "Application needs and waits on",
+      "tag": "div",
+      "selector": "[data-bcn-permit-prereqs]",
+      "html": "<div\n  class=\"bcn-pprq stack\"\n  data-gap=\"lg\"\n  data-bcn-permit-prereqs=\"\"\n  data-permit-id=\"cc1-cao\"\n  data-editable=\"\"\n>\n  <section class=\"stack\" data-gap=\"xs\">\n    <div class=\"repel\" data-gap=\"sm\">\n      <div class=\"cluster\" data-gap=\"sm\">\n        <h4 class=\"bcn-pprq__heading typography-label-lg-strong\">Application requirements</h4>\n        <span class=\"bcn-pprq__muted typography-body-md\" data-req-count=\"\">4 of 4 done</span>\n      </div>\n      <span\n        class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-permit-edit=\"requirement\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M5 12h14\"></path>\n              <path d=\"M12 5v14\"></path></svg></span\n          ><span class=\"esa-button__label\">Add requirement</span>\n        </button></span\n      >\n    </div>\n    <p class=\"bcn-pprq__muted bcn-pprq__none typography-body-md\" data-req-empty=\"\" hidden=\"\">\n      None\n    </p>\n    <ul class=\"bcn-pprq__list stack\" data-gap=\"sm\" data-req-list=\"\">\n      <li class=\"bcn-pprq__req\" data-done=\"\">\n        <esa-checkbox\n          size=\"md\"\n          data-req-check=\"true\"\n          data-req-id=\"cc1-cao-r1\"\n          checked=\"\"\n        ></esa-checkbox\n        ><span class=\"bcn-pprq__edit\" data-req-edit=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              aria-label=\"Edit Critical areas report (wetland and stream delineation)\"\n              title=\"Edit requirement\"\n              data-permit-edit=\"requirement\"\n              data-req-id=\"cc1-cao-r1\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path></svg\n              ></span></button></span\n        ></span>\n        <div class=\"bcn-pprq__meta stack\" data-gap=\"3xs\">\n          <span class=\"typography-body-sm bcn-pprq__muted\" data-req-meta=\"\"\n            >Done Dec 15, 2025 by Grace Huang · Critical-areas-report.pdf</span\n          ><span class=\"typography-body-sm bcn-pprq__muted\" data-req-note=\"\" hidden=\"\"></span>\n        </div>\n      </li>\n      <li class=\"bcn-pprq__req\" data-done=\"\">\n        <esa-checkbox\n          size=\"md\"\n          data-req-check=\"true\"\n          data-req-id=\"cc1-cao-r2\"\n          checked=\"\"\n        ></esa-checkbox\n        ><span class=\"bcn-pprq__edit\" data-req-edit=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              aria-label=\"Edit Mitigation plan\"\n              title=\"Edit requirement\"\n              data-permit-edit=\"requirement\"\n              data-req-id=\"cc1-cao-r2\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path></svg\n              ></span></button></span\n        ></span>\n        <div class=\"bcn-pprq__meta stack\" data-gap=\"3xs\">\n          <span class=\"typography-body-sm bcn-pprq__muted\" data-req-meta=\"\"\n            >Done Dec 29, 2025 by Grace Huang · Mitigation-plan.pdf</span\n          ><span class=\"typography-body-sm bcn-pprq__muted\" data-req-note=\"\" hidden=\"\"></span>\n        </div>\n      </li>\n      <!-- …and 2 more like this (<li class=\"bcn-pprq__req\">) -->\n    </ul>\n    <template data-req-tpl=\"\"\n      ><li class=\"bcn-pprq__req\" data-astro-cid-4yoazefe=\"\">\n        <esa-checkbox size=\"md\" data-req-check=\"true\" data-astro-cid-4yoazefe=\"true\"></esa-checkbox\n        ><span class=\"bcn-pprq__edit\" data-req-edit=\"\" data-astro-cid-4yoazefe=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n            data-astro-cid-5nhxdd72=\"\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              aria-label=\"Edit requirement\"\n              title=\"Edit requirement\"\n              data-permit-edit=\"requirement\"\n              data-astro-cid-4yoazefe=\"true\"\n              data-astro-cid-5nhxdd72=\"\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                  data-astro-cid-wcwfib5m=\"\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path></svg\n              ></span></button></span\n        ></span>\n        <div class=\"bcn-pprq__meta stack\" data-gap=\"3xs\" data-astro-cid-4yoazefe=\"\">\n          <span\n            class=\"typography-body-sm bcn-pprq__muted\"\n            data-req-meta=\"\"\n            data-astro-cid-4yoazefe=\"\"\n          ></span\n          ><span\n            class=\"typography-body-sm bcn-pprq__muted\"\n            data-req-note=\"\"\n            hidden=\"\"\n            data-astro-cid-4yoazefe=\"\"\n          ></span>\n        </div></li\n    ></template>\n  </section>\n  <section class=\"stack\" data-gap=\"xs\" data-pprq-group=\"waits\">\n    <div class=\"repel\" data-gap=\"sm\">\n      <h4 class=\"bcn-pprq__heading typography-label-lg-strong\">Waits on</h4>\n      <span\n        class=\"esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-permit-edit=\"dependencies\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path\n                d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n              ></path>\n              <path d=\"m15 5 4 4\"></path></svg></span\n          ><span class=\"esa-button__label\">Edit</span>\n        </button></span\n      >\n    </div>\n    <p class=\"bcn-pprq__blocked typography-body-md\" data-pprq-note=\"\" hidden=\"\"></p>\n    <p class=\"bcn-pprq__muted bcn-pprq__none typography-body-md\" data-pprq-none=\"\" hidden=\"\">\n      None\n    </p>\n    <ul class=\"bcn-pprq__list stack\" data-gap=\"sm\" data-pprq-rows=\"\">\n      <li class=\"repel\" data-gap=\"sm\">\n        <div class=\"stack\" data-gap=\"3xs\">\n          <a\n            class=\"bcn-pprq__link typography-label-md-strong\"\n            data-wait-name=\"\"\n            href=\"/beacon-design/prototypes/permit-tracker/permits/cc-sepa\"\n            >SEPA Threshold Determination</a\n          ><span class=\"bcn-pprq__muted typography-body-sm\" data-wait-scope=\"\">Project-wide</span>\n        </div>\n        <span\n          data-permit-status=\"\"\n          data-wait-status=\"\"\n          data-project-id=\"coal-creek-fish-passage\"\n          data-permit-id=\"cc-sepa\"\n          data-type-id=\"sepa\"\n          data-status-id=\"land-use-issued\"\n          data-category=\"Completed\"\n          ><span\n            class=\"bcn-status-chip\"\n            data-status=\"NotStarted\"\n            style=\"--_chip: var(--bcn-status-completed)\"\n            ><span class=\"bcn-status-chip__dot\"></span\n            ><span class=\"bcn-status-chip__label\">Issued</span></span\n          ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's\n     client script rebuilds its By Status list after applying saved overrides) hand-builds\n     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped\n     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),\n     so a client-injected chip carries the classes but not that attribute and would render\n     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is\n     specific to this one component) that this trades a hairline collision risk for the\n     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's\n     style block already documents. --></span\n        >\n      </li>\n    </ul>\n  </section>\n  <section class=\"stack\" data-gap=\"xs\" data-pprq-group=\"needed\">\n    <div class=\"repel\" data-gap=\"sm\">\n      <h4 class=\"bcn-pprq__heading typography-label-lg-strong\">Needed by</h4>\n    </div>\n    <p class=\"bcn-pprq__blocked typography-body-md\" data-pprq-note=\"\" hidden=\"\"></p>\n    <p class=\"bcn-pprq__muted bcn-pprq__none typography-body-md\" data-pprq-none=\"\" hidden=\"\">\n      None\n    </p>\n    <ul class=\"bcn-pprq__list stack\" data-gap=\"sm\" data-pprq-rows=\"\">\n      <li class=\"repel\" data-gap=\"sm\">\n        <div class=\"stack\" data-gap=\"3xs\">\n          <a\n            class=\"bcn-pprq__link typography-label-md-strong\"\n            href=\"/beacon-design/prototypes/permit-tracker/permits/cc1-grading\"\n            >Clearing and Grading Permit</a\n          ><span class=\"bcn-pprq__muted typography-body-sm\">SE 60th St culvert</span>\n        </div>\n        <span\n          data-permit-status=\"\"\n          data-project-id=\"coal-creek-fish-passage\"\n          data-permit-id=\"cc1-grading\"\n          data-type-id=\"grading\"\n          data-status-id=\"land-use-preparing-application\"\n          data-category=\"InProgress\"\n          ><span\n            class=\"bcn-status-chip\"\n            data-status=\"InProgress\"\n            style=\"--_chip: var(--bcn-status-in-progress)\"\n            ><span class=\"bcn-status-chip__dot\"></span\n            ><span class=\"bcn-status-chip__label\">Preparing Application</span></span\n          ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's\n     client script rebuilds its By Status list after applying saved overrides) hand-builds\n     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped\n     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),\n     so a client-injected chip carries the classes but not that attribute and would render\n     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is\n     specific to this one component) that this trades a hairline collision risk for the\n     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's\n     style block already documents. --></span\n        >\n      </li>\n    </ul>\n  </section>\n  <!-- One Waits on row, cloned when saved edits change the list (keeps scoped styles). --><template\n    data-pprq-wait-tpl=\"\"\n    ><li class=\"repel\" data-gap=\"sm\" data-astro-cid-4yoazefe=\"\">\n      <div class=\"stack\" data-gap=\"3xs\" data-astro-cid-4yoazefe=\"\">\n        <a\n          class=\"bcn-pprq__link typography-label-md-strong\"\n          data-wait-name=\"\"\n          data-astro-cid-4yoazefe=\"\"\n        ></a\n        ><span\n          class=\"bcn-pprq__muted typography-body-sm\"\n          data-wait-scope=\"\"\n          data-astro-cid-4yoazefe=\"\"\n        ></span>\n      </div>\n      <span data-permit-status=\"\" data-wait-status=\"\" data-astro-cid-4yoazefe=\"\"\n        ><span\n          class=\"bcn-status-chip\"\n          data-status=\"NotStarted\"\n          style=\"--_chip: var(--st-NotStarted, var(--bcn-status-not-started))\"\n          ><span class=\"bcn-status-chip__dot\"></span\n          ><span class=\"bcn-status-chip__label\"></span></span\n        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's\n     client script rebuilds its By Status list after applying saved overrides) hand-builds\n     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped\n     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),\n     so a client-injected chip carries the classes but not that attribute and would render\n     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is\n     specific to this one component) that this trades a hairline collision risk for the\n     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's\n     style block already documents. --></span\n      >\n    </li></template\n  >\n</div>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-label-lg-strong {\n  font-family: var(--typography-label-lg-strong-font-family);\n  font-size: var(--typography-label-lg-strong-font-size);\n  font-weight: var(--typography-label-lg-strong-font-weight);\n  line-height: var(--typography-label-lg-strong-line-height);\n  letter-spacing: var(--typography-label-lg-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.bcn-pprq__heading,\n.bcn-pprq__none,\n.bcn-pprq__blocked {\n  margin: 0;\n}\n.bcn-pprq__heading {\n  color: var(--color-content-default);\n}\n.bcn-pprq__list {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-pprq__req {\n  column-gap: var(--spacing-200);\n  grid-template-columns: minmax(0, 1fr) auto;\n  align-items: start;\n  display: grid;\n}\n.bcn-pprq__meta {\n  grid-column: 1;\n  padding-inline-start: 1.75rem;\n}\n.bcn-pprq__edit {\n  margin-block-start: calc(-1 * var(--spacing-100));\n}\n.bcn-pprq__meta [data-overdue] {\n  color: var(--color-content-utility-warning);\n}\n.bcn-pprq [hidden] {\n  display: none;\n}\n.bcn-pprq__muted {\n  color: var(--color-content-default-secondary);\n}\n.bcn-pprq__blocked {\n  color: var(--color-content-default);\n}\n.bcn-pprq__link {\n  color: var(--color-content-link, var(--color-background-brand));\n  text-decoration: none;\n}\n.bcn-pprq__link:hover {\n  text-decoration: underline;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-label-lg-strong {\n  font-family: var(--typography-label-lg-strong-font-family);\n  font-size: var(--typography-label-lg-strong-font-size);\n  font-weight: var(--typography-label-lg-strong-font-weight);\n  line-height: var(--typography-label-lg-strong-line-height);\n  letter-spacing: var(--typography-label-lg-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.bcn-key-value__key .esa-icon {\n  color: var(--color-content-default-tertiary);\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}\n.repel {\n  --gap: var(--spacing-400, 1rem);\n  --align: center;\n  gap: var(--gap);\n  align-items: var(--align);\n  flex-wrap: wrap;\n  justify-content: space-between;\n  display: flex;\n}\n.bcn-status-chip {\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: 2px var(--spacing-250);\n  border-radius: var(--radius-full);\n  font-size: var(--font-size-100);\n  font-weight: var(--typography-font-weight-semibold);\n  white-space: nowrap;\n  background: color-mix(in srgb, var(--_chip) 16%, transparent);\n  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);\n  display: inline-flex;\n}\n.bcn-status-chip__dot {\n  border-radius: var(--radius-full);\n  background: var(--_chip);\n  flex-shrink: 0;\n  width: 8px;\n  height: 8px;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}",
+      "guide": {
+        "intent": "The application checklist (the permit type's standard items plus custom ones), then the permits this one waits on and the permits that wait on it, each with its status.",
+        "decisions": [
+          "Checking an item off stamps who and when; items can be edited, and custom ones removed.",
+          "Waits on is edited in its own drawer; a plain note says the permit cannot be submitted until its unissued prerequisites are issued."
+        ],
+        "acceptance": [
+          "Removing every Waits on entry shows None and drops the blocked note, and the project's list stops flagging \"Waiting on\"."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--gap",
+          "value": "1.5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-size",
+          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-lg-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-pprq",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitPrerequisites.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-status-chip",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnActionTable.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-checkbox",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-checkbox.ts",
+          "target": null
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/application-needs-and-waits-on.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-permits-cc1-cao/claude/application-needs-and-waits-on.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/application-needs-and-waits-on.desktop.png",
+        "phone": "claude/application-needs-and-waits-on.phone.png"
+      },
+      "bytes": 29691,
+      "specBytes": 29691,
+      "files": 1,
+      "collapsed": 2
+    },
+    {
+      "label": "Details",
+      "tag": "dl",
+      "selector": "[data-pdet]",
+      "html": "<dl class=\"bcn-pdet stack\" data-gap=\"md\" data-pdet=\"\" data-permit-id=\"cc1-cao\">\n  <div class=\"stack\" data-gap=\"3xs\">\n    <dt class=\"bcn-pdet__term typography-label-sm\">Trigger</dt>\n    <dd class=\"bcn-pdet__value typography-label-md-strong\" data-pdet-term=\"Trigger\">\n      Work within the Coal Creek stream buffer (Type F) and a Category III wetland buffer\n    </dd>\n  </div>\n  <div class=\"stack\" data-gap=\"3xs\">\n    <dt class=\"bcn-pdet__term typography-label-sm\">Applies to</dt>\n    <dd class=\"bcn-pdet__value typography-label-md-strong\" data-pdet-term=\"Applies to\">\n      SE 60th St culvert\n    </dd>\n  </div>\n  <!-- …and 5 more like this (<div class=\"stack\">) -->\n</dl>",
+      "css": ".typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.bcn-pdet,\n.bcn-pdet dd {\n  margin: 0;\n}\n.bcn-pdet__term {\n  color: var(--color-content-default-secondary);\n}\n.bcn-pdet__value {\n  color: var(--color-content-default);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}",
+      "guide": {
+        "intent": "The permit's facts: trigger, applies to, level, agency, reference no., assigned to, conditions. Edit opens the details drawer.",
+        "decisions": [
+          "Saved edits change the permit itself: the page header (name, agency, reference no., breadcrumb), this panel, the project's list and board, and the permit type section all follow."
+        ],
+        "acceptance": [
+          "Renaming the permit updates the page title and its row on the project page."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--gap",
+          "value": "1rem",
+          "tier": "component"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-pdet",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitDetails.astro",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/details.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-permits-cc1-cao/claude/details.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/details.desktop.png",
+        "phone": "claude/details.phone.png"
+      },
+      "bytes": 4313,
+      "specBytes": 4313,
+      "files": 1,
+      "collapsed": 5
+    },
+    {
+      "label": "Permit type",
+      "tag": "div",
+      "selector": "[data-pti]",
+      "html": "<div\n  class=\"bcn-pti stack\"\n  data-gap=\"lg\"\n  data-pti=\"\"\n  data-type-id=\"critical-areas\"\n  data-jurisdiction-id=\"bellevue\"\n  data-permit-id=\"cc1-cao\"\n>\n  <div class=\"esa-card\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">Critical Areas Review</h3>\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <div class=\"stack\" data-gap=\"md\" data-pti-general=\"\">\n        <dl class=\"bcn-pti__facts\">\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Level</dt>\n            <dd class=\"typography-body-md\">Local</dd>\n          </div>\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Valid for</dt>\n            <dd class=\"typography-body-md\">3 years</dd>\n          </div>\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Typical days, all agencies</dt>\n            <dd class=\"typography-body-md\">135</dd>\n          </div>\n        </dl>\n        <div class=\"stack\" data-gap=\"xs\">\n          <h4 class=\"bcn-pti__subhead typography-label-md-strong\">Governing law</h4>\n          <ul class=\"bcn-gl\" role=\"list\">\n            <li class=\"bcn-gl__item stack\" data-gap=\"3xs\">\n              <a\n                class=\"bcn-gl__cite typography-body-md\"\n                href=\"https://app.leg.wa.gov/rcw/default.aspx?cite=36.70A.060\"\n                target=\"_blank\"\n                rel=\"noopener\"\n                >RCW 36.70A.060, .172<span class=\"visually-hidden\"> (opens in a new tab)</span></a\n              ><span class=\"bcn-gl__title typography-body-sm\"\n                >Growth Management Act: protect critical areas using best available science</span\n              >\n            </li>\n            <li class=\"bcn-gl__item stack\" data-gap=\"3xs\">\n              <a\n                class=\"bcn-gl__cite typography-body-md\"\n                href=\"https://app.leg.wa.gov/wac/default.aspx?cite=365-190\"\n                target=\"_blank\"\n                rel=\"noopener\"\n                >Ch. 365-190 WAC<span class=\"visually-hidden\"> (opens in a new tab)</span></a\n              ><span class=\"bcn-gl__title typography-body-sm\"\n                >Minimum guidelines to classify critical areas</span\n              >\n            </li>\n          </ul>\n        </div>\n        <a\n          class=\"bcn-pti__link typography-body-md\"\n          href=\"/beacon-design/prototypes/permit-tracker/permit-types/critical-areas\"\n          >All about Critical Areas Review</a\n        >\n      </div>\n    </div>\n  </div>\n  <div class=\"esa-card\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">\n            Critical Areas Land Use Permit at City of Bellevue\n          </h3>\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <div class=\"stack\" data-gap=\"md\" data-pti-agency=\"\">\n        <dl class=\"bcn-pti__facts\">\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Typical days here</dt>\n            <dd class=\"typography-body-md\">129 (122–168, 3 past)</dd>\n          </div>\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Ordinance</dt>\n            <dd class=\"typography-body-md\">\n              <a\n                class=\"bcn-pti__link\"\n                href=\"https://bellevue.municipal.codes/LUC/20.25H\"\n                target=\"_blank\"\n                rel=\"noopener\"\n                >LUC Part 20.25H Critical Areas Overlay District<span class=\"visually-hidden\">\n                  (opens in a new tab)</span\n                ></a\n              >\n            </dd>\n          </div>\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Last amended</dt>\n            <dd class=\"typography-body-md\">Jul 28, 2026</dd>\n          </div>\n        </dl>\n        <div class=\"cluster\" data-gap=\"xs\" data-pti-badges=\"\">\n          <span class=\"esa-badge esa-badge--success esa-badge--md typography-microcopy-sm-strong\"\n            ><span class=\"esa-badge__text\">Validated</span></span\n          ><span class=\"esa-badge esa-badge--secondary esa-badge--md typography-microcopy-sm-strong\"\n            ><span class=\"esa-badge__text\">Example data</span></span\n          ><span class=\"esa-badge esa-badge--danger esa-badge--md typography-microcopy-sm-strong\"\n            ><span class=\"esa-badge__text\">Ordinance changed</span></span\n          >\n        </div>\n        <dl class=\"bcn-pti__facts\">\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">Process</dt>\n            <dd class=\"typography-body-md\">\n              City of Bellevue reviews critical areas with the underlying land use or development\n              permit. Work that needs no other permit is reviewed on its own as an administrative\n              decision.\n            </dd>\n          </div>\n          <div class=\"bcn-pti__fact\">\n            <dt class=\"typography-label-md-strong\">When review applies</dt>\n            <dd class=\"typography-body-md\">\n              Applies to development within or near a wetland, stream, geologically hazardous area\n              or their buffers. A critical areas report by a qualified professional is required when\n              one is present or likely.\n            </dd>\n          </div>\n          <!-- …and 2 more like this (<div class=\"bcn-pti__fact\">) -->\n        </dl>\n        <a\n          class=\"bcn-pti__link typography-body-md\"\n          href=\"/beacon-design/prototypes/permit-tracker/permit-types/critical-areas/bellevue\"\n          >Full rules and buffer tables for City of Bellevue</a\n        >\n      </div>\n    </div>\n  </div>\n  <template data-pti-badge=\"suggested\"\n    ><span\n      class=\"esa-badge esa-badge--info esa-badge--md typography-microcopy-sm-strong\"\n      data-astro-cid-yahmuvtj=\"\"\n      ><span class=\"esa-badge__text\" data-astro-cid-yahmuvtj=\"\">AI suggested</span></span\n    ></template\n  ><template data-pti-badge=\"edited\"\n    ><span\n      class=\"esa-badge esa-badge--warning esa-badge--md typography-microcopy-sm-strong\"\n      data-astro-cid-yahmuvtj=\"\"\n      ><span class=\"esa-badge__text\" data-astro-cid-yahmuvtj=\"\">Edited, not validated</span></span\n    ></template\n  ><!-- …and 3 more like this (<template>) -->\n</div>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.visually-hidden {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  border: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n}\n.visually-hidden {\n  white-space: nowrap;\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n  border: 0;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  position: absolute;\n  overflow: hidden;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);\n  --_badge-text: var(--color-content-on-brand-muted, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);\n  --_badge-text: var(--color-content-utility-success, #218358);\n  --_badge-border: var(--color-border-utility-success, #adddc0);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);\n  --_badge-text: var(--color-content-utility-danger, #ce2c31);\n  --_badge-border: var(--color-border-utility-danger, #fdbdbe);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);\n}\n@media (forced-colors: active) {\n  .esa-badge {\n    border: 1px solid canvastext;\n  }\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-body-sm {\n  font-family: var(--typography-body-sm-font-family);\n  font-size: var(--typography-body-sm-font-size);\n  font-weight: var(--typography-body-sm-font-weight);\n  line-height: var(--typography-body-sm-line-height);\n  letter-spacing: var(--typography-body-sm-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-sm-strong {\n  font-family: var(--typography-microcopy-sm-strong-font-family);\n  font-size: var(--typography-microcopy-sm-strong-font-size);\n  font-weight: var(--typography-microcopy-sm-strong-font-weight);\n  line-height: var(--typography-microcopy-sm-strong-line-height);\n  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.bcn-pti .bcn-pti__facts {\n  margin: 0;\n}\n.bcn-pti .bcn-pti__fact {\n  column-gap: var(--spacing-400);\n  padding-block: var(--spacing-200);\n  border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));\n  grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);\n  display: grid;\n}\n.bcn-pti .bcn-pti__fact:first-child {\n  border-block-start: 0;\n  padding-block-start: 0;\n}\n@media (width<=40rem) {\n  .bcn-pti .bcn-pti__fact {\n    grid-template-columns: 1fr;\n  }\n}\n.bcn-pti .bcn-pti__fact dd,\n.bcn-pti .bcn-pti__subhead,\n.bcn-pti .bcn-pti__none {\n  margin: 0;\n}\n.bcn-pti .bcn-pti__link {\n  color: var(--color-content-link);\n  inline-size: fit-content;\n  text-decoration: underline;\n}\n.bcn-pti .bcn-pti__link:hover {\n  color: var(--color-content-link-hover, var(--color-content-link));\n}\n.bcn-pti .bcn-gl {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-pti .bcn-gl__item {\n  padding-block: var(--spacing-150);\n}\n.bcn-pti .bcn-gl__cite {\n  color: var(--color-content-link);\n  inline-size: fit-content;\n  text-decoration: underline;\n}\n.bcn-pti .bcn-gl__title {\n  color: var(--color-content-default-secondary);\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}\n.esa-card {\n  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));\n  --_card-radius: var(--radius-md, 0.5rem);\n  --_card-padding: var(--spacing-500, 1.5rem);\n  --_card-header-bg: var(--card-header-bg, transparent);\n  --_card-header-color: var(--color-content-default, #202020);\n  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);\n  --_card-meta-label-color: var(--color-content-default-secondary, #646464);\n  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);\n  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);\n  background: var(--_card-bg);\n  border: var(--border-width-default, 1px) solid var(--_card-border);\n  border-radius: var(--_card-radius);\n  display: block;\n  overflow: hidden;\n}\n.esa-card--header-primary .esa-card__header {\n  --_card-header-bg: var(--color-background-brand, #46a758);\n  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);\n}\n.esa-card--header-muted .esa-card__header {\n  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-card__header {\n  padding: var(--spacing-400, 1rem) var(--_card-padding);\n  background: var(--_card-header-bg);\n  color: var(--_card-header-color);\n  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);\n  justify-content: space-between;\n  align-items: center;\n  min-height: 56px;\n  display: flex;\n}\n.esa-card__header-content {\n  align-items: center;\n  gap: var(--spacing-300, 0.75rem);\n  display: flex;\n}\n.esa-card__titles {\n  gap: var(--spacing-050, 0.125rem);\n  flex-direction: column;\n  display: flex;\n}\n.esa-card__title {\n  color: inherit;\n  margin: 0;\n}\n.esa-card__body {\n  padding: var(--_card-padding);\n}",
+      "guide": {
+        "intent": "What the permit's type says in general (level, how long it stays valid, typical days across agencies, governing law) and at this permit's agency (typical days there; for Critical Areas Review the agency's ordinance with its last amendment, the rules' review status, and the gist of the rules), each linking to its Permit types page.",
+        "decisions": [
+          "Rules status badges: AI suggested, Edited (not validated), Validated; plus Example data for template content and Ordinance changed when the code was amended after the rules were last reviewed.",
+          "It reads the same stores as the Permit types pages, so edits there show here."
+        ],
+        "acceptance": [
+          "\"Full rules and buffer tables for <agency>\" opens that agency's Critical Areas Review page."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--card-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-header-bg",
+          "value": "transparent",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-muted",
+          "value": "#feebec",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-muted",
+          "value": "#e6f6eb",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-danger",
+          "value": "#fdbdbe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-success",
+          "value": "#adddc0",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--gap",
+          "value": "1.5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-sm-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-gl",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGoverningLaw.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-pti",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnPermitTypeInfo.astro",
+          "target": null
+        },
+        {
+          "name": "esa-badge",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-badge.astro",
+          "target": "ui-badge"
+        },
+        {
+          "name": "esa-card",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-card.astro",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/permit-type.md",
+      "repoPath": "public/handoff/prototypes-permit-tracker-permits-cc1-cao/claude/permit-type.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/permit-type.desktop.png",
+        "phone": "claude/permit-type.phone.png"
+      },
+      "bytes": 21264,
+      "specBytes": 21264,
+      "files": 1,
+      "collapsed": 5
+    }
+  ]
+}

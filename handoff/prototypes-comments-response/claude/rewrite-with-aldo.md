@@ -26,7 +26,7 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
 ## Components
 
 - `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
-- `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
+- `bcn-ap` (spoke) · `src/components/bcn/BcnAddPermit.astro`
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
 - `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
 

@@ -132,26 +132,6 @@
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
-  --_card-radius: var(--radius-md, 0.5rem);
-  --_card-padding: var(--spacing-500, 1.5rem);
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--color-content-default, #202020);
-  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
-  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
-  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
-  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
-  background: var(--_card-bg);
-  border: var(--border-width-default, 1px) solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  display: block;
-  overflow: hidden;
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
 .bcn-disclosure .esa-icon {
   transition: transform 0.15s;
 }
@@ -1298,6 +1278,26 @@ html,
   font-weight: var(--typography-microcopy-sm-strong-font-weight);
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
 }
 .bcn-file-row {
   align-items: center;

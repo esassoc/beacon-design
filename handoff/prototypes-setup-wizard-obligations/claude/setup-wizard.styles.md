@@ -1080,96 +1080,6 @@ html,
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.bcn-swo-pick {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swo-pick__meta {
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-size: 0.75rem;
-}
-.bcn-swo-pick__list {
-  border-top: 1px solid var(--color-border-default-subtle);
-  flex-direction: column;
-  display: flex;
-}
-.sw-verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-swo-edit {
-  gap: var(--spacing-400);
-  flex-direction: column;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swo-edit__pair {
-  gap: var(--spacing-300);
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-swo-edit__section {
-  gap: var(--spacing-150);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-swo-edit__label-row {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-200);
-  display: flex;
-}
-.bcn-swo-edit__label {
-  color: var(--form-label-color, #646464);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-.bcn-swo-edit__label-n {
-  color: var(--color-content-default-tertiary);
-  margin-left: var(--spacing-100);
-  font-weight: 400;
-}
-.bcn-swo-edit__empty {
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-size: 0.75rem;
-  font-style: italic;
-}
-.bcn-swo-edit__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-swo-edit__reqs {
-  border-top: 1px solid var(--color-border-default-subtle);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swo-edit__reqs:empty {
-  border-top: none;
-}
-.bcn-swo-edit__foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-200);
-  width: 100%;
-  display: flex;
-}
-.bcn-swo-edit__foot--end {
-  justify-content: flex-end;
-}
-.bcn-swo-edit__foot-left,
-.bcn-swo-edit__foot-right {
-  align-items: center;
-  gap: var(--spacing-200);
-  display: inline-flex;
-}
 .bcn-swsc__menu {
   vertical-align: baseline;
   display: inline-block;
@@ -1291,6 +1201,96 @@ html,
   color: var(--color-content-default);
   font-size: 0.875rem;
   line-height: 1.4;
+}
+.bcn-swo-pick {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swo-pick__meta {
+  color: var(--color-content-default-tertiary);
+  margin: 0;
+  font-size: 0.75rem;
+}
+.bcn-swo-pick__list {
+  border-top: 1px solid var(--color-border-default-subtle);
+  flex-direction: column;
+  display: flex;
+}
+.sw-verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-swo-edit {
+  gap: var(--spacing-400);
+  flex-direction: column;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swo-edit__pair {
+  gap: var(--spacing-300);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
+  display: grid;
+}
+.bcn-swo-edit__section {
+  gap: var(--spacing-150);
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
+}
+.bcn-swo-edit__label-row {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  display: flex;
+}
+.bcn-swo-edit__label {
+  color: var(--form-label-color, #646464);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.bcn-swo-edit__label-n {
+  color: var(--color-content-default-tertiary);
+  margin-left: var(--spacing-100);
+  font-weight: 400;
+}
+.bcn-swo-edit__empty {
+  color: var(--color-content-default-tertiary);
+  margin: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+.bcn-swo-edit__verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-swo-edit__reqs {
+  border-top: 1px solid var(--color-border-default-subtle);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swo-edit__reqs:empty {
+  border-top: none;
+}
+.bcn-swo-edit__foot {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
+}
+.bcn-swo-edit__foot--end {
+  justify-content: flex-end;
+}
+.bcn-swo-edit__foot-left,
+.bcn-swo-edit__foot-right {
+  align-items: center;
+  gap: var(--spacing-200);
+  display: inline-flex;
 }
 .bcn-swoc.is-dragging {
   opacity: 0.4;

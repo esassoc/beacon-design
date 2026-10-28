@@ -1,44 +1,6 @@
 # Study Planning: styles, part 2 of 2
 
 ```css
-.bcn-readiness__dot {
-  border-radius: var(--radius-full);
-  background: var(--_tone, var(--bcn-content-muted));
-  flex: none;
-  width: 9px;
-  height: 9px;
-}
-.bcn-readiness__dot[data-tone="on-track"] {
-  --_tone: var(--color-background-brand-muted);
-}
-.bcn-readiness__dot[data-tone="complete"] {
-  --_tone: var(--bcn-status-completed);
-}
-.bcn-readiness__dot[data-tone="at-risk"] {
-  --_tone: var(--bcn-status-in-progress);
-}
-.bcn-readiness__dot[data-tone="blocked"] {
-  --_tone: var(--bcn-status-overdue);
-}
-.bcn-readiness__dot[data-tone="not-started"] {
-  --_tone: var(--bcn-content-muted);
-}
-.bcn-readiness__tid {
-  justify-self: start;
-}
-a.bcn-readiness__coa {
-  text-decoration: none;
-}
-a.bcn-readiness__coa:hover {
-  background: color-mix(in srgb, var(--color-commitment) 20%, white);
-}
-.bcn-readiness__coa,
-.bcn-readiness__tid {
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.6875rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
   border-radius: var(--radius-100);
   white-space: nowrap;
   padding: 1px 5px;
@@ -919,6 +881,32 @@ html,
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border-default, #cecece);
+}
+.esa-card--padding-spacious {
+  --_card-padding: var(--spacing-700, 3rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
