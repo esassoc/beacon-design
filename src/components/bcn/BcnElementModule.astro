@@ -4,7 +4,7 @@
 // name, a count, a quiet line under it; its actions on the right; its body below. The page places it (column, order,
 // shown or not) from the level's layout; the module's own runtime fills it (./element-module.ts is the contract).
 //
-// bcn-lego-checked: the shell IS esa-card (its header slot, with the actions in it), the glyph IS esa-icon, the count IS esa-badge.
+// bcn-lego-checked: the shell IS esa-card (its muted header, the slot holding the actions too), the glyph IS esa-icon, the count IS esa-badge.
 // Checked Ecology (esa-card has no count or note line) and Beacon (prod's detail pages are fixed templates, no module
 // shell). bcn-element-module is the reusable home for a configurable record page's card; the CSS is the header row.
 import EsaCard from '@esa/ecology/esa-card.astro';
@@ -21,7 +21,7 @@ const meta = MODULES[key];
 ---
 
 <section class="bcn-elm" data-element-module={key} aria-labelledby={`elm-${key}`} hidden>
-  <EsaCard padding="compact">
+  <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-elm__head">
       <span class="bcn-elm__glyph"><EsaIcon name={meta.icon} paths={PLAN_ICON_PATHS[meta.icon]} size="sm" /></span>
       <span class="bcn-elm__titles">
@@ -47,20 +47,34 @@ const meta = MODULES[key];
   .bcn-elm[hidden] {
     display: none;
   }
-  /* esa-card clips its overflow (for its rounded header); a module's menus and popovers have to escape the card. */
+  /* The plan page's About panel and the monitoring portal's widgets, one chrome (2026-10-28, Andy: "match the style of
+     the about panel AND the widgets on the monitoring portal"): a sunken header band (esa-card's muted header) over a
+     default hairline, 16px inside, the About panel's 52px header. esa-card clips its overflow for its rounded header;
+     a module's menus and popovers have to escape the card, so the header rounds its own top corners instead. The
+     private hooks re-pointed here are the ones BcnDashboardWidget re-points (no public knobs; hub-ask candidates). */
   .bcn-elm :global(.esa-card) {
     overflow: visible;
+    --_card-radius: var(--radius-200);
+    --_card-padding: var(--spacing-400);
+    --_card-header-border: var(--color-border-default);
+  }
+  .bcn-elm :global(.esa-card__header) {
+    min-height: 3.25rem;
+    box-sizing: border-box;
+    padding-block: var(--spacing-200);
+    padding-inline-end: var(--spacing-200);
+    border-start-start-radius: calc(var(--_card-radius) - 1px);
+    border-start-end-radius: calc(var(--_card-radius) - 1px);
   }
   .bcn-elm__head {
     flex: 1 1 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--spacing-200);
     min-width: 0;
   }
   .bcn-elm__glyph {
     display: inline-flex;
-    padding-block-start: 2px;
     color: var(--color-content-default-secondary);
   }
   .bcn-elm__titles {
