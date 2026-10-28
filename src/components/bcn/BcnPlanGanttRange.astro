@@ -36,16 +36,18 @@ const { stacked = false } = Astro.props;
       <div class="bcn-plan-range__console">
         <!-- lead: the page's own scoping control that comes first (the plan page's search, 2026-10-27). -->
         <slot name="lead" />
-        <span class="bcn-plan-range__label typography-label-sm">Show</span>
-        <esa-button-toggle size="sm" label="" data-pr-preset></esa-button-toggle>
         <span class="bcn-plan-range__spacer"></span>
         <slot name="actions" />
-        {/* The label and its pickers wrap as one, never "Dates" alone at the end of a line. */}
-        <span class="bcn-plan-range__group">
-          <span class="bcn-plan-range__label typography-label-sm">Dates</span>
-          <span class="bcn-plan-range__dates" role="group" aria-label="Dates">
-            <esa-date-picker size="sm" data-pr-start></esa-date-picker>
-            <esa-date-picker size="sm" data-pr-end></esa-date-picker>
+        {/* The date controls as one cluster (2026-10-28, Andy: "date stuff should be clustered"): the presets, then the
+            two dates they set, wrapping together. */}
+        <span class="bcn-plan-range__label typography-label-sm">Show</span>
+        <span class="bcn-plan-range__group" role="group" aria-label="Dates">
+          <esa-button-toggle size="sm" label="" data-pr-preset></esa-button-toggle>
+          <span class="bcn-plan-range__rule" aria-hidden="true"></span>
+          <span class="bcn-plan-range__dates">
+            <esa-date-picker size="sm" data-pr-start aria-label="From"></esa-date-picker>
+            <span class="bcn-plan-range__to" aria-hidden="true">–</span>
+            <esa-date-picker size="sm" data-pr-end aria-label="To"></esa-date-picker>
           </span>
         </span>
       </div>
@@ -111,8 +113,32 @@ const { stacked = false } = Astro.props;
   .bcn-plan-range__console { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-300); }
   .bcn-plan-range__label { color: var(--color-content-default-secondary); }
   .bcn-plan-range__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  /* Joined (2026-10-28, Andy: the presets and the pickers "need to be better joined"): one sunken rail, the presets
+     on the left with their own track folded into it, a hairline, then the two dates the presets set. A typed date
+     is the custom range, and then no preset is lit. */
+  .bcn-plan-range--stacked .bcn-plan-range__group {
+    gap: 2px;
+    /* The pickers' own height and edges set the rail's, so it lines up with the search beside it. */
+    background: var(--color-background-elevation-sunken);
+    border-radius: var(--radius-md);
+  }
+  .bcn-plan-range--stacked .bcn-plan-range__group esa-button-toggle {
+    --form-border-width: 0;
+    --color-background-elevation-sunken: transparent;
+  }
+  .bcn-plan-range__rule { align-self: stretch; inline-size: 1px; margin: var(--spacing-100) var(--spacing-150); background: var(--color-border-default); }
+  .bcn-plan-range--stacked .bcn-plan-range__group esa-button-toggle { padding-inline-start: 2px; }
+  .bcn-plan-range--stacked .bcn-plan-range__dates { gap: var(--spacing-100); }
+  .bcn-plan-range--stacked .bcn-plan-range__dates esa-date-picker { width: 9rem; }
+  .bcn-plan-range__to { color: var(--color-content-default-secondary); }
   .bcn-plan-range__spacer { flex: 1; }
-  .bcn-plan-range--stacked .bcn-plan-range__overview { block-size: 2.75rem; max-inline-size: none; inline-size: 100%; }
+  /* Stacked, the strip is the console's map (2026-10-28): taller, on the page's off-white. */
+  .bcn-plan-range--stacked .bcn-plan-range__overview {
+    block-size: 3.5rem;
+    max-inline-size: none;
+    inline-size: 100%;
+    background: var(--color-background-default);
+  }
   .bcn-plan-range__mini { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; clip-path: inset(0 round var(--radius-md)); }
   /* The parents' lanes, in the chart's tier teals: lightest at the top level, deepest nearest the tasks. */
   .bcn-plan-range__mini :global(.bcn-plan-range__mini-bar--tier-0) { fill: color-mix(in srgb, var(--color-background-brand) 30%, transparent); }

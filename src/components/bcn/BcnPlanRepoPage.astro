@@ -80,6 +80,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
       </span>
       <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
       <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+      <!-- Someone else's draft (2026-10-28): the way back to the plan of record, beside its one action. -->
+      <span data-prp-back hidden><esa-tooltip text="Leave this draft for the plan as issued" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left" data-fill-icon="arrow-left">Back to Live Plan</EsaButton></esa-tooltip></span>
       <span data-prp-copy hidden><esa-tooltip text="Start your draft from a copy of this one" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></esa-tooltip></span>
       <span data-prp-review hidden><esa-tooltip text="Compare with Live, then publish as the next revision" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
       <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
@@ -197,7 +199,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
     border-radius: var(--radius-200);
     transition: background-color 200ms ease, padding 200ms ease;
   }
-  .bcn-prp__head:has(.bcn-prp__bar[data-band]) {
+  /* Your own draft only (2026-10-28, Andy): someone else's draft keeps the bare row. */
+  .bcn-prp__head:has(.bcn-prp__bar[data-band][data-band-of='own']) {
     padding: var(--spacing-200) var(--spacing-300);
     background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken));
   }
@@ -211,8 +214,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
-  /* Narrow enough that search, Show and Dates share one line beside a folded About. */
-  .bcn-prp__search { inline-size: 12rem; }
+  /* Wide enough to read a phrase (2026-10-28), narrow enough that it and the date cluster share one line. */
+  .bcn-prp__search { inline-size: 16rem; }
   .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__bar[data-band] :is(.bcn-prp__count, .bcn-prp__count-tip) { display: none; }
   .bcn-prp__base { display: inline-flex; align-items: center; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }

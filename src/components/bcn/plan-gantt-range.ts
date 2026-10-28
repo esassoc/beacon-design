@@ -9,13 +9,14 @@ import { dayNumber, isoOfDay } from '../../lib/planning/gantt-geometry';
 /** Whole plan, a span in months from the anchor, or the planner's own dates. */
 type PlanRangePreset = 'plan' | '60' | '24' | '12' | '6' | 'custom';
 
+// No Custom (2026-10-28, Andy: "why does Show have Custom, given you can select custom dates whenever?"): editing a
+// date is the custom range, and then no preset is lit.
 const PRESETS: { label: string; value: PlanRangePreset }[] = [
   { label: 'Whole Plan', value: 'plan' },
   { label: '5 Years', value: '60' },
   { label: '2 Years', value: '24' },
   { label: '1 Year', value: '12' },
   { label: '6 Months', value: '6' },
-  { label: 'Custom', value: 'custom' },
 ];
 
 interface StoredRange {

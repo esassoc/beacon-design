@@ -499,6 +499,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const bar = q<HTMLElement>('[data-prp-bar]');
     const banded = editStyle === 'band' && mode !== 'live';
     bar.toggleAttribute('data-band', banded);
+    bar.dataset.bandOf = mode;
     q<HTMLElement>('[data-prp-base]').hidden = !banded;
     if (banded && draft) {
       // The band: the branch menu is its name, the base revision beside it, the draft's actions at its end.
@@ -543,6 +544,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-ask]').hidden = !(mode === 'own' && !canPublish && !asked);
     q<HTMLElement>('[data-prp-asked]').hidden = !(mode === 'own' && !canPublish && asked);
     q<HTMLElement>('[data-prp-copy]').hidden = !(mode === 'view' && !reviewTheirs);
+    q<HTMLElement>('[data-prp-back]').hidden = mode !== 'view';
     const reviewBtn = q<HTMLElement>('[data-prp-review] button');
     setButtonDisabled(reviewBtn as HTMLButtonElement | null, !draft?.revisions.length);
     setButtonDisabled(q<HTMLElement>('[data-prp-ask] button') as HTMLButtonElement | null, !draft?.revisions.length);
@@ -798,6 +800,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-notice-view]').addEventListener('click', () => void revisions.open(null, Number(q<HTMLElement>('[data-prp-notice]').dataset.version)));
   drawNotice();
   q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && void revisions.open(draft.id));
+  q<HTMLElement>('[data-prp-back]').addEventListener('click', () => void switchTo(null));
   q<HTMLElement>('[data-prp-history-link]').setAttribute('data-prp-revisions', '');
   root.addEventListener('click', (e) => {
     const a = (e.target as HTMLElement).closest('a[data-prp-revisions]');
