@@ -22,6 +22,7 @@
 // the panel, the heads and the rows grid.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnRevisionSlider from './BcnRevisionSlider.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 ---
@@ -31,6 +32,10 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     <section class="bcn-prvd__controls" data-prvd-controls>
       <div data-prvd-slider-slot></div>
     </section>
+
+    <!-- Before a publish (2026-10-28): Live moved since the draft started; or only part of the draft goes. -->
+    <div data-prvd-behind hidden><EsaAlertBox variant="warning" title="Live Has Moved"><span data-prvd-behind-text></span></EsaAlertBox></div>
+    <div data-prvd-partial hidden><EsaAlertBox variant="info" title="Publishing Part of the Draft"><span data-prvd-partial-text></span></EsaAlertBox></div>
 
     <div class="bcn-prvd__split">
       <div class="bcn-prvd__heads">
@@ -58,6 +63,8 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
   </div>
 
   <div slot="footer" class="bcn-prvd__footer">
+    <!-- A publish can carry a name ("Submitted to CDFW"), shown on the history's slider as a taller tick. -->
+    <esa-text-field class="bcn-prvd__name" data-prvd-name size="sm" placeholder="Name This Revision (Optional)" aria-label="Name This Revision" hidden></esa-text-field>
     <p class="bcn-prvd__note typography-body-sm" data-prvd-note hidden></p>
     <span data-prvd-close><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
     <span data-prvd-restore hidden><EsaButton variant="primary" icon="rotate-ccw" data-fill-icon="rotate-ccw"><span data-prvd-act-label>Restore</span></EsaButton></span>
@@ -77,6 +84,7 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 <script>
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-text-field';
 </script>
 
 <style>
@@ -151,4 +159,5 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 
   .bcn-prvd__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
   .bcn-prvd__note { margin: 0 auto 0 0; color: var(--color-content-default-secondary); }
+  .bcn-prvd__name { inline-size: 18rem; margin-inline-end: auto; }
 </style>

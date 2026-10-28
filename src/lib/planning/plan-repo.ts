@@ -73,6 +73,19 @@ export interface PlanRepo {
   starredBy: string[];
   versions: PlanVersion[];
   drafts: PlanRepoDraft[];
+  /** Word left for someone about their draft (2026-10-28): it was published by someone else. Read on their next visit. */
+  notices?: PlanNotice[];
+}
+
+/** "Priya published your draft Permit delay scenario as Revision 9." */
+export interface PlanNotice {
+  id: string;
+  /** Who it's for: the draft's owner. */
+  to: string;
+  by: string;
+  at: string;
+  version: number;
+  draftName: string;
 }
 
 interface RepoStore {
@@ -742,9 +755,42 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     plan: clone(next),
   };
   fresh.versions.push(version);
-  fresh.drafts = fresh.drafts.filter((d) => d.id !== draftID);
+  // Part of a draft published (2026-10-28, Andy): the edits after the one published stay as the draft, on top of the
+  // new Live. Each override now loads from Live as it is, and one Live already matches drops out.
+  const kept = fresh.drafts.find((d) => d.id === draftID);
+  const rest = kept ? kept.revisions.slice(index) : [];
+  if (kept && rest.length) {
+    const now = new Map(flattenPlan(next.Elements).map((x) => [x.element.PlanElementID, x.element]));
+    kept.revisions = rest.map((rev) => ({
+      ...rev,
+      overrides: rev.overrides
+        .map((o) => {
+          const el = now.get(o.PlanElementID);
+          return el ? { ...o, LoadedStartDate: el.StartDate ?? null, LoadedEndDate: el.EndDate ?? null, LoadedPlanDateType: el.PlanDateType ?? o.LoadedPlanDateType } : o;
+        })
+        .filter((o) => o.StartDate !== o.LoadedStartDate || o.EndDate !== o.LoadedEndDate || o.PlanDateType !== o.LoadedPlanDateType),
+    }));
+    kept.baseVersion = version.number;
+    delete kept.publishRequestedAt;
+  } else fresh.drafts = fresh.drafts.filter((d) => d.id !== draftID);
+  // Someone else's draft, published: its owner hears about it on their next visit.
+  if (draft.owner !== version.author) {
+    fresh.notices = [...(fresh.notices ?? []), { id: uid(), to: draft.owner, by: version.author, at: version.at, version: version.number, draftName: draft.name }];
+  }
   save(store);
   return version;
+}
+
+/** The notices left for this person on this plan, newest last. */
+export function noticesFor(planID: string, user: string): PlanNotice[] {
+  return (getRepo(planID).notices ?? []).filter((n) => n.to === user);
+}
+
+export function dismissNotice(planID: string, noticeID: string): void {
+  const store = load();
+  const repo = findRepo(store, planID);
+  repo.notices = (repo.notices ?? []).filter((n) => n.id !== noticeID);
+  save(store);
 }
 
 /** Restore: a past version's dates are published again, as a new version on top. Nothing is erased. */

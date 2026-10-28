@@ -23,6 +23,7 @@ import {
   contributorsOf,
   currentUserName,
   discardDraft,
+  dismissNotice,
   draftState,
   dropLastRevision,
   ensureSeeded,
@@ -33,6 +34,7 @@ import {
   requestPublish,
   listPlanSummaries,
   myDraft,
+  noticesFor,
   planCompare,
   planSpan,
   restoreRevision,
@@ -774,7 +776,27 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     }
     shown = live;
     refresh();
+    drawNotice();
   }
+
+  /** The newest word left for the viewer on this plan: someone published their draft. */
+  function drawNotice(): void {
+    const notice = noticesFor(planID!, me).at(-1) ?? null;
+    const box = q<HTMLElement>('[data-prp-notice]');
+    box.hidden = !notice;
+    if (!notice) return;
+    const when = new Date(notice.at);
+    q<HTMLElement>('[data-prp-notice-text]').textContent = `${notice.by} published ${notice.draftName} as Revision ${notice.version}, ${when.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}.`;
+    box.dataset.noticeId = notice.id;
+    box.dataset.version = String(notice.version);
+  }
+  q<HTMLElement>('[data-prp-notice-dismiss]').addEventListener('click', () => {
+    const id = q<HTMLElement>('[data-prp-notice]').dataset.noticeId;
+    if (id) dismissNotice(planID!, id);
+    drawNotice();
+  });
+  q<HTMLElement>('[data-prp-notice-view]').addEventListener('click', () => void revisions.open(null, Number(q<HTMLElement>('[data-prp-notice]').dataset.version)));
+  drawNotice();
   q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && void revisions.open(draft.id));
   q<HTMLElement>('[data-prp-history-link]').setAttribute('data-prp-revisions', '');
   root.addEventListener('click', (e) => {

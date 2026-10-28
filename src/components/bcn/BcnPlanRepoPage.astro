@@ -22,12 +22,25 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
+  <!-- Word for the person whose draft someone else published (2026-10-28), shown until they dismiss it. -->
+  <div class="bcn-prp__notice" data-prp-notice hidden>
+    <EsaAlertBox variant="success" title="Your Draft Was Published">
+      <span class="bcn-prp__notice-body">
+        <span data-prp-notice-text></span>
+        <span class="bcn-prp__notice-actions">
+          <span data-prp-notice-view><EsaButton variant="ghost" appearance="outline" size="sm">View Revision</EsaButton></span>
+          <span data-prp-notice-dismiss><EsaButton variant="ghost" size="sm">Dismiss</EsaButton></span>
+        </span>
+      </span>
+    </EsaAlertBox>
+  </div>
   <section class="bcn-prp__head">
     <!-- In a draft (the band, kept 2026-10-27), this row becomes a neutral strip across the top of the card: the branch
          menu is its name, then the revision it's based on, then the draft's actions. One row, never a second switcher. -->
@@ -161,6 +174,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 
 <style>
   .bcn-prp { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-prp__notice-body { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-400); }
+  .bcn-prp__notice-actions { display: inline-flex; gap: var(--spacing-200); margin-inline-start: auto; }
   /* The H1's badge (2026-10-28, Andy): solid, white text, his orange on Live (below AA, his call) and the identity
      green in a draft. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
   :global([data-prp-title-badge]) {

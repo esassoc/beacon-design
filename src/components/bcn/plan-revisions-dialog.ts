@@ -27,10 +27,12 @@ import {
   shortDate,
   signedShift,
   timeAgo,
+  versionsBehind,
   type PlanChange,
   type PlanRepoDraft,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
+import { pushAlert } from '../../lib/planning/plan-page';
 
 type DialogEl = HTMLElement & { open: boolean; heading: string };
 type CheckEl = HTMLElement & { checked: boolean };
@@ -42,11 +44,15 @@ interface Stop extends RevisionStop {
 }
 
 export interface PlanRevisionsDialog {
-  /** null: the plan's history. A draft's id: that draft against Live. */
-  open(draftID: string | null): Promise<void>;
+  /** null: the plan's history (at a revision's number, or the latest). A draft's id: that draft against Live. */
+  open(draftID: string | null, at?: number): Promise<void>;
 }
 
 const firstName = (name: string) => name.split(' ')[0];
+/** "Priya", "Priya and Alex", "Priya, Alex and Sam". */
+const names = (list: readonly string[]) => (list.length <= 1 ? list.join('') : `${list.slice(0, -1).join(', ')} and ${list.at(-1)}`);
+/** "edit 3", "edits 3 to 5". */
+const editsFrom = (first: number, last: number) => (first === last ? `edit ${first}` : `edits ${first} to ${last}`);
 /** "4 days ago, Oct 24, 8:07 AM". */
 function whenText(iso: string): string {
   const d = new Date(iso);
@@ -235,7 +241,11 @@ export function setupPlanRevisionsDialog(opts: {
     const restore = q<HTMLElement>('[data-prvd-restore]');
     const publish = q<HTMLElement>('[data-prvd-publish]');
     const note = q<HTMLElement>('[data-prvd-note]');
+    const name = q<HTMLElement>('[data-prvd-name]');
+    const partial = q<HTMLElement>('[data-prvd-partial]');
     note.hidden = true;
+    name.hidden = true;
+    partial.hidden = true;
     if (!draft) {
       publish.hidden = true;
       const isCurrent = sel.to === stops.length - 1;
@@ -252,8 +262,15 @@ export function setupPlanRevisionsDialog(opts: {
       return;
     }
     const last = sel.to === stops.length - 1;
+    name.hidden = false;
     publish.querySelector('[data-prvd-act-label]')!.textContent = last ? `Publish as Revision ${latestNumber + 1}` : `Publish Up to Edit ${sel.to}`;
     setButtonDisabled(publish.querySelector('button'), sel.to === 0 || !changes.length);
+    // Part of the draft (2026-10-28): what isn't published stays where it was, on top of the new Live.
+    const n = stops.length - 1;
+    if (sel.to > 0 && !last) {
+      partial.hidden = false;
+      q<HTMLElement>('[data-prvd-partial-text]').textContent = `Publishing up to edit ${sel.to} keeps ${editsFrom(sel.to + 1, n)} in ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`}, on top of the new Live.`;
+    }
   }
 
   // ── Footer actions ──
@@ -271,15 +288,23 @@ export function setupPlanRevisionsDialog(opts: {
     const btn = q<HTMLElement>('[data-prvd-publish] button') as HTMLButtonElement;
     if (btn.disabled || !draft) return;
     setButtonDisabled(btn, true);
-    await publishDraft(opts.planID, draft.id, sel.to);
+    const d = draft;
+    const n = stops.length - 1;
+    const name = (q<HTMLElement & { value: string }>('[data-prvd-name]').value ?? '').trim();
+    const version = await publishDraft(opts.planID, d.id, sel.to, name || undefined);
     setButtonDisabled(btn, false);
     dialog.open = false;
     await opts.onLanded();
+    // Said once, where the person is looking: what it became, what stayed, and who hears about it.
+    const rest = editsFrom(sel.to + 1, n);
+    const kept = sel.to < n ? ` ${rest[0].toUpperCase()}${rest.slice(1)} ${sel.to + 1 === n ? 'stays' : 'stay'} in the draft.` : '';
+    const told = d.owner !== me ? ` ${firstName(d.owner)} sees it the next time they open the plan.` : '';
+    pushAlert(`Published as Revision ${version.number}${name ? `, ${name}` : ''}.${kept}${told}`, 'success', 7000);
   });
   fillIcons(dialog);
 
   return {
-    async open(draftID) {
+    async open(draftID, at) {
       const repo = getRepo(opts.planID);
       const live = await planApi.getPlan(opts.planID);
       const latest = latestVersion(repo);
@@ -302,7 +327,7 @@ export function setupPlanRevisionsDialog(opts: {
           ]
         : repo.versions.map((v) => ({
             author: v.author,
-            title: `Revision ${v.number} by ${v.author}`,
+            title: `Revision ${v.number}${v.label ? ` (${v.label})` : ''} by ${v.author}`,
             when: whenText(v.at),
             message: v.message,
             mark: v.label ? ('labelled' as const) : undefined,
@@ -310,7 +335,18 @@ export function setupPlanRevisionsDialog(opts: {
             ownIDs: new Set<string>(),
           }));
       // A draft opens comparing Live with its last edit; the history, the last revision with the one before it.
-      sel = d ? { from: 0, to: stops.length - 1, compareTwo: true } : { from: Math.max(0, stops.length - 2), to: stops.length - 1, compareTwo: false };
+      const atIndex = at ? repo.versions.findIndex((v) => v.number === at) : -1;
+      const to = !d && atIndex >= 0 ? atIndex : stops.length - 1;
+      sel = d ? { from: 0, to, compareTwo: true } : { from: Math.max(0, to - 1), to, compareTwo: false };
+      // Live moved since the draft started: said before anything is published (2026-10-28).
+      const behind = d ? versionsBehind(repo, d) : 0;
+      q<HTMLElement>('[data-prvd-behind]').hidden = behind <= 0;
+      if (d && behind > 0) {
+        const by = [...new Set(repo.versions.filter((v) => v.number > d.baseVersion).map((v) => firstName(v.author)))];
+        q<HTMLElement>('[data-prvd-behind-text]').textContent = `${behind} ${behind === 1 ? 'revision was' : 'revisions were'} published since this draft started, by ${names(by)}. The comparison is against Live as it is now; publishing puts these edits on top.`;
+      }
+      const nameField = q<HTMLElement & { value: string }>('[data-prvd-name]');
+      nameField.value = '';
       const name = live.PlanName ?? 'Plan';
       dialog.heading = d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
 
