@@ -62,10 +62,9 @@ import {
   configOf,
   type PlanChange,
 } from '../../lib/planning/plan-repo';
-import { setupPlanSetupDialog } from './plan-setup-dialog';
 import { setupPlanDeliverablesView } from './plan-deliverables';
 import { setupPlanDocumentsView } from './plan-documents';
-import { ELEMENT_HREF } from '../../lib/planning/element-context';
+import { ELEMENT_HREF, SETTINGS_HREF } from '../../lib/planning/element-context';
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
 import { changeNote } from './plan-change-note';
@@ -1035,20 +1034,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Publish. A publish or a restore lands back here, on Live, without a reload.
   const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive });
   // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index ──
-  const setup = setupPlanSetupDialog(document.querySelector<HTMLElement>('[data-bcn-plan-setup]')!);
-  q<HTMLElement>('[data-prp-settings]').addEventListener('click', async () => {
-    const result = await setup.open(planID!);
-    if (result?.kind === 'deleted') return void location.assign(keep(withBase('/prototypes/plans-repo/')));
-    if (result?.kind !== 'saved') return;
-    live = await planApi.getPlan(planID!);
-    if (mode === 'live') {
-      planStore.set(live);
-      shown = live;
-    }
-    applyViews();
-    showView();
-    refresh();
-  });
+  // About's Edit opens the plan's settings page (2026-10-28: General, Levels, Fields and Pages, Lists, People).
+  q<HTMLElement>('[data-prp-settings]').addEventListener('click', () => location.assign(keep(SETTINGS_HREF(planID!))));
 
   async function landOnLive(): Promise<void> {
     live = await planApi.getPlan(planID!);

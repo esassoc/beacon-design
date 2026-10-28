@@ -8,6 +8,7 @@ import { budgetAt, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummarie
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
+import { SETTINGS_HREF } from '../../lib/planning/element-context';
 
 type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
 type FieldEl = HTMLElement & { value: string };
@@ -182,9 +183,10 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     summaries = await listPlanSummaries();
     draw();
   }
+  /** A plan's settings are a page once fields and page layouts arrive (2026-10-28, the proposal: the modal graduates);
+   *  New Plan stays the short modal. */
   async function openSettings(planID: string): Promise<void> {
-    const result = await setup?.open(planID);
-    if (result) await reload();
+    location.assign(keepStudy(SETTINGS_HREF(planID)));
   }
 
   find.addEventListener('input', draw);
