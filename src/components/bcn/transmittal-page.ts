@@ -1,0 +1,509 @@
+// <BcnTransmittalPage>'s runtime (2026-10-28): one transmittal, read from `?plan=` and `&id=`. Who's looking decides
+// the view: a plan member (not a Guest) gets the sender's record; a recipient outside the plan (a Guest, or anyone not a
+// member) gets their own page with Confirm Receipt; anyone else, "Not Sent to You". Opening a sent transmittal as one
+// of its recipients logs Opened (decision 3: opening is not receipt).
+//
+// Every change redraws from storage: a receipt confirmed in another tab shows here as it lands. Sent is final, so the
+// only writes are records about the send: receipts, reminders, the response, closing; a draft's edits go through
+// BcnTransmittalDialog.
+
+import { ensureSeeded, getRepo, latestVersion, flattenPlan, membersOf, configOf, orgOf, type PlanRepo } from '../../lib/planning/plan-repo';
+import { currentUserName } from '../../lib/planning/plan-server';
+import { ELEMENT_HREF, PLAN_VIEW_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
+import {
+  closeTransmittal,
+  confirmCcReceipt,
+  confirmReceipt,
+  deleteDraftTransmittal,
+  documentsFor,
+  fileById,
+  openTransmittal,
+  receiptCount,
+  receiptOverdue,
+  recordReceiptFor,
+  recordResponse,
+  recordsFor,
+  remindRecipient,
+  responseOverdue,
+  sendTransmittal,
+  transmittalNumber,
+  transmittalStatus,
+  type PlanFile,
+  type PlanRecords,
+  type Transmittal,
+} from '../../lib/planning/plan-records';
+import { confirm, pushAlert } from '../../lib/planning/plan-page';
+import { fillIcons } from '../../lib/planning/icons';
+import { planAvatar } from './plan-people';
+import { badge, type BadgeVariant } from './badge-bank';
+import { day, dayTime, esc } from './element-module';
+import { TRANSMITTAL_STATUS_VARIANT } from './element-transmittals';
+import { agencyFor, docPicker, fileUpload, names, purposePhrase, revisionText, sendMessage, sendProblems, setupTransmittalDialog, withOrg } from './transmittal-dialog';
+
+type DialogEl = HTMLElement & { open: boolean; heading: string };
+type SelectEl = HTMLElement & { value: string | string[]; options: { value: string; label: string }[]; errorText: string };
+type FieldEl = HTMLElement & { value: string; errorText: string };
+
+const firstName = (name: string) => name.split(' ')[0];
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+// ── Where a recipient stands ─────────────────────────────────────────────────────────────────────────────────────
+
+export interface ReceiptState {
+  /** The badge: Confirmed, Recorded by Alex Rivera, Overdue, Opened, Not Yet, Not Opened. */
+  label: string;
+  variant: BadgeVariant;
+  /** The line beside it: when, reminded, opened. */
+  detail: string;
+  /** Someone confirmed (themselves, or recorded for them). */
+  confirmed: boolean;
+}
+
+/** One recipient's receipt of a sent transmittal, as the sender's list and the inbox say it. */
+export function receiptState(t: Transmittal, name: string): ReceiptState {
+  const r = t.receipts[name] ?? {};
+  const isTo = t.to.includes(name);
+  const reminded = r.remindedAt ? `Reminded ${day(r.remindedAt)}` : '';
+  if (!t.sentAt) return { label: 'Not Sent', variant: 'neutral', detail: '', confirmed: false };
+  if (r.confirmedAt && r.recordedBy) return { label: `Recorded by ${r.recordedBy}`, variant: 'info', detail: dayTime(r.confirmedAt), confirmed: true };
+  if (r.confirmedAt) return { label: 'Confirmed', variant: 'success', detail: dayTime(r.confirmedAt), confirmed: true };
+  if (!isTo) return r.openedAt ? { label: 'Opened', variant: 'neutral', detail: dayTime(r.openedAt), confirmed: false } : { label: 'Not Opened', variant: 'neutral', detail: '', confirmed: false };
+  const opened = r.openedAt ? `Opened ${dayTime(r.openedAt)}` : '';
+  if (receiptOverdue(t, name)) return { label: 'Overdue', variant: 'warning', detail: [`Was due ${day(t.ackDue)}`, reminded, opened].filter(Boolean).join('. '), confirmed: false };
+  if (r.openedAt) return { label: 'Opened', variant: 'neutral', detail: [`${dayTime(r.openedAt)}, not confirmed`, reminded].filter(Boolean).join('. '), confirmed: false };
+  return { label: 'Not Yet', variant: 'neutral', detail: [t.ackDue ? `Due ${day(t.ackDue)}` : '', reminded].filter(Boolean).join('. '), confirmed: false };
+}
+
+/** The version a file stood at when it went (a memo isn't pinned in the record; its last save before the send is). */
+const versionAt = (f: PlanFile, iso?: string) => (iso ? ([...f.versions].reverse().find((v) => v.at <= iso) ?? f.versions.at(-1)) : f.versions.at(-1));
+const sizeText = (bytes?: number) => (!bytes ? '' : bytes < 1_000_000 ? `${Math.max(1, Math.round(bytes / 1000))} KB` : `${(bytes / 1_000_000).toFixed(1)} MB`);
+
+export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
+  const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+  await ensureSeeded();
+  const params = new URLSearchParams(location.search);
+  const planID = params.get('plan') ?? '';
+  const id = params.get('id') ?? '';
+  const me = currentUserName();
+  const fileTpl = q<HTMLTemplateElement>('template[data-trp-tpl="file"]');
+  const personTpl = q<HTMLTemplateElement>('template[data-trp-tpl="person"]');
+  const pageAct = (name: string) => document.querySelector<HTMLElement>(`[data-trp-page-act="${name}"]`);
+  const h1 = document.querySelector('.page-layout__title h1');
+  const titleText = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
+  const titleBadges = document.querySelector<HTMLElement>('[data-trp-title-badges]');
+  const editDialog = setupTransmittalDialog(q('[data-bcn-transmittal-dialog]'));
+  fillIcons(document);
+
+  // What the page last drew from (the actions read it).
+  let t: Transmittal | null = null;
+  let rec: PlanRecords | null = null;
+  let repo: PlanRepo | null = null;
+  let canRecord = false;
+  const num = () => (t ? transmittalNumber(t) : '');
+  const download = (name: string) => pushAlert(`Downloading ${name}`, 'info', 3000);
+  const elementFiles = () => (t && rec ? documentsFor(recordsFor(planID), t.elementId).filter((d) => d.file.kind === 'file').map((d) => d.file) : []);
+
+  // ── Rows ──
+  function fileRow(f: PlanFile | undefined, sub: string, version: string): HTMLElement {
+    const row = fileTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    const name = f?.name ?? 'A file no longer in the store';
+    row.querySelector('[data-file-name]')!.textContent = name;
+    row.querySelector('[data-file-sub]')!.textContent = sub;
+    row.querySelector('[data-file-version]')!.textContent = version;
+    const dl = row.querySelector<HTMLElement>('[data-file-download]')!;
+    dl.querySelector('button')?.setAttribute('aria-label', `Download ${name}`);
+    dl.querySelector('button')?.setAttribute('title', `Download ${name}`);
+    dl.addEventListener('click', () => download(name));
+    dl.hidden = !f;
+    return row;
+  }
+  /** The memo, then the enclosures: each at the version and revision it went at (a draft's, as they stand). */
+  function fileRows(x: Transmittal, r: PlanRecords): HTMLElement[] {
+    const rows: HTMLElement[] = [];
+    const memo = fileById(r, x.memoFileId);
+    if (x.memoFileId) {
+      const v = memo ? versionAt(memo, x.sentAt) : undefined;
+      rows.push(fileRow(memo, ['Transmittal Memo', sizeText(v?.size)].filter(Boolean).join(', '), revisionText(memo?.revision, v?.number)));
+    }
+    for (const e of x.enclosures) {
+      const f = fileById(r, e.fileId);
+      const latest = f?.versions.at(-1);
+      const sent = !!x.sentAt;
+      const version = sent ? e.version : latest?.number;
+      const size = f?.versions.find((v) => v.number === version)?.size;
+      const newer = sent && latest && latest.number > e.version ? `Version ${latest.number} saved since; not part of this send` : '';
+      rows.push(fileRow(f, [['Enclosure', sizeText(size)].filter(Boolean).join(', '), newer].filter(Boolean).join('. '), revisionText(sent ? e.revision : f?.revision, version)));
+    }
+    return rows;
+  }
+
+  function personRow(x: Transmittal, name: string): HTMLElement {
+    const row = personTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    const isTo = x.to.includes(name);
+    row.querySelector('[data-person-avatar]')!.replaceWith(planAvatar(name, 'sm'));
+    row.querySelector('[data-person-name]')!.textContent = name === me ? `${name} (You)` : name;
+    row.querySelector('[data-person-org]')!.textContent = orgOf(name);
+    const role = row.querySelector<HTMLElement>('[data-person-role]')!;
+    role.textContent = isTo ? 'To' : 'Cc';
+    role.title = isTo ? 'Confirms receipt' : 'Copied; confirming is optional';
+    const state = receiptState(x, name);
+    if (x.sentAt) row.querySelector('[data-person-badge]')!.replaceWith(badge(state.label, state.variant, 'sm'));
+    const detail = row.querySelector<HTMLElement>('[data-person-detail]')!;
+    detail.textContent = x.sentAt ? state.detail : isTo ? 'Confirms once it is sent' : 'Copied';
+    // Evidence a receipt was recorded with: the reply email, say.
+    const evidence = fileById(recordsFor(planID), x.receipts[name]?.evidenceFileId);
+    if (evidence && x.receipts[name]?.recordedBy) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = evidence.name;
+      a.addEventListener('click', (e) => (e.preventDefault(), download(evidence.name)));
+      detail.append('. Evidence: ', a);
+    }
+    const open = !!x.sentAt && !x.closedAt && !state.confirmed;
+    const act = (n: string) => row.querySelector<HTMLElement>(`[data-person-act="${n}"]`)!;
+    // A member who's also a recipient confirms here; a sender reminds or records for a To still outstanding.
+    act('confirm').hidden = !(open && name === me);
+    act('remind').hidden = !(open && isTo && canRecord && name !== me);
+    act('record').hidden = !(open && isTo && canRecord && name !== me);
+    act('confirm').addEventListener('click', () => confirmMine());
+    act('remind').addEventListener('click', () => {
+      remindRecipient(planID, x.id, name);
+      pushAlert(`Reminder sent to ${name}.`, 'success');
+    });
+    act('record').addEventListener('click', () => void openRecordReceipt(name));
+    return row;
+  }
+
+  // ── The two views ──
+  function drawSender(x: Transmittal, r: PlanRecords, elementName: string): void {
+    const status = transmittalStatus(x);
+    const draft = status === 'Draft';
+    // The line under the title: from whom, when, and what's due.
+    const line = q('[data-trp-line]');
+    const from = `<b>${esc(x.from)}</b>${orgOf(x.from) ? ` (${esc(orgOf(x.from))})` : ''}`;
+    const response = x.closedAt
+      ? ` Closed ${day(x.closedAt)}.`
+      : x.response
+        ? ` Responded ${day(x.response.at)}.`
+        : x.responseDue
+          ? responseOverdue(x)
+            ? ` <span data-tone="danger">Response was due ${day(x.responseDue)}.</span>`
+            : ` Response due ${day(x.responseDue)}.`
+          : '';
+    line.innerHTML = draft
+      ? `Draft by ${from}, started ${day(x.createdAt)}, for ${esc(elementName)}. Nothing has gone out yet.`
+      : `From ${from}, sent ${dayTime(x.sentAt)}.${response}`;
+    line.hidden = false;
+
+    // What was sent.
+    q('[data-trp-sent-title]').textContent = draft ? 'What Will Be Sent' : 'What Was Sent';
+    q('[data-trp-sent-note]').textContent = draft ? 'Each enclosure locks at its current version when it is sent.' : `Locked at the versions sent ${day(x.sentAt)}.`;
+    const files = fileRows(x, r);
+    q('[data-trp-files]').replaceChildren(...(files.length ? files : [Object.assign(document.createElement('li'), { className: 'bcn-trp__none typography-body-sm', textContent: 'Nothing enclosed yet.' })]));
+
+    // Receipt.
+    const { confirmed, of } = receiptCount(x);
+    const late = x.to.some((n) => receiptOverdue(x, n));
+    const note = q('[data-trp-receipt-note]');
+    note.innerHTML = draft
+      ? 'To recipients confirm once it is sent; Cc recipients don’t have to.'
+      : confirmed === of
+        ? `${confirmed} of ${of} Received.`
+        : `${confirmed} of ${of} Received. ${late ? `<span data-tone="warning">Receipt was due ${day(x.ackDue)}.</span>` : `Receipt due ${day(x.ackDue)}.`}`;
+    q('[data-trp-receipts]').replaceChildren(...[...x.to, ...x.cc].map((n) => personRow(x, n)));
+
+    // Response.
+    q('[data-trp-response-card]').hidden = draft;
+    const said = q('[data-trp-response-said]');
+    const by = q('[data-trp-response-by]');
+    const respFiles = q('[data-trp-response-files]');
+    const respNote = q('[data-trp-response-note]');
+    if (x.response) {
+      said.textContent = x.response.note;
+      const f = fileById(r, x.response.fileId);
+      respFiles.replaceChildren(...(f ? [fileRow(f, 'Response', revisionText(f.revision, f.versions.at(-1)?.number))] : []));
+      by.textContent = `Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`;
+      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.` : x.responseDue ? `Was due ${day(x.responseDue)}.` : '';
+    } else {
+      said.textContent = '';
+      respFiles.replaceChildren();
+      by.textContent = x.closedAt ? 'Closed without a response.' : 'No response yet.';
+      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.` : x.responseDue ? (responseOverdue(x) ? `<span data-tone="danger">Was due ${day(x.responseDue)}.</span>` : `Due ${day(x.responseDue)}.`) : 'No response date was set.';
+    }
+    const live = !draft && !x.closedAt && canRecord;
+    q('[data-trp-act="respond"]').hidden = !(live && !x.response);
+    // Closing ends it: once it's answered, or when nothing is owed back and everyone has it.
+    q('[data-trp-act="close"]').hidden = !(live && (!!x.response || (!x.responseDue && status === 'Received')));
+
+    // What the recipient got: the email, to the first To still outstanding (or the first To).
+    const shown = x.to.find((n) => !x.receipts[n]?.confirmedAt) ?? x.to[0] ?? x.cc[0];
+    const org = orgOf(x.from) || x.from;
+    q('[data-trp-mail-to]').textContent = shown ? `To ${withOrg(shown)}` : 'No recipients yet';
+    q('[data-trp-mail-subject]').textContent = `${num()}: ${x.subject}`;
+    q('[data-trp-mail-body]').textContent = `${org} sent you “${x.subject}” ${purposePhrase(x.purpose) || 'for review'} (${num()}).${x.responseDue ? ` Response due ${day(x.responseDue)}.` : ''}`;
+    const openLink = q<HTMLElement>('[data-trp-mail-open]');
+    openLink.hidden = draft || !shown;
+    const a = openLink.querySelector('a');
+    if (a && shown) {
+      a.href = `${TRANSMITTAL_HREF(planID, x.id)}&user=${encodeURIComponent(shown)}`;
+      a.title = `Opens in a new tab, signed in as ${shown}`;
+    }
+    q('[data-trp-mail-hint]').textContent = draft
+      ? 'Each recipient gets this email when it is sent.'
+      : 'Each recipient got this email. Receipt counts only when a To recipient signs in and presses Confirm Receipt; opening it doesn’t.';
+    const notesCard = q('[data-trp-notes-card]');
+    notesCard.hidden = !x.notes;
+    q('[data-trp-notes]').textContent = x.notes ?? '';
+
+    q('[data-trp-sender]').hidden = false;
+  }
+
+  function drawRecipient(x: Transmittal, r: PlanRecords, planName: string): void {
+    const isTo = x.to.includes(me);
+    const mine = x.receipts[me] ?? {};
+    q('[data-trp-from-avatar]').replaceChildren(planAvatar(x.from, 'md'));
+    q('[data-trp-from-name]').textContent = x.from;
+    q('[data-trp-from-org]').textContent = [orgOf(x.from), planName].filter(Boolean).join(', ');
+    q('[data-trp-lede]').textContent = `${x.from} sent you “${x.subject}” ${purposePhrase(x.purpose) || 'for review'} on ${day(x.sentAt)}.`;
+    const files = fileRows(x, r);
+    const encl = x.enclosures.length;
+    q('[data-trp-mine-files-title]').textContent = [x.memoFileId ? 'Memo' : '', encl ? plural(encl, 'Enclosure') : ''].filter(Boolean).join(' and ') || 'What Was Sent';
+    q('[data-trp-mine-files]').replaceChildren(...files);
+    q('[data-trp-mine-notes-wrap]').hidden = !x.notes;
+    q('[data-trp-mine-notes]').textContent = x.notes ?? '';
+
+    // The dates: receipt (To only) and response.
+    const dates: HTMLElement[] = [];
+    const li = (text: string, tone?: string) => {
+      const el = document.createElement('li');
+      el.textContent = text;
+      if (tone) el.dataset.tone = tone;
+      dates.push(el);
+    };
+    if (isTo && x.ackDue) li(mine.confirmedAt ? `Receipt was due ${day(x.ackDue)}` : receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, !mine.confirmedAt && receiptOverdue(x, me) ? 'warning' : undefined);
+    if (isTo) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
+    else li('You’re copied: no receipt or response is owed');
+    if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
+    q('[data-trp-dates]').replaceChildren(...dates);
+
+    // One button. Recorded on their behalf still offers it: their own confirmation replaces the sender's note.
+    const self = !!mine.confirmedAt && !mine.recordedBy;
+    q('[data-trp-confirm-wrap]').hidden = self || !!x.closedAt;
+    q('[data-trp-confirm]').hidden = !isTo;
+    q('[data-trp-confirm-cc]').hidden = isTo;
+    q('[data-trp-confirm-hint]').textContent = mine.recordedBy
+      ? `${mine.recordedBy} recorded your receipt ${dayTime(mine.confirmedAt)}. Confirm it yourself if you like.`
+      : isTo
+        ? 'Recorded as you, with the time.'
+        : 'Optional for Cc recipients. Recorded as you, with the time.';
+    q('[data-trp-confirmed]').hidden = !self;
+    q('[data-trp-confirmed-text]').textContent = self ? `Confirmed ${dayTime(mine.confirmedAt)}. Recorded as you.` : '';
+    q('[data-trp-recipient]').hidden = false;
+  }
+
+  function confirmMine(): void {
+    if (!t) return;
+    if (t.to.includes(me)) confirmReceipt(planID, t.id);
+    else confirmCcReceipt(planID, t.id);
+    pushAlert(`Receipt of ${num()} confirmed.`, 'success');
+  }
+  q('[data-trp-confirm]').addEventListener('click', confirmMine);
+  q('[data-trp-confirm-cc]').addEventListener('click', confirmMine);
+
+  function drawCrumbs(x: Transmittal | null, recipient: boolean, planName: string, elementName: string): void {
+    const items = document.querySelector<HTMLElement>('.breadcrumbs__items');
+    if (!items) return;
+    const links = [...items.querySelectorAll<HTMLAnchorElement>('a.breadcrumb-item')];
+    const [, planLink, elLink] = links;
+    if (planLink && elLink) {
+      if (recipient || !x) {
+        // A recipient outside the plan sees only what was sent to them.
+        for (const link of [planLink, elLink]) {
+          link.nextElementSibling?.remove();
+          link.remove();
+        }
+      } else {
+        planLink.textContent = planName;
+        planLink.href = PLAN_VIEW_HREF(planID);
+        elLink.textContent = elementName;
+        elLink.href = ELEMENT_HREF(planID, x.elementId);
+      }
+    }
+    const current = items.querySelector('[aria-current="page"]');
+    if (current) current.textContent = x ? num() : 'Transmittal';
+  }
+
+  // ── Draw ──
+  let opened = false;
+  let crumbsDone = false;
+  function draw(): void {
+    try {
+      repo = getRepo(planID);
+    } catch {
+      repo = null;
+    }
+    rec = repo ? recordsFor(planID) : null;
+    t = rec?.transmittals.find((x) => x.id === id) ?? null;
+    const member = repo ? membersOf(repo).find((m) => m.name === me) : undefined;
+    const isMember = !!member && member.role !== 'Guest';
+    const isRecipient = !!t?.sentAt && (t.to.includes(me) || t.cc.includes(me));
+    canRecord = isMember;
+    const view: 'sender' | 'recipient' | 'none' = t && isMember ? 'sender' : t && isRecipient ? 'recipient' : 'none';
+    const plan = repo ? latestVersion(repo).plan : null;
+    const planName = plan?.PlanName ?? 'Plan';
+    const elementName = (t && plan ? flattenPlan(plan.Elements).find(({ element }) => element.PlanElementID === t!.elementId)?.element.PlanElementName : '') ?? 'Deliverable';
+
+    if (!crumbsDone) {
+      drawCrumbs(view === 'none' ? null : t, view === 'recipient', planName, elementName ?? '');
+      crumbsDone = true;
+    }
+    q('[data-trp-sender]').hidden = true;
+    q('[data-trp-recipient]').hidden = true;
+    q('[data-trp-line]').hidden = true;
+    q('[data-trp-missing]').hidden = view !== 'none';
+    for (const n of ['edit', 'delete', 'send', 'deliverable']) pageAct(n)!.hidden = true;
+
+    if (view === 'none' || !t || !rec) {
+      if (titleText) titleText.textContent = 'Not Sent to You';
+      document.title = 'Transmittal | Beacon';
+      titleBadges?.replaceChildren();
+      return;
+    }
+    const status = transmittalStatus(t);
+    if (titleText) titleText.textContent = `${num()} ${t.subject}`;
+    document.title = `${num()} ${t.subject} | ${planName} | Beacon`;
+    titleBadges?.replaceChildren(...(t.purpose ? [badge(t.purpose, 'neutral', 'sm')] : []));
+
+    if (view === 'sender') {
+      titleBadges?.append(badge(status, TRANSMITTAL_STATUS_VARIANT[status], 'sm'));
+      drawSender(t, rec, elementName ?? '');
+      const draft = status === 'Draft';
+      pageAct('edit')!.hidden = !(draft && canRecord);
+      pageAct('delete')!.hidden = !(draft && canRecord);
+      pageAct('send')!.hidden = !(draft && canRecord);
+      const deliverable = pageAct('deliverable')!;
+      deliverable.hidden = false;
+      deliverable.querySelector('a')!.href = ELEMENT_HREF(planID, t.elementId);
+    } else {
+      const state = receiptState(t, me);
+      if (state.confirmed) titleBadges?.append(badge(t.receipts[me]?.recordedBy ? 'Recorded' : 'Confirmed', t.receipts[me]?.recordedBy ? 'info' : 'success', 'sm'));
+      drawRecipient(t, rec, planName);
+    }
+    // Opened while signed in: logged once, never receipt.
+    if (!opened && isRecipient) {
+      opened = true;
+      if (!t.receipts[me]?.openedAt) openTransmittal(planID, t.id);
+    }
+  }
+
+  // ── Record Receipt ──
+  const receiptDialog = q<DialogEl>('[data-trp-receipt-dialog]');
+  const receiptPick = docPicker(q<SelectEl>('[data-trp-receipt-pick]'), q('[data-trp-receipt-upload]'), 'None');
+  let receiptFor = '';
+  async function openRecordReceipt(name: string): Promise<void> {
+    if (!t) return;
+    await customElements.whenDefined('esa-select');
+    receiptFor = name;
+    receiptDialog.heading = `Record Receipt for ${name}`;
+    q('[data-trp-receipt-lede]').textContent = `For a recipient without a Beacon account, or one who confirmed by email or phone. It reads “Recorded by ${me}”, never as ${firstName(name)}’s own confirmation.`;
+    receiptPick.fill(elementFiles());
+    receiptDialog.open = true;
+  }
+  q('[data-trp-receipt-cancel]').addEventListener('click', () => (receiptDialog.open = false));
+  q('[data-trp-receipt-save]').addEventListener('click', () => {
+    if (!t || !receiptFor) return;
+    const pick = receiptPick.value();
+    const evidence = pick.upload ? fileUpload(planID, t.elementId, pick.upload, { note: `${receiptFor} confirmed receipt of ${num()}`, direction: 'Received', agency: agencyFor(planID, t.elementId, [receiptFor]) }) : pick.fileId;
+    recordReceiptFor(planID, t.id, receiptFor, evidence);
+    receiptDialog.open = false;
+    pushAlert(`Receipt recorded for ${receiptFor}.`, 'success');
+  });
+
+  // ── Record Response ──
+  const responseDialog = q<DialogEl>('[data-trp-response-dialog]');
+  const responseText = q<FieldEl>('[data-trp-response-text]');
+  const responsePick = docPicker(q<SelectEl>('[data-trp-response-pick]'), q('[data-trp-response-upload]'), 'None');
+  q('[data-trp-act="respond"]').addEventListener('click', async () => {
+    if (!t) return;
+    await Promise.all(['esa-select', 'esa-textarea'].map((n) => customElements.whenDefined(n)));
+    responseDialog.heading = `Record Response to ${num()}`;
+    q('[data-trp-response-lede]').textContent = `What came back from ${names([...new Set(t.to.map((n) => orgOf(n) || n))])}: comments, a letter, an acceptance. Receipt is separate and stays as it is.`;
+    responseText.value = '';
+    responseText.errorText = '';
+    responsePick.fill(elementFiles());
+    responseDialog.open = true;
+    requestAnimationFrame(() => responseText.focus());
+  });
+  q('[data-trp-response-cancel]').addEventListener('click', () => (responseDialog.open = false));
+  q('[data-trp-response-save]').addEventListener('click', () => {
+    if (!t) return;
+    const text = (responseText.value ?? '').trim();
+    responseText.errorText = text ? '' : 'Say what came back, in a line.';
+    if (!text) return;
+    const pick = responsePick.value();
+    const fileId = pick.upload ? fileUpload(planID, t.elementId, pick.upload, { note: `Response to ${num()}`, direction: 'Received', agency: agencyFor(planID, t.elementId, t.to) }) : pick.fileId;
+    recordResponse(planID, t.id, text, fileId);
+    responseDialog.open = false;
+    pushAlert(`Response to ${num()} recorded.`, 'success');
+  });
+
+  // ── Close ──
+  q('[data-trp-act="close"]').addEventListener('click', async () => {
+    if (!t) return;
+    const ok = await confirm({ header: `Close ${num()}?`, text: 'It reads as Closed and no more reminders go out. The record, its receipts and its response stay as they are.', confirmButtonLabel: 'Close Transmittal', cancelButtonLabel: 'Keep Open' });
+    if (!ok) return;
+    closeTransmittal(planID, t.id);
+    pushAlert(`${num()} closed.`, 'success');
+  });
+
+  // ── A draft's actions ──
+  const afterDialog = (result: Awaited<ReturnType<typeof editDialog.open>>) => {
+    if (!result) return;
+    if (result.kind === 'sent') announceSent();
+    else pushAlert(`${num()} saved.`, 'success');
+  };
+  function announceSent(): void {
+    const x = recordsFor(planID).transmittals.find((y) => y.id === id);
+    if (!x) return;
+    pushAlert(`${transmittalNumber(x)} sent.${x.to.length && x.ackDue ? ` ${names(x.to)} ${x.to.length > 1 ? 'are' : 'is'} asked to confirm receipt by ${day(x.ackDue)}.` : ''}`, 'success', 6000);
+  }
+  pageAct('edit')?.addEventListener('click', async () => {
+    if (t) afterDialog(await editDialog.open({ planID, elementId: t.elementId, transmittalId: t.id }));
+  });
+  pageAct('send')?.addEventListener('click', async () => {
+    if (!t || !repo) return;
+    if (sendProblems(t).length) return afterDialog(await editDialog.open({ planID, elementId: t.elementId, transmittalId: t.id, check: true }));
+    const ackDays = configOf(repo).ackDays;
+    if (!(await confirm({ header: `Send ${num()}?`, text: sendMessage(t, ackDays), confirmButtonLabel: 'Send', cancelButtonLabel: 'Keep Editing' }))) return;
+    sendTransmittal(planID, t.id, ackDays);
+    announceSent();
+  });
+  pageAct('delete')?.addEventListener('click', async () => {
+    if (!t) return;
+    if (!(await confirm({ header: `Delete ${num()}?`, text: 'The draft goes. Nothing was sent, so no one is told.', confirmButtonLabel: 'Delete Draft', cancelButtonLabel: 'Keep Draft', color: 'warn' }))) return;
+    const elementId = t.elementId;
+    deleteDraftTransmittal(planID, t.id);
+    location.assign(ELEMENT_HREF(planID, elementId));
+  });
+
+  // Records saved anywhere (here, or a recipient confirming in another tab) redraw the page.
+  let queued = false;
+  const soon = () => {
+    if (queued) return;
+    queued = true;
+    queueMicrotask(() => {
+      queued = false;
+      draw();
+    });
+  };
+  window.addEventListener('bcn-plan-records', soon);
+  window.addEventListener('storage', soon);
+
+  draw();
+  // Just sent (from the dialog or a row): say so once, and drop the flag so a reload doesn't repeat it.
+  if (params.get('sent') === '1') {
+    announceSent();
+    params.delete('sent');
+    history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
+  }
+}

@@ -1,0 +1,45 @@
+---
+// Sent to You, on its own (2026-10-28): a dev route for BcnTransmittalInbox, which the Plans index carries for the
+// signed-in person. `?user=Rowan Hale` (sticky per tab) reads it as an agency reviewer; Andy has nothing sent to him, so
+// the route says how to look.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnTransmittalInbox from '../../../../components/bcn/BcnTransmittalInbox.astro';
+import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import BcnBadgeBank from '../../../../components/bcn/BcnBadgeBank.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - inbox  -> bcn-transmittal-inbox                 # every transmittal sent to the signed-in person, across plans
+    - empty  -> esa-empty-state                       # when nothing was sent to them
+    - banks  -> bcn-plan-people, bcn-badge-bank       # avatars and badges the rows clone
+-->
+
+<AppShell title="Sent to You" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout title="Sent to You" icon="inbox" iconColor="var(--color-content-brand)" iconPaths={PLAN_ICON_PATHS.inbox} breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Sent to You' }]}>
+    <BcnTransmittalInbox />
+    <div data-inbox-empty hidden>
+      <EsaEmptyState title="Nothing Sent to You" description="Open this page with ?user=Rowan Hale to read it as a reviewer." />
+    </div>
+    <BcnPlanPeople />
+    <BcnBadgeBank />
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { ensureSeeded } from '../../../../lib/planning/plan-repo';
+  import { setupTransmittalInbox } from '../../../../components/bcn/transmittal-inbox';
+  const root = document.querySelector<HTMLElement>('[data-bcn-transmittal-inbox]');
+  const empty = document.querySelector<HTMLElement>('[data-inbox-empty]');
+  void ensureSeeded().then(() => {
+    if (!root) return;
+    // The inbox hides itself when empty; this route says why instead of showing nothing.
+    root.addEventListener('bcn-transmittal-inbox', (e) => empty && (empty.hidden = (e as CustomEvent<{ count: number }>).detail.count > 0));
+    setupTransmittalInbox(root).draw();
+  });
+</script>

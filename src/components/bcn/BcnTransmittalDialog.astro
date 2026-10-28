@@ -1,0 +1,169 @@
+---
+// <BcnTransmittalDialog> — New Transmittal and Edit Draft in one modal (2026-10-28, the proposal's "Transmittals and
+// receipt"). A transmittal is the record of one send of a deliverable: its subject and purpose, who it goes To (they
+// confirm receipt) and Cc (they don't), the cover letter (the Transmittal Memo: one of the deliverable's documents, or a
+// new upload filed on it as Correspondence), the enclosures (its documents, locked at the version sent), when a response
+// is due, and notes. Save Draft keeps it; Send asks once (sent is final: a correction is a new transmittal), then sends.
+// The runtime is ./transmittal-dialog.ts; the element page's Transmittals module and the transmittal page both open it.
+//
+// bcn-lego-checked: the shell IS esa-dialog, the fields ARE esa-text-field / esa-select / esa-date-picker /
+// esa-combobox (multiple, its chips are the recipients) / esa-textarea, the upload IS esa-file-upload, each enclosure's
+// tick IS esa-checkbox, the labels ARE esa-form-field, every action IS esa-button, Send asks through
+// esa-confirm-dialog. No esa- lego is a file checklist with a revision and version per row (esa-checkbox-group takes a
+// bare label; esa-file-list lists uploads, not a pick from a record's documents); checked Beacon (prod's document pickers
+// are single selects). The CSS is that list, the two-up row and the sections.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaFormField from '@esa/ecology/esa-form-field.astro';
+---
+
+<div class="bcn-tmd" data-bcn-transmittal-dialog>
+  <esa-dialog class="bcn-tmd__dialog" heading="New Transmittal" show-close-button data-tmd-dialog>
+    <form class="bcn-tmd__form" novalidate data-tmd-form>
+      <p class="bcn-tmd__lede typography-body-sm" data-tmd-lede></p>
+
+      <esa-text-field data-tmd="subject" label="Subject" size="sm" required maxlength="200"></esa-text-field>
+      <div class="bcn-tmd__pair">
+        <esa-select data-tmd="purpose" label="Purpose" size="sm" placeholder="Choose a Purpose" required></esa-select>
+        <esa-date-picker data-tmd="due" label="Response Due" size="sm"></esa-date-picker>
+      </div>
+      <div class="bcn-tmd__pair">
+        <esa-combobox data-tmd="to" mode="autocomplete" multiple label="To" size="sm" placeholder="e.g. Rowan Hale" help-text="Each confirms receipt in Beacon" required></esa-combobox>
+        <esa-combobox data-tmd="cc" mode="autocomplete" multiple label="Cc" size="sm" placeholder="e.g. Morgan Ellis" help-text="Copied; confirming is optional"></esa-combobox>
+      </div>
+
+      <div class="bcn-tmd__section">
+        <EsaFormField label="Transmittal Memo" size="sm" helpText="The cover letter. An upload is filed on this deliverable as Correspondence.">
+          <esa-select data-tmd="memo" size="sm" aria-label="Transmittal Memo" placeholder="No Memo"></esa-select>
+        </EsaFormField>
+        <esa-file-upload class="bcn-tmd__upload" data-tmd-upload="memo" label="Upload the Cover Letter" max-size-mb="25" hidden></esa-file-upload>
+      </div>
+
+      <div class="bcn-tmd__section">
+        <EsaFormField label="Enclosures" size="sm" helpText="Each locks at the version shown here when it's sent.">
+          <ul class="bcn-tmd__files" data-tmd-enclosures></ul>
+        </EsaFormField>
+        <p class="bcn-tmd__empty typography-body-sm" data-tmd-no-files hidden>This deliverable has no documents yet. Add them in its Documents.</p>
+        <p class="bcn-tmd__error typography-body-sm" data-tmd-enclosure-error hidden>Enclose a document, or attach a memo.</p>
+      </div>
+
+      <esa-textarea data-tmd="notes" label="Notes" size="sm" rows="2" placeholder="e.g. Section 4 changed most since the outline"></esa-textarea>
+    </form>
+
+    <div slot="footer" class="bcn-tmd__footer">
+      <p class="bcn-tmd__error typography-body-sm" data-tmd-error hidden></p>
+      <span data-tmd-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-tmd-save><EsaButton variant="ghost" appearance="outline" size="sm">Save Draft</EsaButton></span>
+      <span data-tmd-send><EsaButton variant="primary" size="sm" icon="send" data-fill-icon="send">Send</EsaButton></span>
+    </div>
+  </esa-dialog>
+  <esa-confirm-dialog data-tmd-confirm></esa-confirm-dialog>
+
+  <template data-tmd-tpl="enclosure">
+    <li class="bcn-tmd__file">
+      <esa-checkbox size="sm" data-file-check></esa-checkbox>
+      <span class="bcn-tmd__file-meta typography-body-sm" data-file-meta></span>
+      <span class="bcn-tmd__file-date typography-body-sm" data-file-date></span>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-tmd__dialog {
+    --dialog-width: min(44rem, calc(100vw - 2rem));
+  }
+  .bcn-tmd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-tmd__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-tmd__lede {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-tmd__pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  .bcn-tmd__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-tmd__error {
+    margin: 0;
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-tmd__empty {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The enclosures: a tick, the file's name, its revision and version, its date; a hairline between. */
+  .bcn-tmd__files {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    max-block-size: 15rem;
+    overflow-y: auto;
+  }
+  .bcn-tmd__file {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 6.5rem;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-300);
+    cursor: pointer;
+  }
+  .bcn-tmd__file + .bcn-tmd__file {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-tmd__file:hover {
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+  .bcn-tmd__file[data-memo] {
+    cursor: default;
+  }
+  .bcn-tmd__file esa-checkbox {
+    min-inline-size: 0;
+  }
+  .bcn-tmd__file-meta,
+  .bcn-tmd__file-date {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-tmd__file-date {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-tmd__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+  .bcn-tmd__footer .bcn-tmd__error {
+    margin-inline-end: auto;
+  }
+</style>

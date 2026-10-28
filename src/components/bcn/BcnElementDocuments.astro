@@ -1,11 +1,305 @@
 ---
-// <BcnElementDocuments> — the Documents module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-documents.ts) on the contract in ./element-module.ts.
+// <BcnElementDocuments> — the Documents module on an element's page (2026-10-28, decision 8; the proposal's
+// "Documents"). What supports the element: files and links, newest document date first, each with its TYPE, its
+// DOCUMENT DATE (when written or received, not when uploaded) and a RELEVANCE NOTE saying why it matters here. A file
+// carries its revision label (what a transmittal records) and, past one save, its version count; a link opens in a new
+// tab. Correspondence says who it was with, which way it went, and the agreement when the exchange settled something:
+// the fact those rows exist for, so it reads first after the name. "Also on 2 Items" names the other elements the same
+// file sits on, each with its own note there.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// Records attach to Live (decision 5): Add (New, Existing, Link) and each row's Edit Details, Upload New Version and
+// Remove From This Item are there only while the page can record; in a draft the card says once that documents are
+// kept on Live. The runtime is ./element-documents.ts; the modal is ./BcnDocumentDialog.astro.
+//
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Add and each row's actions ARE esa-dropdown-menu on an
+// esa-button; the type filter IS esa-filter-dropdown; "Also on" IS esa-popover; the type IS esa-badge (BcnBadgeBank);
+// the empty state IS esa-empty-state; the modal IS BcnDocumentDialog (esa-dialog). esa-file-list is a list of files,
+// but closed (no slots or parts) with only download and remove per row, so it can't carry a type, a date, a note, an
+// agreement or a row menu (BcnFileRow's note says the same). Checked Beacon (the checkout isn't in this session; the
+// proposal's wireframe and BCN-1596's association shape set the row). The CSS is the row's grid and the agreement.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnElementModule from './BcnElementModule.astro';
+import BcnDocumentDialog from './BcnDocumentDialog.astro';
 ---
 
 <BcnElementModule key="documents">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <div slot="actions" class="bcn-edocs__actions">
+    <span data-edocs-filter-wrap hidden><esa-filter-dropdown size="xs" label="Type" name="type" data-edocs-filter></esa-filter-dropdown></span>
+    <span data-edocs-add-wrap hidden>
+      <esa-dropdown-menu position="below-end" data-edocs-add>
+        <EsaButton variant="ghost" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">Add</EsaButton>
+      </esa-dropdown-menu>
+    </span>
+  </div>
+
+  <div class="bcn-edocs" data-edocs>
+    <ul class="bcn-edocs__list" data-edocs-list></ul>
+    <div class="bcn-edocs__empty" data-edocs-empty hidden>
+      <EsaEmptyState size="sm" title="No Documents Yet" description="Add a file or a link, with its date and why it matters.">
+        <span data-edocs-empty-add hidden>
+          <esa-dropdown-menu position="below-start" data-edocs-add>
+            <EsaButton variant="ghost" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">Add Document</EsaButton>
+          </esa-dropdown-menu>
+        </span>
+      </EsaEmptyState>
+    </div>
+  </div>
+
+  <!-- One document on this element. Cloned per row so every part keeps this component's styles. -->
+  <template data-edocs-tpl="row">
+    <li class="bcn-edocs__row">
+      <span class="bcn-edocs__glyph" data-row-glyph aria-hidden="true"></span>
+      <div class="bcn-edocs__main">
+        <div class="bcn-edocs__title">
+          <a class="bcn-edocs__name bcn-edocs__name--link typography-label-sm-strong" target="_blank" rel="noreferrer" data-row-link hidden></a>
+          <span class="bcn-edocs__name typography-label-sm-strong" data-row-name></span>
+          <span class="bcn-edocs__rev typography-body-sm" data-row-rev></span>
+        </div>
+        <div class="bcn-edocs__meta typography-body-sm" data-row-meta>
+          <span data-row-type></span>
+          <span class="bcn-edocs__text"
+            ><span class="bcn-edocs__corr" data-row-corr hidden></span> <span class="bcn-edocs__note" data-row-note></span>
+            <span class="bcn-edocs__also" data-row-also hidden>
+              <esa-popover position="bottom" trigger="click" label="Also On" data-row-also-pop>
+                <EsaButton variant="ghost" size="xs"><span data-row-also-label>Also on 2 Items</span></EsaButton>
+                <div slot="content" class="bcn-edocs__also-pop typography-body-sm">
+                  <p class="bcn-edocs__also-head typography-label-sm-strong">Also On</p>
+                  <ul class="bcn-edocs__also-list" data-row-also-list></ul>
+                </div>
+              </esa-popover>
+            </span></span
+          >
+        </div>
+        <p class="bcn-edocs__agreement typography-body-sm" data-row-agreement hidden><span class="bcn-edocs__agreement-glyph" data-row-agreement-glyph aria-hidden="true"></span><span><span class="bcn-edocs__sr">Agreement: </span><span data-row-agreement-text></span></span></p>
+      </div>
+      <span class="bcn-edocs__date typography-body-sm" data-row-date></span>
+      <span class="bcn-edocs__menu" data-row-menu-wrap>
+        <esa-dropdown-menu position="below-end" data-row-menu>
+          <EsaButton variant="ghost" size="xs" iconOnly icon="ellipsis-vertical" label="Document Actions" data-fill-icon="ellipsis-vertical" />
+        </esa-dropdown-menu>
+      </span>
+    </li>
+  </template>
+  <template data-edocs-tpl="also-item">
+    <li class="bcn-edocs__also-item">
+      <a class="bcn-edocs__also-link typography-label-sm-strong" data-also-link></a>
+      <span class="bcn-edocs__also-note" data-also-note></span>
+    </li>
+  </template>
+
+  <BcnDocumentDialog />
 </BcnElementModule>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-popover';
+</script>
+
+<style>
+  /* The card's own clip would cut off a row's menu or the Also On popover at its foot. */
+  :global([data-element-module='documents'] .esa-card) {
+    overflow: visible;
+  }
+  /* The type filter's trigger at the header buttons' size (esa-button xs sets its label in microcopy-2xs). */
+  .bcn-edocs__actions esa-filter-dropdown {
+    --typography-microcopy-xs-font-size: var(--typography-microcopy-2xs-font-size);
+    --typography-microcopy-xs-strong-font-size: var(--typography-microcopy-2xs-strong-font-size, var(--typography-microcopy-2xs-font-size));
+  }
+  .bcn-edocs__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-edocs__actions [hidden],
+  .bcn-edocs [hidden] {
+    display: none !important;
+  }
+  .bcn-edocs__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* A row: glyph, the document (name, then its type and note, then its agreement), its date, its menu. One hairline
+     between rows; the menu stays quiet until the row is hovered or focused. */
+  .bcn-edocs__row {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr) 6.5rem 1.75rem;
+    column-gap: var(--spacing-300);
+    align-items: start;
+    padding-block: var(--spacing-300);
+  }
+  .bcn-edocs__row + .bcn-edocs__row {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-edocs__row:first-child {
+    padding-block-start: var(--spacing-100);
+  }
+  .bcn-edocs__row:last-child {
+    padding-block-end: 0;
+  }
+  .bcn-edocs__glyph {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-edocs__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+  }
+  .bcn-edocs__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+  .bcn-edocs__name {
+    color: var(--color-content-default);
+    overflow-wrap: anywhere;
+  }
+  .bcn-edocs__name--link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--spacing-100);
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+  .bcn-edocs__name--link:hover {
+    color: var(--color-content-link-hover);
+    text-decoration: underline;
+  }
+  .bcn-edocs__name--link :global(svg) {
+    flex: none;
+    align-self: center;
+  }
+  .bcn-edocs__rev {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-edocs__meta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-edocs__meta > :first-child {
+    flex: none;
+  }
+  .bcn-edocs__corr {
+    color: var(--color-content-default);
+  }
+  /* Who and which way, then the note, as one run of text that wraps as a sentence. */
+  .bcn-edocs__text {
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+  .bcn-edocs__also {
+    display: inline-block;
+    margin-inline-start: var(--spacing-100);
+  }
+  /* "Also on 2 Items" sits in the line as words, not as a button among them. */
+  .bcn-edocs__meta .bcn-edocs__also :global(.esa-button__native) {
+    margin-block: -4px;
+    padding-inline: var(--spacing-100);
+    font-size: var(--typography-body-sm-font-size);
+    font-weight: 500;
+    color: var(--color-content-link);
+  }
+  .bcn-edocs__also-pop {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-inline-size: 15rem;
+    max-inline-size: 22rem;
+  }
+  .bcn-edocs__also-head {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-edocs__also-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-edocs__also-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bcn-edocs__also-link {
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+  .bcn-edocs__also-link:hover {
+    text-decoration: underline;
+  }
+  .bcn-edocs__also-note {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The agreement: the one fact a correspondence row exists for. A soft tint and a check, in the default ink. */
+  .bcn-edocs__agreement {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--spacing-150);
+    align-self: flex-start;
+    max-inline-size: 100%;
+    margin: var(--spacing-050) 0 0;
+    padding: var(--spacing-100) var(--spacing-200);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-background-utility-success-muted) 45%, var(--color-background-utility-success-subtle));
+    color: var(--color-content-default);
+    font-weight: 500;
+  }
+  .bcn-edocs__agreement-glyph {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-utility-success);
+  }
+  .bcn-edocs__sr {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .bcn-edocs__list[data-readonly] .bcn-edocs__row {
+    grid-template-columns: 1rem minmax(0, 1fr) 6.5rem;
+  }
+  .bcn-edocs__date {
+    padding-block-start: 1px;
+    text-align: end;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-edocs__menu {
+    display: inline-flex;
+    justify-content: flex-end;
+    margin-block-start: -3px;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-edocs__row:hover .bcn-edocs__menu,
+  .bcn-edocs__row:focus-within .bcn-edocs__menu,
+  .bcn-edocs__menu:has(esa-dropdown-menu[open]) {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .bcn-edocs__menu {
+      opacity: 1;
+    }
+  }
+  .bcn-edocs__empty :global(.esa-empty-state) {
+    padding-block: var(--spacing-300);
+  }
+</style>

@@ -1,0 +1,557 @@
+---
+// <BcnPlanSettingsPage> — a plan's settings as a page (2026-10-28, the proposal: "The Plan Settings modal shipped today
+// graduates to a settings page when Fields and Pages arrive: fields and layouts need room and a preview"). A left nav of
+// sections, one shown at a time; one Save Changes for all of them, in the page header.
+//
+//   General          name and description                                  (BcnPlanSetupDialog's, ported)
+//   What It Tracks   Schedule, Budget, or both                             (ported)
+//   Levels           the plan's levels top down; add and remove at the bottom, as Beacon's rules  (ported)
+//   Fields and Pages per level, its fields and its page layout, with a live preview (BcnPlanFieldsPages); the level
+//                    picker sits under it in the nav, as in the proposal's wireframe
+//   Lists            what the modules offer: document types, completion results, transmittal purposes, agencies, and
+//                    the days a recipient has to confirm receipt
+//   People           who works on it and their role                        (ported)
+//   Danger Zone      Delete Plan                                           (ported)
+//
+// Settings, like a repository's: saving makes no revision. Only an Owner changes them; anyone else reads them (and can
+// still preview each level's page). The runtime is ./plan-settings-page.ts; Save, Discard and Save as Template sit in
+// the page's header (settings/index.astro).
+//
+// bcn-lego-checked: fields ARE esa-text-field / esa-textarea, the views' toggles ARE esa-switch-toggle, roles ARE
+// esa-select, Add a Person IS esa-combobox, avatars ARE esa-avatar (BcnPlanPeople), lists ARE BcnPlanListEditor, Delete
+// sits in BcnDangerZone, asks go through esa-confirm-dialog, Save as Template IS esa-dialog, glyphs ARE esa-icon, every
+// action IS esa-button, a missing plan IS esa-empty-state. The level and person rows and the views' cards are
+// BcnPlanSetupDialog's, moved onto the page. The section nav follows BcnSettingsNav's quiet rail, which can't be reused:
+// it is bound to the Unified Settings registry and its routes. esa-sidebar-nav is the app's rail (a 280px collapsible
+// column of routes), not a page's section list. Checked Beacon (plan-settings-drawer has levels only). The CSS is the
+// nav, the sections and the rows the dialog had.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnDangerZone from './BcnDangerZone.astro';
+import BcnPlanFieldsPages from './BcnPlanFieldsPages.astro';
+import BcnPlanListEditor from './BcnPlanListEditor.astro';
+import BcnFieldDefDialog from './BcnFieldDefDialog.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
+
+const SECTIONS = [
+  { id: 'general', label: 'General', icon: 'file-text' },
+  { id: 'tracks', label: 'What It Tracks', icon: 'square-chart-gantt' },
+  { id: 'levels', label: 'Levels', icon: 'list-tree' },
+  { id: 'fields', label: 'Fields and Pages', icon: 'layout-template' },
+  { id: 'lists', label: 'Lists', icon: 'tag' },
+  { id: 'people', label: 'People', icon: 'users' },
+  { id: 'danger', label: 'Danger Zone', icon: 'triangle-alert' },
+];
+const LISTS = [
+  { id: 'documentTypes', title: 'Document Types', noun: 'Document Type', placeholder: 'e.g. Field Notes', hint: 'What a document can be filed as. Each level’s Documents module can offer some or all of them.' },
+  { id: 'results', title: 'Completion Results', noun: 'Result', placeholder: 'e.g. Accepted', hint: 'What Record Completion offers as the outcome of a deliverable.' },
+  { id: 'purposes', title: 'Transmittal Purposes', noun: 'Purpose', placeholder: 'e.g. For Review', hint: 'Why a deliverable is sent, chosen on each transmittal.' },
+  { id: 'agencies', title: 'Agencies', noun: 'Agency', placeholder: 'e.g. USFWS', hint: 'The agencies the plan sends to and hears from, for correspondence and transmittals.' },
+];
+---
+
+<div class="bcn-psp" data-bcn-plan-settings>
+  <nav class="bcn-psp__nav" aria-label="Settings sections" data-psp-nav hidden>
+    <ul class="bcn-psp__nav-list" role="list">
+      {
+        SECTIONS.map((s) => (
+          <li class="bcn-psp__nav-item">
+            <a class={`bcn-psp__link typography-body-sm${s.id === 'danger' ? ' bcn-psp__link--danger' : ''}`} data-psp-link={s.id}>
+              <EsaIcon name={s.icon} paths={PLAN_ICON_PATHS[s.icon]} size="sm" />
+              <span class="bcn-psp__link-text">{s.label}</span>
+              <span class="bcn-psp__dot" data-psp-dirty hidden><span class="bcn-psp__vh">, changed</span></span>
+            </a>
+            {s.id === 'fields' && <ul class="bcn-psp__levels" role="list" aria-label="Level" data-psp-levels hidden />}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="bcn-psp__body" data-psp-body hidden>
+    <p class="bcn-psp__readonly typography-body-sm" data-psp-readonly hidden>
+      <EsaIcon name="eye" size="sm" /><span data-psp-readonly-text>Only the plan’s Owners change its settings. You can look through them and preview each level’s page.</span>
+    </p>
+
+    <!-- ── General ── -->
+    <section class="bcn-psp__section" data-psp-section="general" aria-labelledby="psp-general" hidden>
+      <h2 class="bcn-psp__heading" id="psp-general">General</h2>
+      <esa-text-field data-psp="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
+      <esa-textarea data-psp="description" label="Description" size="sm" rows="3" placeholder="Optional"></esa-textarea>
+    </section>
+
+    <!-- ── What It Tracks ── -->
+    <section class="bcn-psp__section" data-psp-section="tracks" aria-labelledby="psp-tracks" hidden>
+      <h2 class="bcn-psp__heading" id="psp-tracks">What It Tracks</h2>
+      <p class="bcn-psp__hint typography-body-sm">A schedule, a budget, or both. Turning one off hides it; nothing in it is deleted.</p>
+      <div class="bcn-psp__views">
+        <div class="bcn-psp__view" data-psp-view="schedule">
+          <span class="bcn-psp__view-glyph"><EsaIcon name="calendar" paths={PLAN_ICON_PATHS.calendar} size="md" /></span>
+          <span class="bcn-psp__view-text"><b>Schedule</b><span class="typography-body-sm">Dates and dependencies on a Gantt chart</span></span>
+          <esa-switch-toggle size="sm" aria-label="Schedule" data-psp-view-toggle></esa-switch-toggle>
+        </div>
+        <div class="bcn-psp__view" data-psp-view="budget">
+          <span class="bcn-psp__view-glyph"><EsaIcon name="sheet" paths={PLAN_ICON_PATHS.sheet} size="md" /></span>
+          <span class="bcn-psp__view-text"><b>Budget</b><span class="typography-body-sm">Money by fiscal year in a sheet</span></span>
+          <esa-switch-toggle size="sm" aria-label="Budget" data-psp-view-toggle></esa-switch-toggle>
+        </div>
+      </div>
+      <p class="bcn-psp__error typography-body-sm" data-psp-views-error hidden>Pick at least one.</p>
+    </section>
+
+    <!-- ── Levels ── -->
+    <section class="bcn-psp__section" data-psp-section="levels" aria-labelledby="psp-levels" hidden>
+      <h2 class="bcn-psp__heading" id="psp-levels">Levels</h2>
+      <p class="bcn-psp__hint typography-body-sm">From the top of the plan down, up to 4. Only the lowest level can be removed, and not while items use it.</p>
+      <div class="bcn-psp__level bcn-psp__level--head typography-label-sm" aria-hidden="true">
+        <span></span><span>Singular</span><span>Plural</span><span></span>
+      </div>
+      <div class="bcn-psp__levels-rows" data-psp-level-rows></div>
+      <span class="bcn-psp__add" data-psp-add-level><EsaButton variant="ghost" size="xs" icon="plus">Add Level</EsaButton></span>
+    </section>
+
+    <!-- ── Fields and Pages ── -->
+    <section class="bcn-psp__section bcn-psp__section--wide" data-psp-section="fields" aria-label="Fields and Pages" hidden>
+      <BcnPlanFieldsPages />
+    </section>
+
+    <!-- ── Lists ── -->
+    <section class="bcn-psp__section bcn-psp__section--lists" data-psp-section="lists" aria-labelledby="psp-lists" hidden>
+      <h2 class="bcn-psp__heading" id="psp-lists">Lists</h2>
+      <p class="bcn-psp__hint typography-body-sm">What the plan’s modules offer, in the order they offer it. Renaming one carries through to the levels that use it.</p>
+      <div class="bcn-psp__lists">
+        {
+          LISTS.map((l) => (
+            <div class="bcn-psp__list" data-psp-list={l.id}>
+              <h3 class="bcn-psp__subheading typography-label-sm-strong" id={`psp-list-${l.id}`}>{l.title}</h3>
+              <p class="bcn-psp__hint typography-body-sm">{l.hint}</p>
+              <div role="group" aria-labelledby={`psp-list-${l.id}`}>
+                <BcnPlanListEditor noun={l.noun} placeholder={l.placeholder} id={l.id} />
+              </div>
+            </div>
+          ))
+        }
+        <div class="bcn-psp__list">
+          <h3 class="bcn-psp__subheading typography-label-sm-strong">Days to Confirm Receipt</h3>
+          <p class="bcn-psp__hint typography-body-sm">How long a To recipient has to confirm a transmittal before Beacon reminds them and the sender.</p>
+          <esa-text-field class="bcn-psp__days" data-psp="ackDays" type="number" size="sm" aria-label="Days to Confirm Receipt" suffix="days" inputmode="numeric"></esa-text-field>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── People ── -->
+    <section class="bcn-psp__section" data-psp-section="people" aria-labelledby="psp-people" hidden>
+      <h2 class="bcn-psp__heading" id="psp-people">People</h2>
+      <p class="bcn-psp__hint typography-body-sm">Owners and Editors publish to Live. Contributors draft and ask to publish. Guests (agency reviewers) see only the transmittals sent to them. Owners also change these settings.</p>
+      <ul class="bcn-psp__people" role="list" data-psp-people></ul>
+      <esa-combobox class="bcn-psp__find" data-psp-add-person mode="autocomplete" size="sm" label="Add a Person" placeholder="e.g. Dana Whitfield"></esa-combobox>
+      <p class="bcn-psp__error typography-body-sm" data-psp-people-error hidden>A plan needs an Owner.</p>
+    </section>
+
+    <!-- ── Danger Zone ── -->
+    <section class="bcn-psp__section" data-psp-section="danger" aria-label="Danger Zone" hidden>
+      <BcnDangerZone title="Delete This Plan" description="Its revisions, drafts, budget and records go with it. This can't be undone.">
+        <span data-psp-delete><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete Plan</EsaButton></span>
+      </BcnDangerZone>
+    </section>
+  </div>
+
+  <div class="bcn-psp__missing" data-psp-missing hidden>
+    <EsaEmptyState title="Plan Not Found" description="Go back to Plans and open it from there.">
+      <span data-psp-missing-back><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Plans</EsaButton></span>
+    </EsaEmptyState>
+  </div>
+
+  <!-- Save as Template: a name, nothing else. -->
+  <esa-dialog class="bcn-psp__template-dialog" heading="Save as Template" show-close-button data-psp-template-dialog>
+    <div class="bcn-psp__template-form">
+      <p class="bcn-psp__hint typography-body-sm" data-psp-template-hint>The plan’s levels, fields, page layouts and lists, under a name New Plan can start from. Its items, dates, money and people stay with this plan.</p>
+      <esa-text-field data-psp="templateName" label="Template Name" size="sm" required maxlength="80"></esa-text-field>
+    </div>
+    <div slot="footer" class="bcn-psp__dialog-footer">
+      <span data-psp-template-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-psp-template-save><EsaButton variant="primary" size="sm">Save Template</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <esa-confirm-dialog data-psp-confirm></esa-confirm-dialog>
+  <BcnFieldDefDialog />
+
+  <template data-psp-tpl="level">
+    <div class="bcn-psp__level">
+      <span class="bcn-psp__level-label typography-label-sm" data-level-label>Level 1</span>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="singular"></esa-text-field>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="plural"></esa-text-field>
+      <span class="bcn-psp__level-remove" data-level-remove-wrap>
+        <esa-tooltip text="Remove Level" data-level-remove-tip><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove Level" /></esa-tooltip>
+      </span>
+    </div>
+  </template>
+  <template data-psp-tpl="person">
+    <li class="bcn-psp__person">
+      <span data-person-avatar></span>
+      <span class="bcn-psp__person-name typography-body-sm" data-person-name></span>
+      <esa-select class="bcn-psp__role" size="sm" aria-label="Role" data-person-role></esa-select>
+      <span data-person-remove><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></span>
+    </li>
+  </template>
+  <template data-psp-tpl="level-link">
+    <li><button type="button" class="bcn-psp__level-link typography-body-sm" data-psp-level></button></li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-psp {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: var(--spacing-600);
+    align-items: start;
+    min-inline-size: 0;
+  }
+  .bcn-psp :global([hidden]) {
+    display: none !important;
+  }
+
+  /* ── The section nav: BcnSettingsNav's quiet rail. Current is the sunken wash; hover is half of it. ── */
+  .bcn-psp__nav {
+    position: sticky;
+    top: var(--spacing-400);
+  }
+  .bcn-psp__nav-list,
+  .bcn-psp__levels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .bcn-psp__nav-item:last-child {
+    margin-block-start: var(--spacing-300);
+    padding-block-start: var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-psp__link,
+  .bcn-psp__level-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+    padding: var(--spacing-150) var(--spacing-300);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: none;
+    color: var(--color-content-default-secondary);
+    font-family: inherit;
+    font-size: var(--typography-body-sm-font-size);
+    line-height: var(--typography-body-sm-line-height);
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+  .bcn-psp__link :global(.esa-icon) {
+    flex: none;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-psp__link-text {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .bcn-psp__link:hover,
+  .bcn-psp__level-link:hover {
+    background: color-mix(in srgb, var(--color-background-elevation-sunken) 50%, transparent);
+    color: var(--color-content-default);
+  }
+  .bcn-psp__link[aria-current='page'],
+  .bcn-psp__level-link[aria-current='true'] {
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
+  }
+  .bcn-psp__link[aria-current='page'] :global(.esa-icon) {
+    color: var(--color-content-default);
+  }
+  .bcn-psp__link--danger[aria-current='page'],
+  .bcn-psp__link--danger[aria-current='page'] :global(.esa-icon) {
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-psp__link:focus-visible,
+  .bcn-psp__level-link:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  /* The levels hang under Fields and Pages, indented to its words. */
+  .bcn-psp__levels {
+    margin-block: var(--spacing-100) var(--spacing-200);
+    padding-inline-start: calc(var(--spacing-300) + 16px);
+    border-inline-start: 0;
+  }
+  .bcn-psp__level-link {
+    padding-block: var(--spacing-100);
+    font-size: var(--typography-body-xs-font-size, 0.8125rem);
+  }
+  .bcn-psp__level-link[data-all] {
+    margin-block-end: var(--spacing-100);
+  }
+  /* A section with unsaved changes. */
+  .bcn-psp__dot {
+    flex: none;
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--color-background-brand);
+  }
+  .bcn-psp__vh {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ── Sections ── */
+  .bcn-psp__body {
+    min-inline-size: 0;
+  }
+  .bcn-psp__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    max-inline-size: 44rem;
+  }
+  .bcn-psp__section--wide,
+  .bcn-psp__section--lists {
+    max-inline-size: none;
+  }
+  .bcn-psp__heading {
+    margin: 0;
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-psp__subheading {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-psp__hint {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-psp__error {
+    margin: 0;
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-psp__readonly {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0 0 var(--spacing-400);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* What it tracks: BcnPlanSetupDialog's two cards. On is outlined in brand; the whole card toggles. */
+  .bcn-psp__views {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--spacing-300);
+  }
+  .bcn-psp__view {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-psp__view[data-on] {
+    border-color: var(--color-background-brand);
+    background: color-mix(in srgb, var(--color-background-brand) 5%, var(--color-background-elevation-raised));
+  }
+  .bcn-psp[data-readonly] .bcn-psp__view {
+    cursor: default;
+  }
+  .bcn-psp__view-glyph {
+    display: inline-flex;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-psp__view[data-on] .bcn-psp__view-glyph {
+    color: var(--color-content-brand);
+  }
+  .bcn-psp__view-text {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+  .bcn-psp__view-text b {
+    font-weight: 600;
+  }
+  .bcn-psp__view-text span {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Levels: BcnPlanCreateDialog's grid. */
+  .bcn-psp__levels-rows {
+    display: contents;
+  }
+  .bcn-psp__level {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr 1fr 2rem;
+    align-items: start;
+    gap: var(--spacing-200);
+  }
+  .bcn-psp__level--head {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-psp__level-label,
+  .bcn-psp__level-remove {
+    display: flex;
+    align-items: center;
+    min-block-size: 2.375rem;
+  }
+  .bcn-psp__level-label {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-psp__add {
+    align-self: flex-start;
+  }
+
+  /* Lists: two across. */
+  .bcn-psp__lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: var(--spacing-600) var(--spacing-600);
+    margin-block-start: var(--spacing-200);
+  }
+  .bcn-psp__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+  .bcn-psp__days {
+    max-inline-size: 9rem;
+  }
+
+  /* People: avatar, name, role, remove; one hairline between. */
+  .bcn-psp__people {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-psp__person {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 10rem 2rem;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-300);
+  }
+  .bcn-psp__person + .bcn-psp__person {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-psp__person-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-psp__person-name :global(small) {
+    margin-inline-start: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+  .bcn-psp[data-readonly] .bcn-psp__person {
+    grid-template-columns: auto minmax(0, 1fr) 10rem;
+  }
+  .bcn-psp[data-readonly] [data-person-remove],
+  .bcn-psp[data-readonly] .bcn-psp__find,
+  .bcn-psp[data-readonly] .bcn-psp__add,
+  .bcn-psp[data-readonly] .bcn-psp__level-remove {
+    display: none;
+  }
+  .bcn-psp[data-readonly] .bcn-psp__level {
+    grid-template-columns: 4.5rem 1fr 1fr;
+  }
+
+  .bcn-psp__missing {
+    grid-column: 1 / -1;
+    padding-block: var(--spacing-800, 4rem);
+  }
+
+  .bcn-psp__template-dialog {
+    --dialog-width: min(28rem, calc(100vw - 2rem));
+  }
+  .bcn-psp__template-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-psp__dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+
+  /* The drag's ghost and drop line (./plan-sortable.ts) live on the body, so their look is global. */
+  :global(.bcn-sortable-ghost) {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-content-default) 18%, transparent);
+    opacity: 0.96;
+    list-style: none;
+  }
+  :global(.bcn-sortable-line) {
+    position: fixed;
+    z-index: 2001;
+    block-size: 2px;
+    border-radius: 1px;
+    background: var(--color-background-brand);
+    pointer-events: none;
+  }
+  :global(.bcn-sortable-line)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -3px;
+    inset-block-start: -3px;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--color-background-brand);
+  }
+  :global(html.bcn-sorting),
+  :global(html.bcn-sorting *) {
+    cursor: grabbing !important;
+    user-select: none;
+  }
+
+  @media (max-width: 900px) {
+    .bcn-psp {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .bcn-psp__nav {
+      position: static;
+    }
+  }
+</style>

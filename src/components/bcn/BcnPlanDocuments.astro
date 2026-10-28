@@ -1,0 +1,250 @@
+---
+// <BcnPlanDocuments> — the plan's Documents view (2026-10-28, the proposal's "plan-level Documents view" and "Agency
+// Record"), a third view beside Schedule and Budget. It sits inside the plan page's view panel, which already has a
+// header, so it draws no card or title of its own: a one-row toolbar, then the list.
+//
+//   All Documents   every link across the plan, one row each: the document (name, revision), its type, its date, the
+//                   item it's on (with that item's parent) and the note there. Newest first; search, Type and Study.
+//   Agency Record   the memo's "longitudinal record": every Correspondence document by the LETTER's date, newest
+//                   first, grouped by month, one row per letter (a letter on two items lists both). Date, agency, which
+//                   way, the agreement (what the reader came for), the document and its items. Agency and Study
+//                   filters, and a plain count: "14 Letters, 6 Agreements".
+//
+// Export downloads the rows on screen as CSV. The runtime is ./plan-documents.ts (setupPlanDocumentsView); the view
+// reads the plan's records (plan-records.ts) and redraws when they change, here or in another tab.
+//
+// bcn-lego-checked: the mode IS esa-button-toggle, search IS esa-text-field, facets ARE esa-filter-dropdown in
+// esa-filter-container, Export and Clear Filters ARE esa-button, the empty state IS esa-empty-state. BcnFilterBar
+// would put the mode, the search and the facets on two bands, and this view sits under a panel header already: one
+// row is the panel's rhythm. No esa- lego is a dense table (AG Grid is the analytical grid, more than a read-only list
+// of this size; BcnMiniTable is compile-time); checked Beacon (the checkout isn't in this session). The CSS is the
+// toolbar row and the table.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+---
+
+<div class="bcn-pdocs" data-bcn-plan-documents>
+  <div class="bcn-pdocs__bar">
+    <esa-button-toggle size="md" aria-label="Documents View" data-icons data-pdocs-mode></esa-button-toggle>
+    <FilterContainer>
+      <esa-text-field class="bcn-pdocs__search" type="search" placeholder="Search Documents" aria-label="Search Documents" autocomplete="off" data-pdocs-search></esa-text-field>
+      <span data-pdocs-facet="type"><esa-filter-dropdown size="sm" label="Type" name="type" data-pdocs-filter="type"></esa-filter-dropdown></span>
+      <span data-pdocs-facet="agency" hidden><esa-filter-dropdown size="sm" label="Agency" name="agency" data-pdocs-filter="agency"></esa-filter-dropdown></span>
+      <span data-pdocs-facet="study"><esa-filter-dropdown size="sm" label="Study" name="study" data-pdocs-filter="study"></esa-filter-dropdown></span>
+    </FilterContainer>
+    <span class="bcn-pdocs__end">
+      <span class="bcn-pdocs__summary typography-body-sm" data-pdocs-summary aria-live="polite"></span>
+      <span data-pdocs-export><EsaButton variant="ghost" appearance="outline" size="xs" icon="download">Export</EsaButton></span>
+    </span>
+  </div>
+
+  <div class="bcn-pdocs__scroll" data-pdocs-scroll>
+    <table class="bcn-pdocs__table typography-body-sm" data-pdocs-table></table>
+  </div>
+
+  <div class="bcn-pdocs__empty" data-pdocs-empty hidden>
+    <EsaEmptyState size="sm" title="Nothing Matches" description="Clear the filters to see every document.">
+      <span data-pdocs-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
+    </EsaEmptyState>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+</script>
+
+<style>
+  .bcn-pdocs {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+  .bcn-pdocs :global([hidden]) {
+    display: none !important;
+  }
+
+  /* One row: the mode, what narrows the list, then the count and Export at the right. */
+  .bcn-pdocs__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-300) var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pdocs__search {
+    inline-size: 13rem;
+  }
+  /* One control height, the facets' 32px, and one text size, 14px: BcnFilterBar's compact technique (each lego solved
+     for 32px from its own line box through its private padding hook; see that file for the why). */
+  .bcn-pdocs__bar {
+    --typography-microcopy-md-font-size: 14px;
+    --typography-microcopy-md-strong-font-size: 14px;
+    --typography-microcopy-md-subtle-font-size: 14px;
+  }
+  .bcn-pdocs__bar esa-button-toggle {
+    --_icon-size: 14px;
+    --_pad-y: calc((26px - max(1lh, 14px)) / 2);
+  }
+  .bcn-pdocs__bar esa-text-field {
+    --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
+  }
+  .bcn-pdocs__end {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    margin-inline-start: auto;
+  }
+  .bcn-pdocs__summary {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* The table: dense rows on hairlines, a quiet head, columns sized by what they hold. */
+  .bcn-pdocs__scroll {
+    overflow-x: auto;
+  }
+  .bcn-pdocs__table {
+    inline-size: 100%;
+    min-inline-size: 48rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+    line-height: 1.4;
+    color: var(--color-content-default);
+  }
+  .bcn-pdocs__table :global(th),
+  .bcn-pdocs__table :global(td) {
+    padding: var(--spacing-200) var(--spacing-300);
+    text-align: start;
+    vertical-align: top;
+    overflow-wrap: break-word;
+  }
+  .bcn-pdocs__table :global(th:first-child),
+  .bcn-pdocs__table :global(td:first-child) {
+    padding-inline-start: var(--spacing-400);
+  }
+  .bcn-pdocs__table :global(th:last-child),
+  .bcn-pdocs__table :global(td:last-child) {
+    padding-inline-end: var(--spacing-400);
+  }
+  .bcn-pdocs__table :global(thead th) {
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    color: var(--color-content-default-secondary);
+    border-block-end: 1px solid var(--color-border-default);
+    white-space: nowrap;
+  }
+  .bcn-pdocs__table :global(tbody tr:not(.bcn-pdocs__month) + tr td) {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pdocs__table :global(tbody tr:not(.bcn-pdocs__month):hover td) {
+    background: var(--color-background-overlay-hover);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__date) {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* A month in the Agency Record: its name over its letters, no band. */
+  .bcn-pdocs__table :global(.bcn-pdocs__month th) {
+    padding-block: var(--spacing-400) var(--spacing-150);
+    font-size: var(--font-size-150);
+    font-weight: 600;
+    color: var(--color-content-default);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__month small) {
+    margin-inline-start: var(--spacing-200);
+    font-size: var(--font-size-100);
+    font-weight: 400;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The document: its glyph, its name (a link opens where it points), its revision quiet beside it. */
+  .bcn-pdocs__table :global(.bcn-pdocs__doc) {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr);
+    column-gap: var(--spacing-200);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__glyph) {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__name) {
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-pdocs__table :global(a.bcn-pdocs__name),
+  .bcn-pdocs__table :global(a.bcn-pdocs__item) {
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+  .bcn-pdocs__table :global(a.bcn-pdocs__name:hover),
+  .bcn-pdocs__table :global(a.bcn-pdocs__item:hover) {
+    color: var(--color-content-link-hover);
+    text-decoration: underline;
+  }
+  .bcn-pdocs__table :global(a.bcn-pdocs__name svg) {
+    margin-inline-start: var(--spacing-100);
+    vertical-align: -1px;
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__rev),
+  .bcn-pdocs__table :global(.bcn-pdocs__sub) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__rev) {
+    margin-inline-start: var(--spacing-150);
+    white-space: nowrap;
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__sub) {
+    display: block;
+    margin-block-start: 1px;
+    font-size: var(--font-size-100);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__at + .bcn-pdocs__at) {
+    margin-block-start: var(--spacing-200);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__item) {
+    font-weight: 500;
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__note) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__agency) {
+    font-weight: 600;
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__dir) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* The agreement: a check in the success ink and the words in the default ink, a step heavier than the row. */
+  .bcn-pdocs__table :global(.bcn-pdocs__agreement) {
+    display: grid;
+    grid-template-columns: 0.875rem minmax(0, 1fr);
+    column-gap: var(--spacing-150);
+    font-weight: 500;
+    color: var(--color-content-default);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__agreement svg) {
+    margin-block-start: 3px;
+    color: var(--color-content-utility-success);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__note + .bcn-pdocs__agreement) {
+    margin-block-start: var(--spacing-100);
+  }
+  .bcn-pdocs__table :global(.bcn-pdocs__none) {
+    color: var(--color-content-default-tertiary);
+  }
+
+  .bcn-pdocs__empty :global(.esa-empty-state) {
+    padding-block: var(--spacing-800);
+  }
+</style>

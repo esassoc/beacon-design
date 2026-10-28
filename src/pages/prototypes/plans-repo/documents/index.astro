@@ -1,0 +1,55 @@
+---
+// A plan's Documents view on its own (2026-10-28), a dev route for BcnPlanDocuments while the plan page takes it in
+// as a third view beside Schedule and Budget. `?id=` is the plan. Records attach to Live, so the view lists against
+// Live's elements.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnPlanDocuments from '../../../../components/bcn/BcnPlanDocuments.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - panel -> esa-card                               # stands in for the plan page's view panel
+    - view  -> bcn-plan-documents                     # All Documents and Agency Record
+-->
+
+<AppShell title="Documents" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout
+    title="Documents"
+    icon="files"
+    iconColor="var(--color-content-brand)"
+    iconPaths={PLAN_ICON_PATHS.files}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan', href: withBase('/prototypes/plans-repo/') }, { label: 'Documents' }]}
+  >
+    <EsaCard padding="none">
+      <BcnPlanDocuments />
+    </EsaCard>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { ensureSeeded } from '../../../../lib/planning/plan-repo';
+  import { planApi } from '../../../../lib/planning/plan-server';
+  import { ELEMENT_HREF, PLAN_VIEW_HREF } from '../../../../lib/planning/element-context';
+  import { setupPlanDocumentsView } from '../../../../components/bcn/plan-documents';
+
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-documents]');
+  const planID = new URLSearchParams(location.search).get('id') ?? '';
+  async function mount(root: HTMLElement): Promise<void> {
+    await ensureSeeded();
+    const live = await planApi.getPlan(planID);
+    // The crumb to the plan, filled once the plan is known.
+    const planLink = document.querySelectorAll<HTMLAnchorElement>('.breadcrumbs__items a.breadcrumb-item')[1];
+    if (planLink) {
+      planLink.textContent = live.PlanName ?? 'Plan';
+      planLink.href = PLAN_VIEW_HREF(planID);
+    }
+    document.title = `Documents | ${live.PlanName ?? 'Plan'} | Beacon`;
+    setupPlanDocumentsView(root, { planID, plan: () => live, elementHref: (id) => ELEMENT_HREF(planID, id) }).draw();
+  }
+  if (root && planID) void mount(root);
+</script>

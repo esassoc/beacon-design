@@ -1,0 +1,72 @@
+---
+// A plan's settings, as a page (2026-10-28). `?id=` is the plan; `&section=` opens a section (general, tracks, levels,
+// fields, lists, people, danger); in Fields and Pages, `&level=` and `&tab=` keep your place. SETTINGS_HREF builds it.
+// The head is PageLayout's (the plan's name filled into the crumbs at runtime); Save Changes, Discard and Save as
+// Template sit in its utilities. The body is BcnPlanSettingsPage.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPlanSettingsPage from '../../../../components/bcn/BcnPlanSettingsPage.astro';
+import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - title badge -> esa-badge                        # "Read-Only", for anyone but an Owner
+    - actions     -> esa-button                       # Save as Template, Discard, Save Changes
+    - page        -> bcn-plan-settings-page           # section nav, the sections, Fields and Pages with its preview
+    - people      -> bcn-plan-people                  # the avatar bank
+-->
+
+<AppShell title="Plan Settings" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout
+    title="Plan Settings"
+    icon="settings"
+    iconColor="var(--color-content-brand)"
+    iconPaths={PLAN_ICON_PATHS.settings}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan', href: withBase('/prototypes/plans-repo/') }, { label: 'Settings' }]}
+  >
+    <span slot="title-badge" data-psp-readonly-badge hidden><EsaBadge value="Read-Only" size="sm" /></span>
+    <div slot="utilities" class="bcn-psp-actions" data-psp-actions>
+      <span class="bcn-psp-actions__note typography-body-xs" data-psp-action="note" hidden>Settings make no revision.</span>
+      <span data-psp-action="template" hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="layout-template" data-fill-icon="layout-template">Save as Template</EsaButton></span>
+      <span data-psp-action="discard" hidden><EsaButton variant="ghost" appearance="outline" size="sm">Discard</EsaButton></span>
+      <span data-psp-action="save" hidden><EsaButton variant="primary" size="sm">Save Changes</EsaButton></span>
+    </div>
+    <BcnPlanSettingsPage />
+    <BcnPlanPeople />
+  </PageLayout>
+</AppShell>
+
+<style>
+  .bcn-psp-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-psp-actions [hidden],
+  [data-psp-readonly-badge][hidden] {
+    display: none;
+  }
+  .bcn-psp-actions__note {
+    margin-inline-end: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  /* On the page's gray an outlined ghost washes out: a raised face, as the plan page's header actions. */
+  .bcn-psp-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
+    background: var(--color-background-elevation-raised);
+  }
+</style>
+
+<script>
+  import { fillIcons } from '../../../../lib/planning/icons';
+  import { setupPlanSettingsPage } from '../../../../components/bcn/plan-settings-page';
+  fillIcons(document);
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-settings]');
+  if (root) void setupPlanSettingsPage(root);
+</script>

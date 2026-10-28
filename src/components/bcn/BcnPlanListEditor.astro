@@ -1,0 +1,155 @@
+---
+// <BcnPlanListEditor> — an editable list of names (2026-10-28): a plan's document types, completion results,
+// transmittal purposes and agencies on its settings page, and a Choice field's options in the field dialog. Add one
+// (type it, Enter), rename one in place, drag or move it up and down, remove it. The order is the order the plan offers
+// them in. One hairline between rows, the row's tools on hover or focus, so a list of seven reads as a list, not a form.
+// The runtime is ./plan-list-editor.ts (listEditor(root, ...)); the drag is ./plan-sortable.ts.
+//
+// bcn-lego-checked: the inputs ARE esa-text-field, every button IS esa-button (xs ghost, icon only) under esa-tooltip.
+// esa-input-tag was checked first and doesn't fit: its chips add and remove but don't rename or reorder, and the order
+// here is data. esa-chip-group is a choice, not a list. Checked Beacon (prod edits these lookups in admin grids, one
+// record per dialog; nothing inline to port). bcn-plan-list-editor is the reusable home for an ordered list of names;
+// the CSS is the row and its tools.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+
+interface Props {
+  /** What one entry is, in Title Case ("Document Type"): names the add field and the row buttons. */
+  noun: string;
+  /** An example for the add field ("e.g. Field Notes"). */
+  placeholder?: string;
+  /** A hook for the page's runtime. */
+  id?: string;
+}
+const { noun, placeholder = '', id } = Astro.props;
+---
+
+<div class="bcn-ple" data-bcn-list-editor data-noun={noun} data-ple-id={id}>
+  <ul class="bcn-ple__list" data-ple-list role="list"></ul>
+  <p class="bcn-ple__empty typography-body-sm" data-ple-empty hidden>None yet.</p>
+  <div class="bcn-ple__add" data-ple-add-row>
+    <esa-text-field class="bcn-ple__new" size="sm" data-ple-new aria-label={`New ${noun}`} placeholder={placeholder}></esa-text-field>
+    <span data-ple-add><EsaButton variant="ghost" appearance="outline" size="sm" icon="plus">Add</EsaButton></span>
+  </div>
+
+  <template data-ple-tpl>
+    <li class="bcn-ple__row" data-ple-row>
+      <button type="button" class="bcn-ple__grip" data-ple-grip tabindex="-1" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" set:html={PLAN_ICON_PATHS['grip-vertical']}></svg>
+      </button>
+      <span class="bcn-ple__name typography-body-sm" data-ple-name></span>
+      <esa-text-field class="bcn-ple__field" size="sm" data-ple-field hidden></esa-text-field>
+      <span class="bcn-ple__tools" data-ple-tools>
+        <esa-tooltip text="Rename" position="above"><span data-ple-act="rename"><EsaButton variant="ghost" size="xs" iconOnly icon="pencil" label="Rename" /></span></esa-tooltip>
+        <esa-tooltip text="Move Up" position="above"><span data-ple-act="up"><EsaButton variant="ghost" size="xs" iconOnly icon="arrow-up" label="Move Up" /></span></esa-tooltip>
+        <esa-tooltip text="Move Down" position="above"><span data-ple-act="down"><EsaButton variant="ghost" size="xs" iconOnly icon="arrow-down" label="Move Down" /></span></esa-tooltip>
+        <esa-tooltip text="Remove" position="above" align="end"><span data-ple-act="remove"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></span></esa-tooltip>
+      </span>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-tooltip';
+</script>
+
+<style>
+  .bcn-ple {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+  .bcn-ple :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-ple__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-ple__list:empty {
+    display: none;
+  }
+  .bcn-ple__row {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-block-size: 2.25rem;
+    padding: 0 var(--spacing-150) 0 var(--spacing-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-ple__row + .bcn-ple__row {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-ple__row:first-child {
+    border-start-start-radius: var(--radius-200);
+    border-start-end-radius: var(--radius-200);
+  }
+  .bcn-ple__row:last-child {
+    border-end-start-radius: var(--radius-200);
+    border-end-end-radius: var(--radius-200);
+  }
+  .bcn-ple__row.is-dragging {
+    opacity: 0.35;
+  }
+  .bcn-ple__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+  }
+  .bcn-ple__field {
+    padding-block: var(--spacing-100);
+  }
+  .bcn-ple__grip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-default-tertiary);
+    cursor: grab;
+    touch-action: none;
+  }
+  /* The row's tools wait for the row: on hover, or when a tool has focus (keyboard users tab straight to them). */
+  .bcn-ple__tools {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-ple__row:hover .bcn-ple__tools,
+  .bcn-ple__row:focus-within .bcn-ple__tools {
+    opacity: 1;
+  }
+  .bcn-ple__empty {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ple__add {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+  }
+  .bcn-ple__new {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  /* Read-only: the list alone. */
+  .bcn-ple[data-readonly] .bcn-ple__grip,
+  .bcn-ple[data-readonly] .bcn-ple__tools,
+  .bcn-ple[data-readonly] .bcn-ple__add {
+    display: none;
+  }
+  .bcn-ple[data-readonly] .bcn-ple__row {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline-start: var(--spacing-300);
+  }
+</style>

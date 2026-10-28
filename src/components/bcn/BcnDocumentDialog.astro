@@ -1,0 +1,185 @@
+---
+// <BcnDocumentDialog> — every way a document reaches an element, and every change to one there, in one modal
+// (2026-10-28, decision 8: one immutable File, many thin links, each with its own type, date and note). Five modes:
+//
+//   Add New            files chosen (nothing uploads in the prototype; name and size are recorded), each with its type,
+//                      document date, note and an optional revision label
+//   Add Existing       a file already in the plan's store, with this element's own type, date and note
+//   Add Link           a URL and a title: a link is a document too
+//   Edit Details       one link's type, date and note
+//   Upload New Version a new save of the file, and optionally a new revision label (what a transmittal records)
+//
+// Correspondence is a type with four more fields: Agency, Direction, Received On or Sent On (the letter's own date,
+// kept apart from the day it was added) and Agreement (one line, when the exchange settled something). They feed the
+// plan's Agency Record. The runtime is ./document-dialog.ts; the Documents module (./BcnElementDocuments.astro) opens it.
+//
+// bcn-lego-checked: the shell IS esa-dialog, files ARE esa-file-upload, Type and Agency ARE esa-select, the existing
+// file IS esa-combobox, dates ARE esa-date-picker, Direction IS esa-button-toggle, text IS esa-text-field, the footer
+// buttons ARE esa-button. No esa- lego is a per-file details block (esa-file-upload records which files, not what each
+// is); checked Beacon (the checkout isn't in this session; the proposal's BCN-1596 attach shape, metadata on the
+// association, is what the block follows). The CSS is the block's grid and the correspondence group.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-docd" data-bcn-document-dialog>
+  <esa-dialog class="bcn-docd__dialog" heading="Add Documents" show-close-button data-docd-dialog>
+    <form class="bcn-docd__form" novalidate data-docd-form>
+      <p class="bcn-docd__lede typography-body-sm" data-docd-lede></p>
+
+      <!-- Add New: the files, then what each one is. -->
+      <section class="bcn-docd__section" data-docd-section="new">
+        <div data-docd-upload="new"></div>
+        <div class="bcn-docd__blocks" data-docd-blocks></div>
+      </section>
+
+      <!-- Add Existing: one of the plan's files not on this element yet. -->
+      <section class="bcn-docd__section" data-docd-section="existing">
+        <esa-combobox mode="autocomplete" size="sm" label="Document" placeholder="Search the plan's files" required data-docd-existing></esa-combobox>
+      </section>
+
+      <!-- Add Link: where it points and what to call it. -->
+      <section class="bcn-docd__section" data-docd-section="link">
+        <esa-text-field size="sm" type="url" label="URL" placeholder="e.g. https://esassoc.sharepoint.com/sites/DCP-Fish/Baseline-Plan" help-text="A SharePoint link opens only for people who can already read that folder." required autocomplete="off" data-docd-url></esa-text-field>
+        <esa-text-field size="sm" label="Title" placeholder="e.g. SharePoint: Baseline study plan working folder" required maxlength="160" autocomplete="off" data-docd-title></esa-text-field>
+      </section>
+
+      <!-- Upload New Version: the new save, and the revision it goes out as. -->
+      <section class="bcn-docd__section" data-docd-section="version">
+        <div data-docd-upload="version"></div>
+        <esa-text-field size="sm" label="Revision" placeholder="e.g. Draft 3" help-text="What a transmittal records: Draft 1, Draft 2, Final. Leave it to keep the current one." maxlength="40" autocomplete="off" data-docd-revision></esa-text-field>
+      </section>
+
+      <!-- Existing, Link and Edit: this link's details (one block, filled at runtime). -->
+      <div data-docd-details></div>
+    </form>
+
+    <div slot="footer" class="bcn-docd__footer">
+      <span data-docd-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-docd-save><EsaButton variant="primary" size="sm"><span data-docd-save-label>Add Document</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- A fresh upload per open: the lego keeps its chosen files privately, so a reopened dialog starts from a clone. -->
+  <template data-docd-tpl="upload-new"><esa-file-upload multiple label="Choose Files" max-size-mb="250"></esa-file-upload></template>
+  <template data-docd-tpl="upload-version"><esa-file-upload label="Choose the New Version" max-size-mb="250"></esa-file-upload></template>
+
+  <!-- What one document is, on this element; with several files, each block names its file. The correspondence group
+       shows for that type only. -->
+  <template data-docd-tpl="details">
+    <div class="bcn-docd__block" role="group">
+      <p class="bcn-docd__file typography-label-sm-strong" data-d-file hidden><span data-d-file-name></span> <span class="bcn-docd__file-size typography-body-sm" data-d-file-size></span></p>
+      <div class="bcn-docd__grid">
+        <esa-select size="sm" label="Type" placeholder="Choose a type" required data-d="type"></esa-select>
+        <esa-date-picker size="sm" label="Document Date" help-text="When written or received" required data-d="date"></esa-date-picker>
+        <esa-text-field size="sm" label="Revision" placeholder="e.g. Draft 1" maxlength="40" autocomplete="off" data-d="revision" hidden></esa-text-field>
+      </div>
+      <esa-text-field size="sm" label="Relevance Note" placeholder="Why it matters here" maxlength="200" autocomplete="off" data-d="note"></esa-text-field>
+      <div class="bcn-docd__corr" data-d-corr hidden>
+        <p class="bcn-docd__corr-head typography-label-sm-strong">Correspondence</p>
+        <div class="bcn-docd__grid">
+          <esa-select size="sm" label="Agency" placeholder="Choose an agency" required data-d="agency"></esa-select>
+          <esa-button-toggle size="sm" label="Direction" data-d="direction"></esa-button-toggle>
+          <esa-date-picker size="sm" label="Received On" required data-d="letterDate"></esa-date-picker>
+        </div>
+        <esa-text-field size="sm" label="Agreement" placeholder="e.g. CDFW agreed to the three-site receiver layout" help-text="One line, when the exchange settled something" maxlength="200" autocomplete="off" data-d="agreement"></esa-text-field>
+      </div>
+    </div>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-button-toggle';
+</script>
+
+<style>
+  .bcn-docd__dialog {
+    --dialog-width: min(40rem, calc(100vw - 2rem));
+  }
+  /* The legos set their own display; in this shell `hidden` always wins. */
+  .bcn-docd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-docd__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-docd__lede {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    overflow-wrap: anywhere;
+  }
+  .bcn-docd__lede :global(b) {
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-docd__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-docd__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  /* Several files: each block after the first sits under a hairline, its file named in its legend. */
+  .bcn-docd__blocks > :global(.bcn-docd__block + .bcn-docd__block) {
+    padding-block-start: var(--spacing-400);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* One document's details: Type, Date (and Revision for a new file) side by side; the note under them. */
+  .bcn-docd__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-inline-size: 0;
+  }
+  .bcn-docd__file {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default);
+    overflow-wrap: anywhere;
+  }
+  .bcn-docd__file-size {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-docd__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+
+  /* Correspondence: its four fields grouped under a hairline and a quiet heading. */
+  .bcn-docd__corr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding-block-start: var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-docd__corr-head {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-docd__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+</style>

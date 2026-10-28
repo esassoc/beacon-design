@@ -1,0 +1,77 @@
+---
+// One transmittal (2026-10-28, the proposal's "Transmittals and receipt"). `?plan=` and `&id=` name it
+// (TRANSMITTAL_HREF builds the link); `&sent=1` says it just went out. A plan member sees the sender's record (what was
+// sent, receipt per recipient, the response); a recipient outside the plan (a Guest, `?user=Rowan Hale`) sees what was
+// sent to them and Confirm Receipt. The head is PageLayout's (title, badges and crumbs filled at runtime); the body is
+// BcnTransmittalPage.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnTransmittalPage from '../../../../components/bcn/BcnTransmittalPage.astro';
+import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - title badges -> esa-badge                       # purpose, status
+    - actions      -> esa-button                      # Open Deliverable; a draft's Edit Draft, Send, Delete Draft
+    - page         -> bcn-transmittal-page            # sender: what was sent, receipt, response, the email; recipient: Confirm Receipt
+    - people       -> bcn-plan-people                 # the avatar bank
+-->
+
+<AppShell title="Transmittal" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout
+    title="Transmittal"
+    icon="send"
+    iconColor="var(--color-content-brand)"
+    iconPaths={PLAN_ICON_PATHS.send}
+    breadcrumbs={[
+      { label: 'Plans', href: withBase('/prototypes/plans-repo/') },
+      { label: 'Plan', href: withBase('/prototypes/plans-repo/') },
+      { label: 'Deliverable', href: withBase('/prototypes/plans-repo/') },
+      { label: 'Transmittal' },
+    ]}
+  >
+    <span slot="title-badge" class="trp-badges" data-trp-title-badges></span>
+    <div slot="utilities" class="trp-actions" data-trp-actions>
+      <span data-trp-page-act="edit" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit Draft</EsaButton></span>
+      <span data-trp-page-act="delete" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="trash-2">Delete Draft</EsaButton></span>
+      <span data-trp-page-act="send" hidden><EsaButton variant="primary" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
+      <span data-trp-page-act="deliverable" hidden><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Open Deliverable</EsaButton></a></span>
+    </div>
+    <BcnTransmittalPage />
+    <BcnPlanPeople />
+  </PageLayout>
+</AppShell>
+
+<style>
+  .trp-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .trp-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .trp-actions [hidden] {
+    display: none;
+  }
+  .trp-actions a {
+    text-decoration: none;
+  }
+  /* On the gray page an outlined ghost washes out: a raised face, as the element page's header actions. */
+  .trp-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
+    background: var(--color-background-elevation-raised);
+  }
+</style>
+
+<script>
+  import { setupTransmittalPage } from '../../../../components/bcn/transmittal-page';
+  const root = document.querySelector<HTMLElement>('[data-bcn-transmittal-page]');
+  if (root) void setupTransmittalPage(root);
+</script>

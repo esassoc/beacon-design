@@ -1,0 +1,569 @@
+---
+// <BcnTransmittalPage> — the record of one send (2026-10-28, the proposal's "Transmittals and receipt"). Two readers:
+//
+//   The sender (a plan member): a plain line under the title (from whom, sent when, response due), then What Was Sent
+//   (the memo and the enclosures, each at the version and revision it went out at), Receipt (a row per recipient: To or
+//   Cc, and where they stand: Confirmed, Recorded by someone on their behalf, Opened, Not Yet, Reminded, Overdue; with
+//   Send Reminder and Record Receipt on a To row still outstanding), Response (none yet, or what came back; Record
+//   Response, then Close Transmittal). Beside it, What the Recipient Got: the email, as a quiet card.
+//
+//   A recipient (a Guest, or anyone outside the plan it was sent to): one calm column. Who sent what and why, the memo
+//   and enclosures to download, the dates, and one button, Confirm Receipt (decision 3: a button, not an open; opening
+//   the page is logged as Opened only). Cc recipients see it too; for them it's optional.
+//
+// Sent is final: nothing here edits a sent transmittal. A draft reads the same, with Edit, Send and Delete in the
+// page's actions. The runtime is ./transmittal-page.ts.
+//
+// bcn-lego-checked: the sections ARE esa-card, glyphs ARE esa-icon, every action IS esa-button (banked in templates for
+// the rows), badges ARE esa-badge (BcnBadgeBank), avatars ARE esa-avatar (BcnPlanPeople), the empty state IS
+// esa-empty-state, Record Receipt and Record Response ARE esa-dialog with esa-select / esa-file-upload / esa-textarea, and
+// a draft's edit IS BcnTransmittalDialog. No esa- lego is a recipient row with a receipt state, a file row with a pinned
+// version, or an email preview; checked Beacon (no transmittal record; prod's file rows are BcnFileRow's shape, which
+// has no version line). The CSS is those rows, the section heads and the two layouts.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import BcnBadgeBank from './BcnBadgeBank.astro';
+import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import { withBase } from '../../lib/base';
+---
+
+<div class="bcn-trp" data-bcn-transmittal-page>
+  <p class="bcn-trp__line typography-body-md" data-trp-line hidden></p>
+
+  <!-- ── The sender's view ── -->
+  <div class="bcn-trp__cols" data-trp-sender hidden>
+    <div class="bcn-trp__col">
+      <EsaCard padding="compact">
+        <div slot="header" class="bcn-trp__head">
+          <span class="bcn-trp__glyph"><EsaIcon name="paperclip" paths={PLAN_ICON_PATHS.paperclip} size="sm" /></span>
+          <span class="bcn-trp__titles">
+            <h2 class="bcn-trp__title typography-label-md-strong" data-trp-sent-title>What Was Sent</h2>
+            <span class="bcn-trp__note typography-body-sm" data-trp-sent-note></span>
+          </span>
+        </div>
+        <ul class="bcn-trp__files" data-trp-files></ul>
+      </EsaCard>
+
+      <EsaCard padding="compact">
+        <div slot="header" class="bcn-trp__head">
+          <span class="bcn-trp__glyph"><EsaIcon name="check-check" paths={PLAN_ICON_PATHS['check-check']} size="sm" /></span>
+          <span class="bcn-trp__titles">
+            <h2 class="bcn-trp__title typography-label-md-strong">Receipt</h2>
+            <span class="bcn-trp__note typography-body-sm" data-trp-receipt-note></span>
+          </span>
+        </div>
+        <ul class="bcn-trp__people" data-trp-receipts></ul>
+      </EsaCard>
+
+      <div data-trp-response-card>
+        <EsaCard padding="compact">
+          <div slot="header" class="bcn-trp__head">
+            <span class="bcn-trp__glyph"><EsaIcon name="mail" paths={PLAN_ICON_PATHS.mail} size="sm" /></span>
+            <span class="bcn-trp__titles">
+              <h2 class="bcn-trp__title typography-label-md-strong">Response</h2>
+              <span class="bcn-trp__note typography-body-sm" data-trp-response-note></span>
+            </span>
+            <span class="bcn-trp__actions">
+              <span data-trp-act="respond" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="plus">Record Response</EsaButton></span>
+              <span data-trp-act="close" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Close Transmittal</EsaButton></span>
+            </span>
+          </div>
+          <div class="bcn-trp__response">
+            <p class="bcn-trp__said typography-body-md" data-trp-response-said></p>
+            <ul class="bcn-trp__files" data-trp-response-files></ul>
+            <p class="bcn-trp__by typography-body-sm" data-trp-response-by></p>
+          </div>
+        </EsaCard>
+      </div>
+    </div>
+
+    <div class="bcn-trp__col">
+      <EsaCard padding="compact" variant="filled">
+        <div slot="header" class="bcn-trp__head">
+          <span class="bcn-trp__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
+          <span class="bcn-trp__titles">
+            <h2 class="bcn-trp__title typography-label-md-strong">What the Recipient Got</h2>
+          </span>
+        </div>
+        <div class="bcn-trp__mail">
+          <div class="bcn-trp__mail-head typography-body-sm">
+            <span data-trp-mail-to></span>
+            <span class="bcn-trp__mail-subject typography-label-sm-strong" data-trp-mail-subject></span>
+          </div>
+          <p class="bcn-trp__mail-body typography-body-sm" data-trp-mail-body></p>
+          <span class="bcn-trp__mail-open" data-trp-mail-open><a target="_blank" rel="noopener"><EsaButton variant="ghost" appearance="outline" size="xs" icon="external-link">Open in Beacon</EsaButton></a></span>
+        </div>
+        <p class="bcn-trp__hint typography-body-sm" data-trp-mail-hint></p>
+      </EsaCard>
+
+      <div data-trp-notes-card hidden>
+        <EsaCard padding="compact">
+          <div slot="header" class="bcn-trp__head">
+            <span class="bcn-trp__glyph"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" /></span>
+            <span class="bcn-trp__titles"><h2 class="bcn-trp__title typography-label-md-strong">Notes</h2></span>
+          </div>
+          <p class="bcn-trp__notes typography-body-sm" data-trp-notes></p>
+        </EsaCard>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── The recipient's view ── -->
+  <div class="bcn-trp__mine" data-trp-recipient hidden>
+    <EsaCard>
+      <div class="bcn-trp__mine-body">
+        <div class="bcn-trp__from">
+          <span data-trp-from-avatar></span>
+          <span class="bcn-trp__from-text">
+            <span class="typography-label-md-strong" data-trp-from-name></span>
+            <span class="bcn-trp__muted typography-body-sm" data-trp-from-org></span>
+          </span>
+        </div>
+        <p class="bcn-trp__lede typography-body-md" data-trp-lede></p>
+
+        <section class="bcn-trp__mine-section" aria-labelledby="trp-mine-files">
+          <h2 class="bcn-trp__mine-heading typography-label-sm-strong" id="trp-mine-files" data-trp-mine-files-title>What Was Sent</h2>
+          <ul class="bcn-trp__files" data-trp-mine-files></ul>
+        </section>
+
+        <section class="bcn-trp__mine-section" aria-labelledby="trp-mine-notes" data-trp-mine-notes-wrap hidden>
+          <h2 class="bcn-trp__mine-heading typography-label-sm-strong" id="trp-mine-notes">Notes</h2>
+          <p class="bcn-trp__notes typography-body-sm" data-trp-mine-notes></p>
+        </section>
+
+        <section class="bcn-trp__mine-section" aria-labelledby="trp-mine-dates">
+          <h2 class="bcn-trp__mine-heading typography-label-sm-strong" id="trp-mine-dates">Due Dates</h2>
+          <ul class="bcn-trp__dates typography-body-sm" data-trp-dates></ul>
+        </section>
+
+        <div class="bcn-trp__confirm" data-trp-confirm-wrap>
+          <span data-trp-confirm><EsaButton variant="primary" size="sm" icon="check">Confirm Receipt</EsaButton></span>
+          <span data-trp-confirm-cc hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="check">Confirm Receipt</EsaButton></span>
+          <span class="bcn-trp__muted typography-body-sm" data-trp-confirm-hint></span>
+        </div>
+        <p class="bcn-trp__confirmed typography-body-md" data-trp-confirmed hidden>
+          <span class="bcn-trp__confirmed-glyph"><EsaIcon name="circle-check" size="md" /></span>
+          <span data-trp-confirmed-text></span>
+        </p>
+      </div>
+    </EsaCard>
+  </div>
+
+  <div class="bcn-trp__missing" data-trp-missing hidden>
+    <EsaEmptyState title="Not Sent to You" description="Open it from the email it came in.">
+      <a href={withBase('/prototypes/plans-repo/')}><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Plans</EsaButton></a>
+    </EsaEmptyState>
+  </div>
+
+  <!-- ── Record Receipt: on a recipient's behalf (decision 2's fallback) ── -->
+  <esa-dialog class="bcn-trp__dialog" heading="Record Receipt" show-close-button data-trp-receipt-dialog>
+    <div class="bcn-trp__form">
+      <p class="bcn-trp__muted typography-body-sm" data-trp-receipt-lede></p>
+      <EsaFormField label="Evidence" size="sm" helpText="Optional, such as their reply email. An upload is filed on the deliverable as Correspondence.">
+        <esa-select data-trp-receipt-pick size="sm" aria-label="Evidence" placeholder="None"></esa-select>
+      </EsaFormField>
+      <esa-file-upload data-trp-receipt-upload label="Upload Their Reply" max-size-mb="25" hidden></esa-file-upload>
+    </div>
+    <div slot="footer" class="bcn-trp__footer">
+      <span data-trp-receipt-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-trp-receipt-save><EsaButton variant="primary" size="sm" icon="check">Record Receipt</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- ── Record Response ── -->
+  <esa-dialog class="bcn-trp__dialog" heading="Record Response" show-close-button data-trp-response-dialog>
+    <div class="bcn-trp__form">
+      <p class="bcn-trp__muted typography-body-sm" data-trp-response-lede></p>
+      <esa-textarea data-trp-response-text label="What Came Back" size="sm" rows="3" required placeholder="e.g. Eleven comments; two on receiver spacing"></esa-textarea>
+      <EsaFormField label="Response Letter or Comments" size="sm" helpText="Optional. An upload is filed on the deliverable as Correspondence.">
+        <esa-select data-trp-response-pick size="sm" aria-label="Response Letter or Comments" placeholder="None"></esa-select>
+      </EsaFormField>
+      <esa-file-upload data-trp-response-upload label="Upload the Response" max-size-mb="25" hidden></esa-file-upload>
+    </div>
+    <div slot="footer" class="bcn-trp__footer">
+      <span data-trp-response-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-trp-response-save><EsaButton variant="primary" size="sm">Record Response</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <BcnTransmittalDialog />
+
+  <!-- ── Rows, banked for the runtime ── -->
+  <template data-trp-tpl="file">
+    <li class="bcn-trp__file">
+      <span class="bcn-trp__file-glyph"><EsaIcon name="file-text" size="sm" /></span>
+      <span class="bcn-trp__file-text">
+        <span class="bcn-trp__file-name typography-label-sm" data-file-name></span>
+        <span class="bcn-trp__muted typography-body-sm" data-file-sub></span>
+      </span>
+      <span class="bcn-trp__file-version typography-body-sm" data-file-version></span>
+      <span data-file-download><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></span>
+    </li>
+  </template>
+  <template data-trp-tpl="person">
+    <li class="bcn-trp__person">
+      <span data-person-avatar></span>
+      <span class="bcn-trp__person-who">
+        <span class="typography-label-sm" data-person-name></span>
+        <span class="bcn-trp__muted typography-body-sm" data-person-org></span>
+      </span>
+      <span class="bcn-trp__person-role typography-body-sm" data-person-role></span>
+      <span class="bcn-trp__person-state">
+        <span class="bcn-trp__person-line">
+          <span data-person-badge></span>
+          <span class="bcn-trp__muted typography-body-sm" data-person-detail></span>
+        </span>
+        <span class="bcn-trp__person-acts" data-person-acts>
+          <span data-person-act="remind" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="bell">Send Reminder</EsaButton></span>
+          <span data-person-act="record" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Record Receipt</EsaButton></span>
+          <span data-person-act="confirm" hidden><EsaButton variant="primary" size="xs" icon="check">Confirm Receipt</EsaButton></span>
+        </span>
+      </span>
+    </li>
+  </template>
+
+  <BcnBadgeBank />
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-file-upload';
+</script>
+
+<style>
+  .bcn-trp {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    min-width: 0;
+  }
+  .bcn-trp [hidden],
+  .bcn-trp :global([hidden]) {
+    display: none !important;
+  }
+  /* The header line: plain text under the title, as a record page's byline. */
+  .bcn-trp__line {
+    margin: calc(-1 * var(--spacing-300)) 0 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__line :global(b) {
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-trp__line :global([data-tone='danger']) {
+    color: var(--color-content-utility-danger);
+    font-weight: 600;
+  }
+  .bcn-trp__muted {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp :global(.bcn-trp__none) {
+    padding-block: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-trp__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(18rem, 3fr);
+    gap: var(--spacing-400);
+    align-items: start;
+  }
+  .bcn-trp__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    min-width: 0;
+  }
+  @media (max-width: 1080px) {
+    .bcn-trp__cols {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* A section's head: the module card's (BcnElementModule), with its actions at the right. */
+  .bcn-trp__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-trp__glyph {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-trp__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-trp__note {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__note:empty {
+    display: none;
+  }
+  .bcn-trp__note :global([data-tone='warning']) {
+    color: var(--color-content-utility-warning);
+    font-weight: 600;
+  }
+  .bcn-trp__note :global([data-tone='danger']) {
+    color: var(--color-content-utility-danger);
+    font-weight: 600;
+  }
+  .bcn-trp__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  /* Files: a glyph, the name over what it is, the version it went at, a download. */
+  .bcn-trp__files,
+  .bcn-trp__people,
+  .bcn-trp__dates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Lists are grids and their rows subgrids, so the columns line up down the list. */
+  .bcn-trp__files {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    column-gap: var(--spacing-300);
+  }
+  .bcn-trp__files > :global(*) {
+    grid-column: 1 / -1;
+  }
+  .bcn-trp__file {
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-trp__file + .bcn-trp__file,
+  .bcn-trp__person + .bcn-trp__person {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-trp__file-glyph {
+    display: inline-flex;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__file-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .bcn-trp__file-name {
+    color: var(--color-content-default);
+    overflow-wrap: anywhere;
+  }
+  .bcn-trp__file-version {
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* Recipients: avatar, who, To or Cc, where they stand, what you can do. */
+  .bcn-trp__people {
+    display: grid;
+    grid-template-columns: auto minmax(8rem, 11rem) 1.75rem minmax(0, 1fr);
+    column-gap: var(--spacing-300);
+  }
+  .bcn-trp__person {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-trp__person-who {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .bcn-trp__person-role {
+    color: var(--color-content-default-secondary);
+  }
+  /* Where they stand on one line; what the sender can do about it under that, only on a row still outstanding. */
+  .bcn-trp__person-state {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  /* The badge holds its place; the detail wraps beside it. */
+  .bcn-trp__person-line {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-trp__person-line :global(a) {
+    color: var(--color-content-link);
+  }
+  .bcn-trp__person-acts {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-trp__person-acts:not(:has(> :not([hidden]))) {
+    display: none;
+  }
+
+  .bcn-trp__response {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-trp__said {
+    margin: 0;
+    color: var(--color-content-default);
+    white-space: pre-line;
+  }
+  .bcn-trp__by {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__said:empty,
+  .bcn-trp__files:empty {
+    display: none;
+  }
+
+  /* The email, as the recipient saw it: a quiet letter on the sunken card. */
+  .bcn-trp__mail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+  }
+  .bcn-trp__mail-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-block-end: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__mail-subject {
+    color: var(--color-content-default);
+  }
+  .bcn-trp__mail-body {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-trp__mail-open a {
+    text-decoration: none;
+  }
+  .bcn-trp__hint {
+    margin: var(--spacing-300) 0 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__notes {
+    margin: 0;
+    white-space: pre-line;
+    color: var(--color-content-default);
+  }
+
+  /* The recipient's page: one calm column. */
+  .bcn-trp__mine {
+    max-inline-size: 42rem;
+  }
+  .bcn-trp__mine-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  .bcn-trp__from {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-trp__from-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-trp__lede {
+    margin: calc(-1 * var(--spacing-200)) 0 0;
+    color: var(--color-content-default);
+  }
+  .bcn-trp__mine-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-trp__mine-heading {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__dates {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    color: var(--color-content-default);
+  }
+  .bcn-trp__dates :global([data-tone='warning']) {
+    color: var(--color-content-utility-warning);
+    font-weight: 600;
+  }
+  .bcn-trp__confirm {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+    padding-block-start: var(--spacing-400);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-trp__confirmed {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    padding-block-start: var(--spacing-400);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default);
+  }
+  .bcn-trp__confirmed-glyph {
+    display: inline-flex;
+    color: var(--color-content-utility-success);
+  }
+
+  .bcn-trp__missing {
+    padding-block: var(--spacing-700);
+  }
+
+  .bcn-trp__dialog {
+    --dialog-width: min(32rem, calc(100vw - 2rem));
+  }
+  .bcn-trp__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-trp__form p {
+    margin: 0;
+  }
+  .bcn-trp__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+</style>

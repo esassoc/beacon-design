@@ -1,11 +1,139 @@
 ---
-// <BcnElementTransmittals> — the Transmittals module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-transmittals.ts) on the contract in ./element-module.ts.
+// <BcnElementTransmittals> — the Transmittals module on a deliverable's page (2026-10-28, the proposal's "Transmittals
+// and receipt"). Every send of this deliverable, newest first: its number and subject, its purpose (quiet), its status,
+// when it went, how many of its To recipients have confirmed receipt ("2 of 3 Received", in the warning color once
+// someone is past the acknowledgment date) and when a response is due (danger once overdue). A row opens the
+// transmittal's own page. Drafts carry Edit, Send and Delete; New Transmittal opens the dialog, prefilled from the
+// element (its name, its Agency Reviewer, its Review Period, its newest document).
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// Records attach to Live (decision 5): in a draft the list reads the same and nothing edits. The runtime is
+// ./element-transmittals.ts, on the contract in ./element-module.ts; the dialog is BcnTransmittalDialog.
+//
+// bcn-lego-checked: the card IS BcnElementModule (esa-card), badges ARE esa-badge (the page's BcnBadgeBank), the row
+// actions ARE esa-button (banked in a template, cloned per row), the empty state IS esa-empty-state, the dialog IS
+// BcnTransmittalDialog (esa-dialog). No esa- lego is a record list with a two-line row (esa-link-column is a nav list);
+// checked Beacon (prod has no transmittal register). The CSS is the row.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnElementModule from './BcnElementModule.astro';
+import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
 ---
 
 <BcnElementModule key="transmittals">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <span slot="actions" data-tm-new hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="plus">New Transmittal</EsaButton></span>
+
+  <div class="bcn-tm" data-bcn-element-transmittals>
+    <ol class="bcn-tm__list" data-tm-list hidden></ol>
+    <div class="bcn-tm__empty" data-tm-empty hidden>
+      <EsaEmptyState size="xs" title="No Transmittals Yet" description="Send it to its reviewers with New Transmittal." />
+    </div>
+
+    <template data-tm-tpl="row">
+      <li class="bcn-tm__row" data-tm-row>
+        <span class="bcn-tm__num" data-tm-num></span>
+        <span class="bcn-tm__title">
+          <a class="bcn-tm__subject typography-label-sm-strong" data-tm-subject></a>
+          <span data-tm-purpose></span>
+        </span>
+        <span class="bcn-tm__status" data-tm-status></span>
+        <span class="bcn-tm__facts typography-body-sm" data-tm-facts></span>
+        <span class="bcn-tm__acts" data-tm-acts hidden>
+          <span data-tm-act="edit"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
+          <span data-tm-act="send"><EsaButton variant="ghost" appearance="outline" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
+          <span data-tm-act="delete"><EsaButton variant="ghost" size="xs" iconOnly icon="trash-2" label="Delete Draft" /></span>
+        </span>
+      </li>
+    </template>
+
+    <BcnTransmittalDialog />
+  </div>
 </BcnElementModule>
+
+<style>
+  .bcn-tm [hidden] {
+    display: none;
+  }
+  .bcn-tm__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* A row: the number in its own column; the subject and its purpose, then the status, on the first line; the facts
+     (sent, receipt, response) and a draft's actions on the second. The whole row opens the transmittal. */
+  .bcn-tm__row {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      'num title status'
+      '.   facts acts';
+    align-items: center;
+    column-gap: var(--spacing-300);
+    row-gap: var(--spacing-100);
+    padding: var(--spacing-300) var(--spacing-200);
+    margin-inline: calc(-1 * var(--spacing-200));
+    border-radius: var(--radius-200);
+    cursor: pointer;
+  }
+  .bcn-tm__row + .bcn-tm__row {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-tm__row:hover {
+    background: var(--color-background-default-hover);
+  }
+  .bcn-tm__num {
+    grid-area: num;
+    font-family: var(--bcn-font-figures);
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: 600;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-tm__title {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  .bcn-tm__subject {
+    color: var(--color-content-default);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .bcn-tm__row:hover .bcn-tm__subject {
+    text-decoration: underline;
+  }
+  .bcn-tm__status {
+    grid-area: status;
+    justify-self: end;
+    display: inline-flex;
+  }
+  .bcn-tm__facts {
+    grid-area: facts;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-400);
+    color: var(--color-content-default-secondary);
+    min-width: 0;
+  }
+  .bcn-tm__facts :global([data-tone='warning']) {
+    color: var(--color-content-utility-warning);
+    font-weight: 600;
+  }
+  .bcn-tm__facts :global([data-tone='danger']) {
+    color: var(--color-content-utility-danger);
+    font-weight: 600;
+  }
+  .bcn-tm__facts :global([data-tone='success']) {
+    color: var(--color-content-utility-success);
+  }
+  .bcn-tm__acts {
+    grid-area: acts;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+  .bcn-tm__empty {
+    padding-block: var(--spacing-200);
+  }
+</style>

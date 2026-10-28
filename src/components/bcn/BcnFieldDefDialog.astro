@@ -1,0 +1,86 @@
+---
+// <BcnFieldDefDialog> — one field definition, new or edited (2026-10-28, decision 7: plan fields ride on Custom Field
+// Definitions). A definition is the plan's, defined once: its label, its type, its options (Choice and Choices), its unit
+// (Number: read after the value, "30 days") and its help text. Which levels carry it, whether it's required to complete
+// and where it shows are the level's business (the Fields and Pages section), not the definition's.
+//
+// Changing the type of a field items already carry asks first: the values stay where they are, but ones that don't fit
+// the new type won't show. The runtime is ./field-def-dialog.ts (setupFieldDefDialog(root).open(...)).
+//
+// bcn-lego-checked: the shell IS esa-dialog, the inputs ARE esa-text-field / esa-select / esa-textarea, the options ARE
+// BcnPlanListEditor, the ask IS esa-confirm-dialog, the buttons ARE esa-button. Checked Beacon (prod's custom field
+// definition editor is an admin dialog with the same four inputs; this ports its shape). The CSS is the form's rhythm.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanListEditor from './BcnPlanListEditor.astro';
+---
+
+<div class="bcn-fdd" data-bcn-field-def>
+  <esa-dialog class="bcn-fdd__dialog" heading="New Field" show-close-button data-fdd-dialog>
+    <form class="bcn-fdd__form" novalidate data-fdd-form>
+      <esa-text-field data-fdd="label" label="Label" size="sm" required maxlength="60" placeholder="e.g. Field Season"></esa-text-field>
+      <esa-select data-fdd="type" label="Type" size="sm"></esa-select>
+      <div data-fdd-unit-wrap hidden>
+        <esa-text-field data-fdd="unit" label="Unit" size="sm" maxlength="20" placeholder="e.g. days" help-text="Read after the value, as in 30 days."></esa-text-field>
+      </div>
+      <div class="bcn-fdd__options" data-fdd-options-wrap hidden>
+        <span class="bcn-fdd__label typography-label-xs" id="fdd-options-label">Options</span>
+        <div role="group" aria-labelledby="fdd-options-label">
+          <BcnPlanListEditor noun="Option" placeholder="e.g. Spring" id="field-options" />
+        </div>
+        <p class="bcn-fdd__error typography-body-sm" data-fdd-options-error hidden>Add at least one option.</p>
+      </div>
+      <esa-textarea data-fdd="help" label="Help Text" size="sm" rows="2" placeholder="Optional" help-text="Shown under the field where people fill it in."></esa-textarea>
+      <p class="bcn-fdd__usage typography-body-sm" data-fdd-usage hidden></p>
+    </form>
+    <div slot="footer" class="bcn-fdd__footer">
+      <span data-fdd-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-fdd-save><EsaButton variant="primary" size="sm"><span data-fdd-save-label>Add Field</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+  <esa-confirm-dialog data-fdd-confirm></esa-confirm-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-fdd__dialog {
+    --dialog-width: min(30rem, calc(100vw - 2rem));
+  }
+  .bcn-fdd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-fdd__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-fdd__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-fdd__label {
+    color: var(--color-content-default);
+  }
+  .bcn-fdd__error {
+    margin: 0;
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-fdd__usage {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fdd__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+</style>
