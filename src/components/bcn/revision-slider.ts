@@ -29,6 +29,19 @@ export interface RevisionSliderControl {
 
 type CheckEl = HTMLElement & { checked: boolean };
 
+/** The top edge of what's visible above an element: its scroll containers (through shadow roots, as in a dialog) and
+ *  the page's sticky app bar. */
+function clipTop(el: Element): number {
+  let top = 0;
+  for (let at: Element | null = el; at; at = at.assignedSlot ?? at.parentElement ?? ((at.getRootNode() as ShadowRoot).host ?? null)) {
+    const overflow = getComputedStyle(at).overflowY;
+    if (overflow !== 'visible') top = Math.max(top, at.getBoundingClientRect().top);
+  }
+  const bar = document.querySelector('.esa-app-bar');
+  if (bar && ['sticky', 'fixed'].includes(getComputedStyle(bar).position)) top = Math.max(top, bar.getBoundingClientRect().bottom);
+  return top;
+}
+
 export function setupRevisionSlider(root: HTMLElement, stops: readonly RevisionStop[], initial: RevisionSelection, onChange: (s: RevisionSelection) => void): RevisionSliderControl {
   const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
   const track = q<HTMLElement>('[data-rvs-track]');
@@ -74,6 +87,9 @@ export function setupRevisionSlider(root: HTMLElement, stops: readonly RevisionS
     const msg = q<HTMLElement>('[data-rvs-tip-msg]');
     if (stop.render) msg.replaceChildren(stop.render());
     else msg.textContent = stop.message;
+    // Above the track, unless something above would cut it off (the dialog's header, the page's bar); then below.
+    tip.dataset.place = 'above';
+    if (tip.getBoundingClientRect().top < clipTop(track) + 4) tip.dataset.place = 'below';
   }
 
   function render(): void {

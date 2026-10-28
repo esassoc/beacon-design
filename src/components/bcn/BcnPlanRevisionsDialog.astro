@@ -15,7 +15,7 @@
 // The slider is cloned from its template on each open, so its listeners are new for each plan's stops. The runtime is
 // ./plan-revisions-dialog.ts.
 //
-// bcn-lego-checked: the shell IS esa-dialog, the options ARE esa-checkbox, Close / Restore / Publish ARE esa-button,
+// bcn-lego-checked: the shell IS esa-dialog, the options ARE esa-switch-toggle, Close / Restore / Publish ARE esa-button,
 // the slider IS bcn-revision-slider, the chart IS bcn-plan-gantt, avatars ARE esa-avatar (BcnPlanPeople), Current IS
 // esa-badge. No esa- lego is a two-sided comparison of items with struck and marked values; checked Beacon (no
 // revisions UI) and TalentBridge (section-revisions: prose blocks, the pattern this ports). The CSS is the layout of
@@ -75,7 +75,7 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 <template data-prvd-slider-tpl>
   <BcnRevisionSlider>
     <div slot="foot" class="bcn-prvd__options">
-      <esa-checkbox data-prvd-only label="Changes Only" size="sm" checked></esa-checkbox>
+      <esa-switch-toggle data-prvd-only label="Changes Only" size="sm" checked></esa-switch-toggle>
       <span class="bcn-prvd__counts typography-label-sm" data-prvd-counts></span>
     </div>
   </BcnRevisionSlider>
@@ -83,7 +83,7 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 
 <script>
   import '@esa/ecology/esa-dialog';
-  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-text-field';
 </script>
 
@@ -94,8 +94,6 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     --bcn-plan-gantt-max-height: 26rem;
   }
   .bcn-prvd :global([hidden]) { display: none !important; }
-  /* In the dialog's scroll the slider's hover card opens downward, where it isn't clipped. */
-  .bcn-prvd :global(.bcn-rvs__tip) { bottom: auto; top: calc(100% + 8px); }
   .bcn-prvd__body { display: flex; flex-direction: column; gap: var(--spacing-400); }
 
   /* TalentBridge's controls panel: a sunken box around the slider and its options. */

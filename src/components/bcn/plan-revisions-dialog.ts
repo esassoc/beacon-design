@@ -54,10 +54,13 @@ const firstName = (name: string) => name.split(' ')[0];
 const names = (list: readonly string[]) => (list.length <= 1 ? list.join('') : `${list.slice(0, -1).join(', ')} and ${list.at(-1)}`);
 /** "edit 3", "edits 3 to 5". */
 const editsFrom = (first: number, last: number) => (first === last ? `edit ${first}` : `edits ${first} to ${last}`);
-/** "4 days ago, Oct 24, 8:07 AM". */
+/** "4 days ago, Oct 24, 8:07 AM"; past a month the date alone ("Aug 8, 10:57 AM"), since timeAgo is then the date. */
 function whenText(iso: string): string {
   const d = new Date(iso);
-  return `${timeAgo(iso)}, ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  const ago = timeAgo(iso);
+  const date = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(d.getFullYear() !== new Date().getFullYear() ? { year: 'numeric' } : {}) });
+  const at = `${date}, ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  return ago.startsWith('on ') ? at : `${ago}, ${at}`;
 }
 const day = (iso: string | null) =>
   iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Unscheduled';
@@ -366,6 +369,10 @@ export function setupPlanRevisionsDialog(opts: {
         void compute();
       });
       dialog.open = true;
+      // One height whatever the revision shows (2026-10-28, Andy): the panel takes esa-dialog's full max height, its
+      // body scrolling. esa-dialog has no height hook, so its own <dialog> is set once it has rendered.
+      await (dialog as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
+      dialog.shadowRoot?.querySelector<HTMLElement>('dialog')?.style.setProperty('height', 'var(--_dialog-max-height)');
       await compute();
     },
   };

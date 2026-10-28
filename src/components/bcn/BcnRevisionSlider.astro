@@ -7,7 +7,7 @@
 // Domain-free: the host hands it stops ({ author, title, when, message }) and listens for `change`
 // ({ from, to, compareTwo }). The runtime is ./revision-slider.ts (setupRevisionSlider).
 //
-// bcn-lego-checked: Previous / Next ARE esa-button, the compare toggle IS esa-checkbox, the tooltip's avatar IS
+// bcn-lego-checked: Previous / Next ARE esa-button, the compare toggle IS esa-switch-toggle, the tooltip's avatar IS
 // esa-avatar (BcnPlanPeople). No esa- lego is a stepped two-handle slider with ticks and rich stop tooltips:
 // esa-range-slider takes one number with no per-stop content, and BcnPlanGanttRange is a date window over a
 // mini-map. Checked Beacon (no revisions UI). bcn-revision-slider is the reusable home for scrubbing versions.
@@ -35,14 +35,14 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     <span data-rvs-next><EsaButton variant="ghost" appearance="outline" size="sm" iconRight="chevron-right" data-fill-icon="chevron-right">Next</EsaButton></span>
   </div>
   <div class="bcn-rvs__foot">
-    <esa-checkbox data-rvs-compare label="Compare Any Two Revisions" size="sm"></esa-checkbox>
+    <esa-switch-toggle data-rvs-compare label="Compare Any Two Revisions" size="sm"></esa-switch-toggle>
     <!-- foot: the host's own options beside Compare (the revisions dialog's Changes Only and counts, 2026-10-28). -->
     <slot name="foot" />
   </div>
 </div>
 
 <script>
-  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-switch-toggle';
 </script>
 
 <style>
@@ -109,6 +109,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     pointer-events: none;
     z-index: 5;
   }
+  /* Flipped below the track when the room above is cut off (revision-slider.ts). */
+  .bcn-rvs__tip[data-place='below'] { bottom: auto; top: calc(100% + 8px); }
+  /* On a sunken panel a ghost button vanishes into it: Previous and Next keep a raised face. */
+  .bcn-rvs__row :global(.esa-button--variant-ghost .esa-button__native) { background: var(--color-background-elevation-raised); }
+  .bcn-rvs__row :global(.esa-button--variant-ghost .esa-button__native:hover:not(:disabled)) { background: color-mix(in srgb, var(--color-content-default) 6%, var(--color-background-elevation-raised)); }
   .bcn-rvs__tip-body { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
   /* A change note (BcnChangeNote) wraps in the tip rather than cutting the item's name short. */
   .bcn-rvs__tip-msg :global(.bcn-change) { flex-wrap: wrap; row-gap: var(--spacing-100); }
