@@ -157,8 +157,9 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
   .bcn-prvd__rows :global(.bcn-prvd__section) { padding: var(--spacing-200) var(--spacing-400); background: var(--color-background-elevation-sunken); color: var(--color-content-default-secondary); border-block-start: 1px solid var(--color-border-default-subtle); }
   .bcn-prvd__rows :global(.bcn-prvd__section:first-child) { border-block-start: 0; }
   /* Money in the sheet's figures. */
-  .bcn-prvd__rows :global(.bcn-prvd__money :is(del, ins)),
+  .bcn-prvd__rows :global(.bcn-prvd__money :is(del, ins, span)),
   .bcn-prvd__rows :global(.bcn-prvd__shift.bcn-prvd__money) { font-family: var(--bcn-font-figures); font-size: 13px; }
+  .bcn-prvd__rows :global(.bcn-prvd__shift .bcn-prvd__followed) { font-family: var(--typography-font-family-sans, inherit); font-size: var(--font-size-100); }
   .bcn-prvd__rows :global(.bcn-prvd__none) { margin: 0; padding: var(--spacing-400); color: var(--color-content-default-secondary); }
 
   .bcn-prvd__chart { display: flex; flex-direction: column; gap: var(--spacing-200); }

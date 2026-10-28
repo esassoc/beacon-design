@@ -249,19 +249,24 @@ export function setupPlanRevisionsDialog(opts: {
       el.style.setProperty('--depth', String(row.depth));
       const name = Object.assign(document.createElement('span'), { className: 'bcn-prvd__name', textContent: row.label });
       if (row.hasChildren) name.dataset.parent = '';
-      const dates = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates' });
-      const part = (key: 'start' | 'end') => {
+      // Each date named, as the budget's years are (2026-10-28, Andy: "make the schedule changes like that"): Start and
+      // End, or Date for a milestone. A changed row shows only what changed, struck on the left and marked on the right.
+      const dates = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates bcn-prvd__money' });
+      const single = !row.end || row.end === row.start;
+      const keys: { key: 'start' | 'end'; label: string }[] = single ? [{ key: 'start', label: 'Date' }] : [{ key: 'start', label: 'Start' }, { key: 'end', label: 'End' }];
+      const moved = (key: 'start' | 'end') => !!other && other[key] !== row[key];
+      const shown = change && keys.some((k) => moved(k.key)) ? keys.filter((k) => moved(k.key)) : keys;
+      shown.forEach(({ key, label }, i) => {
+        if (i) dates.append(document.createTextNode(', '));
         const text = day(row[key]);
-        if (!other || other[key] === row[key]) return document.createTextNode(text);
-        return Object.assign(document.createElement(side === 'from' ? 'del' : 'ins'), { textContent: text });
-      };
-      dates.append(part('start'));
-      if (row.end && row.end !== row.start) dates.append(document.createTextNode(' – '), part('end'));
+        dates.append(`${label} `, moved(key) ? Object.assign(document.createElement(side === 'from' ? 'del' : 'ins'), { textContent: text }) : Object.assign(document.createElement('span'), { textContent: text }));
+      });
       el.append(name, dates);
       if (side === 'to' && change?.status === 'moved') {
         const followed = !!draft && !own.has(change.id);
         // The shift and why, as two parts (2026-10-28): "+3 months" over "Followed" when it moved with something else.
         const shift = Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift' });
+        shift.classList.add('bcn-prvd__money');
         shift.append(Object.assign(document.createElement('span'), { textContent: change.endOnly ? `End ${signedShift(change.shiftDays)}` : signedShift(change.shiftDays) }));
         if (followed) {
           shift.dataset.followed = '';
@@ -271,7 +276,7 @@ export function setupPlanRevisionsDialog(opts: {
       }
       return el;
     };
-    // A section's heading, only when both kinds of change are in view.
+    // A section's heading for each kind of change in view: Schedule, Budget.
     const heading = (text: string) => Object.assign(document.createElement('div'), { className: 'bcn-prvd__section typography-label-sm-strong', textContent: text });
     // Budget, item by item (2026-10-28): each fiscal year that changed, struck on the left and marked on the right, the
     // net at the end. Tasks carry the money, so these are tasks; their parents' sums follow.
@@ -288,9 +293,8 @@ export function setupPlanRevisionsDialog(opts: {
       if (side === 'to') el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift bcn-prvd__money', textContent: signedDollars(diff.net) }));
       return el;
     };
-    const both = ids.length > 0 && money.length > 0;
     list.replaceChildren(
-      ...(both ? [heading('Schedule')] : []),
+      ...(ids.length ? [heading('Schedule')] : []),
       ...ids.map((id) => {
         const change = byId.get(id);
         const row = document.createElement('div');
