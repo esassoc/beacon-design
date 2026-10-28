@@ -85,15 +85,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
   </section>
 
-  <!-- Scope (2026-10-27): what the chart shows, apart from which plan and version it is. Search narrows the rows to
-       the ones that match (with their parents, and the contents of a matching parent) and marks the hits; Show, Dates
-       and the overview set the stretch of time. -->
-  <section class="bcn-prp__scope" aria-label="What the chart shows">
-    <BcnPlanGanttRange stacked>
-      <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the Plan" aria-label="Search the Plan" autocomplete="off" data-prp-search></esa-text-field>
-    </BcnPlanGanttRange>
-  </section>
-
   <div class="bcn-prp__body">
     <div class="bcn-prp__main">
       <!-- The plan's projected views (2026-10-28, Andy): Schedule, the Gantt, and Budget, the fiscal-year sheet; the
@@ -129,6 +120,16 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
           <span data-prp-asked hidden><EsaBadge value="Publish Requested" variant="neutral" size="sm" /></span>
           </div>
         </header>
+        <!-- Scope (2026-10-27): what the chart shows. Search narrows the rows to the ones that match (with their parents,
+             and the contents of a matching parent) and marks the hits; Show, Dates and the overview set the stretch of
+             time. The panel's filter band, flush under its header, where Documents and Deliverables carry theirs
+             (2026-10-28, Andy: "Why does the documents and deliverables have their filters below the chrome, but
+             schedule and budget above?"): BcnViewToolbar's place, inset and 32px controls. -->
+        <section class="bcn-prp__scope" aria-label="What the chart shows">
+          <BcnPlanGanttRange stacked>
+            <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the Plan" aria-label="Search the Plan" autocomplete="off" data-prp-search></esa-text-field>
+          </BcnPlanGanttRange>
+        </section>
         <div class="bcn-prp__view" data-prp-pane="schedule">
         <BcnPlanGantt label="Plan schedule" />
         <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
@@ -248,17 +249,21 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* Which plan and version this is, and what last happened to it, straight on the page. The scope card under it holds
      what the chart shows. Which plan you're in reads beside the view's title, below. */
   .bcn-prp__head { display: flex; flex-direction: column; }
+  /* The view panel's filter band, as BcnViewToolbar draws it on Documents and Deliverables: flush under the panel's
+     header, the band's inset, a rule under it, 32px controls at 14px. */
   .bcn-prp__scope {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
-    padding: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
     background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-    box-shadow: var(--elevation-2);
+    border-block-end: 1px solid var(--color-border-default);
+    --typography-microcopy-md-font-size: 14px;
+    --typography-microcopy-md-strong-font-size: 14px;
+    --typography-microcopy-md-subtle-font-size: 14px;
   }
-  /* Wide enough to read a phrase (2026-10-28), narrow enough that it and the date cluster share one line. */
+  .bcn-prp__scope :global(esa-text-field) { --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px)); }
+  /* The search: BcnViewToolbar's width, on every view. */
   .bcn-prp__search { inline-size: 16rem; }
   .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__bar[data-band] :is(.bcn-prp__count, .bcn-prp__count-tip) { display: none; }
@@ -400,7 +405,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* The record views carry their own search and filters: no chart scope, and no draft actions (records are Live's). */
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__scope,
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__actions { display: none; }
-  .bcn-prp__view--records { padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
+  /* Flush, as the chart and the sheet: the band runs edge to edge under the header, the table under it. */
+  .bcn-prp__view--records { padding: 0; }
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);

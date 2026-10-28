@@ -1,0 +1,84 @@
+/* bcn-record-table — ONE definition of the plan's record tables (2026-10-28).
+ *
+ * The plan page's Documents and Deliverables views are read-only lists of a few dozen rows: a semantic <table>, not
+ * AG Grid. Each kept its own copy of the table and they drifted: one 14px at weight 400 on 22px lines, the other 14px
+ * on hairlines with a 12px head, neither striped, both reading thin and big beside the Budget sheet (AG Grid, 13px at
+ * 500 to 600). Andy, 2026-10-28: "Why aren't there zebra striping on the tables for deliverables and documents" and
+ * "Why is the typography in the tables too thin and big looking".
+ *
+ * So the table lives here once, on the sheet's density and the hub's grid tokens (--grid-cell-padding-*, the head's
+ * --grid-header-*, the hover's --grid-row-bg-hover). The stripe is not --grid-row-stripe-bg: that token resolves to
+ * --color-background-default, one value off the raised panel these tables sit on, so the band is invisible (the drift
+ * bcn-tree.css records). It mixes the sunken surface into the raised one instead, the same weight as the trees' band.
+ *
+ *   .bcn-rtable              the table: 13px cells at 450 on 1.4 lines, the head 12px at 600, sticky
+ *   .bcn-rtable__primary     the row's name: 600 in the default ink (a link keeps the link ink)
+ *   .bcn-rtable__sub         a quiet second line under a cell's value
+ *   tr[data-rtable-group]    a group's heading row (the Agency Record's months): not striped, not counted
+ *
+ * The edges keep the band's inset (BcnViewToolbar's spacing-400), so the first column sits under the search.
+ *
+ * bcn-lego-checked: no esa- lego is a read-only table (AG Grid is the analytical grid; BcnMiniTable is compile-time);
+ * checked Beacon (prod's lists are ui-grid, whose row and head this ports through the --grid-* tokens).
+ */
+
+.bcn-rtable {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-weight: 450;
+  line-height: 1.4;
+  color: var(--color-content-default);
+}
+.bcn-rtable th,
+.bcn-rtable td {
+  padding: var(--grid-cell-padding-y, var(--spacing-200)) var(--grid-cell-padding-x, var(--spacing-300));
+  text-align: start;
+}
+.bcn-rtable th:first-child,
+.bcn-rtable td:first-child {
+  padding-inline-start: var(--spacing-400);
+}
+.bcn-rtable th:last-child,
+.bcn-rtable td:last-child {
+  padding-inline-end: var(--spacing-400);
+}
+.bcn-rtable thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  font-size: var(--grid-header-font-size, 12px);
+  font-weight: 600;
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  vertical-align: middle;
+  background: var(--color-background-elevation-raised);
+  border-block-end: 1px solid var(--grid-header-border-color, var(--color-border-default));
+}
+.bcn-rtable tbody td {
+  border-block-end: 1px solid var(--grid-row-border-color, var(--color-border-default-subtle));
+}
+.bcn-rtable tbody tr:last-child td {
+  border-block-end: 0;
+}
+/* Every second row on a light band; a group's heading row doesn't count. */
+.bcn-rtable tbody tr:nth-child(even of :not([data-rtable-group])) td {
+  background: color-mix(in srgb, var(--color-background-elevation-sunken) 55%, var(--color-background-elevation-raised));
+}
+.bcn-rtable tbody tr:not([data-rtable-group]):hover td {
+  background: var(--grid-row-bg-hover, var(--color-background-elevation-sunken));
+}
+.bcn-rtable .bcn-rtable__primary {
+  font-weight: 600;
+  color: var(--color-content-default);
+}
+.bcn-rtable a.bcn-rtable__primary {
+  color: var(--color-content-link);
+}
+.bcn-rtable .bcn-rtable__sub {
+  display: block;
+  margin-block-start: 1px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-content-default-secondary);
+}

@@ -88,7 +88,8 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     }
     draw();
   });
-  search.addEventListener('change', (e) => {
+  // As you type, as on every plan view.
+  search.addEventListener('input', (e) => {
     if (e.target !== search) return;
     filters.text = String(search.value ?? '').trim().toLowerCase();
     draw();
@@ -239,6 +240,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     const bodies = [...months.entries()].map(([key, group]) => {
       const tbody = el('tbody');
       const month = el('tr', 'bcn-pdocs__month');
+      month.dataset.rtableGroup = '';
       const th = el('th', '', monthOf(key));
       th.colSpan = 6;
       th.scope = 'colgroup';

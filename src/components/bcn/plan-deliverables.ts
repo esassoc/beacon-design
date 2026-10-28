@@ -20,6 +20,7 @@ import {
   transmittalsFor,
   type Completion,
   type ElementStatus,
+  type Health,
   type HealthReading,
   type Transmittal,
 } from '../../lib/planning/plan-records';
@@ -35,9 +36,8 @@ export interface PlanDeliverablesOptions {
   elementHref: (id: string) => string;
 }
 
-type SelectEl = HTMLElement & { value: string | string[]; options: { value: string; label: string }[] };
+type FacetEl = HTMLElement & { options: { value: string; label: string }[]; _selected: string[] };
 type FieldEl = HTMLElement & { value: string };
-type SwitchEl = HTMLElement & { checked: boolean };
 
 interface Row {
   id: string;
@@ -63,15 +63,21 @@ const endOf = (e: PlanElementDto) => e.SpanEndDate ?? e.EndDate ?? e.StartDate ?
 const addDays = (iso: string, days: number) => new Date(Date.parse(`${iso}T12:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-/** Late or due within 30 days, and not complete: the memo's overdue list. */
-const soon = (r: Row, today: string) => r.status !== 'Complete' && !!r.due && r.due <= addDays(today, 30);
+/** Late, or due within so many days, and not complete: the memo's overdue list at 30. */
+const dueWithin = (r: Row, today: string, days: number) => r.status !== 'Complete' && !!r.due && r.due <= addDays(today, days);
+/** The Due facet: the memo's overdue list, and the quarter ahead. */
+const DUE_OPTIONS = [
+  { value: '30', label: 'Late or Due in 30 Days' },
+  { value: '90', label: 'Late or Due in 90 Days' },
+];
 const healthText = (h: HealthReading) => (h.stale ? `${h.health}, Update Missing` : h.health);
 
 export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverablesOptions): { draw(): void } {
   const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   const search = q<FieldEl>('[data-pdv-search]');
-  const studySelect = q<SelectEl>('[data-pdv-study]');
-  const soonToggle = q<SwitchEl>('[data-pdv-soon]');
+  const studyFacet = q<FacetEl>('[data-pdv-study]');
+  const healthFacet = q<FacetEl>('[data-pdv-health]');
+  const dueFacet = q<FacetEl>('[data-pdv-due]');
   const tbody = q('[data-pdv-rows]');
   const count = q('[data-pdv-count]');
   const tableWrap = q('[data-pdv-table-wrap]');
@@ -80,7 +86,8 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
 
   let term = '';
   let study = '';
-  let onlySoon = false;
+  let healths: string[] = [];
+  let dueDays = 0;
   let sort: { key: SortKey; dir: 1 | -1 } = { key: 'due', dir: 1 };
   let shown: Row[] = [];
 
@@ -169,6 +176,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
 
     const studyCell = cell('bcn-pdv__study');
     studyCell.append(r.study ? document.createTextNode(r.study) : quiet('None'));
+    if (r.study) studyCell.title = r.study;
 
     const due = cell('bcn-pdv__date');
     due.append(r.due ? document.createTextNode(day(r.due)) : quiet('Not Scheduled'));
@@ -215,12 +223,15 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   }
 
   // ── Draw ──
-  function drawStudies(all: Row[]): void {
+  /** The facets offer what the rows hold. */
+  function drawFacets(all: Row[]): void {
     const studies = new Map<string, string>();
     for (const r of all) if (r.studyId) studies.set(r.studyId, r.study);
     if (study && !studies.has(study)) study = '';
-    studySelect.options = [{ value: '', label: 'All Studies' }, ...[...studies].map(([value, label]) => ({ value, label }))];
-    studySelect.value = study;
+    studyFacet.options = [...studies].map(([value, label]) => ({ value, label }));
+    const present = new Set(all.map((r) => r.health.health));
+    healthFacet.options = HEALTH_ORDER.filter((h) => present.has(h as Health)).map((h) => ({ value: h, label: h }));
+    dueFacet.options = DUE_OPTIONS;
   }
 
   function drawSort(): void {
@@ -233,8 +244,8 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   function draw(): void {
     const all = rowsOf(opts.plan());
     const today = todayIso();
-    drawStudies(all);
-    shown = all.filter((r) => (!study || r.studyId === study) && (!onlySoon || soon(r, today)) && matches(r)).sort(compare);
+    drawFacets(all);
+    shown = all.filter((r) => (!study || r.studyId === study) && (!healths.length || healths.includes(r.health.health)) && (!dueDays || dueWithin(r, today, dueDays)) && matches(r)).sort(compare);
     tbody.replaceChildren(...shown.map(drawRow));
     drawSort();
 
@@ -250,9 +261,9 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
     noMatch.hidden = !all.length || shown.length > 0;
     if (!noMatch.hidden) {
       // The overdue list empty is good news, said as such.
-      const onlyThat = onlySoon && !term && !study;
+      const onlyThat = dueDays === 30 && !term && !study && !healths.length;
       noMatch.querySelector('.esa-empty-state__title')!.textContent = onlyThat ? 'Nothing Late or Due in 30 Days' : 'No Deliverables Match';
-      noMatch.querySelector('.esa-empty-state__description')!.textContent = onlyThat ? 'Turn the filter off to see every deliverable.' : 'Clear the filters to see them all.';
+      noMatch.querySelector('.esa-empty-state__description')!.textContent = onlyThat ? 'Clear the Due filter to see every deliverable.' : 'Clear the filters to see them all.';
       const label = noMatch.querySelector('[data-pdv-clear] .esa-button__label');
       if (label) label.textContent = onlyThat ? 'Show All' : 'Clear Filters';
     }
@@ -260,26 +271,32 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   }
 
   // ── Controls ──
-  const ready = Promise.all(['esa-select', 'esa-text-field', 'esa-switch-toggle'].map((n) => customElements.whenDefined(n)));
+  const ready = Promise.all(['esa-filter-dropdown', 'esa-text-field'].map((n) => customElements.whenDefined(n)));
   search.addEventListener('input', () => {
     term = (search.value ?? '').trim();
     draw();
   });
-  studySelect.addEventListener('change', () => {
-    const v = studySelect.value;
-    study = String(Array.isArray(v) ? (v[0] ?? '') : (v ?? ''));
+  const picked = (e: Event) => (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
+  studyFacet.addEventListener('selection-change', (e) => {
+    study = String(picked(e) ?? '');
     draw();
   });
-  soonToggle.addEventListener('change', () => {
-    onlySoon = !!soonToggle.checked;
+  healthFacet.addEventListener('selection-change', (e) => {
+    const v = picked(e);
+    healths = Array.isArray(v) ? v : v ? [v] : [];
+    draw();
+  });
+  dueFacet.addEventListener('selection-change', (e) => {
+    dueDays = Number(picked(e) ?? 0) || 0;
     draw();
   });
   q('[data-pdv-clear]').addEventListener('click', () => {
     term = '';
     study = '';
-    onlySoon = false;
+    healths = [];
+    dueDays = 0;
     search.value = '';
-    soonToggle.checked = false;
+    for (const f of [studyFacet, healthFacet, dueFacet]) f._selected = [];
     draw();
   });
   root.querySelectorAll<HTMLButtonElement>('[data-pdv-sort]').forEach((btn) => {
