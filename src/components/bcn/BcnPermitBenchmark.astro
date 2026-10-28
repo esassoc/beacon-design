@@ -1,0 +1,183 @@
+---
+// <BcnPermitBenchmark> — the permit page's rail card "How long this usually takes": the
+// issuance benchmark for this permit's type × jurisdiction (timelineFor), read off every
+// issued permit on record.
+//
+//   typical (median) days, as the card's figure;
+//   the fastest–slowest range, past-permit count and average review rounds, as facts;
+//   the shared BcnDurationRange strip — marking where THIS permit is (days in review) or
+//     where it landed (days to issue), with the same numbers printed beside it;
+//   for a permit in review, its expected issue date (submittal + typical), or how far past
+//     typical it already is;
+//   the three most recent past permits, linked, and a link to the full Permit timelines.
+//
+// No history for this jurisdiction → a compact esa-empty-state, plus the type's typical
+// across every jurisdiction when one exists (a median of all its past permits, not a mean
+// of medians), drawn on the same strip.
+//
+// The strip's axis is the one BcnPermitDurations uses (the slowest permit on record,
+// rounded up to 30 days), widened only if this permit has run past it — so the card and
+// the timelines table read off the same scale.
+//
+// bcn-lego-checked: composed from esa-card (shell), esa-stat (typical days), BcnKeyValue
+// (row facts), BcnDurationRange (strip), esa-empty-state (no history). Checked Beacon (no
+// duration benchmark in Beacon.Web). Own CSS is only the recent-permits list rows and the
+// link color.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnDurationRange from './BcnDurationRange.astro';
+import {
+  getPermit,
+  timelines,
+  timelineAxisMax,
+  timelineFor,
+  daysInReview,
+  daysToIssue,
+  expectedIssue,
+  daysBetween,
+  fmtDate,
+  TODAY,
+  ROUTES,
+  jurisdiction,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  permitId: string;
+}
+const { permitId } = Astro.props;
+const p = getPermit(permitId);
+const t = p ? timelineFor(p) : undefined;
+
+const inReview = p ? daysInReview(p) : undefined;
+const took = p ? daysToIssue(p) : undefined;
+const current = inReview ?? took;
+
+const all = timelines();
+const axisBase = timelineAxisMax();
+const axisMax = current !== undefined && current > axisBase ? Math.ceil(current / 30) * 30 : axisBase;
+
+// Expected issue for a permit in review; past it, say by how much.
+const expected = p ? expectedIssue(p) : undefined;
+const overdueBy = expected && expected < TODAY ? daysBetween(expected, TODAY) : undefined;
+
+// Recent past permits, never this one.
+const recent = t ? t.samples.filter((s) => s.permitId !== permitId).slice(0, 3) : [];
+
+// Fallback: the type's spread across every jurisdiction.
+const typeDays = !t && p ? all.filter((r) => r.typeId === p.typeId).flatMap((r) => r.samples.map((s) => s.days)) : [];
+const typeWide =
+  typeDays.length > 0
+    ? (() => {
+        const s = [...typeDays].sort((a, b) => a - b);
+        const m = Math.floor(s.length / 2);
+        return {
+          median: s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2),
+          min: s[0],
+          max: s[s.length - 1],
+          count: s.length,
+        };
+      })()
+    : undefined;
+
+const days = (n: number) => `${n} ${n === 1 ? 'day' : 'days'}`;
+---
+
+<EsaCard title="How long this usually takes">
+  <div class="stack bcn-pbench" data-gap="md">
+    {
+      t ? (
+        <>
+          <EsaStat value={t.median} label="Typical days to issue" />
+          <BcnDurationRange min={t.min} median={t.median} max={t.max} axisMax={axisMax} current={current} />
+          <div class="stack" data-gap="xs">
+            <BcnKeyValue layout="row" label="Range" value={`${t.min}–${t.max} days`} />
+            <BcnKeyValue layout="row" label="Past permits" value={String(t.count)} />
+            <BcnKeyValue layout="row" label="Avg. review rounds" value={t.avgReviews.toFixed(1)} />
+            {inReview !== undefined && <BcnKeyValue layout="row" label="In review" value={days(inReview)} />}
+            {inReview !== undefined && expected && (
+              overdueBy !== undefined ? (
+                <BcnKeyValue layout="row" label="Expected" value={`${days(overdueBy)} past typical`} hint={`Typical date was ${fmtDate(expected)}`} />
+              ) : (
+                <BcnKeyValue layout="row" label="Expected" value={fmtDate(expected)} />
+              )
+            )}
+            {took !== undefined && <BcnKeyValue layout="row" label="This permit" value={days(took)} />}
+          </div>
+          {recent.length > 0 && (
+            <div class="stack" data-gap="xs">
+              <h4 class="typography-label-md-strong bcn-pbench__heading">Recent past permits</h4>
+              <ul class="bcn-pbench__recent" role="list">
+                {recent.map((s) => (
+                  <li class="typography-body-sm bcn-pbench__row">
+                    <a class="bcn-pbench__link" href={withBase(ROUTES.permit(s.permitId))}>{s.projectName}</a>
+                    <span class="bcn-pbench__days">{days(s.days)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <EsaEmptyState size="xs" title="No past permits from this agency yet" />
+          {typeWide && (
+            <>
+              <EsaStat value={typeWide.median} label="Typical days, all jurisdictions" />
+              <BcnDurationRange min={typeWide.min} median={typeWide.median} max={typeWide.max} axisMax={axisMax} current={current} />
+              <div class="stack" data-gap="xs">
+                <BcnKeyValue layout="row" label="Range" value={`${typeWide.min}–${typeWide.max} days`} />
+                <BcnKeyValue layout="row" label="Past permits" value={String(typeWide.count)} />
+                {inReview !== undefined && <BcnKeyValue layout="row" label="In review" value={days(inReview)} />}
+                {took !== undefined && <BcnKeyValue layout="row" label="This permit" value={days(took)} />}
+              </div>
+            </>
+          )}
+        </>
+      )
+    }
+    {p && (
+      <a class="typography-body-sm bcn-pbench__link" href={withBase(ROUTES.permitAgency(p.typeId, p.jurisdictionId))}>
+        {p.typeId === 'critical-areas' ? `${jurisdiction(p.jurisdictionId).name} rules and past permits` : 'Past permits at this agency'}
+      </a>
+    )}
+  </div>
+</EsaCard>
+
+<style>
+  .bcn-pbench__heading {
+    margin: 0;
+  }
+  .bcn-pbench__recent {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Name and days always on one row: the name wraps in its column, the days hold the
+     right edge — .repel would drop the days under a long name and not a short one. */
+  .bcn-pbench__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: var(--spacing-300);
+    padding-block: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-pbench__row:last-child {
+    border-block-end: 0;
+  }
+  .bcn-pbench__link {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-pbench__link:hover {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  .bcn-pbench__days {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+</style>

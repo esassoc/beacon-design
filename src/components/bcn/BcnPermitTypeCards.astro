@@ -1,0 +1,85 @@
+---
+// <BcnPermitTypeCards> — the Permit types page's catalogue: one card per permit type,
+// linking to its page. Each names its level, who issues it (the office; for critical areas,
+// every county and city in the statewide index; otherwise the agencies the tracker has seen),
+// and its typical days to issue across all of them (the median of every issued permit of
+// the type).
+//
+// bcn-lego-checked: each card is esa-card with esa-badge for the level and bcn-key-value
+// facts, in the .grid layout primitive; the title link is the one interactive element. No
+// esa-* link-card exists (esa-link-column is a column of links). The CSS is the title link.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { PERMIT_TYPES, PERMITS, ROUTES, daysToIssue, jurisdiction } from '../../data/permit-tracker';
+import { CAO_INDEX } from '../../data/permit-rules';
+import { withBase } from '../../lib/base';
+
+const median = (xs: number[]) => {
+  const s = [...xs].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2);
+};
+
+const cards = PERMIT_TYPES.map((t) => {
+  const permits = PERMITS.filter((p) => p.typeId === t.id);
+  const days = permits.map(daysToIssue).filter((d): d is number => d !== undefined);
+  const agencies = new Set(permits.map((p) => p.jurisdictionId)).size;
+  return {
+    id: t.id,
+    name: t.name,
+    level: t.level,
+    href: withBase(ROUTES.permitType(t.id)),
+    meta: [
+      t.jurisdictionId
+        ? { label: 'Issued by', value: jurisdiction(t.jurisdictionId).name }
+        : t.id === 'critical-areas'
+          ? { label: 'Jurisdictions', value: String(CAO_INDEX.length) }
+          : { label: 'Agencies', value: String(agencies) },
+      { label: 'Typical days', value: days.length ? String(median(days)) : '—' },
+    ],
+  };
+});
+---
+
+<ul class="grid bcn-ptc" data-gap="md" role="list" style="--grid-min: 17rem">
+  {
+    cards.map((c) => (
+      <li>
+        <EsaCard>
+          <div class="stack" data-gap="sm">
+            <div class="repel bcn-ptc__head" data-gap="sm">
+              <a class="bcn-ptc__link typography-title-sm-strong" href={c.href}>
+                {c.name}
+              </a>
+              <EsaBadge value={c.level} variant="secondary" />
+            </div>
+            {c.meta.map((m) => <BcnKeyValue layout="row" label={m.label} value={m.value} />)}
+          </div>
+        </EsaCard>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .bcn-ptc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-ptc > li > :global(*) {
+    block-size: 100%;
+  }
+  .bcn-ptc__head {
+    align-items: start;
+    flex-wrap: nowrap;
+  }
+  .bcn-ptc__link {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-ptc__link:hover {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+// <BcnPermitEditor> — the permit page's section editors: four esa-side-dialogs, each
+// opened by the edit button on its section (`data-permit-edit="<drawer>"`). Sections
+// without one (timeline, history, benchmark) are read-only.
+//
+//   status        Change status — status (BcnStatusSelect, this project's columns grouped
+//                 by backbone category), the day it happened, the expiry (only when the
+//                 new status is an issued one), a note. Saving LOGS the change; the
+//                 timeline's dates are read from that log, never typed in.
+//   details       permit name, agency, agency reference no. (the page header's facts),
+//                 applies to, assigned to, trigger, has conditions
+//   requirement   one application requirement — add a custom one, or edit any: name
+//                 (custom items only; standard ones come from the permit type), assigned
+//                 to, due date, done, document, note; Remove for custom items
+//   dependencies  waits on
+//   file          the current permit file + a replacement upload
+//
+// Wiring in ./permit-editor.ts. Pattern-matched to permitting-details.astro's permit
+// drawer (flat field stack, Save / Cancel footer) and BcnImplementationDialog (status).
+//
+// bcn-lego-checked: the shells ARE esa-side-dialog; every field IS an esa-* lego —
+// esa-select (applies to, assignee, waits on as multiple + chip-mode), esa-textarea,
+// esa-text-field, esa-date-picker, esa-radio-group, esa-checkbox, esa-file-list (the
+// current file) + esa-file-upload (a replacement); footer actions ARE esa-button.
+// Status is BcnStatusSelect because esa-select has no option groups and no live status
+// dot (same reason BcnImplementationDialog uses it). Checked Beacon: no permit editor.
+// The CSS below is the drawer width hook and the status option groups.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusSelect from './BcnStatusSelect.astro';
+import { JURISDICTIONS, getPermit, getSite, permitsOfProject, sitesOf, STAFF, type Permit } from '../../data/permit-tracker';
+import type { PermitEditorConfig } from './permit-editor';
+
+interface Props {
+  /** The permit these drawers edit. */
+  permitId: string;
+}
+const { permitId } = Astro.props;
+const permit = getPermit(permitId);
+if (!permit) throw new Error(`BcnPermitEditor: unknown permit "${permitId}"`);
+
+const sites = sitesOf(permit.projectId);
+const placeOf = (p: Permit) => (p.siteId ? getSite(p.siteId).name : 'Project-wide');
+
+const appliesToOptions = [{ value: '', label: 'Project-wide' }, ...sites.map((s) => ({ value: s.id, label: s.name }))];
+const assigneeOptions = STAFF.map((s) => ({ value: s, label: s }));
+const agencyOptions = JURISDICTIONS.map((j) => ({ value: j.id, label: j.name }));
+const dependsOptions = permitsOfProject(permit.projectId)
+  .filter((p) => p.id !== permit.id)
+  .map((p) => ({ value: p.id, label: `${p.name} (${placeOf(p)})` }));
+const conditionOptions = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+  { value: 'unknown', label: 'Not yet known' },
+];
+
+const config: PermitEditorConfig = {
+  projectId: permit.projectId,
+  permitId: permit.id,
+  name: permit.name,
+  typeId: permit.typeId,
+  statusId: permit.statusId,
+  seed: {
+    name: permit.name,
+    jurisdictionId: permit.jurisdictionId,
+    appliesTo: permit.siteId ?? '',
+    trigger: permit.trigger,
+    assignee: permit.assignee,
+    agencyRef: permit.agencyRef ?? '',
+    conditions: permit.hasConditions === true ? 'yes' : permit.hasConditions === false ? 'no' : 'unknown',
+    dependsOn: [...permit.dependsOn],
+    file: permit.file ? { name: permit.file.name } : null,
+  },
+};
+const rootId = `bcn-pe-${permit.id}`;
+const json = (v: unknown) => JSON.stringify(v);
+---
+
+<div class="bcn-pe" id={rootId} data-config={json(config)}>
+  <esa-side-dialog class="bcn-pe__dialog" data-pe-drawer="status" heading="Change status" size="lg">
+    <div class="stack" data-gap="lg">
+      <div data-pe="status"></div>
+      <esa-date-picker data-pe="status-date" label="Date of change" size="md" required></esa-date-picker>
+      <div data-pe="expires-field" hidden>
+        <esa-date-picker data-pe="expires" label="Expires" size="md"></esa-date-picker>
+      </div>
+      <esa-textarea data-pe="status-note" label="Note" rows="3" auto-resize max-rows="6"></esa-textarea>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-pe-save="status">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pe-cancel="status">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-pe__dialog" data-pe-drawer="details" heading="Edit details" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-pe="name" label="Permit name" size="md" required autocomplete="off"></esa-text-field>
+      <esa-select data-pe="agency" label="Agency" size="md" options={json(agencyOptions)}></esa-select>
+      <esa-text-field data-pe="agency-ref" label="Agency reference no." size="md" autocomplete="off"></esa-text-field>
+      <esa-select data-pe="applies-to" label="Applies to" size="md" options={json(appliesToOptions)}></esa-select>
+      <esa-select data-pe="assignee" label="Assigned to" size="md" options={json(assigneeOptions)}></esa-select>
+      <esa-textarea data-pe="trigger" label="Trigger" rows="3" auto-resize max-rows="6"></esa-textarea>
+      <esa-radio-group data-pe="conditions" label="Has conditions" size="md" orientation="horizontal" options={json(conditionOptions)}></esa-radio-group>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-pe-save="details">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pe-cancel="details">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-pe__dialog" data-pe-drawer="requirement" heading="Requirement" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-pe="req-name" label="Requirement" size="md" required autocomplete="off"></esa-text-field>
+      <esa-select data-pe="req-owner" label="Assigned to" size="md" options={json(assigneeOptions)}></esa-select>
+      <esa-date-picker data-pe="req-due" label="Due" size="md"></esa-date-picker>
+      <esa-checkbox data-pe="req-done" label="Done" size="md"></esa-checkbox>
+      <div class="stack" data-gap="sm">
+        <div data-pe="req-doc-current" hidden><esa-file-list data-pe="req-doc-list" removable></esa-file-list></div>
+        <esa-file-upload data-pe="req-upload" label="Drag and drop the document, or browse" accept=".pdf,.doc,.docx,.xlsx,.jpg,.png" max-size-mb="25"></esa-file-upload>
+      </div>
+      <esa-textarea data-pe="req-note" label="Note" rows="2" auto-resize max-rows="6"></esa-textarea>
+    </div>
+    <div slot="footer" class="repel" data-gap="sm">
+      <span data-pe="req-remove-wrap">
+        <EsaButton variant="ghost" appearance="outline" icon="trash-2" data-pe-remove="requirement">Remove</EsaButton>
+      </span>
+      <div class="cluster" data-gap="sm">
+        <EsaButton variant="primary" data-pe-save="requirement">Save</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" data-pe-cancel="requirement">Cancel</EsaButton>
+      </div>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-pe__dialog" data-pe-drawer="dependencies" heading="Waits on" size="lg">
+    <div class="stack" data-gap="lg">
+      {dependsOptions.length > 0 && (
+        <esa-select data-pe="depends-on" label="Waits on" size="md" multiple chip-mode placeholder="No other permit" options={json(dependsOptions)}></esa-select>
+      )}
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-pe-save="dependencies">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pe-cancel="dependencies">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-pe__dialog" data-pe-drawer="file" heading="Permit file" size="lg">
+    <div class="stack" data-gap="sm">
+      <div data-pe="file-current" hidden><esa-file-list data-pe="file-list" removable></esa-file-list></div>
+      <esa-file-upload data-pe="file-upload" label="Drag and drop the issued permit, or browse" accept=".pdf,.doc,.docx" max-size-mb="25"></esa-file-upload>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-pe-save="file">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pe-cancel="file">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Runtime parts, cloned by the controller (clones keep this component's scoped CSS). -->
+  <template data-pe-tpl="status"><BcnStatusSelect label="Status" options={[{ value: '–', label: '–', color: 'transparent' }]} /></template>
+  <template data-pe-tpl="status-group">
+    <li class="bcn-pe__opt-group" role="group">
+      <span class="bcn-pe__opt-group-label typography-label-sm" data-pe-group-label></span>
+      <ul class="bcn-pe__opt-group-list" role="none" data-pe-group-list></ul>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-radio-group';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-file-list';
+  import '@esa/ecology/esa-file-upload';
+  import { setupPermitEditor } from './permit-editor';
+
+  document.querySelectorAll<HTMLElement>('.bcn-pe').forEach(setupPermitEditor);
+</script>
+
+<style>
+  .bcn-pe [hidden] { display: none; }
+  /* One footprint for every section drawer. */
+  .bcn-pe__dialog { --side-dialog-width-lg: 32rem; }
+
+  /* Status option groups (same treatment as BcnImplementationDialog's). */
+  .bcn-pe__opt-group { list-style: none; }
+  .bcn-pe__opt-group + .bcn-pe__opt-group {
+    margin-block-start: var(--spacing-100, 0.25rem);
+    padding-block-start: var(--spacing-100, 0.25rem);
+    border-block-start: var(--border-width-default, 1px) solid var(--color-border-default);
+  }
+  .bcn-pe__opt-group-label {
+    display: block;
+    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem) var(--spacing-100, 0.25rem);
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-pe__opt-group-list { margin: 0; padding: 0; list-style: none; }
+</style>

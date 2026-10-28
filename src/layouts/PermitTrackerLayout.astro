@@ -1,0 +1,73 @@
+---
+// PermitTrackerLayout — the frame every Permit Tracker page renders inside. The Permit
+// Tracker is a SATELLITE of Beacon, not a Beacon module, so it deliberately does NOT use
+// AppShell (Beacon's side nav, tenant/project switcher). It is BaseLayout (Beacon theme +
+// tokens) around the hub's canonical esa-app-shell with the tracker's own two-item nav and
+// an omnibox over every project and active permit.
+//
+// bcn-lego-checked: esa-app-shell IS the chrome (bar + sidenav + omnibox + profile menu);
+// this layout only feeds it data. The one rule below is the fixed-height parent the shell's
+// header asks for ("render it inside a parent with a fixed height").
+import BaseLayout from './BaseLayout.astro';
+import EsaAppShell from '@esa/ecology/esa-app-shell.astro';
+import { PROJECTS, PERMITS, ROUTES, getProject, scopeLabel } from '../data/permit-tracker';
+import { withBase } from '../lib/base';
+
+interface Props {
+  title: string;
+  /** Nav key that reads as current. */
+  active: 'projects' | 'permits' | 'types';
+}
+const { title, active } = Astro.props;
+
+// Lucide glyphs (inner SVG markup) — folder, file-text, scale.
+const FOLDER = '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>';
+const FILE_TEXT =
+  '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>';
+const SCALE =
+  '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>';
+// Temporary mark: Lucide's stamp, in the shell's brand ink (currentColor).
+const MARK =
+  '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13"/></svg>';
+
+const items = [
+  { key: 'projects', label: 'Projects', href: withBase(ROUTES.projects), icon: FOLDER },
+  { key: 'permits', label: 'Permits', href: withBase(ROUTES.permits), icon: FILE_TEXT },
+  { key: 'types', label: 'Permit types', href: withBase(ROUTES.permitTypes), icon: SCALE },
+];
+
+const activeIds = new Set(PROJECTS.filter((p) => p.status === 'active').map((p) => p.id));
+const searchIndex = [
+  ...PROJECTS.map((p) => ({ id: withBase(ROUTES.project(p.id)), title: p.name, subtitle: p.client, category: 'Projects' })),
+  ...PERMITS.filter((p) => activeIds.has(p.projectId)).map((p) => ({
+    id: withBase(ROUTES.permit(p.id)),
+    title: p.name,
+    subtitle: `${getProject(p.projectId).name} · ${scopeLabel(p)}`,
+    category: 'Permits',
+  })),
+];
+---
+
+<BaseLayout title={`${title} · Permit Tracker`}>
+  <div class="permit-tracker-frame">
+    <EsaAppShell
+      id="permit-tracker"
+      title="Permit Tracker"
+      mark={MARK}
+      brandHref={withBase(ROUTES.projects)}
+      active={active}
+      items={items}
+      userName="Maya Okafor"
+      searchIndex={searchIndex}
+      searchPlaceholder="Search projects and permits"
+    >
+      <slot />
+    </EsaAppShell>
+  </div>
+</BaseLayout>
+
+<style>
+  .permit-tracker-frame {
+    height: 100dvh;
+  }
+</style>

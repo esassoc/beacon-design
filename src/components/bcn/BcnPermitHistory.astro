@@ -1,0 +1,54 @@
+---
+// <BcnPermitHistory> — a permit's status history, the audit trail its timeline is read
+// from: every status change, newest first, with who made it and any note ("Agency
+// comments received", the expiry set on issue). Read-only; changes come from Change
+// status on the timeline, the board's drag and Move menu.
+//
+// The build renders the fixture's history (seedHistory); the client script re-renders
+// from historyOf() — fixture plus the browser's changes — on load and on every store
+// change, through the same historyDays() → BcnChangeLog markup.
+//
+// bcn-lego-checked: no esa-* lego is a dated activity log; BcnChangeLog is the spoke's
+// approved one (date-grouped rail, runtime renderer in change-log.ts) and this is it
+// inside an esa-card. bcn-permit-history is the permit-specific wiring.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnChangeLog from './BcnChangeLog.astro';
+import { getPermit, seedHistory, statusColumn } from '../../data/permit-tracker';
+import { historyDays } from './permit-history';
+
+interface Props {
+  permitId: string;
+}
+const { permitId } = Astro.props;
+const p = getPermit(permitId);
+const days = p ? historyDays(seedHistory(p), (id) => statusColumn(id, p.typeId)) : [];
+---
+
+{p && (
+  <EsaCard title="Status history">
+    <p class="typography-body-md" data-phist-empty hidden={days.length > 0}>No status changes yet</p>
+    {/* Always rendered, even empty, so BcnChangeLog's global styles are on the page for the runtime log. */}
+    <div data-phist={p.id}><BcnChangeLog days={days} /></div>
+  </EsaCard>
+)}
+
+<script>
+  import { getPermit, statusColumn } from '../../data/permit-tracker';
+  import { CHANGE_EVENT, historyOf, loadWorkflows } from '../../lib/permit-status-store';
+  import { renderChangeLog } from './change-log';
+  import { historyDays } from './permit-history';
+
+  document.querySelectorAll<HTMLElement>('[data-phist]').forEach((host) => {
+    const p = getPermit(host.dataset.phist!);
+    if (!p) return;
+    const render = () => {
+      const workflows = loadWorkflows(p.projectId);
+      const days = historyDays(historyOf(p.projectId, p.id), (id) => statusColumn(id, p.typeId, workflows));
+      host.innerHTML = renderChangeLog(days);
+      const empty = host.parentElement?.querySelector<HTMLElement>('[data-phist-empty]');
+      if (empty) empty.hidden = days.length > 0;
+    };
+    render();
+    document.addEventListener(CHANGE_EVENT, render);
+  });
+</script>

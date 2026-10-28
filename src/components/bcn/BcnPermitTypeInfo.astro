@@ -1,0 +1,194 @@
+---
+// <BcnPermitTypeInfo> — on a permit's page, what its permit type says in general and at
+// this permit's agency, each linking to its Permit types page.
+//
+//   {Type} (general) — level, how long it stays valid, typical days to issue across every
+//     agency, and the governing law (as edited, loadLaw). Link: the type's page.
+//   {Type} at {agency} — typical days here. For Critical Areas Review: the agency's
+//     ordinance (link, last amended), the rules' status badge (AI suggested / Edited /
+//     Validated) and "Ordinance changed" when the code moved after review, then the gist
+//     of the rules: process, when review applies, wetland and stream buffer widths. Rules
+//     not read yet say so. Link: the agency's page (full rules and buffer tables).
+//
+// Drawn on the client from the data modules and src/lib/cao-store.ts, so edits made on the
+// Permit types pages show here, and so a permit added in the browser (whose page learns
+// its type and agency from the URL) can use it: the host sets data-type-id /
+// data-jurisdiction-id and fires PERMIT_TYPE_INFO_EVENT. Re-drawn on CAO_EVENT.
+//
+// bcn-lego-checked: shells = esa-card; badges = esa-badge (cloned from SSR templates so
+// they keep their scoped styles); facts reuse cao-render's cited-facts markup. Checked
+// Beacon (no permit-type reference panel). The CSS is the fact grid, links and badges row.
+import '@esa/tokens/a11y.css';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  typeId?: string;
+  jurisdictionId?: string;
+  /** The permit shown: its agency is re-read when it's edited (PERMIT_EDIT_EVENT). */
+  permitId?: string;
+}
+const { typeId, jurisdictionId, permitId } = Astro.props;
+---
+
+<div class="bcn-pti stack" data-gap="lg" data-pti data-type-id={typeId} data-jurisdiction-id={jurisdictionId} data-permit-id={permitId}>
+  <EsaCard title="Permit type">
+    <div class="stack" data-gap="md" data-pti-general></div>
+  </EsaCard>
+  <EsaCard title="At this agency">
+    <div class="stack" data-gap="md" data-pti-agency></div>
+  </EsaCard>
+
+  <template data-pti-badge="suggested"><EsaBadge value="AI suggested" variant="info" /></template>
+  <template data-pti-badge="edited"><EsaBadge value="Edited, not validated" variant="warning" /></template>
+  <template data-pti-badge="validated"><EsaBadge value="Validated" variant="success" /></template>
+  <template data-pti-badge="changed"><EsaBadge value="Ordinance changed" variant="danger" /></template>
+  <template data-pti-badge="example"><EsaBadge value="Example data" variant="secondary" /></template>
+</div>
+
+<script>
+  import { CAO_EVENT, loadLaw, loadOrdinance, loadRules } from '../../lib/cao-store';
+  import { RULE_SECTIONS, agencyName, changedSinceReview, fmtAmended } from '../../data/permit-rules';
+  import { PERMITS, ROUTES, daysToIssue, jurisdiction, permitType, timelines, type PermitTypeId } from '../../data/permit-tracker';
+  import { withBase } from '../../lib/base';
+  import { lawList } from './cao-render';
+  import { PERMIT_TYPE_INFO_EVENT } from '../../lib/added-permits-store';
+  import { PERMIT_EDIT_EVENT, applyPermitEdits } from '../../lib/permit-edits-store';
+  import { getPermit } from '../../data/permit-tracker';
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const median = (xs: number[]) => {
+    const s = [...xs].sort((a, b) => a - b);
+    const m = Math.floor(s.length / 2);
+    return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2);
+  };
+  const facts = (rows: [string, string][]) =>
+    `<dl class="bcn-pti__facts">${rows.map(([k, v]) => `<div class="bcn-pti__fact"><dt class="typography-label-md-strong">${esc(k)}</dt><dd class="typography-body-md">${v}</dd></div>`).join('')}</dl>`;
+  const link = (href: string, text: string) => `<a class="bcn-pti__link typography-body-md" href="${esc(href)}">${esc(text)}</a>`;
+  const out = (href: string, text: string) =>
+    `<a class="bcn-pti__link" href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}<span class="visually-hidden"> (opens in a new tab)</span></a>`;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-pti]')) {
+    const badge = (name: string) => root.querySelector<HTMLTemplateElement>(`[data-pti-badge="${name}"]`)!.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    const cardTitle = (el: HTMLElement, text: string) => {
+      const h = el.closest('.esa-card')?.querySelector('.esa-card__title');
+      if (h) h.textContent = text;
+    };
+
+    const render = () => {
+      if (root.dataset.permitId) {
+        applyPermitEdits();
+        const p = getPermit(root.dataset.permitId);
+        if (p) root.dataset.jurisdictionId = p.jurisdictionId;
+      }
+      const typeId = root.dataset.typeId as PermitTypeId | undefined;
+      const jid = root.dataset.jurisdictionId;
+      if (!typeId || !jid) return;
+      const t = permitType(typeId);
+      const general = root.querySelector<HTMLElement>('[data-pti-general]')!;
+      const agency = root.querySelector<HTMLElement>('[data-pti-agency]')!;
+
+      // ── the type in general ──
+      const all = PERMITS.filter((p) => p.typeId === typeId).map(daysToIssue).filter((d): d is number => d !== undefined);
+      cardTitle(general, t.name);
+      general.innerHTML =
+        facts([
+          ['Level', esc(t.level)],
+          ['Valid for', t.validYears ? `${t.validYears} year${t.validYears === 1 ? '' : 's'}` : 'Does not expire'],
+          ['Typical days, all agencies', all.length ? String(median(all)) : 'No past permits yet'],
+        ]) +
+        `<div class="stack" data-gap="xs"><h4 class="bcn-pti__subhead typography-label-md-strong">Governing law</h4>${lawList(loadLaw(typeId))}</div>` +
+        link(withBase(ROUTES.permitType(typeId)), `All about ${t.name}`);
+
+      // ── the type at this agency ──
+      const name = jurisdiction(jid)?.name ?? agencyName(jid);
+      cardTitle(agency, `${typeId === 'critical-areas' ? jurisdiction(jid)?.criticalAreasName ?? t.name : t.name} at ${name}`);
+      const here = timelines().find((r) => r.typeId === typeId && r.jurisdictionId === jid);
+      const rows: [string, string][] = [['Typical days here', here ? `${here.median} (${here.min}–${here.max}, ${here.count} past)` : 'No past permits here yet']];
+      let rulesHtml = '';
+      const badges: HTMLElement[] = [];
+      if (RULE_SECTIONS[typeId]) {
+        const o = loadOrdinance(jid);
+        const rules = loadRules(jid);
+        if (o?.chapter) rows.push(['Ordinance', o.url ? out(o.url, o.chapter) : esc(o.chapter)], ['Last amended', esc(fmtAmended(o.date) || 'Not shown in the code')]);
+        if (rules) {
+          const statuses = [rules.review.status, rules.wetland.status, rules.stream.status];
+          badges.push(badge(statuses.every((s) => s === 'validated') ? 'validated' : statuses.includes('edited') ? 'edited' : 'suggested'));
+          if (rules.example) badges.push(badge('example'));
+          if (changedSinceReview(o?.date ?? '', rules)) badges.push(badge('changed'));
+          rulesHtml = facts([
+            ['Process', esc(rules.review.current.process)],
+            ['When review applies', esc(rules.review.current.triggers)],
+            ['Wetland buffers', esc(rules.wetland.current.range)],
+            ['Stream buffers', esc(rules.stream.current.range)],
+          ]);
+        } else rulesHtml = `<p class="bcn-pti__none typography-body-md">This agency's rules haven't been read from the code yet.</p>`;
+      }
+      agency.innerHTML =
+        facts(rows) +
+        (badges.length ? `<div class="cluster" data-gap="xs" data-pti-badges></div>` : '') +
+        rulesHtml +
+        link(withBase(ROUTES.permitAgency(typeId, jid)), RULE_SECTIONS[typeId] ? `Full rules and buffer tables for ${name}` : `${t.name} at ${name}`);
+      agency.querySelector('[data-pti-badges]')?.append(...badges);
+    };
+
+    document.addEventListener(CAO_EVENT, render);
+    document.addEventListener(PERMIT_TYPE_INFO_EVENT, render);
+    document.addEventListener(PERMIT_EDIT_EVENT, render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-pti :global(.bcn-pti__facts) {
+    margin: 0;
+  }
+  .bcn-pti :global(.bcn-pti__fact) {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+    column-gap: var(--spacing-400);
+    padding-block: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-pti :global(.bcn-pti__fact:first-child) {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+  @media (max-width: 40rem) {
+    .bcn-pti :global(.bcn-pti__fact) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .bcn-pti :global(.bcn-pti__fact dd) {
+    margin: 0;
+  }
+  .bcn-pti :global(.bcn-pti__subhead),
+  .bcn-pti :global(.bcn-pti__none) {
+    margin: 0;
+  }
+  .bcn-pti :global(.bcn-pti__link) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    inline-size: fit-content;
+  }
+  .bcn-pti :global(.bcn-pti__link:hover) {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  /* The governing law list (cao-render lawList), as BcnGoverningLaw draws it. */
+  .bcn-pti :global(.bcn-gl) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-pti :global(.bcn-gl__item) {
+    padding-block: var(--spacing-150);
+  }
+  .bcn-pti :global(.bcn-gl__cite) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    inline-size: fit-content;
+  }
+  .bcn-pti :global(.bcn-gl__title) {
+    color: var(--color-content-default-secondary);
+  }
+</style>

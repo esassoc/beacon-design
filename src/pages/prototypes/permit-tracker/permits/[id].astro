@@ -1,0 +1,92 @@
+---
+// Permit Tracker — one permit. Everything a person new to the project needs about it on
+// one page: its history with an agency (submittal, review rounds, issuance, expiry — read
+// from the status history, never typed in), what the application needs and which
+// permits it waits on, the permit file, and how long this permit usually takes at this
+// agency. Each editable section has its own Edit button opening a side drawer; the
+// timeline's is Change status. Timeline, history and benchmark are read-only.
+// One static route per permit.
+import PermitTrackerLayout from '../../../../layouts/PermitTrackerLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import BcnPermitDetails from '../../../../components/bcn/BcnPermitDetails.astro';
+import BcnPermitFileCard from '../../../../components/bcn/BcnPermitFileCard.astro';
+import BcnPermitTimeline from '../../../../components/bcn/BcnPermitTimeline.astro';
+import BcnPermitPrerequisites from '../../../../components/bcn/BcnPermitPrerequisites.astro';
+import BcnPermitBenchmark from '../../../../components/bcn/BcnPermitBenchmark.astro';
+import BcnPermitHistory from '../../../../components/bcn/BcnPermitHistory.astro';
+import BcnPermitEditor from '../../../../components/bcn/BcnPermitEditor.astro';
+import BcnPermitTypeInfo from '../../../../components/bcn/BcnPermitTypeInfo.astro';
+import {
+  PERMITS,
+  getProject,
+  jurisdiction,
+  scopeLabel,
+  ROUTES,
+  type Permit,
+} from '../../../../data/permit-tracker';
+import { withBase } from '../../../../lib/base';
+
+export function getStaticPaths() {
+  return PERMITS.map((p) => ({ params: { id: p.id }, props: { permit: p } }));
+}
+
+interface Props {
+  permit: Permit;
+}
+const { permit: p } = Astro.props;
+const project = getProject(p.projectId);
+---
+
+<!-- manifest:
+  layout: PermitTrackerLayout > stack(xl) > sidebar(end)   # SPINE — record column + facts rail
+  sections:
+    - page header   -> esa-page-header           # breadcrumbs, permit name, agency / ref
+    - timeline      -> bcn-permit-timeline       # from the status history; status + days in header; Change status
+    - prerequisites -> bcn-permit-prerequisites  # application checklist, waits on, needed by; Edit
+    - permit file   -> bcn-permit-file-card      # BcnFileRow, or an empty state until issued; Edit
+    - history       -> bcn-permit-history        # every status change, read-only
+    - permit type   -> bcn-permit-type-info      # the type in general + at this agency (critical areas: ordinance, rules gist); links to Permit types
+    - facts rail    -> bcn-permit-details        # trigger, applies to, level, agency, ref no., assignee, conditions; Edit
+    - benchmark     -> bcn-permit-benchmark      # how long this type takes at this agency, read-only
+    - editors       -> bcn-permit-editor         # one side drawer per editable section
+-->
+
+<PermitTrackerLayout title={p.name} active="projects">
+  <div class="stack" data-gap="xl">
+    <EsaPageHeader
+      title={p.name}
+      meta={[
+        { label: 'Agency', value: jurisdiction(p.jurisdictionId).name },
+        { label: 'Reference no.', value: p.agencyRef ?? 'Not yet assigned' },
+      ]}
+    >
+      <EsaBreadcrumbs
+        slot="breadcrumbs"
+        items={[
+          { label: 'Projects', href: withBase(ROUTES.projects) },
+          { label: project.name, href: withBase(ROUTES.project(project.id)) },
+          { label: scopeLabel(p) },
+        ]}
+      />
+    </EsaPageHeader>
+
+    {/* In `.sidebar` the FIRST child is the aside; data-side="end" puts it on the right. */}
+    <div class="sidebar" data-side="end" data-gap="xl">
+      <div class="stack" data-gap="lg">
+        <BcnPermitDetails permitId={p.id} />
+        <BcnPermitBenchmark permitId={p.id} />
+      </div>
+
+      <div class="stack" data-gap="lg">
+        <BcnPermitTimeline permitId={p.id} />
+        <BcnPermitPrerequisites permitId={p.id} editable />
+        <BcnPermitFileCard permitId={p.id} />
+        <BcnPermitHistory permitId={p.id} />
+        <BcnPermitTypeInfo typeId={p.typeId} jurisdictionId={p.jurisdictionId} permitId={p.id} />
+      </div>
+    </div>
+  </div>
+
+  <BcnPermitEditor permitId={p.id} />
+</PermitTrackerLayout>

@@ -1,0 +1,27 @@
+---
+// Permit Tracker — Permit types. The library of the permits the tracker handles: one card
+// per permit type (each opening its page: governing law, and every agency's timeline and,
+// for critical areas, ordinance), then how long each type has taken at each agency,
+// learned from every permit the tracker has seen issued. Replaces "Permit timelines".
+// Fixture: src/data/permit-tracker.ts, src/data/permit-rules.ts.
+import PermitTrackerLayout from '../../../../layouts/PermitTrackerLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import BcnPermitTypeCards from '../../../../components/bcn/BcnPermitTypeCards.astro';
+import BcnPermitDurations from '../../../../components/bcn/BcnPermitDurations.astro';
+---
+
+<!-- manifest:
+  layout: PermitTrackerLayout > stack(2xl)       # SPINE
+  sections:
+    - page header -> esa-page-header              # "Permit types"
+    - types       -> bcn-permit-type-cards        # one card per permit type → its page
+    - timelines   -> bcn-permit-durations         # "Timelines by agency": type × agency grid; a row opens that agency's page
+-->
+
+<PermitTrackerLayout title="Permit types" active="types">
+  <div class="stack" data-gap="2xl">
+    <EsaPageHeader title="Permit types" />
+    <BcnPermitTypeCards />
+    <BcnPermitDurations title="Timelines by agency" />
+  </div>
+</PermitTrackerLayout>

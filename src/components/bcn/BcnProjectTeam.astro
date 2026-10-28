@@ -1,0 +1,149 @@
+---
+// <BcnProjectTeam> — the project page's team drawer: who is working on this project.
+// Opened by any `[data-project-team]` button (the page header's "Team").
+//
+// The only role is project manager, who is listed first and cannot be removed. Anyone
+// else can be added from the people list or removed when they move off the project.
+// Changes save as they're made (no Save step) to src/lib/project-team-store.ts, which
+// the Projects page reads for "My projects".
+//
+// Rows are rendered by the client from the store, cloned from a <template> so the
+// Remove button stays the esa-button lego.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog, the picker IS esa-select, every action
+// IS esa-button, the role IS esa-badge. Checked Ecology for a member list (esa-avatar is
+// a single avatar, esa-chip-group is a filter, esa-input-tag takes free text) and Beacon
+// (no project team UI). The CSS is the list reset and the add row's alignment.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+---
+
+<div class="bcn-team" data-bcn-team data-project-id={projectId}>
+  <esa-side-dialog class="bcn-team__dialog" data-team-drawer heading="Project team" size="lg">
+    <div class="stack" data-gap="xl">
+      <ul class="bcn-team__list" data-team-list></ul>
+      <div class="bcn-team__add cluster" data-gap="sm">
+        <esa-select data-team-pick label="Add a person" size="md" placeholder="Choose a person"></esa-select>
+        <EsaButton variant="ghost" appearance="outline" icon="plus" data-team-add>Add</EsaButton>
+      </div>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-team-done>Done</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <template data-team-row>
+    <li class="bcn-team__row repel" data-gap="sm">
+      <span class="cluster" data-gap="sm">
+        <span class="typography-body-md" data-team-name></span>
+        <span data-team-pm hidden><EsaBadge variant="neutral" value="Project manager" /></span>
+      </span>
+      <span data-team-remove-wrap>
+        <EsaButton variant="ghost" size="sm" data-team-remove>Remove</EsaButton>
+      </span>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import { CURRENT_USER, PEOPLE } from '../../data/permit-tracker';
+  import { TEAM_EVENT, addTeamMember, loadTeam, removeTeamMember } from '../../lib/project-team-store';
+  import { PROJECT_EVENT, loadProject } from '../../lib/project-store';
+  import { toast } from '../../lib/snackbar';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void };
+  type SelectEl = HTMLElement & { value: string; options: { value: string; label: string }[] };
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-team]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const drawer = root.querySelector<DialogEl>('[data-team-drawer]')!;
+    const list = root.querySelector<HTMLElement>('[data-team-list]')!;
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-team-row]')!;
+    const pick = root.querySelector<SelectEl>('[data-team-pick]')!;
+    const nameOf = (person: string) => (person === CURRENT_USER ? `${person} (you)` : person);
+
+    const render = () => {
+      // Project manager first (loadTeam leads with them), everyone else in joining order.
+      const team = loadTeam(projectId);
+      const { manager } = loadProject(projectId);
+      list.replaceChildren(
+        ...team.map((person) => {
+          const li = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+          li.querySelector<HTMLElement>('[data-team-name]')!.textContent = nameOf(person);
+          const isManager = person === manager;
+          li.querySelector<HTMLElement>('[data-team-pm]')!.hidden = !isManager;
+          const remove = li.querySelector<HTMLElement>('[data-team-remove-wrap]')!;
+          if (isManager) remove.remove();
+          else {
+            const btn = remove.querySelector<HTMLElement>('[data-team-remove]')!;
+            btn.dataset.person = person;
+            btn.setAttribute('aria-label', `Remove ${person}`);
+          }
+          return li;
+        }),
+      );
+      customElements.whenDefined('esa-select').then(() => {
+        pick.options = PEOPLE.filter((p) => !team.includes(p)).map((p) => ({ value: p, label: nameOf(p) }));
+        pick.value = '';
+      });
+    };
+
+    document.addEventListener('click', (e) => {
+      if ((e.target as Element | null)?.closest?.('[data-project-team]')) drawer.show();
+    });
+    root.querySelector('[data-team-done]')?.addEventListener('click', () => drawer.close());
+    root.querySelector('[data-team-add]')?.addEventListener('click', () => {
+      if (!pick.value) {
+        toast('Choose a person to add', 'warning');
+        return;
+      }
+      addTeamMember(projectId, pick.value);
+      toast(`${pick.value} added to the team`, 'success');
+    });
+    list.addEventListener('click', (e) => {
+      const btn = (e.target as Element).closest<HTMLElement>('[data-team-remove]');
+      if (!btn?.dataset.person) return;
+      removeTeamMember(projectId, btn.dataset.person);
+      toast(`${btn.dataset.person} removed from the team`, 'success');
+    });
+    document.addEventListener(PROJECT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) render();
+    });
+    document.addEventListener(TEAM_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) render();
+    });
+    render();
+  });
+</script>
+
+<style>
+  .bcn-team__dialog {
+    --side-dialog-width-lg: 32rem;
+  }
+  .bcn-team__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-team__row {
+    align-items: center;
+    padding-block: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-team__add {
+    align-items: end;
+  }
+  .bcn-team__add > esa-select {
+    flex: 1;
+  }
+  .bcn-team [hidden] {
+    display: none;
+  }
+</style>

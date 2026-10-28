@@ -1,0 +1,138 @@
+---
+// <BcnPermitSites> — a project's sites as a compact card: each site's name, location,
+// and how many of its own permits are issued. A site has no agency of its own; its
+// permits each name theirs (usually several per site). Project-wide permits lead the list
+// as their own row, since they apply to every site.
+//
+// Counts use the fixture's statuses (SSR), the same convention as BcnPermitReadiness.
+// The site rows follow src/lib/project-store.ts: the client re-renders them from the
+// saved sites (renamed, re-located, added) on load and on PROJECT_EVENT, cloned from a
+// <template>. A site added in the browser has no permits yet.
+//
+// EDIT: with `editable`, the header carries "Add site" and each site row an edit button;
+// both open BcnSiteEditor's drawer (name, agency, location; Remove on a site with no
+// permits). The Project-wide row isn't a site and has no edit.
+//
+// bcn-lego-checked: esa-card is the frame and BcnKeyValue-style rows would lose the per-site
+// grouping; no esa-* lego lists entities with a count (esa-link-column is navigation links
+// only). Checked Beacon (no site list). Actions are esa-button. The CSS is the list reset
+// and row alignment, nothing else.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSiteEditor from './BcnSiteEditor.astro';
+import {
+  permitsOfSite,
+  projectWidePermits,
+  sitesOf,
+  statusColumn,
+  type Permit,
+} from '../../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+  /** Show Add site and per-site edit buttons (opening BcnSiteEditor). */
+  editable?: boolean;
+}
+const { projectId, editable = false } = Astro.props;
+
+const issued = (list: Permit[]) => list.filter((p) => statusColumn(p.statusId, p.typeId).category === 'Completed').length;
+const wide = projectWidePermits(projectId);
+const rows = [
+  ...(wide.length ? [{ id: '', name: 'Project-wide', location: 'Covers every site', permits: wide }] : []),
+  ...sitesOf(projectId).map((s) => ({ id: s.id, name: s.name, location: s.location, permits: permitsOfSite(s.id) })),
+];
+const countOf = (list: Permit[]) => (list.length ? `${issued(list)} of ${list.length} issued` : 'No permits yet');
+// Issued counts per fixture site, for the client's re-render.
+const counts = Object.fromEntries(rows.filter((r) => r.id).map((r) => [r.id, countOf(r.permits)]));
+---
+
+<EsaCard title="Sites" padding="compact">
+  {
+    editable && (
+      <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="plus" data-site-edit>
+        Add site
+      </EsaButton>
+    )
+  }
+  <ul class="bcn-permit-sites stack" data-gap="md" role="list" data-bcn-sites data-project-id={projectId} data-counts={JSON.stringify(counts)}>
+    {
+      rows.map((r) => (
+        <li class="bcn-permit-sites__row" data-site-row={r.id || undefined}>
+          <div class="stack" data-gap="3xs">
+            <span class="typography-label-md-strong">{r.name}</span>
+            <span class="typography-body-sm">{r.location}</span>
+            <span class="bcn-permit-sites__count typography-body-sm">{countOf(r.permits)}</span>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <template data-sites-tpl>
+    <li class="bcn-permit-sites__row" data-site-row>
+      <div class="stack" data-gap="3xs">
+        <span class="typography-label-md-strong" data-cell="name"></span>
+        <span class="typography-body-sm" data-cell="location"></span>
+        <span class="bcn-permit-sites__count typography-body-sm" data-cell="count"></span>
+      </div>
+      {
+        editable && (
+          <span class="bcn-permit-sites__edit" data-cell="edit">
+            <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit site" data-site-edit />
+          </span>
+        )
+      }
+    </li>
+  </template>
+  {editable && <BcnSiteEditor projectId={projectId} />}
+</EsaCard>
+
+<script>
+  import { PROJECT_EVENT, loadProject } from '../../lib/project-store';
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-sites]').forEach((list) => {
+    const projectId = list.dataset.projectId!;
+    const counts = JSON.parse(list.dataset.counts ?? '{}') as Record<string, string>;
+    const tpl = list.parentElement!.querySelector<HTMLTemplateElement>('[data-sites-tpl]')!;
+    const render = () => {
+      list.querySelectorAll('[data-site-row]').forEach((li) => li.remove());
+      for (const site of loadProject(projectId).sites) {
+        const li = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        const cell = (name: string) => li.querySelector<HTMLElement>(`[data-cell="${name}"]`)!;
+        cell('name').textContent = site.name;
+        cell('location').textContent = site.location;
+        cell('count').textContent = counts[site.id] ?? 'No permits yet';
+        const edit = li.querySelector<HTMLElement>('[data-cell="edit"] [data-site-edit]');
+        if (edit) {
+          edit.dataset.siteId = site.id;
+          edit.setAttribute('aria-label', `Edit ${site.name}`);
+        }
+        list.append(li);
+      }
+    };
+    document.addEventListener(PROJECT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) render();
+    });
+    render();
+  });
+</script>
+
+<style>
+  .bcn-permit-sites {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* Site details | edit button, the button level with the site name. */
+  .bcn-permit-sites__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--spacing-200);
+    align-items: start;
+  }
+  .bcn-permit-sites__edit {
+    margin-block-start: calc(-1 * var(--spacing-100));
+  }
+  .bcn-permit-sites__count {
+    color: var(--color-content-default);
+  }
+</style>

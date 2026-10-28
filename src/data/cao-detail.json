@@ -1,0 +1,1071 @@
+{
+ "lewis-county": {
+  "verified": "2026-10-23",
+  "wetland": {
+   "rating": "2014 Rating System, Update Version 2.0 (Ecology Publication No. 23-06-009), or as amended",
+   "ratingRef": "LCC 17.38.230(1)",
+   "range": "25 to 300 feet based on category, special characteristics, habitat and water quality scores, proposed land use impact, and implementation of impact minimization measures",
+   "rangeRef": "LCC 17.38.270(1), Table 17.38-3; land use intensity per Table 17.38-2",
+   "tables": [
+    {
+     "title": "Wetland Buffers",
+     "ref": "LCC 17.38.270, Table 17.38-3",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Low Impact",
+      "Moderate Impact",
+      "High Impact"
+     ],
+     "groups": [
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "High level of function for habitat (habitat score 8–9)",
+         "150",
+         "225",
+         "260 / 300 ¹"
+        ],
+        [
+         "Wetlands of high conservation value",
+         "125",
+         "190",
+         "250"
+        ],
+        [
+         "Bogs",
+         "125",
+         "190",
+         "250"
+        ],
+        [
+         "Forested",
+         {
+          "span": "Buffer based on score for habitat or water quality functions"
+         }
+        ],
+        [
+         "Moderate level of function for habitat (habitat score 6–7)",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "High water quality function (8–9) and low habitat (≤5)",
+         "50",
+         "75",
+         "100"
+        ],
+        [
+         "Not meeting any of the above characteristics",
+         "50",
+         "75",
+         "100"
+        ]
+       ]
+      },
+      {
+       "label": "Category II",
+       "rows": [
+        [
+         "High level of function for habitat (habitat score 8–9)",
+         "150",
+         "225",
+         "260 / 300 ¹"
+        ],
+        [
+         "Moderate level of function for habitat (habitat score 6–7)",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "High water quality function (8–9) and low habitat (≤5)",
+         "50",
+         "75",
+         "100"
+        ],
+        [
+         "Not meeting above characteristics",
+         "50",
+         "75",
+         "100"
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "Moderate level of function for habitat (habitat score 6–7) ²",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "Low level of function for habitat (habitat score ≤5)",
+         "40",
+         "60",
+         "80"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "Score for all 3 basic functions less than 16 points",
+         "25",
+         "40",
+         "50"
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "¹ 260 feet for 8 habitat points; 300 feet for 9 habitat points.",
+      "² Category III wetlands scoring 8–9 habitat points use the Category II buffers for high habitat function.",
+      "Buffers assume a vegetated native plant community. High-intensity buffers may be reduced to moderate-intensity widths by applying the impact minimization measures in Table 17.38-4 (LCC 17.38.280).",
+      "The code text for the Category I high-habitat row reads \"score for habitat 9 points\"; the footnote assigns 260 feet to 8 points."
+     ]
+    }
+   ],
+   "url": "https://ecode360.com/48905041"
+  },
+  "stream": {
+   "typing": "Types S, F, Np, Ns — WDNR water typing system, WAC 222-16-030, with revisions",
+   "typingRef": "LCC 17.38.420(1)(a)",
+   "range": "75 to 150 feet based on water type; Type S waters regulated under the shoreline master program",
+   "rangeRef": "LCC 17.38.430(1), Table 17.38-7",
+   "tables": [
+    {
+     "title": "Stream Buffers",
+     "ref": "LCC 17.38.430(1), Table 17.38-7",
+     "cols": [
+      "Stream Type",
+      "Description",
+      "Standard Buffer Width (feet)"
+     ],
+     "rows": [
+      [
+       "Type S Water",
+       "Shorelines of the state; regulated entirely by the Lewis County SMP",
+       "Per SMP"
+      ],
+      [
+       "Type F Water",
+       "Fish habitat waters other than Type S (WAC 222-16-030)",
+       "150 ¹"
+      ],
+      [
+       "Type Np Water",
+       "Perennial non-fish habitat streams",
+       "75"
+      ],
+      [
+       "Type Ns Water",
+       "Seasonal non-fish habitat streams",
+       "75"
+      ]
+     ],
+     "notes": [
+      "¹ Type F streams less than 10 feet wide may reduce the buffer to 100 feet with a qualified professional's report documenting stream width.",
+      "Buffers are measured from the ordinary high water mark and assume a vegetated native plant community. Lakes and ponds over 20 acres are regulated under the SMP."
+     ]
+    }
+   ],
+   "url": "https://ecode360.com/48905169"
+  },
+  "review": {
+   "url": "https://ecode360.com/48904904",
+   "process": "No separate critical areas permit when the review is done with a county land use or development permit. Activities that need no other permit are processed as a Type I permit under Ch. 17.05 LCC. Appeals follow the underlying permit.",
+   "processRef": "LCC 17.38.050(2)",
+   "triggers": "Review applies when development is within, abutting, or likely to affect a critical area or buffer. Wetland assessment report required within mapped hydric soils or 300 feet of a mapped wetland; aquatic habitat assessment within 200 feet of aquatic habitat; mitigation plan when impacts are proposed. Reports are prepared by a qualified professional and valid for 5 years.",
+   "triggersRef": "LCC 17.38.050(1), 17.38.070, 17.38.080; Table 17.38-1; 17.38.410(1)(a)",
+   "exemptions": "Activities allowed without a permit or report if they cause no loss of critical area functions: maintenance within existing rights-of-way, minor utility work, forest practices, agriculture covered by the Voluntary Stewardship Program, conservation and restoration, research, invasive plant removal, and emergencies. Small isolated Category IV wetlands (under 4,000 sq ft) are exempt from the avoidance requirement.",
+   "exemptionsRef": "LCC 17.38.060; 17.38.250",
+   "relief": "Buffer reduction or averaging (not both). Impacts beyond the allowed reductions only through a reasonable use exception or variance.",
+   "reliefRef": "LCC 17.38.280–.290, 17.38.430–.435, 17.38.1010"
+  },
+  "sources": [
+   [
+    "Ch. 17.38 Critical Areas — Article I Administration",
+    "https://ecode360.com/48904904"
+   ],
+   [
+    "Ch. 17.38 Critical Areas — Article II Wetlands",
+    "https://ecode360.com/48905041"
+   ],
+   [
+    "Ch. 17.38 Critical Areas — Article III Fish And Wildlife Habitat Conservation Areas",
+    "https://ecode360.com/48905169"
+   ],
+   [
+    "Ch. 17.38 Critical Areas — Article III-A Classification Of Fish And Wildlife Habitat",
+    "https://ecode360.com/48905254"
+   ]
+  ]
+ },
+ "napavine": {
+  "verified": "2026-10-23",
+  "wetland": {
+   "rating": "2014 Rating System (Ecology Publication 14-06-030 or 14-06-029) or as revised",
+   "ratingRef": "NMC 14.10.120.E.3.b",
+   "range": "40 to 300 feet based on category, habitat score, special characteristics, and implementation of impact minimization measures",
+   "rangeRef": "NMC 14.10.120.E.6, Tables 14.10.120.E(6)-1 to E(6)-3",
+   "tables": [
+    {
+     "title": "Wetland Buffers if Impact Minimization Measures Are Implemented and Habitat Corridor Provided",
+     "ref": "NMC 14.10.120.E.6, Table 14.10.120.E(6)-1",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Habitat 3–5",
+      "Habitat 6–7",
+      "Habitat 8–9",
+      "Special Characteristics"
+     ],
+     "groups": [
+      {
+       "label": "Category I or II",
+       "rows": [
+        [
+         "Based on rating of wetland functions",
+         "75",
+         "110",
+         "225",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Bogs and wetlands of high conservation value",
+         "NA",
+         "NA",
+         "225",
+         "190"
+        ],
+        [
+         "Forested",
+         "75",
+         "110",
+         "225",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All types",
+         "60",
+         "110",
+         "225",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All types",
+         "40",
+         "40",
+         "40",
+         "NA"
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "Corridor not required for wetlands scoring 3–5 habitat points; measures in Table 14.10.120.E(6)-2 apply."
+     ]
+    },
+    {
+     "title": "Wetland Buffers if Habitat Corridor Not Provided or Impact Minimization Measures Not Implemented",
+     "ref": "NMC 14.10.120.E.6, Table 14.10.120.E(6)-3",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Habitat 3–5",
+      "Habitat 6–7",
+      "Habitat 8–9",
+      "Special Characteristics"
+     ],
+     "groups": [
+      {
+       "label": "Category I or II",
+       "rows": [
+        [
+         "Based on rating of wetland functions",
+         "100",
+         "150",
+         "300",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Bogs and wetlands of high conservation value",
+         "NA",
+         "NA",
+         "300",
+         "250"
+        ],
+        [
+         "Forested",
+         "100",
+         "150",
+         "300",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All types",
+         "80",
+         "150",
+         "300",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All types",
+         "NA",
+         "NA",
+         "NA",
+         "50"
+        ]
+       ]
+      }
+     ],
+     "notes": []
+    }
+   ],
+   "url": "https://library.municode.com/wa/napavine/codes/code_of_ordinances?nodeId=TIT14CRAR_CH14.10NACRARORNC"
+  },
+  "stream": {
+   "typing": "Types S, F, Np, Ns — WDNR water typing system as defined in WAC 222-16-030, with revisions",
+   "typingRef": "NMC 14.10.120.B, Table 14.10.120.B(1), row (5)",
+   "range": "25 to 100 feet based on water type; Type S waters per the shoreline master program",
+   "rangeRef": "NMC 14.10.120.B(6), Table 14.10.120.B(6)",
+   "tables": [
+    {
+     "title": "Stream Buffers",
+     "ref": "NMC 14.10.120.B(6)",
+     "cols": [
+      "Stream Type",
+      "Description",
+      "Riparian Ecosystem Area Buffer (feet)"
+     ],
+     "rows": [
+      [
+       "Type S Water",
+       "The SMP outlines the jurisdictional habitat area associated with Type S Waters (Newaukum River)",
+       "See SMP"
+      ],
+      [
+       "Type F Water",
+       "Fish bearing",
+       "100"
+      ],
+      [
+       "Type Np Water",
+       "Perennial non-fish bearing",
+       "50"
+      ],
+      [
+       "Type Ns Water",
+       "Seasonal non-fish bearing",
+       "25"
+      ]
+     ],
+     "notes": []
+    }
+   ],
+   "url": "https://library.municode.com/wa/napavine/codes/code_of_ordinances?nodeId=TIT14CRAR_CH14.10NACRARORNC"
+  },
+  "review": {
+   "url": "https://library.municode.com/wa/napavine/codes/code_of_ordinances?nodeId=TIT14CRAR_CH14.10NACRARORNC",
+   "process": "No permit or approval (building, right-of-way, site development, shoreline permits and others) is granted except in compliance with the chapter. Review occurs with the underlying permit and SEPA/JARPA review; other agency permits are the applicant's responsibility.",
+   "processRef": "NMC 14.10.040.B–C, 14.10.050.A",
+   "triggers": "Wetland report by a qualified professional when the site includes, is likely to include, or is adjacent to a wetland or wetland buffer. Critical area report when an activity is proposed within a fish and wildlife habitat conservation area or its buffer.",
+   "triggersRef": "NMC 14.10.120.E.7, 14.10.120.B.2",
+   "exemptions": "Exempt activities require a written request approved by the administrator (emergencies, utility maintenance under a memorandum of agreement, and others). Allowed uses such as low-impact recreation are subject to development and mitigation standards. Small isolated Category IV wetlands are exempt from avoidance.",
+   "exemptionsRef": "NMC 14.10.070, 14.10.050.C, 14.10.120.E.5",
+   "relief": "Variances and reasonable use exceptions.",
+   "reliefRef": "NMC 14.10.060, 14.10.080"
+  },
+  "sources": []
+ },
+ "grays-harbor-county": {
+  "verified": "2026-10-23",
+  "wetland": {
+   "rating": "2014 Rating System (Ecology Publication #14-06-029), or as revised and approved by Ecology",
+   "ratingRef": "GHCC 18.06.340.B.2",
+   "range": "40 to 300 feet based on category, habitat score, special characteristics, and implementation of impact minimization measures",
+   "rangeRef": "GHCC 18.06.380.A, Tables 37.1 and 37.3",
+   "tables": [
+    {
+     "title": "Wetland Buffers if Impact Minimization Measures Are Implemented and Corridor Provided",
+     "ref": "GHCC 18.06.380, Table 37.1",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Habitat 3–5",
+      "Habitat 6–7",
+      "Habitat 8–9"
+     ],
+     "groups": [
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Based on total score",
+         "75",
+         "110",
+         "225"
+        ],
+        [
+         "Bogs and wetlands of high conservation value",
+         {
+          "span2": "190"
+         },
+         "225"
+        ],
+        [
+         "Estuarine and coastal lagoons",
+         {
+          "span": "150 (not based on habitat score)"
+         }
+        ],
+        [
+         "Interdunal",
+         {
+          "span": "225 (not based on habitat score)"
+         }
+        ],
+        [
+         "Forested",
+         "75",
+         "110",
+         "225"
+        ]
+       ]
+      },
+      {
+       "label": "Category II",
+       "rows": [
+        [
+         "Based on score",
+         "75",
+         "110",
+         "225"
+        ],
+        [
+         "Interdunal",
+         {
+          "span": "110 (not based on habitat score)"
+         }
+        ],
+        [
+         "Estuarine",
+         {
+          "span": "110 (not based on habitat score)"
+         }
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All",
+         "60",
+         "110",
+         "225"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All",
+         {
+          "span": "40"
+         }
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "Adjacent land use intensity is assumed to be high. Category III wetlands under 4,000 sq ft that score 8–9 habitat points and have a protected 100-foot corridor may use the 6–7 point buffers."
+     ]
+    },
+    {
+     "title": "Wetland Buffers if Impact Minimization Measures Are Not Implemented or Corridor Not Provided",
+     "ref": "GHCC 18.06.380, Table 37.3",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Habitat 3–5",
+      "Habitat 6–7",
+      "Habitat 8–9"
+     ],
+     "groups": [
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Based on total score",
+         "100",
+         "150",
+         "300"
+        ],
+        [
+         "Bogs and wetlands of high conservation value",
+         {
+          "span2": "250"
+         },
+         "300"
+        ],
+        [
+         "Estuarine and coastal lagoons",
+         {
+          "span": "200 (not based on habitat score)"
+         }
+        ],
+        [
+         "Interdunal",
+         {
+          "span": "300 (not based on habitat score)"
+         }
+        ],
+        [
+         "Forested ¹",
+         "100",
+         "150",
+         "300"
+        ]
+       ]
+      },
+      {
+       "label": "Category II",
+       "rows": [
+        [
+         "Based on score",
+         "100",
+         "150",
+         "300"
+        ],
+        [
+         "Interdunal",
+         {
+          "span": "150 (not based on habitat score)"
+         }
+        ],
+        [
+         "Estuarine and coastal lagoons",
+         {
+          "span": "150 (not based on habitat score)"
+         }
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All",
+         "80",
+         "150",
+         "300"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All",
+         {
+          "span": "50"
+         }
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "¹ The published Forested row reads \"100 | 140 | 220 | 300\" (a formatting error in the online code). Values shown follow the Category I total-score row; confirm with the county."
+     ]
+    }
+   ],
+   "url": "https://library.municode.com/wa/grays_harbor_county/codes/code_of_ordinances?nodeId=TIT18EN_CH18.06CRARPROR_ARTIIIWE"
+  },
+  "stream": {
+   "typing": "Types S, F, Np, Ns — waters of the state as classified under WAC 222-16-031",
+   "typingRef": "GHCC 18.06.590.A.6",
+   "range": "50 to 150 feet based on water typing",
+   "rangeRef": "GHCC 18.06.630.A",
+   "tables": [
+    {
+     "title": "Stream Buffers",
+     "ref": "GHCC 18.06.630.A",
+     "cols": [
+      "Stream Type",
+      "Description",
+      "Riparian Buffer Width (feet)"
+     ],
+     "rows": [
+      [
+       "Type S Water",
+       "Shorelines of the state",
+       "150"
+      ],
+      [
+       "Type F Water",
+       "Fish habitat waters",
+       "150"
+      ],
+      [
+       "Type Np Water",
+       "Perennial non-fish habitat streams ¹",
+       "60"
+      ],
+      [
+       "Type Ns Water",
+       "Seasonal non-fish habitat streams",
+       "50"
+      ]
+     ],
+     "notes": [
+      "¹ Undifferentiated Type N waters are treated as Type Np unless verified otherwise by a qualified professional.",
+      "Buffers extend landward from the OHWM and are extended 17 feet where the OHWM is within 17 feet of a slope over 40 percent."
+     ]
+    }
+   ],
+   "url": "https://library.municode.com/wa/grays_harbor_county/codes/code_of_ordinances?nodeId=TIT18EN_CH18.06CRARPROR_ARTVIIFIWIHACOAR"
+  },
+  "review": {
+   "url": "https://library.municode.com/wa/grays_harbor_county/codes/code_of_ordinances?nodeId=TIT18EN_CH18.06CRARPROR_ARTIGEPR",
+   "process": "A site plan review application is required for permit-related procedures and allowed activities. The administrator decides whether critical areas may be affected and whether a critical area report is needed.",
+   "processRef": "GHCC 18.06.160",
+   "triggers": "Applies to uses and activities within, adjacent to, or likely to affect a critical area, and to activities within a required buffer. Critical area report by a qualified professional when required (may be waived if there is no alteration); additional requirements for wetland reports.",
+   "triggersRef": "GHCC 18.06.100–.110, 18.06.180, 18.06.370",
+   "exemptions": "General exemptions (emergencies and others) and allowed activities, plus wetland-specific exemptions and allowed uses.",
+   "exemptionsRef": "GHCC 18.06.130, 18.06.150, 18.06.360",
+   "relief": "Reasonable use exceptions, variances, and appeals of administrative decisions.",
+   "reliefRef": "GHCC 18.06.300, 18.06.310, 18.06.320"
+  },
+  "sources": []
+ },
+ "pacific-county": {
+  "verified": "2026-10-23",
+  "wetland": {
+   "rating": "Washington State Wetland Rating System for Western Washington (Ecology Publication No. 14-06-029), or as revised and approved by Ecology",
+   "ratingRef": "Pacific County Ord. 193 (CARL), Section 4.C.1",
+   "range": "25 to 300 feet based on category, special characteristics, habitat score, and proposed land use impact",
+   "rangeRef": "CARL Section 4.E.1, Table 4-1",
+   "tables": [
+    {
+     "title": "Wetland Buffers",
+     "ref": "Pacific County Ord. 193, Section 4.E.1, Table 4-1",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "Habitat Score",
+      "Low Impact",
+      "Moderate Impact",
+      "High Impact"
+     ],
+     "groups": [
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Bogs",
+         "NA",
+         "125",
+         "190",
+         "250"
+        ],
+        [
+         "Wetlands with a high conservation value",
+         "NA",
+         "125",
+         "190",
+         "250"
+        ],
+        [
+         "Estuarine",
+         "NA",
+         "100",
+         "150",
+         "200"
+        ],
+        [
+         "Coastal lagoons",
+         "NA",
+         "100",
+         "150",
+         "200"
+        ],
+        [
+         "Interdunal ¹",
+         "NA",
+         "150",
+         "225",
+         "300"
+        ],
+        [
+         "Other than above",
+         "8–9",
+         "150",
+         "225",
+         "300"
+        ],
+        [
+         "Other than above",
+         "6–7",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "Other than above",
+         "<6",
+         "50",
+         "75",
+         "100"
+        ]
+       ]
+      },
+      {
+       "label": "Category II",
+       "rows": [
+        [
+         "Interdunal ²",
+         "NA",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "Estuarine",
+         "NA",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "Other than above",
+         "8–9",
+         "150",
+         "225",
+         "300"
+        ],
+        [
+         "Other than above",
+         "6–7",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "Other than above",
+         "<6",
+         "50",
+         "75",
+         "100"
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All",
+         "6–7",
+         "75",
+         "110",
+         "150"
+        ],
+        [
+         "All",
+         "<6",
+         "40",
+         "60",
+         "80"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All",
+         "NA",
+         "25",
+         "40",
+         "50"
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "¹ Interdunal wetlands over 1 acre scoring 8–9 habitat points are rated Category I.",
+      "² Interdunal wetlands scoring 7 or lower for habitat and over 1 acre (or in a mosaic over 1 acre) are rated Category II.",
+      "Buffers around existing manmade canals are set under Section 4.E.6. Table 4-1 has no Category III row for habitat scores of 8–9.",
+      "Land use intensity: high = commercial, urban, industrial, residential >1 unit/acre, high-intensity agriculture or recreation; moderate = residential ≤1 unit/acre, paved trails, logging roads, maintained utility corridors; low = forest practices, unpaved trails, low-maintenance utility corridors."
+     ]
+    }
+   ],
+   "url": "https://www.co.pacific.wa.us/ordres/Ord-No-193.pdf#page=41"
+  },
+  "stream": {
+   "typing": "Types S, F, Np, Ns (interim Types 1–5) — DNR water typing, WAC 222-16-031 until permanent typing (WAC 222-16-030) is adopted",
+   "typingRef": "CARL Ordinance Section 5.C.1",
+   "range": "40 to 130 feet based on water type (standard and minimum buffers); Type S waters per SMP Section 5.2",
+   "rangeRef": "CARL Section 5.E.1, Table 5-1",
+   "tables": [
+    {
+     "title": "Stream Buffers",
+     "ref": "Pacific County Ord. 193, Section 5.E.1, Table 5-1",
+     "cols": [
+      "Stream Type",
+      "Interim Type (WAC 222-16-031)",
+      "Standard Buffer (feet)",
+      "Minimum Buffer (feet) ¹"
+     ],
+     "rows": [
+      [
+       "Type S Water",
+       "1",
+       "See SMP Section 5.2",
+       "See SMP Section 5.2"
+      ],
+      [
+       "Type F Water",
+       "2, 3",
+       "130",
+       "100"
+      ],
+      [
+       "Type Np Water",
+       "4",
+       "65",
+       "50"
+      ],
+      [
+       "Type Ns Water",
+       "5",
+       "50",
+       "40"
+      ]
+     ],
+     "notes": [
+      "¹ Buffers may be reduced to the minimum under Section 5.E.1.c with a critical areas report.",
+      "Standard widths do not apply to existing manmade canals in Surfside Estates (Section 5.E.1.f)."
+     ]
+    }
+   ],
+   "url": "https://www.co.pacific.wa.us/ordres/Ord-No-193.pdf#page=56"
+  },
+  "review": {
+   "url": "https://www.co.pacific.wa.us/ordres/Ord-No-193.pdf#page=19",
+   "process": "The administrator first screens for exemptions. Non-exempt activities complete a critical areas and resource lands checklist, followed by a staff site visit. The determination becomes final with the associated permit unless appealed.",
+   "processRef": "Ord. 193 §3.D.1–3.D.6",
+   "triggers": "Applies to all land uses and development, with or without a permit. A critical area report is required when the checklist, maps, or site visit show critical areas, with additional requirements for wetlands and fish and wildlife habitat conservation areas.",
+   "triggersRef": "Ord. 193 §3.A, 3.D.5, 3.L, 4.G, 5.F",
+   "exemptions": "Exemptions (emergencies and others) and permitted activities in wetlands and FWHCAs. The exemptions do not apply within shoreline jurisdiction.",
+   "exemptionsRef": "Ord. 193 §3.E, 4.D, 5.D, 3.B.4",
+   "relief": "Variance and reasonable use exception (neither available within shoreline jurisdiction); appeals.",
+   "reliefRef": "Ord. 193 §3.I, 3.J, 3.F"
+  },
+  "sources": []
+ },
+ "raymond": {
+  "verified": "2026-10-23",
+  "wetland": {
+   "rating": "2014 Rating System, No. 14-06-029 or as revised and approved by Ecology",
+   "ratingRef": "RMC 15.18.210.D.1",
+   "range": "40 to 225 feet based on category, habitat score, and special characteristics",
+   "rangeRef": "RMC 15.18.220.C, Table 1",
+   "tables": [
+    {
+     "title": "Wetland Buffers",
+     "ref": "RMC 15.18.220.C, Table 1",
+     "cols": [
+      "Wetland Category and Characteristics",
+      "",
+      "Habitat ≤4",
+      "Habitat 5",
+      "Habitat 6–7",
+      "Habitat 8–9"
+     ],
+     "groups": [
+      {
+       "label": "Category I",
+       "rows": [
+        [
+         "Based on total score",
+         "75",
+         "105",
+         "165",
+         "225"
+        ],
+        [
+         "Natural heritage wetland",
+         "190",
+         "190",
+         "190",
+         "225"
+        ],
+        [
+         "Forested wetland",
+         "75",
+         "105",
+         "165",
+         "225"
+        ],
+        [
+         "Estuarine wetland",
+         {
+          "span": "150 (not based on habitat score)"
+         }
+        ]
+       ]
+      },
+      {
+       "label": "Category II",
+       "rows": [
+        [
+         "Based on total score",
+         "75",
+         "105",
+         "165",
+         "225"
+        ],
+        [
+         "Estuarine wetland",
+         {
+          "span": "110 (not based on habitat score)"
+         }
+        ]
+       ]
+      },
+      {
+       "label": "Category III",
+       "rows": [
+        [
+         "All",
+         "60",
+         "105",
+         "165",
+         "NA"
+        ]
+       ]
+      },
+      {
+       "label": "Category IV",
+       "rows": [
+        [
+         "All",
+         {
+          "span": "40"
+         }
+        ]
+       ]
+      }
+     ],
+     "notes": [
+      "Code Table 1 lists a standard width plus an added width by habitat score (5 pts: +30/+45; 6–7: +90/+105; 8–9: +150); totals shown here. Natural heritage wetlands add 35 feet at 8–9 points only.",
+      "Table 1 shows \"NA\" for Category III wetlands scoring 8–9 habitat points."
+     ]
+    }
+   ],
+   "url": "https://ecode360.com/46646053"
+  },
+  "stream": {
+   "typing": "Types S, F, Np, Ns — WDNR water typing system, WAC 222-16-030",
+   "typingRef": "RMC 15.18.060.F–I",
+   "range": "20 to 100 feet based on water type and channel width; Type S waters per SMP Table 2 by shoreline designation",
+   "rangeRef": "RMC 15.18.310.C; SMP Table 2",
+   "tables": [
+    {
+     "title": "Stream Buffers",
+     "ref": "RMC 15.18.310.C",
+     "cols": [
+      "Stream Type",
+      "Description",
+      "Standard Buffer Width (feet)"
+     ],
+     "rows": [
+      [
+       "Type S Water",
+       "Shorelines of the state",
+       "Per SMP Table 2 (minimum shoreline buffer by designation)"
+      ],
+      [
+       "Type F Water",
+       "Greater than 20 feet wide",
+       "100"
+      ],
+      [
+       "Type F Water",
+       "Greater than 2 feet and up to 20 feet wide",
+       "40"
+      ],
+      [
+       "Type Np Water",
+       "Perennial non-fish habitat streams",
+       "30"
+      ],
+      [
+       "Type Ns Water",
+       "Seasonal non-fish habitat streams",
+       "20"
+      ]
+     ],
+     "notes": [
+      "Buffers are measured above the ordinary high water mark. Averaging may reduce width by no more than 25 percent (RMC 15.18.320)."
+     ]
+    }
+   ],
+   "url": "https://ecode360.com/46646053"
+  },
+  "review": {
+   "url": "https://ecode360.com/46646053",
+   "process": "No separate critical areas permit. Compliance is a condition of any project permit under Ch. 15.08 RMC; the administrator reviews each project permit application or SEPA threshold decision.",
+   "processRef": "RMC 15.18.070, 15.18.110.A",
+   "triggers": "Site visit when a parcel is in or within 300 feet of a critical area. Technical reports by a qualified professional when information is insufficient; a wetland technical report may be required for development adjacent to a wetland, and a habitat management plan for activity in or adjacent to a habitat conservation area.",
+   "triggersRef": "RMC 15.18.110.B–C, 15.18.250, 15.18.330",
+   "exemptions": "Exempt where the critical area is not degraded: conservation and restoration, passive recreation, research, maintenance of existing rights-of-way, roads, utilities and structures, utilities within existing rights-of-way, hazard tree removal, existing agriculture using BMPs, site investigation, and Class 1–3 forest practices.",
+   "exemptionsRef": "RMC 15.18.080",
+   "relief": "Reasonable use exception (administrator); variances heard by the planning commission under Ch. 15.52 RMC; wetland buffer averaging to no less than 75 percent of the standard width.",
+   "reliefRef": "RMC 15.18.190, 15.18.200, 15.18.230"
+  },
+  "sources": [
+   [
+    "Ch. 15.18 Critical Areas",
+    "https://ecode360.com/46646053"
+   ]
+  ]
+ }
+}

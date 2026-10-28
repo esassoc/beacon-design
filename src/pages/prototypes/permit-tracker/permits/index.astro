@@ -1,0 +1,23 @@
+---
+// Permit Tracker — Permits. Every permit on every project in one grid, each linking to
+// its permit page and its project, so someone can find a permit without knowing which
+// project it is on. Shows permits on active projects by default (Closed / All toggle).
+// Fixture: src/data/permit-tracker.ts.
+import PermitTrackerLayout from '../../../../layouts/PermitTrackerLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import BcnPermitTable from '../../../../components/bcn/BcnPermitTable.astro';
+---
+
+<!-- manifest:
+  layout: PermitTrackerLayout > stack(xl)        # SPINE
+  sections:
+    - page header -> esa-page-header              # "Permits"
+    - permits     -> bcn-permit-table             # every project's permits; Project column; Active / Closed / All
+-->
+
+<PermitTrackerLayout title="Permits" active="permits">
+  <div class="stack" data-gap="xl">
+    <EsaPageHeader title="Permits" />
+    <BcnPermitTable />
+  </div>
+</PermitTrackerLayout>
