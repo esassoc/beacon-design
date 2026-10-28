@@ -61,7 +61,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const cache = new Map<number, Promise<PlanDetailDto>>();
   const stops: Stop[] = draft
     ? [
-        { author: latest.author, title: `Live · Rev ${latest.number}`, when: when(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
+        { author: latest.author, title: `Live, revision ${latest.number}`, when: when(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
         ...draft.revisions.map((rev, i) => ({
           author: rev.author,
           title: `Edit ${i + 1} by ${rev.author}`,
@@ -105,7 +105,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const canPublish = params.get('role') !== 'contributor';
   const behind = draft ? versionsBehind(repo, draft) : 0;
   q<HTMLElement>('[data-prv-behind]').hidden = behind <= 0;
-  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'} than Rev ${draft?.baseVersion}`;
+  q<HTMLElement>('[data-prv-behind-text]').textContent = `Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'} than revision ${draft?.baseVersion}`;
 
   // ── Chart ──
   const host = q<HTMLElement>('[data-bcn-plan-gantt]');
@@ -174,7 +174,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       draft: overlay && concept === 'drafting' ? { ...overlay, ghosts: false, measure: true, edits: editAt(changes) } : overlay,
       paper: concept === 'drafting' || concept === 'pencil-paper',
       // Issued: the title block says what the chart shows, the "to" side of the comparison.
-      titleBlock: concept === 'issued' && draft ? { status: sel.to === 0 ? 'Issued' : 'Draft', facts: [sel.to === 0 ? `Rev ${latest.number}` : `Not issued, edit ${sel.to}`] } : null,
+      titleBlock: concept === 'issued' && draft ? { status: sel.to === 0 ? 'Issued' : 'Draft', facts: [sel.to === 0 ? `Revision ${latest.number}` : `Not issued, edit ${sel.to}`] } : null,
       rowDeltas: on ? deltas : null,
       conflicts: planConflicts(to).map((c) => ({ fromId: c.PredecessorPlanElementID, toId: c.SuccessorPlanElementID })),
       rowNotes: new Map(

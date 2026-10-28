@@ -48,8 +48,10 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       </span>
       <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> revisions</a>
       <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
-      <!-- The latest change, in the same row (2026-10-27): who, what, when. It takes the row's free width and truncates. -->
+      <!-- The latest change, in the same row (2026-10-27): named as that, with when, then who and what (2026-10-28). It
+           takes the row's free width and truncates. -->
       <span class="bcn-prp__status typography-body-sm" data-prp-status>
+        <span class="bcn-prp__status-when"><strong data-prp-status-label>Last update</strong> <time data-prp-status-time></time></span>
         <span data-prp-status-avatar></span>
         <span class="bcn-prp__status-text"><strong data-prp-status-who></strong> <span data-prp-status-message></span></span>
         <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
@@ -59,7 +61,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         <span data-prp-redo><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></span>
         <span data-prp-discard><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></span>
       </span>
-      <span data-prp-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" data-fill-icon="git-branch">Edit in a draft</EsaButton></span>
+      <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
+      <span data-prp-edit><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a draft</EsaButton></span>
       <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
       <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
       <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
@@ -152,10 +155,19 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
   .bcn-prp :global([data-glyph] svg) { display: block; }
 
-  /* ── The head card: the wizard's step panel ── */
-  /* The head card is one row: which plan and version this is, and what's happened to it. The scope card under it
-     holds what the chart shows. In a draft the head card is the band: the whole strip takes the sunken neutral. */
-  .bcn-prp__head,
+  /* ── The head: one row, chromeless (2026-10-28) ── */
+  /* Which plan and version this is, and what last happened to it, straight on the page. The scope card under it holds
+     what the chart shows. In a draft the row is the band: a sunken neutral strip, the cards' width. */
+  .bcn-prp__head {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-200);
+    transition: background-color 200ms ease, padding 200ms ease;
+  }
+  .bcn-prp__head:has(.bcn-prp__bar[data-band]) {
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken));
+  }
   .bcn-prp__scope {
     display: flex;
     flex-direction: column;
@@ -166,8 +178,6 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
-  .bcn-prp__head { padding-block: var(--spacing-300); transition: background-color 200ms ease; }
-  .bcn-prp__head:has(.bcn-prp__bar[data-band]) { background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken)); }
   /* Narrow enough that search, Show and Dates share one line beside a folded About. */
   .bcn-prp__search { inline-size: 12rem; }
   .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
@@ -184,22 +194,35 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   a.bcn-prp__count:hover { color: var(--color-content-default); }
   .bcn-prp__spacer { flex: 1; }
 
-  .bcn-prp__branches { display: flex; flex-direction: column; inline-size: calc(24rem - 2px); padding: var(--spacing-100) 0; }
-  .bcn-prp__branches :global(.bcn-prp__branch-head) { color: var(--color-content-default-secondary); padding: var(--spacing-200) var(--spacing-300) var(--spacing-100); }
+  /* The plan menu (dense, 2026-10-28): each row a bold name over a quiet line of facts, the current one checked at the
+     right. Groups under small headed rules; no avatars, no indents. */
+  .bcn-prp__branches { display: flex; flex-direction: column; inline-size: calc(20rem - 2px); padding: var(--spacing-100); }
+  .bcn-prp__branches :global(.bcn-prp__branch-head) {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    margin-block-start: var(--spacing-100);
+    padding: var(--spacing-200) var(--spacing-200) var(--spacing-100);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-prp__branches :global(.bcn-prp__branch-head span) { color: var(--color-content-default-tertiary); font-weight: 400; }
   .bcn-prp__branches :global(.bcn-prp__branch-row) {
     display: grid;
-    grid-template-columns: 1.25rem auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 1rem;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300);
+    padding: var(--spacing-150, 6px) var(--spacing-200);
     border-radius: var(--radius-100, 4px);
     color: var(--color-content-default);
     text-decoration: none;
   }
   .bcn-prp__branches :global(.bcn-prp__branch-row:hover),
   .bcn-prp__branches :global(.bcn-prp__branch-row:focus-visible) { background: var(--color-background-elevation-sunken); }
-  .bcn-prp__branches :global(.bcn-prp__branch-check) { color: var(--color-content-default); }
-  .bcn-prp__branches :global(.bcn-prp__branch-name) { display: flex; flex-direction: column; min-inline-size: 0; }
+  .bcn-prp__branches :global(.bcn-prp__branch-check) { display: inline-flex; color: var(--color-content-default); }
+  .bcn-prp__branches :global(.bcn-prp__branch-text) { display: flex; flex-direction: column; min-inline-size: 0; }
+  .bcn-prp__branches :global(.bcn-prp__branch-name),
+  .bcn-prp__branches :global(.bcn-prp__branch-sub) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-prp__branches :global(.bcn-prp__branch-sub) { color: var(--color-content-default-secondary); }
 
   /* The latest change takes the row's free width, a step in from the counts, and truncates before anything else does. */
@@ -211,13 +234,19 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     min-inline-size: 0;
     margin-inline-start: var(--spacing-200);
   }
+  .bcn-prp__status-when { white-space: nowrap; }
+  .bcn-prp__status-when strong { font-weight: 600; }
+  .bcn-prp__status-when time { color: var(--color-content-default-secondary); }
+  .bcn-prp__status-when:has(time:empty) time { display: none; }
   .bcn-prp__status-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-prp__status-text strong { font-weight: 600; }
   .bcn-prp__status-meta { display: inline-flex; gap: var(--spacing-300); margin-inline-start: auto; color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-prp__status-actions { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* ── Body: the chart beside About (the wizard's Library pane, on the right) ── */
-  .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: start; }
+  /* About runs the chart's full height, open or folded (2026-10-28). The chart sets the row's height: About takes none
+     of its own (block-size 0) and stretches to the row, its body scrolling when it holds more. */
+  .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: stretch; }
   .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: minmax(0, 1fr) 2.75rem; }
   .bcn-prp__main { min-inline-size: 0; position: relative; }
   .bcn-prp__no-match {
@@ -235,6 +264,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__about {
     display: flex;
     flex-direction: column;
+    block-size: 0;
+    min-block-size: 100%;
     overflow: hidden;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
@@ -250,7 +281,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     background: var(--color-background-elevation-sunken);
     border-block-end: 1px solid var(--color-border-default);
   }
-  .bcn-prp__about-body { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-400); }
+  .bcn-prp__about-body { display: flex; flex: 1 1 auto; min-block-size: 0; overflow-y: auto; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-400); }
   .bcn-prp__about-body p { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-prp__about-body section { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-prp__about-body h2 { margin: 0; }
@@ -282,7 +313,6 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-300);
-    min-block-size: 10rem;
     padding: var(--spacing-300) 0;
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);

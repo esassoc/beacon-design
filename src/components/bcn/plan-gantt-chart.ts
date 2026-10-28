@@ -52,6 +52,8 @@ import type { GanttDragEvent, GanttDragTarget, GanttDropState, UiVizGanttNote } 
 
 /* ── Layout constants (verbatim). ─────────────────────────────────────────────────────────────────────────────── */
 const OUTLINE_PX = 420;
+/** A search keeps the chart at least this many rows tall (2026-10-28): the matches, then empty rows. */
+const MIN_FILTER_ROWS = 10;
 /** The outline column is resizable (new): by its divider, between these widths, remembered per browser. */
 const OUTLINE_MIN_PX = 200;
 const OUTLINE_MIN_PLOT_PX = 160;
@@ -515,6 +517,8 @@ interface GanttView {
   ticks: GanttTickView[];
   pxPerYear: number;
   rowViews: GanttRowView[];
+  /** Empty rows under a search's few matches, so the chart keeps its height. */
+  fillerRows: number;
   plotHeight: number;
   landmarkViews: GanttLandmarkView[];
   landmarkBandPx: number;
@@ -753,8 +757,9 @@ export class PlanGanttChart {
   }
 
   /**
-   * Narrow the rows to a search (2026-10-27): a row whose name holds it, the parents above it, and everything under it
-   * (a matching phase brings its work). Collapsed parents above a match open while it lasts; the names mark the hits.
+   * Narrow the rows to a search (2026-10-27): the rows whose names hold it, and the parents above them so the outline
+   * still reads (just the matches, 2026-10-28: a matching parent no longer brings its contents). Collapsed parents
+   * above a match open while it lasts; the names mark the hits; empty rows keep the chart MIN_FILTER_ROWS tall.
    * Returns how many rows matched; none hides the chart, like no rows, for the page's own empty state.
    */
   setFilter(query: string): number {
@@ -773,16 +778,9 @@ export class PlanGanttChart {
     const parentOf = new Map(this.rows.map((row) => [row.id, row.parentId]));
     const keep = new Set<string>();
     const opened = new Set<string>();
-    let under: number | null = null;
     for (const row of this.rows) {
-      if (under !== null && row.depth > under) {
-        keep.add(row.id);
-        continue;
-      }
-      under = null;
       if (!this.matched.has(row.id)) continue;
       keep.add(row.id);
-      under = row.depth;
       for (let at = row.parentId; at; at = parentOf.get(at) ?? null) {
         keep.add(at);
         opened.add(at);
@@ -958,7 +956,8 @@ export class PlanGanttChart {
         summaryId: summary ? `${this.idPrefix}-schedule-${index}` : null,
       };
     });
-    const plotHeight = rowViews.length * ROW_PX;
+    const fillerRows = this.query ? Math.max(0, MIN_FILTER_ROWS - rowViews.length) : 0;
+    const plotHeight = (rowViews.length + fillerRows) * ROW_PX;
 
     const byId = new Map<string, GanttRowView>();
     for (const view of rowViews) if (view.mark) byId.set(view.row.id, view);
@@ -1176,6 +1175,7 @@ export class PlanGanttChart {
       ticks,
       pxPerYear,
       rowViews,
+      fillerRows,
       plotHeight,
       landmarkViews,
       landmarkBandPx,
@@ -1357,7 +1357,7 @@ export class PlanGanttChart {
           ${view.summaryId ? `<span class="${P}__schedule-summary" id="${view.summaryId}">${esc(view.summary)}</span>` : ''}
         </li>`;
       })
-      .join('')}</ul>`;
+      .join('')}${`<li class="${P}__item ${P}__item--filler" aria-hidden="true" style="height:${ROW_PX}px"></li>`.repeat(v.fillerRows)}</ul>`;
 
     const W = v.plotWidth;
     const H = v.plotHeight;
@@ -1387,6 +1387,10 @@ export class PlanGanttChart {
       svg.push(`<line class="${P}__grid${year.emphasis ? ` ${P}__grid--emphasis` : ''}" x1="${roundPx(year.x) + 0.5}" x2="${roundPx(year.x) + 0.5}" y1="0" y2="${H}"/>`);
     }
     for (const view of v.rowViews) svg.push(`<line class="${P}__rule" x1="0" x2="${W}" y1="${view.top + ROW_PX - 0.5}" y2="${view.top + ROW_PX - 0.5}"/>`);
+    for (let i = 0; i < v.fillerRows; i++) {
+      const y = (v.rowViews.length + i + 1) * ROW_PX - 0.5;
+      svg.push(`<line class="${P}__rule" x1="0" x2="${W}" y1="${y}" y2="${y}"/>`);
+    }
     for (const view of v.landmarkViews) svg.push(`<line class="${P}__landmark" data-landmark-id="${esc(view.landmark.id)}" x1="${view.lineX}" x2="${view.lineX}" y1="0" y2="${H}"/>`);
     if (v.todayX !== null) svg.push(`<rect class="${P}__today-line" x="${v.todayX}" y="0" width="${TODAY_LINE_PX}" height="${H}"/>`);
     for (const view of v.rowViews) {

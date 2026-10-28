@@ -107,15 +107,15 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     const labelled = [...s.repo.versions].reverse().find((v) => v.label);
     if (labelled) {
       r<HTMLElement>('[data-pri-label]').hidden = false;
-      r<HTMLElement>('[data-pri-label-text]').textContent = `${labelled.label} · Rev ${labelled.number}`;
+      r<HTMLElement>('[data-pri-label-text]').textContent = `${labelled.label}, revision ${labelled.number}`;
     }
     r<HTMLElement>('[data-pri-avatar]').replaceWith(planAvatar(s.latest.author, 'xs'));
     r<HTMLElement>('[data-pri-author]').textContent = s.latest.author;
     r<HTMLElement>('[data-pri-message]').textContent = s.latest.message;
     const when = r<HTMLElement>('[data-pri-when]');
-    when.textContent = `Rev ${s.latest.number} · ${timeAgo(s.latest.at)}`;
+    when.textContent = `Revision ${s.latest.number}, ${timeAgo(s.latest.at)}`;
     when.title = new Date(s.latest.at).toLocaleString();
-    r<HTMLElement>('[data-pri-version]').textContent = `Rev ${s.latest.number}`;
+    r<HTMLElement>('[data-pri-version]').textContent = `Revision ${s.latest.number}`;
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);
     r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'revision' : 'revisions'}`;

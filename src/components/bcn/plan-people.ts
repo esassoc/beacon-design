@@ -1,7 +1,28 @@
 // The runtime half of <BcnPlanPeople>: an esa-avatar for a planner, cloned from the page's bank. Someone the bank
 // doesn't know (a ?user= name) gets the bank's blank avatar, labelled with their name.
 
+import { MARK_COLOR_BY_KEY } from '../../data/entity-marks';
+
 export type PlanAvatarSize = 'xs' | 'sm' | 'md';
+
+/**
+ * Each planner's color (2026-10-28, Andy: a color per person, from the monitoring dashboard's ramp, the --bcn-mark-*
+ * identity swatches). Kept off teal (the bars) and red, orange and amber (conflicts, overruns, today). Someone not
+ * named here takes a spare by their name, the same one every time.
+ */
+const PERSON_MARK: Record<string, string> = {
+  'Alex Rivera': 'violet',
+  'Sam Okafor': 'sky',
+  'Priya Natarajan': 'magenta',
+  'Jamie Quishenberry': 'moss',
+  'Andy Lovseth': 'indigo',
+  'Dana Whitfield': 'brown',
+};
+const SPARE_MARKS = ['blue', 'purple', 'olive', 'cyan', 'fuchsia', 'slate', 'green'];
+export function personColor(name: string): string {
+  const key = PERSON_MARK[name] ?? SPARE_MARKS[[...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % SPARE_MARKS.length];
+  return MARK_COLOR_BY_KEY[key].token;
+}
 
 export function planAvatar(name: string, size: PlanAvatarSize = 'xs'): HTMLElement {
   const bank = document.querySelector('[data-bcn-plan-people]');
@@ -9,8 +30,8 @@ export function planAvatar(name: string, size: PlanAvatarSize = 'xs'): HTMLEleme
     bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person="${CSS.escape(name)}"][data-size="${size}"]`) ??
     bank?.querySelector<HTMLTemplateElement>(`template[data-plan-person=""][data-size="${size}"]`);
   const node = (tpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined) ?? document.createElement('span');
-  // Neutral, not the lego's per-name hue (Andy, 2026-10-27): people are not a colour code here.
-  node.style.setProperty('--avatar-bg', 'var(--color-content-default-secondary)');
+  // Their color, not the lego's per-name hue (neutral 2026-10-27; a color per person, Andy 2026-10-28).
+  node.style.setProperty('--avatar-bg', personColor(name));
   node.setAttribute('title', name);
   node.setAttribute('aria-label', name);
   return node;
