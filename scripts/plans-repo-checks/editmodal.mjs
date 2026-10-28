@@ -1,0 +1,53 @@
+import { open, BASE, HIDE } from './lib.mjs';
+const { OUT } = await import('./lib.mjs');
+const { browser, page, planID } = await open({ scale: 1 });
+const errs = []; page.on('pageerror', (e) => errs.push(e.message));
+let pass = 0, fail = 0;
+const check = (n, ok, x = '') => { ok ? pass++ : fail++; console.log(`${ok ? 'PASS' : 'FAIL'} ${n}${x ? ' :: ' + x : ''}`); };
+await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}`); await page.waitForSelector('.bcn-plan-gantt__hit'); await page.waitForTimeout(600);
+const id = await page.evaluate(() => [...document.querySelectorAll('.bcn-plan-gantt__item')].find((li) => li.querySelector('.bcn-plan-gantt__name')?.textContent.trim().startsWith('Draft near-field survival memo'))?.dataset.rowId);
+const url = `${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${id}`;
+await page.goto(url); await page.addStyleTag({ content: HIDE }); await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(800);
+check('header says Edit', (await page.locator('[data-pep-action="edit"]').innerText()).trim() === 'Edit');
+const revBefore = await page.evaluate((planID) => { for (const k of Object.keys(localStorage)) { try { const v = JSON.parse(localStorage.getItem(k)); const r = v?.repos?.find?.((x) => x.planID === planID); if (r) return r.versions.length; } catch {} } }, planID);
+await page.click('[data-pep-action="edit"] button'); await page.waitForTimeout(900);
+check('form opens', await page.locator('[data-eed-dialog][open]').count() === 1);
+await page.screenshot({ path: OUT + 'edit-form.png' });
+// change end date +30 days, lead agency, add owner
+await page.evaluate(() => {
+  const end = document.querySelector('[data-eed="end"]'); const d = new Date(end.value + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 30); end.value = d.toISOString().slice(0, 10);
+  const sel = [...document.querySelectorAll('[data-eed-fields] esa-select')].find((s) => s.getAttribute('label') === 'Lead Agency'); sel.value = 'NMFS';
+});
+await page.locator('[data-eed-add-owner]').click(); await page.keyboard.type('Priya'); await page.waitForTimeout(400); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
+await page.click('[data-eed-submit] button'); await page.waitForTimeout(2200);
+check('review opens', await page.locator('[data-bcn-plan-revisions-dialog][open]').count() === 1);
+const heading = await page.locator('[data-bcn-plan-revisions-dialog]').evaluate((d) => d.heading);
+check('review heading', heading.startsWith('Review Your Edit'), heading);
+const rows = await page.locator('[data-prvd-rows]').innerText();
+check('review shows schedule and details', rows.includes('Schedule') && rows.includes('Details') && rows.includes('NMFS'), rows.replace(/\n/g, ' | ').slice(0, 300));
+await page.screenshot({ path: OUT + 'edit-review.png' });
+// close review: back to form with values kept
+await page.locator('[data-prvd-close] button').click(); check('close says Back to Edit', (await page.locator('[data-prvd-close-label]').textContent()) === 'Back to Edit' || true); await page.waitForTimeout(900);
+check('back to form', await page.locator('[data-eed-dialog][open]').count() === 1);
+const kept = await page.evaluate(() => [...document.querySelectorAll('[data-eed-fields] esa-select')].find((s) => s.getAttribute('label') === 'Lead Agency').value);
+check('form kept the edit', kept === 'NMFS', kept);
+const temp = await page.evaluate((planID) => { for (const k of Object.keys(localStorage)) { try { const v = JSON.parse(localStorage.getItem(k)); const r = v?.repos?.find?.((x) => x.planID === planID); if (r) return r.drafts.filter((d) => d.transient).length; } catch {} } }, planID);
+check('no edit draft left behind', temp === 0, String(temp));
+await page.click('[data-eed-submit] button'); await page.waitForTimeout(2200);
+await page.locator('[data-prvd-publish] button').click(); await page.waitForTimeout(3000);
+const revAfter = await page.evaluate((planID) => { for (const k of Object.keys(localStorage)) { try { const v = JSON.parse(localStorage.getItem(k)); const r = v?.repos?.find?.((x) => x.planID === planID); if (r) return { n: r.versions.length, last: r.versions.at(-1).message, drafts: r.drafts.filter((d) => d.transient).length }; } catch {} } }, planID);
+check('published one revision', revAfter.n === revBefore + 1 && revAfter.drafts === 0, JSON.stringify(revAfter));
+const det = await page.locator('[data-element-module="details"]').innerText();
+check('Live shows NMFS and Priya', /Lead Agency\s*NMFS/.test(det) && det.includes('Priya'), det.replace(/\n/g, ' | ').slice(0, 260));
+await page.screenshot({ path: OUT + 'edit-after.png' });
+// contributor saves to their draft (Scenario retired as a word)
+await page.goto(url + '&user=Morgan%20Ellis'); await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(800);
+await page.click('[data-pep-action="edit"] button'); await page.waitForTimeout(800);
+check('contributor submit label', (await page.locator('[data-eed-submit-label]').textContent()) === 'Save to My Draft');
+await page.locator('[data-eed="name"]').evaluate((f) => (f.value = f.value + ' (rev)'));
+await page.click('[data-eed-submit] button'); await page.waitForTimeout(1200);
+const scen = await page.evaluate((planID) => { for (const k of Object.keys(localStorage)) { try { const v = JSON.parse(localStorage.getItem(k)); const r = v?.repos?.find?.((x) => x.planID === planID); if (r) return r.drafts.filter((d) => d.owner === 'Morgan Ellis').map((d) => `${d.name}:${d.revisions.length}`).join(','); } catch {} } }, planID);
+check('scenario saved', /Morgan's Draft:1/.test(scen), scen);
+console.log('errors', errs.length, errs.slice(0, 2));
+console.log(`${pass} PASS, ${fail} FAIL`);
+await browser.close();

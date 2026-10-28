@@ -1,0 +1,58 @@
+import { open, BASE, HIDE } from './lib.mjs';
+const { OUT } = await import('./lib.mjs');
+const { browser, page, planID } = await open({ scale: 1 });
+let pass = 0, fail = 0;
+const check = (n, ok, x = '') => { ok ? pass++ : fail++; console.log(`${ok ? 'PASS' : 'FAIL'} ${n}${x ? ' :: ' + x : ''}`); };
+await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}`);
+await page.waitForSelector('.bcn-plan-gantt__hit'); await page.waitForTimeout(800);
+const id = await page.evaluate(() => [...document.querySelectorAll('.bcn-plan-gantt__item')].find((li) => li.querySelector('.bcn-plan-gantt__name')?.textContent.trim().startsWith('Draft near-field survival memo'))?.dataset.rowId);
+await page.goto(`${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${id}`);
+await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(600);
+check('Live: header Edit shown', await page.locator('[data-pep-action="edit"]').isVisible());
+// Your draft: started from the plan page, then the element page opened in it.
+await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}`); await page.waitForSelector('.bcn-plan-gantt__hit'); await page.waitForTimeout(600);
+await page.click('[data-prp-edit] button'); await page.waitForURL(/draft=/); await page.waitForTimeout(800);
+const draftId = new URL(page.url()).searchParams.get('draft');
+await page.goto(`${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${id}&draft=${draftId}`); await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(800);
+check('Draft: header Edit shown (the only Edit)', await page.locator('[data-pep-action="edit"]').isVisible() && (await page.locator('[data-det-edit]').count()) === 0);
+check('Draft: plan says Your Draft', (await page.locator('[data-element-module="details"]').innerText()).includes('Your Draft'));
+await page.click('[data-pep-action="edit"] button'); await page.waitForTimeout(800);
+check('Editor opens', await page.locator('[data-eed-dialog][open]').count() === 1);
+check('Editor saves to draft', (await page.locator('[data-eed-submit-label]').textContent()) === 'Save to Draft');
+await page.screenshot({ path: OUT + 'editor.png' });
+await page.evaluate(() => {
+  const sel = [...document.querySelectorAll('[data-eed-fields] esa-select')].find((s) => s.getAttribute('label') === 'Lead Agency');
+  sel.value = 'NMFS';
+  const rp = [...document.querySelectorAll('[data-eed-fields] esa-text-field')].find((s) => s.getAttribute('label') === 'Review Period');
+  if (rp) rp.value = '45';
+});
+await page.locator('[data-eed-add-owner]').click(); await page.keyboard.type('Sam'); await page.waitForTimeout(400);
+await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
+check('Owner added in editor', (await page.locator('[data-eed-owners] li').count()) === 2, String(await page.locator('[data-eed-owners] li').count()));
+await page.click('[data-eed-submit] button'); await page.waitForTimeout(1500);
+const det = await page.locator('[data-element-module="details"]').innerText();
+check('Saved: Lead Agency NMFS', /Lead Agency\s*NMFS/.test(det), det.replace(/\n/g, ' | ').slice(0, 300));
+check('Saved: Review Period 45 days', /45 days/.test(det));
+check('Saved: two owners', det.includes('Sam Okafor'));
+await page.locator('[data-element-module="details"]').screenshot({ path: OUT + 'details-draft.png' });
+// Plan page: Changes From Live lists it
+const draftHref = await page.locator('[data-det-list] a').first().getAttribute('href');
+await page.goto(new URL(draftHref, BASE).href); await page.waitForSelector('.bcn-plan-gantt__hit'); await page.waitForTimeout(1200);
+if (await page.locator('[data-prp-about-open]').isVisible()) { await page.click('[data-prp-about-open]'); await page.waitForTimeout(400); }
+const changes = await page.locator('[data-prp-change-list]').innerText();
+check('Pane: Lead Agency in Changes From Live', changes.includes('Lead Agency') && changes.includes('NMFS'), changes.replace(/\n/g, ' | '));
+await page.click('[data-prp-review] button'); await page.waitForTimeout(1800);
+const rows = await page.locator('[data-prvd-rows]').innerText();
+check('Review: Details section', rows.includes('Details') && rows.includes('Lead Agency'), rows.replace(/\n/g, ' | ').slice(0, 400));
+check('Review: counts Items Edited', (await page.locator('[data-prvd-counts]').innerText()).includes('Edited'));
+const pub = page.locator('[data-prvd-publish] button');
+check('Review: Publish enabled', !(await pub.isDisabled()));
+await page.screenshot({ path: OUT + 'review-details.png' });
+await pub.click(); await page.waitForTimeout(2500);
+await page.goto(`${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${id}`); await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(800);
+const live = await page.locator('[data-element-module="details"]').innerText();
+check('Published: Live has NMFS', /Lead Agency\s*NMFS/.test(live));
+const act = await page.locator('[data-element-module="activity"]').innerText();
+check('Activity: Lead Agency changed', act.includes('Lead Agency changed'), act.slice(0, 200).replace(/\n/g, ' | '));
+console.log(`${pass} PASS, ${fail} FAIL`);
+await browser.close();
