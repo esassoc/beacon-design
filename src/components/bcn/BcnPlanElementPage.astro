@@ -79,22 +79,24 @@ import BcnHealthDialog from './BcnHealthDialog.astro';
   .bcn-pep__missing[hidden] {
     display: none;
   }
+  /* The data catalog detail pages' proportions (2026-10-28, Andy: "match data catalog pages"): the main column takes
+     the room, the side column is a fixed 360px rail. */
   .bcn-pep__cols {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(18rem, 3fr);
-    gap: var(--spacing-400);
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--spacing-600);
     align-items: start;
   }
   .bcn-pep__col {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-400);
+    gap: var(--spacing-500);
     min-width: 0;
   }
   .bcn-pep__col:empty {
     display: none;
   }
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     .bcn-pep__cols {
       grid-template-columns: minmax(0, 1fr);
     }
