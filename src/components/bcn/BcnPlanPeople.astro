@@ -9,11 +9,11 @@
 // bcn-lego-checked: every avatar IS esa-avatar; the bank is only a carrier for runtime clones, as BcnTeamAvatars'.
 // Checked Beacon (people are ui-avatar, the same lego). bcn-plan-people is the home for the planning module's people.
 import EsaAvatar from '@esa/ecology/esa-avatar.astro';
-import { PLAN_PEOPLE } from '../../lib/planning/plan-repo';
+import { PLAN_DIRECTORY } from '../../lib/planning/plan-repo';
 
 const SIZES = ['xs', 'sm', 'md'] as const;
-// The default viewer and the sample's watchers who never edit, so every name the pages print has a face.
-const PEOPLE = [...PLAN_PEOPLE, 'Dana Whitfield'];
+// Everyone a plan can name: the planners, and the project's people a plan's settings can add (2026-10-28).
+const PEOPLE = PLAN_DIRECTORY;
 ---
 
 <div hidden data-bcn-plan-people>

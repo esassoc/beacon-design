@@ -1,19 +1,20 @@
 // <BcnPlanRepoIndex>'s runtime: seeds the sample history on a first visit, then draws one row per plan from
+// plan-repo.ts: what it tracks, its counts (drafts among them), and a miniature.
+// It owns the page's BcnPlanSetupDialog: New Plan, and each row's settings for the plan's Owners.
 import { withBase } from '../../lib/base';
-// plan-repo.ts — the latest version as a commit line, open drafts as child rows, the counts and a schedule miniature.
 
 import { planIcon } from '../../lib/planning/icons';
-import { currentUserName, ensureSeeded, listPlanSummaries, shortDate, timeAgo, type PlanSummary } from '../../lib/planning/plan-repo';
+import { budgetAt, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
-import { planAvatar, planAvatarStack } from './plan-people';
-import { changeNote } from './plan-change-note';
+import { planAvatarStack } from './plan-people';
+import { setupPlanSetupDialog } from './plan-setup-dialog';
 
 type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
 type FieldEl = HTMLElement & { value: string };
 
 const FILTERS = [
   { label: 'All', value: 'all' },
-  { label: 'Has drafts', value: 'drafts' },
+  { label: 'Has Drafts', value: 'drafts' },
 ];
 
 export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
@@ -59,18 +60,42 @@ function miniature(summary: PlanSummary): string {
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Schedule, ${shortDate(summary.start!)} to ${shortDate(summary.end!)}">${parts.join('')}</svg>`;
 }
 
-const year = (iso: string | null) => (iso ? new Date(iso).getUTCFullYear() : '');
+/** A miniature of the plan's money: one bar per fiscal year, the current year solid. For a plan that tracks only a budget. */
+function moneyMiniature(budget: PlanBudget): string {
+  const byYear = new Map<number, number>();
+  for (const row of Object.values(budget)) for (const [fy, amount] of Object.entries(row)) byYear.set(Number(fy), (byYear.get(Number(fy)) ?? 0) + amount);
+  const years = [...byYear.keys()].sort((a, b) => a - b);
+  if (!years.length) return '';
+  const W = 288;
+  const H = 70;
+  const TOP = 14;
+  const max = Math.max(...byYear.values()) || 1;
+  const step = W / years.length;
+  const now = fiscalYearOf(new Date().toISOString().slice(0, 10));
+  const parts = years.map((fy, i) => {
+    const h = Math.max(1, ((byYear.get(fy) ?? 0) / max) * (H - TOP - 2));
+    const x = i * step + step * 0.18;
+    return `<rect class="mini-money${fy === now ? ' mini-money--now' : ''}" x="${x}" y="${H - h}" width="${step * 0.64}" height="${h}" rx="1.5"/>` + (i % 2 === 0 ? `<text class="mini-axis" x="${x}" y="9">FY'${String(fy).slice(2)}</text>` : '');
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Budget by fiscal year">${parts.join('')}</svg>`;
+}
 
-export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
+const year = (iso: string | null) => (iso ? new Date(iso).getUTCFullYear() : '');
+const compactDollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 1 });
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+const TRACKS: Record<PlanView, { label: string; glyph: string }> = { schedule: { label: 'Schedule', glyph: 'calendar' }, budget: { label: 'Budget', glyph: 'sheet' } };
+
+export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan(): Promise<void> }> {
   const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
   const rowsEl = q<HTMLUListElement>('[data-pri-rows]');
   const loading = q<HTMLElement>('[data-pri-loading]');
   const find = q<FieldEl>('[data-pri-find]');
   const filter = q<ToggleEl>('[data-pri-filter]');
-  const count = q<HTMLElement>('[data-pri-count]');
+  const countEl = q<HTMLElement>('[data-pri-count]');
   const none = q<HTMLElement>('[data-pri-none]');
   const rowTpl = q<HTMLTemplateElement>('[data-pri-row]');
-  const draftTpl = q<HTMLTemplateElement>('[data-pri-draft]');
+  const setupRoot = document.querySelector<HTMLElement>('[data-bcn-plan-setup]');
+  const setup = setupRoot ? setupPlanSetupDialog(setupRoot) : null;
 
   void customElements.whenDefined('esa-button-toggle').then(() => {
     filter.options = FILTERS;
@@ -78,7 +103,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
   });
 
   await ensureSeeded((text) => (q<HTMLElement>('[data-pri-progress]').textContent = text));
-  const summaries = await listPlanSummaries();
+  let summaries = await listPlanSummaries();
   const me = currentUserName();
   loading.hidden = true;
   rowsEl.hidden = false;
@@ -91,10 +116,13 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
       if (mode === 'drafts' && !s.repo.drafts.length) return false;
       return true;
     });
-    count.textContent = `${shown.length} ${shown.length === 1 ? 'plan' : 'plans'}`;
+    countEl.textContent = count(shown.length, 'Plan', 'Plans');
     none.hidden = shown.length > 0;
+    rowsEl.hidden = !shown.length;
     rowsEl.replaceChildren(...shown.map(row));
   }
+
+  const el = (tag: string, text: string, className = '') => Object.assign(document.createElement(tag), { textContent: text, className });
 
   function row(s: PlanSummary): HTMLElement {
     const li = rowTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
@@ -105,45 +133,67 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     name.href = href;
     r<HTMLAnchorElement>('[data-pri-mini]').href = href;
     r<HTMLElement>('[data-pri-desc]').textContent = s.description;
-    const labelled = [...s.repo.versions].reverse().find((v) => v.label);
-    if (labelled) {
-      r<HTMLElement>('[data-pri-label]').hidden = false;
-      r<HTMLElement>('[data-pri-label-text]').textContent = `${labelled.label}, revision ${labelled.number}`;
+    r<HTMLElement>('[data-pri-private]').hidden = s.repo.visibility !== 'Private';
+    // The plan's settings, for its Owners.
+    const members = membersOf(s.repo);
+    const settings = r<HTMLElement>('[data-pri-settings]');
+    settings.hidden = members.find((m) => m.name === me)?.role !== 'Owner';
+    settings.addEventListener('click', () => void openSettings(s.repo.planID));
+
+    // Facts: what it tracks, its span and items, its budget, its revisions, its people.
+    const tracks = viewsOf(s.repo);
+    r<HTMLElement>('[data-pri-tracks]').replaceChildren(
+      ...tracks.map((t) => {
+        const chip = el('span', '', 'bcn-pri__track');
+        const glyph = document.createElement('span');
+        glyph.dataset.glyph = TRACKS[t].glyph;
+        chip.append(glyph, TRACKS[t].label);
+        return chip;
+      })
+    );
+    r<HTMLElement>('[data-pri-span]').textContent = s.start && s.end ? `${year(s.start)}–${year(s.end)}` : 'No Dates Yet';
+    r<HTMLElement>('[data-pri-items]').textContent = count(s.elementCount, 'Item', 'Items');
+    const budget = budgetAt(s.repo);
+    const total = Object.values(budget).reduce((sum, row) => sum + Object.values(row).reduce((a, b) => a + b, 0), 0);
+    if (tracks.includes('budget') && total) {
+      const b = r<HTMLElement>('[data-pri-budget]');
+      b.hidden = false;
+      b.textContent = `${compactDollars.format(total)} Budget`;
     }
-    r<HTMLElement>('[data-pri-avatar]').replaceWith(planAvatar(s.latest.author, 'xs'));
-    r<HTMLElement>('[data-pri-author]').textContent = s.latest.author;
-    r<HTMLElement>('[data-pri-message]').replaceChildren(changeNote(s.latest.note, s.latest.message));
-    const when = r<HTMLElement>('[data-pri-when]');
-    when.textContent = `Revision ${s.latest.number}, ${timeAgo(s.latest.at)}`;
-    when.title = new Date(s.latest.at).toLocaleString();
-    r<HTMLElement>('[data-pri-version]').textContent = `Revision ${s.latest.number}`;
+    // Open drafts, counted (the plan page lists them), so Has Drafts has something to show.
+    if (s.repo.drafts.length) {
+      const drafts = r<HTMLAnchorElement>('[data-pri-drafts]');
+      drafts.hidden = false;
+      drafts.href = href;
+      r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.length, 'Draft', 'Drafts');
+    }
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);
-    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'Revision' : 'Revisions'}`;
-    r<HTMLElement>('[data-pri-span]').textContent = `${year(s.start)}–${year(s.end)}, ${s.elementCount} Items`;
-    r<HTMLElement>('[data-pri-people]').replaceWith(planAvatarStack(s.contributors, 5));
-    const drafts = r<HTMLUListElement>('[data-pri-drafts]');
-    // Yours first, then everyone else's, newest first.
-    const ordered = [...s.repo.drafts].sort((a, b) => (a.owner === me ? -1 : b.owner === me ? 1 : 0) || (b.revisions.at(-1)?.at ?? b.createdAt).localeCompare(a.revisions.at(-1)?.at ?? a.createdAt));
-    for (const d of ordered) {
-      const item = draftTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
-      item.querySelector('[data-pri-draft-avatar]')!.replaceWith(planAvatar(d.owner, 'xs'));
-      const link = item.querySelector<HTMLAnchorElement>('[data-pri-draft-name]')!;
-      link.textContent = d.owner === me ? `${d.name} (yours)` : d.name;
-      link.href = PLAN_HREF(s.repo.planID, `&draft=${d.id}`);
-      const behind = s.latest.number - d.baseVersion;
-      const n = d.revisions.length;
-      item.querySelector('[data-pri-draft-meta]')!.textContent =
-        `${d.owner.split(' ')[0]}, ${n} ${n === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}`;
-      drafts.append(item);
-    }
-    const mini = r<HTMLElement>('[data-pri-mini]');
-    mini.innerHTML = miniature(s);
+    r<HTMLElement>('[data-pri-versions]').textContent = count(s.repo.versions.length, 'Revision', 'Revisions');
+    r<HTMLElement>('[data-pri-people]').replaceWith(planAvatarStack(members.map((m) => m.name), 5));
+
+    // The miniature: the schedule, or the money when that's all it tracks.
+    r<HTMLElement>('[data-pri-mini]').innerHTML = tracks.includes('schedule') ? miniature(s) : moneyMiniature(budget);
     fillGlyphs(li);
     return li;
+  }
+
+  async function reload(): Promise<void> {
+    summaries = await listPlanSummaries();
+    draw();
+  }
+  async function openSettings(planID: string): Promise<void> {
+    const result = await setup?.open(planID);
+    if (result) await reload();
   }
 
   find.addEventListener('input', draw);
   filter.addEventListener('change', draw);
   draw();
+  return {
+    async newPlan() {
+      const result = await setup?.open();
+      if (result?.kind === 'created') location.assign(PLAN_HREF(result.planID));
+    },
+  };
 }

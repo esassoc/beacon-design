@@ -1,0 +1,171 @@
+---
+// <BcnPlanSetupDialog> — a plan's setup in one modal (new, 2026-10-28, Andy: "Do we have a modal for create/edit/delete
+// of a plan. Config your levels? Add Contributors."), for New Plan on the Plans index and Edit in a plan's About panel.
+// Sections with a heading and a glyph, as the element drawer's:
+//
+//   General          name and description
+//   What It Tracks   Schedule, Budget, or both ("some plans may or may not need schedule AND budget")
+//   Levels           the plan's levels top down, singular and plural; add and remove at the bottom, as Beacon's rules
+//   People           who works on it and their role (Owner, Editor, Contributor); add from the project's people
+//   Danger Zone      Delete Plan (edit only), behind a confirm
+//
+// Settings, like a repo's, not revisions: saving makes no revision. The runtime is ./plan-setup-dialog.ts.
+//
+// bcn-lego-checked: the shell IS esa-dialog, fields ARE esa-text-field / esa-textarea, the views' toggles ARE
+// esa-switch-toggle, roles ARE esa-select, Add a Person IS esa-combobox, avatars ARE esa-avatar (BcnPlanPeople), every
+// action IS esa-button, Delete sits in BcnDangerZone and asks through esa-confirm-dialog. The level rows are
+// BcnPlanCreateDialog's grid (Jamie's plan-create-dialog, ported from Beacon). No esa- lego is a choice card (an option
+// with a glyph, a title and a line of description) or a person row with a role; checked Beacon (plan-create-dialog has
+// no views or people; plan-settings-drawer has levels only). The CSS is those two rows and the sections.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnDangerZone from './BcnDangerZone.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
+---
+
+<div class="bcn-psu" data-bcn-plan-setup>
+  <esa-dialog class="bcn-psu__dialog" heading="New Plan" show-close-button data-psu-dialog>
+    <form class="bcn-psu__form" novalidate data-psu-form>
+      <section class="bcn-psu__section" aria-labelledby="psu-general">
+        <h3 class="bcn-psu__heading" id="psu-general"><EsaIcon name="file-text" size="sm" />General</h3>
+        <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
+        <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
+      </section>
+
+      <section class="bcn-psu__section" aria-labelledby="psu-views">
+        <h3 class="bcn-psu__heading" id="psu-views"><EsaIcon name="square-chart-gantt" paths={PLAN_ICON_PATHS['square-chart-gantt']} size="sm" />What It Tracks</h3>
+        <p class="bcn-psu__hint typography-body-sm">A schedule, a budget, or both. Turning one off hides it; nothing in it is deleted.</p>
+        <div class="bcn-psu__views">
+          <div class="bcn-psu__view" data-psu-view="schedule">
+            <span class="bcn-psu__view-glyph"><EsaIcon name="calendar" paths={PLAN_ICON_PATHS.calendar} size="md" /></span>
+            <span class="bcn-psu__view-text"><b>Schedule</b><span class="typography-body-sm">Dates and dependencies on a Gantt chart</span></span>
+            <esa-switch-toggle size="sm" aria-label="Schedule" data-psu-view-toggle></esa-switch-toggle>
+          </div>
+          <div class="bcn-psu__view" data-psu-view="budget">
+            <span class="bcn-psu__view-glyph"><EsaIcon name="sheet" paths={PLAN_ICON_PATHS.sheet} size="md" /></span>
+            <span class="bcn-psu__view-text"><b>Budget</b><span class="typography-body-sm">Money by fiscal year in a sheet</span></span>
+            <esa-switch-toggle size="sm" aria-label="Budget" data-psu-view-toggle></esa-switch-toggle>
+          </div>
+        </div>
+        <p class="bcn-psu__error typography-body-sm" data-psu-views-error hidden>Pick at least one.</p>
+      </section>
+
+      <section class="bcn-psu__section" aria-labelledby="psu-levels">
+        <h3 class="bcn-psu__heading" id="psu-levels"><EsaIcon name="list-tree" paths={PLAN_ICON_PATHS['list-tree']} size="sm" />Levels</h3>
+        <p class="bcn-psu__hint typography-body-sm" data-psu-levels-hint>From the top of the plan down, up to 4.</p>
+        <div class="bcn-psu__level bcn-psu__level--head typography-label-sm" aria-hidden="true">
+          <span></span><span>Singular</span><span>Plural</span><span></span>
+        </div>
+        <div class="bcn-psu__levels" data-psu-levels></div>
+        <span class="bcn-psu__add" data-psu-add-level><EsaButton variant="ghost" size="xs" icon="plus">Add Level</EsaButton></span>
+      </section>
+
+      <section class="bcn-psu__section" aria-labelledby="psu-people">
+        <h3 class="bcn-psu__heading" id="psu-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS.users} size="sm" />People</h3>
+        <p class="bcn-psu__hint typography-body-sm">Owners and Editors publish to Live. Contributors draft and ask to publish. Owners also change these settings.</p>
+        <ul class="bcn-psu__people" data-psu-people></ul>
+        <esa-combobox class="bcn-psu__find" data-psu-add-person mode="autocomplete" size="sm" label="Add a Person" placeholder="e.g. Dana Whitfield"></esa-combobox>
+        <p class="bcn-psu__error typography-body-sm" data-psu-people-error hidden>A plan needs an Owner.</p>
+      </section>
+
+      <div data-psu-danger hidden>
+        <BcnDangerZone title="Delete This Plan" description="Its revisions, drafts and budget go with it. This can't be undone.">
+          <span data-psu-delete><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete Plan</EsaButton></span>
+        </BcnDangerZone>
+      </div>
+    </form>
+
+    <div slot="footer" class="bcn-psu__footer">
+      <p class="bcn-psu__error typography-body-sm" data-psu-error hidden></p>
+      <span data-psu-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-psu-save><EsaButton variant="primary"><span data-psu-save-label>Create Plan</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+  <esa-confirm-dialog data-psu-confirm variant="danger"></esa-confirm-dialog>
+
+  <template data-psu-tpl="level">
+    <div class="bcn-psu__level">
+      <span class="bcn-psu__level-label typography-label-sm" data-level-label>Level 1</span>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="singular"></esa-text-field>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="plural"></esa-text-field>
+      <span class="bcn-psu__level-remove" data-level-remove-wrap>
+        <esa-tooltip text="Remove Level" data-level-remove-tip><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove Level" data-level-remove /></esa-tooltip>
+      </span>
+    </div>
+  </template>
+  <template data-psu-tpl="person">
+    <li class="bcn-psu__person">
+      <span data-person-avatar></span>
+      <span class="bcn-psu__person-name" data-person-name></span>
+      <esa-select class="bcn-psu__role" size="sm" aria-label="Role" data-person-role></esa-select>
+      <span data-person-remove><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></span>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-psu__dialog { --dialog-width: min(42rem, calc(100vw - 2rem)); }
+  .bcn-psu :global([hidden]) { display: none !important; }
+  .bcn-psu__form { display: flex; flex-direction: column; gap: var(--spacing-500); margin: 0; }
+  .bcn-psu__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-psu__section + .bcn-psu__section { padding-block-start: var(--spacing-500); border-block-start: 1px solid var(--color-border-default-subtle); }
+  /* A section's heading leads with its glyph, the glyph in the quiet ink so the words lead (the element drawer's). */
+  .bcn-psu__heading { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-200); font-weight: 600; color: var(--color-content-default); }
+  .bcn-psu__heading :global(.esa-icon) { color: var(--color-content-default-secondary); }
+  .bcn-psu__hint { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-psu__error { margin: 0; color: var(--color-content-utility-danger); }
+
+  /* What it tracks: two choices side by side, each its glyph, its name and a line, and its switch. On is outlined in
+     brand; the whole card toggles. */
+  .bcn-psu__views { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--spacing-300); }
+  .bcn-psu__view {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-psu__view:hover { border-color: var(--color-border-default-strong, var(--color-border-default)); }
+  .bcn-psu__view[data-on] { border-color: var(--color-background-brand); background: color-mix(in srgb, var(--color-background-brand) 5%, var(--color-background-elevation-raised)); }
+  .bcn-psu__view-glyph { display: inline-flex; color: var(--color-content-default-secondary); }
+  .bcn-psu__view[data-on] .bcn-psu__view-glyph { color: var(--color-content-brand); }
+  .bcn-psu__view-text { display: flex; flex-direction: column; min-inline-size: 0; }
+  .bcn-psu__view-text b { font-weight: 600; }
+  .bcn-psu__view-text span { color: var(--color-content-default-secondary); }
+
+  /* Levels: BcnPlanCreateDialog's grid. The remove cell is an xs button's width, so the heads line up with the rows. */
+  .bcn-psu__levels { display: contents; }
+  .bcn-psu__level { display: grid; grid-template-columns: 4.5rem 1fr 1fr 2rem; align-items: start; gap: var(--spacing-200); }
+  .bcn-psu__level--head { color: var(--color-content-default-secondary); }
+  .bcn-psu__level-label,
+  .bcn-psu__level-remove { display: flex; align-items: center; min-block-size: 2.375rem; }
+  .bcn-psu__level-label { color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-psu__add { align-self: flex-start; }
+
+  /* People: avatar, name, role, remove; one hairline between. */
+  .bcn-psu__people { list-style: none; margin: 0; padding: 0; border: 1px solid var(--color-border-default); border-radius: var(--radius-200); }
+  .bcn-psu__person { display: grid; grid-template-columns: auto minmax(0, 1fr) 10rem 2rem; align-items: center; gap: var(--spacing-300); padding: var(--spacing-200) var(--spacing-300); }
+  .bcn-psu__person + .bcn-psu__person { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-psu__person-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-psu__person-name :global(small) { margin-inline-start: var(--spacing-200); color: var(--color-content-default-secondary); font-size: var(--font-size-100); }
+
+  .bcn-psu__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
+  .bcn-psu__footer .bcn-psu__error { margin-inline-end: auto; }
+</style>

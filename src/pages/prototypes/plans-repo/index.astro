@@ -7,35 +7,58 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnPlanRepoIndex from '../../../components/bcn/BcnPlanRepoIndex.astro';
 import BcnPlanPeople from '../../../components/bcn/BcnPlanPeople.astro';
+import BcnPlanSetupDialog from '../../../components/bcn/BcnPlanSetupDialog.astro';
 import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
 ---
 
 <!-- manifest:
   layout: AppShell > PageLayout                       # SPINE
   sections:
-    - utilities -> esa-button                         # Start over (re-seeds the sample history)
-    - plans     -> bcn-plan-repo-index                # find + filter, one repo-style row per plan, drafts as child rows
+    - utilities -> esa-button x2                      # Start Sample Over (re-seeds the history), New Plan
+    - plans     -> bcn-plan-repo-index                # find + filter, one repo-style row per plan, its branches as rows
+    - setup     -> bcn-plan-setup-dialog              # New Plan, and each row's settings for its Owners
+    - confirm   -> esa-confirm-dialog                 # Start Sample Over asks first
     - people    -> bcn-plan-people                    # the avatar bank rows clone from
 -->
 
 <AppShell title="Plans" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
   <PageLayout title="Plans" icon="square-chart-gantt" iconColor="var(--color-content-brand)" iconPaths={PLAN_ICON_PATHS['square-chart-gantt']} breadcrumbs={[{ label: 'Plans' }]}>
-    <span slot="utilities" data-pri-reset>
-      <EsaButton variant="ghost" size="sm" icon="rotate-ccw">Start sample over</EsaButton>
+    <span slot="utilities" class="plans-utilities">
+      <span data-pri-reset><EsaButton variant="ghost" size="sm" icon="rotate-ccw">Start Sample Over</EsaButton></span>
+      <span data-pri-new><EsaButton variant="primary" size="sm" icon="plus">New Plan</EsaButton></span>
     </span>
     <BcnPlanRepoIndex />
+    <BcnPlanSetupDialog />
+    <esa-confirm-dialog data-pri-confirm variant="danger"></esa-confirm-dialog>
     <BcnPlanPeople />
   </PageLayout>
 </AppShell>
 
 <script>
+  import '@esa/ecology/esa-confirm-dialog';
   import { setupPlanRepoIndex } from '../../../components/bcn/plan-repo-index';
   import { resetSample } from '../../../lib/planning/plan-repo';
   const root = document.querySelector<HTMLElement>('[data-bcn-plan-repo-index]');
-  if (root) void setupPlanRepoIndex(root);
+  const index = root ? setupPlanRepoIndex(root) : null;
+  document.querySelector('[data-pri-new]')?.addEventListener('click', async () => (await index)?.newPlan());
+  // Start Sample Over asks in a UI modal, not the browser's confirm (2026-10-28, Andy, for the plan page's guard).
+  type ConfirmEl = HTMLElement & { heading: string; message: string; confirmLabel: string; cancelLabel: string; open: boolean };
+  const confirmEl = document.querySelector<ConfirmEl>('[data-pri-confirm]')!;
   document.querySelector('[data-pri-reset]')?.addEventListener('click', async () => {
-    if (!confirm('Start the sample over? Every plan, draft and version in this browser is replaced with the original three months of history.')) return;
+    Object.assign(confirmEl, {
+      heading: 'Start the Sample Over?',
+      message: 'Every plan, draft and revision in this browser is replaced with the original three months of history.',
+      confirmLabel: 'Start Over',
+      cancelLabel: 'Keep My Changes',
+    });
+    confirmEl.open = true;
+    const ok = await new Promise<boolean>((resolve) => confirmEl.addEventListener('resolved', (e) => resolve((e as CustomEvent<{ confirmed: boolean }>).detail.confirmed), { once: true }));
+    if (!ok) return;
     await resetSample();
     location.reload();
   });
 </script>
+
+<style>
+  .plans-utilities { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+</style>

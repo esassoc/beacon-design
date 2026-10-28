@@ -28,6 +28,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
 import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
+import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
 import { PROGRAMS } from '../../data/fish-plan';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { flattenForest } from '../../data/fish-model';
@@ -153,7 +154,12 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
     <aside class="bcn-prp__about" aria-label="About this plan">
       <header class="bcn-prp__about-head">
         <span class="typography-label-md-strong" data-prp-pane-title>About</span>
-        <EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse About" size="xs" data-prp-about-close />
+        <span class="bcn-prp__about-tools">
+          <!-- The plan's setup (2026-10-28, Andy: "an edit link to the about panel to edit the basic details/scope"): its
+               Owners open BcnPlanSetupDialog here. -->
+          <span data-prp-settings hidden><esa-tooltip text="Name, What It Tracks, Levels and People" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
+          <EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse About" size="xs" data-prp-about-close />
+        </span>
       </header>
       <div class="bcn-prp__about-body typography-body-sm">
         <section data-prp-edits hidden>
@@ -162,6 +168,7 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
         </section>
         <p data-prp-desc></p>
         <dl class="bcn-prp__facts">
+          <div><dt>Tracks</dt><dd data-prp-tracks></dd></div>
           <div><dt>Span</dt><dd data-prp-span></dd></div>
           <div><dt>Items</dt><dd data-prp-items></dd></div>
           <div><dt>Dependencies</dt><dd data-prp-deps></dd></div>
@@ -175,8 +182,8 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
           <ul class="bcn-prp__list" data-prp-draftlist></ul>
         </section>
         <section>
-          <h2 class="typography-label-md-strong">Contributors</h2>
-          <div data-prp-people></div>
+          <h2 class="typography-label-md-strong">People</h2>
+          <ul class="bcn-prp__people" data-prp-people></ul>
         </section>
       </div>
     </aside>
@@ -191,6 +198,7 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   </div>
   <!-- Revisions in a modal (2026-10-28, after TalentBridge): the history, and a draft's review before it publishes. -->
   <BcnPlanRevisionsDialog />
+  <BcnPlanSetupDialog />
   <BcnChangeNote />
   <script type="application/json" data-prp-detail-index set:html={JSON.stringify(detailIndex)}></script>
 </div>
@@ -413,6 +421,14 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__about-body p { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-prp__about-body section { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-prp__about-body h2 { margin: 0; }
+  .bcn-prp__about-tools { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  /* A plan that tracks one view has no switch (esa-button-toggle's own display beats the hidden attribute). */
+  :global([data-prp-view-toggle][hidden]) { display: none !important; }
+  /* People: avatar, name, and their role at the end. */
+  .bcn-prp__people { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-prp__people :global(li) { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--spacing-200); }
+  .bcn-prp__people :global(.bcn-prp__person-name) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-prp__people :global(.bcn-prp__person-role) { color: var(--color-content-default-secondary); font-size: var(--font-size-100); }
   .bcn-prp__facts { margin: 0; display: flex; flex-direction: column; gap: var(--spacing-100); }
   .bcn-prp__facts div { display: flex; justify-content: space-between; gap: var(--spacing-200); }
   .bcn-prp__facts dt { color: var(--color-content-default-secondary); }

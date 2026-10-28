@@ -21,7 +21,6 @@ import type { PlanDetailDto } from '../../lib/planning/model';
 import type { GanttDragEvent } from '../../lib/planning/gantt-types';
 import {
   addRevision,
-  contributorsOf,
   currentUserName,
   discardDraft,
   dismissNotice,
@@ -54,26 +53,19 @@ import {
   type PlanRepo,
   type PlanRepoDraft,
   type PlanRevision,
+  membersOf,
+  viewsOf,
+  stamp,
 } from '../../lib/planning/plan-repo';
-import { planAvatar, planAvatarStack, setButtonDisabled } from './plan-people';
+import { setupPlanSetupDialog } from './plan-setup-dialog';
+import { planAvatar, setButtonDisabled } from './plan-people';
+import { withBase } from '../../lib/base';
 import { changeNote } from './plan-change-note';
 import { PLAN_HREF, REVISIONS_HREF, STUDY_KEYS, fillGlyphs, keepStudy, type StudyKey } from './plan-repo-index';
 
 type Mode = 'live' | 'own' | 'view';
 
 const firstName = (name: string) => name.split(' ')[0];
-/** When, as a time on a day: "Today, 9:14 AM", "Yesterday, 4:02 PM", "Oct 24, 8:07 AM". */
-function stamp(iso: string, now = new Date()): string {
-  const d = new Date(iso);
-  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const yesterday = new Date(now);
-  yesterday.setDate(now.getDate() - 1);
-  if (d.toDateString() === now.toDateString()) return `Today, ${time}`;
-  if (d.toDateString() === yesterday.toDateString()) return `Yesterday, ${time}`;
-  const day = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(d.getFullYear() !== now.getFullYear() ? { year: 'numeric' as const } : {}) });
-  return `${day}, ${time}`;
-}
-
 export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
   await ensureSeeded();
@@ -96,8 +88,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const concept = (study.concept === 'none' ? null : (study.concept ?? 'issued')) as 'pencil' | 'drafting' | 'night' | 'bench' | 'pencil-paper' | 'issued' | null;
   const issued = concept === 'issued';
   // Who may publish (2026-10-27): someone who can't still makes a scenario, and asks someone who can to publish it.
-  // The prototype's stand-in for a permission is &role=contributor.
-  const canPublish = study.role !== 'contributor';
+  // The plan's people say who can (2026-10-28): Owners and Editors publish, Contributors and anyone not on the plan
+  // ask. &role=contributor still forces the contributor's page.
+  const myRole = membersOf(getRepo(planID)).find((m) => m.name === currentUserName())?.role ?? 'Contributor';
+  const canPublish = study.role !== 'contributor' && myRole !== 'Contributor';
   const noun = canPublish ? 'draft' : 'scenario';
   const yours = canPublish ? 'Your Draft' : 'Your Scenario';
   /** What a new one is called: "Andy's Draft", or "Andy's Scenario" for someone who can't publish. */
@@ -374,14 +368,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   type View = 'schedule' | 'budget';
   const viewToggle = document.querySelector<HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string }>('[data-prp-view-toggle]');
   let view: View = params.get('view') === 'budget' ? 'budget' : 'schedule';
-  void customElements.whenDefined('esa-button-toggle').then(() => {
-    if (!viewToggle) return;
-    viewToggle.options = [
-      { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar },
-      { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet },
-    ];
-    viewToggle.value = view;
-  });
+  // A plan tracks a schedule, a budget, or both (its settings, 2026-10-28): the switch offers what it tracks, and
+  // steps aside when that's one.
+  const VIEW_OPTIONS = { schedule: { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar }, budget: { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet } };
+  function applyViews(): void {
+    const tracks = viewsOf(getRepo(planID!));
+    if (!tracks.includes(view)) view = tracks[0];
+    void customElements.whenDefined('esa-button-toggle').then(() => {
+      if (!viewToggle) return;
+      viewToggle.options = tracks.map((t) => VIEW_OPTIONS[t]);
+      viewToggle.value = view;
+      viewToggle.hidden = tracks.length < 2;
+    });
+  }
+  applyViews();
   viewToggle?.addEventListener('change', (e) => setView(((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value) === 'budget' ? 'budget' : 'schedule'));
   function showView(): void {
     root.dataset.view = view;
@@ -850,10 +850,18 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     }
     q<HTMLElement>('[data-prp-desc]').textContent = live.Description ?? '';
     const span = planSpan(shown);
-    q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : '—';
+    q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : 'No Dates Yet';
     q<HTMLElement>('[data-prp-items]').textContent = String(flattenPlan(shown.Elements).length);
     q<HTMLElement>('[data-prp-deps]').textContent = String(shown.Dependencies?.length ?? 0);
-    q<HTMLElement>('[data-prp-people]').replaceChildren(planAvatarStack(contributorsOf(repo), 8, 'sm'));
+    q<HTMLElement>('[data-prp-tracks]').textContent = viewsOf(repo).map((v) => VIEW_OPTIONS[v].label).join(', ');
+    q<HTMLElement>('[data-prp-people]').replaceChildren(
+      ...membersOf(repo).map((m) => {
+        const li = document.createElement('li');
+        li.append(planAvatar(m.name, 'xs'), Object.assign(document.createElement('span'), { className: 'bcn-prp__person-name', textContent: m.name }), Object.assign(document.createElement('span'), { className: 'bcn-prp__person-role', textContent: m.role }));
+        return li;
+      })
+    );
+    q<HTMLElement>('[data-prp-settings]').hidden = myRole !== 'Owner';
 
     const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string, to?: string) => {
       const el = document.createElement('div');
@@ -908,6 +916,22 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Revisions in a modal (2026-10-28): the history from the Revisions link and About; a draft's review from Review and
   // Publish. A publish or a restore lands back here, on Live, without a reload.
   const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive });
+  // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index ──
+  const setup = setupPlanSetupDialog(document.querySelector<HTMLElement>('[data-bcn-plan-setup]')!);
+  q<HTMLElement>('[data-prp-settings]').addEventListener('click', async () => {
+    const result = await setup.open(planID!);
+    if (result?.kind === 'deleted') return void location.assign(keep(withBase('/prototypes/plans-repo/')));
+    if (result?.kind !== 'saved') return;
+    live = await planApi.getPlan(planID!);
+    if (mode === 'live') {
+      planStore.set(live);
+      shown = live;
+    }
+    applyViews();
+    showView();
+    refresh();
+  });
+
   async function landOnLive(): Promise<void> {
     live = await planApi.getPlan(planID!);
     planStore.set(live);

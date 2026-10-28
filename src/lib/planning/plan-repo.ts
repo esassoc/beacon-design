@@ -16,7 +16,7 @@
 // a repo page shows. APPROXIMATION: the history lives in this browser's localStorage beside her store.
 
 import { dayNumber, isoOfDay } from './gantt-geometry';
-import { PlanDateTypeEnum, type PlanDetailDto, type PlanElementDto } from './model';
+import { PlanDateTypeEnum, type PlanDetailDto, type PlanElementDto, type PlanLevelCreateDto } from './model';
 import type { PlanDraftOverrideDto, PlanDraftViewDto } from './plan-draft-model';
 import { planDraftWithEdits, type PlanDraftEdit } from './plan-draft';
 import { PROJECT_ID, currentUserName, planApi, setPlanApiLatency } from './plan-server';
@@ -119,6 +119,19 @@ export interface PlanRepo {
   drafts: PlanRepoDraft[];
   /** Word left for someone about their draft (2026-10-28): it was published by someone else. Read on their next visit. */
   notices?: PlanNotice[];
+  /** What the plan tracks (2026-10-28, Andy: "some plans may or may not need schedule AND budget"). Absent: both. */
+  views?: PlanView[];
+  /** Who works on it and what they may do (2026-10-28). Absent: its creator as Owner, everyone who has written to it
+   *  as an Editor. Settings, like a repo's, not revisions: changing them makes no revision. */
+  members?: PlanMember[];
+}
+
+export type PlanView = 'schedule' | 'budget';
+/** Owners and Editors publish to Live; Contributors draft and ask to publish; an Owner also changes the settings. */
+export type PlanRole = 'Owner' | 'Editor' | 'Contributor';
+export interface PlanMember {
+  name: string;
+  role: PlanRole;
 }
 
 /** "Priya published your draft Permit delay scenario as Revision 9." */
@@ -138,8 +151,9 @@ interface RepoStore {
   format?: number;
 }
 
-/** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year). */
-const SEED_FORMAT = 4;
+/** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
+ *  5: views and people, which a format-4 store takes on without starting over). */
+const SEED_FORMAT = 5;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -234,6 +248,9 @@ async function as<T>(user: string, work: () => Promise<T>): Promise<T> {
     }
   }
 }
+
+/** The people a plan's settings can add: the sample's planners and a few more of the project's staff. */
+export const PLAN_DIRECTORY = [...PLAN_PEOPLE, 'Dana Whitfield', 'Morgan Ellis', 'Chris Tanaka', 'Leah McNearney', 'Ravi Shah'] as const;
 
 // ── Plan helpers ───────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -381,6 +398,18 @@ export function shiftText(days: number): string {
   if (n >= 60) return `${sign}${Math.round(n / 30.44)} mo`;
   if (n >= 14) return `${sign}${Math.round(n / 7)} wk`;
   return `${sign}${n} d`;
+}
+
+/** When, as a time on a day: "Today, 9:14 AM", "Yesterday, 4:02 PM", "Oct 24, 8:07 AM". */
+export function stamp(iso: string, now = new Date()): string {
+  const d = new Date(iso);
+  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (d.toDateString() === now.toDateString()) return `Today, ${time}`;
+  if (d.toDateString() === yesterday.toDateString()) return `Yesterday, ${time}`;
+  const day = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(d.getFullYear() !== now.getFullYear() ? { year: 'numeric' as const } : {}) });
+  return `${day}, ${time}`;
 }
 
 /** "just now", "4 min ago", "3 hours ago", "yesterday", "5 days ago", "on Aug 2". */
@@ -653,6 +682,10 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   const plans = await planApi.listPlans(PROJECT_ID);
   const known = new Set(plans.map((p) => p.PlanID));
   store.repos = store.repos.filter((r) => known.has(r.planID));
+  if (store.repos.length && store.format === 4) {
+    seedSettings(store);
+    store.format = SEED_FORMAT;
+  }
   if (store.repos.length && store.format === SEED_FORMAT) {
     save(store);
     return;
@@ -671,8 +704,46 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   } finally {
     setPlanApiLatency(220);
   }
+  seedSettings(store);
   store.format = SEED_FORMAT;
   save(store);
+}
+
+/** The sample's settings: the three plans track different things, and each has its people. Andy owns all three, so
+ *  the default viewer can open every plan's settings (?user= shows the others' roles). */
+function seedSettings(store: RepoStore): void {
+  const SETTINGS: Record<string, { views: PlanView[]; members: PlanMember[] }> = {
+    'Fisheries Evaluation Studies': {
+      views: ['schedule', 'budget'],
+      members: [
+        { name: 'Jamie Quishenberry', role: 'Owner' },
+        { name: 'Andy Lovseth', role: 'Owner' },
+        { name: 'Alex Rivera', role: 'Editor' },
+        { name: 'Priya Natarajan', role: 'Editor' },
+        { name: 'Sam Okafor', role: 'Contributor' },
+      ],
+    },
+    'Geotechnical Investigations': {
+      views: ['schedule'],
+      members: [
+        { name: 'Sam Okafor', role: 'Owner' },
+        { name: 'Andy Lovseth', role: 'Owner' },
+        { name: 'Chris Tanaka', role: 'Contributor' },
+      ],
+    },
+    'Habitat Restoration Monitoring': {
+      views: ['budget'],
+      members: [
+        { name: 'Priya Natarajan', role: 'Owner' },
+        { name: 'Andy Lovseth', role: 'Owner' },
+        { name: 'Dana Whitfield', role: 'Editor' },
+      ],
+    },
+  };
+  for (const repo of store.repos) {
+    const seed = SETTINGS[latestVersion(repo).plan.PlanName ?? ''];
+    if (seed && !repo.views) Object.assign(repo, clone(seed));
+  }
 }
 
 /** Starts the history over: the mock API's plans and this module's store are cleared, and the seed runs again. */
@@ -690,6 +761,79 @@ export function getRepo(planID: string): PlanRepo {
 
 export function latestVersion(repo: PlanRepo): PlanVersion {
   return repo.versions[repo.versions.length - 1];
+}
+
+export const viewsOf = (repo: PlanRepo): PlanView[] => (repo.views?.length ? repo.views : ['schedule', 'budget']);
+
+export function membersOf(repo: PlanRepo): PlanMember[] {
+  if (repo.members?.length) return repo.members;
+  const creator = repo.versions[0]?.author;
+  return [
+    ...(creator ? [{ name: creator, role: 'Owner' as const }] : []),
+    ...contributorsOf(repo).filter((name) => name !== creator).map((name) => ({ name, role: 'Editor' as const })),
+  ];
+}
+
+/** What a plan's settings dialog edits. */
+export interface PlanSettings {
+  name: string;
+  description: string;
+  views: PlanView[];
+  /** Top of the plan down. */
+  levels: Required<PlanLevelCreateDto>[];
+  members: PlanMember[];
+}
+
+/** A new plan: made on the API, then its history starts with one revision, Created, by whoever made it. */
+export async function createPlanRepo(settings: PlanSettings): Promise<string> {
+  const created = await planApi.createPlan(PROJECT_ID, { PlanName: settings.name, Description: settings.description, Levels: settings.levels });
+  const me = currentUserName();
+  const store = load();
+  store.repos.push({
+    planID: created.PlanID ?? '',
+    visibility: 'Project',
+    watchers: [me],
+    starredBy: [],
+    versions: [{ number: 1, author: me, at: new Date().toISOString(), ...noted({ action: 'Created' }), changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(created), budget: {} }],
+    drafts: [],
+    views: settings.views,
+    members: settings.members,
+  });
+  save(store);
+  return created.PlanID ?? '';
+}
+
+/** A plan's settings saved: its name and description and levels on the API, its views and people on the repo. The
+ *  name and description are the plan's, not a revision's, so every revision's copy takes them. */
+export async function savePlanSettings(planID: string, settings: PlanSettings): Promise<void> {
+  let plan = await planApi.getPlan(planID);
+  if ((plan.PlanName ?? '') !== settings.name || (plan.Description ?? '') !== settings.description) {
+    await planApi.updatePlan(planID, { PlanName: settings.name, Description: settings.description }, plan.VersionToken);
+    plan = await planApi.getPlan(planID);
+  }
+  const levels = [...(plan.Levels ?? [])].sort((a, b) => (a.Depth ?? 0) - (b.Depth ?? 0));
+  for (let i = 0; i < Math.max(levels.length, settings.levels.length); i++) {
+    const was = levels[i];
+    const next = settings.levels[i];
+    if (was && next && (was.SingularName !== next.SingularName || was.PluralName !== next.PluralName)) await planApi.updateLevel(planID, was.Depth ?? i + 1, next, (await planApi.getPlan(planID)).VersionToken);
+    else if (!was && next) await planApi.createLevel(planID, next, (await planApi.getPlan(planID)).VersionToken);
+  }
+  // Removed from the bottom up: only the deepest level can go.
+  for (let i = levels.length - 1; i >= settings.levels.length; i--) await planApi.deleteLevel(planID, levels[i].Depth ?? i + 1, (await planApi.getPlan(planID)).VersionToken);
+  const store = load();
+  const repo = findRepo(store, planID);
+  for (const version of repo.versions) Object.assign(version.plan, { PlanName: settings.name, Description: settings.description });
+  repo.views = settings.views;
+  repo.members = settings.members;
+  save(store);
+}
+
+/** A plan deleted: on the API, and its history, drafts and budget with it. */
+export async function deletePlanRepo(planID: string): Promise<void> {
+  await planApi.deletePlan(planID);
+  const store = load();
+  store.repos = store.repos.filter((r) => r.planID !== planID);
+  save(store);
 }
 
 export function contributorsOf(repo: PlanRepo): string[] {
