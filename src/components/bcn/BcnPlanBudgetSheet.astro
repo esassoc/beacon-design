@@ -105,6 +105,8 @@
   .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-1) { background-color: color-mix(in srgb, var(--color-content-default) 1.5%, var(--color-background-elevation-raised)); }
   .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
   .bcn-pbs__grid :global(.ag-row .bcn-pbs__name:hover) { text-decoration: underline; }
+  /* The search's hits: the house highlighter yellow, tight to the letters (the Gantt's). */
+  .bcn-pbs__grid :global(.bcn-pbs__match) { background: var(--bcn-marker-selection); color: inherit; padding: 0; }
   /* A year the task doesn't run in: hatched, and quieter. */
   .bcn-pbs__grid :global(.bcn-pbs__off) { background-image: var(--_pbs-hatch); color: var(--color-content-default-tertiary); }
   /* Money in a year the element doesn't run in: worth a look. */

@@ -154,7 +154,15 @@ export function setupPlanBudgetSheet(
       const span = document.createElement('span');
       span.className = 'bcn-pbs__name';
       span.style.paddingInlineStart = `${(p.data?.depth ?? 0) * 16}px`;
-      span.textContent = p.value ?? '';
+      // The search's hits in yellow, as the Gantt marks them (2026-10-28, Andy: "we also lost the yellow hit
+      // highlighting"; the sheet narrowed to the matches without marking them).
+      const label: string = p.value ?? '';
+      const at = query && !p.node.isRowPinned() ? label.toLowerCase().indexOf(query) : -1;
+      if (at < 0) span.textContent = label;
+      else {
+        const mark = Object.assign(document.createElement('mark'), { className: 'bcn-pbs__match', textContent: label.slice(at, at + query.length) });
+        span.append(label.slice(0, at), mark, label.slice(at + query.length));
+      }
       return span;
     },
     onCellClicked: (e) => {

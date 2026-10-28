@@ -7,7 +7,7 @@
 
 import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
-import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
+import { setupPlanRevisionsDialog, budgetDiff, signedDollars } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
 import { setupPlanBudgetSheet, type BudgetChange } from './plan-budget-sheet';
 import { PLAN_ICON_PATHS, fillIcons, planIcon } from '../../lib/planning/icons';
@@ -56,6 +56,11 @@ import {
   membersOf,
   viewsOf,
   stamp,
+  signedShift,
+  attributesAt,
+  draftAttributes,
+  configOf,
+  type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
 import { planAvatar, setButtonDisabled } from './plan-people';
@@ -506,19 +511,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     await reload();
   }
 
-  /** Back to edit `count`: the later edits go onto the redo stack, newest last, so Redo brings them back in order. */
-  async function backTo(count: number): Promise<void> {
-    if (mode !== 'own' || !draft || busy) return;
-    const dropped: PlanRevision[] = [];
-    while ((getRepo(planID!).drafts.find((d) => d.id === draft!.id)?.revisions.length ?? 0) > count) {
-      const rev = dropLastRevision(planID!, draft.id);
-      if (!rev) break;
-      dropped.push(rev);
-    }
-    redo.push(...dropped);
-    await reload();
-  }
-
   async function reload(): Promise<void> {
     repo = getRepo(planID!);
     draft = draft ? (repo.drafts.find((d) => d.id === draft!.id) ?? null) : null;
@@ -820,34 +812,130 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     setButtonDisabled(redoBtn, redo.length === 0);
   }
 
+  /**
+   * A draft's changes from Live (2026-10-28, Andy: "as a user I have no idea what you're trying to show"; "what's the
+   * best version of this that user needs to see at a glance"). Not the log of each drag, which Undo already walks, but
+   * what publishing the draft would change: one block per item the draft changed itself, its name, then each value
+   * that differs, named as the Review modal names it (Start, End, Date, Budget, a field's label). Items that only moved
+   * because something they wait on moved fold into one line.
+   */
+  function drawChanges(d: PlanRepoDraft): void {
+    const last = d.revisions.at(-1);
+    q<HTMLElement>('[data-prp-draft-meta]').textContent = `Started from Revision ${d.baseVersion}. ${last ? `Last edit ${timeAgo(last.at)}.` : 'No edits yet.'}`;
+
+    const lines = new Map<string, { key: string; value: string; text?: boolean; after?: string }[]>();
+    const add = (id: string, key: string, value: string, text = false, after?: string) => lines.set(id, [...(lines.get(id) ?? []), { key, value, text, after }]);
+    const dayOf = (iso: string | null) => (iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
+    const dayDiff = (a: string | null, b: string | null) => (a && b ? Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000) : 0);
+    const own = new Set((last?.overrides ?? []).map((o) => o.PlanElementID));
+    const changes = planCompare(live, shown);
+    const followed: PlanChange[] = [];
+    for (const c of changes) {
+      if (c.status === 'added') add(c.id, 'Added', 'New in this draft', true);
+      else if (c.status === 'removed') add(c.id, 'Removed', 'Not in this draft', true);
+      else if (own.has(c.id)) {
+        const start = dayDiff(c.fromStart, c.toStart);
+        const end = dayDiff(c.fromEnd, c.toEnd);
+        // Where it lands now, after the shift: a whole move is one Dates line; a stretch names the end it moved.
+        if (c.milestone) add(c.id, 'Date', signedShift(start || end), false, dayOf(c.toEnd ?? c.toStart));
+        else if (start && start === end) add(c.id, 'Dates', signedShift(start), false, `${dayOf(c.toStart)} to ${dayOf(c.toEnd)}`);
+        else {
+          if (start) add(c.id, 'Start', signedShift(start), false, dayOf(c.toStart));
+          if (end) add(c.id, 'End', signedShift(end), false, dayOf(c.toEnd));
+        }
+        if (c.fromType !== c.toType) add(c.id, 'Date Type', c.toType ?? 'None', true);
+      } else followed.push(c);
+    }
+    // The item's own fields (name, level, milestone, notes), where they now differ from Live.
+    const liveById = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID ?? '', element]));
+    const shownById = new Map(flattenPlan(shown.Elements).map(({ element }) => [element.PlanElementID ?? '', element]));
+    for (const [id, edit] of Object.entries(last?.fields ?? {})) {
+      const was = liveById.get(id);
+      if (!was) continue;
+      if (edit.PlanElementName !== undefined && edit.PlanElementName !== was.PlanElementName) add(id, 'Name', `Was ${was.PlanElementName ?? ''}`, true);
+      if (edit.LevelDepth !== undefined && edit.LevelDepth !== was.LevelDepth) add(id, 'Level', live.Levels?.find((l) => l.Depth === edit.LevelDepth)?.SingularName ?? String(edit.LevelDepth), true);
+      if (edit.IsMilestone !== undefined && edit.IsMilestone !== !!was.IsMilestone) add(id, 'Milestone', edit.IsMilestone ? 'Yes' : 'No', true);
+      if (edit.Notes !== undefined && (edit.Notes ?? null) !== (was.Notes ?? null)) add(id, 'Notes', 'Edited', true);
+    }
+    // Money, net per item, with the fiscal year when it's one.
+    for (const m of budgetDiff(budgetAt(repo), draftBudget(repo, d), live, shown)) {
+      const where = m.years.length === 1 ? ` in ${fiscalYearLabel(m.years[0].fy)}` : ` across ${m.years.length} years`;
+      add(m.id, 'Budget', m.net === 0 ? 'Moved between years' : `${signedDollars(m.net)}${where}`);
+    }
+    // Owners, the deliverable flag and the plan's fields.
+    const config = configOf(repo);
+    const before = attributesAt(repo);
+    const after = draftAttributes(repo, d);
+    const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+    for (const id of new Set([...Object.keys(before), ...Object.keys(after)])) {
+      const a = before[id] ?? {};
+      const b = after[id] ?? {};
+      if (!same(a.owners, b.owners)) add(id, 'Owners', b.owners?.length ? b.owners.join(', ') : 'None', true);
+      if (!!a.deliverable !== !!b.deliverable) add(id, 'Deliverable', b.deliverable ? 'Yes' : 'No', true);
+      for (const f of config.fields) {
+        const was = a.values?.[f.id];
+        const now = b.values?.[f.id];
+        if (!same(was, now)) add(id, f.label, now === null || now === undefined || now === '' ? 'Cleared' : Array.isArray(now) ? now.join(', ') : String(now), true);
+      }
+    }
+
+    // In the plan's order, then anything only Live has.
+    const order = [...shownById.keys(), ...changes.filter((c) => c.status === 'removed').map((c) => c.id)];
+    const ids = order.filter((id) => lines.has(id));
+    q<HTMLOListElement>('[data-prp-change-list]').replaceChildren(
+      ...ids.map((id) => {
+        const li = document.createElement('li');
+        const name = Object.assign(document.createElement('button'), {
+          type: 'button',
+          className: 'bcn-prp__change-name',
+          textContent: shownById.get(id)?.PlanElementName ?? liveById.get(id)?.PlanElementName ?? '',
+          title: 'Show it in the chart',
+        });
+        name.disabled = !shownById.has(id);
+        name.addEventListener('click', () => {
+          chart.setSelectedId(id);
+          void openElement(id);
+        });
+        const dl = document.createElement('dl');
+        for (const line of lines.get(id)!) {
+          const dd = document.createElement('dd');
+          dd.append(Object.assign(document.createElement('b'), { textContent: line.value }));
+          if (line.after) dd.append(Object.assign(document.createElement('span'), { textContent: line.after }));
+          if (line.text) dd.dataset.text = '';
+          dl.append(Object.assign(document.createElement('dt'), { textContent: line.key }), dd);
+        }
+        li.append(name, dl);
+        return li;
+      })
+    );
+    const count = q<HTMLElement>('[data-prp-change-count]');
+    count.hidden = !ids.length;
+    const countText = count.querySelector('.esa-badge__text');
+    if (countText) countText.textContent = `${ids.length} ${ids.length === 1 ? 'Item' : 'Items'}`;
+    const empty = q<HTMLElement>('[data-prp-changes-empty]');
+    empty.hidden = ids.length > 0;
+    empty.textContent = d.revisions.length ? 'Nothing differs from Live.' : mode === 'own' ? 'No changes yet. Drag a bar, or open an item to edit it.' : 'No changes yet.';
+
+    const fold = q<HTMLElement>('[data-prp-followed]');
+    fold.hidden = !followed.length;
+    const title = fold.querySelector('.esa-collapsible__title');
+    if (title) title.textContent = `${followed.length} ${followed.length === 1 ? 'Item' : 'Items'} Followed`;
+    q<HTMLElement>('[data-prp-followed-list]').replaceChildren(
+      ...followed.map((c) => {
+        const li = document.createElement('li');
+        li.append(Object.assign(document.createElement('span'), { textContent: c.name }), Object.assign(document.createElement('span'), { textContent: `${c.endOnly ? 'End ' : ''}${signedShift(c.shiftDays)}` }));
+        return li;
+      })
+    );
+  }
+
   function drawAside(): void {
     // In a draft the pane leads with the draft itself: its edits, newest first, each one a place to go back to.
     q<HTMLElement>('[data-prp-pane-title]').textContent = mode === 'live' ? 'About' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
     const editsSection = q<HTMLElement>('[data-prp-edits]');
     editsSection.hidden = mode === 'live';
-    if (draft && mode !== 'live') {
-      const ol = q<HTMLOListElement>('[data-prp-edit-list]');
-      const n = draft.revisions.length;
-      const rows = draft.revisions.map((rev, i) => {
-        const li = document.createElement('li');
-        const text = document.createElement('div');
-        text.append(changeNote(rev.note, rev.message));
-        const small = document.createElement('small');
-        small.textContent = `Edit ${i + 1}, ${timeAgo(rev.at)}`;
-        text.append(small);
-        li.append(text);
-        if (i === n - 1) li.dataset.current = '';
-        else if (mode === 'own') {
-          const back = (q<HTMLTemplateElement>('[data-prp-tpl="back"]').content.firstElementChild!.cloneNode(true) as HTMLElement);
-          back.querySelector('button')?.setAttribute('aria-label', `Go back to edit ${i + 1}`);
-          back.addEventListener('click', () => void backTo(i + 1));
-          li.append(back);
-        }
-        return li;
-      });
-      ol.replaceChildren(...rows.reverse());
-      if (!n) ol.innerHTML = '<li><small>No edits yet</small></li>';
-    }
+    if (draft && mode !== 'live') drawChanges(draft);
+    q<HTMLElement>('[data-prp-about-head]').hidden = mode === 'live';
     q<HTMLElement>('[data-prp-desc]').textContent = live.Description ?? '';
     const span = planSpan(shown);
     q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : 'No Dates Yet';
@@ -861,7 +949,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         return li;
       })
     );
-    q<HTMLElement>('[data-prp-settings]').hidden = myRole !== 'Owner';
+    // Plan settings aren't drafted, so their Edit lives on Live's About only (2026-10-28: beside "Your Draft" it read
+    // as editing the draft).
+    q<HTMLElement>('[data-prp-settings]').hidden = myRole !== 'Owner' || mode !== 'live';
 
     const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string, to?: string) => {
       const el = document.createElement('div');

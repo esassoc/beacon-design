@@ -23,6 +23,7 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnPlanGantt from './BcnPlanGantt.astro';
 import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
@@ -166,10 +167,22 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
         </span>
       </header>
       <div class="bcn-prp__about-body typography-body-sm">
-        <section data-prp-edits hidden>
-          <h2 class="typography-label-md-strong">Edits</h2>
-          <ol class="bcn-prp__edits" data-prp-edit-list></ol>
+        <!-- In a draft (2026-10-28, Andy: "as a user I have no idea what you're trying to show"): not the log of each
+             drag, which Undo already walks, but what publishing it would change. One block per item the draft changed,
+             its name on its own line, then each changed value named as the Review modal names it. Items that only
+             moved with them fold into one line. -->
+        <section class="bcn-prp__changes" data-prp-edits hidden>
+          <p class="bcn-prp__draft-meta" data-prp-draft-meta></p>
+          <h2 class="bcn-prp__changes-head typography-label-md-strong">Changes From Live <span data-prp-change-count hidden><EsaBadge value="0" size="xs" /></span></h2>
+          <ol class="bcn-prp__change-list" data-prp-change-list></ol>
+          <p class="bcn-prp__changes-empty" data-prp-changes-empty hidden></p>
+          <div data-prp-followed hidden>
+            <EsaCollapsible title="Followed" flush>
+              <ul class="bcn-prp__followed" data-prp-followed-list></ul>
+            </EsaCollapsible>
+          </div>
         </section>
+        <h2 class="typography-label-md-strong" data-prp-about-head hidden>About This Plan</h2>
         <p data-prp-desc></p>
         <dl class="bcn-prp__facts">
           <div><dt>Tracks</dt><dd data-prp-tracks></dd></div>
@@ -193,7 +206,6 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
     </aside>
     <!-- The page's guard (2026-10-28, Andy: a UI modal, not the browser's confirm): Discard, and Copy over a draft. -->
     <esa-confirm-dialog data-prp-confirm variant="danger"></esa-confirm-dialog>
-    <template data-prp-tpl="back"><EsaButton variant="ghost" size="xs" iconOnly icon="rotate-ccw" label="Go back to this edit" /></template>
     <!-- Collapsed: a narrow rail, as the setup wizard's Library and the app's side nav fold. -->
     <button type="button" class="bcn-prp__rail" data-prp-about-open aria-label="Show About" title="Show About">
       <EsaIcon name="chevrons-left" size="sm" />
@@ -433,17 +445,35 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__facts div { display: flex; justify-content: space-between; gap: var(--spacing-200); }
   .bcn-prp__facts dt { color: var(--color-content-default-secondary); }
   .bcn-prp__facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .bcn-prp__edits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-  .bcn-prp__edits :global(li) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--spacing-200);
-    align-items: start;
-    padding-block: var(--spacing-200);
+  /* A draft's changes from Live: each item a block, its name wrapping (never truncated to nothing), its values a
+     two-column list under it; the figures in the figures face, as the sheet's. */
+  .bcn-prp__changes { display: flex; flex-direction: column; gap: var(--spacing-200); padding-block-end: var(--spacing-300); border-block-end: 1px solid var(--color-border-default-subtle); }
+  .bcn-prp__draft-meta { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-prp__changes-head { display: flex; align-items: center; gap: var(--spacing-150); margin: 0; }
+  .bcn-prp__changes-head [hidden] { display: none; }
+  .bcn-prp__change-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-prp__change-list :global(li) { display: flex; flex-direction: column; gap: var(--spacing-100); padding-block: var(--spacing-200); }
+  .bcn-prp__change-list :global(li + li) { border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-prp__change-list :global(.bcn-prp__change-name) {
+    all: unset;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-content-default);
+    overflow-wrap: anywhere;
   }
-  .bcn-prp__edits :global(li + li) { border-block-start: 1px solid var(--color-border-default-subtle); }
-  .bcn-prp__edits :global(small) { display: block; color: var(--color-content-default-secondary); }
-  .bcn-prp__edits :global(li[data-current]) { font-weight: 600; }
+  .bcn-prp__change-list :global(.bcn-prp__change-name:hover) { text-decoration: underline; }
+  .bcn-prp__change-list :global(.bcn-prp__change-name:focus-visible) { outline: 2px solid var(--color-border-focus, var(--color-content-brand)); outline-offset: 2px; border-radius: var(--radius-sm); }
+  .bcn-prp__change-list :global(dl) { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--spacing-300); }
+  .bcn-prp__change-list :global(dt) { color: var(--color-content-default-secondary); }
+  .bcn-prp__change-list :global(dd) { margin: 0; display: flex; flex-wrap: wrap; column-gap: var(--spacing-200); color: var(--color-content-default); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .bcn-prp__change-list :global(dd b) { font-weight: 600; white-space: nowrap; }
+  .bcn-prp__change-list :global(dd[data-text] b) { font-weight: 500; white-space: normal; }
+  .bcn-prp__change-list :global(dd span) { color: var(--color-content-default-secondary); }
+  .bcn-prp__changes-empty { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-prp__changes [hidden] { display: none; }
+  .bcn-prp__followed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-prp__followed :global(li) { display: flex; justify-content: space-between; gap: var(--spacing-200); font-size: var(--font-size-100); }
+  .bcn-prp__followed :global(span:last-child) { flex: none; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-content-default); }
   .bcn-prp__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-prp__about :global(.bcn-prp__item) { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--spacing-200); align-items: start; }
   .bcn-prp__about :global(.bcn-prp__item a),

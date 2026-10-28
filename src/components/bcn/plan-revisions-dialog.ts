@@ -70,7 +70,7 @@ function whenText(iso: string): string {
   return ago.startsWith('on ') ? at : `${ago}, ${at}`;
 }
 const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-const signedDollars = (n: number) => `${n < 0 ? '\u2212' : '+'}${dollars.format(Math.abs(n))}`;
+export const signedDollars = (n: number) => `${n < 0 ? '\u2212' : '+'}${dollars.format(Math.abs(n))}`;
 
 /** One element whose budget differs between two stops: each fiscal year that changed, and the net. */
 interface BudgetDiff {
@@ -81,7 +81,7 @@ interface BudgetDiff {
   net: number;
 }
 /** The elements whose budget differs, in the "to" plan's order (then any only the "from" plan has). */
-function budgetDiff(from: PlanBudget, to: PlanBudget, fromPlan: PlanDetailDto, toPlan: PlanDetailDto): BudgetDiff[] {
+export function budgetDiff(from: PlanBudget, to: PlanBudget, fromPlan: PlanDetailDto, toPlan: PlanDetailDto): BudgetDiff[] {
   const seen = new Map<string, { name: string; depth: number }>();
   for (const plan of [toPlan, fromPlan])
     for (const { element, path } of flattenPlan(plan.Elements)) if (!seen.has(element.PlanElementID ?? '')) seen.set(element.PlanElementID ?? '', { name: element.PlanElementName ?? '', depth: path.length });
