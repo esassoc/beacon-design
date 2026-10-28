@@ -30,13 +30,14 @@ export interface ElementEdit {
   /** What changed, in the order the form shows it: "Dates", "Owners", "Lead Agency". */
   changed: string[];
 }
-/** review: on Live, for someone who can publish. save: in your own draft. scenario: on Live, for someone who can't. */
+/** review: on Live, for someone who can publish. save: in your own draft. scenario: on Live, for someone who can't (it
+ *  goes to their draft; "Scenario" is retired as a word, 2026-10-28). */
 export type EditMode = 'review' | 'save' | 'scenario';
 
 const SUBMIT: Record<EditMode, { label: string; where: string }> = {
   review: { label: 'Review Changes', where: 'Next: what changes on Live, then Publish.' },
   save: { label: 'Save to Draft', where: 'Saved as your draft’s next edit. Live changes when it’s published.' },
-  scenario: { label: 'Save to My Scenario', where: 'Saved to your scenario; ask someone who can publish.' },
+  scenario: { label: 'Save to My Draft', where: 'Saved to your draft; ask someone who can publish.' },
 };
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => Object.assign(document.createElement(tag), { className, textContent: text });

@@ -33,10 +33,23 @@ import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
 import BcnPlanDeliverables from './BcnPlanDeliverables.astro';
 import BcnPlanDocuments from './BcnPlanDocuments.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import { withBase } from '../../lib/base';
 
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
+  <!-- A link that points nowhere (2026-10-28, the review: a pasted link opened a blank "Plan"), and a Guest, who is on
+       the plan for the transmittals sent to them, not its schedule or money (decision 2). Either stands in for the page. -->
+  <div class="bcn-prp__stop" data-prp-stop="missing" hidden>
+    <EsaEmptyState title="Plan Not Found" description="This link points to a plan that isn't here. It may have been deleted, or the sample was started over.">
+      <a href={withBase('/prototypes/plans-repo/')}><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Plans</EsaButton></a>
+    </EsaEmptyState>
+  </div>
+  <div class="bcn-prp__stop" data-prp-stop="guest" hidden>
+    <EsaEmptyState title="Shared With You for Review" description="This plan is shared with you for the transmittals sent to you. Your inbox lists them, with Confirm Receipt.">
+      <a href={withBase('/prototypes/plans-repo/inbox/')}><EsaButton variant="primary" size="sm" icon="inbox" data-fill-icon="inbox">Sent to You</EsaButton></a>
+    </EsaEmptyState>
+  </div>
   <!-- Word for the person whose draft someone else published (2026-10-28), shown until they dismiss it. -->
   <div class="bcn-prp__notice" data-prp-notice hidden>
     <EsaAlertBox variant="success" title="Your Draft Was Published">
@@ -242,6 +255,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   }
   :global(.bcn-plan-state-badge[data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
   .bcn-prp :global([hidden]) { display: none !important; }
+  /* Not found, or a Guest: the empty state alone. */
+  .bcn-prp[data-stopped] > :not([data-prp-stop]) { display: none !important; }
+  .bcn-prp__stop { padding-block: var(--spacing-800); }
   .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
   .bcn-prp :global([data-glyph] svg) { display: block; }
 

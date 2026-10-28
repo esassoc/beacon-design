@@ -7,7 +7,8 @@
 // call reads the store fresh, which is what makes a second tab's edit show up in the first on its next status poll.
 // The calling user is "Andy Lovseth" unless the page URL carries ?user=Name (the second tab's identity).
 
-import { SAMPLE_BUDGETS, SAMPLE_NOTES, SAMPLE_PLAN, type SampleElement } from '../../data/sample-plan';
+import { SAMPLE_BUDGETS, SAMPLE_NOTES, SAMPLE_PLAN, SAMPLES, type SampleElement, type SampleKey } from '../../data/sample-plan';
+import { seedUuid } from './seed-ids';
 import { HttpErrorResponse } from './ng-shim';
 import {
   PlanDateTypeEnum,
@@ -164,7 +165,8 @@ function save(store: Store): void {
   }
 }
 
-const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : `id-${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`);
+/** Deterministic while the sample seeds (./seed-ids.ts), so shared links resolve in any browser. */
+const uuid = seedUuid;
 const now = () => new Date().toISOString();
 const delay = <T>(value: () => T): Promise<T> =>
   new Promise((resolve, reject) =>
@@ -452,18 +454,19 @@ function planShift(plan: StoredPlan, dto: PlanShiftDto): PlanScheduleChangeSet {
   return PlanScheduler.Shift(schedule, days);
 }
 
-function stageSample(projectID: string): StoredPlan {
+function stageSample(projectID: string, key: SampleKey = 'fisheries'): StoredPlan {
+  const { plan: sample, budgets, notes } = SAMPLES[key];
   const user = currentUserName();
   const stamp = now();
   const plan: StoredPlan = {
     PlanID: uuid(),
     ProjectID: projectID,
-    PlanName: SAMPLE_PLAN.name,
-    Description: SAMPLE_PLAN.description,
-    Levels: SAMPLE_PLAN.levels.map((l, i) => ({ Depth: i + 1, ...l })),
+    PlanName: sample.name,
+    Description: sample.description,
+    Levels: sample.levels.map((l, i) => ({ Depth: i + 1, ...l })),
     Elements: [],
     Dependencies: [],
-    Landmarks: SAMPLE_PLAN.landmarks.map((l, i) => ({ PlanLandmarkID: uuid(), PlanLandmarkName: l.name, LandmarkDate: l.date, SortOrder: i + 1 })),
+    Landmarks: sample.landmarks.map((l, i) => ({ PlanLandmarkID: uuid(), PlanLandmarkName: l.name, LandmarkDate: l.date, SortOrder: i + 1 })),
     Version: 1,
     UpdateDate: stamp,
     UpdateUserName: user,
@@ -483,16 +486,16 @@ function stageSample(projectID: string): StoredPlan {
         PlanDateType: node.type as PlanDateTypeEnum,
         StartDate: node.start,
         EndDate: node.end,
-        Budget: node.milestone ? null : (SAMPLE_BUDGETS[node.name] ?? null),
-        Notes: SAMPLE_NOTES[node.name] ?? null,
+        Budget: node.milestone ? null : (budgets[node.name] ?? null),
+        Notes: notes[node.name] ?? null,
         UpdateDate: stamp,
         UpdateUserName: user,
         Version: 1,
       });
       stage(node.children, id, depth + 1);
     });
-  stage(SAMPLE_PLAN.elements, null, 1);
-  for (const [from, to, lag] of SAMPLE_PLAN.dependencies) {
+  stage(sample.elements, null, 1);
+  for (const [from, to, lag] of sample.dependencies) {
     plan.Dependencies.push({ PlanElementDependencyID: uuid(), PredecessorPlanElementID: byName.get(from)!, SuccessorPlanElementID: byName.get(to)!, LagDays: lag });
   }
   return plan;
@@ -685,10 +688,10 @@ export const planApi = {
       return buildDetail(plan);
     }),
 
-  createSample: (projectID: string): Promise<PlanDetailDto> =>
+  createSample: (projectID: string, key: SampleKey = 'fisheries'): Promise<PlanDetailDto> =>
     delay(() => {
       const store = load();
-      const plan = stageSample(projectID);
+      const plan = stageSample(projectID, key);
       store.plans.push(plan);
       save(store);
       return buildDetail(plan);

@@ -22,6 +22,8 @@ import { planDraftWithEdits, type PlanDraftEdit } from './plan-draft';
 import { PROJECT_ID, currentUserName, planApi, setPlanApiLatency } from './plan-server';
 import { TEMPLATES, clonePlanConfig, type PlanConfig } from './plan-config';
 import { clearPlanRecords, seedPlanRecords } from './plan-records';
+import { seeding, seedShortId } from './seed-ids';
+import type { SampleKey } from '../../data/sample-plan';
 
 const REPO_KEY = 'bcn-plan-repo-v1';
 const USER_KEY = 'bcn-planning-user';
@@ -177,7 +179,7 @@ interface RepoStore {
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
  *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
-const SEED_FORMAT = 7;
+const SEED_FORMAT = 8;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -234,7 +236,8 @@ function save(store: RepoStore): void {
 }
 
 const clone = <T>(value: T): T => (value === undefined ? value : (JSON.parse(JSON.stringify(value)) as T));
-const uid = () => Math.random().toString(36).slice(2, 10);
+/** Deterministic while the sample seeds (./seed-ids.ts). */
+const uid = seedShortId;
 const daysAgo = (days: number, hour = 10) => {
   const d = new Date(Date.now() - days * DAY_MS);
   d.setHours(hour, (days * 37) % 60, 0, 0);
@@ -750,16 +753,12 @@ async function seedFisheries(store: RepoStore): Promise<void> {
   seedPlanRecords(planID, live);
 }
 
-/** A second and third plan for the index, lighter: the sample renamed and shifted, with a short history. */
-async function seedVariant(store: RepoStore, name: string, description: string, shiftDays: number, owner: string, ageDays: number, draftName: string | null): Promise<void> {
-  const created = await as(owner, () => planApi.createSample(PROJECT_ID));
+/** A second and third plan for the index, lighter: their own samples (2026-10-28: they were the fisheries sample
+ *  renamed, so a geotechnical plan opened on fish studies), with a short history and, for one, a draft. */
+async function seedVariant(store: RepoStore, key: SampleKey, owner: string, ageDays: number, draft: { name: string; item: string; days: number } | null): Promise<void> {
+  const created = await as(owner, () => planApi.createSample(PROJECT_ID, key));
   const planID = created.PlanID ?? '';
-  await as(owner, () => planApi.updatePlan(planID, { PlanName: name, Description: description }, created.VersionToken));
-  let live = await planApi.getPlan(planID);
-  if (shiftDays) {
-    await as(owner, () => planApi.shift(planID, { Days: shiftDays }, live.VersionToken));
-    live = await planApi.getPlan(planID);
-  }
+  const live = await planApi.getPlan(planID);
   const repo: PlanRepo = {
     planID,
     visibility: 'Project',
@@ -768,8 +767,9 @@ async function seedVariant(store: RepoStore, name: string, description: string, 
     versions: [{ number: 1, author: owner, at: daysAgo(ageDays), ...noted({ action: 'Created' }), changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(live), budget: spreadBudget(live) }],
     drafts: [],
   };
-  if (draftName) {
-    const edit = seedEdit(live, { name: 'Acoustic tag & receiver procurement', days: 35 });
+  if (draft) {
+    const draftName = draft.name;
+    const edit = seedEdit(live, { name: draft.item, days: draft.days });
     if (edit) {
       const overrides = planDraftWithEdits([], [edit], live, true);
       const shown = (await planApi.previewDraft(planID, overrides)).Plan;
@@ -808,9 +808,12 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   onProgress?.('Setting up three sample plans with three months of history…');
   setPlanApiLatency(0);
   try {
-    await seedFisheries(store);
-    await seedVariant(store, 'Habitat Restoration Monitoring', 'Monitoring for the tidal habitat restoration sites: baseline surveys, construction monitoring and five years of post-construction performance.', 210, 'Priya Natarajan', 40, null);
-    await seedVariant(store, 'Geotechnical Investigations', 'Borings, CPTs and lab testing along the tunnel alignment, sequenced around the permit windows.', -150, 'Sam Okafor', 18, 'Reach 3 access change');
+    // Deterministic ids, so a link to a plan, an item or a transmittal opens the same thing in any browser.
+    await seeding(async () => {
+      await seedFisheries(store);
+      await seedVariant(store, 'habitat', 'Priya Natarajan', 40, null);
+      await seedVariant(store, 'geotech', 'Sam Okafor', 18, { name: 'Reach 3 access change', item: 'Drilling contractor procurement', days: 35 });
+    });
   } finally {
     setPlanApiLatency(220);
   }
@@ -857,7 +860,12 @@ function seedSettings(store: RepoStore): void {
   for (const repo of store.repos) {
     const seed = SETTINGS[latestVersion(repo).plan.PlanName ?? ''];
     if (seed && !repo.views) Object.assign(repo, clone(seed));
-    repo.config ??= TEMPLATES['Study Program']();
+    // The fisheries plan is Aaron's study program; the other two start Blank (no study fields), with their agencies.
+    const name = latestVersion(repo).plan.PlanName ?? '';
+    repo.config ??=
+      name === 'Fisheries Evaluation Studies'
+        ? TEMPLATES['Study Program']()
+        : { ...TEMPLATES.Blank(), agencies: name === 'Geotechnical Investigations' ? ['DWR', 'CSLC', 'USACE', 'San Joaquin County'] : ['CDFW', 'NMFS', 'USFWS', 'DWR'] };
   }
 }
 
@@ -1047,7 +1055,7 @@ export function startEditDraft(planID: string, itemName: string): PlanRepoDraft 
  * The viewer's draft, started from the latest version if they have none. One per person per plan: asking again
  * returns the one they have. `from` copies another person's draft into it (theirs is untouched).
  */
-/** `kind` names a new one: "Andy's Draft", or "Andy's Scenario" for someone who can't publish. */
+/** `kind` names a new one: "Andy's Draft" (Scenario is kept for older callers; the word is retired in the UI). */
 export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' | 'Scenario' = 'Draft'): PlanRepoDraft {
   const store = load();
   const repo = findRepo(store, planID);

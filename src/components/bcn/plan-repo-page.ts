@@ -82,6 +82,28 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   if (!planID) return;
   const me = currentUserName();
 
+  // A link to a plan that isn't here, or a Guest (2026-10-28, the review): the page's empty state, nothing else.
+  const stop = (which: 'missing' | 'guest', title: string): void => {
+    root.setAttribute('data-stopped', '');
+    q<HTMLElement>(`[data-prp-stop="${which}"]`).hidden = false;
+    document.querySelector<HTMLElement>('.bcn-plan-views')?.setAttribute('hidden', '');
+    const h1 = document.querySelector('.page-layout__title h1');
+    const text = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
+    if (text) text.textContent = title;
+    const crumb = document.querySelector('.breadcrumbs [aria-current="page"]');
+    if (crumb) crumb.textContent = title;
+    document.title = `${title} | Beacon`;
+    fillIcons(root);
+  };
+  let known = true;
+  try {
+    getRepo(planID);
+  } catch {
+    known = false;
+  }
+  if (!known) return stop('missing', 'Plan Not Found');
+  if (membersOf(getRepo(planID)).find((m) => m.name === me)?.role === 'Guest') return stop('guest', (await planApi.getPlan(planID)).PlanName ?? 'Plan');
+
   // The design studies (2026-10-27) switch variants from the URL; navigation keeps them.
   const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<StudyKey, string | null>;
   const keep = (href: string) => keepStudy(href, params);
@@ -100,10 +122,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // ask. &role=contributor still forces the contributor's page.
   const myRole = membersOf(getRepo(planID)).find((m) => m.name === currentUserName())?.role ?? 'Contributor';
   const canPublish = study.role !== 'contributor' && myRole !== 'Contributor';
-  const noun = canPublish ? 'draft' : 'scenario';
-  const yours = canPublish ? 'Your Draft' : 'Your Scenario';
-  /** What a new one is called: "Andy's Draft", or "Andy's Scenario" for someone who can't publish. */
-  const kind = canPublish ? ('Draft' as const) : ('Scenario' as const);
+  // One word for every role (2026-10-28, the review: "Draft vs Scenario vs Edit" is vocabulary a program manager won't
+  // parse). Whether you can publish changes only the draft's last button: Publish, or Ask to Publish.
+  const noun = 'draft';
+  const yours = 'Your Draft';
+  const kind = 'Draft' as const;
   const look = concept === 'pencil-paper' ? 'pencil' : concept;
   const paper = concept === 'drafting' || concept === 'pencil-paper';
   const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
@@ -311,7 +334,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (elementDrawer && !(await elementDrawer.requestClose())) return;
     const note =
       mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change it.`
+        ? 'Live is read-only. Edit in a Draft to change it.'
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
           : undefined;
@@ -405,7 +428,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)
       ? 'Records are kept on Live: they read the same in every draft.'
       : mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change ${view === 'budget' ? 'the budget' : 'it'}.`
+        ? `Live is read-only. Edit in a Draft to change ${view === 'budget' ? 'the budget' : 'it'}.`
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
           : '';
@@ -581,7 +604,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (text) text.textContent = name;
     const crumb = document.querySelector('.breadcrumbs [aria-current="page"], .breadcrumbs span:last-child');
     if (crumb) crumb.textContent = name;
-    document.title = draft ? `${draft.name} · ${name} | Beacon` : `${name} | Beacon`;
+    document.title = draft ? `${draft.name}, ${name} | Beacon` : `${name} | Beacon`;
     drawState();
 
     drawBar();
@@ -599,7 +622,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       paper: paper && mode !== 'live',
       // No title block (2026-10-28, Andy: "Issued, Revision 7" said again what the badge and the strip say).
       titleBlock: null,
-      stamp: issued && study.stamp && mode !== 'live' ? `${noun === 'draft' ? 'Draft' : 'Scenario'}, not issued` : null,
+      stamp: issued && study.stamp && mode !== 'live' ? 'Draft, not issued' : null,
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
@@ -697,7 +720,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLAnchorElement>('[data-prp-history-link]').href = keep(REVISIONS_HREF(planID!));
     q<HTMLElement>('[data-prp-edit]').hidden = mode !== 'live';
     const editLabel = q<HTMLElement>('[data-prp-edit] .esa-button__label');
-    if (editLabel) editLabel.textContent = canPublish ? 'Edit in a Draft' : 'Make a Scenario';
+    if (editLabel) editLabel.textContent = 'Edit in a Draft';
     // One primary action per state. Your draft: Review and publish if you can publish, else Ask to publish (then its
     // state). Someone else's: Review and publish when they asked and you can; otherwise Copy to my draft.
     const asked = !!draft?.publishRequestedAt;
@@ -763,7 +786,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const startRow = () => {
       const a = row('start', false, '', '');
       a.classList.add('bcn-prp__branch-row--start');
-      a.innerHTML = `${planIcon('plus', 16)}<span class="typography-label-md">Start a ${noun === 'draft' ? 'Draft' : 'Scenario'}</span>`;
+      a.innerHTML = `${planIcon('plus', 16)}<span class="typography-label-md">Start a Draft</span>`;
       return a;
     };
     const head = (text: string, aside = '') => {
@@ -779,7 +802,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     };
     list.replaceChildren(
       row('live', mode === 'live', 'Live Plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`, 'live'),
-      head(canPublish ? 'Your Draft' : 'Your Scenario'),
+      head('Your Draft'),
       mine ? row(mine.id, mode === 'own', mine.name, sub(mine), 'mine') : startRow(),
       ...(others.length ? [head("Other People's Drafts", 'Read-Only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`, 'other'))] : [])
     );

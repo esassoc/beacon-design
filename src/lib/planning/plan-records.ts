@@ -12,6 +12,7 @@
 
 import type { PlanDetailDto, PlanElementDto } from './model';
 import { currentUserName } from './plan-server';
+import { seedShortId } from './seed-ids';
 
 // ── Types ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -200,7 +201,8 @@ export function clearPlanRecords(planID?: string): void {
   save(store);
 }
 
-const uid = () => Math.random().toString(36).slice(2, 10);
+/** Deterministic while the sample seeds (./seed-ids.ts). */
+const uid = seedShortId;
 const nowIso = () => new Date().toISOString();
 export const todayIso = () => new Date().toISOString().slice(0, 10);
 const addDays = (iso: string, days: number) => new Date(Date.parse(iso) + days * 86_400_000).toISOString();

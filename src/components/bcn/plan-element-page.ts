@@ -16,6 +16,7 @@ import type { ModuleKey } from '../../lib/planning/plan-config';
 import { setupElementCustomize } from './element-customize';
 import { confirm, pushAlert } from '../../lib/planning/plan-page';
 import { fillIcons } from '../../lib/planning/icons';
+import { withBase } from '../../lib/base';
 import { badge } from './badge-bank';
 import { type ElementModule, type ElementModuleHost, type ElementModuleSetup } from './element-module';
 import { setupDetailsModule } from './element-details';
@@ -193,20 +194,35 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   // ── Load and draw ──
   let drawing: Promise<void> | null = null;
   let again = false;
+  /** A link that points nowhere (2026-10-28, the review: it opened a blank "Item"): the plan's gone, or the item. */
+  function missing(planKnown: boolean): void {
+    q('[data-pep-missing]').hidden = false;
+    q('[data-pep-cols]').hidden = true;
+    document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
+    const back = q<HTMLAnchorElement>('[data-pep-missing-back]');
+    back.href = planKnown ? PLAN_VIEW_HREF(planID, undefined, draft?.id) : withBase('/prototypes/plans-repo/');
+    const label = back.querySelector('.esa-button__label');
+    if (label) label.textContent = planKnown ? 'Back to the Plan' : 'Back to Plans';
+    const title = planKnown ? 'Not in This Plan' : 'Plan Not Found';
+    if (titleText) titleText.textContent = title;
+    q('[data-pep-missing] .esa-empty-state__title').textContent = title;
+    if (!planKnown) q('[data-pep-missing] .esa-empty-state__description').textContent = 'This link points to a plan that isn’t here. It may have been deleted, or the sample was started over.';
+    document.title = `${title} | Beacon`;
+  }
+
   async function load(): Promise<void> {
-    const repo = getRepo(planID);
-    const live: PlanDetailDto = await planApi.getPlan(planID);
+    let repo;
+    let live: PlanDetailDto;
+    try {
+      repo = getRepo(planID);
+      live = await planApi.getPlan(planID);
+    } catch {
+      return missing(false);
+    }
     draft = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
     const shown = draft ? (await draftState(draft)).Plan : live;
     ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
-    if (!ctx) {
-      q('[data-pep-missing]').hidden = false;
-      q('[data-pep-cols]').hidden = true;
-      const back = q<HTMLAnchorElement>('[data-pep-missing-back]');
-      back.href = PLAN_VIEW_HREF(planID, undefined, draft?.id);
-      if (titleText) titleText.textContent = 'Not in This Plan';
-      return;
-    }
+    if (!ctx) return missing(true);
     q('[data-pep-missing]').hidden = true;
     // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
     if (ctx.myRole === 'Guest') {
@@ -298,9 +314,9 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         return;
       }
       if (mode === 'scenario') {
-        const mine = startDraft(planID, undefined, 'Scenario');
+        const mine = startDraft(planID, undefined, 'Draft');
         applyEdit(mine.id, result);
-        pushAlert('Saved to your scenario. Ask to Publish from the plan when it’s ready.', 'success', 7000);
+        pushAlert('Saved to your draft. Ask to Publish from the plan when it’s ready.', 'success', 7000);
         return;
       }
       const temp = startEditDraft(planID, ctx.element.PlanElementName ?? 'Item');

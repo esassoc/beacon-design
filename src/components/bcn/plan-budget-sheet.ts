@@ -63,7 +63,9 @@ export function parseMoney(input: unknown): number | null {
   return Math.round(Number(match[1]) * scale);
 }
 
-/** A fiscal year's header: its label over its months, the current year marked. */
+/** A fiscal year's header: its label over its months (every year, 2026-10-28: the current one had "Current Year" in
+ *  their place), the current year in the brand ink. A column too narrow for the months drops them (a container query
+ *  in BcnPlanBudgetSheet's CSS); the tooltip keeps them. */
 class YearHeader implements IHeaderComp {
   private gui!: HTMLElement;
   init(params: IHeaderParams & { fy: number }): void {
@@ -72,7 +74,7 @@ class YearHeader implements IHeaderComp {
     this.gui.className = 'bcn-pbs__head';
     if (current) this.gui.dataset.current = '';
     const label = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-fy', textContent: params.displayName });
-    const months = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-span', textContent: current ? 'Current Year' : `Jul ${params.fy} – Jun ${params.fy + 1}` });
+    const months = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-span', textContent: `Jul ${params.fy}–Jun ${params.fy + 1}` });
     this.gui.append(label, months);
   }
   getGui(): HTMLElement {
@@ -100,7 +102,7 @@ const sheetTheme = settingsEsaTheme.withParams({
   headerRowBorder: { color: '#bdbdbd' }, // gray-300: the header's rule, a step firmer than the cells'
   rangeSelectionBorderColor: '#005862', // teal-900 / --color-background-brand
   valueChangeValueHighlightBackgroundColor: 'rgba(0, 88, 98, 0.18)', // teal-900 at 18%
-  cellHorizontalPadding: 12,
+  cellHorizontalPadding: 10,
 });
 
 export function setupPlanBudgetSheet(
@@ -148,7 +150,10 @@ export function setupPlanBudgetSheet(
     field: 'name',
     colId: 'name',
     pinned: 'left',
-    width: 340,
+    // Narrow enough that the years fit beside it at a laptop's width (2026-10-28, the review: at 340px the fifth year
+    // showed "$1" before the total); a long name ends in an ellipsis, whole in its tooltip.
+    width: 240,
+    tooltipField: 'name',
     cellClass: (p: CellClassParams<SheetRow>) => (p.data?.kind === 'parent' ? 'bcn-pbs__parent' : ''),
     cellRenderer: (p: ICellRendererParams<SheetRow>) => {
       const span = document.createElement('span');
@@ -179,7 +184,10 @@ export function setupPlanBudgetSheet(
     headerComponentParams: { fy },
     field: fyKey(fy) as never,
     colId: fyKey(fy),
-    width: 132,
+    // The years share the room between the name and the total, never under a figure's width ("$1,862,000" in 13px
+    // mono): at 1440 every year shows; narrower, the sheet scrolls sideways.
+    flex: 1,
+    minWidth: 100,
     type: 'numericColumn',
     valueFormatter: money,
     editable: (p) => canEdit(p.data, fyKey(fy)) && !p.node.isRowPinned(),
@@ -207,7 +215,7 @@ export function setupPlanBudgetSheet(
     field: 'total',
     colId: 'total',
     pinned: 'right',
-    width: 144,
+    width: 124,
     type: 'numericColumn',
     valueFormatter: money,
     cellClass: 'bcn-pbs__money bcn-pbs__parent bcn-pbs__sum bcn-pbs__total',
@@ -242,6 +250,7 @@ export function setupPlanBudgetSheet(
     },
     onCellFocused: () => showCursor(),
     onModelUpdated: () => fit(),
+    onGridSizeChanged: () => fit(),
   });
 
   /** Hands changes to the page, and remembers what to flash when it redraws. */
@@ -309,12 +318,15 @@ export function setupPlanBudgetSheet(
   }
 
   /** The grid's height: its rows, up to the page's cap (the consumer's --bcn-pbs-max-height), where it scrolls with
-   *  the header and the plan's total pinned. */
+   *  the header and the plan's total pinned. When the years run wider than the panel it also stops at the window's
+   *  bottom (2026-10-28, the review: the sideways scrollbar sat under the 25th row, off-screen), so the scrollbar that
+   *  reaches the later years is always in view. */
   function fit(): void {
     const rows = api.getDisplayedRowCount() + 1;
-    const wide = api.getAllDisplayedColumns().reduce((sum, c: Column) => sum + c.getActualWidth(), 0) > host.clientWidth;
+    const wide = api.getAllDisplayedColumns().reduce((sum, c: Column) => sum + c.getActualWidth(), 0) > host.clientWidth + 1;
     const px = HEAD_PX + rows * ROW_PX + (wide ? 16 : 0) + 2;
-    host.style.blockSize = `min(${px}px, var(--bcn-pbs-max-height, ${px}px))`;
+    const room = Math.max(320, Math.floor(window.innerHeight - host.getBoundingClientRect().top - 24));
+    host.style.blockSize = wide ? `min(${px}px, ${room}px)` : `min(${px}px, var(--bcn-pbs-max-height, ${px}px))`;
   }
 
   // The value bar follows the editor as you type, as a formula bar does.

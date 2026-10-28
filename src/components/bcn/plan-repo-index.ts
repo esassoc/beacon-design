@@ -104,8 +104,21 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
   });
 
   await ensureSeeded((text) => (q<HTMLElement>('[data-pri-progress]').textContent = text));
-  let summaries = await listPlanSummaries();
   const me = currentUserName();
+  // A Guest (an agency reviewer, decision 2) is on a plan for the transmittals sent to them, not its schedule or money
+  // (2026-10-28, the review: Rowan saw every plan and budget here). Their plans leave the list; someone who is a Guest
+  // and on no plan otherwise is outside the project, and sees only Sent to You above, without New Plan.
+  const roleOn = (s: PlanSummary) => membersOf(s.repo).find((m) => m.name === me)?.role;
+  const visible = (all: PlanSummary[]) => {
+    const outside = all.some((s) => roleOn(s) === 'Guest') && !all.some((s) => roleOn(s) && roleOn(s) !== 'Guest');
+    return outside ? [] : all.filter((s) => roleOn(s) !== 'Guest');
+  };
+  const everything = await listPlanSummaries();
+  let summaries = visible(everything);
+  if (!summaries.length && everything.length) {
+    root.hidden = true;
+    document.querySelectorAll<HTMLElement>('[data-pri-new], [data-pri-reset]').forEach((b) => (b.hidden = true));
+  }
   loading.hidden = true;
   rowsEl.hidden = false;
 
@@ -180,7 +193,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
   }
 
   async function reload(): Promise<void> {
-    summaries = await listPlanSummaries();
+    summaries = visible(await listPlanSummaries());
     draw();
   }
   /** A plan's settings, the modal (2026-10-28, Andy: "the basics of the plan config should be in a modal"). A level's

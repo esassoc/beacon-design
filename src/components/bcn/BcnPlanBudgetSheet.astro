@@ -89,8 +89,14 @@
   /* The year header: its label over its months, right-aligned over the figures; the current year in brand. */
   .bcn-pbs__grid :global(.bcn-pbs__head) { display: flex; flex-direction: column; align-items: flex-end; inline-size: 100%; line-height: 1.2; }
   .bcn-pbs__grid :global(.bcn-pbs__head-fy) { font-weight: 600; }
-  .bcn-pbs__grid :global(.bcn-pbs__head-span) { font-size: 11px; font-weight: 400; color: var(--color-content-default-tertiary); }
-  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] .bcn-pbs__head-span) { color: var(--color-content-brand); font-weight: 600; }
+  .bcn-pbs__grid :global(.bcn-pbs__head-span) { font-size: 11px; font-weight: 400; color: var(--color-content-default-tertiary); white-space: nowrap; }
+  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] :is(.bcn-pbs__head-fy, .bcn-pbs__head-span)) { color: var(--color-content-brand); }
+  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] .bcn-pbs__head-span) { font-weight: 600; }
+  /* A year column too narrow for its months drops them; the header's tooltip keeps them. */
+  .bcn-pbs__grid :global(.ag-header-cell-comp-wrapper) { container-type: inline-size; }
+  @container (max-width: 104px) {
+    .bcn-pbs__grid :global(.bcn-pbs__head-span) { display: none; }
+  }
 
   /* Money in the sheet's figures: JetBrains Mono (--bcn-font-figures), so columns of dollars line up digit for digit
      (DM Sans as loaded has no tabular figures: its 1 is half its 8). Sums take 500, not the sans' 600: a mono's

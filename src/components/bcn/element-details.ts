@@ -165,7 +165,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     const note = q('[data-det-note]');
     note.textContent =
       ctx.mode === 'live' && !canPublish && ctx.myRole !== 'Guest'
-        ? 'Your edits go to your scenario, for someone who can publish.'
+        ? 'Your edits go to your draft, for someone who can publish.'
         : ctx.mode === 'view'
           ? `${firstName(ctx.draft!.owner)}'s draft is read-only.`
           : '';
