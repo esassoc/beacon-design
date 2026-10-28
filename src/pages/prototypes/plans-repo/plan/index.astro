@@ -6,6 +6,7 @@ import PageLayout from '../../../../layouts/PageLayout.astro';
 import BcnPlanRepoPage from '../../../../components/bcn/BcnPlanRepoPage.astro';
 import BcnPlanElementDrawer from '../../../../components/bcn/BcnPlanElementDrawer.astro';
 import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import BcnDividerTabs from '../../../../components/bcn/BcnDividerTabs.astro';
 import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
 import { withBase } from '../../../../lib/base';
 ---
@@ -13,7 +14,7 @@ import { withBase } from '../../../../lib/base';
 <!-- manifest:
   layout: AppShell > PageLayout                       # SPINE
   sections:
-    - title badge -> esa-badge                        # "Your draft" / "Alex's draft", hidden on Live
+    - views       -> bcn-divider-tabs > esa-button-toggle  # Schedule, Budget, Documents, Deliverables, on the divider
     - page        -> bcn-plan-repo-page               # repo bar, status band, scrubber + tactile Gantt, About rail
     - people      -> bcn-plan-people                  # the avatar bank
 -->
@@ -26,13 +27,26 @@ import { withBase } from '../../../../lib/base';
     iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
     breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan' }]}
   >
-    <!-- The plan's views (2026-10-28, Andy: "in the page header aligned right of the h1"). -->
-    <esa-button-toggle slot="utilities" size="md" label="" aria-label="View" data-prp-view-toggle></esa-button-toggle>
+    <!-- The plan's views on the divider under the title (2026-10-28, Andy: "centered tabs through the divider", a step
+         smaller than the header's toggle). -->
+    <div class="bcn-plan-views">
+      <BcnDividerTabs><esa-button-toggle size="sm" label="" aria-label="View" data-prp-view-toggle></esa-button-toggle></BcnDividerTabs>
+    </div>
     <BcnPlanRepoPage />
     <BcnPlanPeople />
     <BcnPlanElementDrawer />
   </PageLayout>
 </AppShell>
+
+<style>
+  /* The tabs row is this page's divider: the title row drops its own, and the row sits where it was. */
+  :global(.page-layout .page-layout__container .page-layout__title) {
+    border-bottom: 0;
+  }
+  .bcn-plan-views {
+    margin-block: calc(-1 * var(--spacing-500)) var(--spacing-600);
+  }
+</style>
 
 <script>
   import { setupPlanRepoPage } from '../../../../components/bcn/plan-repo-page';

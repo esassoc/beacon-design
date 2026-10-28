@@ -35,11 +35,14 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
     const subject = el.querySelector<HTMLAnchorElement>('[data-tib-subject]')!;
     subject.textContent = t.subject;
     subject.href = href;
-    el.querySelector('[data-tib-plan]')!.textContent = planName;
+    const plan = el.querySelector<HTMLElement>('[data-tib-plan]')!;
+    plan.textContent = planName;
     const from = el.querySelector<HTMLElement>('[data-tib-from]')!;
     const name = document.createElement('span');
+    name.className = 'bcn-tib__who';
     name.textContent = t.from;
-    if (orgOf(t.from)) name.append(' ', Object.assign(document.createElement('small'), { textContent: orgOf(t.from) }));
+    name.title = orgOf(t.from) ? `${t.from} (${orgOf(t.from)})` : t.from;
+    if (orgOf(t.from)) name.append(' ', Object.assign(document.createElement('small'), { textContent: `(${orgOf(t.from)})` }));
     from.replaceChildren(planAvatar(t.from, 'xs'), name);
     el.querySelector('[data-tib-sent]')!.textContent = day(t.sentAt);
 

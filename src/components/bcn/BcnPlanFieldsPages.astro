@@ -86,7 +86,6 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
                     <span class="bcn-pfp__label typography-label-sm-strong" id={`pfp-mod-${m.key}`}>{m.title}</span>
                     {KIND_NOTE[m.kind] && <span class="bcn-pfp__kind typography-body-xs">{KIND_NOTE[m.kind]}</span>}
                   </span>
-                  <span class="bcn-pfp__why typography-body-xs" data-pfp-why hidden />
                 </span>
                 <span class="bcn-pfp__tools" data-pfp-tools>
                   <esa-tooltip text="Move Up" position="above"><span data-pfp-act="up"><EsaButton variant="ghost" size="xs" iconOnly icon="arrow-up" label={`Move ${m.title} Up`} /></span></esa-tooltip>
@@ -97,6 +96,7 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
                 </span>
                 <esa-switch-toggle class="bcn-pfp__switch" size="sm" aria-labelledby={`pfp-mod-${m.key}`} data-pfp-switch />
               </div>
+              <p class="bcn-pfp__why bcn-pfp__why--line typography-body-xs" data-pfp-why hidden />
               {m.key === 'budget' && (
                 <div class="bcn-pfp__opts" data-pfp-opts>
                   <span class="bcn-pfp__opt-label typography-label-xs" id="pfp-opt-visible">Visible To</span>
@@ -122,11 +122,11 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
 
     <!-- ── Fields: what the level's items carry ── -->
     <section class="bcn-pfp__panel" data-pfp-panel="fields" aria-label="Fields" hidden>
-      <p class="bcn-pfp__hint typography-body-sm">No field is required to create an item. A field marked Required to Complete needs a value before the item can be marked complete.</p>
+      <p class="bcn-pfp__hint typography-body-xs">No field is required to create an item. One marked Required to Complete needs a value before the item can be marked complete.</p>
       <div class="bcn-pfp__group" data-pfp-inherited-wrap>
         <div class="bcn-pfp__group-head">
           <h3 class="bcn-pfp__zone typography-label-sm-strong">From All Levels</h3>
-          <span data-pfp-goto-all><EsaButton variant="ghost" size="xs">Edit in All Levels</EsaButton></span>
+          <span data-pfp-goto-all data-pfp-edit-only><EsaButton variant="ghost" size="xs">Edit in All Levels</EsaButton></span>
         </div>
         <ul class="bcn-pfp__fields" data-pfp-inherited role="list"></ul>
       </div>
@@ -243,7 +243,8 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
 <style>
   .bcn-pfp {
     display: grid;
-    grid-template-columns: minmax(24rem, 27rem) minmax(0, 1fr);
+    /* The editor takes what its rows need; the preview takes the rest, never so little the layout can't be read. */
+    grid-template-columns: minmax(22rem, 27rem) minmax(18rem, 1fr);
     gap: var(--spacing-600);
     align-items: start;
     min-inline-size: 0;
@@ -299,6 +300,11 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
   .bcn-pfp__deliverable esa-switch-toggle {
     align-self: flex-start;
   }
+  .bcn-pfp__deliverable esa-switch-toggle::part(label) {
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-label-sm-font-weight);
+    color: var(--color-content-default);
+  }
   .bcn-pfp__deliverable .bcn-pfp__hint {
     padding-inline-start: calc(32px + var(--spacing-200));
   }
@@ -333,6 +339,9 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
+  }
+  [data-pfp-add-menu] {
+    --dropdown-menu-min-width: 16rem;
   }
   .bcn-pfp__empty {
     margin: 0;
@@ -425,7 +434,13 @@ const grip = PLAN_ICON_PATHS['grip-vertical'];
     white-space: nowrap;
   }
   .bcn-pfp__why {
+    margin: 0;
     color: var(--color-content-default-secondary);
+  }
+  /* Why an on module won't show here, under its name. */
+  .bcn-pfp__why--line {
+    margin-block-start: calc(-1 * var(--spacing-100));
+    padding-inline-start: calc(1rem + var(--spacing-200) + 16px + var(--spacing-200));
   }
   /* The row's tools wait for the row: on hover, or when one has focus (keyboard users tab straight to them). */
   .bcn-pfp__tools {

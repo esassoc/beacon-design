@@ -85,7 +85,8 @@ export function sortable(root: HTMLElement, opts: SortableOptions): void {
   /** Where a drop at the pointer lands: the list under it (or the nearest), and the gap nearest the pointer. */
   function locate(x: number, y: number): { list: HTMLElement; index: number; lineY: number; left: number; width: number } | null {
     if (!drag) return null;
-    const lists = opts.lists().filter((l) => l.offsetParent !== null && (!opts.accepts || opts.accepts(drag!.row, l)));
+    // Shown lists only (offsetParent can't tell: inside a modal dialog's shadow it reads null).
+    const lists = opts.lists().filter((l) => l.getClientRects().length > 0 && (!opts.accepts || opts.accepts(drag!.row, l)));
     if (!lists.length) return null;
     let best = lists[0];
     let bestDist = Infinity;

@@ -566,7 +566,7 @@ export async function setupPlanSettingsPage(root: HTMLElement): Promise<void> {
       templateName.errorText = `${text} is a built-in template. Pick another name.`;
       return;
     }
-    if (taken === 'saved' && !(await ask(`Replace ${text}?`, 'A template by that name exists. Saving replaces it; plans made from it keep what they started with.', 'Replace Template', 'Keep Both'))) return;
+    if (taken === 'saved' && !(await ask(`Replace ${text}?`, 'A template by that name exists. Saving replaces it; plans made from it keep what they started with.', 'Replace Template', 'Pick Another Name'))) return;
     saveTemplate(text, config, snapshot().levels, me);
     templateDialog.open = false;
     toast(`Saved as the template ${text}. New Plan can start from it.`, 'success');
@@ -586,6 +586,7 @@ export async function setupPlanSettingsPage(root: HTMLElement): Promise<void> {
     const planName = live.PlanName ?? 'this plan';
     if (!(await ask(`Delete ${planName}?`, 'Its revisions, drafts, budget and records go with it. This can’t be undone.', 'Delete Plan', 'Keep Plan', true))) return;
     busy = true;
+    fields.release();
     await deletePlanRepo(planID);
     fields.clearPreview();
     leaving = true;

@@ -45,14 +45,21 @@ function fact(text: string, tone?: 'warning' | 'danger' | 'success'): HTMLElemen
 /** A sent transmittal's facts: when it went, receipt, response. A draft's: not sent, and to whom. */
 export function transmittalFacts(t: Transmittal): HTMLElement[] {
   const status = transmittalStatus(t);
-  if (status === 'Draft') return [fact('Not Sent'), fact(t.to.length ? `To ${names(t.to)}` : 'No Recipients Yet')];
+  if (status === 'Draft') return [fact('Not Sent'), fact(t.to.length ? `To ${names(t.to)}` : 'No recipients yet')];
   const out = [fact(`Sent ${day(t.sentAt)}`)];
   const { confirmed, of } = receiptCount(t);
   const late = t.to.some((n) => receiptOverdue(t, n));
-  if (of) out.push(fact(`${confirmed} of ${of} Received`, late ? 'warning' : confirmed === of ? 'success' : undefined));
+  if (of) {
+    const receipt = fact(`${confirmed} of ${of} Received`, late ? 'warning' : confirmed === of ? 'success' : undefined);
+    // Who it's waiting on, on hover: "Waiting on Rowan Hale (overdue, reminded Oct 27, 2026)".
+    const waiting = t.to.filter((n) => !t.receipts[n]?.confirmedAt);
+    if (waiting.length)
+      receipt.title = `Waiting on ${names(waiting.map((n) => [n, [receiptOverdue(t, n) ? 'overdue' : '', t.receipts[n]?.remindedAt ? `reminded ${day(t.receipts[n]!.remindedAt)}` : ''].filter(Boolean).join(', ')]).map(([n, why]) => (why ? `${n} (${why})` : n)))}`;
+    out.push(receipt);
+  }
   if (t.closedAt) out.push(fact(`Closed ${day(t.closedAt)}`));
   else if (t.response) out.push(fact(`Responded ${day(t.response.at)}`));
-  else if (t.responseDue) out.push(fact(`Response Due ${day(t.responseDue)}`, responseOverdue(t) ? 'danger' : undefined));
+  else if (t.responseDue) out.push(fact(`Response due ${day(t.responseDue)}`, responseOverdue(t) ? 'danger' : undefined));
   return out;
 }
 

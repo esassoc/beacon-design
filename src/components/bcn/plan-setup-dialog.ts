@@ -18,6 +18,7 @@ import {
 } from '../../lib/planning/plan-repo';
 import type { PlanLevelCreateDto } from '../../lib/planning/model';
 import { planAvatar } from './plan-people';
+import { templateChoices } from '../../lib/planning/plan-templates';
 
 export type PlanSetupResult = { kind: 'created'; planID: string } | { kind: 'saved' } | { kind: 'deleted' } | null;
 
@@ -39,6 +40,7 @@ const ROLES: { value: PlanRole; label: string }[] = [
   { value: 'Owner', label: 'Owner' },
   { value: 'Editor', label: 'Editor' },
   { value: 'Contributor', label: 'Contributor' },
+  { value: 'Guest', label: 'Guest' },
 ];
 
 export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string): Promise<PlanSetupResult> } {
@@ -66,6 +68,16 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   let initial = '';
   let busy = false;
   let settle: (result: PlanSetupResult) => void = () => undefined;
+  // New Plan's template (2026-10-28): the built-in ones and any saved from a plan's settings.
+  const templateWrap = q<HTMLElement>('[data-psu-template-wrap]');
+  const templateSelect = q<HTMLElement & { value: string | string[]; options: { value: string; label: string }[] }>('[data-psu-template]');
+  let template = 'Study Program';
+  templateSelect.addEventListener('change', () => {
+    template = String(templateSelect.value || 'Study Program');
+    const choice = templateChoices().find((t) => t.name === template);
+    levels = (choice?.levels?.length ? choice.levels : STARTER_LEVELS).map((l) => ({ ...l }));
+    drawLevels();
+  });
 
   const snapshot = (): PlanSettings => ({ name: (name.value ?? '').trim(), description: (description.value ?? '').trim(), views: (['schedule', 'budget'] as const).filter((v) => views.has(v)), levels: levels.map((l) => ({ ...l })), members: members.map((m) => ({ ...m })) });
 
@@ -243,7 +255,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         await savePlanSettings(planID, s);
         close({ kind: 'saved' });
       } else {
-        close({ kind: 'created', planID: await createPlanRepo(s) });
+        close({ kind: 'created', planID: await createPlanRepo({ ...s, config: templateChoices().find((t) => t.name === template)?.config() }) });
       }
     } catch (err) {
       busy = false;
@@ -289,7 +301,13 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         name.value = '';
         description.value = '';
         dialog.heading = 'New Plan';
+        template = 'Study Program';
+        void customElements.whenDefined('esa-select').then(() => {
+          templateSelect.options = templateChoices().map((t) => ({ value: t.name, label: t.builtIn ? t.name : `${t.name} (Saved)` }));
+          templateSelect.value = template;
+        });
       }
+      templateWrap.hidden = !!planID;
       name.errorText = '';
       q<HTMLElement>('[data-psu-save-label]').textContent = planID ? 'Save Changes' : 'Create Plan';
       q<HTMLElement>('[data-psu-danger]').hidden = !planID;

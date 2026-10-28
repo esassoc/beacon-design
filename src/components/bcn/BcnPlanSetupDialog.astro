@@ -31,6 +31,9 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
         <h3 class="bcn-psu__heading" id="psu-general"><EsaIcon name="file-text" size="sm" />General</h3>
         <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
         <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
+        <!-- New Plan only (2026-10-28): a template brings its levels, fields and page layouts; Save as Template on a
+             plan's settings page adds to the list. -->
+        <span data-psu-template-wrap hidden><esa-select data-psu-template label="Start From" size="sm" help-text="A template brings its levels, fields and page layouts."></esa-select></span>
       </section>
 
       <section class="bcn-psu__section" aria-labelledby="psu-views">

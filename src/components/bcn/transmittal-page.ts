@@ -59,7 +59,7 @@ export interface ReceiptState {
   confirmed: boolean;
 }
 
-/** One recipient's receipt of a sent transmittal, as the sender's list and the inbox say it. */
+/** One recipient's receipt of a sent transmittal, as the sender's list says it. */
 export function receiptState(t: Transmittal, name: string): ReceiptState {
   const r = t.receipts[name] ?? {};
   const isTo = t.to.includes(name);
@@ -151,7 +151,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     const detail = row.querySelector<HTMLElement>('[data-person-detail]')!;
     detail.textContent = x.sentAt ? state.detail : isTo ? 'Confirms once it is sent' : 'Copied';
     // Evidence a receipt was recorded with: the reply email, say.
-    const evidence = fileById(recordsFor(planID), x.receipts[name]?.evidenceFileId);
+    const evidence = rec ? fileById(rec, x.receipts[name]?.evidenceFileId) : undefined;
     if (evidence && x.receipts[name]?.recordedBy) {
       const a = document.createElement('a');
       a.href = '#';
@@ -223,7 +223,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
       const f = fileById(r, x.response.fileId);
       respFiles.replaceChildren(...(f ? [fileRow(f, 'Response', revisionText(f.revision, f.versions.at(-1)?.number))] : []));
       by.textContent = `Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`;
-      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.` : x.responseDue ? `Was due ${day(x.responseDue)}.` : '';
+      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.` : x.responseDue ? `Due ${day(x.responseDue)}.` : '';
     } else {
       said.textContent = '';
       respFiles.replaceChildren();
@@ -248,6 +248,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
       a.href = `${TRANSMITTAL_HREF(planID, x.id)}&user=${encodeURIComponent(shown)}`;
       a.title = `Opens in a new tab, signed in as ${shown}`;
     }
+    q('[data-trp-mail-title]').textContent = draft ? 'What the Recipient Will Get' : 'What the Recipient Got';
     q('[data-trp-mail-hint]').textContent = draft
       ? 'Each recipient gets this email when it is sent.'
       : 'Each recipient got this email. Receipt counts only when a To recipient signs in and presses Confirm Receipt; opening it doesn’t.';
@@ -280,7 +281,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
       if (tone) el.dataset.tone = tone;
       dates.push(el);
     };
-    if (isTo && x.ackDue) li(mine.confirmedAt ? `Receipt was due ${day(x.ackDue)}` : receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, !mine.confirmedAt && receiptOverdue(x, me) ? 'warning' : undefined);
+    // Receipt, until they've confirmed (or someone recorded it for them); then only what's still ahead.
+    if (isTo && x.ackDue && !mine.confirmedAt) li(receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, receiptOverdue(x, me) ? 'warning' : undefined);
     if (isTo) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
     else li('You’re copied: no receipt or response is owed');
     if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
@@ -364,7 +366,14 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     for (const n of ['edit', 'delete', 'send', 'deliverable']) pageAct(n)!.hidden = true;
 
     if (view === 'none' || !t || !rec) {
-      if (titleText) titleText.textContent = 'Not Sent to You';
+      // A member looking for one that isn't there (a deleted draft) is told so; anyone else, only that it isn't theirs.
+      const gone = !t && isMember;
+      const empty = q('[data-trp-missing]');
+      const emptyTitle = empty.querySelector('.esa-empty-state__title');
+      const emptyText = empty.querySelector('.esa-empty-state__description');
+      if (emptyTitle) emptyTitle.textContent = gone ? 'Transmittal Not Found' : 'Not Sent to You';
+      if (emptyText) emptyText.textContent = gone ? 'Open the deliverable to see its sends.' : 'Open it from the email it came in.';
+      if (titleText) titleText.textContent = gone ? 'Transmittal Not Found' : 'Not Sent to You';
       document.title = 'Transmittal | Beacon';
       titleBadges?.replaceChildren();
       return;

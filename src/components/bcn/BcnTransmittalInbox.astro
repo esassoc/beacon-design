@@ -1,10 +1,10 @@
 ---
-// <BcnTransmittalInbox> — Sent to You (2026-10-28, the proposal's "Transmittals and receipt"): every transmittal, across
-// every plan, that names the signed-in person as a To or Cc recipient. Number, subject, plan, who sent it and when,
-// where their own receipt stands (Confirm Receipt while a To recipient hasn't; Confirmed once they have) and when a
-// response is due. The ones still waiting on them come first. A row opens the transmittal, where Confirm Receipt is.
-// Hidden entirely when nothing was sent to them, so the Plans index looks the same for everyone else. The runtime is
-// ./transmittal-inbox.ts: setupTransmittalInbox(root).draw().
+// <BcnTransmittalInbox> — Sent to You (2026-10-28, the proposal's "Transmittals and receipt"): every transmittal,
+// across every plan, that names the signed-in person as a To or Cc recipient. Number, subject (its plan under it), who
+// sent it and when, where their own receipt stands (Confirm Receipt while a To recipient hasn't; Confirmed once they
+// have) and when a response is due. The ones still waiting on them come first. A row opens the transmittal, where
+// Confirm Receipt is. Hidden entirely when nothing was sent to them, so the Plans index looks the same for everyone
+// else. The runtime is ./transmittal-inbox.ts: setupTransmittalInbox(root).draw().
 //
 // bcn-lego-checked: the shell IS esa-card, the glyph IS esa-icon, the count IS esa-badge, badges ARE esa-badge
 // (BcnBadgeBank, which the page includes), avatars ARE esa-avatar (BcnPlanPeople, which the page includes). No esa-
@@ -32,7 +32,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <div class="bcn-tib__row bcn-tib__row--head typography-label-xs" role="row">
         <span role="columnheader">Number</span>
         <span role="columnheader">Subject</span>
-        <span role="columnheader">Plan</span>
         <span role="columnheader">From</span>
         <span role="columnheader">Sent</span>
         <span role="columnheader">Your Receipt</span>
@@ -45,8 +44,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   <template data-tib-tpl="row">
     <div class="bcn-tib__row" role="row" data-tib-row>
       <span class="bcn-tib__num" role="cell" data-tib-num></span>
-      <span class="bcn-tib__subject" role="cell"><a class="typography-label-sm-strong" data-tib-subject></a></span>
-      <span class="bcn-tib__muted typography-body-sm" role="cell" data-tib-plan></span>
+      <span class="bcn-tib__subject" role="cell">
+        <a class="typography-label-sm-strong" data-tib-subject></a>
+        <span class="bcn-tib__muted typography-body-sm" data-tib-plan></span>
+      </span>
       <span class="bcn-tib__from typography-body-sm" role="cell" data-tib-from></span>
       <span class="bcn-tib__date typography-body-sm" role="cell" data-tib-sent></span>
       <span class="bcn-tib__state" role="cell" data-tib-state></span>
@@ -93,7 +94,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* The register: one row per transmittal, its columns aligned down the list; a hairline between. The whole row opens it. */
   .bcn-tib__row {
     display: grid;
-    grid-template-columns: 3.5rem minmax(12rem, 2fr) minmax(8rem, 1.3fr) minmax(10rem, 1.3fr) 7rem minmax(9rem, 1.1fr) 8rem;
+    grid-template-columns: 3.5rem minmax(14rem, 2.4fr) minmax(10rem, 1.2fr) 7rem minmax(9rem, 1fr) 7.5rem;
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-200);
@@ -119,7 +120,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     font-weight: 600;
     color: var(--color-content-default-secondary);
   }
+  /* The subject, and the plan it's from under it. */
   .bcn-tib__subject {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
   }
   .bcn-tib__subject a {
@@ -140,6 +144,13 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-tib__from :global(small) {
     color: var(--color-content-default-secondary);
     font-size: inherit;
+  }
+  /* The sender on one line, cut short with the full name on hover. */
+  .bcn-tib__from :global(.bcn-tib__who) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .bcn-tib__date {
     font-variant-numeric: tabular-nums;
@@ -168,8 +179,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     }
     .bcn-tib__row > :nth-child(3),
     .bcn-tib__row > :nth-child(4),
-    .bcn-tib__row > :nth-child(5),
-    .bcn-tib__row > :nth-child(7) {
+    .bcn-tib__row > :nth-child(6) {
       display: none;
     }
   }

@@ -1,0 +1,38 @@
+---
+// <BcnDividerTabs> — a page's views as tabs centered on the divider under its title (2026-10-28, Andy: "the big tabs
+// at the top right are too big, not scalable. Can we introduce a new pattern of centered tabs through the divider.
+// Make tabs a step smaller."). The rule runs the page's width and the tabs sit on it, so the views read as what the
+// page is cut into, not as one more control in the title row, and the row holds more of them than the title's right
+// edge did. The page puts its esa-button-toggle (size sm) in the slot and keeps driving it; the host page drops its
+// title row's own divider (this is that divider).
+//
+// bcn-lego-checked: the tabs ARE esa-button-toggle (slotted; this component never touches it). No esa- lego is a rule
+// with a control centered on it; checked Beacon (prod pages put tabs in a header row or a tab layout). The CSS is the
+// rule and the centering.
+---
+
+<div class="bcn-dtabs">
+  <span class="bcn-dtabs__rule" aria-hidden="true"></span>
+  <span class="bcn-dtabs__tabs"><slot /></span>
+  <span class="bcn-dtabs__rule" aria-hidden="true"></span>
+</div>
+
+<style>
+  .bcn-dtabs {
+    display: grid;
+    grid-template-columns: minmax(var(--spacing-400), 1fr) auto minmax(var(--spacing-400), 1fr);
+    align-items: center;
+    column-gap: var(--spacing-300);
+  }
+  .bcn-dtabs__rule {
+    height: 1px;
+    background: var(--color-border-default);
+  }
+  .bcn-dtabs__tabs {
+    display: inline-flex;
+    min-width: 0;
+  }
+  .bcn-dtabs__tabs :global([hidden]) {
+    display: none;
+  }
+</style>

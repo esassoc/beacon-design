@@ -57,6 +57,8 @@ export interface FieldsPages {
   schedulePreview(): void;
   /** Forgets the working configuration (on save, discard and leaving). */
   clearPreview(): void;
+  /** Empties the preview (before the plan is deleted: an element page left open would look for it). */
+  release(): void;
 }
 
 type SwitchEl = HTMLElement & { checked: boolean; disabled: boolean };
@@ -73,6 +75,8 @@ const NEW_FIELD = '__new';
 /** Under "Shown In" the column is understood: the chips say where, short. */
 const CHIP_LABEL: Record<FieldSurface, string> = { page: 'Page', drawer: 'Drawer', gantt: 'Gantt', sheet: 'Sheet', export: 'Exports' };
 
+/** "a Task", "an Activity". */
+const aOrAn = (word: string) => (/^[aeiou]/i.test(word) ? 'an' : 'a');
 const typeLabel = (t: string) => FIELD_TYPES.find((x) => x.value === t)?.label ?? t;
 const surfaceText = (shown: FieldSurface[]) => FIELD_SURFACES.filter((s) => shown.includes(s.value)).map((s) => s.label);
 const freshField = (fieldId: string): LevelField => ({ fieldId, requiredToComplete: false, shownIn: ['page', 'drawer'] });
@@ -156,14 +160,17 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
     q('[data-pfp-lede]').textContent = all
       ? 'Fields every item carries, whatever its level: defined once, they lead every level’s fields.'
       : tab === 'page'
-        ? `The modules on a ${info!.singular}’s page, in order, in two columns. Saving applies the layout to every ${info!.singular}.`
-        : `The fields a ${info!.singular} carries, after the ones on All Levels.`;
+        ? `The modules on ${aOrAn(info!.singular)} ${info!.singular}’s page, in order, in two columns. Drag one, or use its Move buttons.`
+        : `The fields ${aOrAn(info!.singular)} ${info!.singular} carries, after the ones on All Levels.`;
     if (!all) {
       canDeliver.checked = readLevel(level as number).canBeDeliverable;
       canDeliver.disabled = readOnly();
       q('[data-pfp-deliver-hint]').textContent = `Any ${info!.singular} can then be flagged a deliverable, which brings its Transmittals and Completion.`;
     }
     if (customElements.get('esa-button-toggle')) tabs.value = all ? 'fields' : tab;
+    q('[data-pfp-preview-note]').textContent = all
+      ? 'A page as it will look with these settings. Saving applies them to every item.'
+      : `The page as it will look with these settings. Saving applies them to every ${info!.singular}.`;
   }
   canDeliver.addEventListener('change', () => {
     if (level === 'all' || readOnly()) return;
@@ -215,7 +222,6 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
       const sw = row.querySelector<SwitchEl>('[data-pfp-switch]')!;
       sw.checked = on;
       sw.disabled = always || readOnly();
-      if (always) sw.setAttribute('title', 'Always on: it can move, not go');
       row.toggleAttribute('data-off', !on);
       const why = row.querySelector<HTMLElement>('[data-pfp-why]')!;
       why.textContent = on ? whyNot(p, lvl, depth) : '';
@@ -358,7 +364,7 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
       })
     );
     // Its own.
-    q('[data-pfp-own-heading]').textContent = all ? 'Fields on Every Level' : `${levelInfo(level).singular} Fields`;
+    q('[data-pfp-own-heading]').textContent = all ? 'Fields on Every Level' : `${levelInfo(level as number).singular} Fields`;
     const own = readOwn().filter((a) => defOf(a.fieldId));
     fieldsList.replaceChildren(
       ...own.map((a, i) => {
@@ -385,7 +391,7 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
     );
     fillIcons(fieldsList);
     q('[data-pfp-fields-empty]').hidden = own.length > 0;
-    q('[data-pfp-fields-empty]').textContent = all ? 'No fields on every level yet.' : `No ${levelInfo(level).singular} fields yet.`;
+    q('[data-pfp-fields-empty]').textContent = all ? 'No fields on every level yet.' : `No ${levelInfo(level as number).singular} fields yet.`;
     drawAddMenu();
     drawLibrary();
   }
@@ -649,6 +655,7 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
     empty.hidden = !!id;
     frame.hidden = !id;
     const open = root.querySelector<HTMLAnchorElement>('[data-pfp-preview-open] a');
+    (root.querySelector('[data-pfp-preview-open]')!.closest('esa-tooltip') as HTMLElement).hidden = !id;
     if (!id) {
       open?.removeAttribute('href');
       return;
@@ -710,6 +717,10 @@ export function setupPlanFieldsPages(root: HTMLElement, host: FieldsPagesHost): 
       }
     },
     schedulePreview,
+    release() {
+      loaded = null;
+      frame.src = 'about:blank';
+    },
     clearPreview() {
       clearTimeout(writeTimer);
       try {
