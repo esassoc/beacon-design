@@ -422,9 +422,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   viewToggle?.addEventListener('change', (e) => setView(asView((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value)));
   /** Beside the view's title (2026-10-28, Andy, in place of the H1's badge): which plan you're in, by the plan menu's
    *  dot and name, then, small and italic, why it won't edit. */
-  // Draft mode studies (2026-10-28, Andy: "going into draft mode isn't clear enough... 4-5 options"): &drafthead= fill,
-  // tint, frame, ribbon or full, each in the draft owner's color. Live is untouched.
-  const draftHead = ['fill', 'tint', 'frame', 'ribbon', 'full'].includes(study.drafthead ?? '') ? study.drafthead! : null;
+  // Draft mode (2026-10-28, Andy: "going into draft mode isn't clear enough... 4-5 options"; he picked fill): in a
+  // draft the panel's header fills with the draft owner's color, everything in it white. The other studies stay behind
+  // &drafthead= (tint, frame, ribbon, full); &drafthead=none is the plain header. Live is untouched.
+  const draftHead = study.drafthead === 'none' ? null : ['fill', 'tint', 'frame', 'ribbon', 'full'].includes(study.drafthead ?? '') ? study.drafthead! : 'fill';
   function drawDraftHead(): void {
     const inDraft = mode !== 'live' && !!draft && !!draftHead;
     root.toggleAttribute('data-drafthead', inDraft);
