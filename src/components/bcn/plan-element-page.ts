@@ -334,7 +334,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     }
   }
   util('edit')?.addEventListener('click', () => void edit());
-  root.addEventListener('bcn-element-edit', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));
   util('customize')?.addEventListener('click', () => custom.start());
   for (const name of ['prev', 'next']) {

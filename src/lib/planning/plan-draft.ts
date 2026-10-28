@@ -254,7 +254,7 @@ export function planDraftChangeLine(view: PlanDraftViewDto | null, overrides: re
   const cascaded = (view?.Changes ?? []).filter((c) => c.Cause === 'cascade').length;
   if (own === 0) return 'No changes yet';
   const ownText = `${own} ${own === 1 ? 'change' : 'changes'}`;
-  return cascaded === 0 ? ownText : `${ownText} · ${cascaded} moved with ${own === 1 ? 'it' : 'them'}`;
+  return cascaded === 0 ? ownText : `${ownText}, ${cascaded} moved with ${own === 1 ? 'it' : 'them'}`;
 }
 
 /** "just now", "3 days ago", "yesterday", "on Oct 2": when a draft last changed, to follow "Updated". */

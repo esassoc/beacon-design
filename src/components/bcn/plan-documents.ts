@@ -212,7 +212,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
       tr.append(docCell(r, false), el('td', '', r.link.type), el('td', 'bcn-pdocs__date', day(r.link.date)), itemCell(r), note);
       tbody.append(tr);
     }
-    table.replaceChildren(...head([{ label: 'Document', width: '28%' }, { label: 'Type', width: '9rem' }, { label: 'Date', width: '7rem' }, { label: 'Item', width: '22%' }, { label: 'Note' }]), tbody);
+    table.replaceChildren(...head([{ label: 'Document', width: '28%' }, { label: 'Type', width: '9rem' }, { label: 'Added', width: '7rem' }, { label: 'Item', width: '22%' }, { label: 'Note' }]), tbody);
     summary.textContent = visible.length === rows.length ? plural(rows.length, 'Document') : `${visible.length} of ${plural(rows.length, 'Document')}`;
   }
 
@@ -265,7 +265,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
       }
       return tbody;
     });
-    table.replaceChildren(...head([{ label: 'Date', width: '6.75rem' }, { label: 'Agency', width: '5rem' }, { label: 'Direction', width: '6.25rem' }, { label: 'Agreement', width: '27%' }, { label: 'Document', width: '23%' }, { label: 'Item' }]), ...bodies);
+    table.replaceChildren(...head([{ label: 'Letter Date', width: '6.75rem' }, { label: 'Agency', width: '5rem' }, { label: 'Direction', width: '6.25rem' }, { label: 'Agreement', width: '27%' }, { label: 'Document', width: '23%' }, { label: 'Item' }]), ...bodies);
     const agreed = letters.filter((l) => l[0].link.correspondence?.agreement).length;
     summary.textContent = `${plural(letters.length, 'Letter')}, ${plural(agreed, 'Agreement')}`;
   }
@@ -281,7 +281,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     const header =
       mode === 'agency'
         ? ['Letter Date', 'Agency', 'Direction', 'Agreement', 'Document', 'Revision', 'Note', 'Items', 'Parents', 'Document Date']
-        : ['Document', 'Revision', 'Type', 'Date', 'Item', 'Parent', 'Note', 'Agency', 'Direction', 'Letter Date', 'Agreement', 'URL'];
+        : ['Document', 'Revision', 'Type', 'Added', 'Item', 'Parent', 'Note', 'Agency', 'Direction', 'Letter Date', 'Agreement', 'URL'];
     const each = (rows: DocRow[], pick: (r: DocRow) => string) => [...new Set(rows.map(pick))].filter(Boolean).join('; ');
     const lines =
       mode === 'agency'

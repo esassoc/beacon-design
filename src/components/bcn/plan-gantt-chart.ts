@@ -185,7 +185,7 @@ const SUMMARY_LABEL_SEPARATOR = ': ';
 const SUMMARY_NOTE_SEPARATOR = ', ';
 const SUMMARY_ROW_TERMINATOR = '.';
 const SUMMARY_ROW_SEPARATOR = ' ';
-const TAG_SEPARATOR = ' · ';
+const TAG_SEPARATOR = ', ';
 
 const P = 'bcn-plan-gantt';
 let nextId = 0;

@@ -609,7 +609,7 @@ export function openPlanElementDrawer(args: {
     show(editForm, editing);
     show(view, !editing);
     li.querySelectorAll<HTMLElement>('[data-row="name"]').forEach((n) => (n.textContent = row.planElementName));
-    part('lag').textContent = `· ${row.lagLabel}`;
+    part('lag').textContent = `, ${row.lagLabel}`;
 
     const busy = isLinkBusy();
     const lagInput = part('lag-input') as ValueEl;
@@ -680,7 +680,7 @@ export function openPlanElementDrawer(args: {
         const li = s.clone('succ-row');
         const button = li.querySelector<HTMLButtonElement>('[data-row="open"]')!;
         li.querySelector('[data-row="name"]')!.textContent = row.planElementName;
-        li.querySelector('[data-row="lag"]')!.textContent = `· ${row.lagLabel}`;
+        li.querySelector('[data-row="lag"]')!.textContent = `, ${row.lagLabel}`;
         button.disabled = isLinkBusy();
         button.addEventListener('click', () => openElement(row.planElementID));
         return li;
@@ -1281,6 +1281,6 @@ export function openPlanElementDrawer(args: {
 
 /** A candidate as one option label: its level as a quiet tag before the name, its path after (her option template). */
 function predecessorOptionLabel(option: PlanPredecessorOption): string {
-  const name = option.levelName ? `${option.levelName} · ${option.name}` : option.name;
+  const name = option.levelName ? `${option.levelName}: ${option.name}` : option.name;
   return option.path ? `${name} — ${option.path}` : name;
 }

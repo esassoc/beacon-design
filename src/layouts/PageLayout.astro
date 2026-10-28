@@ -224,9 +224,9 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
     align-items: center;
     flex-wrap: wrap;
   }
+  /* A crumb is often user data (an item's name): it keeps the case it was typed in (2026-10-28, the review). */
   .breadcrumb-item {
-    color: var(--bcn-gray-600);
-    text-transform: capitalize;
+    color: var(--color-content-default-secondary);
     font-size: 0.875rem;
   }
   a.breadcrumb-item {

@@ -1,7 +1,7 @@
 // The Schedule module's runtime (2026-10-28): dates, waits on, blocks, and a parent's children on a small timeline.
 // See ./BcnElementSchedule.astro; ./element-module.ts for the contract.
 
-import { PLAN_VIEW_HREF, type ElementContext } from '../../lib/planning/element-context';
+import { type ElementContext } from '../../lib/planning/element-context';
 import { PLAN_DATE_TYPE_HINTS } from '../../lib/planning/plan-element';
 import type { PlanElementDto } from '../../lib/planning/model';
 import { flattenPlan, signedShift } from '../../lib/planning/plan-repo';
@@ -32,7 +32,6 @@ export const setupScheduleModule: ElementModuleSetup = (root) => {
   function draw(ctx: ElementContext, settings: { childTimeline?: boolean } | undefined): void {
     const e = ctx.element;
     const id = e.PlanElementID ?? '';
-    q<HTMLAnchorElement>('[data-esch-open]').href = `${PLAN_VIEW_HREF(ctx.planID, undefined, ctx.draft?.id)}&el=${encodeURIComponent(id)}`;
 
     // Dates.
     const dl = q<HTMLDListElement>('[data-esch-dates]');

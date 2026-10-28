@@ -717,6 +717,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live Plan' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
     q<HTMLElement>('[data-prp-draft-count]').textContent = String(repo.drafts.length);
     q<HTMLElement>('[data-prp-version-count]').textContent = String(repo.versions.length);
+    q<HTMLElement>('[data-prp-draft-noun]').textContent = repo.drafts.length === 1 ? 'Draft' : 'Drafts';
+    q<HTMLElement>('[data-prp-version-noun]').textContent = repo.versions.length === 1 ? 'Revision' : 'Revisions';
     q<HTMLAnchorElement>('[data-prp-history-link]').href = keep(REVISIONS_HREF(planID!));
     q<HTMLElement>('[data-prp-edit]').hidden = mode !== 'live';
     const editLabel = q<HTMLElement>('[data-prp-edit] .esa-button__label');

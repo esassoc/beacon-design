@@ -170,12 +170,9 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
           ? `${firstName(ctx.draft!.owner)}'s draft is read-only.`
           : '';
     note.hidden = !note.textContent;
-    // Edit opens the page's form: on Live for anyone who keeps the plan, in your own draft; not in someone else's.
-    q('[data-det-edit]').hidden = !(ctx.mode === 'own' || (ctx.mode === 'live' && ctx.myRole !== 'Guest'));
   }
 
-  // Edit: the page's Edit modal (2026-10-28, Andy: "a form modal (x-large)... and then a republish review").
-  q('[data-det-edit]').addEventListener('click', () => root.dispatchEvent(new CustomEvent('bcn-element-edit', { bubbles: true })));
+  // Edit is the page header's alone (2026-10-28, the review: two Edits on one page).
 
   return { draw };
 };

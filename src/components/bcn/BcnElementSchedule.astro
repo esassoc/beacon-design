@@ -4,7 +4,7 @@
 // its own span, today marked. In a draft, a moved item also says where Live has it. Dates edit on the plan page (drag
 // or the drawer) in a draft; this card reads. The runtime is ./element-schedule.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card); Open in Plan IS esa-button. No esa- lego is a mini
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Open in Plan is the page header's alone (2026-10-28, the review). No esa- lego is a mini
 // timeline (esa-chart draws charts from series, not a row-per-item span list); checked Beacon (the plan Gantt is a
 // page, not a card). bcn-element-schedule is the reusable home; the CSS is its list and the timeline rows.
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -12,7 +12,6 @@ import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="schedule">
-  <a slot="actions" class="bcn-esch__open" data-esch-open><EsaButton variant="ghost" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a>
   <div class="bcn-esch">
     <dl class="bcn-esch__dates" data-esch-dates></dl>
     <div class="bcn-esch__deps" data-esch-deps></div>
@@ -28,9 +27,6 @@ import BcnElementModule from './BcnElementModule.astro';
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
-  }
-  .bcn-esch__open {
-    text-decoration: none;
   }
   .bcn-esch__dates {
     margin: 0;

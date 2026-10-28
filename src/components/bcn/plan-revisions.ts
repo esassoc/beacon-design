@@ -75,7 +75,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       ]
     : repo.versions.map((v) => ({
         author: v.author,
-        title: `Revision ${v.number}${v.label ? ` · ${v.label}` : ''} by ${v.author}`,
+        title: `Revision ${v.number}${v.label ? `, ${v.label}` : ''} by ${v.author}`,
         when: when(v.at),
         message: v.message,
         render: () => changeNote(v.note, v.message),
@@ -92,8 +92,8 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const title = draft ? `Review ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`}` : 'Revisions';
   const h1 = document.querySelector('.page-layout__title h1');
   const text = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
-  if (text) text.textContent = `${title} · ${live.PlanName}`;
-  document.title = `${title} · ${live.PlanName} | Beacon`;
+  if (text) text.textContent = `${title}: ${live.PlanName}`;
+  document.title = `${title}: ${live.PlanName} | Beacon`;
   const crumbs = document.querySelectorAll<HTMLAnchorElement | HTMLElement>('.breadcrumbs .breadcrumb-item, .breadcrumbs [aria-current]');
   const planCrumb = [...crumbs].find((c) => c.textContent?.trim() === 'Plan');
   if (planCrumb) {
