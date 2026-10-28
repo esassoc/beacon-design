@@ -1,6 +1,6 @@
 ---
 // One work element's page (2026-10-28, decisions 1 to 8). `?plan=` and `&el=` name it; `&draft=` opens it as a draft
-// has it; `&preview=1` draws it with the Configure screen's unsaved configuration. The head is PageLayout's (title,
+// has it; `&customize=1` opens it with its level's page being customized (Owners). The head is PageLayout's (title,
 // crumbs filled at runtime); the body is BcnPlanElementPage, a column of module cards laid out by the element's level.
 import AppShell from '../../../../layouts/AppShell.astro';
 import PageLayout from '../../../../layouts/PageLayout.astro';
@@ -16,8 +16,8 @@ import { withBase } from '../../../../lib/base';
   layout: AppShell > PageLayout                       # SPINE
   sections:
     - title badges -> esa-badge                       # level, Deliverable, Milestone
-    - actions      -> esa-button                      # previous, next, Open in Plan, Edit (form, then review), Back to Live Plan
-    - page         -> bcn-plan-element-page           # facts strip, two columns of bcn-element-module cards
+    - actions      -> esa-button                      # previous, next, Open in Plan, Customize Page, Edit (form, then review), Back to Live Plan
+    - page         -> bcn-plan-element-page           # two columns of bcn-element-module cards; bcn-element-customize
 -->
 
 <AppShell title="Item" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
@@ -33,6 +33,7 @@ import { withBase } from '../../../../lib/base';
       <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
       <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
       <span data-pep-action="open-plan"><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
+      <span data-pep-action="customize" hidden><esa-tooltip text="Arrange the cards and fields every item at this level shows" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></esa-tooltip></span>
       <span data-pep-action="edit" hidden><esa-tooltip text="Name, dates, owners and fields, then review and publish" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
       <span data-pep-action="back" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Back to Live Plan</EsaButton></span>
     </div>
@@ -63,20 +64,7 @@ import { withBase } from '../../../../lib/base';
   .bcn-pep-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
     background: var(--color-background-elevation-raised);
   }
-  /* The Configure screen's preview (&preview=1, set before paint by the inline script below): the page alone, without
-     the app's top bar, side nav, help bar, crumbs or actions. */
-  :global(html[data-element-preview]) .bcn-pep-actions,
-  :global(html[data-element-preview] .topbar),
-  :global(html[data-element-preview] .side-nav),
-  :global(html[data-element-preview] .bcn-help-bar),
-  :global(html[data-element-preview] .page-layout__breadcrumbs) {
-    display: none !important;
-  }
 </style>
-
-<script is:inline>
-  if (new URLSearchParams(location.search).get('preview') === '1') document.documentElement.setAttribute('data-element-preview', '');
-</script>
 
 <script>
   import '@esa/ecology/esa-tooltip';

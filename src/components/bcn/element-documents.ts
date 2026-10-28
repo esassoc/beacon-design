@@ -236,7 +236,7 @@ export const setupDocumentsModule: ElementModuleSetup = (root, host) => {
       emptyAdd.hidden = !canEdit;
       empty.hidden = docs.length > 0;
       const desc = empty.querySelector<HTMLElement>('.esa-empty-state__description');
-      if (desc) desc.textContent = canEdit ? 'Add a file or a link, with its date and why it matters.' : !c.inLive ? 'This item is new in the draft. Documents attach once it’s on Live.' : 'Documents are added on the Live plan.';
+      if (desc) desc.textContent = canEdit ? 'Add a file or a link, with its date and why it matters.' : !c.inLive ? 'This item is new in the draft. Documents attach once it’s on Live.' : c.mode === 'customize' ? 'Its documents will be listed here.' : 'Documents are added on the Live plan.';
       drawRows(c, canEdit);
     },
   };

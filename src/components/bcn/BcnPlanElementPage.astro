@@ -31,6 +31,7 @@ import BcnElementActivity from './BcnElementActivity.astro';
 import BcnHealthDialog from './BcnHealthDialog.astro';
 import BcnElementEditDialog from './BcnElementEditDialog.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
+import BcnElementCustomize from './BcnElementCustomize.astro';
 ---
 
 <div class="bcn-pep" data-bcn-plan-element-page>
@@ -71,6 +72,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
   <!-- Edit (2026-10-28, Andy): the form, then the plan's own Review and Publish for it. -->
   <BcnElementEditDialog />
   <BcnPlanRevisionsDialog />
+  <!-- Customize Page (2026-10-28): the level's page, edited here. -->
+  <BcnElementCustomize />
 </div>
 
 <style>
@@ -100,6 +103,15 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
   }
   .bcn-pep__col:empty {
     display: none;
+  }
+  /* Customizing, an emptied column stays a place to drop a card. */
+  .bcn-pep[data-customizing] .bcn-pep__col {
+    min-block-size: 6rem;
+  }
+  .bcn-pep[data-customizing] .bcn-pep__col:empty {
+    display: flex;
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-200);
   }
   @media (max-width: 1024px) {
     .bcn-pep__cols {

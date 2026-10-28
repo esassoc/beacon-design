@@ -1,6 +1,6 @@
 // <BcnPlanElementPage>'s runtime: one element, its head and its modules. From the URL: `plan` and `el`; `draft` opens
-// it as a draft has it (yours to edit, anyone else's read-only); `preview=1` draws it with the Configure screen's
-// unsaved configuration (PREVIEW_CONFIG_KEY), read-only and without the page's actions.
+// it as a draft has it (yours to edit, anyone else's read-only); `customize=1` opens it with its level's page being
+// customized (Owners, on Live: ./element-customize.ts), drawn with the working layout.
 //
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
@@ -11,8 +11,9 @@ import { setupElementEditDialog, type EditMode, type ElementEdit } from './eleme
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
-import { elementContext, moduleShows, PREVIEW_CONFIG_KEY, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
-import type { ModuleKey, PlanConfig } from '../../lib/planning/plan-config';
+import { elementContext, moduleShows, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
+import type { ModuleKey } from '../../lib/planning/plan-config';
+import { setupElementCustomize } from './element-customize';
 import { confirm, pushAlert } from '../../lib/planning/plan-page';
 import { fillIcons } from '../../lib/planning/icons';
 import { badge } from './badge-bank';
@@ -46,23 +47,12 @@ const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
 };
 
 
-function readPreview(planID: string): PlanConfig | null {
-  try {
-    const raw = sessionStorage.getItem(PREVIEW_CONFIG_KEY(planID)) ?? localStorage.getItem(PREVIEW_CONFIG_KEY(planID));
-    return raw ? (JSON.parse(raw) as PlanConfig) : null;
-  } catch {
-    return null;
-  }
-}
-
 export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   await ensureSeeded();
   const params = new URLSearchParams(location.search);
   const planID = params.get('plan') ?? '';
   const elementId = params.get('el') ?? '';
-  const previewing = params.get('preview') === '1';
-  if (previewing) document.documentElement.dataset.elementPreview = '';
 
   // ── Modules ──
   const modules = new Map<ModuleKey, { root: HTMLElement; module: ElementModule }>();
@@ -79,6 +69,15 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     const el = root.querySelector<HTMLElement>(`[data-element-module="${key}"]`);
     if (el) modules.set(key, { root: el, module: setup(el, host) });
   }
+
+  // ── Customize Page (2026-10-28): the level's page edited in place, by an Owner, on Live ──
+  const custom = setupElementCustomize(document.querySelector<HTMLElement>('[data-bcn-element-customize]')!, {
+    planID,
+    ctx: () => ctx,
+    draw: () => refresh(),
+    cols: () => ({ main: q('[data-pep-col="main"]'), side: q('[data-pep-col="side"]') }),
+    page: root,
+  });
 
   // ── Header pieces outside the component (PageLayout's title row and crumbs, the utilities slot) ──
   const h1 = document.querySelector('.page-layout__title h1');
@@ -135,9 +134,17 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       const el = util(name);
       if (el) el.hidden = !show;
     };
+    // Customizing, the bar's Save and Cancel are the only ways on.
+    if (c.mode === 'customize') {
+      document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
+      return;
+    }
+    for (const name of ['prev', 'next', 'open-plan']) set(name, true);
     // Edit: on Live for anyone who keeps the plan (reviewed, then published, or saved to a scenario), in your own draft.
     set('edit', (c.mode === 'live' && c.myRole !== 'Guest') || c.mode === 'own');
     set('back', c.mode === 'own' || c.mode === 'view');
+    // Customize Page: the level's page, for its Owners, from Live.
+    set('customize', c.mode === 'live' && c.myRole === 'Owner');
     const open = util('open-plan')?.querySelector<HTMLAnchorElement>('a');
     if (open) open.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id) + `&el=${encodeURIComponent(elementId)}`;
     // Previous and next, in outline order.
@@ -157,17 +164,21 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     step('next', at >= 0 && at < order.length - 1 ? order[at + 1] : undefined);
   }
 
-  /** Each module into its column, in the level's order; shown when it's on and applies here. */
+  /** Each module into its column, in the level's order; shown when it's on and applies here. Customizing, every card
+   *  takes its place: the ones that don't show here as ghosts. */
   function place(c: ElementContext): void {
     const main = q('[data-pep-col="main"]');
     const side = q('[data-pep-col="side"]');
     const bank = q('[data-pep-bank]');
+    const customizing = c.mode === 'customize';
     for (const p of c.placements) {
       const m = modules.get(p.key);
       if (!m) continue;
       const shows = moduleShows(c, p);
-      m.root.hidden = !shows;
-      (shows ? (p.column === 'side' ? side : main) : bank).append(m.root);
+      m.root.hidden = !shows && !customizing;
+      (shows || customizing ? (p.column === 'side' ? side : main) : bank).append(m.root);
+      if (customizing) custom.decorate(m.root, p, c, shows);
+      else custom.undecorate(m.root);
       if (shows) {
         try {
           m.module.draw(c, p.settings);
@@ -187,7 +198,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     const live: PlanDetailDto = await planApi.getPlan(planID);
     draft = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
     const shown = draft ? (await draftState(draft)).Plan : live;
-    ctx = elementContext({ planID, elementId, live, shown, draft, preview: previewing ? (readPreview(planID) ?? undefined) : null });
+    ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
     if (!ctx) {
       q('[data-pep-missing]').hidden = false;
       q('[data-pep-cols]').hidden = true;
@@ -198,7 +209,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     }
     q('[data-pep-missing]').hidden = true;
     // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
-    if (ctx.myRole === 'Guest' && ctx.mode !== 'preview') {
+    if (ctx.myRole === 'Guest') {
       q('[data-pep-guest]').hidden = false;
       q('[data-pep-cols]').hidden = true;
       if (titleText) titleText.textContent = ctx.element.PlanElementName ?? '';
@@ -207,6 +218,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     }
     drawHead(ctx);
     place(ctx);
+    custom.drawn(ctx);
   }
   /** One redraw at a time; a change during one queues one more. */
   function refresh(): Promise<void> {
@@ -308,6 +320,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   util('edit')?.addEventListener('click', () => void edit());
   root.addEventListener('bcn-element-edit', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));
+  util('customize')?.addEventListener('click', () => custom.start());
   for (const name of ['prev', 'next']) {
     util(name)?.addEventListener('click', () => {
       const to = util(name)?.dataset.to;
@@ -316,4 +329,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   }
 
   await refresh();
+  // Opened to customize (a level's Customize Page in the plan's settings): an Owner on Live starts right away.
+  const opened = ctx as ElementContext | null;
+  if (params.get('customize') === '1' && opened?.mode === 'live' && opened.myRole === 'Owner') custom.start();
 }

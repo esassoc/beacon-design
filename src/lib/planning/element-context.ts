@@ -44,9 +44,6 @@ export const PLAN_VIEW_HREF = (planID: string, view?: string, draftId?: string |
 /** An obligation's page in the data catalog. */
 export const OBLIGATION_HREF = (id: string) => withBase(`/prototypes/data-catalog-obligation/${encodeURIComponent(id)}`);
 
-/** The Configure screen's working copy, read by an element page opened with `&preview=1` (its live preview). */
-export const PREVIEW_CONFIG_KEY = (planID: string) => `bcn-plan-config-preview-${planID}`;
-
 /** The element's dates as a phrase: a milestone's one date, a span's two. */
 export function datesText(el: PlanElementDto): string {
   const day = (iso: string | undefined) => (iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
@@ -58,9 +55,9 @@ export function datesText(el: PlanElementDto): string {
 
 // ── The context ───────────────────────────────────────────────────────────────────────────────────────────────────
 
-/** live: the plan of record, read-only. own: your draft, editable. view: someone else's draft, read-only. preview: the
- *  Configure screen's preview, read-only, drawn with the unsaved configuration. */
-export type ElementMode = 'live' | 'own' | 'view' | 'preview';
+/** live: the plan of record, read-only. own: your draft, editable. view: someone else's draft, read-only. customize:
+ *  an Owner customizing the level's page, drawn with the working layout, read-only (./element-customize.ts). */
+export type ElementMode = 'live' | 'own' | 'view' | 'customize';
 
 export interface ElementContext {
   planID: string;
@@ -98,7 +95,7 @@ export interface ElementContext {
   /** Plan fields edit only in your own draft. */
   canEditPlan: boolean;
   /** Records (status, documents, sends, completion, comments) are kept by Owners, Editors and Contributors, on Live
-   *  only (a draft and the preview read them). Guests only confirm receipt. */
+   *  only (a draft and a page being customized read them). Guests only confirm receipt. */
   canRecord: boolean;
   /** Whether the plan tracks money. */
   tracksBudget: boolean;
@@ -129,10 +126,10 @@ export const settingsOf = (ctx: ElementContext, key: ModuleKey): ModuleSettings 
 
 /** Builds the context for one element. `shown` is the plan as the page shows it (the caller resolves a draft's state,
  *  which is async). Returns null when the element isn't in that plan. */
-export function elementContext(opts: { planID: string; elementId: string; live: PlanDetailDto; shown: PlanDetailDto; draft: PlanRepoDraft | null; preview?: PlanConfig | null }): ElementContext | null {
+export function elementContext(opts: { planID: string; elementId: string; live: PlanDetailDto; shown: PlanDetailDto; draft: PlanRepoDraft | null; customize?: PlanConfig | null }): ElementContext | null {
   const { planID, elementId, live, shown, draft } = opts;
   const repo = getRepo(planID);
-  const config = opts.preview ?? configOf(repo);
+  const config = opts.customize ?? configOf(repo);
   const flat = flattenPlan(shown.Elements);
   const byId = new Map(flat.map(({ element }) => [element.PlanElementID ?? '', element]));
   const element = byId.get(elementId);
@@ -144,7 +141,7 @@ export function elementContext(opts: { planID: string; elementId: string; live: 
     ancestors.unshift(parent);
   }
   const me = currentUserName();
-  const mode: ElementMode = opts.preview ? 'preview' : !draft ? 'live' : draft.owner === me ? 'own' : 'view';
+  const mode: ElementMode = opts.customize ? 'customize' : !draft ? 'live' : draft.owner === me ? 'own' : 'view';
   const levels = shown.Levels ?? [];
   const deepest = Math.max(1, ...levels.map((l) => l.Depth ?? 1));
   const depth = element.LevelDepth ?? ancestors.length + 1;

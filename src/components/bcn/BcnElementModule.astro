@@ -4,6 +4,10 @@
 // name, a count, a quiet line under it; its actions on the right; its body below. The page places it (column, order,
 // shown or not) from the level's layout; the module's own runtime fills it (./element-module.ts is the contract).
 //
+// Customizing the level's page (./element-customize.ts), the card shows a grip to drag it by, its controls in place of
+// its actions (on or off, its options), and a line under its body for the level (the Details card's Edit Fields). A
+// card that's off, or doesn't apply to this item, is a ghost: its header alone, dashed, with why.
+//
 // bcn-lego-checked: the shell IS esa-card (its muted header, the slot holding the actions too), the glyph IS esa-icon, the count IS esa-badge.
 // Checked Ecology (esa-card has no count or note line) and Beacon (prod's detail pages are fixed templates, no module
 // shell). bcn-element-module is the reusable home for a configurable record page's card; the CSS is the header row.
@@ -23,6 +27,9 @@ const meta = MODULES[key];
 <section class="bcn-elm" data-element-module={key} aria-labelledby={`elm-${key}`} hidden>
   <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-elm__head">
+      <span class="bcn-elm__grip" data-elm-grip aria-hidden="true" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" set:html={PLAN_ICON_PATHS['grip-vertical']}></svg>
+      </span>
       <span class="bcn-elm__glyph"><EsaIcon name={meta.icon} paths={PLAN_ICON_PATHS[meta.icon]} size="sm" /></span>
       <span class="bcn-elm__titles">
         <span class="bcn-elm__title-row">
@@ -30,13 +37,16 @@ const meta = MODULES[key];
           <span data-elm-count hidden><EsaBadge value="0" size="xs" /></span>
         </span>
         <span class="bcn-elm__note typography-body-sm" data-elm-note hidden></span>
+        <span class="bcn-elm__ghost typography-body-sm" data-elm-ghost hidden></span>
       </span>
       <!-- The module's actions sit in its own header: esa-card renders its actions slot only beside its built-in title. -->
       <span class="bcn-elm__actions"><slot name="actions" /></span>
+      <span class="bcn-elm__custom" data-elm-custom hidden></span>
     </div>
     <div class="bcn-elm__body" data-elm-body>
       <slot />
     </div>
+    <div class="bcn-elm__custom-foot" data-elm-custom-foot hidden></div>
   </EsaCard>
 </section>
 
@@ -113,5 +123,69 @@ const meta = MODULES[key];
   }
   .bcn-elm__body {
     min-width: 0;
+  }
+
+  /* ── Customizing the level's page ── */
+  .bcn-elm__grip {
+    display: inline-flex;
+    margin-inline: calc(-1 * var(--spacing-150)) calc(-1 * var(--spacing-050, 2px));
+    padding: var(--spacing-100) 2px;
+    color: var(--color-content-default-secondary);
+    cursor: grab;
+    touch-action: none;
+  }
+  .bcn-elm__grip[hidden],
+  .bcn-elm__custom[hidden],
+  .bcn-elm__ghost[hidden],
+  .bcn-elm__custom-foot[hidden] {
+    display: none;
+  }
+  .bcn-elm__custom {
+    margin-inline-start: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-elm__ghost {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elm__custom-foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-block-start: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-200) var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-150, var(--radius-200));
+    background: var(--color-background-elevation-sunken);
+  }
+  /* The page being customized: the card's own actions step aside for its controls; the body is a preview, not a
+     place to work, so it takes no clicks. */
+  :global([data-customizing]) .bcn-elm__actions {
+    display: none;
+  }
+  :global([data-customizing]) .bcn-elm__body {
+    pointer-events: none;
+    user-select: none;
+  }
+  .bcn-elm.is-dragging {
+    opacity: 0.4;
+  }
+  /* A ghost: off, or not for this item. Its header alone, on a dashed outline. */
+  .bcn-elm[data-ghost] :global(.esa-card) {
+    border-style: dashed;
+    background: transparent;
+  }
+  .bcn-elm[data-ghost] :global(.esa-card__header) {
+    background: transparent;
+    border-block-end: 0;
+  }
+  .bcn-elm[data-ghost] .bcn-elm__body,
+  .bcn-elm[data-ghost] .bcn-elm__note,
+  .bcn-elm[data-ghost] [data-elm-count] {
+    display: none;
+  }
+  .bcn-elm[data-ghost] .bcn-elm__title,
+  .bcn-elm[data-ghost] .bcn-elm__glyph {
+    color: var(--color-content-default-secondary);
   }
 </style>

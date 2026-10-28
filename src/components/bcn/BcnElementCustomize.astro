@@ -1,0 +1,168 @@
+---
+// <BcnElementCustomize> — a level's page, customized on one of its items' pages (2026-10-28, Andy: "the template for a
+// level should just be configured on any of those detail pages... not in a config"). An Owner's Customize Page (the
+// element page's header, or a level's link in the plan's settings) turns the page itself into the editor:
+//
+//   the scope bar   what's being changed and for how many ("Customizing the Task page. Changes apply to all 14 Tasks
+//                   in this plan."), Can Be a Deliverable, Cancel and Save Page
+//   every card      a grip to drag it within or between the columns; its switch (or Always On); its options (move it,
+//                   and Budget's audience, Documents' types, the Schedule's children's timeline)
+//   a ghost card    one that's off, or doesn't apply to this item ("Deliverables Only", "Items With Children Only"):
+//                   its header alone, dashed, so it can be found and switched on
+//   the Details card  Edit Fields, for the level's fields (BcnLevelFieldsDialog)
+//
+// The cards keep drawing this item with the working layout, so what you see is what every item at the level gets.
+// The runtime is ./element-customize.ts.
+//
+// bcn-lego-checked: switches ARE esa-switch-toggle, options sit in esa-popover with esa-button-toggle /
+// esa-checkbox-group inside, tags ARE esa-badge (BcnBadgeBank), buttons ARE esa-button; the fields ARE
+// BcnLevelFieldsDialog over BcnFieldDefDialog. No esa- lego is an edit-in-place bar for a page layout; checked Beacon
+// (the monitoring portal's dashboard edit mode is the prior art: a bar with Done, cards with grips and switches). The
+// CSS is the bar and the controls' row.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnLevelFieldsDialog from './BcnLevelFieldsDialog.astro';
+import BcnFieldDefDialog from './BcnFieldDefDialog.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+---
+
+<div class="bcn-elc" data-bcn-element-customize>
+  <div class="bcn-elc__bar" data-elc-bar role="region" aria-labelledby="elc-title" hidden>
+    <span class="bcn-elc__glyph"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="md" /></span>
+    <span class="bcn-elc__words">
+      <span class="typography-label-md-strong" id="elc-title" data-elc-title>Customizing the Page</span>
+      <span class="bcn-elc__scope typography-body-sm" data-elc-scope></span>
+    </span>
+    <esa-switch-toggle class="bcn-elc__deliver" size="sm" label="Can Be a Deliverable" label-position="after" data-elc-deliver></esa-switch-toggle>
+    <span class="bcn-elc__buttons">
+      <span data-elc-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span data-elc-save><EsaButton variant="primary" size="sm" icon="check">Save Page</EsaButton></span>
+    </span>
+  </div>
+
+  <template data-elc-tpl="controls">
+    <span class="bcn-elc__controls">
+      <span class="bcn-elc__tag" data-elc-tag></span>
+      <esa-switch-toggle size="sm" data-elc-on></esa-switch-toggle>
+      <esa-popover position="bottom" label="Card Options" data-elc-pop>
+        <esa-tooltip text="Card Options" position="above" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Card Options" /></esa-tooltip>
+        <div slot="content" class="bcn-elc__pop">
+          <div class="bcn-elc__moves" role="group" aria-label="Move">
+            <span data-elc-move="up"><EsaButton variant="ghost" size="xs" icon="arrow-up">Move Up</EsaButton></span>
+            <span data-elc-move="down"><EsaButton variant="ghost" size="xs" icon="arrow-down">Move Down</EsaButton></span>
+            <span data-elc-move="column"><EsaButton variant="ghost" size="xs" icon="arrow-right"><span data-elc-move-label>Move to Side Column</span></EsaButton></span>
+          </div>
+          <div class="bcn-elc__opt" data-elc-opt="budget" hidden>
+            <esa-button-toggle size="sm" label="Who Sees It" data-elc-visible></esa-button-toggle>
+          </div>
+          <div class="bcn-elc__opt" data-elc-opt="documents" hidden>
+            <esa-checkbox-group size="sm" label="Document Types" help-text="None checked offers every type the plan has." data-elc-types></esa-checkbox-group>
+          </div>
+          <div class="bcn-elc__opt" data-elc-opt="schedule" hidden>
+            <esa-switch-toggle size="sm" label="Children’s Timeline" label-position="after" data-elc-timeline></esa-switch-toggle>
+          </div>
+        </div>
+      </esa-popover>
+    </span>
+  </template>
+
+  <template data-elc-tpl="fields-foot">
+    <span class="bcn-elc__foot">
+      <span class="bcn-elc__foot-text typography-body-sm" data-elc-fields-text></span>
+      <span data-elc-fields><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil"><span data-elc-fields-label>Edit Fields</span></EsaButton></span>
+    </span>
+  </template>
+
+  <BcnLevelFieldsDialog />
+  <BcnFieldDefDialog />
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-tooltip';
+</script>
+
+<style>
+  .bcn-elc__bar[hidden] {
+    display: none;
+  }
+  /* The bar rides at the top of the page while you work, on the brand's quietest tint: you're editing every item at
+     this level, not this one. */
+  .bcn-elc__bar {
+    position: sticky;
+    top: var(--spacing-200);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border-brand, var(--color-border-default));
+    border-radius: var(--radius-200);
+    background: color-mix(in srgb, var(--color-background-brand) 6%, var(--color-background-elevation-raised));
+    box-shadow: var(--shadow-sm, 0 1px 2px rgb(0 0 0 / 0.06));
+  }
+  .bcn-elc__glyph {
+    display: inline-flex;
+    color: var(--color-content-brand);
+  }
+  .bcn-elc__words {
+    flex: 1 1 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 0;
+  }
+  .bcn-elc__scope {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elc__buttons {
+    display: flex;
+    gap: var(--spacing-200);
+  }
+  .bcn-elc__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-elc__tag:empty {
+    display: none;
+  }
+  /* The legos set their own display, which outranks [hidden]. */
+  .bcn-elc__controls :global([hidden]),
+  .bcn-elc__pop :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-elc__pop {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-inline-size: 15rem;
+    max-inline-size: 20rem;
+  }
+  .bcn-elc__moves {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .bcn-elc__opt {
+    padding-block-start: var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-elc__opt[hidden] {
+    display: none;
+  }
+  .bcn-elc__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+  .bcn-elc__foot-text {
+    flex: 1;
+    color: var(--color-content-default-secondary);
+  }
+</style>

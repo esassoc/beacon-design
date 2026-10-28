@@ -1,0 +1,216 @@
+---
+// <BcnLevelFieldsDialog> — the fields a level's items carry, edited from one of its items' pages (2026-10-28, Andy:
+// "the template for a level should just be configured on any of those detail pages... not in a config"). Customizing
+// a page, the Details card offers Edit Fields: this dialog. Two groups, each an ordered list of rows:
+//
+//   On Every Level   the plan's All Levels fields, tagged; editable here, and the dialog says they change every level
+//   {Level} Fields   the level's own
+//
+// A row is the field's name and type, Required to Complete, where it shows (Page, Drawer, Gantt, Sheet, Exports), and
+// its tools (edit its definition in BcnFieldDefDialog, remove it from the group). Add Field offers the plan's other
+// fields, then New Field. Done hands the change back to the page's working layout; the page's Save writes it.
+// The runtime is ./level-fields-dialog.ts.
+//
+// bcn-lego-checked: the shell IS esa-dialog, Required IS esa-switch-toggle, Shown In IS esa-chip-group, Add Field IS
+// esa-dropdown-menu, the tag IS esa-badge, every button IS esa-button under esa-tooltip. The rows were the retired
+// settings page's field rows (BcnPlanFieldsPages); no esa- lego is an ordered list of rows with a grip. Checked Beacon
+// (prod's custom fields are an admin grid with no level scope). The CSS is the rows' grid.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+
+const grip = PLAN_ICON_PATHS['grip-vertical'];
+---
+
+<div class="bcn-lfd" data-bcn-level-fields>
+  <esa-dialog class="bcn-lfd__dialog" heading="Fields" size="lg" show-close-button data-lfd-dialog>
+    <div class="bcn-lfd__body" data-lfd-body>
+      <p class="bcn-lfd__hint typography-body-sm" data-lfd-lead></p>
+
+      <section class="bcn-lfd__group" data-lfd-group="all" aria-labelledby="lfd-all">
+        <div class="bcn-lfd__group-head">
+          <h3 class="bcn-lfd__heading typography-label-md-strong" id="lfd-all">On Every Level</h3>
+          <span class="bcn-lfd__hint typography-body-sm">Changes here change every level’s items.</span>
+        </div>
+        <div class="bcn-lfd__cols typography-label-xs" aria-hidden="true"><span></span><span>Field</span><span>Required to Complete</span><span>Shown In</span><span></span></div>
+        <ul class="bcn-lfd__rows" data-lfd-rows="all" role="list"></ul>
+        <p class="bcn-lfd__empty typography-body-sm" data-lfd-empty="all" hidden>No fields on every level.</p>
+      </section>
+
+      <section class="bcn-lfd__group" data-lfd-group="level" aria-labelledby="lfd-level">
+        <div class="bcn-lfd__group-head">
+          <h3 class="bcn-lfd__heading typography-label-md-strong" id="lfd-level" data-lfd-level-heading>Fields</h3>
+        </div>
+        <div class="bcn-lfd__cols typography-label-xs" aria-hidden="true"><span></span><span>Field</span><span>Required to Complete</span><span>Shown In</span><span></span></div>
+        <ul class="bcn-lfd__rows" data-lfd-rows="level" role="list"></ul>
+        <p class="bcn-lfd__empty typography-body-sm" data-lfd-empty="level" hidden></p>
+        <div class="bcn-lfd__add">
+          <esa-dropdown-menu data-lfd-add position="below-start">
+            <EsaButton variant="ghost" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">Add Field</EsaButton>
+          </esa-dropdown-menu>
+        </div>
+      </section>
+      <p class="bcn-lfd__hint typography-body-sm">No field is needed to create an item. One Required to Complete needs a value before the item can be marked complete.</p>
+    </div>
+    <div slot="footer" class="bcn-lfd__footer">
+      <span data-lfd-cancel><EsaButton variant="ghost" size="sm">Cancel</EsaButton></span>
+      <span data-lfd-done><EsaButton variant="primary" size="sm">Done</EsaButton></span>
+    </div>
+  </esa-dialog>
+  <esa-confirm-dialog data-lfd-confirm></esa-confirm-dialog>
+
+  <template data-lfd-tpl="row">
+    <li class="bcn-lfd__row" data-lfd-row>
+      <button type="button" class="bcn-lfd__grip" data-lfd-grip tabindex="-1" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" set:html={grip}></svg>
+      </button>
+      <span class="bcn-lfd__name">
+        <span class="bcn-lfd__label typography-label-sm-strong" data-f-label></span>
+        <span class="bcn-lfd__type typography-body-xs" data-f-type></span>
+        <span class="bcn-lfd__tag" data-f-all hidden><EsaBadge value="All Levels" size="xs" /></span>
+      </span>
+      <esa-switch-toggle class="bcn-lfd__required" size="sm" data-f-required></esa-switch-toggle>
+      <esa-chip-group multiple size="xs" data-f-shown></esa-chip-group>
+      <span class="bcn-lfd__tools">
+        <esa-tooltip text="Move Up" position="above"><span data-lfd-act="up"><EsaButton variant="ghost" size="xs" iconOnly icon="arrow-up" label="Move Up" /></span></esa-tooltip>
+        <esa-tooltip text="Move Down" position="above"><span data-lfd-act="down"><EsaButton variant="ghost" size="xs" iconOnly icon="arrow-down" label="Move Down" /></span></esa-tooltip>
+        <esa-tooltip text="Edit Field" position="above"><span data-lfd-act="edit"><EsaButton variant="ghost" size="xs" iconOnly icon="pencil" label="Edit Field" /></span></esa-tooltip>
+        <esa-tooltip text="Remove" position="above" align="end" data-lfd-remove-tip><span data-lfd-act="remove"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></span></esa-tooltip>
+      </span>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-chip-group';
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-lfd__dialog {
+    --dialog-width-lg: min(880px, calc(100vw - 4rem));
+  }
+  .bcn-lfd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-lfd__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  .bcn-lfd__hint {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-lfd__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-lfd__group-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-300);
+  }
+  .bcn-lfd__heading {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  /* One grid for the column heads and the rows: grip, field, required, shown in, tools. */
+  .bcn-lfd__cols,
+  .bcn-lfd__row {
+    display: grid;
+    grid-template-columns: 1rem minmax(10rem, 1fr) 9.5rem minmax(16rem, auto) 7.5rem;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-lfd__cols {
+    padding-inline: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-lfd__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-lfd__rows:empty {
+    display: none;
+  }
+  .bcn-lfd__row {
+    padding: var(--spacing-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-lfd__row + .bcn-lfd__row {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-lfd__row:first-child {
+    border-start-start-radius: var(--radius-200);
+    border-start-end-radius: var(--radius-200);
+  }
+  .bcn-lfd__row:last-child {
+    border-end-start-radius: var(--radius-200);
+    border-end-end-radius: var(--radius-200);
+  }
+  .bcn-lfd__grip {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-default-tertiary, var(--color-content-default-secondary));
+    cursor: grab;
+    touch-action: none;
+  }
+  .bcn-lfd__name {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-200);
+    min-inline-size: 0;
+  }
+  .bcn-lfd__type {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-lfd__tag {
+    align-self: center;
+  }
+  .bcn-lfd__tools {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2px;
+  }
+  .bcn-lfd__empty {
+    margin: 0;
+    padding: var(--spacing-300);
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-lfd__add {
+    align-self: flex-start;
+  }
+  .bcn-lfd__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+  @media (max-width: 760px) {
+    .bcn-lfd__cols {
+      display: none;
+    }
+    .bcn-lfd__row {
+      grid-template-columns: 1rem minmax(0, 1fr) auto;
+    }
+    .bcn-lfd__row esa-chip-group,
+    .bcn-lfd__required {
+      grid-column: 2 / -1;
+    }
+  }
+</style>

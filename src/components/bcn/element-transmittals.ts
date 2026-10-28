@@ -145,12 +145,12 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
       newBtn.hidden = !ctx.canRecord;
       setModuleCount(root, all.length || null);
       // Why it won't send, said once and quietly (the page's own note says the rest).
-      setModuleNote(root, ctx.mode === 'preview' || ctx.myRole === 'Guest' ? null : !ctx.inLive ? 'New in this draft. It can be sent once it is on Live.' : ctx.mode !== 'live' ? 'Read-only in a draft. Sends are made on Live.' : null);
+      setModuleNote(root, ctx.mode === 'customize' || ctx.myRole === 'Guest' ? null : !ctx.inLive ? 'New in this draft. It can be sent once it is on Live.' : ctx.mode !== 'live' ? 'Read-only in a draft. Sends are made on Live.' : null);
       list.replaceChildren(...all.map((t) => row(t, ctx.canRecord, ctx.planID)));
       list.hidden = all.length === 0;
       empty.hidden = all.length > 0;
       const description = empty.querySelector('.esa-empty-state__description');
-      if (description) description.textContent = ctx.canRecord ? 'Send it to its reviewers with New Transmittal.' : ctx.mode === 'live' || ctx.mode === 'preview' ? 'Its sends will be listed here.' : 'Open the Live plan to send it.';
+      if (description) description.textContent = ctx.canRecord ? 'Send it to its reviewers with New Transmittal.' : ctx.mode === 'live' || ctx.mode === 'customize' ? 'Its sends will be listed here.' : 'Open the Live plan to send it.';
     },
   };
 };
