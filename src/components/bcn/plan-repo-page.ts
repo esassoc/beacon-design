@@ -703,13 +703,34 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     refresh();
   });
   q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && go(REVISIONS_HREF(planID!, `&draft=${draft.id}`)));
-  q<HTMLElement>('[data-prp-copy]').addEventListener('click', () => {
+  /** The page's guard: esa-confirm-dialog, answered as a promise. A dismiss (Esc, the backdrop) is a no. */
+  type ConfirmEl = HTMLElement & { heading: string; message: string; confirmLabel: string; cancelLabel: string; open: boolean };
+  const guard = q<ConfirmEl>('[data-prp-confirm]');
+  // Its buttons centered under the centered icon, heading and message (2026-10-28, Andy). esa-confirm-dialog has no
+  // hook or part for its footer, so the one rule goes into its shadow root: a hub gap, noted for /request-lego (the
+  // centered body suggests a centered footer as the lego's default).
+  void customElements.whenDefined('esa-confirm-dialog').then(async () => {
+    await (guard as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete;
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync('.esa-confirm-dialog__footer { justify-content: center; }');
+    if (guard.shadowRoot) guard.shadowRoot.adoptedStyleSheets = [...guard.shadowRoot.adoptedStyleSheets, sheet];
+  });
+  const ask = (heading: string, message: string, confirmLabel: string): Promise<boolean> =>
+    new Promise((resolve) => {
+      Object.assign(guard, { heading, message, confirmLabel, cancelLabel: 'Keep Editing' });
+      guard.addEventListener('resolved', (e) => resolve((e as CustomEvent<{ confirmed: boolean }>).detail.confirmed), { once: true });
+      guard.open = true;
+    });
+  q<HTMLElement>('[data-prp-copy]').addEventListener('click', async () => {
     const mine = myDraft(planID!);
-    if (mine?.revisions.length && !confirm(`Replace your draft "${mine.name}" (${mine.revisions.length} edits) with a copy of ${firstName(draft!.owner)}'s?`)) return;
+    const edits = mine?.revisions.length ?? 0;
+    if (edits && !(await ask(`Replace ${mine!.name}?`, `Your draft and its ${edits} ${edits === 1 ? 'edit' : 'edits'} are replaced by a copy of ${firstName(draft!.owner)}'s. This can't be undone.`, 'Replace My Draft'))) return;
     void switchTo(startDraft(planID!, draft!), { rise: true });
   });
-  q<HTMLElement>('[data-prp-discard]').addEventListener('click', () => {
-    if (!draft || (draft.revisions.length && !confirm(`Discard your draft and its ${draft.revisions.length} edits? Live is not affected.`))) return;
+  q<HTMLElement>('[data-prp-discard]').addEventListener('click', async () => {
+    if (!draft) return;
+    const edits = draft.revisions.length;
+    if (edits && !(await ask(`Discard ${draft.name}?`, `${edits === 1 ? 'Its 1 edit is' : `Its ${edits} edits are`} deleted. Live is not affected. This can't be undone.`, 'Discard Draft'))) return;
     discardDraft(planID!, draft.id);
     void switchTo(null);
   });

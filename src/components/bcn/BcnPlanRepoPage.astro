@@ -36,9 +36,12 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <esa-button-toggle size="sm" label="" data-prp-tabs hidden></esa-button-toggle>
       <esa-popover position="bottom" trigger="click" data-prp-branch-popover>
         <span data-prp-branch-trigger>
-          <EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" iconRight="chevron-down" data-fill-icon="git-branch">
-            <span data-prp-branch-label>Live Plan</span>
-          </EsaButton>
+          <!-- Every action in the strip names what it does on hover (2026-10-28): esa-tooltip, the dark knockout tip. -->
+          <esa-tooltip text="Switch between Live and the drafts" position="below" align="start">
+            <EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" iconRight="chevron-down" data-fill-icon="git-branch">
+              <span data-prp-branch-label>Live Plan</span>
+            </EsaButton>
+          </esa-tooltip>
         </span>
         <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Live Plan and Drafts"></div>
       </esa-popover>
@@ -46,7 +49,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         <span data-prp-base-rev></span>
         <span class="bcn-prp__behind" data-prp-base-behind hidden><span data-glyph="triangle-alert"></span><span data-prp-base-behind-text></span></span>
       </span>
-      <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> Revisions</a>
+      <esa-tooltip class="bcn-prp__count-tip" text="Compare and restore past revisions" position="below"><a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> Revisions</a></esa-tooltip>
       <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> Drafts</span>
       <!-- The latest change, in the same row (2026-10-27): named as that, with when, then who and what (2026-10-28). It
            takes the row's free width and truncates. -->
@@ -57,16 +60,16 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
       </span>
       <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
-        <span data-prp-undo><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></span>
-        <span data-prp-redo><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></span>
-        <span data-prp-discard><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></span>
+        <span data-prp-undo><esa-tooltip text="Undo (Ctrl+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></esa-tooltip></span>
+        <span data-prp-redo><esa-tooltip text="Redo (Ctrl+Shift+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></esa-tooltip></span>
+        <span data-prp-discard><esa-tooltip text="Delete this draft. Live is not affected." position="below"><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></esa-tooltip></span>
       </span>
       <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
-      <span data-prp-edit><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></span>
-      <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></span>
-      <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></span>
+      <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+      <span data-prp-copy hidden><esa-tooltip text="Start your draft from a copy of this one" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></esa-tooltip></span>
+      <span data-prp-review hidden><esa-tooltip text="Compare with Live, then publish as the next revision" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
       <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
-      <span data-prp-ask hidden><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to Publish</EsaButton></span>
+      <span data-prp-ask hidden><esa-tooltip text="Ask someone who can publish to review it" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to Publish</EsaButton></esa-tooltip></span>
       <span data-prp-asked hidden><EsaBadge value="Publish Requested" variant="neutral" size="sm" /></span>
     </div>
 
@@ -134,6 +137,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         </section>
       </div>
     </aside>
+    <!-- The page's guard (2026-10-28, Andy: a UI modal, not the browser's confirm): Discard, and Copy over a draft. -->
+    <esa-confirm-dialog data-prp-confirm variant="danger"></esa-confirm-dialog>
     <template data-prp-tpl="back"><EsaButton variant="ghost" size="xs" iconOnly icon="rotate-ccw" label="Go back to this edit" /></template>
     <!-- Collapsed: a narrow rail, as the setup wizard's Library and the app's side nav fold. -->
     <button type="button" class="bcn-prp__rail" data-prp-about-open aria-label="Show About" title="Show About">
@@ -145,6 +150,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <script>
   import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
 </script>
@@ -189,7 +196,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   /* Narrow enough that search, Show and Dates share one line beside a folded About. */
   .bcn-prp__search { inline-size: 12rem; }
   .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
-  .bcn-prp__bar[data-band] .bcn-prp__count { display: none; }
+  .bcn-prp__bar[data-band] :is(.bcn-prp__count, .bcn-prp__count-tip) { display: none; }
   .bcn-prp__base { display: inline-flex; align-items: center; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-prp__behind { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default); }
   .bcn-prp__behind [data-glyph] { color: var(--color-content-utility-warning); }
