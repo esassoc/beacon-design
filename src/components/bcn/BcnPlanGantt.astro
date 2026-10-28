@@ -820,60 +820,18 @@ const { label, id } = Astro.props;
   :global(.bcn-plan-gantt-tip__warning--warning) { color: var(--color-content-utility-warning); }
   :global(.bcn-plan-gantt-tip__warning--danger) { color: var(--color-content-utility-danger); }
 
-  /* ── The bar study (2026-10-28, Andy: "the gradient on the flat/read-only elements is looking amateurish"): five
-     treatments for the marks, by &bars=1..5, each replacing both the bars' top-to-bottom gradient and the parents'
-     teal ramp (lighter per level outward). Picked by number; the rest go. Conflicts, overruns and today keep their
-     colors in all five, and a draft's bars keep their lift.
-     1 Solid       (Linear) flat brand bars; parents one neutral grey; the planned window a faint field, no edge
-     2 Tinted      (GitHub Projects) bars a pale brand tint with a brand hairline; parents the same tint, no edge
-     3 Ink         (Vercel) bars near-black; parents grey; brand only where something is chosen
-     4 Outline     (Supabase) bars a brand outline on the surface; parents solid brand, thin and quiet
-     5 Bracket     flat brand bars; parents ink brackets, the classic summary bar; no planned-window fill */
-  .bcn-plan-gantt-host[data-bars] :global(.bcn-plan-gantt__bar-grip) { display: none; }
-  .bcn-plan-gantt-host[data-bars] :global(:is(.bcn-plan-gantt__summary, .bcn-plan-gantt__summary-tick):not(.bcn-plan-gantt__summary-tick--overrun, .bcn-plan-gantt__summary-tick--overrun-scheduled)) { fill: var(--_parent); }
-  /* A conflicted mark takes the option's fill and keeps its red edge; a picked one keeps its accent edge. */
-  .bcn-plan-gantt-host[data-bars] :global(.bcn-plan-gantt__mark :is(.bcn-plan-gantt__bar, .bcn-plan-gantt__milestone:not(.bcn-plan-gantt__milestone--overrun, .bcn-plan-gantt__milestone--overrun-scheduled))) { fill: var(--_bar); }
-  .bcn-plan-gantt-host[data-bars] :global(.bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--conflict, .bcn-plan-gantt__mark--picked) :is(.bcn-plan-gantt__bar, .bcn-plan-gantt__milestone:not(.bcn-plan-gantt__milestone--overrun, .bcn-plan-gantt__milestone--overrun-scheduled))) {
-    stroke: var(--_bar-edge);
-    stroke-width: var(--_bar-edge-w, 1);
-  }
-  .bcn-plan-gantt-host[data-bars] :global(.bcn-plan-gantt__window) { fill: var(--_win); stroke: var(--_win-edge); }
-  .bcn-plan-gantt-host[data-bars] :global(.bcn-plan-gantt__milestone-icon) { fill: var(--_bar); stroke: var(--_bar-edge); }
-  .bcn-plan-gantt-host[data-bars='1'] {
+  /* ── Solid marks (2026-10-28, Andy picked option 1 of the bar study, after Linear): flat brand bars and milestones,
+     no top-to-bottom gradient and no grips; every parent one neutral grey in place of the teal ramp (lighter per level
+     outward); the planned window a faint field with no edge. Conflicts keep their red edge, overruns and today their
+     colors, a picked mark its accent edge, and a draft's bars their lift. Rides data-bars="solid" (the plan page). */
+  .bcn-plan-gantt-host[data-bars='solid'] {
     --_bar: var(--_brand);
-    --_bar-edge: none;
     --_parent: color-mix(in srgb, var(--_text) 30%, transparent);
-    --_win: color-mix(in srgb, var(--_text) 4%, transparent);
-    --_win-edge: none;
   }
-  .bcn-plan-gantt-host[data-bars='2'] {
-    --_bar: color-mix(in srgb, var(--_brand) 16%, var(--_s));
-    --_bar-edge: color-mix(in srgb, var(--_brand) 70%, var(--_s));
-    --_parent: color-mix(in srgb, var(--_brand) 34%, var(--_s));
-    --_win: transparent;
-    --_win-edge: var(--_b-strong);
-  }
-  .bcn-plan-gantt-host[data-bars='3'] {
-    --_bar: color-mix(in srgb, var(--_text) 86%, var(--_s));
-    --_bar-edge: none;
-    --_parent: color-mix(in srgb, var(--_text) 24%, transparent);
-    --_win: color-mix(in srgb, var(--_text) 4%, transparent);
-    --_win-edge: none;
-  }
-  .bcn-plan-gantt-host[data-bars='4'] {
-    --_bar: color-mix(in srgb, var(--_brand) 6%, var(--_s));
-    --_bar-edge: var(--_brand);
-    --_bar-edge-w: 1.5;
-    --_parent: var(--_brand);
-    --_win: transparent;
-    --_win-edge: color-mix(in srgb, var(--_text) 18%, transparent);
-  }
-  .bcn-plan-gantt-host[data-bars='4'] :global(.bcn-plan-gantt__summary) { fill-opacity: 0.55; }
-  .bcn-plan-gantt-host[data-bars='5'] {
-    --_bar: var(--_brand);
-    --_bar-edge: none;
-    --_parent: color-mix(in srgb, var(--_text) 78%, transparent);
-    --_win: transparent;
-    --_win-edge: var(--_b-strong);
-  }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(.bcn-plan-gantt__bar-grip) { display: none; }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(:is(.bcn-plan-gantt__summary, .bcn-plan-gantt__summary-tick):not(.bcn-plan-gantt__summary-tick--overrun, .bcn-plan-gantt__summary-tick--overrun-scheduled)) { fill: var(--_parent); }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(.bcn-plan-gantt__mark :is(.bcn-plan-gantt__bar, .bcn-plan-gantt__milestone:not(.bcn-plan-gantt__milestone--overrun, .bcn-plan-gantt__milestone--overrun-scheduled))) { fill: var(--_bar); }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(.bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--conflict, .bcn-plan-gantt__mark--picked) :is(.bcn-plan-gantt__bar, .bcn-plan-gantt__milestone:not(.bcn-plan-gantt__milestone--overrun, .bcn-plan-gantt__milestone--overrun-scheduled))) { stroke: none; }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(.bcn-plan-gantt__window) { fill: color-mix(in srgb, var(--_text) 4%, transparent); stroke: none; }
+  .bcn-plan-gantt-host[data-bars='solid'] :global(.bcn-plan-gantt__milestone-icon) { fill: var(--_bar); stroke: none; }
 </style>

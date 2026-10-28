@@ -77,7 +77,12 @@ export interface PlanRepo {
 
 interface RepoStore {
   repos: PlanRepo[];
+  /** The seed's shape; a store from an older one starts over (see SEED_FORMAT). */
+  format?: number;
 }
+
+/** Bumped when the seed's shape changes (2: revision messages in the fixed grammar, 2026-10-28). */
+const SEED_FORMAT = 2;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -296,21 +301,34 @@ export function shiftWords(days: number): string {
   return `${n} ${n === 1 ? 'day' : 'days'} ${dir}`;
 }
 
+/** A signed shift in the unit a planner reads it in: "+10 days", "−3 weeks", "+23 months". */
+export function signedShift(days: number): string {
+  const n = Math.abs(days);
+  const sign = days < 0 ? '\u2212' : '+';
+  if (n >= 60) {
+    const m = Math.round(n / 30.44);
+    return `${sign}${m} ${m === 1 ? 'month' : 'months'}`;
+  }
+  if (n >= 14) return `${sign}${Math.round(n / 7)} weeks`;
+  return `${sign}${n} ${n === 1 ? 'day' : 'days'}`;
+}
+
 /**
- * One sentence for what an edit did, written the way a planner would say it (the check-in retired "1 change · 6
- * moved with it"): "Moved Acoustic tag procurement 3 weeks later, and the 5 items after it".
+ * What an edit did, in one fixed grammar (2026-10-28, Andy: the old sentence, "Extended X by 23 months, and the 6
+ * items after it", read as written rather than generated; "make it more deterministic"). A verb from a closed set,
+ * the item, the signed shift, then how many others moved:
+ *   Moved {item} {±shift}           the whole item
+ *   Moved end of {item} {±shift}    its end only
+ *   Moved {n} items {±shift}        several, by the first one's shift
+ *   ... ({n} others moved)          the items that moved with it
  */
 export function revisionMessage(own: PlanChange[], cascaded: number): string {
-  if (!own.length) return cascaded ? `${cascaded} ${cascaded === 1 ? 'item' : 'items'} moved` : 'No date changes';
+  const others = cascaded ? ` (${cascaded} ${cascaded === 1 ? 'other' : 'others'} moved)` : '';
+  if (!own.length) return cascaded ? `Moved ${cascaded} ${cascaded === 1 ? 'item' : 'items'}` : 'No date changes';
   const first = own[0];
-  const head =
-    own.length > 1
-      ? `Moved ${own.length} items ${shiftWords(first.shiftDays)}`
-      : first.endOnly
-        ? `${first.shiftDays > 0 ? 'Extended' : 'Shortened'} ${first.name} by ${shiftWords(first.shiftDays).replace(/ (later|earlier)$/, '')}`
-        : `Moved ${first.name} ${shiftWords(first.shiftDays)}`;
-  if (!cascaded) return head;
-  return `${head}, and the ${cascaded === 1 ? 'item' : `${cascaded} items`} after ${own.length > 1 ? 'them' : 'it'}`;
+  const shift = signedShift(first.shiftDays);
+  if (own.length > 1) return `Moved ${own.length} items ${shift}${others}`;
+  return `Moved ${first.endOnly ? 'end of ' : ''}${first.name} ${shift}${others}`;
 }
 
 // ── Seed ───────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -519,9 +537,14 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   const plans = await planApi.listPlans(PROJECT_ID);
   const known = new Set(plans.map((p) => p.PlanID));
   store.repos = store.repos.filter((r) => known.has(r.planID));
-  if (store.repos.length) {
+  if (store.repos.length && store.format === SEED_FORMAT) {
     save(store);
     return;
+  }
+  if (store.repos.length) {
+    // An older seed: its plans go, and the sample starts over in the current shape.
+    for (const plan of plans) await planApi.deletePlan(plan.PlanID ?? '').catch(() => undefined);
+    store.repos = [];
   }
   onProgress?.('Setting up three sample plans with three months of history…');
   setPlanApiLatency(0);
@@ -532,6 +555,7 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   } finally {
     setPlanApiLatency(220);
   }
+  store.format = SEED_FORMAT;
   save(store);
 }
 
@@ -709,7 +733,7 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     number: latestVersion(fresh).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    message: own.length <= 1 ? revisionMessage(own, changes.length - own.length) : `Published ${draft.name}: ${changes.length} items on new dates`,
+    message: own.length <= 1 ? revisionMessage(own, changes.length - own.length) : `Published ${draft.name} (${changes.length} items moved)`,
     changeCount: changes.length,
     label: label?.trim() || null,
     source: 'draft',

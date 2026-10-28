@@ -129,7 +129,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   host.dataset.budget = study.budget ?? 'off';
   host.dataset.sched = study.sched ?? 'pin';
   host.dataset.cascade = study.cascade ?? 'spotlight';
-  if (study.bars) host.dataset.bars = study.bars;
+  // Solid marks (2026-10-28, option 1 of the bar study): flat bars, grey parents.
+  host.dataset.bars = 'solid';
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',

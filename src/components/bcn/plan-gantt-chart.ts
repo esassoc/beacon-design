@@ -1436,7 +1436,7 @@ export class PlanGanttChart {
           body += `<circle class="${P}__sched-pin" cx="${mark.x + Math.min(9, mark.width / 2)}" cy="${cy}" r="${Math.max(2.5, mark.height * 0.14)}"/>`;
           body += `<rect class="${P}__sched-cap" x="${mark.x}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/><rect class="${P}__sched-cap" x="${mark.x + mark.width - 3}" y="${mark.y - 2}" width="3" height="${mark.height + 4}"/>`;
         }
-        // The bar study (&bars) draws its own fills: no gradient, no grips.
+        // Solid marks (data-bars, the plan page) draw their own fills: no gradient, no grips.
         if (density !== 'compact' && this.host.dataset.feel !== 'print' && !this.host.dataset.bars) body = body.replace(`class="${P}__bar"`, `class="${P}__bar" style="fill:url(#${this.fillId})"`) + tactileBarDetail(mark.x, mark.y, mark.width, mark.height);
       } else if (mark.kind === 'summary') {
         body =
