@@ -15,8 +15,12 @@ import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto } from '../../lib/planning/model';
 import type { UiVizGanttRow } from '../../lib/planning/gantt-geometry';
 import {
+  budgetAt,
   currentUserName,
+  draftBudget,
   draftState,
+  fiscalYearLabel,
+  flattenPlan,
   getRepo,
   latestVersion,
   planCompare,
@@ -28,6 +32,7 @@ import {
   signedShift,
   timeAgo,
   versionsBehind,
+  type PlanBudget,
   type PlanChange,
   type PlanRepoDraft,
 } from '../../lib/planning/plan-repo';
@@ -40,6 +45,8 @@ type CheckEl = HTMLElement & { checked: boolean };
 
 interface Stop extends RevisionStop {
   state: () => Promise<PlanDetailDto>;
+  /** The plan's budget at this stop (2026-10-28, Andy: "the review/diff doesn't have budget changes"). */
+  budget: () => PlanBudget;
   /** The overrides this stop carries (a draft's edits), to tell what the planner moved from what followed. */
   ownIDs: ReadonlySet<string>;
 }
@@ -62,6 +69,36 @@ function whenText(iso: string): string {
   const at = `${date}, ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
   return ago.startsWith('on ') ? at : `${ago}, ${at}`;
 }
+const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const signedDollars = (n: number) => `${n < 0 ? '\u2212' : '+'}${dollars.format(Math.abs(n))}`;
+
+/** One element whose budget differs between two stops: each fiscal year that changed, and the net. */
+interface BudgetDiff {
+  id: string;
+  name: string;
+  depth: number;
+  years: { fy: number; from: number; to: number }[];
+  net: number;
+}
+/** The elements whose budget differs, in the "to" plan's order (then any only the "from" plan has). */
+function budgetDiff(from: PlanBudget, to: PlanBudget, fromPlan: PlanDetailDto, toPlan: PlanDetailDto): BudgetDiff[] {
+  const seen = new Map<string, { name: string; depth: number }>();
+  for (const plan of [toPlan, fromPlan])
+    for (const { element, path } of flattenPlan(plan.Elements)) if (!seen.has(element.PlanElementID ?? '')) seen.set(element.PlanElementID ?? '', { name: element.PlanElementName ?? '', depth: path.length });
+  const out: BudgetDiff[] = [];
+  for (const [id, at] of seen) {
+    const a = from[id] ?? {};
+    const b = to[id] ?? {};
+    const years = [...new Set([...Object.keys(a), ...Object.keys(b)])]
+      .map(Number)
+      .sort((x, y) => x - y)
+      .map((fy) => ({ fy, from: a[String(fy)] ?? 0, to: b[String(fy)] ?? 0 }))
+      .filter((y) => y.from !== y.to);
+    if (years.length) out.push({ id, name: at.name, depth: at.depth, years, net: years.reduce((s, y) => s + y.to - y.from, 0) });
+  }
+  return out;
+}
+
 const day = (iso: string | null) =>
   iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Unscheduled';
 
@@ -96,7 +133,7 @@ export function setupPlanRevisionsDialog(opts: {
   let sel: RevisionSelection = { from: 0, to: 0, compareTwo: false };
   let latestNumber = 0;
   let cache = new Map<number, Promise<PlanDetailDto>>();
-  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string> } | null = null;
+  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[] } | null = null;
   let only: CheckEl | null = null;
   let token = 0;
 
@@ -118,17 +155,19 @@ export function setupPlanRevisionsDialog(opts: {
         if (!was || was.StartDate !== o.StartDate || was.EndDate !== o.EndDate) own.add(o.PlanElementID);
       }
     }
-    current = { from, to, changes: planCompare(from, to), own };
+    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) };
     draw();
   }
 
   function draw(): void {
     if (!current) return;
-    const { from, to, changes, own } = current;
+    const { from, to, changes, own, money } = current;
     drawHeads();
-    drawCounts(changes, own);
-    drawRows(from, to, changes, own);
-    drawFooter(changes);
+    drawCounts(changes, own, money);
+    drawRows(from, to, changes, own, money);
+    drawFooter(changes.length + money.length);
+    // A budget-only comparison has nothing to show on the chart.
+    q<HTMLElement>('.bcn-prvd__chart').hidden = !changes.length && money.length > 0;
 
     const changed = new Set(changes.map((c) => c.id));
     const shift = (c: PlanChange) => (c.endOnly ? `End ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays));
@@ -175,13 +214,14 @@ export function setupPlanRevisionsDialog(opts: {
     q<HTMLElement>('[data-prvd-current]').hidden = !!draft || sel.to !== stops.length - 1;
   }
 
-  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>): void {
+  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[]): void {
     const counts = q<HTMLElement>('[data-prvd-counts]');
     const b = (n: number, label: string) => `<span><b>${n}</b> ${label}</span>`;
-    if (!draft) counts.innerHTML = b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved');
+    const budget = money.length ? b(money.length, money.length === 1 ? 'Budget Change' : 'Budget Changes') : '';
+    if (!draft) counts.innerHTML = (changes.length || !money.length ? b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved') : '') + budget;
     else {
       const mine = changes.filter((c) => own.has(c.id)).length;
-      counts.innerHTML = b(mine, 'Moved') + b(changes.length - mine, 'Followed');
+      counts.innerHTML = (changes.length || !money.length ? b(mine, 'Moved') + b(changes.length - mine, 'Followed') : '') + budget;
     }
   }
 
@@ -190,7 +230,7 @@ export function setupPlanRevisionsDialog(opts: {
    * order. A changed date is struck on the left and marked on the right; the right ends with the shift (an item that
    * moved only because what it waits on did reads Followed). Changes Only leaves out the items that didn't change.
    */
-  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>): void {
+  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[]): void {
     const fromRows = new Map(planGanttView(from).rows.map((r) => [r.id, r]));
     const toRows = planGanttView(to).rows;
     const toById = new Map(toRows.map((r) => [r.id, r]));
@@ -198,7 +238,7 @@ export function setupPlanRevisionsDialog(opts: {
     const order = [...toRows.map((r) => r.id), ...[...fromRows.keys()].filter((id) => !toById.has(id))];
     const list = q<HTMLElement>('[data-prvd-rows]');
     const ids = order.filter((id) => !only?.checked || byId.has(id));
-    if (!ids.length) {
+    if (!ids.length && !money.length) {
       list.innerHTML = `<p class="bcn-prvd__none">No differences between these revisions.</p>`;
       return;
     }
@@ -231,7 +271,26 @@ export function setupPlanRevisionsDialog(opts: {
       }
       return el;
     };
+    // A section's heading, only when both kinds of change are in view.
+    const heading = (text: string) => Object.assign(document.createElement('div'), { className: 'bcn-prvd__section typography-label-sm-strong', textContent: text });
+    // Budget, item by item (2026-10-28): each fiscal year that changed, struck on the left and marked on the right, the
+    // net at the end. Tasks carry the money, so these are tasks; their parents' sums follow.
+    const moneyCell = (side: 'from' | 'to', diff: BudgetDiff) => {
+      const el = document.createElement('div');
+      el.className = `bcn-prvd__cell bcn-prvd__cell--${side}`;
+      el.style.setProperty('--depth', String(diff.depth));
+      const years = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates bcn-prvd__money' });
+      diff.years.forEach((y, i) => {
+        if (i) years.append(document.createTextNode(', '));
+        years.append(`${fiscalYearLabel(y.fy)} `, Object.assign(document.createElement(side === 'from' ? 'del' : 'ins'), { textContent: dollars.format(side === 'from' ? y.from : y.to) }));
+      });
+      el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__name', textContent: diff.name }), years);
+      if (side === 'to') el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift bcn-prvd__money', textContent: signedDollars(diff.net) }));
+      return el;
+    };
+    const both = ids.length > 0 && money.length > 0;
     list.replaceChildren(
+      ...(both ? [heading('Schedule')] : []),
       ...ids.map((id) => {
         const change = byId.get(id);
         const row = document.createElement('div');
@@ -239,11 +298,19 @@ export function setupPlanRevisionsDialog(opts: {
         row.dataset.kind = change?.status ?? 'same';
         row.append(cell('from', fromRows.get(id), toById.get(id), change), cell('to', toById.get(id), fromRows.get(id), change));
         return row;
+      }),
+      ...(money.length ? [heading('Budget')] : []),
+      ...money.map((diff) => {
+        const row = document.createElement('div');
+        row.className = 'bcn-prvd__row';
+        row.dataset.kind = 'moved';
+        row.append(moneyCell('from', diff), moneyCell('to', diff));
+        return row;
       })
     );
   }
 
-  function drawFooter(changes: PlanChange[]): void {
+  function drawFooter(changeCount: number): void {
     const restore = q<HTMLElement>('[data-prvd-restore]');
     const publish = q<HTMLElement>('[data-prvd-publish]');
     const note = q<HTMLElement>('[data-prvd-note]');
@@ -270,7 +337,8 @@ export function setupPlanRevisionsDialog(opts: {
     const last = sel.to === stops.length - 1;
     name.hidden = false;
     publish.querySelector('[data-prvd-act-label]')!.textContent = last ? `Publish as Revision ${latestNumber + 1}` : `Publish Up to Edit ${sel.to}`;
-    setButtonDisabled(publish.querySelector('button'), sel.to === 0 || !changes.length);
+    // Anything changed counts, dates or budget (a budget-only draft publishes too).
+    setButtonDisabled(publish.querySelector('button'), sel.to === 0 || !changeCount);
     // Part of the draft (2026-10-28): what isn't published stays where it was, on top of the new Live.
     const n = stops.length - 1;
     if (sel.to > 0 && !last) {
@@ -321,7 +389,7 @@ export function setupPlanRevisionsDialog(opts: {
       const d = draft;
       stops = d
         ? [
-            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, ownIDs: new Set() },
+            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, budget: () => budgetAt(repo), ownIDs: new Set() },
             ...d.revisions.map((rev, i) => ({
               author: rev.author,
               title: `Edit ${i + 1} by ${rev.author}`,
@@ -329,6 +397,7 @@ export function setupPlanRevisionsDialog(opts: {
               message: rev.message,
               render: () => changeNote(rev.note, rev.message),
               state: async () => (await draftState(d, i + 1)).Plan,
+              budget: () => draftBudget(repo, d, i + 1),
               ownIDs: new Set(rev.overrides.map((o) => o.PlanElementID)),
             })),
           ]
@@ -340,6 +409,7 @@ export function setupPlanRevisionsDialog(opts: {
             render: () => changeNote(v.note, v.message),
             mark: v.label ? ('labelled' as const) : undefined,
             state: async () => v.plan,
+            budget: () => budgetAt(repo, v.number),
             ownIDs: new Set<string>(),
           }));
       // A draft opens comparing Live with its last edit; the history, the last revision with the one before it.
