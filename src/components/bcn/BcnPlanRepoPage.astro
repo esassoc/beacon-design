@@ -30,6 +30,7 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
 import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
 import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
+import BcnPlanDeliverables from './BcnPlanDeliverables.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
 ---
@@ -102,6 +103,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
           <h2 class="bcn-prp__views-title typography-label-md-strong" id="prp-view-title">
             <span data-prp-view-title="schedule"><EsaIcon name="calendar" size="sm" />Schedule</span>
             <span data-prp-view-title="budget" hidden><EsaIcon name="sheet" paths={PLAN_ICON_PATHS.sheet} size="sm" />Budget</span>
+            <span data-prp-view-title="deliverables" hidden><EsaIcon name="package" paths={PLAN_ICON_PATHS.package} size="sm" />Deliverables</span>
           </h2>
           <!-- Which plan you're in, beside the view's title (2026-10-28, Andy, in place of the H1's badge): the plan
                menu's dot (orange Live, green yours, gray someone else's) and its name; then why it won't edit. -->
@@ -135,6 +137,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         </div>
         </div>
         <div class="bcn-prp__view bcn-prp__view--budget" data-prp-pane="budget" hidden><BcnPlanBudgetSheet /></div>
+        <!-- The plan's records, as views beside its projections (2026-10-28, decisions 1 to 8): every deliverable with its
+             status, last send, receipt and completion. Records are Live's, so these read Live in any draft. -->
+        <div class="bcn-prp__view bcn-prp__view--records" data-prp-pane="deliverables" hidden><BcnPlanDeliverables /></div>
       </section>
       <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
       <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
@@ -389,6 +394,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-prp__view--budget { display: block; --bcn-pbs-max-height: calc(100vh - 10rem); }
   .bcn-prp__view .bcn-prp__no-match { border: 0; border-radius: 0; }
   /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
+  /* The record views carry their own search and filters: no chart scope, and no draft actions (records are Live's). */
+  .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__scope,
+  .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__actions { display: none; }
+  .bcn-prp__view--records { padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);

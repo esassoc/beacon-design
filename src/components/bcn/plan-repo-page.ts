@@ -63,6 +63,7 @@ import {
   type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
+import { setupPlanDeliverablesView } from './plan-deliverables';
 import { ELEMENT_HREF } from '../../lib/planning/element-context';
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
@@ -369,14 +370,21 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // ── Views (2026-10-28, Andy: "a plan has multiple projected views, like the Gantt chart and a spreadsheet") ──
   // Schedule is the Gantt; Budget is the fiscal-year sheet over the same elements. The panel's tabs switch them, the
   // URL keeps the choice (&view=budget), and the drawer's Open in Budget View lands on the element's row.
-  type View = 'schedule' | 'budget';
+  // Deliverables (and Documents) are the plan's records as views (2026-10-28): always offered, whatever it tracks.
+  type View = 'schedule' | 'budget' | 'deliverables';
+  const RECORD_VIEWS: View[] = ['deliverables'];
   const viewToggle = document.querySelector<HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string }>('[data-prp-view-toggle]');
-  let view: View = params.get('view') === 'budget' ? 'budget' : 'schedule';
+  const asView = (v: string | null | undefined): View => (v === 'budget' || (RECORD_VIEWS as string[]).includes(v ?? '') ? (v as View) : 'schedule');
+  let view: View = asView(params.get('view'));
   // A plan tracks a schedule, a budget, or both (its settings, 2026-10-28): the switch offers what it tracks, and
   // steps aside when that's one.
-  const VIEW_OPTIONS = { schedule: { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar }, budget: { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet } };
+  const VIEW_OPTIONS: Record<View, { label: string; value: string; icon: string }> = {
+    schedule: { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar },
+    budget: { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet },
+    deliverables: { label: 'Deliverables', value: 'deliverables', icon: PLAN_ICON_PATHS.package },
+  };
   function applyViews(): void {
-    const tracks = viewsOf(getRepo(planID!));
+    const tracks: View[] = [...viewsOf(getRepo(planID!)), ...RECORD_VIEWS];
     if (!tracks.includes(view)) view = tracks[0];
     void customElements.whenDefined('esa-button-toggle').then(() => {
       if (!viewToggle) return;
@@ -386,14 +394,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     });
   }
   applyViews();
-  viewToggle?.addEventListener('change', (e) => setView(((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value) === 'budget' ? 'budget' : 'schedule'));
+  viewToggle?.addEventListener('change', (e) => setView(asView((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value)));
   /** Beside the view's title (2026-10-28, Andy, in place of the H1's badge): which plan you're in, by the plan menu's
    *  dot and name, then, small and italic, why it won't edit. */
   function drawState(): void {
     q<HTMLElement>('[data-prp-state] .bcn-prp__state-dot').dataset.dot = mode === 'live' ? 'live' : mode === 'own' ? 'mine' : 'other';
     q<HTMLElement>('[data-prp-state-label]').textContent = mode === 'live' ? 'Live Plan' : draft?.name ?? '';
-    q<HTMLElement>('[data-prp-state-note]').textContent =
-      mode === 'live'
+    q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)
+      ? 'Records are kept on Live: they read the same in every draft.'
+      : mode === 'live'
         ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change ${view === 'budget' ? 'the budget' : 'it'}.`
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
@@ -409,16 +418,28 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function setView(next: View, focusID?: string): void {
     view = next;
     showView();
-    if (next === 'budget') params.set('view', 'budget');
+    if (next !== 'schedule') params.set('view', next);
     else params.delete('view');
     const url = new URL(location.href);
-    if (next === 'budget') url.searchParams.set('view', 'budget');
+    if (next !== 'schedule') url.searchParams.set('view', next);
     else url.searchParams.delete('view');
     history.replaceState(history.state, '', url);
     drawSheet();
+    drawRecordViews();
     if (focusID) requestAnimationFrame(() => sheet.focus(focusID));
   }
   showView();
+  // The record views: Live's tree, Live's attributes (which items are deliverables), each item's page.
+  const deliverablesView = setupPlanDeliverablesView(q<HTMLElement>('[data-bcn-plan-deliverables]'), {
+    planID: planID!,
+    plan: () => live,
+    isDeliverable: (id) => !!attributesAt(getRepo(planID!))[id]?.deliverable,
+    elementHref: (id) => ELEMENT_HREF(planID!, id),
+  });
+  function drawRecordViews(): void {
+    if (view === 'deliverables') deliverablesView.draw();
+  }
+  drawRecordViews();
 
   const sheet = setupPlanBudgetSheet(q<HTMLElement>('[data-bcn-plan-budget-sheet]'), {
     onEdit: (changes) => budgetEdit(changes),

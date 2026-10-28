@@ -1,0 +1,100 @@
+---
+// <BcnHealthDialog> — an element's health, derived and overridable (2026-10-28, the proposal's "On track, derived and
+// overridable", after Asana's and Linear's status updates). It says what Beacon derives now and why, then lets the owner
+// set another (On Track, At Risk, Late, Blocked) with a line on what's going on. An override nobody has confirmed for 30
+// days shows Update Missing; saving it again confirms it. Go Back to Derived drops it. Opened from the Details card's
+// Health row; the runtime is ./health-dialog.ts (openHealthDialog).
+//
+// bcn-lego-checked: the shell IS esa-dialog, the choice IS esa-button-toggle, the note IS esa-textarea, the stale
+// warning IS esa-alert-box, the badge IS esa-badge (BcnBadgeBank), the buttons ARE esa-button, the discard guard is
+// esa-confirm-dialog (plan-page confirm). Checked Beacon (prod has no health override). The CSS is the two sections and
+// the derived line.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-hld" data-bcn-health-dialog>
+  <esa-dialog class="bcn-hld__dialog" heading="Health" show-close-button data-hld-dialog>
+    <div class="bcn-hld__body">
+      <section class="bcn-hld__section" aria-labelledby="hld-derived">
+        <h3 class="bcn-hld__heading typography-label-sm-strong" id="hld-derived">What Beacon Derives</h3>
+        <p class="bcn-hld__derived typography-body-sm"><span data-hld-derived-badge></span><span data-hld-derived-why></span></p>
+        <p class="bcn-hld__hint typography-body-sm">Beacon reads its dates and status: Late once past its end; At Risk when it’s due within 14 days and not started, or more than 10 points behind plan.</p>
+      </section>
+
+      <section class="bcn-hld__section" aria-labelledby="hld-override">
+        <h3 class="bcn-hld__heading typography-label-sm-strong" id="hld-override">Override</h3>
+        <p class="bcn-hld__current typography-body-sm" data-hld-current hidden></p>
+        <div data-hld-stale hidden>
+          <EsaAlertBox variant="warning" title="Update Missing"><span data-hld-stale-text></span></EsaAlertBox>
+        </div>
+        <esa-button-toggle data-hld-choice label="Health" size="sm" required></esa-button-toggle>
+        <esa-textarea data-hld-note label="Note" size="sm" rows="2" auto-resize required help-text="What’s going on, in a line. It shows beside the health wherever it’s read."></esa-textarea>
+        <p class="bcn-hld__hint typography-body-sm" data-hld-stale-hint>An override holds until someone changes it. If nobody confirms it for 30 days, it shows Update Missing.</p>
+      </section>
+    </div>
+
+    <div slot="footer" class="bcn-hld__footer">
+      <span class="bcn-hld__revert" data-hld-revert hidden><EsaButton variant="ghost" size="sm" icon="rotate-ccw">Go Back to Derived</EsaButton></span>
+      <span data-hld-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-hld-save><EsaButton variant="primary"><span data-hld-save-label>Set Health</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-hld__dialog {
+    --dialog-width: min(34rem, calc(100vw - 2rem));
+  }
+  .bcn-hld :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-hld__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  .bcn-hld__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-hld__section + .bcn-hld__section {
+    padding-block-start: var(--spacing-500);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-hld__heading {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-hld__derived {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-hld__hint,
+  .bcn-hld__current {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-hld__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+  .bcn-hld__revert {
+    margin-inline-end: auto;
+  }
+</style>

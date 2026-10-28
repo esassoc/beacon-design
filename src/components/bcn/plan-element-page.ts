@@ -25,6 +25,8 @@ import { setupCompletionModule } from './element-completion';
 import { setupObligationsModule } from './element-obligations';
 import { setupCommentsModule } from './element-comments';
 import { setupActivityModule } from './element-activity';
+import { openHealthDialog } from './health-dialog';
+import type { HealthReading } from '../../lib/planning/plan-records';
 
 const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
   details: setupDetailsModule,
@@ -244,6 +246,12 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     });
   };
   window.addEventListener('bcn-plan-records', soon);
+  // Health's Change (the Details card): the health dialog, on Live (the Completion build's).
+  root.addEventListener('bcn-element-health', (e) => {
+    const detail = (e as CustomEvent<{ elementId: string; reading: HealthReading }>).detail;
+    if (!ctx?.canRecord) return;
+    void openHealthDialog({ planID, elementId: detail.elementId, elementName: ctx.element.PlanElementName ?? '', current: detail.reading });
+  });
   window.addEventListener('storage', soon);
 
   // ── Actions ──

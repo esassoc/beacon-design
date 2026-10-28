@@ -1,0 +1,107 @@
+---
+// <BcnCompletionDialog> — Record Completion on a deliverable (2026-10-28, the proposal's "Completion on a deliverable";
+// decision 5: completion is a record, kept on Live). What the plan requires at that level: the Result (the plan's list:
+// Accepted, Accepted With Comments, Superseded, Withdrawn), Completed On, Where It Lives (one of the element's documents,
+// or a link such as the SharePoint location of the final), Accepted By and a note. Saving sets the element Complete; a
+// deliverable can't be marked Complete without it. The level's Required to Complete fields are checked at the same
+// moment, and an alert names any still empty. The runtime is ./completion-dialog.ts (openCompletionDialog).
+//
+// bcn-lego-checked: the shell IS esa-dialog, Result and the document ARE esa-select, the date IS esa-date-picker, A
+// Document or A Link IS esa-button-toggle, the link IS esa-text-field, Accepted By IS esa-combobox, the note IS
+// esa-textarea, the missing-fields warning IS esa-alert-box, the buttons ARE esa-button, the discard guard is
+// esa-confirm-dialog (plan-page confirm). Checked Beacon (prod has no completion record; its dialogs are the same
+// fields in a ui-dialog). The CSS is the form's rhythm and the paired fields.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-cmd" data-bcn-completion-dialog>
+  <esa-dialog class="bcn-cmd__dialog" heading="Record Completion" show-close-button data-cmd-dialog>
+    <form class="bcn-cmd__form" novalidate data-cmd-form onsubmit="return false">
+      <p class="bcn-cmd__lede typography-body-sm" data-cmd-lede></p>
+      <div class="bcn-cmd__missing" data-cmd-missing hidden>
+        <EsaAlertBox variant="warning" title="Fields to Set First"><span data-cmd-missing-text></span></EsaAlertBox>
+      </div>
+      <div class="bcn-cmd__pair">
+        <esa-select data-cmd="result" label="Result" size="sm" required placeholder="Choose a Result"></esa-select>
+        <esa-date-picker data-cmd="completed" label="Completed On" size="sm" required></esa-date-picker>
+      </div>
+      <div class="bcn-cmd__where">
+        <esa-button-toggle data-cmd="where-kind" label="Where It Lives" size="sm" required></esa-button-toggle>
+        <div data-cmd-where="doc">
+          <esa-select data-cmd="file" size="sm" aria-label="Document" placeholder="Choose a Document"></esa-select>
+        </div>
+        <div class="bcn-cmd__pair" data-cmd-where="link" hidden>
+          <esa-text-field data-cmd="url" size="sm" label="Link" type="url" placeholder="https://" autocomplete="off"></esa-text-field>
+          <esa-text-field data-cmd="label" size="sm" label="Label" placeholder="e.g. SharePoint: Final Memo" autocomplete="off"></esa-text-field>
+        </div>
+      </div>
+      <esa-combobox data-cmd="accepted" mode="autocomplete" size="sm" label="Accepted By" placeholder="Find a Person"></esa-combobox>
+      <esa-textarea data-cmd="note" size="sm" label="Note" rows="2" auto-resize placeholder="Optional"></esa-textarea>
+    </form>
+
+    <div slot="footer" class="bcn-cmd__footer">
+      <p class="bcn-cmd__error typography-body-sm" data-cmd-error hidden></p>
+      <span data-cmd-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-cmd-save><EsaButton variant="primary"><span data-cmd-save-label>Record Completion</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  .bcn-cmd__dialog {
+    --dialog-width: min(36rem, calc(100vw - 2rem));
+  }
+  .bcn-cmd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-cmd__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-cmd__lede {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  /* Two fields a row: Result beside its date, a link beside its label. */
+  .bcn-cmd__pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  .bcn-cmd__where {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-cmd__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+  }
+  .bcn-cmd__error {
+    margin: 0 auto 0 0;
+    color: var(--color-content-utility-danger);
+  }
+  @media (max-width: 560px) {
+    .bcn-cmd__pair {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

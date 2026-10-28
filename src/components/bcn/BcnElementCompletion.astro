@@ -1,11 +1,138 @@
 ---
-// <BcnElementCompletion> — the Completion module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-completion.ts) on the contract in ./element-module.ts.
+// <BcnElementCompletion> — the Completion module on a deliverable's page (2026-10-28, the proposal's "Completion on a
+// deliverable"): the result and where it lives. Complete, a short list: Result, Completed On, Where It Lives, Accepted
+// By, the note, and quietly who recorded it. Not yet, one calm line on what it needs (and the level's Required to
+// Complete fields still empty) and Record Completion. Edit and Clear sit in the card's header. The runtime is
+// ./element-completion.ts; the dialog is <BcnCompletionDialog>, banked here so the module carries what it opens.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card), each line IS BcnKeyValue (row, sm), the result IS
+// esa-badge (BcnBadgeBank), Accepted By's face IS esa-avatar (BcnPlanPeople), every action IS esa-button, Clear asks
+// through esa-confirm-dialog (host.confirm). Checked Beacon (no completion record in prod). The CSS is the values'
+// inline pieces (a file's revision, a link's glyph, a person's org) and the quiet lines.
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnElementModule from './BcnElementModule.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnCompletionDialog from './BcnCompletionDialog.astro';
 ---
 
 <BcnElementModule key="completion">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <span slot="actions" class="bcn-elc__actions" data-elc-actions hidden>
+    <span data-elc-edit><EsaButton variant="ghost" size="xs" icon="pencil">Edit</EsaButton></span>
+    <span data-elc-clear><EsaButton variant="ghost" size="xs" icon="rotate-ccw">Clear</EsaButton></span>
+  </span>
+
+  <div class="bcn-elc">
+    <div class="bcn-elc__done" data-elc-done hidden>
+      <div data-elc-row><BcnKeyValue label="Result" size="sm" layout="row"><span class="bcn-elc__val" data-elc-v="result"></span></BcnKeyValue></div>
+      <div data-elc-row><BcnKeyValue label="Completed On" size="sm" layout="row"><span class="bcn-elc__val" data-elc-v="date"></span></BcnKeyValue></div>
+      <div data-elc-row><BcnKeyValue label="Where It Lives" size="sm" layout="row"><span class="bcn-elc__val bcn-elc__val--flow" data-elc-v="where"></span></BcnKeyValue></div>
+      <div data-elc-row><BcnKeyValue label="Accepted By" size="sm" layout="row"><span class="bcn-elc__val" data-elc-v="by"></span></BcnKeyValue></div>
+      <div data-elc-row><BcnKeyValue label="Note" size="sm" layout="row"><span class="bcn-elc__val bcn-elc__val--prose" data-elc-v="note"></span></BcnKeyValue></div>
+      <p class="bcn-elc__meta" data-elc-v="recorded"></p>
+    </div>
+
+    <div class="bcn-elc__open" data-elc-open hidden>
+      <p class="bcn-elc__needs typography-body-sm" data-elc-needs></p>
+      <p class="bcn-elc__also typography-body-sm" data-elc-also hidden></p>
+      <span class="bcn-elc__record" data-elc-record hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="circle-check">Record Completion</EsaButton></span>
+    </div>
+
+    <p class="bcn-elc__why" data-elc-why hidden></p>
+  </div>
+
+  <BcnCompletionDialog />
 </BcnElementModule>
+
+<style>
+  .bcn-elc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-elc [hidden],
+  .bcn-elc__actions[hidden] {
+    display: none !important;
+  }
+  .bcn-elc__actions {
+    display: inline-flex;
+    gap: var(--spacing-100);
+  }
+  .bcn-elc__done {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  /* The key column fits "Where It Lives" and "Completed On" on one line. */
+  .bcn-elc__done :global(.bcn-key-value[data-layout='row']) {
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+  }
+  .bcn-elc__val {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    min-width: 0;
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+  }
+  /* Where it lives reads as one run of text, so a long name wraps and its revision follows it. */
+  .bcn-elc__val--flow {
+    display: block;
+  }
+  .bcn-elc__val--flow :global(.bcn-elc__quiet) {
+    margin-inline-start: var(--spacing-150);
+  }
+  .bcn-elc__val--prose {
+    display: block;
+    font-size: var(--typography-body-sm-font-size, var(--typography-label-sm-font-size));
+    line-height: 1.45;
+  }
+  .bcn-elc__val :global(.bcn-elc__quiet) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elc__val :global(.bcn-elc__file),
+  .bcn-elc__val :global(.bcn-elc__link) {
+    overflow-wrap: anywhere;
+  }
+  .bcn-elc__val :global(.bcn-elc__file svg) {
+    margin-inline-end: var(--spacing-100);
+    vertical-align: -2px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elc__val :global(.bcn-elc__link svg) {
+    margin-inline-start: var(--spacing-100);
+    vertical-align: -1px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elc__val :global(.bcn-elc__link) {
+    color: var(--color-content-link, var(--color-content-brand));
+    text-decoration: none;
+  }
+  .bcn-elc__val :global(.bcn-elc__link:hover) {
+    text-decoration: underline;
+  }
+  .bcn-elc__meta,
+  .bcn-elc__why {
+    margin: 0;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  /* Why it won't edit, as the page says it: small, mid gray, italic. */
+  .bcn-elc__why {
+    font-style: italic;
+  }
+  .bcn-elc__open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+  }
+  .bcn-elc__needs,
+  .bcn-elc__also {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elc__record {
+    margin-block-start: var(--spacing-100);
+  }
+</style>

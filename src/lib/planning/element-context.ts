@@ -98,7 +98,7 @@ export interface ElementContext {
   /** Plan fields edit only in your own draft. */
   canEditPlan: boolean;
   /** Records (status, documents, sends, completion, comments) are kept by Owners, Editors and Contributors, on Live
-   *  elements, outside the preview. Guests only confirm receipt. */
+   *  only (a draft and the preview read them). Guests only confirm receipt. */
   canRecord: boolean;
   /** Whether the plan tracks money. */
   tracksBudget: boolean;
@@ -178,7 +178,8 @@ export function elementContext(opts: { planID: string; elementId: string; live: 
     me,
     myRole,
     canEditPlan: mode === 'own',
-    canRecord: mode !== 'preview' && inLive && myRole !== 'Guest',
+    // Records attach to Live and read the same in every draft (decision 5).
+    canRecord: mode === 'live' && inLive && myRole !== 'Guest',
     tracksBudget: viewsOf(repo).includes('budget'),
     isDeliverable: (id) => !!attributes[id]?.deliverable,
     elementById: (id) => byId.get(id),

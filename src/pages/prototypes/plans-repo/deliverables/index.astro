@@ -1,0 +1,72 @@
+---
+// A plan's Deliverables view on its own (2026-10-28), for building and reviewing it outside the plan page, where it
+// mounts as one of the plan's views. `?id=` is the plan. Live's plan, Live's records.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnPlanDeliverables from '../../../../components/bcn/BcnPlanDeliverables.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - panel -> esa-card                               # stands in for the plan page's view panel
+    - view  -> bcn-plan-deliverables                  # filter bar, the deliverables table
+-->
+
+<AppShell title="Deliverables" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout
+    title="Deliverables"
+    icon="square-chart-gantt"
+    iconColor="var(--color-content-brand)"
+    iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan', href: withBase('/prototypes/plans-repo/') }, { label: 'Deliverables' }]}
+  >
+    <div class="bcn-pdv-page">
+      <EsaCard padding="none">
+        <BcnPlanDeliverables />
+      </EsaCard>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<style>
+  .bcn-pdv-page :global(.esa-card) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  import { ensureSeeded, attributesAt, getRepo } from '../../../../lib/planning/plan-repo';
+  import { planApi } from '../../../../lib/planning/plan-server';
+  import { ELEMENT_HREF, PLAN_VIEW_HREF } from '../../../../lib/planning/element-context';
+  import { setupPlanDeliverablesView } from '../../../../components/bcn/plan-deliverables';
+
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-deliverables]');
+  const planID = new URLSearchParams(location.search).get('id') ?? '';
+  async function start(root: HTMLElement): Promise<void> {
+    await ensureSeeded();
+    let plan = await planApi.getPlan(planID);
+    const planLink = document.querySelectorAll<HTMLAnchorElement>('.breadcrumbs__items a.breadcrumb-item')[1];
+    if (planLink) {
+      planLink.textContent = plan.PlanName ?? 'Plan';
+      planLink.href = PLAN_VIEW_HREF(planID);
+    }
+    document.title = `Deliverables | ${plan.PlanName ?? 'Plan'} | Beacon`;
+    const view = setupPlanDeliverablesView(root, {
+      planID,
+      plan: () => plan,
+      isDeliverable: (id) => !!attributesAt(getRepo(planID))[id]?.deliverable,
+      elementHref: (id) => ELEMENT_HREF(planID, id),
+    });
+    view.draw();
+    // Live changed in another tab (a publish): read it again.
+    window.addEventListener('storage', async () => {
+      plan = await planApi.getPlan(planID);
+      view.draw();
+    });
+  }
+  if (root && planID) void start(root);
+</script>
