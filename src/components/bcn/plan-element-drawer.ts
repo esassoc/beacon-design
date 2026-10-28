@@ -102,6 +102,8 @@ export interface PlanElementDrawerDraft {
   /** The header's subtitle: "Draft · Permits slip 6 mo". */
   label: string;
   readOnly: boolean;
+  /** The hint over the fields, in place of the draft one (the repo page's read-only Live, 2026-10-28). */
+  note?: string;
   /** The plan as the draft has it. */
   plan(): PlanDetailDto;
   subscribe(listener: () => void): () => void;
@@ -379,7 +381,7 @@ export function openPlanElementDrawer(args: {
   modeField.options = PLAN_SCHEDULE_CHANGE_MODE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
 
   dateTypeField.options = PLAN_DATE_TYPE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
-  nameIconButton(addLevelButton, 'Add level');
+  nameIconButton(addLevelButton, 'Add Level');
 
   /** Writes the form into the legos: on open, and when the drawer itself sets a value (a level just added). */
   const syncFields = () => {
@@ -433,12 +435,16 @@ export function openPlanElementDrawer(args: {
     levelField.errorText = errorOf(form.controls.LevelDepth);
     show(addLevelWrap, canAddLevel() && !draft);
     show(q('draft-note'), !!draft);
+    // The shell is shared, so the markup's draft hint is kept to come back to when the next drawer has no note of its own.
+    const note = q('draft-note');
+    note.dataset.default ??= note.textContent ?? '';
+    note.textContent = draft?.note ?? note.dataset.default;
 
 
     // Scheduling
     const milestone = isMilestone();
     datesGroup.setAttribute('aria-label', milestone ? 'Date' : 'Date range');
-    startField.label = milestone ? 'Date' : 'Start date';
+    startField.label = milestone ? 'Date' : 'Start Date';
     startField.required = milestone;
     startField.min = range?.min ?? '';
     startField.max = range?.max ?? '';

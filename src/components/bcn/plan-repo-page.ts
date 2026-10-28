@@ -8,12 +8,13 @@
 import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
+import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
 import { fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
-import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits } from '../../lib/planning/plan-draft';
+import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
-import { toLocalIsoDate } from '../../lib/planning/plan-page';
+import { planStore, toLocalIsoDate } from '../../lib/planning/plan-page';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto } from '../../lib/planning/model';
 import type { GanttDragEvent } from '../../lib/planning/gantt-types';
@@ -90,13 +91,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const canPublish = study.role !== 'contributor';
   const noun = canPublish ? 'draft' : 'scenario';
   const yours = canPublish ? 'Your Draft' : 'Your Scenario';
+  /** What a new one is called: "Andy's Draft", or "Andy's Scenario" for someone who can't publish. */
+  const kind = canPublish ? ('Draft' as const) : ('Scenario' as const);
   const look = concept === 'pencil-paper' ? 'pencil' : concept;
   const paper = concept === 'drafting' || concept === 'pencil-paper';
   const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
 
   // A door into your draft from elsewhere (the branch menu on another page): opened here, the URL put right.
   if (params.get('start')) {
-    params.set('draft', startDraft(planID).id);
+    params.set('draft', startDraft(planID, undefined, kind).id);
     history.replaceState(null, '', keep(PLAN_HREF(planID, `&draft=${params.get('draft')}`)));
   }
 
@@ -107,6 +110,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   let shown: PlanDetailDto = draft ? (await draftState(draft)).Plan : live;
   const redo: PlanRevision[] = [];
   let busy = false;
+  /** The element drawer open over the chart, if any (2026-10-28: Jamie's drawer, in its draft mode). */
+  let elementDrawer: PlanElementDrawerHandle | null = null;
+  /** The open drawer's subscription: it re-reads the plan on every draw. */
+  const drawerListeners = new Set<() => void>();
+  // The drawer reads the page's plan store for its version pin; Live is the plan of record here.
+  planStore.set(live);
   /** The drop that checks out a draft: its first draw crossfades, so entering the draft reads as one change of state. */
   let entering = false;
   /** The drafting concept's delta tags: the edit that last moved each row. */
@@ -142,7 +151,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // level words and Budget leave the outline).
     outlineWidth: study.outline ? Number(study.outline) : 360,
     readFlat: issued,
-    onRowSelect: (id) => chart.setSelectedId(id),
+    onRowSelect: (id) => {
+      chart.setSelectedId(id);
+      void openElement(id);
+    },
     onDragEnd: (drag) => void drop(drag),
     onLinkSelect: (link, at) => openLink(link, at),
   });
@@ -174,6 +186,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
    */
   async function switchTo(next: PlanRepoDraft | null, how: { push?: boolean; rise?: boolean } = {}): Promise<void> {
     if (busy) return;
+    // An open element drawer closes first, through its guard (its edits belong to the plan it opened on).
+    if (elementDrawer && !(await elementDrawer.requestClose())) return;
     repo = getRepo(planID!);
     const target = next ? (repo.drafts.find((d) => d.id === next.id) ?? null) : null;
     if (target?.id === draft?.id && !!target === !!draft) return;
@@ -204,7 +218,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     pop.open = false;
     const to = a.dataset.prpTo!;
     if (to === 'live') return void switchTo(null);
-    if (to === 'start') return void switchTo(startDraft(planID!), { rise: true });
+    if (to === 'start') return void switchTo(startDraft(planID!, undefined, kind), { rise: true });
     void switchTo(getRepo(planID!).drafts.find((d) => d.id === to) ?? null);
   });
 
@@ -219,13 +233,17 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         // One draft per person: you already have one, so it opens instead of a second one starting.
         return switchTo(mine);
       }
-      draft = mine ?? startDraft(planID!);
+      draft = mine ?? startDraft(planID!, undefined, kind);
       mode = 'own';
       entering = true;
       history.replaceState(null, '', keep(PLAN_HREF(planID!, `&draft=${draft.id}`)));
     }
-    const edits = planDraftEditsForDrag(shown, drag);
-    if (!edits.length) return draw();
+    return applyEdits(planDraftEditsForDrag(shown, drag));
+  }
+
+  /** Your draft takes edits (a drag, or the element drawer's Save) as its next revision. */
+  async function applyEdits(edits: PlanDraftEdit[]): Promise<void> {
+    if (!edits.length || !draft || mode !== 'own' || busy) return draw();
     busy = true;
     const before = shown;
     const prior = draft!.revisions.at(-1)?.overrides ?? [];
@@ -239,6 +257,41 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     shown = view.Plan;
     busy = false;
     refresh();
+  }
+
+  /**
+   * An element's drawer (2026-10-28, Andy: "does this prototype not have side panels when you click a work element?"):
+   * Jamie's BcnPlanElementDrawer in its draft mode. Live and other people's drafts open it read-only; your draft opens
+   * it editable for dates and the date type, and Save is the draft's next edit, as a drag is.
+   */
+  async function openElement(id: string): Promise<void> {
+    if (elementDrawer && !(await elementDrawer.requestClose())) return;
+    const label = mode === 'live' ? `Live Plan, Revision ${latestVersion(repo).number}` : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
+    const note =
+      mode === 'live'
+        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change its dates.`
+        : mode === 'view'
+          ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
+          : `In your ${noun} you change dates and the date type. Save adds it as your next edit.`;
+    const handle = openPlanElementDrawer({
+      target: { kind: 'edit', planElementID: id },
+      onOpenElement: (other) => void openElement(other),
+      draft: {
+        label,
+        readOnly: mode !== 'own',
+        note,
+        plan: () => shown,
+        subscribe: (listener) => {
+          drawerListeners.add(listener);
+          return () => drawerListeners.delete(listener);
+        },
+        save: (edit) => void applyEdits([edit]),
+      },
+    });
+    elementDrawer = handle;
+    void handle.closed.then(() => {
+      if (elementDrawer === handle) elementDrawer = null;
+    });
   }
 
   // ── A dependency as an object, on Live: change its lag or unlink it; either is the next revision ──
@@ -263,6 +316,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   async function afterLinkEdit(message: string): Promise<void> {
     linkPop.open = false;
     live = await planApi.getPlan(planID!);
+    planStore.set(live);
     await recordLiveEdit(planID!, message);
     shown = live;
     refresh();
@@ -375,6 +429,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
+    drawerListeners.forEach((listener) => listener());
   }
 
   /** The chart's title block: what this chart is, and the facts that pin it down. */
@@ -696,9 +751,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-tabs]').addEventListener('change', (e) => {
     const value = (e.currentTarget as HTMLElement & { value: string }).value;
     if (value === 'live' && mode !== 'live') void switchTo(null);
-    if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!), { rise: true });
+    if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!, undefined, kind), { rise: true });
   });
-  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!), { rise: true }));
+  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!, undefined, kind), { rise: true }));
   q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
     if (!draft || !draft.revisions.length) return;
     requestPublish(planID!, draft.id);
@@ -709,6 +764,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive });
   async function landOnLive(): Promise<void> {
     live = await planApi.getPlan(planID!);
+    planStore.set(live);
     repo = getRepo(planID!);
     if (draft) {
       draft = null;
@@ -749,7 +805,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const mine = myDraft(planID!);
     const edits = mine?.revisions.length ?? 0;
     if (edits && !(await ask(`Replace ${mine!.name}?`, `Your draft and its ${edits} ${edits === 1 ? 'edit' : 'edits'} are replaced by a copy of ${firstName(draft!.owner)}'s. This can't be undone.`, 'Replace My Draft'))) return;
-    void switchTo(startDraft(planID!, draft!), { rise: true });
+    void switchTo(startDraft(planID!, draft!, kind), { rise: true });
   });
   q<HTMLElement>('[data-prp-discard]').addEventListener('click', async () => {
     if (!draft) return;

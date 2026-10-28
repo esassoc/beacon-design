@@ -41,8 +41,8 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
           <div class="bcn-ped__kept">
             <span data-ped="kept-text"></span>
             <span class="bcn-ped__kept-actions">
-              <span data-ped="kept-resume"><EsaButton variant="primary" size="sm">Resume editing</EsaButton></span>
-              <span data-ped="kept-discard"><EsaButton variant="ghost" appearance="outline" size="sm">Discard my changes</EsaButton></span>
+              <span data-ped="kept-resume"><EsaButton variant="primary" size="sm">Resume Editing</EsaButton></span>
+              <span data-ped="kept-discard"><EsaButton variant="ghost" appearance="outline" size="sm">Discard My Changes</EsaButton></span>
             </span>
           </div>
         </EsaAlertBox>
@@ -61,7 +61,7 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
               <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
               <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
                 <esa-tooltip text="Add level">
-                  <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add level" data-ped="add-level" />
+                  <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add Level" data-ped="add-level" />
                 </esa-tooltip>
               </span>
             </div>
@@ -73,9 +73,9 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
           </div>
 
           <!-- Each picker carries its own label; the group keeps the pair's name for assistive tech. -->
-          <div class="plan-element__dates" role="group" aria-label="Date range" data-ped="dates">
-            <esa-date-picker data-ped="start" label="Start date"></esa-date-picker>
-            <esa-date-picker data-ped="end" label="End date"></esa-date-picker>
+          <div class="plan-element__dates" role="group" aria-label="Date Range" data-ped="dates">
+            <esa-date-picker data-ped="start" label="Start Date"></esa-date-picker>
+            <esa-date-picker data-ped="end" label="End Date"></esa-date-picker>
           </div>
           <div class="plan-element__span" data-ped="span" hidden>
             <p class="plan-element__span-value">
@@ -85,11 +85,11 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
             <p class="plan-element__hint">Drawn from its child elements. The dates above are its planned window.</p>
           </div>
           <div class="plan-element__field">
-            <esa-button-toggle data-ped="date-type" label="Date type" aria-describedby="plan-element-drawer-date-type-hint"></esa-button-toggle>
+            <esa-button-toggle data-ped="date-type" label="Date Type" aria-describedby="plan-element-drawer-date-type-hint"></esa-button-toggle>
             <!-- Help text, set as help: small, quieter, behind an info glyph — not a line of body copy. -->
             <p class="plan-element__help" id="plan-element-drawer-date-type-hint"><EsaIcon name="info" size="xs" /><span data-ped="date-type-hint"></span></p>
           </div>
-          <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the new dates to" hidden></esa-button-toggle>
+          <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the New Dates To" hidden></esa-button-toggle>
 
           <!-- New (2026-10-21): budget and notes. A milestone is a date, not work, so it has no budget. -->
           <div class="plan-element__budget" data-ped="budget-wrap">
@@ -102,9 +102,9 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-waits-on-heading" data-ped="waits-on">
         <!-- The section's own action beside its heading, so an empty list and a full one both read heading → list. -->
         <div class="plan-element__heading-row">
-          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits on</h3>
+          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits On</h3>
           <div data-ped="add-pred-open-wrap">
-            <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add predecessor</EsaButton>
+            <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add Predecessor</EsaButton>
           </div>
         </div>
         <ul class="plan-element__dependencies" data-ped="pred-list"></ul>

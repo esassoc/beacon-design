@@ -11,8 +11,8 @@ import { type PlanElementFormValue, toPlanElementUpdateDto } from "./plan-elemen
 
 /** The parent's choice of what the new dates apply to, in the order the toggle shows them. */
 export const PLAN_SCHEDULE_CHANGE_MODE_OPTIONS: UiButtonToggleOption<PlanScheduleChangeModeEnum>[] = [
-    { value: PlanScheduleChangeModeEnum.ThisItemOnly, displayValue: "This item only" },
-    { value: PlanScheduleChangeModeEnum.ThisItemAndEverythingUnderIt, displayValue: "This item and everything under it" },
+    { value: PlanScheduleChangeModeEnum.ThisItemOnly, displayValue: "This Item Only" },
+    { value: PlanScheduleChangeModeEnum.ThisItemAndEverythingUnderIt, displayValue: "This Item and Everything Under It" },
 ];
 
 /** What each mode does, as the hint under the toggle says it. */

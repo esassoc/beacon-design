@@ -25,6 +25,7 @@ import {
   restoreVersion,
   shiftText,
   shortDate,
+  signedShift,
   timeAgo,
   type PlanChange,
   type PlanRepoDraft,
@@ -212,7 +213,7 @@ export function setupPlanRevisionsDialog(opts: {
       el.append(name, dates);
       if (side === 'to' && change?.status === 'moved') {
         const followed = !!draft && !own.has(change.id);
-        const shift = Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift', textContent: followed ? `${shiftText(change.shiftDays)}, Followed` : change.endOnly ? `End ${shiftText(change.shiftDays)}` : shiftText(change.shiftDays) });
+        const shift = Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift', textContent: followed ? `${signedShift(change.shiftDays)}, Followed` : change.endOnly ? `End ${signedShift(change.shiftDays)}` : signedShift(change.shiftDays) });
         if (followed) shift.dataset.followed = '';
         el.append(shift);
       }

@@ -5,6 +5,7 @@ import AppShell from '../../../../layouts/AppShell.astro';
 import PageLayout from '../../../../layouts/PageLayout.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnPlanRepoPage from '../../../../components/bcn/BcnPlanRepoPage.astro';
+import BcnPlanElementDrawer from '../../../../components/bcn/BcnPlanElementDrawer.astro';
 import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
 import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
 import { withBase } from '../../../../lib/base';
@@ -30,6 +31,7 @@ import { withBase } from '../../../../lib/base';
     <span slot="title-badge" data-prp-title-badge data-state="live"><EsaBadge value="Live Plan" variant="neutral" size="sm" /></span>
     <BcnPlanRepoPage />
     <BcnPlanPeople />
+    <BcnPlanElementDrawer />
   </PageLayout>
 </AppShell>
 

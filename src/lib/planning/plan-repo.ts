@@ -629,7 +629,8 @@ export function myDraft(planID: string): PlanRepoDraft | null {
  * The viewer's draft, started from the latest version if they have none. One per person per plan: asking again
  * returns the one they have. `from` copies another person's draft into it (theirs is untouched).
  */
-export function startDraft(planID: string, from?: PlanRepoDraft): PlanRepoDraft {
+/** `kind` names a new one: "Andy's Draft", or "Andy's Scenario" for someone who can't publish. */
+export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' | 'Scenario' = 'Draft'): PlanRepoDraft {
   const store = load();
   const repo = findRepo(store, planID);
   const me = currentUserName();
@@ -639,7 +640,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft): PlanRepoDraft 
   const draft: PlanRepoDraft = {
     id: existing?.id ?? uid(),
     planID,
-    name: from ? `Copy of ${from.name}` : `${me.split(' ')[0]}'s Draft`,
+    name: from ? `Copy of ${from.name}` : `${me.split(' ')[0]}'s ${kind}`,
     owner: me,
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
