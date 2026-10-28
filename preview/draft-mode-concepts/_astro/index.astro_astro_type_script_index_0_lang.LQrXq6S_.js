@@ -1,1 +1,0 @@
-import{E as e}from"./plan-people.rC3ivs5c.js";import{t}from"./transmittal-inbox.j3H3uioK.js";var n=document.querySelector(`[data-bcn-transmittal-inbox]`),r=document.querySelector(`[data-inbox-empty]`);e().then(()=>{n&&(n.addEventListener(`bcn-transmittal-inbox`,e=>r&&(r.hidden=e.detail.count>0)),t(n).draw())});
