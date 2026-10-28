@@ -451,6 +451,8 @@ const leavesUnder = (tree: Tree, id: string): PlanElementDto[] => {
 };
 const endOf = (e: PlanElementDto) => (e.SpanEndDate ?? e.EndDate ?? e.StartDate ?? null);
 const startOf = (e: PlanElementDto) => (e.SpanStartDate ?? e.StartDate ?? null);
+/** "Sep 1, 2029": a plan date as health's reason says it. */
+const dateWords = (iso: string) => new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 /** A leaf's status is its owner's; a parent's is derived: Complete when every leaf is, Blocked when any is, In Progress
  *  when any has started. */
@@ -522,7 +524,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
     if (status === 'Blocked') return { health: 'Blocked', why: 'Blocked' };
     const end = el ? endOf(el) : null;
     const start = el ? startOf(el) : null;
-    if (end && end < today) return { health: 'Late', why: `Ended ${end}, not complete` };
+    if (end && end < today) return { health: 'Late', why: `Ended ${dateWords(end)}, not complete` };
     if ((tree.children.get(id) ?? []).length) {
       const p = progressOf(rec, plan, id, isDeliverable, today);
       const behind = Math.round((p.planned - p.earned) * 100);
@@ -531,7 +533,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
       const days = Math.round((Date.parse(end) - Date.parse(today)) / 86_400_000);
       if (days <= 14) return { health: 'At Risk', why: `Due in ${days} days, not started` };
     }
-    if (start && start > today && status === 'Not Started') return { health: 'Upcoming', why: `Starts ${start}` };
+    if (start && start > today && status === 'Not Started') return { health: 'Upcoming', why: `Starts ${dateWords(start)}` };
     return { health: 'On Track', why: 'On plan' };
   })();
   return override ? { health: override.health, override, stale, why: override.note || derived.why } : { ...derived };
@@ -670,4 +672,19 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   comment(scoping, 'Alex Rivera', '2026-10-09', '14:10', 'Accepted. Closing this out; the final is in Documents.');
 
   updateRecords(planID, (r) => Object.assign(r, rec));
+}
+
+// ── Transmittals: a Cc's own confirmation (2026-10-28, the transmittals build) ─────────────────────────────────────
+
+/** Confirm Receipt by a signed-in Cc recipient. Optional for them (Cc recipients owe neither receipt nor response), so it
+ *  never counts toward "2 of 3 Received"; it just tells the sender they have it. */
+export function confirmCcReceipt(planID: string, id: string, name = currentUserName()): void {
+  updateRecords(planID, (r) => {
+    const t = r.transmittals.find((x) => x.id === id);
+    if (!t?.sentAt || !t.cc.includes(name)) return;
+    const rc = (t.receipts[name] ??= {});
+    rc.openedAt ??= nowIso();
+    rc.confirmedAt = nowIso();
+    delete rc.recordedBy;
+  });
 }

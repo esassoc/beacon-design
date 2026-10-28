@@ -63,6 +63,7 @@ import {
   type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
+import { ELEMENT_HREF } from '../../lib/planning/element-context';
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
 import { changeNote } from './plan-change-note';
@@ -359,12 +360,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     return { rows: years.map((fy) => ({ label: fiscalYearLabel(fy), amount: dollars.format(byYear.get(fy)!) })), total: dollars.format(total) };
   }
 
-  /** The element's own page, by its name in the fisheries plan; "Open Task Page" by its level. */
-  const detailIndex: Record<string, string> = JSON.parse(document.querySelector('[data-prp-detail-index]')?.textContent || '{}');
+  /** The element's own page (2026-10-28, the configurable element page): in the draft this page shows, if any. */
   function detailOf(id: string): { href: string; label: string } | null {
     const el = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element;
-    const href = el?.PlanElementName ? detailIndex[el.PlanElementName] : undefined;
-    return href ? { href, label: `Open ${el!.LevelSingularName ?? 'Element'} Page` } : null;
+    return el ? { href: ELEMENT_HREF(planID!, id, draft?.id), label: `Open ${el.LevelSingularName ?? 'Item'} Page` } : null;
   }
 
   // ── Views (2026-10-28, Andy: "a plan has multiple projected views, like the Gantt chart and a spreadsheet") ──
@@ -1173,4 +1172,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   fillIcons(root);
   if (concept === 'drafting' && draft && mode !== 'live') editOf = await editIndex(draft);
   draw();
+  // From an element's page (Open in Plan, Open the Sheet): that item selected, in the view it came for.
+  const focus = params.get('el');
+  if (focus) {
+    if (view === 'budget') requestAnimationFrame(() => sheet.focus(focus));
+    else {
+      chart.setSelectedId(focus);
+      requestAnimationFrame(() => host.querySelector(`[data-row-id="${CSS.escape(focus)}"]`)?.scrollIntoView({ block: 'center' }));
+    }
+  }
 }

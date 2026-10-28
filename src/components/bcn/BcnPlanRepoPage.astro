@@ -30,14 +30,8 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
 import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
 import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
-import { PROGRAMS } from '../../data/fish-plan';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
-import { flattenForest } from '../../data/fish-model';
-import { withBase } from '../../lib/base';
 
-// Each element's own page (2026-10-28: the drawer's footer links to it). The sample plan is drawn from the fisheries
-// plan, whose every node has a detail page; matched by name.
-const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) => [node.name, withBase(`/prototypes/fish-detail/${node.id}`)]));
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
@@ -216,7 +210,6 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   <BcnPlanRevisionsDialog />
   <BcnPlanSetupDialog />
   <BcnChangeNote />
-  <script type="application/json" data-prp-detail-index set:html={JSON.stringify(detailIndex)}></script>
 </div>
 
 <script>

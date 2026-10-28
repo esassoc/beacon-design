@@ -16,6 +16,10 @@ import type { PlanDetailDto } from '../../lib/planning/model';
 import type { UiVizGanttRow } from '../../lib/planning/gantt-geometry';
 import {
   budgetAt,
+  attributesAt,
+  draftAttributes,
+  configOf,
+  type PlanAttributes,
   currentUserName,
   draftBudget,
   draftState,
@@ -47,6 +51,8 @@ interface Stop extends RevisionStop {
   state: () => Promise<PlanDetailDto>;
   /** The plan's budget at this stop (2026-10-28, Andy: "the review/diff doesn't have budget changes"). */
   budget: () => PlanBudget;
+  /** Owners, the deliverable flag and field values at this stop (2026-10-28: the element page's edits). */
+  attributes: () => PlanAttributes;
   /** The overrides this stop carries (a draft's edits), to tell what the planner moved from what followed. */
   ownIDs: ReadonlySet<string>;
 }
@@ -99,6 +105,32 @@ export function budgetDiff(from: PlanBudget, to: PlanBudget, fromPlan: PlanDetai
   return out;
 }
 
+/** One element whose owners, deliverable flag or fields differ between two stops: each value that changed. */
+interface DetailDiff {
+  id: string;
+  name: string;
+  depth: number;
+  values: { label: string; from: string; to: string }[];
+}
+/** The elements whose details differ, in the "to" plan's order. */
+function detailDiff(from: PlanAttributes, to: PlanAttributes, plan: PlanDetailDto, labels: Map<string, string>): DetailDiff[] {
+  const show = (x: unknown) => (x === null || x === undefined || x === '' || (Array.isArray(x) && !x.length) ? 'Not set' : Array.isArray(x) ? x.join(', ') : typeof x === 'boolean' ? (x ? 'Yes' : 'No') : String(x));
+  const out: DetailDiff[] = [];
+  for (const { element, path } of flattenPlan(plan.Elements)) {
+    const id = element.PlanElementID ?? '';
+    const a = from[id] ?? {};
+    const b = to[id] ?? {};
+    const values: DetailDiff['values'] = [];
+    if (show(a.owners) !== show(b.owners)) values.push({ label: 'Owners', from: show(a.owners), to: show(b.owners) });
+    if (!!a.deliverable !== !!b.deliverable) values.push({ label: 'Deliverable', from: show(!!a.deliverable), to: show(!!b.deliverable) });
+    for (const key of new Set([...Object.keys(a.values ?? {}), ...Object.keys(b.values ?? {})])) {
+      if (show(a.values?.[key]) !== show(b.values?.[key])) values.push({ label: labels.get(key) ?? key, from: show(a.values?.[key]), to: show(b.values?.[key]) });
+    }
+    if (values.length) out.push({ id, name: element.PlanElementName ?? '', depth: path.length, values });
+  }
+  return out;
+}
+
 const day = (iso: string | null) =>
   iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Unscheduled';
 
@@ -133,7 +165,7 @@ export function setupPlanRevisionsDialog(opts: {
   let sel: RevisionSelection = { from: 0, to: 0, compareTwo: false };
   let latestNumber = 0;
   let cache = new Map<number, Promise<PlanDetailDto>>();
-  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[] } | null = null;
+  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[]; details: DetailDiff[] } | null = null;
   let only: CheckEl | null = null;
   let token = 0;
 
@@ -155,19 +187,20 @@ export function setupPlanRevisionsDialog(opts: {
         if (!was || was.StartDate !== o.StartDate || was.EndDate !== o.EndDate) own.add(o.PlanElementID);
       }
     }
-    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) };
+    const labels = new Map(configOf(getRepo(opts.planID)).fields.map((f) => [f.id, f.label]));
+    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to), details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels) };
     draw();
   }
 
   function draw(): void {
     if (!current) return;
-    const { from, to, changes, own, money } = current;
+    const { from, to, changes, own, money, details } = current;
     drawHeads();
-    drawCounts(changes, own, money);
-    drawRows(from, to, changes, own, money);
-    drawFooter(changes.length + money.length);
-    // A budget-only comparison has nothing to show on the chart.
-    q<HTMLElement>('.bcn-prvd__chart').hidden = !changes.length && money.length > 0;
+    drawCounts(changes, own, money, details);
+    drawRows(from, to, changes, own, money, details);
+    drawFooter(changes.length + money.length + details.length);
+    // A budget-only or details-only comparison has nothing to show on the chart.
+    q<HTMLElement>('.bcn-prvd__chart').hidden = !changes.length && money.length + details.length > 0;
 
     const changed = new Set(changes.map((c) => c.id));
     const shift = (c: PlanChange) => (c.endOnly ? `End ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays));
@@ -214,14 +247,16 @@ export function setupPlanRevisionsDialog(opts: {
     q<HTMLElement>('[data-prvd-current]').hidden = !!draft || sel.to !== stops.length - 1;
   }
 
-  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[]): void {
+  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[]): void {
     const counts = q<HTMLElement>('[data-prvd-counts]');
     const b = (n: number, label: string) => `<span><b>${n}</b> ${label}</span>`;
     const budget = money.length ? b(money.length, money.length === 1 ? 'Budget Change' : 'Budget Changes') : '';
-    if (!draft) counts.innerHTML = (changes.length || !money.length ? b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved') : '') + budget;
+    const detail = details.length ? b(details.length, details.length === 1 ? 'Item Edited' : 'Items Edited') : '';
+    const only = !changes.length && (money.length || details.length);
+    if (!draft) counts.innerHTML = (only ? '' : b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved')) + budget + detail;
     else {
       const mine = changes.filter((c) => own.has(c.id)).length;
-      counts.innerHTML = (changes.length || !money.length ? b(mine, 'Moved') + b(changes.length - mine, 'Followed') : '') + budget;
+      counts.innerHTML = (only ? '' : b(mine, 'Moved') + b(changes.length - mine, 'Followed')) + budget + detail;
     }
   }
 
@@ -230,7 +265,7 @@ export function setupPlanRevisionsDialog(opts: {
    * order. A changed date is struck on the left and marked on the right; the right ends with the shift (an item that
    * moved only because what it waits on did reads Followed). Changes Only leaves out the items that didn't change.
    */
-  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[]): void {
+  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[]): void {
     const fromRows = new Map(planGanttView(from).rows.map((r) => [r.id, r]));
     const toRows = planGanttView(to).rows;
     const toById = new Map(toRows.map((r) => [r.id, r]));
@@ -238,7 +273,7 @@ export function setupPlanRevisionsDialog(opts: {
     const order = [...toRows.map((r) => r.id), ...[...fromRows.keys()].filter((id) => !toById.has(id))];
     const list = q<HTMLElement>('[data-prvd-rows]');
     const ids = order.filter((id) => !only?.checked || byId.has(id));
-    if (!ids.length && !money.length) {
+    if (!ids.length && !money.length && !details.length) {
       list.innerHTML = `<p class="bcn-prvd__none">No differences between these revisions.</p>`;
       return;
     }
@@ -293,6 +328,20 @@ export function setupPlanRevisionsDialog(opts: {
       if (side === 'to') el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift bcn-prvd__money', textContent: signedDollars(diff.net) }));
       return el;
     };
+    // Details (2026-10-28, the element page's edits): owners, the deliverable flag and fields, each named, the old value
+    // struck on the left and the new one marked on the right, as the budget's years are.
+    const detailCell = (side: 'from' | 'to', diff: DetailDiff) => {
+      const el = document.createElement('div');
+      el.className = `bcn-prvd__cell bcn-prvd__cell--${side}`;
+      el.style.setProperty('--depth', String(diff.depth));
+      const values = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates' });
+      diff.values.forEach((v, i) => {
+        if (i) values.append(document.createTextNode(', '));
+        values.append(`${v.label} `, Object.assign(document.createElement(side === 'from' ? 'del' : 'ins'), { textContent: side === 'from' ? v.from : v.to }));
+      });
+      el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__name', textContent: diff.name }), values);
+      return el;
+    };
     list.replaceChildren(
       ...(ids.length ? [heading('Schedule')] : []),
       ...ids.map((id) => {
@@ -309,6 +358,14 @@ export function setupPlanRevisionsDialog(opts: {
         row.className = 'bcn-prvd__row';
         row.dataset.kind = 'moved';
         row.append(moneyCell('from', diff), moneyCell('to', diff));
+        return row;
+      }),
+      ...(details.length ? [heading('Details')] : []),
+      ...details.map((diff) => {
+        const row = document.createElement('div');
+        row.className = 'bcn-prvd__row';
+        row.dataset.kind = 'moved';
+        row.append(detailCell('from', diff), detailCell('to', diff));
         return row;
       })
     );
@@ -393,7 +450,7 @@ export function setupPlanRevisionsDialog(opts: {
       const d = draft;
       stops = d
         ? [
-            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, budget: () => budgetAt(repo), ownIDs: new Set() },
+            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, budget: () => budgetAt(repo), attributes: () => attributesAt(repo), ownIDs: new Set() },
             ...d.revisions.map((rev, i) => ({
               author: rev.author,
               title: `Edit ${i + 1} by ${rev.author}`,
@@ -402,6 +459,7 @@ export function setupPlanRevisionsDialog(opts: {
               render: () => changeNote(rev.note, rev.message),
               state: async () => (await draftState(d, i + 1)).Plan,
               budget: () => draftBudget(repo, d, i + 1),
+              attributes: () => draftAttributes(repo, d, i + 1),
               ownIDs: new Set(rev.overrides.map((o) => o.PlanElementID)),
             })),
           ]
@@ -414,6 +472,7 @@ export function setupPlanRevisionsDialog(opts: {
             mark: v.label ? ('labelled' as const) : undefined,
             state: async () => v.plan,
             budget: () => budgetAt(repo, v.number),
+            attributes: () => attributesAt(repo, v.number),
             ownIDs: new Set<string>(),
           }));
       // A draft opens comparing Live with its last edit; the history, the last revision with the one before it.
