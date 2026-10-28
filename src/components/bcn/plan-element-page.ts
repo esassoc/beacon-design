@@ -206,6 +206,14 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       return;
     }
     q('[data-pep-missing]').hidden = true;
+    // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
+    if (ctx.myRole === 'Guest' && ctx.mode !== 'preview') {
+      q('[data-pep-guest]').hidden = false;
+      q('[data-pep-cols]').hidden = true;
+      if (titleText) titleText.textContent = ctx.element.PlanElementName ?? '';
+      document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
+      return;
+    }
     drawHead(ctx);
     place(ctx);
   }

@@ -63,11 +63,20 @@ import { withBase } from '../../../../lib/base';
   .bcn-pep-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
     background: var(--color-background-elevation-raised);
   }
-  /* The Configure screen's preview: the page alone, no shell chrome or actions. */
-  :global(html[data-element-preview]) .bcn-pep-actions {
-    display: none;
+  /* The Configure screen's preview (&preview=1, set before paint by the inline script below): the page alone, without
+     the app's top bar, side nav, help bar, crumbs or actions. */
+  :global(html[data-element-preview]) .bcn-pep-actions,
+  :global(html[data-element-preview] .topbar),
+  :global(html[data-element-preview] .side-nav),
+  :global(html[data-element-preview] .bcn-help-bar),
+  :global(html[data-element-preview] .page-layout__breadcrumbs) {
+    display: none !important;
   }
 </style>
+
+<script is:inline>
+  if (new URLSearchParams(location.search).get('preview') === '1') document.documentElement.setAttribute('data-element-preview', '');
+</script>
 
 <script>
   import '@esa/ecology/esa-tooltip';

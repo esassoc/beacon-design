@@ -15,6 +15,7 @@
 // cards). The CSS is the columns.
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
 import BcnBadgeBank from './BcnBadgeBank.astro';
 import BcnElementDetails from './BcnElementDetails.astro';
 import BcnElementLineage from './BcnElementLineage.astro';
@@ -53,6 +54,12 @@ import BcnElementActivity from './BcnElementActivity.astro';
   <div class="bcn-pep__missing" data-pep-missing hidden>
     <EsaEmptyState title="Not in This Plan" description="This item isn't in the plan, or it was removed.">
       <a data-pep-missing-back><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to the Plan</EsaButton></a>
+    </EsaEmptyState>
+  </div>
+
+  <div class="bcn-pep__missing" data-pep-guest hidden>
+    <EsaEmptyState title="Shared With You for Review" description="This plan is shared with you for the transmittals sent to you. Your inbox lists them, with Confirm Receipt.">
+      <a href={withBase('/prototypes/plans-repo/inbox/')}><EsaButton variant="primary" size="sm" icon="inbox" data-fill-icon="inbox">Sent to You</EsaButton></a>
     </EsaEmptyState>
   </div>
 
