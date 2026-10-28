@@ -74,7 +74,8 @@ function control(def: FieldDef, value: FieldValue | undefined, required: boolean
   }
   c.setAttribute('size', 'sm');
   c.setAttribute('label', def.label);
-  const help = [def.help, required ? 'Needed to complete it.' : ''].filter(Boolean).join(' ');
+  const empty = value === null || value === undefined || value === '' || (Array.isArray(value) && !value.length);
+  const help = [def.help, required && empty ? 'Needed to complete it.' : ''].filter(Boolean).join(' ');
   if (help) c.setAttribute('help-text', help);
   void customElements.whenDefined(c.tagName.toLowerCase()).then(() => {
     if (def.type === 'select' || def.type === 'multiselect') c.options = opts(def.options ?? []);
