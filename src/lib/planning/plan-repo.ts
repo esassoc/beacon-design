@@ -20,6 +20,8 @@ import { PlanDateTypeEnum, type PlanDetailDto, type PlanElementDto, type PlanLev
 import type { PlanDraftOverrideDto, PlanDraftViewDto } from './plan-draft-model';
 import { planDraftWithEdits, type PlanDraftEdit } from './plan-draft';
 import { PROJECT_ID, currentUserName, planApi, setPlanApiLatency } from './plan-server';
+import { TEMPLATES, clonePlanConfig, type PlanConfig } from './plan-config';
+import { clearPlanRecords, seedPlanRecords } from './plan-records';
 
 const REPO_KEY = 'bcn-plan-repo-v1';
 const USER_KEY = 'bcn-planning-user';
@@ -61,6 +63,8 @@ export interface PlanVersion {
   note?: PlanChangeNote;
   /** The plan's budget by fiscal year as of this revision; absent, the last one before it that carries one. */
   budget?: PlanBudget;
+  /** Elements' planning attributes as of this revision (owners, deliverable, field values); absent, as budget. */
+  attributes?: PlanAttributes;
   /** How many elements this version moved, against the one before it. */
   changeCount: number;
   /** A release-style name, when someone gave it one ("Submitted to CDFW"). */
@@ -84,6 +88,8 @@ export interface PlanRevision {
   fields?: Record<string, PlanFieldEdit>;
   /** Budget cells the draft changed, cumulative, over Live's budget (2026-10-28, the Budget view). */
   budget?: PlanBudget;
+  /** Attributes the draft changed, cumulative, over Live's (2026-10-28, the element page). */
+  attributes?: PlanAttributes;
 }
 
 /** An element's own fields as a draft changes them, beyond its dates. */
@@ -124,11 +130,25 @@ export interface PlanRepo {
   /** Who works on it and what they may do (2026-10-28). Absent: its creator as Owner, everyone who has written to it
    *  as an Editor. Settings, like a repo's, not revisions: changing them makes no revision. */
   members?: PlanMember[];
+  /** Fields and page layouts per level, and the modules' lists (2026-10-28, decisions 1 to 8). Absent: Study Program. */
+  config?: PlanConfig;
 }
 
+/** An element's planning attributes beyond its dates (2026-10-28): its owners, whether it's a deliverable, and the
+ *  plan's custom field values. Drafted like dates and budget (decision 5: plans are drafted, records are not). */
+export interface ElementAttributes {
+  owners?: string[];
+  deliverable?: boolean;
+  values?: Record<string, FieldValue>;
+}
+export type FieldValue = string | number | boolean | string[] | null;
+/** Element id to its attributes. */
+export type PlanAttributes = Record<string, ElementAttributes>;
+
 export type PlanView = 'schedule' | 'budget';
-/** Owners and Editors publish to Live; Contributors draft and ask to publish; an Owner also changes the settings. */
-export type PlanRole = 'Owner' | 'Editor' | 'Contributor';
+/** Owners and Editors publish to Live; Contributors draft and ask to publish; an Owner also changes the settings. A
+ *  Guest (an agency reviewer, decision 2) sees only the transmittals sent to them. */
+export type PlanRole = 'Owner' | 'Editor' | 'Contributor' | 'Guest';
 export interface PlanMember {
   name: string;
   role: PlanRole;
@@ -152,8 +172,9 @@ interface RepoStore {
 }
 
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
- *  5: views and people, which a format-4 store takes on without starting over). */
-const SEED_FORMAT = 5;
+ *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
+ *  early deliverables, a full start over). */
+const SEED_FORMAT = 6;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -250,7 +271,24 @@ async function as<T>(user: string, work: () => Promise<T>): Promise<T> {
 }
 
 /** The people a plan's settings can add: the sample's planners and a few more of the project's staff. */
-export const PLAN_DIRECTORY = [...PLAN_PEOPLE, 'Dana Whitfield', 'Morgan Ellis', 'Chris Tanaka', 'Leah McNearney', 'Ravi Shah'] as const;
+export const PLAN_DIRECTORY = [...PLAN_PEOPLE, 'Dana Whitfield', 'Morgan Ellis', 'Chris Tanaka', 'Ravi Shah', 'Jordan Reyes', 'Casey Lin', 'Rowan Hale', 'Avery Nguyen'] as const;
+/** Each person's organization: ESA's planners, DWR's manager, the agencies' reviewers (fictional, for the sample). */
+export const PERSON_ORG: Record<string, string> = {
+  'Jamie Quishenberry': 'ESA',
+  'Alex Rivera': 'ESA',
+  'Sam Okafor': 'ESA',
+  'Priya Natarajan': 'ESA',
+  'Andy Lovseth': 'ESA',
+  'Dana Whitfield': 'ESA',
+  'Chris Tanaka': 'ESA',
+  'Ravi Shah': 'ESA',
+  'Morgan Ellis': 'DWR',
+  'Jordan Reyes': 'CDFW',
+  'Casey Lin': 'CDFW',
+  'Rowan Hale': 'NMFS',
+  'Avery Nguyen': 'USFWS',
+};
+export const orgOf = (name: string) => PERSON_ORG[name] ?? '';
 
 // ── Plan helpers ───────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -312,6 +350,31 @@ export function budgetAt(repo: PlanRepo, number: number = latestVersion(repo).nu
   }
   return spreadBudget(repo.versions[0].plan);
 }
+
+/** Attributes laid over attributes: per element, the later wins field by field, and values merge. */
+export function mergeAttributes(base: PlanAttributes, over?: PlanAttributes): PlanAttributes {
+  const out: PlanAttributes = {};
+  for (const [id, a] of Object.entries(base)) out[id] = { ...a, values: { ...(a.values ?? {}) } };
+  for (const [id, a] of Object.entries(over ?? {})) {
+    const was = out[id] ?? {};
+    out[id] = { ...was, ...a, values: { ...(was.values ?? {}), ...(a.values ?? {}) } };
+  }
+  return out;
+}
+/** The attributes as of a revision: the last one at or before it that carries them; before any, none. */
+export function attributesAt(repo: PlanRepo, number: number = latestVersion(repo).number): PlanAttributes {
+  for (let i = repo.versions.length - 1; i >= 0; i--) {
+    const v = repo.versions[i];
+    if (v.number <= number && v.attributes) return v.attributes;
+  }
+  return {};
+}
+/** A draft's attributes at one of its revisions: Live's as they are now, with the draft's over them. */
+export function draftAttributes(repo: PlanRepo, draft: PlanRepoDraft, index: number = draft.revisions.length): PlanAttributes {
+  return mergeAttributes(attributesAt(repo), index > 0 ? draft.revisions[index - 1].attributes : undefined);
+}
+/** A plan's configuration: its own, or the Study Program template's. */
+export const configOf = (repo: PlanRepo): PlanConfig => repo.config ?? TEMPLATES['Study Program']();
 
 /** A draft's budget at one of its revisions: Live's as it is now, with the draft's cells over it. */
 export function draftBudget(repo: PlanRepo, draft: PlanRepoDraft, index: number = draft.revisions.length): PlanBudget {
@@ -492,6 +555,42 @@ interface SeedEdit {
 /** Tasks the sample holds as Scheduled (fixed dates). */
 const FIXED_TASKS = ['Winter-freshet acoustic tagging', 'Receiver-site encroachment'];
 
+/** The two early deliverables the sample adds (2026-10-28): finished before today, with their records. */
+const EARLY_TASKS = [
+  { under: 'Near-field intake behavior', name: 'Near-field study scoping memo', start: '2026-07-01', end: '2026-08-28', budget: 48_000 },
+  { under: 'Far-field through-Delta', name: 'Tag technology feasibility memo', start: '2026-07-15', end: '2026-09-30', budget: 36_000 },
+];
+
+/** The sample's attributes: owners on every element, the deliverables flagged, the Study Program's fields filled. */
+function seedAttributes(plan: PlanDetailDto): PlanAttributes {
+  const out: PlanAttributes = {};
+  const set = (name: string, a: ElementAttributes) => {
+    const id = elementByName(plan, name)?.PlanElementID;
+    if (id) out[id] = { ...out[id], ...a, values: { ...(out[id]?.values ?? {}), ...(a.values ?? {}) } };
+  };
+  set('Fisheries Evaluation Studies', { owners: ['Jamie Quishenberry', 'Andy Lovseth'], values: { 'lead-agency': 'CDFW', authorization: 'Both' } });
+  set('Migration & Survival Study', { owners: ['Alex Rivera'], values: { 'lead-agency': 'CDFW', 'science-plan-status': 'Agency Review' } });
+  set('Predation Study', { owners: ['Priya Natarajan'], values: { 'lead-agency': 'CDFW', 'science-plan-status': 'Not Started' } });
+  set('Near-field intake behavior', { owners: ['Alex Rivera'], values: { 'lead-agency': 'CDFW', 'field-season': 'Winter', 'sampling-method': 'Acoustic telemetry, JSATS' } });
+  set('Far-field through-Delta', { owners: ['Sam Okafor'], values: { 'lead-agency': 'NMFS', 'field-season': 'Year-Round', 'sampling-method': 'Regional receiver network' } });
+  set('Predator density', { owners: ['Priya Natarajan'], values: { 'lead-agency': 'CDFW', 'field-season': 'Spring', 'sampling-method': 'Hydroacoustic survey' } });
+  set('Predation exposure modeling', { owners: ['Priya Natarajan'], values: { 'lead-agency': 'CDFW', 'field-season': 'Summer' } });
+  const deliverable = (name: string, owners: string[], type: string, reviewer: string, period = 30, agency = 'CDFW') =>
+    set(name, { owners, deliverable: true, values: { 'lead-agency': agency, 'deliverable-type': type, 'agency-reviewer': reviewer, 'review-period': period } });
+  deliverable('Near-field study scoping memo', ['Alex Rivera'], 'Technical Memo', 'Jordan Reyes');
+  deliverable('Tag technology feasibility memo', ['Sam Okafor'], 'Technical Memo', 'Rowan Hale', 30, 'NMFS');
+  deliverable('Detailed baseline study plan', ['Alex Rivera', 'Priya Natarajan'], 'Science Plan', 'Jordan Reyes', 30);
+  deliverable('Receiver-site encroachment', ['Sam Okafor'], 'Permit Application', 'Morgan Ellis', 45, 'DWR');
+  deliverable('Draft near-field survival memo', ['Alex Rivera'], 'Technical Memo', 'Jordan Reyes');
+  deliverable('Through-Delta survival model fit', ['Sam Okafor'], 'Data Report', 'Rowan Hale', 45, 'NMFS');
+  deliverable('Predation study plan', ['Priya Natarajan'], 'Science Plan', 'Casey Lin');
+  deliverable('Predation exposure model build', ['Priya Natarajan'], 'Data Report', 'Casey Lin', 45);
+  for (const name of ['Acoustic tag & receiver procurement', 'Fabricate & install', 'Winter-freshet', 'Receiver retrieval', 'Regional receiver network', 'Multi-year tag release', 'Baseline predator hydroacoustic', 'Predation hotspot', 'Diet & eDNA']) {
+    set(name, { owners: [name.startsWith('Regional') || name.startsWith('Multi-year') ? 'Sam Okafor' : name.startsWith('Baseline predator') || name.startsWith('Predation hotspot') || name.startsWith('Diet') ? 'Priya Natarajan' : 'Alex Rivera'], values: { 'lead-agency': 'CDFW' } });
+  }
+  return out;
+}
+
 /** The sample's published history: what the team did to it over three months. */
 const FISH_HISTORY: SeedEdit[] = [
   { by: 'Jamie Quishenberry', daysAgo: 81, name: 'Detailed baseline study plan', days: 14, draftName: 'Baseline kickoff slip' },
@@ -579,13 +678,23 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     );
     live = await planApi.getPlan(planID);
   }
+  // Two early deliverables, finished this summer (2026-10-28), so the sample has done work to show: sends, receipts,
+  // completions. They lead their sub-studies.
+  for (const t of EARLY_TASKS) {
+    const parent = elementByName(live, t.under);
+    if (!parent?.PlanElementID) continue;
+    await as('Jamie Quishenberry', () =>
+      planApi.createElement(planID, { ParentPlanElementID: parent.PlanElementID!, LevelDepth: 4, PlanElementName: t.name, SortOrder: -1, StartDate: t.start, EndDate: t.end, Budget: t.budget, PlanDateType: PlanDateTypeEnum.Estimated }, live.VersionToken)
+    );
+    live = await planApi.getPlan(planID);
+  }
   const repo: PlanRepo = {
     planID,
     visibility: 'Project',
     watchers: ['Jamie Quishenberry', 'Alex Rivera', 'Sam Okafor', 'Priya Natarajan', 'Andy Lovseth', 'Dana Whitfield'],
     starredBy: ['Jamie Quishenberry', 'Andy Lovseth'],
     versions: [
-      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), ...noted({ action: 'Created', subject: '2026 Study Outline' }), changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live), budget: spreadBudget(live) },
+      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), ...noted({ action: 'Created', subject: '2026 Study Outline' }), changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live), budget: spreadBudget(live), attributes: seedAttributes(live) },
     ],
     drafts: [],
   };
@@ -635,6 +744,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     repo.drafts.push(draft);
   }
   store.repos.push(repo);
+  seedPlanRecords(planID, live);
 }
 
 /** A second and third plan for the index, lighter: the sample renamed and shifted, with a short history. */
@@ -682,19 +792,16 @@ export async function ensureSeeded(onProgress?: (text: string) => void): Promise
   const plans = await planApi.listPlans(PROJECT_ID);
   const known = new Set(plans.map((p) => p.PlanID));
   store.repos = store.repos.filter((r) => known.has(r.planID));
-  if (store.repos.length && store.format === 4) {
-    seedSettings(store);
-    store.format = SEED_FORMAT;
-  }
   if (store.repos.length && store.format === SEED_FORMAT) {
     save(store);
     return;
   }
-  if (store.repos.length) {
+  if (store.repos.length || plans.length) {
     // An older seed: its plans go, and the sample starts over in the current shape.
     for (const plan of plans) await planApi.deletePlan(plan.PlanID ?? '').catch(() => undefined);
     store.repos = [];
   }
+  clearPlanRecords();
   onProgress?.('Setting up three sample plans with three months of history…');
   setPlanApiLatency(0);
   try {
@@ -721,6 +828,10 @@ function seedSettings(store: RepoStore): void {
         { name: 'Alex Rivera', role: 'Editor' },
         { name: 'Priya Natarajan', role: 'Editor' },
         { name: 'Sam Okafor', role: 'Contributor' },
+        { name: 'Morgan Ellis', role: 'Contributor' },
+        { name: 'Jordan Reyes', role: 'Guest' },
+        { name: 'Casey Lin', role: 'Guest' },
+        { name: 'Rowan Hale', role: 'Guest' },
       ],
     },
     'Geotechnical Investigations': {
@@ -743,6 +854,7 @@ function seedSettings(store: RepoStore): void {
   for (const repo of store.repos) {
     const seed = SETTINGS[latestVersion(repo).plan.PlanName ?? ''];
     if (seed && !repo.views) Object.assign(repo, clone(seed));
+    repo.config ??= TEMPLATES['Study Program']();
   }
 }
 
@@ -751,6 +863,7 @@ export async function resetSample(): Promise<void> {
   const plans = await planApi.listPlans(PROJECT_ID);
   for (const plan of plans) await planApi.deletePlan(plan.PlanID ?? '').catch(() => undefined);
   save({ repos: [] });
+  clearPlanRecords();
 }
 
 // ── Reads ──────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -782,6 +895,8 @@ export interface PlanSettings {
   /** Top of the plan down. */
   levels: Required<PlanLevelCreateDto>[];
   members: PlanMember[];
+  /** A new plan's starting configuration (a template); settings saves leave the plan's own alone. */
+  config?: PlanConfig;
 }
 
 /** A new plan: made on the API, then its history starts with one revision, Created, by whoever made it. */
@@ -798,6 +913,7 @@ export async function createPlanRepo(settings: PlanSettings): Promise<string> {
     drafts: [],
     views: settings.views,
     members: settings.members,
+    config: clonePlanConfig(settings.config ?? TEMPLATES['Study Program']()),
   });
   save(store);
   return created.PlanID ?? '';
@@ -916,7 +1032,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
     revisions: from
-      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget) }]
+      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget), attributes: clone(from.revisions.at(-1)?.attributes) }]
       : [],
   };
   repo.drafts = [...repo.drafts.filter((d) => d.owner !== me), draft];
@@ -956,7 +1072,7 @@ export function renameDraft(planID: string, draftID: string, name: string): void
 }
 
 /** One drop in a draft: the draft's new overrides, as its next revision. */
-export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote, extras: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget } = {}): PlanRevision {
+export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote, extras: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; attributes?: PlanAttributes } = {}): PlanRevision {
   const store = load();
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) throw new Error('That draft is gone.');
@@ -970,6 +1086,7 @@ export function addRevision(planID: string, draftID: string, overrides: PlanDraf
     overrides: clone(overrides),
     fields: clone(extras.fields ?? prior?.fields),
     budget: clone(extras.budget ?? prior?.budget),
+    attributes: clone(extras.attributes ?? prior?.attributes),
   };
   draft.revisions.push(revision);
   save(store);
@@ -1043,8 +1160,9 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     source: 'draft',
     draftName: draft.name,
     plan: clone(next),
-    // Live's budget with the draft's cells over it.
+    // Live's budget with the draft's cells over it; the same for its attributes.
     budget: mergeBudget(budgetAt(fresh), rev?.budget),
+    attributes: mergeAttributes(attributesAt(fresh), rev?.attributes),
   };
   fresh.versions.push(version);
   // Part of a draft published (2026-10-28, Andy): the edits after the one published stay as the draft, on top of the
@@ -1122,6 +1240,7 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
     draftName: null,
     plan: clone(next),
     budget: clone(budgetAt(repo, number)),
+    attributes: clone(attributesAt(repo, number)),
   };
   fresh.versions.push(version);
   save(store);
@@ -1148,6 +1267,7 @@ export async function recordLiveEdit(planID: string, note: PlanChangeNote): Prom
     draftName: null,
     plan: clone(plan),
     budget: clone(budgetAt(repo)),
+    attributes: clone(attributesAt(repo)),
   };
   repo.versions.push(version);
   save(store);
