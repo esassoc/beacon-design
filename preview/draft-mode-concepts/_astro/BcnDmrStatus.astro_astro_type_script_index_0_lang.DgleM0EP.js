@@ -1,0 +1,1 @@
+import{i as e}from"./dmr-review-store.CoQzHElM.js";var t=document.querySelector(`[data-bcn-dmr-status]`);t&&e.addEventListener(`change`,()=>{for(let n of t.querySelectorAll(`[data-status]`))n.hidden=n.dataset.status!==e.state.status});

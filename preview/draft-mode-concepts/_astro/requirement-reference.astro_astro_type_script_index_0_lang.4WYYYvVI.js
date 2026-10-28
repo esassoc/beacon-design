@@ -1,0 +1,1 @@
+import"./esa-side-dialog.BCuyTdth.js";var e=document.getElementById(`source-drawer`);document.querySelectorAll(`[data-bcn-source]`).forEach(t=>t.addEventListener(`click`,()=>e.show())),document.getElementById(`source-close`)?.addEventListener(`click`,()=>e.close());

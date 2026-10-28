@@ -1,0 +1,1 @@
+function e(){let e=new URLSearchParams(location.search).get(`as`);return e===`esa-admin`||e===`admin`?`esa-admin`:e===`tenant-admin`?`tenant-admin`:`reader`}var t=()=>e()===`esa-admin`,n=()=>e()!==`reader`;export{t as n,n as t};

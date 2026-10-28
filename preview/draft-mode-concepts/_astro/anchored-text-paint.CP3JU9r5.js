@@ -1,0 +1,7 @@
+var e=e=>e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`),t=({text:t,spans:n,gaps:r,activeId:i=null,lit:a=null,values:o=[],family:s=`violet`})=>{let c=[...n].sort((e,t)=>e.start-t.start),l=new Map(c.map((e,t)=>[e.id,t%2?3:1])),u=new Map(c.map((e,t)=>[e.id,t%6+1])),d=new Set(c.filter(e=>e.dup).map(e=>`${e.start}`)),f=new Set([0,t.length]);for(let e of[...c,...r,...o,...a?[a]:[]])f.add(Math.max(0,e.start)),f.add(Math.min(t.length,e.end));let p=t.indexOf(`
+
+`);for(;p!==-1;)f.add(p),f.add(p+2),p=t.indexOf(`
+
+`,p+2);let m=[...f].sort((e,t)=>e-t),h=``,g=!1,_=e=>{h+=`<p data-off="${e}">`,g=!0};_(0);for(let n=0;n<m.length-1;n++){let f=m[n],p=m[n+1],v=t.slice(f,p);if(v===`
+
+`){h+=`</p>`,g=!1,_(p);continue}let y=c.find(e=>e.start<=f&&e.end>=p&&!e.dup)??c.find(e=>e.start<=f&&e.end>=p),b=r.find(e=>e.start<=f&&e.end>=p),x=a&&a.start<=f&&a.end>=p,S=e(v),C=o.find(e=>e.start<=f&&e.end>=p);if(C&&(S=`<span class="bcn-at-val" data-v="${e(C.key)}">${S}</span>`),x&&(S=`<span class="bcn-at-lit">${S}</span>`),y){let t=d.has(`${y.start}`)||y.dup;h+=`<mark class="bcn-hl" data-sid="${y.id}" data-family="${s}" data-shade="${l.get(y.id)}" data-ink="${u.get(y.id)}"${y.suggested?` data-suggested`:``}${y.id===i?` data-active`:``}${t?` data-dup`:``} title="${e(y.label)}">${S}</mark>`}else h+=b?`<mark class="bcn-at-gap" data-gap="${b.start}" title="Reads as binding, and no requirement covers it">${S}</mark>`:S}return g&&(h+=`</p>`),h};export{t};

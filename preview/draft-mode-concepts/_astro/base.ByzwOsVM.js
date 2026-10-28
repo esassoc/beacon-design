@@ -1,0 +1,1 @@
+var e=e=>`/beacon-design/preview/draft-mode-concepts/`+e.replace(/^\//,``);export{e as t};
