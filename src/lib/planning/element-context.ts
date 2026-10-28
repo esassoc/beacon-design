@@ -37,8 +37,8 @@ const q = (params: Record<string, string | null | undefined>) =>
 export const ELEMENT_HREF = (planID: string, elementId: string, draftId?: string | null) => withBase(`/prototypes/plans-repo/element/?${q({ plan: planID, el: elementId, draft: draftId })}`);
 /** One transmittal: the sender's record, or (for a recipient) the page with Confirm Receipt. */
 export const TRANSMITTAL_HREF = (planID: string, transmittalId: string) => withBase(`/prototypes/plans-repo/transmittal/?${q({ plan: planID, id: transmittalId })}`);
-/** The plan's settings page (General, Levels, Fields and Pages, People). `section` opens one. */
-export const SETTINGS_HREF = (planID: string, section?: string) => withBase(`/prototypes/plans-repo/settings/?${q({ id: planID, section })}`);
+/** An element's page with its level's page open to customize (Owners; the plan's settings link each level here). */
+export const CUSTOMIZE_HREF = (planID: string, elementId: string) => `${ELEMENT_HREF(planID, elementId)}&customize=1`;
 /** The plan page, on a view. */
 export const PLAN_VIEW_HREF = (planID: string, view?: string, draftId?: string | null) => withBase(`/prototypes/plans-repo/plan/?${q({ id: planID, draft: draftId, view })}`);
 /** An obligation's page in the data catalog. */

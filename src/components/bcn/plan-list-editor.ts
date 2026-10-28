@@ -1,6 +1,6 @@
 // <BcnPlanListEditor>'s runtime (2026-10-28): an ordered list of names, edited in place. listEditor(root, ...) fills the
 // list from `values` and reports every change through `onChange` with the whole new list, and, for a rename or a
-// removal, which entry it was (the settings page carries a renamed document type into the levels that offer it).
+// removal, which entry it was (the plan's settings carry a renamed document type into the levels that offer it).
 
 import { flip, sortable } from './plan-sortable';
 import { fillIcons } from '../../lib/planning/icons';

@@ -1,4 +1,4 @@
-// Drag to reorder, for the plan settings page's lists (2026-10-28): module rows within and between a level's Main and
+// Drag to reorder, for a level's page being customized and the plan's lists (2026-10-28): cards within and between a level's Main and
 // Side columns, a level's fields, and the editable name lists. Pointer events on a row's grip, so it works with a mouse,
 // a pen or a finger: the row lifts (a ghost follows the pointer, the row stays put, dimmed), a line shows where it will
 // land, and letting go hands the caller the row, the list and the index. The caller owns the data and redraws; flip()

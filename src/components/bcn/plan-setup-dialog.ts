@@ -1,14 +1,17 @@
 // <BcnPlanSetupDialog>'s runtime (2026-10-28): New Plan and a plan's settings in one modal. open() resolves what came of
-// it: a plan created (its id), settings saved, the plan deleted, or nothing (cancelled). Saving writes through
-// plan-repo.ts (createPlanRepo, savePlanSettings, deletePlanRepo); the page decides where to go next.
+// it: a plan created (its id), settings saved, the plan deleted, a level's page to customize (an item of that level),
+// or nothing (cancelled). Saving writes through plan-repo.ts (createPlanRepo, savePlanSettings and savePlanConfig for
+// the lists, deletePlanRepo); the page decides where to go next.
 
 import { planApi, currentUserName } from '../../lib/planning/plan-server';
 import {
   PLAN_DIRECTORY,
   createPlanRepo,
   deletePlanRepo,
+  configOf,
   getRepo,
   membersOf,
+  savePlanConfig,
   savePlanSettings,
   viewsOf,
   type PlanMember,
@@ -18,9 +21,16 @@ import {
 } from '../../lib/planning/plan-repo';
 import type { PlanLevelCreateDto } from '../../lib/planning/model';
 import { planAvatar } from './plan-people';
-import { templateChoices } from '../../lib/planning/plan-templates';
+import { fillIcons } from '../../lib/planning/icons';
+import { saveTemplate, templateChoices, templateNameTaken } from '../../lib/planning/plan-templates';
+import { clonePlanConfig, type PlanConfig } from '../../lib/planning/plan-config';
+import { pushAlert } from '../../lib/planning/plan-page';
+import { listEditor, setEsaButtonDisabled, type ListChange, type ListEditor } from './plan-list-editor';
 
-export type PlanSetupResult = { kind: 'created'; planID: string } | { kind: 'saved' } | { kind: 'deleted' } | null;
+export type PlanSetupResult = { kind: 'created'; planID: string } | { kind: 'saved' } | { kind: 'deleted' } | { kind: 'customize'; elementId: string } | null;
+
+const LIST_KEYS = ['documentTypes', 'results', 'purposes', 'agencies'] as const;
+type ListKey = (typeof LIST_KEYS)[number];
 
 type FieldEl = HTMLElement & { value: string; errorText: string };
 type SwitchEl = HTMLElement & { checked: boolean };
@@ -46,6 +56,7 @@ const ROLES: { value: PlanRole; label: string }[] = [
 export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string): Promise<PlanSetupResult> } {
   const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
   const dialog = q<DialogEl>('[data-psu-dialog]');
+  fillIcons(root);
   const name = q<FieldEl>('[data-psu="name"]');
   const description = q<FieldEl>('[data-psu="description"]');
   const levelRows = q<HTMLElement>('[data-psu-levels]');
@@ -65,6 +76,10 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   let saved = 0;
   let members: PlanMember[] = [];
   let views = new Set<PlanView>();
+  /** A plan's configuration: the Lists section edits its lists; the rest rides along to Save as Template. */
+  let config: PlanConfig | null = null;
+  /** The first item at each level, by index from the top: where that level's Customize Page goes. */
+  let firstAt = new Map<number, string>();
   let initial = '';
   let busy = false;
   let settle: (result: PlanSetupResult) => void = () => undefined;
@@ -79,6 +94,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     drawLevels();
   });
 
+  const state = () => JSON.stringify({ s: snapshot(), lists: config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays] });
   const snapshot = (): PlanSettings => ({ name: (name.value ?? '').trim(), description: (description.value ?? '').trim(), views: (['schedule', 'budget'] as const).filter((v) => views.has(v)), levels: levels.map((l) => ({ ...l })), members: members.map((m) => ({ ...m })) });
 
   // ── What it tracks ──
@@ -134,6 +150,14 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
           levels.pop();
           drawLevels();
         });
+        // A level's page is set up on one of its items' pages: the first in the plan, or none yet.
+        const page = row.querySelector<HTMLElement>('[data-level-page]')!;
+        const elementId = i < saved ? firstAt.get(i) : undefined;
+        const pluralName = level.PluralName || 'items';
+        setEsaButtonDisabled(page.querySelector('button'), !elementId);
+        row.querySelector('[data-level-page-tip]')!.setAttribute('text', elementId ? `Set up the ${level.SingularName || 'level'} page on one of its items` : i < saved ? `No ${pluralName} yet: add one to customize its page` : 'Save first, then add an item');
+        page.addEventListener('click', () => void customize(elementId));
+        fillIcons(row);
         return row;
       })
     );
@@ -191,6 +215,66 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     requestAnimationFrame(() => (addPerson.value = ''));
   });
 
+  // ── Lists (a plan's): each in a collapsible with its count; a renamed document type carries into the levels ──
+  const lists = new Map<ListKey, ListEditor>();
+  const countLists = () => {
+    for (const key of LIST_KEYS) {
+      const title = root.querySelector<HTMLElement>(`[data-psu-list="${key}"] .esa-collapsible__title`);
+      if (!title) continue;
+      title.dataset.name ??= title.textContent ?? '';
+      const count = Object.assign(document.createElement('span'), { className: 'bcn-psu__count', textContent: String(config?.[key].length ?? 0) });
+      title.replaceChildren(title.dataset.name, count);
+    }
+  };
+  for (const key of LIST_KEYS) {
+    lists.set(
+      key,
+      listEditor(q(`[data-ple-id="${key}"]`), {
+        values: [],
+        onChange: (values, change: ListChange) => {
+          if (!config) return;
+          config[key] = values;
+          if (key === 'documentTypes' && (change.renamed || change.removed)) {
+            for (const level of Object.values(config.levels)) {
+              for (const p of level.modules) {
+                const types = p.settings?.documentTypes;
+                if (!types?.length) continue;
+                p.settings!.documentTypes = change.renamed ? types.map((t) => (t === change.renamed!.from ? change.renamed!.to : t)) : types.filter((t) => t !== change.removed);
+              }
+            }
+          }
+          countLists();
+        },
+      })
+    );
+  }
+  const ackDays = q<FieldEl>('[data-psu="ackDays"]');
+  ackDays.addEventListener('input', () => {
+    const n = Number(ackDays.value);
+    ackDays.errorText = Number.isInteger(n) && n >= 1 && n <= 30 ? '' : 'A whole number of days, 1 to 30.';
+    if (!ackDays.errorText && config) config.ackDays = n;
+  });
+
+  // ── Template: the plan's levels, fields, page layouts and lists under a name New Plan can start from ──
+  const templateName = q<FieldEl>('[data-psu="templateName"]');
+  templateName.addEventListener('input', () => (templateName.errorText = ''));
+  async function saveAsTemplate(): Promise<void> {
+    if (!config) return;
+    const text = (templateName.value ?? '').trim();
+    if (!text) return void (templateName.errorText = 'Name the template.');
+    const taken = templateNameTaken(text);
+    if (taken === 'built-in') return void (templateName.errorText = `${text} is a built-in template. Pick another name.`);
+    if (taken === 'saved' && !(await ask(`Replace ${text}?`, 'A template by that name exists. Saving replaces it; plans made from it keep what they started with.', 'Replace Template', 'Pick Another Name'))) return;
+    saveTemplate(text, config, snapshot().levels, me);
+    pushAlert(`Saved as the template ${text}. New Plan can start from it.`, 'success');
+  }
+  q<HTMLElement>('[data-psu-template-save]').addEventListener('click', () => void saveAsTemplate());
+  templateName.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key !== 'Enter') return;
+    e.preventDefault();
+    void saveAsTemplate();
+  });
+
   // ── Asking: esa-confirm-dialog as a promise, its buttons centered as the plan page's guard (a hub gap: no footer hook) ──
   void customElements.whenDefined('esa-confirm-dialog').then(async () => {
     await confirm.updateComplete;
@@ -212,7 +296,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     dialog.open = false;
     settle(result);
   }
-  const dirty = () => JSON.stringify(snapshot()) !== initial;
+  const dirty = () => state() !== initial;
   const askDiscard = () => ask(planID ? 'Discard Your Changes?' : 'Discard This Plan?', planID ? 'Nothing you changed here is saved.' : 'The plan is not created.', 'Discard', 'Keep Editing');
   async function cancel(): Promise<void> {
     if (busy) return;
@@ -220,6 +304,12 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     close(null);
   }
   q<HTMLElement>('[data-psu-cancel]').addEventListener('click', () => void cancel());
+  /** Off to an item's page to customize its level's: unsaved changes here are asked about first. */
+  async function customize(elementId: string | undefined): Promise<void> {
+    if (!elementId || busy) return;
+    if (dirty() && !(await askDiscard())) return;
+    close({ kind: 'customize', elementId });
+  }
   // The dialog's own exits (its X, Escape, the backdrop) close it before anyone can ask: with changes, it comes back
   // and asks; without, it's a cancel.
   dialog.addEventListener('close', async (e) => {
@@ -240,6 +330,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     });
     if (!s.views.length) ok = false;
     if (!checkOwners()) ok = false;
+    if (config && ackDays.errorText) ok = false;
     drawViews();
     return ok;
   }
@@ -253,6 +344,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     try {
       if (planID) {
         await savePlanSettings(planID, s);
+        if (config) savePlanConfig(planID, config);
         close({ kind: 'saved' });
       } else {
         close({ kind: 'created', planID: await createPlanRepo({ ...s, config: templateChoices().find((t) => t.name === template)?.config() }) });
@@ -283,10 +375,20 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         const sorted = [...(plan.Levels ?? [])].sort((a, b) => (a.Depth ?? 0) - (b.Depth ?? 0));
         levels = sorted.map((l) => ({ SingularName: l.SingularName ?? '', PluralName: l.PluralName ?? '' }));
         saved = levels.length;
-        const depths = new Set<number>();
-        const walk = (els: typeof plan.Elements) => els?.forEach((e) => (depths.add(e.LevelDepth ?? 0), walk(e.Children)));
+        // The first item at each depth, in plan order: its level's Customize Page.
+        const first = new Map<number, string>();
+        const walk = (els: typeof plan.Elements) => els?.forEach((e) => (first.has(e.LevelDepth ?? 0) || first.set(e.LevelDepth ?? 0, String(e.PlanElementID)), walk(e.Children)));
         walk(plan.Elements);
-        used = new Set(sorted.map((l, i) => (depths.has(l.Depth ?? -1) ? i : -1)).filter((i) => i >= 0));
+        used = new Set(sorted.map((l, i) => (first.has(l.Depth ?? -1) ? i : -1)).filter((i) => i >= 0));
+        firstAt = new Map(sorted.flatMap((l, i) => (first.has(l.Depth ?? -1) ? [[i, first.get(l.Depth ?? -1)!] as [number, string]] : [])));
+        config = clonePlanConfig(configOf(repo));
+        for (const key of LIST_KEYS) lists.get(key)!.set(config[key]);
+        countLists();
+        ackDays.value = String(config.ackDays ?? 2);
+        ackDays.errorText = '';
+        templateName.value = plan.PlanName ?? '';
+        templateName.errorText = '';
+        q<HTMLElement>('[data-psu-template-hint]').textContent = `${config.template ? `Started from ${config.template}. ` : ''}Save its levels, fields, page layouts and lists under a name New Plan can start from. Its items, dates, money and people stay with this plan.`;
         members = membersOf(repo).map((m) => ({ ...m }));
         views = new Set(viewsOf(repo));
         name.value = plan.PlanName ?? '';
@@ -301,6 +403,8 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         name.value = '';
         description.value = '';
         dialog.heading = 'New Plan';
+        config = null;
+        firstAt = new Map();
         template = 'Study Program';
         void customElements.whenDefined('esa-select').then(() => {
           templateSelect.options = templateChoices().map((t) => ({ value: t.name, label: t.builtIn ? t.name : `${t.name} (Saved)` }));
@@ -308,13 +412,15 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         });
       }
       templateWrap.hidden = !!planID;
+      root.toggleAttribute('data-new', !planID);
+      root.querySelectorAll<HTMLDetailsElement>('[data-psu-list] details').forEach((d) => (d.open = false));
       name.errorText = '';
       q<HTMLElement>('[data-psu-save-label]').textContent = planID ? 'Save Changes' : 'Create Plan';
       q<HTMLElement>('[data-psu-danger]').hidden = !planID;
       drawViews();
       drawLevels();
       drawPeople();
-      initial = JSON.stringify(snapshot());
+      initial = state();
       busy = false;
       settled = false;
       dialog.open = true;

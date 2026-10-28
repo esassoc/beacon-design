@@ -3,25 +3,43 @@
 // of a plan. Config your levels? Add Contributors."), for New Plan on the Plans index and Edit in a plan's About panel.
 // Sections with a heading and a glyph, as the element drawer's:
 //
-//   General          name and description
+//   General          name and description; New Plan picks a template to start from
 //   What It Tracks   Schedule, Budget, or both ("some plans may or may not need schedule AND budget")
-//   Levels           the plan's levels top down, singular and plural; add and remove at the bottom, as Beacon's rules
-//   People           who works on it and their role (Owner, Editor, Contributor); add from the project's people
-//   Danger Zone      Delete Plan (edit only), behind a confirm
+//   Levels           the plan's levels top down, singular and plural; add and remove at the bottom, as Beacon's rules.
+//                    On a plan, each level links to Customize Page: a level's page is set up on one of its items' pages
+//                    (2026-10-28, Andy: "the template for a level should just be configured on any of those detail
+//                    pages... not in a config")
+//   People           who works on it and their role (Owner, Editor, Contributor, Guest); add from the project's people
+//   Lists            (a plan) what its cards offer: document types, completion results, transmittal purposes,
+//                    agencies, and the days a recipient has to confirm receipt
+//   Template         (a plan) Save as Template, for the next New Plan
+//   Danger Zone      (a plan) Delete Plan, behind a confirm
 //
-// Settings, like a repo's, not revisions: saving makes no revision. The runtime is ./plan-setup-dialog.ts.
+// The basics in a modal (2026-10-28, Andy: "the basics of the plan config should be in a modal"); the settings page
+// that held them for a day is retired. Settings, like a repo's, not revisions: saving makes no revision. The runtime
+// is ./plan-setup-dialog.ts.
 //
 // bcn-lego-checked: the shell IS esa-dialog, fields ARE esa-text-field / esa-textarea, the views' toggles ARE
 // esa-switch-toggle, roles ARE esa-select, Add a Person IS esa-combobox, avatars ARE esa-avatar (BcnPlanPeople), every
-// action IS esa-button, Delete sits in BcnDangerZone and asks through esa-confirm-dialog. The level rows are
-// BcnPlanCreateDialog's grid (Jamie's plan-create-dialog, ported from Beacon). No esa- lego is a choice card (an option
-// with a glyph, a title and a line of description) or a person row with a role; checked Beacon (plan-create-dialog has
-// no views or people; plan-settings-drawer has levels only). The CSS is those two rows and the sections.
+// action IS esa-button, each list IS esa-collapsible over BcnPlanListEditor, Delete sits in BcnDangerZone and asks
+// through esa-confirm-dialog. The level rows are BcnPlanCreateDialog's grid (Jamie's plan-create-dialog, ported from
+// Beacon). No esa- lego is a choice card (an option with a glyph, a title and a line of description) or a person row
+// with a role; checked Beacon (plan-create-dialog has no views or people; plan-settings-drawer has levels only). The
+// CSS is those two rows and the sections.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnDangerZone from './BcnDangerZone.astro';
+import BcnPlanListEditor from './BcnPlanListEditor.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
+
+const LISTS = [
+  { id: 'documentTypes', title: 'Document Types', noun: 'Document Type', placeholder: 'e.g. Field Notes', hint: 'What a document can be filed as. Each level’s Documents card can offer some or all of them.' },
+  { id: 'results', title: 'Completion Results', noun: 'Result', placeholder: 'e.g. Accepted', hint: 'What Record Completion offers as the outcome of a deliverable.' },
+  { id: 'purposes', title: 'Transmittal Purposes', noun: 'Purpose', placeholder: 'e.g. For Review', hint: 'Why a deliverable is sent, chosen on each transmittal.' },
+  { id: 'agencies', title: 'Agencies', noun: 'Agency', placeholder: 'e.g. USFWS', hint: 'The agencies the plan sends to and hears from.' },
+];
 ---
 
 <div class="bcn-psu" data-bcn-plan-setup>
@@ -31,8 +49,8 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
         <h3 class="bcn-psu__heading" id="psu-general"><EsaIcon name="file-text" size="sm" />General</h3>
         <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
         <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
-        <!-- New Plan only (2026-10-28): a template brings its levels, fields and page layouts; Save as Template on a
-             plan's settings page adds to the list. -->
+        <!-- New Plan only (2026-10-28): a template brings its levels, fields and page layouts; Save as Template in a
+             plan's settings adds to the list. -->
         <span data-psu-template-wrap hidden><esa-select data-psu-template label="Start From" size="sm" help-text="A template brings its levels, fields and page layouts."></esa-select></span>
       </section>
 
@@ -58,7 +76,7 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
         <h3 class="bcn-psu__heading" id="psu-levels"><EsaIcon name="list-tree" paths={PLAN_ICON_PATHS['list-tree']} size="sm" />Levels</h3>
         <p class="bcn-psu__hint typography-body-sm" data-psu-levels-hint>From the top of the plan down, up to 4.</p>
         <div class="bcn-psu__level bcn-psu__level--head typography-label-sm" aria-hidden="true">
-          <span></span><span>Singular</span><span>Plural</span><span></span>
+          <span></span><span>Singular</span><span>Plural</span><span data-psu-plan-only></span><span></span>
         </div>
         <div class="bcn-psu__levels" data-psu-levels></div>
         <span class="bcn-psu__add" data-psu-add-level><EsaButton variant="ghost" size="xs" icon="plus">Add Level</EsaButton></span>
@@ -70,6 +88,33 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
         <ul class="bcn-psu__people" data-psu-people></ul>
         <esa-combobox class="bcn-psu__find" data-psu-add-person mode="autocomplete" size="sm" label="Add a Person" placeholder="e.g. Dana Whitfield"></esa-combobox>
         <p class="bcn-psu__error typography-body-sm" data-psu-people-error hidden>A plan needs an Owner.</p>
+      </section>
+
+      <section class="bcn-psu__section" data-psu-plan-only aria-labelledby="psu-lists">
+        <h3 class="bcn-psu__heading" id="psu-lists"><EsaIcon name="tag" paths={PLAN_ICON_PATHS.tag} size="sm" />Lists</h3>
+        <p class="bcn-psu__hint typography-body-sm">What the plan’s cards offer, in the order they offer it. A renamed document type carries through to the levels that use it.</p>
+        <div class="bcn-psu__lists">
+          {
+            LISTS.map((l) => (
+              <div class="bcn-psu__list" data-psu-list={l.id}>
+                <EsaCollapsible title={l.title}>
+                  <p class="bcn-psu__hint typography-body-sm">{l.hint}</p>
+                  <BcnPlanListEditor noun={l.noun} placeholder={l.placeholder} id={l.id} />
+                </EsaCollapsible>
+              </div>
+            ))
+          }
+        </div>
+        <esa-text-field class="bcn-psu__days" data-psu="ackDays" type="number" size="sm" label="Days to Confirm Receipt" suffix="days" inputmode="numeric" help-text="How long a To recipient has to confirm a transmittal before Beacon reminds them and the sender."></esa-text-field>
+      </section>
+
+      <section class="bcn-psu__section" data-psu-plan-only aria-labelledby="psu-template">
+        <h3 class="bcn-psu__heading" id="psu-template"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="sm" />Template</h3>
+        <p class="bcn-psu__hint typography-body-sm" data-psu-template-hint></p>
+        <div class="bcn-psu__template">
+          <esa-text-field data-psu="templateName" size="sm" label="Template Name"></esa-text-field>
+          <span data-psu-template-save><EsaButton variant="ghost" appearance="outline" size="sm" icon="layout-template" data-fill-icon="layout-template">Save as Template</EsaButton></span>
+        </div>
       </section>
 
       <div data-psu-danger hidden>
@@ -92,6 +137,9 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
       <span class="bcn-psu__level-label typography-label-sm" data-level-label>Level 1</span>
       <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="singular"></esa-text-field>
       <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="plural"></esa-text-field>
+      <span class="bcn-psu__level-page" data-psu-plan-only>
+        <esa-tooltip data-level-page-tip position="above"><span data-level-page><EsaButton variant="ghost" size="xs" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></span></esa-tooltip>
+      </span>
       <span class="bcn-psu__level-remove" data-level-remove-wrap>
         <esa-tooltip text="Remove Level" data-level-remove-tip><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove Level" data-level-remove /></esa-tooltip>
       </span>
@@ -155,9 +203,13 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
 
   /* Levels: BcnPlanCreateDialog's grid. The remove cell is an xs button's width, so the heads line up with the rows. */
   .bcn-psu__levels { display: contents; }
-  .bcn-psu__level { display: grid; grid-template-columns: 4.5rem 1fr 1fr 2rem; align-items: start; gap: var(--spacing-200); }
+  .bcn-psu__level { display: grid; grid-template-columns: 4.5rem 1fr 1fr auto 2rem; align-items: start; gap: var(--spacing-200); }
+  /* New Plan has no items yet, so no level's page to customize: the column goes. */
+  .bcn-psu[data-new] .bcn-psu__level { grid-template-columns: 4.5rem 1fr 1fr 2rem; }
+  .bcn-psu[data-new] [data-psu-plan-only] { display: none !important; }
   .bcn-psu__level--head { color: var(--color-content-default-secondary); }
   .bcn-psu__level-label,
+  .bcn-psu__level-page,
   .bcn-psu__level-remove { display: flex; align-items: center; min-block-size: 2.375rem; }
   .bcn-psu__level-label { color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-psu__add { align-self: flex-start; }
@@ -168,6 +220,14 @@ import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/plan
   .bcn-psu__person + .bcn-psu__person { border-block-start: 1px solid var(--color-border-default-subtle); }
   .bcn-psu__person-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-psu__person-name :global(small) { margin-inline-start: var(--spacing-200); color: var(--color-content-default-secondary); font-size: var(--font-size-100); }
+
+  /* Lists: one collapsible each, its count beside the name; the editor inside. */
+  .bcn-psu__lists { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-psu__list :global(.esa-collapsible__body) { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-psu__list :global(.bcn-psu__count) { margin-inline-start: var(--spacing-200); color: var(--color-content-default-secondary); font-weight: 400; }
+  .bcn-psu__days { max-inline-size: 30rem; }
+  .bcn-psu__template { display: flex; align-items: flex-end; gap: var(--spacing-200); }
+  .bcn-psu__template esa-text-field { flex: 1 1 auto; max-inline-size: 24rem; }
 
   .bcn-psu__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
   .bcn-psu__footer .bcn-psu__error { margin-inline-end: auto; }
