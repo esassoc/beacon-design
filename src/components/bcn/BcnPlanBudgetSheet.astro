@@ -1,0 +1,37 @@
+---
+// <BcnPlanBudgetSheet> — a plan's budget by fiscal year (new, 2026-10-28, Andy: "manage the schedule via this Gantt
+// chart, but manage the budget via an Excel-like table... by fiscal year"). The plan's other projected view: the same
+// elements the Gantt draws, one row each (parents sum their children), one column per California fiscal year (July to
+// June) across the plan, a Total column, and a pinned Plan Total row.
+//
+// Live reads; your draft edits a task's cells (Enter or a double-click, Tab across, Escape out), each change one edit
+// of the draft. The schedule shows through: a year outside an element's dates is shaded, and money in one is flagged.
+// The runtime is ./plan-budget-sheet.ts (setupPlanBudgetSheet).
+//
+// bcn-lego-checked: the sheet IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts, its light-header
+// variant), as Beacon's grids are; its number editor is AG Grid's. No esa- lego is an editable grid. The CSS is the
+// cell states (parent, outside the schedule, changed in the draft) and the host's height.
+---
+
+<div class="bcn-pbs" data-bcn-plan-budget-sheet>
+  <p class="bcn-pbs__note typography-body-sm" data-pbs-note hidden></p>
+  <div class="bcn-pbs__grid" data-pbs-grid></div>
+</div>
+
+<style>
+  .bcn-pbs { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-pbs :global([hidden]) { display: none !important; }
+  .bcn-pbs__note { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-pbs__grid { inline-size: 100%; }
+  /* Parents sum their children: bold, and never editable. */
+  .bcn-pbs__grid :global(.bcn-pbs__parent) { font-weight: 600; }
+  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* A year the element doesn't run in: quietly shaded, so the schedule shows through the money. */
+  .bcn-pbs__grid :global(.bcn-pbs__off) { background: color-mix(in srgb, var(--color-content-default) 3%, transparent); color: var(--color-content-default-tertiary); }
+  /* Money in a year the element doesn't run in: worth a look. */
+  .bcn-pbs__grid :global(.bcn-pbs__stray) { color: var(--color-content-utility-warning); font-weight: 600; }
+  /* A cell the draft changed from Live. */
+  .bcn-pbs__grid :global(.bcn-pbs__changed) { background: color-mix(in srgb, var(--color-background-brand) 10%, transparent); font-weight: 600; }
+  .bcn-pbs__grid :global(.bcn-pbs__editable) { cursor: text; }
+  .bcn-pbs__grid :global(.ag-row-pinned .ag-cell) { font-weight: 600; }
+</style>

@@ -59,6 +59,8 @@ export interface PlanVersion {
   at: string;
   message: string;
   note?: PlanChangeNote;
+  /** The plan's budget by fiscal year as of this revision; absent, the last one before it that carries one. */
+  budget?: PlanBudget;
   /** How many elements this version moved, against the one before it. */
   changeCount: number;
   /** A release-style name, when someone gave it one ("Submitted to CDFW"). */
@@ -78,7 +80,22 @@ export interface PlanRevision {
   message: string;
   note?: PlanChangeNote;
   overrides: PlanDraftOverrideDto[];
+  /** Edits to elements' own fields, cumulative like the overrides (2026-10-28: a draft edits more than dates). */
+  fields?: Record<string, PlanFieldEdit>;
+  /** Budget cells the draft changed, cumulative, over Live's budget (2026-10-28, the Budget view). */
+  budget?: PlanBudget;
 }
+
+/** An element's own fields as a draft changes them, beyond its dates. */
+export interface PlanFieldEdit {
+  PlanElementName?: string;
+  LevelDepth?: number;
+  IsMilestone?: boolean;
+  Notes?: string | null;
+}
+
+/** Budget by fiscal year for the elements that carry work (parents roll up): element id → fiscal year → dollars. */
+export type PlanBudget = Record<string, Record<string, number>>;
 
 export interface PlanRepoDraft {
   id: string;
@@ -121,8 +138,8 @@ interface RepoStore {
   format?: number;
 }
 
-/** Bumped when the seed's shape changes (2: revision messages in the fixed grammar; 3: change notes as data). */
-const SEED_FORMAT = 3;
+/** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year). */
+const SEED_FORMAT = 4;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -178,7 +195,7 @@ function save(store: RepoStore): void {
   }
 }
 
-const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+const clone = <T>(value: T): T => (value === undefined ? value : (JSON.parse(JSON.stringify(value)) as T));
 const uid = () => Math.random().toString(36).slice(2, 10);
 const daysAgo = (days: number, hour = 10) => {
   const d = new Date(Date.now() - days * DAY_MS);
@@ -226,6 +243,62 @@ export function flattenPlan(elements: readonly PlanElementDto[] | null | undefin
     flattenPlan(element.Children, [...path, element.PlanElementName ?? ''], out);
   }
   return out;
+}
+
+// ── Budget by fiscal year (2026-10-28, Andy: "you need to run your budgeting not as one lump sum but by fiscal year") ──
+
+/** California's fiscal year runs July 1 to June 30, named here by the year it starts in: 2026 is FY 2026–27. */
+export function fiscalYearOf(iso: string): number {
+  const [year, month] = iso.slice(0, 7).split('-').map(Number);
+  return month >= 7 ? year : year - 1;
+}
+export const fiscalYearLabel = (fy: number) => `FY ${fy}\u2013${String((fy + 1) % 100).padStart(2, '0')}`;
+export const fiscalYearSpan = (fy: number) => `Jul 1, ${fy} \u2013 Jun 30, ${fy + 1}`;
+
+/** The seed's start: each element's one budget figure spread over the fiscal years it runs in, by days, to $1,000. */
+export function spreadBudget(plan: PlanDetailDto): PlanBudget {
+  const out: PlanBudget = {};
+  for (const { element } of flattenPlan(plan.Elements)) {
+    if (element.Children?.length || element.IsMilestone || !element.Budget || !element.StartDate || !element.EndDate) continue;
+    const start = Date.parse(element.StartDate);
+    const end = Date.parse(element.EndDate) + DAY_MS;
+    if (end <= start) continue;
+    const first = fiscalYearOf(element.StartDate);
+    const last = fiscalYearOf(element.EndDate);
+    const row: Record<string, number> = {};
+    let left = element.Budget;
+    for (let fy = first; fy <= last; fy++) {
+      const from = Math.max(start, Date.UTC(fy, 6, 1));
+      const to = Math.min(end, Date.UTC(fy + 1, 6, 1));
+      const share = fy === last ? left : Math.round((element.Budget * (to - from)) / (end - start) / 1000) * 1000;
+      row[String(fy)] = share;
+      left -= share;
+    }
+    out[element.PlanElementID ?? ''] = row;
+  }
+  return out;
+}
+
+/** Cells laid over a budget: the draft's changes over Live's. */
+export function mergeBudget(base: PlanBudget, cells?: PlanBudget): PlanBudget {
+  const out: PlanBudget = {};
+  for (const [id, row] of Object.entries(base)) out[id] = { ...row };
+  for (const [id, row] of Object.entries(cells ?? {})) out[id] = { ...(out[id] ?? {}), ...row };
+  return out;
+}
+
+/** The budget as of a revision: the last one at or before it that carries one; before any, the seed's spread. */
+export function budgetAt(repo: PlanRepo, number: number = latestVersion(repo).number): PlanBudget {
+  for (let i = repo.versions.length - 1; i >= 0; i--) {
+    const v = repo.versions[i];
+    if (v.number <= number && v.budget) return v.budget;
+  }
+  return spreadBudget(repo.versions[0].plan);
+}
+
+/** A draft's budget at one of its revisions: Live's as it is now, with the draft's cells over it. */
+export function draftBudget(repo: PlanRepo, draft: PlanRepoDraft, index: number = draft.revisions.length): PlanBudget {
+  return mergeBudget(budgetAt(repo), index > 0 ? draft.revisions[index - 1].budget : undefined);
 }
 
 const elementByName = (plan: PlanDetailDto, name: string) => flattenPlan(plan.Elements).find((x) => x.element.PlanElementName?.startsWith(name))?.element;
@@ -483,7 +556,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     watchers: ['Jamie Quishenberry', 'Alex Rivera', 'Sam Okafor', 'Priya Natarajan', 'Andy Lovseth', 'Dana Whitfield'],
     starredBy: ['Jamie Quishenberry', 'Andy Lovseth'],
     versions: [
-      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), ...noted({ action: 'Created', subject: '2026 Study Outline' }), changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live) },
+      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), ...noted({ action: 'Created', subject: '2026 Study Outline' }), changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live), budget: spreadBudget(live) },
     ],
     drafts: [],
   };
@@ -550,7 +623,7 @@ async function seedVariant(store: RepoStore, name: string, description: string, 
     visibility: 'Project',
     watchers: [owner, 'Andy Lovseth'],
     starredBy: [],
-    versions: [{ number: 1, author: owner, at: daysAgo(ageDays), ...noted({ action: 'Created' }), changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(live) }],
+    versions: [{ number: 1, author: owner, at: daysAgo(ageDays), ...noted({ action: 'Created' }), changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(live), budget: spreadBudget(live) }],
     drafts: [],
   };
   if (draftName) {
@@ -657,7 +730,18 @@ export async function listPlanSummaries(): Promise<PlanSummary[]> {
 /** A draft as it stood after revision `index` (0 = nothing yet: the live plan). */
 export async function draftState(draft: PlanRepoDraft, index: number = draft.revisions.length): Promise<PlanDraftViewDto> {
   const overrides = index <= 0 ? [] : draft.revisions[index - 1].overrides;
-  return planApi.previewDraft(draft.planID, overrides);
+  const view = await planApi.previewDraft(draft.planID, overrides);
+  // The draft's edits to elements' own fields, laid over what the server previews (it knows dates only).
+  const fields = index <= 0 ? undefined : draft.revisions[index - 1].fields;
+  if (fields) {
+    for (const { element } of flattenPlan(view.Plan.Elements)) {
+      const edit = fields[element.PlanElementID ?? ''];
+      if (!edit) continue;
+      Object.assign(element, edit);
+      if (edit.LevelDepth !== undefined) element.LevelSingularName = view.Plan.Levels?.find((l) => l.Depth === edit.LevelDepth)?.SingularName ?? element.LevelSingularName;
+    }
+  }
+  return view;
 }
 
 // ── Writes ─────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -688,7 +772,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
     revisions: from
-      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions[from.revisions.length - 1]?.overrides ?? []) }]
+      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget) }]
       : [],
   };
   repo.drafts = [...repo.drafts.filter((d) => d.owner !== me), draft];
@@ -728,11 +812,21 @@ export function renameDraft(planID: string, draftID: string, name: string): void
 }
 
 /** One drop in a draft: the draft's new overrides, as its next revision. */
-export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote): PlanRevision {
+export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote, extras: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget } = {}): PlanRevision {
   const store = load();
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) throw new Error('That draft is gone.');
-  const revision: PlanRevision = { id: uid(), author: currentUserName(), at: new Date().toISOString(), ...noted(note), overrides: clone(overrides) };
+  // Fields and budget cells are cumulative like the overrides: a revision that doesn't change them carries them on.
+  const prior = draft.revisions.at(-1);
+  const revision: PlanRevision = {
+    id: uid(),
+    author: currentUserName(),
+    at: new Date().toISOString(),
+    ...noted(note),
+    overrides: clone(overrides),
+    fields: clone(extras.fields ?? prior?.fields),
+    budget: clone(extras.budget ?? prior?.budget),
+  };
   draft.revisions.push(revision);
   save(store);
   return revision;
@@ -767,10 +861,32 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
   const index = revisionIndex ?? draft.revisions.length;
   const overrides = index > 0 ? draft.revisions[index - 1].overrides : [];
   const live = latestVersion(repo).plan;
-  const next = await publishOverrides(planID, overrides, currentUserName());
+  let next = await publishOverrides(planID, overrides, currentUserName());
   const changes = planCompare(live, next);
   const ownIDs = new Set(overrides.map((o) => o.PlanElementID));
   const own = changes.filter((c) => ownIDs.has(c.id));
+  // The draft's edits to elements' own fields go to Live as element updates (dates as they now stand).
+  const rev = index > 0 ? draft.revisions[index - 1] : undefined;
+  for (const [id, edit] of Object.entries(rev?.fields ?? {})) {
+    const el = flattenPlan(next.Elements).find((x) => x.element.PlanElementID === id)?.element;
+    if (!el) continue;
+    await planApi.updateElement(
+      planID,
+      id,
+      {
+        PlanElementName: edit.PlanElementName ?? el.PlanElementName ?? '',
+        LevelDepth: edit.LevelDepth ?? el.LevelDepth,
+        StartDate: el.StartDate ?? undefined,
+        EndDate: el.EndDate ?? undefined,
+        PlanDateType: el.PlanDateType,
+        IsMilestone: edit.IsMilestone ?? el.IsMilestone,
+        Budget: el.Budget ?? null,
+        Notes: 'Notes' in edit ? edit.Notes : (el.Notes ?? null),
+      },
+      next.VersionToken
+    );
+    next = await planApi.getPlan(planID);
+  }
   const store = load();
   const fresh = findRepo(store, planID);
   const version: PlanVersion = {
@@ -783,6 +899,8 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     source: 'draft',
     draftName: draft.name,
     plan: clone(next),
+    // Live's budget with the draft's cells over it.
+    budget: mergeBudget(budgetAt(fresh), rev?.budget),
   };
   fresh.versions.push(version);
   // Part of a draft published (2026-10-28, Andy): the edits after the one published stay as the draft, on top of the
@@ -859,6 +977,7 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
     source: 'restore',
     draftName: null,
     plan: clone(next),
+    budget: clone(budgetAt(repo, number)),
   };
   fresh.versions.push(version);
   save(store);
@@ -884,6 +1003,7 @@ export async function recordLiveEdit(planID: string, note: PlanChangeNote): Prom
     source: 'edit',
     draftName: null,
     plan: clone(plan),
+    budget: clone(budgetAt(repo)),
   };
   repo.versions.push(version);
   save(store);

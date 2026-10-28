@@ -22,12 +22,16 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 ---
 
 <div class="bcn-ped" data-bcn-plan-element-drawer>
   <esa-side-dialog class="bcn-ped__dialog" size="md">
     <div slot="header" class="bcn-ped__head">
       <h2 class="bcn-ped__title typography-title" id="plan-element-drawer-title" data-ped="title"></h2>
+      <!-- Which plan it's read from (2026-10-28): the page's badge, Live Plan in orange or the draft's name in green. -->
+      <span class="bcn-ped__badge bcn-plan-state-badge" data-ped="badge" hidden><EsaBadge value="" variant="neutral" size="sm" /></span>
       <p class="bcn-ped__subtitle typography-body-sm" data-ped="subtitle" hidden></p>
     </div>
 
@@ -49,29 +53,31 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
       </div>
 
       <form class="plan-element__fields" data-ped="form" novalidate>
-        <!-- Draft mode (new design): only the dates and date type change in a draft. -->
+        <!-- Draft mode: a read-only drawer says why it's read-only (Live, someone else's draft). -->
         <p class="plan-element__hint" data-ped="draft-note" hidden>In a draft you change dates and the date type. The name, level, dependencies and structure are edited on the live plan.</p>
-        <section class="plan-element__section">
+        <!-- Sections with a heading and a glyph (2026-10-28, Andy): General, Schedule, Budget. -->
+        <section class="plan-element__section" aria-labelledby="plan-element-drawer-general-heading">
+          <h3 class="plan-element__heading" id="plan-element-drawer-general-heading"><EsaIcon name="file-text" size="sm" />General</h3>
           <esa-text-field data-ped="name" label="Name" required maxlength="500"></esa-text-field>
-
-          <!-- Level and Milestone side by side: whether it is a milestone shapes everything under Scheduling, so it sits
-               up here with what the element is, not at the end of the dates. -->
-          <div class="bcn-ped__kind">
-            <div class="bcn-ped__level">
-              <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
-              <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
-                <esa-tooltip text="Add level">
-                  <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add Level" data-ped="add-level" />
-                </esa-tooltip>
-              </span>
-            </div>
-            <!-- The reason shows as the toggle's hint, so touch and screen readers get it too. -->
-            <div class="plan-element__milestone">
-              <esa-switch-toggle data-ped="milestone" label="Milestone" size="sm"></esa-switch-toggle>
-              <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
-            </div>
+          <div class="bcn-ped__level">
+            <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
+            <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
+              <esa-tooltip text="Add level">
+                <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add Level" data-ped="add-level" />
+              </esa-tooltip>
+            </span>
           </div>
+          <esa-textarea data-ped="notes" label="Notes" rows="3" maxlength="2000"></esa-textarea>
+        </section>
 
+        <section class="plan-element__section" aria-labelledby="plan-element-drawer-schedule-heading">
+          <h3 class="plan-element__heading" id="plan-element-drawer-schedule-heading"><EsaIcon name="calendar" size="sm" />Schedule</h3>
+          <!-- Milestone leads the schedule (2026-10-28, out from beside Level): a milestone is one date, not a span. The
+               reason it can't be shows as the toggle's hint, so touch and screen readers get it too. -->
+          <div class="plan-element__milestone">
+            <esa-switch-toggle data-ped="milestone" label="Milestone" size="sm"></esa-switch-toggle>
+            <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
+          </div>
           <!-- Each picker carries its own label; the group keeps the pair's name for assistive tech. -->
           <div class="plan-element__dates" role="group" aria-label="Date Range" data-ped="dates">
             <esa-date-picker data-ped="start" label="Start Date"></esa-date-picker>
@@ -90,19 +96,26 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
             <p class="plan-element__help" id="plan-element-drawer-date-type-hint"><EsaIcon name="info" size="xs" /><span data-ped="date-type-hint"></span></p>
           </div>
           <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the New Dates To" hidden></esa-button-toggle>
+        </section>
 
-          <!-- New (2026-10-21): budget and notes. A milestone is a date, not work, so it has no budget. -->
+        <section class="plan-element__section" aria-labelledby="plan-element-drawer-budget-heading" data-ped="budget-section">
+          <h3 class="plan-element__heading" id="plan-element-drawer-budget-heading"><EsaIcon name="wallet" paths={PLAN_ICON_PATHS.wallet} size="sm" />Budget</h3>
+          <!-- One amount (2026-10-21), where the page has no budget sheet. A milestone is a date, not work: no budget. -->
           <div class="plan-element__budget" data-ped="budget-wrap">
             <esa-text-field data-ped="budget" label="Budget" type="number" prefix="$" min="0" step="1000"></esa-text-field>
           </div>
-          <esa-textarea data-ped="notes" label="Notes" rows="3" maxlength="2000"></esa-textarea>
+          <!-- By fiscal year (2026-10-28, the repo page): what the Budget view holds for it, read here, edited there. -->
+          <div class="bcn-ped__fy" data-ped="budget-summary" hidden>
+            <dl class="bcn-ped__fy-list" data-ped="budget-fy"></dl>
+            <span data-ped="budget-open"><EsaButton variant="ghost" appearance="outline" size="sm" icon="layout-dashboard">Open in Budget View</EsaButton></span>
+          </div>
         </section>
       </form>
 
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-waits-on-heading" data-ped="waits-on">
         <!-- The section's own action beside its heading, so an empty list and a full one both read heading → list. -->
         <div class="plan-element__heading-row">
-          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits On</h3>
+          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Waits On</h3>
           <div data-ped="add-pred-open-wrap">
             <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add Predecessor</EsaButton>
           </div>
@@ -127,7 +140,7 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
       </section>
 
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-blocks-heading" data-ped="blocks">
-        <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading">Blocks</h3>
+        <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Blocks</h3>
         <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
         <div class="plan-element__empty" data-ped="succ-none">
           <EsaEmptyState title="Nothing waits on this" description="Add it as a predecessor from another element." size="xs" />
@@ -136,6 +149,8 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
     </div>
 
     <div slot="footer" class="plan-element__actions">
+      <!-- The element's own page (2026-10-28): its full record, read-only as you land, by its level ("Open Task Page"). -->
+      <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" size="sm" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
       <EsaButton variant="primary" data-ped="save">Save</EsaButton>
       <EsaButton variant="secondary" appearance="outline" data-ped="cancel">Cancel</EsaButton>
       <EsaButton variant="secondary" appearance="outline" data-ped="close">Close</EsaButton>
@@ -213,7 +228,9 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
     flex: 1;
     min-width: 0;
   }
-  .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; }
+  /* A long name wraps tight (2026-10-28, Andy: the title's line-height was too loose). */
+  .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; line-height: 1.25; }
+  .bcn-ped__badge { align-self: flex-start; margin-block-start: var(--spacing-100); }
   .bcn-ped__subtitle { margin: 0; color: var(--color-content-default-secondary); }
 
   /* ── Unsaved changes: the notice's sentence, its two actions under it ── */
@@ -245,13 +262,7 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
     --_pad-y: calc((30px - 1lh) / 2);
   }
 
-  /* ── Level (with its inline Add level, Beacon's select suffix) beside Milestone ── */
-  .bcn-ped__kind {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: var(--spacing-300) var(--spacing-500);
-  }
+  /* ── Level, with its inline Add level (Beacon's select suffix) ── */
   .bcn-ped__level { display: flex; align-items: flex-end; gap: var(--spacing-100); }
   .bcn-ped__level-select { flex: 1; min-width: 0; }
   .bcn-ped__level-add { flex-shrink: 0; padding-bottom: var(--spacing-100); }
@@ -280,12 +291,26 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
     padding-top: var(--spacing-500);
     border-top: 1px solid var(--color-border-default-subtle);
   }
+  /* A section's heading leads with its glyph (2026-10-28), the glyph in the quiet ink so the words lead. */
   .plan-element__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
     margin: 0;
     font-size: var(--font-size-200);
     font-weight: 600;
     color: var(--color-content-default);
   }
+  .plan-element__heading :global(.esa-icon) { color: var(--color-content-default-secondary); }
+  /* Budget by fiscal year: label left, amount right, the total under a hairline. */
+  .bcn-ped__fy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-300); }
+  .bcn-ped__fy-list { display: flex; flex-direction: column; gap: var(--spacing-100); inline-size: 100%; margin: 0; font-size: var(--font-size-150); }
+  .bcn-ped__fy-list :global(div) { display: flex; justify-content: space-between; gap: var(--spacing-300); }
+  .bcn-ped__fy-list :global(dt) { color: var(--color-content-default-secondary); }
+  .bcn-ped__fy-list :global(dd) { margin: 0; font-variant-numeric: tabular-nums; }
+  .bcn-ped__fy-list :global(div[data-total]) { padding-block-start: var(--spacing-100); border-block-start: 1px solid var(--color-border-default-subtle); font-weight: 600; }
+  .bcn-ped__fy-list :global(div[data-total] dt) { color: var(--color-content-default); }
+  .plan-element__detail { margin-inline-end: auto; }
   .plan-element__heading-row {
     display: flex;
     align-items: center;

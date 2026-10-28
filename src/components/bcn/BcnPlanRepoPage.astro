@@ -27,6 +27,14 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
+import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
+import { PROGRAMS } from '../../data/fish-plan';
+import { flattenForest } from '../../data/fish-model';
+import { withBase } from '../../lib/base';
+
+// Each element's own page (2026-10-28: the drawer's footer links to it). The sample plan is drawn from the fisheries
+// plan, whose every node has a detail page; matched by name.
+const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) => [node.name, withBase(`/prototypes/fish-detail/${node.id}`)]));
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
@@ -103,13 +111,20 @@ import BcnChangeNote from './BcnChangeNote.astro';
 
   <div class="bcn-prp__body">
     <div class="bcn-prp__main">
-      <BcnPlanGantt label="Plan schedule" />
-      <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
-      <div class="bcn-prp__no-match" data-prp-no-match hidden>
-        <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
-          <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
-        </EsaEmptyState>
-      </div>
+      <!-- The plan's projected views (2026-10-28, Andy): Schedule, the Gantt, and Budget, the fiscal-year sheet; the
+           same elements in both. The tab strip is the panel's header, as About has one. -->
+      <esa-tab-layout class="bcn-prp__views" appearance="underline" size="sm" data-prp-views>
+        <div slot="panel-0" class="bcn-prp__view">
+          <BcnPlanGantt label="Plan schedule" />
+          <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
+          <div class="bcn-prp__no-match" data-prp-no-match hidden>
+            <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
+              <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
+            </EsaEmptyState>
+          </div>
+        </div>
+        <div slot="panel-1" class="bcn-prp__view bcn-prp__view--budget"><BcnPlanBudgetSheet /></div>
+      </esa-tab-layout>
       <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
       <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
         <span class="bcn-prp__link-anchor" data-prp-link-anchor></span>
@@ -166,12 +181,14 @@ import BcnChangeNote from './BcnChangeNote.astro';
   <!-- Revisions in a modal (2026-10-28, after TalentBridge): the history, and a draft's review before it publishes. -->
   <BcnPlanRevisionsDialog />
   <BcnChangeNote />
+  <script type="application/json" data-prp-detail-index set:html={JSON.stringify(detailIndex)}></script>
 </div>
 
 <script>
   import '@esa/ecology/esa-popover';
   import '@esa/ecology/esa-confirm-dialog';
   import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
 </script>
@@ -182,12 +199,12 @@ import BcnChangeNote from './BcnChangeNote.astro';
   .bcn-prp__notice-actions { display: inline-flex; gap: var(--spacing-200); margin-inline-start: auto; }
   /* The H1's badge (2026-10-28, Andy): solid, white text, his orange on Live (below AA, his call) and the identity
      green in a draft. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
-  :global([data-prp-title-badge]) {
+  :global(:is([data-prp-title-badge], .bcn-plan-state-badge)) {
     --badge-bg: var(--bcn-live-badge);
     --badge-text-color: var(--color-content-default-knockout);
     --badge-border-color: transparent;
   }
-  :global([data-prp-title-badge][data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
+  :global(:is([data-prp-title-badge], .bcn-plan-state-badge)[data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
   .bcn-prp :global([hidden]) { display: none !important; }
   .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
   .bcn-prp :global([data-glyph] svg) { display: block; }
@@ -317,6 +334,22 @@ import BcnChangeNote from './BcnChangeNote.astro';
   .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: stretch; }
   .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: minmax(0, 1fr) 2.75rem; }
   .bcn-prp__main { min-inline-size: 0; position: relative; }
+  /* The views' panel, About's twin (2026-10-28): a raised card, the tab strip as its sunken header. */
+  .bcn-prp__views {
+    display: block;
+    overflow: hidden;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    box-shadow: var(--elevation-2);
+  }
+  .bcn-prp__views::part(tabs) { padding-inline: var(--spacing-200); background: var(--color-background-elevation-sunken); }
+  /* Inside the card, the chart drops its own frame. */
+  .bcn-prp__view :global(.bcn-plan-gantt-host .bcn-plan-gantt) { border: 0; border-radius: 0; }
+  .bcn-prp__view--budget { display: block; padding: var(--spacing-300); }
+  .bcn-prp__view .bcn-prp__no-match { border: 0; border-radius: 0; }
+  /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
+  .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);
     background: var(--color-background-elevation-raised);

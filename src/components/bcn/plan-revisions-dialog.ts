@@ -131,7 +131,7 @@ export function setupPlanRevisionsDialog(opts: {
     const shift = (c: PlanChange) => (c.endOnly ? `End ${shiftText(c.shiftDays)}` : shiftText(c.shiftDays));
     chart.setAnnotations({
       draft: planDraftOverlay(from, to, null, new Set(), changed, true),
-      titleBlock: opts.concept === 'issued' ? titleBlock() : null,
+      titleBlock: null,
       rowDeltas: new Map<string, GanttRowDelta>(changes.filter((c) => c.status === 'moved').map((c) => [c.id, { text: shift(c), own: !draft || own.has(c.id) }])),
       conflicts: planConflicts(to).map((c) => ({ fromId: c.PredecessorPlanElementID, toId: c.SuccessorPlanElementID })),
       rowNotes: new Map(changes.map((c) => [c.id, [{ label: 'Was', value: formatPlanDateRange(c.fromStart, c.fromEnd, 'en-US') }]])),
@@ -143,10 +143,7 @@ export function setupPlanRevisionsDialog(opts: {
     chart.setRowFilter(only?.checked ? changed : null);
   }
 
-  function titleBlock(): { status: string; facts: string[] } {
-    if (!draft) return { status: `Revision ${getRepo(opts.planID).versions[sel.to].number}`, facts: [shortDate(getRepo(opts.planID).versions[sel.to].at)] };
-    return sel.to === 0 ? { status: 'Issued', facts: [`Revision ${latestNumber}`] } : { status: 'Draft', facts: [`Not issued, edit ${sel.to}`] };
-  }
+
 
   /** The chart zooms to what changed, with two months either side; nothing changed shows the whole plan. */
   function focusRange(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[]): { start: string; end: string } | null {

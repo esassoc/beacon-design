@@ -104,10 +104,26 @@ export interface PlanElementDrawerDraft {
   readOnly: boolean;
   /** The hint over the fields, in place of the draft one (the repo page's read-only Live, 2026-10-28). */
   note?: string;
+  /** Every field editable, not only the dates (the repo page's own draft, 2026-10-28): Save carries them all. */
+  editsFields?: boolean;
+  /** The header's badge in place of the subtitle: Live Plan (orange), or the draft's name (green). */
+  badge?: { text: string; state: 'live' | 'draft' };
+  /** Budget by fiscal year, read here and edited in the page's Budget view, in place of the one Budget field. */
+  budget?: () => { rows: { label: string; amount: string }[]; total: string } | null;
+  onOpenBudget?: () => void;
+  /** The element's own page ("Open Task Page"), when it has one. */
+  detail?: () => { href: string; label: string } | null;
   /** The plan as the draft has it. */
   plan(): PlanDetailDto;
   subscribe(listener: () => void): () => void;
-  save(edit: { PlanElementID: string; StartDate: string | null; EndDate: string | null; PlanDateType: PlanDateTypeEnum }): void;
+  save(edit: {
+    PlanElementID: string;
+    StartDate: string | null;
+    EndDate: string | null;
+    PlanDateType: PlanDateTypeEnum;
+    /** With editsFields: the element's own fields as the form has them. */
+    fields?: { PlanElementName: string; LevelDepth?: number; IsMilestone: boolean; Notes: string | null };
+  }): void;
 }
 
 export interface PlanElementDrawerHandle {
@@ -407,7 +423,7 @@ export function openPlanElementDrawer(args: {
   for (const el of [nameField, levelField, startField, endField, dateTypeField, budgetField, notesField] as ValueEl[]) el.disabled = fieldsDisabled;
   milestoneField.disabled = form.controls.IsMilestone.disabled;
   // A draft changes dates and Estimated/Scheduled only; the rest is edited on the live plan.
-  if (draft) for (const el of [nameField, levelField, milestoneField, budgetField, notesField] as ValueEl[]) el.disabled = true;
+  if (draft && !draft.editsFields) for (const el of [nameField, levelField, milestoneField, budgetField, notesField] as ValueEl[]) el.disabled = true;
   milestoneField.removeAttribute('aria-describedby');
 
   // ── render(): everything her template binds ──
@@ -418,7 +434,20 @@ export function openPlanElementDrawer(args: {
     q('title').textContent = t;
     const sub = subtitle();
     q('subtitle').textContent = sub;
-    show(q('subtitle'), !!sub);
+    const badge = draft?.badge;
+    show(q('badge'), !!badge);
+    if (badge) {
+      q('badge').dataset.state = badge.state;
+      const text = q('badge').querySelector('.esa-badge__text');
+      if (text) text.textContent = badge.text;
+    }
+    show(q('subtitle'), !!sub && !badge);
+    const detail = draft?.detail?.() ?? null;
+    show(q('detail'), !!detail);
+    if (detail) {
+      q<HTMLAnchorElement>('detail-link').href = detail.href;
+      q('detail-label').textContent = detail.label;
+    }
     (dialog as unknown as { requestUpdate?: () => void }).requestUpdate?.();
 
     renderKept();
@@ -434,7 +463,7 @@ export function openPlanElementDrawer(args: {
     if (JSON.stringify(levelField.options) !== JSON.stringify(levelOpts)) levelField.options = levelOpts;
     levelField.errorText = errorOf(form.controls.LevelDepth);
     show(addLevelWrap, canAddLevel() && !draft);
-    show(q('draft-note'), !!draft);
+    show(q('draft-note'), !!draft && (!!draft.note || !draft.editsFields));
     // The shell is shared, so the markup's draft hint is kept to come back to when the next drawer has no note of its own.
     const note = q('draft-note');
     note.dataset.default ??= note.textContent ?? '';
@@ -468,8 +497,20 @@ export function openPlanElementDrawer(args: {
     q('date-type-hint').textContent = dateTypeHint();
     show(milestoneHint, children);
 
-    // Budget and notes: no budget on a milestone.
-    show(budgetWrap, !milestone);
+    // Budget: none on a milestone. By fiscal year where the page has a budget sheet; else the one amount.
+    const fy = draft?.budget ? draft.budget() : null;
+    show(q('budget-section'), !milestone);
+    show(budgetWrap, !milestone && !draft?.budget);
+    show(q('budget-summary'), !milestone && !!draft?.budget);
+    if (fy) {
+      const row = (label: string, amount: string, total = false) => {
+        const div = document.createElement('div');
+        if (total) div.dataset.total = '';
+        div.append(Object.assign(document.createElement('dt'), { textContent: label }), Object.assign(document.createElement('dd'), { textContent: amount }));
+        return div;
+      };
+      q('budget-fy').replaceChildren(...fy.rows.map((r) => row(r.label, r.amount)), row('Total', fy.total, true));
+    }
     budgetField.errorText = errorOf(form.controls.Budget);
     budgetField.helpText = flags.Budget ?? '';
     notesField.errorText = errorOf(form.controls.Notes);
@@ -683,7 +724,15 @@ export function openPlanElementDrawer(args: {
     const value = form.getRawValue();
     if (draft && target.kind === 'edit') {
       isSaving = false;
-      draft.save({ PlanElementID: target.planElementID, StartDate: value.StartDate || null, EndDate: (value.IsMilestone ? value.StartDate : value.EndDate) || null, PlanDateType: value.PlanDateType });
+      draft.save({
+        PlanElementID: target.planElementID,
+        StartDate: value.StartDate || null,
+        EndDate: (value.IsMilestone ? value.StartDate : value.EndDate) || null,
+        PlanDateType: value.PlanDateType,
+        ...(draft.editsFields
+          ? { fields: { PlanElementName: value.PlanElementName.trim(), LevelDepth: value.LevelDepth ?? undefined, IsMilestone: value.IsMilestone, Notes: value.Notes.trim() || null } }
+          : {}),
+      });
       close();
       return;
     }
@@ -1079,6 +1128,8 @@ export function openPlanElementDrawer(args: {
   // ── Wiring (removed on close) ──
   const ac = new AbortController();
   const on = (el: EventTarget, type: string, handler: (e: Event) => void) => el.addEventListener(type, handler, { signal: ac.signal });
+  // The Budget section's way to the sheet, where the fiscal years are edited.
+  on(q('budget-open'), 'click', () => draft?.onOpenBudget?.());
   const detailValue = (e: Event, el: { value: unknown }) => String((e as CustomEvent<{ value: unknown }>).detail?.value ?? el.value ?? '');
   const touch = (control: AbstractControl) => () => {
     control.markAsTouched();

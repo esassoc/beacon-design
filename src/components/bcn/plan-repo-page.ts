@@ -9,7 +9,8 @@ import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
-import { fillIcons, planIcon } from '../../lib/planning/icons';
+import { setupPlanBudgetSheet } from './plan-budget-sheet';
+import { PLAN_ICON_PATHS, fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
@@ -39,6 +40,12 @@ import {
   planSpan,
   restoreRevision,
   revisionNote,
+  mergeBudget,
+  budgetAt,
+  draftBudget,
+  fiscalYearLabel,
+  type PlanBudget,
+  type PlanFieldEdit,
   type PlanChangeNote,
   shortDate,
   startDraft,
@@ -244,21 +251,53 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   /** Your draft takes edits (a drag, or the element drawer's Save) as its next revision. */
-  async function applyEdits(edits: PlanDraftEdit[]): Promise<void> {
-    if (!edits.length || !draft || mode !== 'own' || busy) return draw();
+  async function applyEdits(edits: PlanDraftEdit[], patch?: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; note: PlanChangeNote }): Promise<void> {
+    if ((!edits.length && !patch) || !draft || mode !== 'own' || busy) return draw();
     busy = true;
     const before = shown;
-    const prior = draft!.revisions.at(-1)?.overrides ?? [];
-    const next = planDraftWithEdits(prior, edits, live, true);
-    const view = await planApi.previewDraft(planID!, next);
-    const changes = planCompare(before, view.Plan);
-    const ids = new Set(edits.map((e) => e.PlanElementID));
-    const own = changes.filter((c) => ids.has(c.id));
-    addRevision(planID!, draft!.id, next, revisionNote(own, changes.length - own.length));
+    const prior = draft!.revisions.at(-1);
+    const next = edits.length ? planDraftWithEdits(prior?.overrides ?? [], edits, live, true) : (prior?.overrides ?? []);
+    // Dates first: a date change is what the note says; a field or budget change alone says itself.
+    let note = patch?.note;
+    if (edits.length) {
+      const view = await planApi.previewDraft(planID!, next);
+      const changes = planCompare(before, view.Plan);
+      const ids = new Set(edits.map((e) => e.PlanElementID));
+      const own = changes.filter((c) => ids.has(c.id));
+      if (changes.length || !note) note = revisionNote(own, changes.length - own.length);
+    }
+    addRevision(planID!, draft!.id, next, note!, {
+      fields: patch?.fields ? { ...(prior?.fields ?? {}), ...patch.fields } : undefined,
+      budget: patch?.budget ? mergeBudget(prior?.budget ?? {}, patch.budget) : undefined,
+    });
     redo.length = 0;
-    shown = view.Plan;
+    repo = getRepo(planID!);
+    draft = repo.drafts.find((d) => d.id === draft!.id) ?? draft;
+    shown = (await draftState(draft!)).Plan;
     busy = false;
     refresh();
+  }
+
+  /** The drawer's Save in your draft: its dates as an edit, and whatever of its own fields changed. */
+  function saveFromDrawer(edit: PlanDraftEdit & { fields?: { PlanElementName: string; LevelDepth?: number; IsMilestone: boolean; Notes: string | null } }): void {
+    const el = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element;
+    if (!el) return;
+    const datesMoved = el.StartDate !== edit.StartDate || el.EndDate !== edit.EndDate || el.PlanDateType !== edit.PlanDateType;
+    const changed: PlanFieldEdit = {};
+    const f = edit.fields;
+    if (f && f.PlanElementName !== el.PlanElementName) changed.PlanElementName = f.PlanElementName;
+    if (f && f.LevelDepth !== undefined && f.LevelDepth !== el.LevelDepth) changed.LevelDepth = f.LevelDepth;
+    if (f && f.IsMilestone !== !!el.IsMilestone) changed.IsMilestone = f.IsMilestone;
+    if (f && (f.Notes ?? null) !== (el.Notes ?? null)) changed.Notes = f.Notes;
+    const keys = Object.keys(changed) as (keyof PlanFieldEdit)[];
+    if (!datesMoved && !keys.length) return;
+    const words: Record<keyof PlanFieldEdit, string> = { PlanElementName: 'Name', LevelDepth: 'Level', IsMilestone: 'Milestone', Notes: 'Notes' };
+    // A rename names both; any other field change names the item and what changed.
+    const note: PlanChangeNote =
+      keys.length === 1 && changed.PlanElementName !== undefined
+        ? { action: 'Renamed', subject: el.PlanElementName ?? '', object: changed.PlanElementName }
+        : { action: 'Edited', subject: el.PlanElementName ?? '', shift: keys.map((k) => words[k]).join(', ') };
+    void applyEdits(datesMoved ? [edit] : [], keys.length ? { fields: { [edit.PlanElementID]: changed }, note } : undefined);
   }
 
   /**
@@ -268,32 +307,128 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
    */
   async function openElement(id: string): Promise<void> {
     if (elementDrawer && !(await elementDrawer.requestClose())) return;
-    const label = mode === 'live' ? `Live Plan, Revision ${latestVersion(repo).number}` : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
     const note =
       mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change its dates.`
+        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change it.`
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
-          : `In your ${noun} you change dates and the date type. Save adds it as your next edit.`;
+          : undefined;
     const handle = openPlanElementDrawer({
       target: { kind: 'edit', planElementID: id },
       onOpenElement: (other) => void openElement(other),
       draft: {
-        label,
+        label: mode === 'live' ? 'Live Plan' : draft!.name,
+        // The page's own badge in the drawer's header (2026-10-28): Live Plan in orange, the draft's name in green.
+        badge: { text: mode === 'live' ? 'Live Plan' : draft!.name, state: mode === 'live' ? 'live' : 'draft' },
         readOnly: mode !== 'own',
+        // Your draft edits every field, not only the dates (2026-10-28, Andy: "those shouldn't be disabled").
+        editsFields: mode === 'own',
         note,
         plan: () => shown,
         subscribe: (listener) => {
           drawerListeners.add(listener);
           return () => drawerListeners.delete(listener);
         },
-        save: (edit) => void applyEdits([edit]),
+        save: (edit) => saveFromDrawer(edit),
+        budget: () => budgetSummary(id),
+        onOpenBudget: () => {
+          void handle.requestClose().then((closed) => closed && setView('budget', id));
+        },
+        detail: () => detailOf(id),
       },
     });
     elementDrawer = handle;
     void handle.closed.then(() => {
       if (elementDrawer === handle) elementDrawer = null;
     });
+  }
+
+  /** The plan's budget as this view has it: Live's, or the draft's cells over Live's. */
+  const currentBudget = (): PlanBudget => (draft && mode !== 'live' ? draftBudget(repo, draft) : budgetAt(repo));
+  const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+  /** An element's budget by fiscal year, read-only for the drawer: its own cells, or its children's summed. */
+  function budgetSummary(id: string): { rows: { label: string; amount: string }[]; total: string } | null {
+    const budget = currentBudget();
+    const node = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element;
+    if (!node) return null;
+    const ids = flattenPlan([node]).map((x) => x.element.PlanElementID ?? '');
+    const byYear = new Map<number, number>();
+    for (const leaf of ids) for (const [fy, amount] of Object.entries(budget[leaf] ?? {})) byYear.set(Number(fy), (byYear.get(Number(fy)) ?? 0) + amount);
+    const years = [...byYear.keys()].sort((a, b) => a - b).filter((fy) => byYear.get(fy));
+    const total = years.reduce((sum, fy) => sum + byYear.get(fy)!, 0);
+    return { rows: years.map((fy) => ({ label: fiscalYearLabel(fy), amount: dollars.format(byYear.get(fy)!) })), total: dollars.format(total) };
+  }
+
+  /** The element's own page, by its name in the fisheries plan; "Open Task Page" by its level. */
+  const detailIndex: Record<string, string> = JSON.parse(document.querySelector('[data-prp-detail-index]')?.textContent || '{}');
+  function detailOf(id: string): { href: string; label: string } | null {
+    const el = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element;
+    const href = el?.PlanElementName ? detailIndex[el.PlanElementName] : undefined;
+    return href ? { href, label: `Open ${el!.LevelSingularName ?? 'Element'} Page` } : null;
+  }
+
+  // ── Views (2026-10-28, Andy: "a plan has multiple projected views, like the Gantt chart and a spreadsheet") ──
+  // Schedule is the Gantt; Budget is the fiscal-year sheet over the same elements. The panel's tabs switch them, the
+  // URL keeps the choice (&view=budget), and the drawer's Open in Budget View lands on the element's row.
+  type View = 'schedule' | 'budget';
+  const views = q<HTMLElement & { tabs: { label: string; icon?: string }[]; activeIndex: number }>('[data-prp-views]');
+  const glyph = (name: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PLAN_ICON_PATHS[name] ?? ''}</svg>`;
+  let view: View = params.get('view') === 'budget' ? 'budget' : 'schedule';
+  root.dataset.view = view;
+  void customElements.whenDefined('esa-tab-layout').then(() => {
+    views.tabs = [
+      { label: 'Schedule', icon: glyph('calendar') },
+      { label: 'Budget', icon: glyph('sheet') },
+    ];
+    views.activeIndex = view === 'budget' ? 1 : 0;
+  });
+  views.addEventListener('tabchange', (e) => setView((e as CustomEvent<{ index: number }>).detail.index === 1 ? 'budget' : 'schedule'));
+  function setView(next: View, focusID?: string): void {
+    view = next;
+    root.dataset.view = next;
+    const index = next === 'budget' ? 1 : 0;
+    if (views.activeIndex !== index) views.activeIndex = index;
+    if (next === 'budget') params.set('view', 'budget');
+    else params.delete('view');
+    const url = new URL(location.href);
+    if (next === 'budget') url.searchParams.set('view', 'budget');
+    else url.searchParams.delete('view');
+    history.replaceState(history.state, '', url);
+    drawSheet();
+    if (focusID) requestAnimationFrame(() => sheet.focus(focusID));
+  }
+
+  const sheet = setupPlanBudgetSheet(q<HTMLElement>('[data-bcn-plan-budget-sheet]'), {
+    onEdit: (id, fy, value) => budgetEdit(id, fy, value),
+    onOpen: (id) => void openElement(id),
+  });
+  function drawSheet(): void {
+    if (view !== 'budget') return;
+    const note = q<HTMLElement>('[data-pbs-note]');
+    note.hidden = mode === 'own';
+    note.textContent =
+      mode === 'live'
+        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change the budget.`
+        : mode === 'view'
+          ? `${firstName(draft!.owner)}'s draft is read-only.`
+          : '';
+    sheet.set({
+      plan: shown,
+      budget: currentBudget(),
+      base: draft && mode !== 'live' ? budgetAt(repo) : null,
+      editable: mode === 'own',
+      query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
+      heading: planGanttView(shown).outlineHeading,
+    });
+  }
+  /** A cell changed in your draft: one edit, "Budget Set". */
+  function budgetEdit(id: string, fy: number, value: number): void {
+    if (mode !== 'own') return drawSheet();
+    if ((currentBudget()[id]?.[String(fy)] ?? 0) === value) return;
+    const name = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
+    void applyEdits([], { budget: { [id]: { [String(fy)]: value } }, note: { action: 'Budget Set', subject: name, object: fiscalYearLabel(fy), shift: dollars.format(value) } });
   }
 
   // ── A dependency as an object, on Live: change its lag or unlink it; either is the next revision ──
@@ -427,26 +562,17 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       rowNotes: conceptNotes(),
       countsDependents: false,
       paper: paper && mode !== 'live',
-      titleBlock: issued ? titleBlock() : null,
+      // No title block (2026-10-28, Andy: "Issued, Revision 7" said again what the badge and the strip say).
+      titleBlock: null,
       stamp: issued && study.stamp && mode !== 'live' ? `${noun === 'draft' ? 'Draft' : 'Scenario'}, not issued` : null,
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
     drawerListeners.forEach((listener) => listener());
+    drawSheet();
   }
 
-  /** The chart's title block: what this chart is, and the facts that pin it down. */
-  function titleBlock(): { status: string; facts: string[] } {
-    // The status, then one phrase that pins it down: never a strip of separate facts. The title block owns the
-    // revision; the band and the status line don't repeat it.
-    if (mode === 'live') {
-      const latest = latestVersion(repo);
-      return { status: 'Issued', facts: [`Revision ${latest.number}, ${shortDate(latest.at)}`] };
-    }
-    const d = draft!;
-    const facts = [d.publishRequestedAt ? 'Publish requested' : `Not issued, from revision ${d.baseVersion}`];
-    return { status: mode === 'own' ? (noun === 'draft' ? 'Draft' : 'Scenario') : `${firstName(d.owner)}'s Draft`, facts };
-  }
+
 
   /**
    * What the draft looks like on the chart, by concept: one mark per row (never a ghost of Live), each row the draft
@@ -867,6 +993,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const found = chart.setFilter(text);
     noMatch.hidden = !text || found > 0;
     if (text && !found) noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing Matches “${text}”`;
+    drawSheet();
   };
   search.addEventListener('change', () => {
     clearTimeout(searchTimer);
