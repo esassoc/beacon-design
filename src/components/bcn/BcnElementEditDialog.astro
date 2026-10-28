@@ -2,9 +2,10 @@
 // <BcnElementEditDialog> — an element's Edit, as one large form (2026-10-28, Andy: "Edit in a Draft from the detail
 // page... does this make sense? Shouldn't this just open a form modal (x-large)... and then a republish review?").
 // Everything planned about the item in one place: its name, its dates and their kind, whether it's a milestone, its
-// owners, whether it's a deliverable, its level's fields and its notes. On Live, Review Changes hands the edit to the
-// plan's Review and Publish modal (what changes, what follows, then Publish as Revision N); in your own draft, Save to
-// Draft adds it as the draft's next edit; someone who can't publish saves it to their scenario. Records (documents,
+// owners, whether it's a deliverable, its level's fields and its notes. Draft first (2026-10-28, Andy's call): from Live,
+// Save to My Draft adds it to your draft (started if you have none), reviewed and published from there; in your draft,
+// Save to Draft adds its next edit. Publish Now shows only when nothing else moves and no open draft changes the item,
+// so publishing a draft later can't put the edit back. Records (documents,
 // sends, status, comments) aren't here: they're kept on Live, in their cards. The runtime is ./element-edit-dialog.ts.
 //
 // bcn-lego-checked: the shell IS esa-dialog (lg, widened through its own --dialog-width-lg hook); fields ARE
@@ -61,7 +62,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     <div slot="footer" class="bcn-eed__footer">
       <span class="bcn-eed__where" data-eed-where></span>
       <span data-eed-cancel><EsaButton variant="ghost" size="sm">Cancel</EsaButton></span>
-      <span data-eed-submit><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge"><span data-eed-submit-label>Review Changes</span></EsaButton></span>
+      <span data-eed-publish hidden><EsaButton variant="secondary" size="sm" icon="git-merge" data-fill-icon="git-merge">Publish Now</EsaButton></span>
+      <span data-eed-submit><EsaButton variant="primary" size="sm" icon="git-branch" data-fill-icon="git-branch"><span data-eed-submit-label>Save to My Draft</span></EsaButton></span>
     </div>
   </esa-dialog>
   <template data-eed-tpl="remove"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></template>

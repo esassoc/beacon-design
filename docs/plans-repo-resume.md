@@ -76,7 +76,7 @@ Personas: default user is Andy (Owner everywhere). `?user=Alex%20Rivera` (Editor
 ## Gotchas that cost time
 
 - `esa-dialog` sends no `close` event when code sets `open = false`; watch the reflected `open` attribute with a
-  `MutationObserver` (see `closed()` in `plan-element-page.ts`).
+  `MutationObserver`.
 - A lego's own `display` beats `[hidden]`; add `:global([hidden]) { display: none !important; }` in the container.
 - Astro: `:global(...)` inside `:is(...)` doesn't compile to what you expect; write separate rules. Named slots passed
   from a conditional expression are dropped. `esa-card` renders its `actions` slot only with its default header.
@@ -104,12 +104,11 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
 
 ## Open work, in priority order
 
-1. **The edit model (needs Andy's call).** An item's Edit publishes straight to Live, and nothing checks open drafts
-   that change the same item, so publishing that draft later quietly reverts Live's edit. Two options:
-   - The reviewer's: item Edit always works in your draft (create or reuse it), then Review and Publish; a "Publish
-     Now" shortcut only when nothing cascades and no open draft touches the item.
-   - The lighter one I proposed: keep form-then-review, add a warning ("Alex's draft also changes this item") before
-     publish, and mark changed fields on item pages in a draft.
+1. ~~The edit model~~ **Done: draft first.** An item's Edit saves to your draft (started or reused) and the page
+   follows it there; Review and Publish sits in the item page's header in your draft. If your own draft already
+   changes the item, Edit opens it there. Publish Now shows only for Owners and Editors when no open draft changes the
+   item (`draftsTouching` in `plan-repo.ts`) and goes through only when nothing else moves; otherwise the form says
+   why. Check: `editmodal.mjs` (26).
 2. **Effects in the review.** Review and Publish should list conflicts created or worsened, overruns, budget left in
    fiscal years an item no longer covers, and deliverable due dates that moved. In single mode drop the slider and
    the Compare toggle; the From column shouldn't show the previous revision's own note.

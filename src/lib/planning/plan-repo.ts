@@ -1031,6 +1031,29 @@ export function myDraft(planID: string): PlanRepoDraft | null {
   return getRepo(planID).drafts.find((d) => d.owner === me && !d.transient) ?? null;
 }
 
+/**
+ * The open drafts (anyone's, the short-lived ones aside) that change this item: its dates, its fields, its budget or
+ * its attributes, or its dates moved by another of the draft's edits (2026-10-28, the draft-first edit model: Publish
+ * Now is offered only when none does, so publishing one later can't quietly put Live's edit back).
+ */
+export async function draftsTouching(planID: string, elementId: string, live: PlanDetailDto): Promise<PlanRepoDraft[]> {
+  const was = flattenPlan(live.Elements).find((x) => x.element.PlanElementID === elementId)?.element;
+  const out: PlanRepoDraft[] = [];
+  for (const d of getRepo(planID).drafts) {
+    const rev = d.revisions.at(-1);
+    if (d.transient || !rev) continue;
+    const direct = rev.overrides.some((o) => o.PlanElementID === elementId) || !!rev.fields?.[elementId] || !!rev.budget?.[elementId] || !!rev.attributes?.[elementId];
+    if (direct) {
+      out.push(d);
+      continue;
+    }
+    if (!rev.overrides.length || !was) continue;
+    const now = flattenPlan((await draftState(d)).Plan.Elements).find((x) => x.element.PlanElementID === elementId)?.element;
+    if (now && (now.StartDate !== was.StartDate || now.EndDate !== was.EndDate)) out.push(d);
+  }
+  return out;
+}
+
 /** An element page's Edit: a draft of its own holding one edit while it's reviewed. The person's draft, if any, is left
  *  alone; the review publishes this one or the page discards it. */
 export function startEditDraft(planID: string, itemName: string): PlanRepoDraft {

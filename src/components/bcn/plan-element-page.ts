@@ -5,9 +5,9 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, startDraft, startEditDraft, discardDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, publishDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits } from '../../lib/planning/plan-draft';
-import { setupElementEditDialog, type EditMode, type ElementEdit } from './element-edit-dialog';
+import { setupElementEditDialog, type ElementEdit } from './element-edit-dialog';
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
@@ -141,8 +141,10 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       return;
     }
     for (const name of ['prev', 'next', 'open-plan']) set(name, true);
-    // Edit: on Live for anyone who keeps the plan (reviewed, then published, or saved to a scenario), in your own draft.
+    // Edit: on Live for anyone who keeps the plan (it goes to their draft), in your own draft. Review and Publish: in your
+    // own draft, for someone who can publish (draft first: the way an item's edit reaches Live).
     set('edit', (c.mode === 'live' && c.myRole !== 'Guest') || c.mode === 'own');
+    set('review', c.mode === 'own' && (c.myRole === 'Owner' || c.myRole === 'Editor'));
     set('back', c.mode === 'own' || c.mode === 'view');
     // Customize Page: the level's page, for its Owners, from Live.
     set('customize', c.mode === 'live' && c.myRole === 'Owner');
@@ -219,7 +221,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     } catch {
       return missing(false);
     }
-    draft = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
+    draft = repo.drafts.find((d) => d.id === new URLSearchParams(location.search).get('draft')) ?? null;
     const shown = draft ? (await draftState(draft)).Plan : live;
     ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
     if (!ctx) return missing(true);
@@ -271,14 +273,23 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   });
   window.addEventListener('storage', soon);
 
-  // ── Edit (2026-10-28, Andy: "Shouldn't this just open a form modal (x-large)... and then a republish review?") ──
-  // On Live, for someone who can publish: the form, then the plan's Review and Publish on a short-lived draft holding
-  // just this edit. Publishing lands it as Live's next revision; closing the review throws that draft away and goes
-  // back to the form as it was left. In your own draft, the form saves as its next edit. Someone who can't publish
-  // saves it to their scenario.
+  // ── Edit (2026-10-28, draft first: Andy's call on the review's edit model) ──
+  // Every edit goes to a draft: from Live, Save to My Draft adds it to yours (started if you have none) and the page
+  // follows it there, where Review and Publish takes it to Live with the rest of the draft. If your draft already
+  // changes the item, the form opens on the draft's version of it. Publish Now, the one shortcut, is offered only to
+  // someone who can publish, when no open draft changes the item, and goes through only when nothing else moves;
+  // otherwise publishing that draft later would quietly put Live's edit back.
   const editDialog = setupElementEditDialog(document.querySelector<HTMLElement>('[data-bcn-element-edit]')!);
-  const review = setupPlanRevisionsDialog({ planID, canPublish: true, concept: null, onLanded: () => undefined });
-  const reviewEl = document.querySelector<HTMLElement>('[data-bcn-plan-revisions-dialog]')!;
+  const review = setupPlanRevisionsDialog({
+    planID,
+    canPublish: true,
+    concept: null,
+    // Published: back on Live, unless part of the draft stayed.
+    onLanded: async () => {
+      if (draft && !getRepo(planID).drafts.some((d) => d.id === draft!.id)) history.replaceState(null, '', ELEMENT_HREF(planID, elementId));
+      await refresh();
+    },
+  });
   /** The edit as a draft's next revision: dates as overrides (and what follows them), fields, attributes. */
   function applyEdit(draftID: string, edit: ElementEdit): void {
     const d = getRepo(planID).drafts.find((x) => x.id === draftID);
@@ -289,50 +300,80 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     const attributes = edit.attributes ? mergeAttributes(prior?.attributes ?? {}, { [elementId]: edit.attributes }) : undefined;
     addRevision(planID, d.id, overrides, { action: 'Edited', subject: ctx.element.PlanElementName ?? '', shift: edit.changed.join(', ') }, { fields, attributes });
   }
-  /** Resolves when a dialog shuts, however it's shut (esa-dialog sends no event when its code sets open to false). */
-  const closed = (el: HTMLElement) =>
-    new Promise<void>((resolve) => {
-      const watch = new MutationObserver(() => {
-        if (el.hasAttribute('open')) return;
-        watch.disconnect();
-        resolve();
-      });
-      watch.observe(el, { attributes: true, attributeFilter: ['open'] });
-    });
+  /** The page shows a draft (or Live, with null) without reloading: the URL, then a redraw. */
+  async function show(draftID: string | null): Promise<void> {
+    history.pushState(null, '', ELEMENT_HREF(planID, elementId, draftID));
+    await refresh();
+  }
+  /** The other items an edit's dates would move (leaves only: a parent's span follows its items anyway). */
+  async function moves(edit: ElementEdit): Promise<number> {
+    if (!edit.dates || !ctx) return 0;
+    const live = ctx.live;
+    const view = await planApi.previewDraft(planID, planDraftWithEdits([], [edit.dates], live, true));
+    const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
+    return flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
+      const w = was.get(e.PlanElementID);
+      return e.PlanElementID !== elementId && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
+    }).length;
+  }
+  const firstName = (n: string) => n.split(' ')[0];
   async function edit(): Promise<void> {
     if (!ctx) return;
     const canPublish = ctx.myRole === 'Owner' || ctx.myRole === 'Editor';
-    const mode: EditMode = ctx.mode === 'own' ? 'save' : canPublish ? 'review' : 'scenario';
-    let keep = false;
-    for (;;) {
-      const result = await editDialog.open(ctx, mode, keep);
-      if (!result) return;
-      if (mode === 'save' && draft) {
-        applyEdit(draft.id, result);
-        pushAlert('Saved to your draft.', 'success');
-        await refresh();
+    if (ctx.mode === 'live') {
+      const touching = await draftsTouching(planID, elementId, ctx.live);
+      const mine = myDraft(planID);
+      // Your draft already changes it: edit it there, on the draft's version.
+      if (mine && touching.some((d) => d.id === mine.id)) {
+        await show(mine.id);
+        pushAlert('Your draft already changes this item, so it opens there.', 'info');
+        return edit();
+      }
+      const others = touching.map((d) => firstName(d.owner));
+      let where = !canPublish
+        ? 'Saved to your draft; someone who can publish takes it to Live.'
+        : others.length
+          ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so this edit goes to your draft.`
+          : 'Saved to your draft, to review and publish with it.';
+      let publishNow = canPublish && !others.length;
+      let keep = false;
+      for (;;) {
+        const result = await editDialog.open(ctx, { label: 'Save to My Draft', where, publishNow }, keep);
+        if (!result) return;
+        if (result.publishNow) {
+          const n = await moves(result.edit);
+          if (n) {
+            // Something else moves: that's for the review, so back to the form with Publish Now gone.
+            where = `It moves ${n} other ${n === 1 ? 'item' : 'items'}, so it goes to your draft for review.`;
+            publishNow = false;
+            keep = true;
+            continue;
+          }
+          const temp = startEditDraft(planID, ctx.element.PlanElementName ?? 'Item');
+          applyEdit(temp.id, result.edit);
+          const version = await publishDraft(planID, temp.id);
+          await refresh();
+          pushAlert(`Published as Revision ${version.number}.`, 'success');
+          return;
+        }
+        const target = startDraft(planID, undefined, 'Draft');
+        applyEdit(target.id, result.edit);
+        await show(target.id);
+        pushAlert(canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish from the plan when it’s ready.', 'success', 7000);
         return;
       }
-      if (mode === 'scenario') {
-        const mine = startDraft(planID, undefined, 'Draft');
-        applyEdit(mine.id, result);
-        pushAlert('Saved to your draft. Ask to Publish from the plan when it’s ready.', 'success', 7000);
-        return;
-      }
-      const temp = startEditDraft(planID, ctx.element.PlanElementName ?? 'Item');
-      applyEdit(temp.id, result);
-      const shut = closed(reviewEl);
-      await review.open(temp.id);
-      await shut;
-      // Published: the review removed the draft and said so. Otherwise back to the form, nothing saved.
-      if (!getRepo(planID).drafts.some((d) => d.id === temp.id)) {
-        await refresh();
-        return;
-      }
-      discardDraft(planID, temp.id);
-      keep = true;
     }
+    if (ctx.mode !== 'own' || !draft) return;
+    const result = await editDialog.open(ctx, { label: 'Save to Draft', where: 'Saved as your draft’s next edit. Live changes when it’s published.', publishNow: false });
+    if (!result) return;
+    applyEdit(draft.id, result.edit);
+    pushAlert('Saved to your draft.', 'success');
+    await refresh();
   }
+  window.addEventListener('popstate', () => void refresh());
+  util('review')?.addEventListener('click', () => {
+    if (draft) void review.open(draft.id);
+  });
   util('edit')?.addEventListener('click', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));
   util('customize')?.addEventListener('click', () => custom.start());

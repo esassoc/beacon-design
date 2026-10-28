@@ -1,6 +1,6 @@
 // <BcnElementEditDialog>'s runtime (2026-10-28): the element's planned side in one form, read back as an edit. The page
-// decides what the edit becomes: on Live a short-lived draft handed to Review and Publish, in your own draft its next
-// revision, for someone who can't publish their scenario's. See ./BcnElementEditDialog.astro.
+// decides what the edit becomes: your draft's next revision (draft first, Andy's call), or, when the page offers it and
+// it's safe, Publish Now straight to Live. See ./BcnElementEditDialog.astro.
 
 import '@esa/ecology/esa-dialog';
 import '@esa/ecology/esa-text-field';
@@ -30,15 +30,20 @@ export interface ElementEdit {
   /** What changed, in the order the form shows it: "Dates", "Owners", "Lead Agency". */
   changed: string[];
 }
-/** review: on Live, for someone who can publish. save: in your own draft. scenario: on Live, for someone who can't (it
- *  goes to their draft; "Scenario" is retired as a word, 2026-10-28). */
-export type EditMode = 'review' | 'save' | 'scenario';
-
-const SUBMIT: Record<EditMode, { label: string; where: string }> = {
-  review: { label: 'Review Changes', where: 'Next: what changes on Live, then Publish.' },
-  save: { label: 'Save to Draft', where: 'Saved as your draft’s next edit. Live changes when it’s published.' },
-  scenario: { label: 'Save to My Draft', where: 'Saved to your draft; ask someone who can publish.' },
-};
+/** What the form's footer offers (2026-10-28, the draft-first edit model). Every edit saves to a draft; Publish Now is
+ *  there only when the page says it's safe (nothing else moves, no open draft changes the item). */
+export interface EditOffer {
+  /** The primary action: "Save to My Draft" from Live, "Save to Draft" in your draft. */
+  label: string;
+  /** One line beside the actions: where the edit goes, or why Publish Now isn't offered. */
+  where: string;
+  publishNow: boolean;
+}
+/** The form's answer: the edit, and whether it's to go to Live now. */
+export interface EditResult {
+  edit: ElementEdit;
+  publishNow: boolean;
+}
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => Object.assign(document.createElement(tag), { className, textContent: text });
 const opts = (list: readonly string[]) => list.map((o) => ({ value: o, label: o }));
@@ -100,7 +105,7 @@ function read(def: FieldDef, c: Lit): FieldValue {
 }
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
-export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementContext, mode: EditMode, keep?: boolean): Promise<ElementEdit | null> } {
+export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementContext, offer: EditOffer, keep?: boolean): Promise<EditResult | null> } {
   const q = <T extends HTMLElement = Lit>(sel: string) => root.querySelector<T>(sel)!;
   const dialog = q<Lit>('[data-eed-dialog]');
   // Out of the page's flow, so a redraw that moves cards around never takes the open dialog with it.
@@ -118,7 +123,7 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
   const controls = new Map<string, { def: FieldDef; c: Lit }>();
   let ctx: ElementContext | null = null;
   let owners: string[] = [];
-  let settle: (edit: ElementEdit | null) => void = () => undefined;
+  let settle: (result: EditResult | null) => void = () => undefined;
   let done = true;
 
   void customElements.whenDefined('esa-button-toggle').then(() => {
@@ -253,35 +258,34 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
     q<HTMLElement>('[data-eed-fields-title]').textContent = `${c.levelName} Fields`;
   }
 
-  q<HTMLElement>('[data-eed-submit]').addEventListener('click', () => {
+  const submit = (publishNow: boolean) => {
     const edit = collect();
     if (!edit) return;
-    if (!edit.changed.length) {
-      finish(null);
-      return;
-    }
-    finish(edit);
-  });
+    finish(edit.changed.length ? { edit, publishNow } : null);
+  };
+  q<HTMLElement>('[data-eed-submit]').addEventListener('click', () => submit(false));
+  q<HTMLElement>('[data-eed-publish]').addEventListener('click', () => submit(true));
   q<HTMLElement>('[data-eed-cancel]').addEventListener('click', () => finish(null));
   dialog.addEventListener('close', () => {
     if (!done) finish(null);
   });
-  function finish(edit: ElementEdit | null): void {
+  function finish(result: EditResult | null): void {
     if (done) return;
     done = true;
     dialog.open = false;
-    settle(edit);
+    settle(result);
   }
 
   return {
-    open(c, mode, keep = false) {
+    open(c, offer, keep = false) {
       ctx = c;
       if (!keep) fill(c);
-      q<HTMLElement>('[data-eed-submit-label]').textContent = SUBMIT[mode].label;
-      q<HTMLElement>('[data-eed-where]').textContent = SUBMIT[mode].where;
+      q<HTMLElement>('[data-eed-submit-label]').textContent = offer.label;
+      q<HTMLElement>('[data-eed-where]').textContent = offer.where;
+      q<HTMLElement>('[data-eed-publish]').hidden = !offer.publishNow;
       done = false;
       dialog.open = true;
-      return new Promise<ElementEdit | null>((resolve) => (settle = resolve));
+      return new Promise<EditResult | null>((resolve) => (settle = resolve));
     },
   };
 }
