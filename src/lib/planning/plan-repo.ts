@@ -173,8 +173,8 @@ interface RepoStore {
 
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
- *  early deliverables, a full start over). */
-const SEED_FORMAT = 6;
+ *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
+const SEED_FORMAT = 7;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
