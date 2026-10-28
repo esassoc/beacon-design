@@ -47,6 +47,15 @@ export const OBLIGATION_HREF = (id: string) => withBase(`/prototypes/data-catalo
 /** The Configure screen's working copy, read by an element page opened with `&preview=1` (its live preview). */
 export const PREVIEW_CONFIG_KEY = (planID: string) => `bcn-plan-config-preview-${planID}`;
 
+/** The element's dates as a phrase: a milestone's one date, a span's two. */
+export function datesText(el: PlanElementDto): string {
+  const day = (iso: string | undefined) => (iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
+  const start = el.SpanStartDate ?? el.StartDate;
+  const end = el.SpanEndDate ?? el.EndDate;
+  if (el.IsMilestone || !start) return end || start ? `Due ${day(end ?? start)}` : 'Not Scheduled';
+  return `${day(start)} to ${day(end ?? start)}`;
+}
+
 // ── The context ───────────────────────────────────────────────────────────────────────────────────────────────────
 
 /** live: the plan of record, read-only. own: your draft, editable. view: someone else's draft, read-only. preview: the

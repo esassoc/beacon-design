@@ -1,0 +1,214 @@
+---
+// <BcnElementLineage> — the Lineage module (2026-10-28, Andy: "some kind of lineage traversal nav/info panel one could
+// walk up and down the gantt via the detail page easy. We've done this in other data catalog pages"). The data
+// catalog's lineage rail (BcnDetailLineage on the fish detail pages, the requirement page's) carried onto the
+// element page and made to walk both ways: the parents above on the rail, this item ringed, its children below it,
+// and the items beside it (previous and next under the same parent). Every row is its page; each carries a hairline
+// of its span against the plan's, so walking the rail reads like walking the Gantt.
+//
+// Drawn at runtime (the rail changes with the element), so the treatment is restated here rather than imported:
+// BcnDetailLineage renders at build time from props. The runtime is ./element-lineage.ts.
+//
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); status dots follow the badges' colors. No esa- lego is a
+// lineage rail; the established treatment is bcn-detail-lineage (data catalog), restated for a runtime tree.
+// Checked Beacon (no lineage component in prod's shared ui). The CSS is the rail, its rows and the span hairlines.
+import BcnElementModule from './BcnElementModule.astro';
+---
+
+<BcnElementModule key="lineage">
+  <nav class="bcn-elin" aria-label="Lineage" data-elin-nav>
+    <ol class="bcn-elin__rail" data-elin-rail></ol>
+    <div class="bcn-elin__siblings" data-elin-siblings hidden>
+      <a class="bcn-elin__sib" data-elin-sib="prev" hidden><span class="bcn-elin__sib-dir">Previous</span><span class="bcn-elin__sib-name" data-elin-sib-name></span></a>
+      <a class="bcn-elin__sib bcn-elin__sib--next" data-elin-sib="next" hidden><span class="bcn-elin__sib-dir">Next</span><span class="bcn-elin__sib-name" data-elin-sib-name></span></a>
+    </div>
+  </nav>
+</BcnElementModule>
+
+<style>
+  .bcn-elin {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-elin__rail {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  /* A node: its glyph on the rail, then its level and name; the rail runs from glyph to glyph. */
+  .bcn-elin__rail :global(.bcn-elin__node) {
+    position: relative;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: var(--spacing-300);
+    padding-bottom: var(--spacing-300);
+  }
+  .bcn-elin__rail :global(.bcn-elin__node::before) {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 30px;
+    bottom: 2px;
+    width: 2px;
+    background: var(--color-border-default);
+  }
+  .bcn-elin__rail :global(.bcn-elin__node:last-child) {
+    padding-bottom: 0;
+  }
+  .bcn-elin__rail :global(.bcn-elin__node:last-child::before) {
+    display: none;
+  }
+  .bcn-elin__rail :global(.bcn-elin__glyph) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elin__rail :global(.bcn-elin__node--current .bcn-elin__glyph) {
+    border: 2px solid var(--color-background-brand);
+    color: var(--color-background-brand);
+  }
+  .bcn-elin__rail :global(.bcn-elin__body) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-top: 1px;
+  }
+  .bcn-elin__rail :global(.bcn-elin__kind) {
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-elin__rail :global(.bcn-elin__name) {
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-font-weight-medium);
+    line-height: 1.35;
+    color: var(--color-content-link, var(--color-background-brand));
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .bcn-elin__rail :global(a.bcn-elin__name:hover) {
+    text-decoration: underline;
+  }
+  .bcn-elin__rail :global(.bcn-elin__node--current .bcn-elin__name) {
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  /* The span hairline: the plan's whole span as a track, the item's dates as the mark on it. */
+  .bcn-elin__rail :global(.bcn-elin__span) {
+    position: relative;
+    display: block;
+    height: 3px;
+    margin-top: 3px;
+    border-radius: 2px;
+    background: var(--color-border-default-subtle);
+  }
+  .bcn-elin__rail :global(.bcn-elin__span > i) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    min-width: 3px;
+    border-radius: 2px;
+    background: var(--color-content-default-tertiary);
+  }
+  .bcn-elin__rail :global(.bcn-elin__node--current .bcn-elin__span > i) {
+    background: var(--color-background-brand);
+  }
+  /* The children: under this item, on its rail, a step in; each a dot in its status's color. */
+  .bcn-elin__rail :global(.bcn-elin__children) {
+    list-style: none;
+    margin: var(--spacing-200) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-elin__rail :global(.bcn-elin__child) {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    column-gap: var(--spacing-200);
+    align-items: baseline;
+  }
+  .bcn-elin__rail :global(.bcn-elin__child .bcn-elin__name) {
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+  .bcn-elin__rail :global(.bcn-elin__child-meta) {
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elin__rail :global(.bcn-elin__dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border-default-strong);
+    transform: translateY(-1px);
+  }
+  .bcn-elin__rail :global(.bcn-elin__dot[data-status='In Progress']) {
+    background: var(--color-content-utility-info, var(--color-blue-9));
+  }
+  .bcn-elin__rail :global(.bcn-elin__dot[data-status='Complete']) {
+    background: var(--color-content-utility-success, var(--color-grass-9));
+  }
+  .bcn-elin__rail :global(.bcn-elin__dot[data-status='Blocked']) {
+    background: var(--color-content-utility-danger);
+  }
+  .bcn-elin__rail :global(.bcn-elin__dot[data-milestone]) {
+    border-radius: 1px;
+    transform: translateY(-1px) rotate(45deg) scale(0.85);
+  }
+  .bcn-elin__rail :global(.bcn-elin__more) {
+    all: unset;
+    cursor: pointer;
+    font-size: var(--font-size-100);
+    color: var(--color-content-link, var(--color-background-brand));
+    padding-left: calc(10px + var(--spacing-200));
+  }
+  .bcn-elin__rail :global(.bcn-elin__more:hover) {
+    text-decoration: underline;
+  }
+  /* The items beside it: one row, previous left, next right. */
+  .bcn-elin__siblings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-200);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-elin__siblings[hidden],
+  .bcn-elin__sib[hidden] {
+    display: none;
+  }
+  .bcn-elin__sib {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    text-decoration: none;
+    grid-column: 1;
+  }
+  .bcn-elin__sib--next {
+    grid-column: 2;
+    text-align: right;
+  }
+  .bcn-elin__sib-dir {
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-elin__sib-name {
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-link, var(--color-background-brand));
+    overflow-wrap: anywhere;
+  }
+  .bcn-elin__sib:hover .bcn-elin__sib-name {
+    text-decoration: underline;
+  }
+</style>

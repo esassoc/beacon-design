@@ -1,11 +1,172 @@
 ---
-// <BcnElementProgress> — the Progress module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-progress.ts) on the contract in ./element-module.ts.
+// <BcnElementProgress> — the Progress module (2026-10-28, decision 4): a parent's percent complete by weighted
+// deliverables (each deliverable and milestone earns nothing until it's complete, then its whole weight; with none
+// under it, its tasks count equally), beside where it should be by today on Live's dates. Then what's under it by
+// status, what's overdue and what's due next. Records, so it reads Live in any draft. The runtime is
+// ./element-progress.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); badges ARE esa-badge (BcnBadgeBank). The meter is not
+// esa-progress-bar: that draws one value, and this needs a second mark for planned-by-today. Checked Beacon (no
+// progress-against-plan component). The CSS is the meter, the status split and the due lists.
 import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="progress">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <div class="bcn-eprog">
+    <div class="bcn-eprog__head">
+      <span class="bcn-eprog__pct" data-eprog-pct>0%</span>
+      <span class="bcn-eprog__label">Complete</span>
+      <span class="bcn-eprog__gap" data-eprog-gap></span>
+    </div>
+    <div class="bcn-eprog__meter" role="img" data-eprog-meter>
+      <span class="bcn-eprog__earned" data-eprog-earned></span>
+      <span class="bcn-eprog__planned" data-eprog-planned></span>
+    </div>
+    <p class="bcn-eprog__basis" data-eprog-basis></p>
+    <div class="bcn-eprog__split" data-eprog-split></div>
+    <section class="bcn-eprog__list" data-eprog-overdue hidden>
+      <h3 class="typography-label-sm-strong">Overdue</h3>
+      <ul data-eprog-overdue-list></ul>
+    </section>
+    <section class="bcn-eprog__list" data-eprog-next hidden>
+      <h3 class="typography-label-sm-strong">Due Next</h3>
+      <ul data-eprog-next-list></ul>
+    </section>
+  </div>
 </BcnElementModule>
+
+<style>
+  .bcn-eprog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-eprog__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
+  }
+  .bcn-eprog__pct {
+    font-size: var(--font-size-600, 1.75rem);
+    line-height: 1;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default);
+  }
+  .bcn-eprog__label {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eprog__gap {
+    margin-inline-start: auto;
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eprog__gap[data-tone='behind'] {
+    color: var(--color-content-utility-warning, var(--color-yellow-11));
+    font-weight: var(--typography-font-weight-medium);
+  }
+  /* The meter: earned as the fill; planned-by-today as a tick standing above it. */
+  .bcn-eprog__meter {
+    position: relative;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--color-border-default-subtle);
+  }
+  .bcn-eprog__earned {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 5px;
+    background: var(--color-content-utility-success, var(--color-grass-9));
+  }
+  .bcn-eprog__planned {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--color-content-default);
+  }
+  .bcn-eprog__basis {
+    margin: 0;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eprog__split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-400);
+    font-size: var(--typography-label-sm-font-size);
+  }
+  .bcn-eprog__split :global(span) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eprog__split :global(b) {
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-eprog__split :global(i) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border-default-strong);
+  }
+  .bcn-eprog__split :global(i[data-status='In Progress']) {
+    background: var(--color-content-utility-info, var(--color-blue-9));
+  }
+  .bcn-eprog__split :global(i[data-status='Complete']) {
+    background: var(--color-content-utility-success, var(--color-grass-9));
+  }
+  .bcn-eprog__split :global(i[data-status='Blocked']) {
+    background: var(--color-content-utility-danger);
+  }
+  .bcn-eprog__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-eprog__list[hidden] {
+    display: none;
+  }
+  .bcn-eprog__list h3 {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eprog__list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-eprog__list :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--spacing-300);
+    font-size: var(--typography-label-sm-font-size);
+  }
+  .bcn-eprog__list :global(a) {
+    color: var(--color-content-default);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-eprog__list :global(a:hover) {
+    text-decoration: underline;
+  }
+  .bcn-eprog__list :global(.bcn-eprog__when) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+</style>

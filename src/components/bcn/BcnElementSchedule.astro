@@ -1,11 +1,191 @@
 ---
-// <BcnElementSchedule> — the Schedule module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-schedule.ts) on the contract in ./element-module.ts.
+// <BcnElementSchedule> — the Schedule module (2026-10-28): an element's dates, what kind of dates they are, what it
+// waits on and what it blocks, and (for a parent, when its level says so) its children on a small timeline against
+// its own span, today marked. In a draft, a moved item also says where Live has it. Dates edit on the plan page (drag
+// or the drawer) in a draft; this card reads. The runtime is ./element-schedule.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Open in Plan IS esa-button. No esa- lego is a mini
+// timeline (esa-chart draws charts from series, not a row-per-item span list); checked Beacon (the plan Gantt is a
+// page, not a card). bcn-element-schedule is the reusable home; the CSS is its list and the timeline rows.
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="schedule">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <a slot="actions" class="bcn-esch__open" data-esch-open><EsaButton variant="ghost" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a>
+  <div class="bcn-esch">
+    <dl class="bcn-esch__dates" data-esch-dates></dl>
+    <div class="bcn-esch__deps" data-esch-deps></div>
+    <div class="bcn-esch__tl" data-esch-timeline hidden>
+      <div class="bcn-esch__tl-head"><span data-esch-tl-start></span><span data-esch-tl-end></span></div>
+      <ol class="bcn-esch__tl-rows" data-esch-tl-rows></ol>
+    </div>
+  </div>
 </BcnElementModule>
+
+<style>
+  .bcn-esch {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-esch__open {
+    text-decoration: none;
+  }
+  .bcn-esch__dates {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(6.5rem, max-content) minmax(0, 1fr);
+    gap: var(--spacing-200) var(--spacing-300);
+    align-items: baseline;
+    font-size: var(--typography-label-sm-font-size);
+  }
+  .bcn-esch__dates :global(dt),
+  .bcn-esch__deps :global(h3) {
+    color: var(--color-content-default-secondary);
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+  .bcn-esch__dates :global(dd) {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-200);
+    align-items: baseline;
+  }
+  .bcn-esch__dates :global(.bcn-esch__muted) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-esch__dates :global(.bcn-esch__was) {
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+  .bcn-esch__deps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-400);
+  }
+  .bcn-esch__deps:empty {
+    display: none;
+  }
+  .bcn-esch__deps :global(section) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  .bcn-esch__deps :global(h3) {
+    margin: 0;
+  }
+  .bcn-esch__deps :global(ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-esch__deps :global(li) {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--typography-label-sm-font-size);
+  }
+  .bcn-esch__deps :global(a) {
+    color: var(--color-content-link, var(--color-background-brand));
+    text-decoration: none;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-esch__deps :global(a:hover) {
+    text-decoration: underline;
+  }
+  .bcn-esch__deps :global(.bcn-esch__dep-meta),
+  .bcn-esch__deps :global(.bcn-esch__none) {
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+  /* The children's timeline: a name column and a track per row, the parent's span as the track's width. */
+  .bcn-esch__tl[hidden] {
+    display: none;
+  }
+  .bcn-esch__tl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-esch__tl-head {
+    display: grid;
+    grid-template-columns: minmax(10rem, 2fr) 3fr;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-esch__tl-head span:first-child {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .bcn-esch__tl-head span:last-child {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .bcn-esch__tl-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bcn-esch__tl-rows :global(li) {
+    display: grid;
+    grid-template-columns: minmax(10rem, 2fr) 3fr;
+    align-items: center;
+    column-gap: var(--spacing-300);
+    min-height: 1.5rem;
+  }
+  .bcn-esch__tl-rows :global(a) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-esch__tl-rows :global(a:hover) {
+    text-decoration: underline;
+  }
+  .bcn-esch__tl-rows :global(.bcn-esch__track) {
+    position: relative;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--color-border-default-subtle);
+  }
+  .bcn-esch__tl-rows :global(.bcn-esch__bar) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    min-width: 4px;
+    border-radius: 3px;
+    background: var(--color-background-brand);
+  }
+  .bcn-esch__tl-rows :global(.bcn-esch__bar[data-parent]) {
+    background: var(--color-content-default-tertiary);
+  }
+  .bcn-esch__tl-rows :global(.bcn-esch__bar[data-milestone]) {
+    width: 8px;
+    min-width: 0;
+    height: 8px;
+    top: 1px;
+    border-radius: 1px;
+    transform: translateX(-4px) rotate(45deg);
+  }
+  .bcn-esch__tl-rows :global(.bcn-esch__today) {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: 2px;
+    background: var(--color-background-utility-warning);
+  }
+</style>

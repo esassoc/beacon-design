@@ -5,18 +5,17 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, startDraft, addRevision, mergeAttributes, flattenPlan, orgOf, type PlanRepoDraft, type ElementAttributes } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, startDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft, type ElementAttributes } from '../../lib/planning/plan-repo';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PREVIEW_CONFIG_KEY, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
-import { healthOf, statusOf } from '../../lib/planning/plan-records';
 import type { ModuleKey, PlanConfig } from '../../lib/planning/plan-config';
 import { confirm, pushAlert } from '../../lib/planning/plan-page';
 import { fillIcons } from '../../lib/planning/icons';
-import { planAvatar } from './plan-people';
-import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
-import { day, type ElementModule, type ElementModuleHost, type ElementModuleSetup } from './element-module';
+import { badge } from './badge-bank';
+import { type ElementModule, type ElementModuleHost, type ElementModuleSetup } from './element-module';
 import { setupDetailsModule } from './element-details';
+import { setupLineageModule } from './element-lineage';
 import { setupScheduleModule } from './element-schedule';
 import { setupProgressModule } from './element-progress';
 import { setupBudgetModule } from './element-budget';
@@ -29,6 +28,7 @@ import { setupActivityModule } from './element-activity';
 
 const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
   details: setupDetailsModule,
+  lineage: setupLineageModule,
   schedule: setupScheduleModule,
   progress: setupProgressModule,
   budget: setupBudgetModule,
@@ -40,7 +40,6 @@ const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
   activity: setupActivityModule,
 };
 
-const firstName = (name: string) => name.split(' ')[0];
 
 function readPreview(planID: string): PlanConfig | null {
   try {
@@ -49,14 +48,6 @@ function readPreview(planID: string): PlanConfig | null {
   } catch {
     return null;
   }
-}
-
-/** The element's dates as a phrase: a milestone's one date, a span's two. */
-export function datesText(el: PlanElementDto): string {
-  const start = el.SpanStartDate ?? el.StartDate;
-  const end = el.SpanEndDate ?? el.EndDate;
-  if (el.IsMilestone || !start) return end || start ? `Due ${day(end ?? start)}` : 'Not Scheduled';
-  return `${day(start)} to ${day(end ?? start)}`;
 }
 
 export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
@@ -144,64 +135,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       if (c.element.IsMilestone) titleBadges.append(badge('Milestone', 'neutral', 'sm'));
     }
 
-    // Facts.
-    const fact = (k: string) => q(`[data-pep-fact="${k}"]`);
-    const records = c.records;
-    const status = c.inLive ? statusOf(records, c.live, elementId) : 'Not Started';
-    fact('status').replaceChildren(badge(status, STATUS_VARIANT[status], 'sm'));
-    const health = c.inLive ? healthOf(records, c.live, elementId, c.isDeliverable) : null;
-    const healthFact = fact('health');
-    healthFact.replaceChildren();
-    if (health) {
-      healthFact.append(badge(health.stale ? `${health.health}, Update Missing` : health.health, health.stale ? 'warning' : HEALTH_VARIANT[health.health], 'sm'));
-      const why = document.createElement('span');
-      why.className = 'bcn-pep__why';
-      why.textContent = health.override ? `Set by ${firstName(health.override.by)}: ${health.why}` : health.why === health.health || health.why === 'On plan' ? '' : health.why;
-      why.title = why.textContent;
-      healthFact.append(why);
-    } else healthFact.append(badge('New in This Draft', 'neutral', 'sm'));
-    fact('dates').textContent = datesText(c.element);
-    const owners = fact('owners');
-    owners.replaceChildren();
-    const names = c.attrs.owners ?? [];
-    if (!names.length) {
-      const none = document.createElement('span');
-      none.className = 'bcn-pep__why';
-      none.textContent = 'None Yet';
-      owners.append(none);
-    }
-    for (const n of names) {
-      const span = document.createElement('span');
-      span.className = 'bcn-pep__owner';
-      const org = orgOf(n);
-      span.append(planAvatar(n, 'xs'), document.createTextNode(n));
-      if (org) {
-        const o = document.createElement('span');
-        o.className = 'bcn-pep__org';
-        o.textContent = `(${org})`;
-        span.append(' ', o);
-      }
-      owners.append(span);
-    }
-    const dot = q('[data-pep-dot]');
-    dot.dataset.pepDot = c.mode === 'live' || c.mode === 'preview' ? 'live' : c.mode === 'own' ? 'mine' : 'other';
-    const label = q<HTMLAnchorElement>('[data-pep-plan-label]');
-    label.textContent = c.mode === 'own' ? 'Your Draft' : c.draft ? c.draft.name : 'Live Plan';
-    label.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id);
-    q('[data-pep-facts]').hidden = false;
-
-    // Why it won't edit (the plan page's note, in the same small italic).
-    const note = q('[data-pep-note]');
     const canPublish = c.myRole !== 'Contributor' && c.myRole !== 'Guest';
-    note.textContent =
-      c.mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change its owners and fields. Documents, sends, status and comments are kept here, on Live.`
-        : c.mode === 'view'
-          ? `${firstName(c.draft!.owner)}'s draft is read-only. Documents, sends, status and comments are Live's.`
-          : c.mode === 'own'
-            ? `Your draft changes its owners and fields. Documents, sends, status and comments stay Live's${c.inLive ? '' : ', and this item is new in your draft, so it has none yet'}.`
-            : '';
-    note.hidden = !note.textContent;
 
     // The page's actions.
     const set = (name: string, show: boolean) => {
@@ -265,7 +199,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     ctx = elementContext({ planID, elementId, live, shown, draft, preview: previewing ? (readPreview(planID) ?? undefined) : null });
     if (!ctx) {
       q('[data-pep-missing]').hidden = false;
-      q('[data-pep-facts]').hidden = true;
       q('[data-pep-cols]').hidden = true;
       const back = q<HTMLAnchorElement>('[data-pep-missing-back]');
       back.href = PLAN_VIEW_HREF(planID, undefined, draft?.id);

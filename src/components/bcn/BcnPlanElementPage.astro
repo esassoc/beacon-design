@@ -1,23 +1,23 @@
 ---
 // <BcnPlanElementPage> — one work element's page (2026-10-28, decisions 1 to 8; the proposal's "page made of modules").
-// The head says what it is and where it stands: status, health, dates, owners, and which plan you're reading (Live, or
-// a draft, by the plan page's dot). Below, two columns of module cards, placed by the element's level layout (the
-// plan's configuration): which modules, in what order, in which column. A module that doesn't apply stays out
+// The head is the title and its level; everything else is a card (2026-10-28, Andy: "I strongly hate fact strips";
+// "should be a sidebar card"): status, health, dates, owners and which plan you're reading lead the side column's
+// Details card. Two columns of module cards, placed by the element's level layout (the plan's configuration): which
+// modules, in what order, in which column. A module that doesn't apply stays out
 // (Transmittals and Completion on a non-deliverable, Progress on a leaf, Budget on a plan that doesn't track money).
 //
 // Plans are drafted, records are not (decision 5): in a draft, the planned side (owners, the deliverable flag, field
 // values) edits; documents, sends, completion and comments stay Live's and read-only. The runtime is
 // ./plan-element-page.ts; each module's is ./element-<key>.ts, on the contract in ./element-module.ts.
 //
-// bcn-lego-checked: the facts ARE BcnKeyValue (sm), badges ARE esa-badge (BcnBadgeBank), avatars ARE esa-avatar
-// (BcnPlanPeople), every module IS BcnElementModule (esa-card), the empty state IS esa-empty-state. No esa- lego is a
-// record header's fact strip or a two-column module layout; checked Beacon (prod detail pages hard-code their cards).
-// The CSS is the strip and the columns.
+// bcn-lego-checked: badges ARE esa-badge (BcnBadgeBank), every module IS BcnElementModule (esa-card), the empty state IS
+// esa-empty-state. No esa- lego is a two-column module layout; checked Beacon (prod detail pages hard-code their
+// cards). The CSS is the columns.
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import BcnKeyValue from './BcnKeyValue.astro';
 import BcnBadgeBank from './BcnBadgeBank.astro';
 import BcnElementDetails from './BcnElementDetails.astro';
+import BcnElementLineage from './BcnElementLineage.astro';
 import BcnElementSchedule from './BcnElementSchedule.astro';
 import BcnElementProgress from './BcnElementProgress.astro';
 import BcnElementBudget from './BcnElementBudget.astro';
@@ -30,15 +30,6 @@ import BcnElementActivity from './BcnElementActivity.astro';
 ---
 
 <div class="bcn-pep" data-bcn-plan-element-page>
-  <section class="bcn-pep__facts" aria-label="Where it stands" data-pep-facts hidden>
-    <BcnKeyValue label="Status" size="sm"><span class="bcn-pep__fact" data-pep-fact="status"></span></BcnKeyValue>
-    <BcnKeyValue label="Health" size="sm"><span class="bcn-pep__fact" data-pep-fact="health"></span></BcnKeyValue>
-    <BcnKeyValue label="Dates" size="sm"><span class="bcn-pep__fact typography-label-sm-strong" data-pep-fact="dates"></span></BcnKeyValue>
-    <BcnKeyValue label="Owners" size="sm"><span class="bcn-pep__fact" data-pep-fact="owners"></span></BcnKeyValue>
-    <BcnKeyValue label="Plan" size="sm"><span class="bcn-pep__fact" data-pep-fact="plan"><span class="bcn-pep__dot" data-pep-dot="live"></span><a class="bcn-pep__plan-link typography-label-sm-strong" data-pep-plan-label></a></span></BcnKeyValue>
-  </section>
-  <p class="bcn-pep__note" data-pep-note hidden></p>
-
   <div class="bcn-pep__cols" data-pep-cols hidden>
     <div class="bcn-pep__col" data-pep-col="main"></div>
     <div class="bcn-pep__col" data-pep-col="side"></div>
@@ -47,6 +38,7 @@ import BcnElementActivity from './BcnElementActivity.astro';
   <!-- Every module, banked; the runtime moves the ones that show into their column, in the level's order. -->
   <div class="bcn-pep__bank" data-pep-bank hidden>
     <BcnElementDetails />
+    <BcnElementLineage />
     <BcnElementSchedule />
     <BcnElementProgress />
     <BcnElementBudget />
@@ -74,68 +66,9 @@ import BcnElementActivity from './BcnElementActivity.astro';
     gap: var(--spacing-400);
     min-width: 0;
   }
-  .bcn-pep__facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-300) var(--spacing-600);
-    padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-md);
-  }
-  .bcn-pep__facts[hidden],
   .bcn-pep__cols[hidden],
-  .bcn-pep__note[hidden],
   .bcn-pep__missing[hidden] {
     display: none;
-  }
-  .bcn-pep__fact {
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--spacing-150);
-    min-height: 1.5rem;
-    color: var(--color-content-default);
-  }
-  .bcn-pep__fact :global(.bcn-pep__why) {
-    font-size: var(--font-size-100);
-    color: var(--color-content-default-secondary);
-  }
-  .bcn-pep__fact :global(.bcn-pep__owner) {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    font-size: var(--typography-label-sm-font-size);
-  }
-  .bcn-pep__fact :global(.bcn-pep__org) {
-    color: var(--color-content-default-secondary);
-  }
-  .bcn-pep__dot {
-    inline-size: 0.5rem;
-    block-size: 0.5rem;
-    border-radius: 50%;
-    background: var(--color-content-default-tertiary);
-    flex: none;
-  }
-  .bcn-pep__dot[data-pep-dot='live'] {
-    background: var(--bcn-live-badge);
-  }
-  .bcn-pep__dot[data-pep-dot='mine'] {
-    background: var(--bcn-mark-green);
-  }
-  .bcn-pep__plan-link {
-    color: var(--color-content-default);
-    text-decoration: none;
-  }
-  .bcn-pep__plan-link:hover {
-    text-decoration: underline;
-  }
-  /* Why it won't edit, as the plan page says it: small, mid gray, italic. */
-  .bcn-pep__note {
-    margin: calc(-1 * var(--spacing-200)) 0 0;
-    font-size: var(--font-size-100);
-    font-style: italic;
-    color: var(--color-content-default-secondary);
   }
   .bcn-pep__cols {
     display: grid;

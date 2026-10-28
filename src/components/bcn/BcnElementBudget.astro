@@ -1,11 +1,66 @@
 ---
-// <BcnElementBudget> — the Budget module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-budget.ts) on the contract in ./element-module.ts.
+// <BcnElementBudget> — the Budget module (2026-10-28): an element's money by fiscal year, from the plan's budget sheet
+// (a parent's is its items' sum), with the total; in a draft, each year that differs from Live says by how much. Its
+// level can show it to everyone or to Owners and Editors only (WS4, role-based visibility); the page leaves it out for
+// anyone else, and on plans that don't track money. Figures edit in the sheet. The runtime is ./element-budget.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Open the Sheet IS esa-button. No esa- lego is a
+// year-by-amount list; checked Beacon (budget cards are page-specific). The CSS is the list, in the figures face.
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="budget">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <a slot="actions" class="bcn-ebud__open" data-ebud-open><EsaButton variant="ghost" size="xs" icon="sheet" data-fill-icon="sheet">Open the Sheet</EsaButton></a>
+  <dl class="bcn-ebud" data-ebud-list></dl>
+  <p class="bcn-ebud__empty" data-ebud-empty hidden>No budget yet.</p>
 </BcnElementModule>
+
+<style>
+  .bcn-ebud__open {
+    text-decoration: none;
+  }
+  .bcn-ebud {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--spacing-150) var(--spacing-300);
+    font-size: var(--typography-label-sm-font-size);
+  }
+  .bcn-ebud :global(dt) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ebud :global(dt[data-current])::after {
+    content: ' Current Year';
+    color: var(--color-content-brand);
+    font-size: var(--font-size-100);
+  }
+  .bcn-ebud :global(dd) {
+    margin: 0;
+    text-align: right;
+    font-family: var(--bcn-font-figures);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default);
+  }
+  .bcn-ebud :global(dd small) {
+    display: block;
+    font-family: var(--typography-font-family-sans, inherit);
+    font-weight: 500;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ebud :global(.bcn-ebud__total) {
+    padding-top: var(--spacing-150);
+    border-top: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-ebud__empty {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ebud__empty[hidden] {
+    display: none;
+  }
+</style>

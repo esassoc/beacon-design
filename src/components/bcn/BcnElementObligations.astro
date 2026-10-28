@@ -1,11 +1,106 @@
 ---
-// <BcnElementObligations> — the Obligations module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-obligations.ts) on the contract in ./element-module.ts.
+// <BcnElementObligations> — the Obligations module (2026-10-28): the obligations an element serves, from the DCP
+// registry (the data catalog's 402), each linking to its page; and, quietly, the ones it serves through its parents.
+// The link is a join (PlanElementObligation in the proposal), a record kept on Live: Link Obligation and Unlink on
+// Live; read-only in a draft. On the obligation's side, its evidence reads which items serve it (both directions).
+// The runtime is ./element-obligations.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Link IS esa-button opening an esa-combobox (autocomplete
+// over the registry); the class IS esa-badge (BcnBadgeBank); Unlink IS esa-button (cloned). No esa- lego is a linked-
+// record list; checked Beacon (data catalog pages list linked records inline). The CSS is the rows.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="obligations">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <span slot="actions" data-eobl-add hidden><EsaButton variant="ghost" size="xs" icon="plus">Link</EsaButton></span>
+  <div class="bcn-eobl">
+    <div class="bcn-eobl__picker" data-eobl-picker hidden>
+      <esa-combobox mode="autocomplete" size="sm" placeholder="Find an Obligation by Number or Name" aria-label="Find an Obligation" data-eobl-combobox></esa-combobox>
+    </div>
+    <ul class="bcn-eobl__list" data-eobl-list></ul>
+    <div class="bcn-eobl__empty" data-eobl-empty hidden>
+      <EsaEmptyState size="sm" title="None Linked" description="Link the obligations and commitments this work answers to." />
+    </div>
+    <section class="bcn-eobl__inherited" data-eobl-inherited hidden>
+      <h3 class="typography-label-sm">Through Its Parents</h3>
+      <ul class="bcn-eobl__list bcn-eobl__list--quiet" data-eobl-inherited-list></ul>
+    </section>
+  </div>
+  <template data-eobl-tpl="unlink"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Unlink" /></template>
 </BcnElementModule>
+
+<style>
+  .bcn-eobl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-eobl__picker[hidden],
+  .bcn-eobl__empty[hidden],
+  .bcn-eobl__inherited[hidden] {
+    display: none;
+  }
+  .bcn-eobl__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-eobl__list:empty {
+    display: none;
+  }
+  .bcn-eobl__list :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--spacing-200);
+    align-items: start;
+  }
+  .bcn-eobl__list :global(.bcn-eobl__text) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .bcn-eobl__list :global(.bcn-eobl__line) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    flex-wrap: wrap;
+  }
+  .bcn-eobl__list :global(a) {
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-link, var(--color-background-brand));
+    text-decoration: none;
+  }
+  .bcn-eobl__list :global(a:hover) {
+    text-decoration: underline;
+  }
+  .bcn-eobl__list :global(.bcn-eobl__id) {
+    font-family: var(--bcn-font-figures);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eobl__list :global(.bcn-eobl__meta) {
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eobl__list--quiet :global(a) {
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+  .bcn-eobl__inherited {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-eobl__inherited h3 {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+</style>

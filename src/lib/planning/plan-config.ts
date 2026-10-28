@@ -30,6 +30,8 @@ export interface FieldDef {
   /** For Choice and Choices. */
   options?: string[];
   help?: string;
+  /** For Number: what it counts, read after the value ("30 days"). */
+  unit?: string;
 }
 
 /** Where a field shows, beyond the detail page (the Gantt's display columns are day-one configuration, 2026-09-28). */
@@ -49,7 +51,7 @@ export interface LevelField {
   shownIn: FieldSurface[];
 }
 
-export type ModuleKey = 'details' | 'schedule' | 'progress' | 'budget' | 'documents' | 'transmittals' | 'completion' | 'obligations' | 'comments' | 'activity';
+export type ModuleKey = 'details' | 'lineage' | 'schedule' | 'progress' | 'budget' | 'documents' | 'transmittals' | 'completion' | 'obligations' | 'comments' | 'activity';
 /** Core and shared modules are on every page (they move, they don't go); optional ones are a level's choice;
  *  deliverable ones show on a deliverable at any level; parents ones only on elements with children. */
 export type ModuleKind = 'core' | 'optional' | 'deliverable' | 'parents' | 'shared';
@@ -66,6 +68,7 @@ export interface ModuleMeta {
 
 export const MODULES: Record<ModuleKey, ModuleMeta> = {
   details: { key: 'details', title: 'Details', icon: 'file-text', kind: 'core', blurb: 'Status, owners, notes and the level’s fields' },
+  lineage: { key: 'lineage', title: 'Lineage', icon: 'list-tree', kind: 'shared', blurb: 'Where it sits: its parents, its children, the items beside it' },
   schedule: { key: 'schedule', title: 'Schedule', icon: 'calendar', kind: 'core', blurb: 'Dates, what it waits on and what it blocks' },
   progress: { key: 'progress', title: 'Progress', icon: 'gauge', kind: 'parents', blurb: 'Deliverables earned against planned, health, what’s due' },
   budget: { key: 'budget', title: 'Budget', icon: 'sheet', kind: 'optional', blurb: 'Money by fiscal year, from the sheet' },
@@ -121,7 +124,7 @@ export interface PlanConfig {
 }
 
 /** The order a level's page lists its modules in, when a config doesn't say. */
-export const MODULE_ORDER: ModuleKey[] = ['transmittals', 'progress', 'documents', 'schedule', 'comments', 'details', 'completion', 'obligations', 'budget', 'activity'];
+export const MODULE_ORDER: ModuleKey[] = ['transmittals', 'progress', 'documents', 'schedule', 'comments', 'details', 'lineage', 'completion', 'obligations', 'budget', 'activity'];
 
 const place = (key: ModuleKey, column: 'main' | 'side', on = true, settings?: ModuleSettings): ModulePlacement => ({ key, column, on, settings });
 const field = (fieldId: string, requiredToComplete = false, shownIn: FieldSurface[] = ['page', 'drawer']): LevelField => ({ fieldId, requiredToComplete, shownIn });
@@ -134,6 +137,7 @@ function parentLayout(): ModulePlacement[] {
     place('documents', 'main'),
     place('comments', 'main'),
     place('details', 'side'),
+    place('lineage', 'side'),
     place('obligations', 'side'),
     place('budget', 'side', true, { visibleTo: 'editors' }),
     place('activity', 'side'),
@@ -149,6 +153,7 @@ function taskLayout(): ModulePlacement[] {
     place('schedule', 'main'),
     place('comments', 'main'),
     place('details', 'side'),
+    place('lineage', 'side'),
     place('completion', 'side'),
     place('obligations', 'side'),
     place('budget', 'side', true, { visibleTo: 'editors' }),
@@ -168,7 +173,7 @@ export const TEMPLATES: Record<string, () => PlanConfig> = {
       { id: 'field-season', label: 'Field Season', type: 'select', options: ['Winter', 'Spring', 'Summer', 'Fall', 'Year-Round'] },
       { id: 'sampling-method', label: 'Sampling Method', type: 'text' },
       { id: 'deliverable-type', label: 'Deliverable Type', type: 'select', options: ['Science Plan', 'Technical Memo', 'Data Report', 'Presentation', 'Permit Application'] },
-      { id: 'review-period', label: 'Review Period', type: 'number', help: 'Days the agency has to respond' },
+      { id: 'review-period', label: 'Review Period', type: 'number', unit: 'days', help: 'Days the agency has to respond' },
       { id: 'agency-reviewer', label: 'Agency Reviewer', type: 'person' },
     ],
     allLevels: [field('lead-agency', false, ['page', 'drawer', 'gantt', 'export'])],
@@ -217,7 +222,7 @@ export function fieldsFor(config: PlanConfig, depth: number, deepest: number): {
 /** Every module, placed: the level's placements, then any module it doesn't mention, off, in the default order. */
 export function modulesFor(config: PlanConfig, depth: number, deepest: number): ModulePlacement[] {
   const placed = levelConfig(config, depth, deepest).modules;
-  const missing = MODULE_ORDER.filter((k) => !placed.some((p) => p.key === k)).map((k) => place(k, MODULES[k].kind === 'deliverable' || k === 'details' || k === 'activity' || k === 'budget' || k === 'obligations' ? 'side' : 'main', MODULES[k].kind === 'core' || MODULES[k].kind === 'shared'));
+  const missing = MODULE_ORDER.filter((k) => !placed.some((p) => p.key === k)).map((k) => place(k, MODULES[k].kind === 'deliverable' || k === 'details' || k === 'lineage' || k === 'activity' || k === 'budget' || k === 'obligations' ? 'side' : 'main', MODULES[k].kind === 'core' || MODULES[k].kind === 'shared'));
   return [...placed, ...missing];
 }
 

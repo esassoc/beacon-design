@@ -1,11 +1,35 @@
 ---
-// <BcnElementActivity> — the Activity module on an element's page (2026-10-28). A stub until its build lands: the card
-// and its runtime (./element-activity.ts) on the contract in ./element-module.ts.
+// <BcnElementActivity> — the Activity module (2026-10-28): the element's history in one timeline, newest first. What
+// the plan did to it (each published revision that moved it or changed its owners or fields, by whom) and what was
+// recorded on it (documents added, sends, receipts, responses, completion, status and health set). Beacon's change log
+// treatment (BcnChangeLog, its renderer in ./change-log.ts) by day. The runtime is ./element-activity.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card). No CSS yet.
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); the timeline IS BcnChangeLog's markup (renderChangeLog)
+// and its global styles, which the hidden instance below loads; Show All IS esa-button. Checked Beacon (the change log
+// is its pattern). No CSS of its own beyond the toggle row.
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnElementModule from './BcnElementModule.astro';
+import BcnChangeLog from './BcnChangeLog.astro';
 ---
 
 <BcnElementModule key="activity">
-  <p class="typography-body-sm" data-elm-stub>Coming in this build.</p>
+  <div class="bcn-eact" data-eact-log></div>
+  <p class="bcn-eact__empty" data-eact-empty hidden>Nothing yet.</p>
+  <div class="bcn-eact__more" data-eact-more hidden><EsaButton variant="ghost" size="xs">Show All</EsaButton></div>
+  <div hidden><BcnChangeLog days={[]} /></div>
 </BcnElementModule>
+
+<style>
+  .bcn-eact__empty {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    font-size: var(--typography-body-sm-font-size);
+  }
+  .bcn-eact__empty[hidden],
+  .bcn-eact__more[hidden] {
+    display: none;
+  }
+  .bcn-eact__more {
+    margin-top: var(--spacing-300);
+  }
+</style>
