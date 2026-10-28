@@ -151,10 +151,10 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <style>
   .bcn-prp { display: flex; flex-direction: column; gap: var(--spacing-400); }
-  /* The H1's badge (2026-10-28, Andy): solid, white text, orange on Live and green in a draft, from the identity
-     swatches that carry white at AA. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
+  /* The H1's badge (2026-10-28, Andy): solid, white text, his orange on Live (below AA, his call) and the identity
+     green in a draft. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
   :global([data-prp-title-badge]) {
-    --badge-bg: var(--bcn-mark-orange);
+    --badge-bg: var(--bcn-live-badge);
     --badge-text-color: var(--color-content-default-knockout);
     --badge-border-color: transparent;
   }
@@ -217,7 +217,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__branches :global(.bcn-prp__branch-head span) { color: var(--color-content-default-tertiary); font-weight: 400; }
   .bcn-prp__branches :global(.bcn-prp__branch-row) {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 1rem;
+    grid-template-columns: 0.5rem minmax(0, 1fr) 1rem;
     align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-150, 6px) var(--spacing-200);
@@ -228,6 +228,18 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__branches :global(.bcn-prp__branch-row:hover),
   .bcn-prp__branches :global(.bcn-prp__branch-row:focus-visible) { background: var(--color-background-elevation-sunken); }
   .bcn-prp__branches :global(.bcn-prp__branch-check) { display: inline-flex; color: var(--color-content-default); }
+  /* bcn-lego-checked: esa-badge's dot is compile-time (.astro) and these rows are built at runtime; the dot is a
+     colored span on the name's first line, in the H1 badge's colors. */
+  .bcn-prp__branches :global(.bcn-prp__branch-dot) {
+    align-self: start;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    margin-block-start: 0.375rem;
+    border-radius: 50%;
+  }
+  .bcn-prp__branches :global(.bcn-prp__branch-dot[data-dot='live']) { background: var(--bcn-live-badge); }
+  .bcn-prp__branches :global(.bcn-prp__branch-dot[data-dot='mine']) { background: var(--bcn-mark-green); }
+  .bcn-prp__branches :global(.bcn-prp__branch-dot[data-dot='other']) { background: var(--color-content-default-tertiary); }
   .bcn-prp__branches :global(.bcn-prp__branch-row--start) {
     display: flex;
     gap: var(--spacing-200);

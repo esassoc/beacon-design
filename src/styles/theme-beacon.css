@@ -356,6 +356,9 @@
   --bcn-mark-brown:    #78503c;
   --bcn-mark-slate:    #475569;
 
+  /* The Live Plan badge's orange (Andy, 2026-10-28): his pick, white text on it below AA by his call. */
+  --bcn-live-badge:    #e9a23b;
+
   /* ===== Response notes — internal notes on a response's text =====
      A noted passage is highlighted, in the letter and on its footnote card; it deepens
      a step while its card is hovered. The footnote numbers stay neutral badges. */

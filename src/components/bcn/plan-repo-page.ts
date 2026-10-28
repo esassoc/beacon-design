@@ -514,7 +514,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     requestAnimationFrame(alignBranchMenu);
     const list = q<HTMLElement>('[data-prp-branches]');
     const latest = latestVersion(repo);
-    const row = (to: string, current: boolean, title: string, sub: string) => {
+    const row = (to: string, current: boolean, title: string, sub: string, dot: 'live' | 'mine' | 'other' | null = null) => {
       const a = document.createElement('a');
       a.className = 'bcn-prp__branch-row';
       a.href = keep(PLAN_HREF(planID!, to === 'live' ? '' : to === 'start' ? '&start=1' : `&draft=${to}`));
@@ -529,7 +529,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const check = document.createElement('span');
       check.className = 'bcn-prp__branch-check';
       check.innerHTML = current ? planIcon('check', 16) : '';
-      a.append(text, check);
+      // Which kind of plan it is, as a dot (2026-10-28): the H1 badge's orange for Live, its green for yours, grey for
+      // other people's.
+      const mark = Object.assign(document.createElement('span'), { className: 'bcn-prp__branch-dot' });
+      if (dot) mark.dataset.dot = dot;
+      a.append(mark, text, check);
       return a;
     };
     // No draft yet (2026-10-28, Andy: it "literally looks like a draft"): an action, not a row like one. One line, a
@@ -552,10 +556,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       return `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}${d.publishRequestedAt ? ', publish requested' : ''}`;
     };
     list.replaceChildren(
-      row('live', mode === 'live', 'Live Plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`),
+      row('live', mode === 'live', 'Live Plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`, 'live'),
       head(canPublish ? 'Your Draft' : 'Your Scenario'),
-      mine ? row(mine.id, mode === 'own', mine.name, sub(mine)) : startRow(),
-      ...(others.length ? [head("Other People's Drafts", 'Read-Only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`))] : [])
+      mine ? row(mine.id, mode === 'own', mine.name, sub(mine), 'mine') : startRow(),
+      ...(others.length ? [head("Other People's Drafts", 'Read-Only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`, 'other'))] : [])
     );
   }
 
