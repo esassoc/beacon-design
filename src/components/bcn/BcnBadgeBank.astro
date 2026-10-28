@@ -1,0 +1,17 @@
+---
+// <BcnBadgeBank> — esa-badge in every variant and the two small sizes, as templates a runtime clones and relabels
+// (2026-10-28, for the element page's modules: status, health, receipt, result). A badge drawn at runtime has to carry
+// the lego's scoped styles, which only the compiled component has; the bank is that component, rendered once.
+//
+// bcn-lego-checked: every template IS esa-badge. Checked Ecology (esa-badge is .astro, no runtime twin) and Beacon (no
+// runtime badge factory). bcn-badge-bank is the reusable home; ./badge-bank.ts is its runtime. No CSS.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+const VARIANTS = ['neutral', 'primary', 'success', 'warning', 'danger', 'info'] as const;
+const SIZES = ['xs', 'sm', 'md'] as const;
+---
+
+<div data-bcn-badge-bank hidden>
+  {VARIANTS.map((variant) => SIZES.map((size) => <template data-badge-variant={variant} data-badge-size={size}><EsaBadge value="" variant={variant} size={size} /></template>))}
+  {SIZES.map((size) => <template data-badge-variant="dot" data-badge-size={size}><EsaBadge dot variant="primary" size={size} label="" /></template>)}
+</div>

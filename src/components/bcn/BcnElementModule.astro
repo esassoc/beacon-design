@@ -1,0 +1,94 @@
+---
+// <BcnElementModule> — the card every module on an element's page sits in (2026-10-28, decisions 1 to 8): the
+// monitoring portal's widget shell (BcnDashboardWidget) moved from the dashboard to the record. A glyph, the module's
+// name, a count, a quiet line under it; its actions on the right; its body below. The page places it (column, order,
+// shown or not) from the level's layout; the module's own runtime fills it (./element-module.ts is the contract).
+//
+// bcn-lego-checked: the shell IS esa-card (header and actions slots), the glyph IS esa-icon, the count IS esa-badge.
+// Checked Ecology (esa-card has no count or note line) and Beacon (prod's detail pages are fixed templates, no module
+// shell). bcn-element-module is the reusable home for a configurable record page's card; the CSS is the header row.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { MODULES, type ModuleKey } from '../../lib/planning/plan-config';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+
+interface Props {
+  key: ModuleKey;
+}
+const { key } = Astro.props;
+const meta = MODULES[key];
+const hasActions = Astro.slots.has('actions');
+---
+
+<section class="bcn-elm" data-element-module={key} aria-labelledby={`elm-${key}`} hidden>
+  <EsaCard padding="compact">
+    <div slot="header" class="bcn-elm__head">
+      <span class="bcn-elm__glyph"><EsaIcon name={meta.icon} paths={PLAN_ICON_PATHS[meta.icon]} size="sm" /></span>
+      <span class="bcn-elm__titles">
+        <span class="bcn-elm__title-row">
+          <h2 class="bcn-elm__title typography-label-md-strong" id={`elm-${key}`}>{meta.title}</h2>
+          <span data-elm-count hidden><EsaBadge value="0" size="xs" /></span>
+        </span>
+        <span class="bcn-elm__note typography-body-sm" data-elm-note hidden></span>
+      </span>
+    </div>
+    {hasActions && <div slot="actions" class="bcn-elm__actions"><slot name="actions" /></div>}
+    <div class="bcn-elm__body" data-elm-body>
+      <slot />
+    </div>
+  </EsaCard>
+</section>
+
+<style>
+  .bcn-elm {
+    min-width: 0;
+  }
+  .bcn-elm[hidden] {
+    display: none;
+  }
+  .bcn-elm__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-elm__glyph {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elm__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .bcn-elm__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-elm__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-elm__note {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-elm__note[hidden],
+  [data-elm-count][hidden] {
+    display: none;
+  }
+  .bcn-elm__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+  .bcn-elm__actions :global([hidden]) {
+    display: none;
+  }
+  .bcn-elm__body {
+    min-width: 0;
+  }
+</style>
