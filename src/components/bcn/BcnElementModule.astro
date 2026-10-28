@@ -47,6 +47,10 @@ const meta = MODULES[key];
   .bcn-elm[hidden] {
     display: none;
   }
+  /* esa-card clips its overflow (for its rounded header); a module's menus and popovers have to escape the card. */
+  .bcn-elm :global(.esa-card) {
+    overflow: visible;
+  }
   .bcn-elm__head {
     flex: 1 1 auto;
     display: flex;

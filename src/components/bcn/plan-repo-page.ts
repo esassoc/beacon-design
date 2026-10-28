@@ -64,6 +64,7 @@ import {
 } from '../../lib/planning/plan-repo';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
 import { setupPlanDeliverablesView } from './plan-deliverables';
+import { setupPlanDocumentsView } from './plan-documents';
 import { ELEMENT_HREF } from '../../lib/planning/element-context';
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
@@ -371,8 +372,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Schedule is the Gantt; Budget is the fiscal-year sheet over the same elements. The panel's tabs switch them, the
   // URL keeps the choice (&view=budget), and the drawer's Open in Budget View lands on the element's row.
   // Deliverables (and Documents) are the plan's records as views (2026-10-28): always offered, whatever it tracks.
-  type View = 'schedule' | 'budget' | 'deliverables';
-  const RECORD_VIEWS: View[] = ['deliverables'];
+  type View = 'schedule' | 'budget' | 'documents' | 'deliverables';
+  const RECORD_VIEWS: View[] = ['documents', 'deliverables'];
   const viewToggle = document.querySelector<HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string }>('[data-prp-view-toggle]');
   const asView = (v: string | null | undefined): View => (v === 'budget' || (RECORD_VIEWS as string[]).includes(v ?? '') ? (v as View) : 'schedule');
   let view: View = asView(params.get('view'));
@@ -381,6 +382,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const VIEW_OPTIONS: Record<View, { label: string; value: string; icon: string }> = {
     schedule: { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar },
     budget: { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet },
+    documents: { label: 'Documents', value: 'documents', icon: PLAN_ICON_PATHS.files },
     deliverables: { label: 'Deliverables', value: 'deliverables', icon: PLAN_ICON_PATHS.package },
   };
   function applyViews(): void {
@@ -436,8 +438,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     isDeliverable: (id) => !!attributesAt(getRepo(planID!))[id]?.deliverable,
     elementHref: (id) => ELEMENT_HREF(planID!, id),
   });
+  const documentsView = setupPlanDocumentsView(q<HTMLElement>('[data-bcn-plan-documents]'), {
+    planID: planID!,
+    plan: () => live,
+    elementHref: (id) => ELEMENT_HREF(planID!, id),
+  });
   function drawRecordViews(): void {
     if (view === 'deliverables') deliverablesView.draw();
+    if (view === 'documents') documentsView.draw();
   }
   drawRecordViews();
 

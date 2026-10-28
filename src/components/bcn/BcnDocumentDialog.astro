@@ -34,7 +34,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
       <!-- Add Existing: one of the plan's files not on this element yet. -->
       <section class="bcn-docd__section" data-docd-section="existing">
-        <esa-combobox mode="autocomplete" size="sm" label="Document" placeholder="Search the plan's files" required data-docd-existing></esa-combobox>
+        <esa-combobox mode="autocomplete" size="sm" label="Document" placeholder="Search the Plan's Files" required data-docd-existing></esa-combobox>
       </section>
 
       <!-- Add Link: where it points and what to call it. -->
@@ -69,15 +69,15 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     <div class="bcn-docd__block" role="group">
       <p class="bcn-docd__file typography-label-sm-strong" data-d-file hidden><span data-d-file-name></span> <span class="bcn-docd__file-size typography-body-sm" data-d-file-size></span></p>
       <div class="bcn-docd__grid">
-        <esa-select size="sm" label="Type" placeholder="Choose a type" required data-d="type"></esa-select>
+        <esa-select size="sm" label="Type" placeholder="Choose a Type" required data-d="type"></esa-select>
         <esa-date-picker size="sm" label="Document Date" help-text="When written or received" required data-d="date"></esa-date-picker>
         <esa-text-field size="sm" label="Revision" placeholder="e.g. Draft 1" maxlength="40" autocomplete="off" data-d="revision" hidden></esa-text-field>
       </div>
-      <esa-text-field size="sm" label="Relevance Note" placeholder="Why it matters here" maxlength="200" autocomplete="off" data-d="note"></esa-text-field>
+      <esa-text-field size="sm" label="Relevance Note" placeholder="Why It Matters Here" maxlength="200" autocomplete="off" data-d="note"></esa-text-field>
       <div class="bcn-docd__corr" data-d-corr hidden>
         <p class="bcn-docd__corr-head typography-label-sm-strong">Correspondence</p>
         <div class="bcn-docd__grid">
-          <esa-select size="sm" label="Agency" placeholder="Choose an agency" required data-d="agency"></esa-select>
+          <esa-select size="sm" label="Agency" placeholder="Choose an Agency" required data-d="agency"></esa-select>
           <esa-button-toggle size="sm" label="Direction" data-d="direction"></esa-button-toggle>
           <esa-date-picker size="sm" label="Received On" required data-d="letterDate"></esa-date-picker>
         </div>

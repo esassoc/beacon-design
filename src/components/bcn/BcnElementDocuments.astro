@@ -98,10 +98,6 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
 </script>
 
 <style>
-  /* The card's own clip would cut off a row's menu or the Also On popover at its foot. */
-  :global([data-element-module='documents'] .esa-card) {
-    overflow: visible;
-  }
   /* The type filter's trigger at the header buttons' size (esa-button xs sets its label in microcopy-2xs). */
   .bcn-edocs__actions esa-filter-dropdown {
     --typography-microcopy-xs-font-size: var(--typography-microcopy-2xs-font-size);
