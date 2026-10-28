@@ -9,7 +9,7 @@ import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
-import { setupPlanBudgetSheet } from './plan-budget-sheet';
+import { setupPlanBudgetSheet, type BudgetChange } from './plan-budget-sheet';
 import { PLAN_ICON_PATHS, fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
@@ -404,19 +404,18 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   showView();
 
   const sheet = setupPlanBudgetSheet(q<HTMLElement>('[data-bcn-plan-budget-sheet]'), {
-    onEdit: (id, fy, value) => budgetEdit(id, fy, value),
+    onEdit: (changes) => budgetEdit(changes),
     onOpen: (id) => void openElement(id),
   });
   function drawSheet(): void {
     if (view !== 'budget') return;
-    const note = q<HTMLElement>('[data-pbs-note]');
-    note.hidden = mode === 'own';
-    note.textContent =
+    // The value bar's end: why the sheet won't take a figure, or, in your draft, how it reads one.
+    q<HTMLElement>('[data-pbs-note]').textContent =
       mode === 'live'
         ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change the budget.`
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only.`
-          : '';
+          : 'Type a figure: 250k or 1.2m works.';
     sheet.set({
       plan: shown,
       budget: currentBudget(),
@@ -426,12 +425,25 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       heading: planGanttView(shown).outlineHeading,
     });
   }
-  /** A cell changed in your draft: one edit, "Budget Set". */
-  function budgetEdit(id: string, fy: number, value: number): void {
+  /** Cells changed in your draft: one edit. A typed figure is "Budget Set", a deleted one "Budget Cleared", a pasted
+   *  block "Budget Pasted" with its count of cells. */
+  function budgetEdit(changes: BudgetChange[]): void {
     if (mode !== 'own') return drawSheet();
-    if ((currentBudget()[id]?.[String(fy)] ?? 0) === value) return;
-    const name = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
-    void applyEdits([], { budget: { [id]: { [String(fy)]: value } }, note: { action: 'Budget Set', subject: name, object: fiscalYearLabel(fy), shift: dollars.format(value) } });
+    const was = currentBudget();
+    const real = changes.filter((c) => (was[c.id]?.[String(c.fy)] ?? 0) !== c.value);
+    if (!real.length) return drawSheet();
+    const patch: PlanBudget = {};
+    for (const c of real) patch[c.id] = { ...patch[c.id], [String(c.fy)]: c.value };
+    const nameOf = (id: string) => flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
+    const one = real[0];
+    const rows = new Set(real.map((c) => c.id));
+    const note: PlanChangeNote =
+      real.length > 1
+        ? { action: 'Budget Pasted', subject: rows.size === 1 ? nameOf(one.id) : `${rows.size} Items`, shift: `${real.length} Cells` }
+        : one.value === 0
+          ? { action: 'Budget Cleared', subject: nameOf(one.id), object: fiscalYearLabel(one.fy) }
+          : { action: 'Budget Set', subject: nameOf(one.id), object: fiscalYearLabel(one.fy), shift: dollars.format(one.value) };
+    void applyEdits([], { budget: patch, note });
   }
 
   // ── A dependency as an object, on Live: change its lag or unlink it; either is the next revision ──

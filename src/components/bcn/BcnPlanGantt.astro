@@ -78,6 +78,9 @@ const { label, id } = Astro.props;
     /* Beacon's $type-size-meta (0.8125rem); the spoke's font sizes are fluid, Beacon's are fixed. */
     --_meta: 0.8125rem;
     --_indent: var(--spacing-400);
+    /* The caret's slot (the xs icon button). A leaf's spacer takes the same width, so each level's name steps in by
+       exactly --_indent from its parent's (2026-10-28: leaves sat under their parent's name, the spacer a half caret). */
+    --_caret: 2rem;
     /* The Budget column's width: a compact figure ("$2.4M") with room to breathe. */
     --_budget-w: 3.75rem;
   }
@@ -234,7 +237,8 @@ const { label, id } = Astro.props;
   /* Points down when expanded, rotates to point right when collapsed. */
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret svg) { transition: transform 120ms ease; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret[aria-expanded='false'] svg) { transform: rotate(-90deg); }
-  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-spacer) { flex-shrink: 0; inline-size: var(--_indent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret) { inline-size: var(--_caret); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-spacer) { flex-shrink: 0; inline-size: var(--_caret); }
 
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__schedule-summary) {
     position: absolute;

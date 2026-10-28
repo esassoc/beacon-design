@@ -4,34 +4,123 @@
 // elements the Gantt draws, one row each (parents sum their children), one column per California fiscal year (July to
 // June) across the plan, a Total column, and a pinned Plan Total row.
 //
-// Live reads; your draft edits a task's cells (Enter or a double-click, Tab across, Escape out), each change one edit
-// of the draft. The schedule shows through: a year outside an element's dates is shaded, and money in one is flagged.
-// The runtime is ./plan-budget-sheet.ts (setupPlanBudgetSheet).
+// Live reads; your draft edits a task's cells, each change one edit of the draft. The schedule shows through: a year
+// outside an element's dates is hatched, and money in one is flagged.
+//
+// It reads and behaves like a spreadsheet (2026-10-28, Andy: "as Excel and Google Sheets like as possible"): flush in
+// its panel, a name box and value bar above the grid (the cursor's year and item; its figure, what it sums, what Live
+// held), a 2px cell cursor with its column header and row name lit, no zebra (hairlines between rows and columns, the
+// parents shaded by tier as in the Gantt), year headers in two lines with the current year marked, money right-aligned
+// in JetBrains Mono, and the spreadsheet keys. The runtime is ./plan-budget-sheet.ts.
 //
 // bcn-lego-checked: the sheet IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts, its light-header
-// variant), as Beacon's grids are; its number editor is AG Grid's. No esa- lego is an editable grid. The CSS is the
-// cell states (parent, outside the schedule, changed in the draft) and the host's height.
+// variant, made a sheet in the runtime), as Beacon's grids are; its editor is AG Grid's. No esa- lego is an editable
+// grid or a formula bar. The CSS is the bar, the cell states (parent tier, outside the schedule, changed in the draft),
+// the cursor and editor, and the year header.
 ---
 
 <div class="bcn-pbs" data-bcn-plan-budget-sheet>
-  <p class="bcn-pbs__note typography-body-sm" data-pbs-note hidden></p>
+  <!-- A spreadsheet's name box and value bar: where the cursor is, and what the cell holds. Its end says why the sheet
+       won't take a figure, or how it reads one. -->
+  <div class="bcn-pbs__bar typography-body-sm" aria-live="polite">
+    <span class="bcn-pbs__ref" data-pbs-ref data-empty>Select a Cell</span>
+    <span class="bcn-pbs__fx" aria-hidden="true">fx</span>
+    <span class="bcn-pbs__value" data-pbs-value></span>
+    <span class="bcn-pbs__note" data-pbs-note></span>
+  </div>
   <div class="bcn-pbs__grid" data-pbs-grid></div>
 </div>
 
 <style>
-  .bcn-pbs { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-pbs :global([hidden]) { display: none !important; }
-  .bcn-pbs__note { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-pbs {
+    display: flex;
+    flex-direction: column;
+    /* The cursor's column header and row name. */
+    --_pbs-lit: color-mix(in srgb, var(--color-background-brand) 9%, var(--color-background-elevation-raised));
+  }
   .bcn-pbs__grid { inline-size: 100%; }
-  /* Parents sum their children: bold, and never editable. */
+
+  /* The name box and value bar: a strip flush under the panel's header, as Sheets' sits over its columns. */
+  .bcn-pbs__bar {
+    display: grid;
+    grid-template-columns: 20rem auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    min-block-size: 2.25rem;
+    border-block-end: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-pbs__bar > * { display: flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; padding-inline: var(--spacing-300); white-space: nowrap; overflow: hidden; }
+  .bcn-pbs__ref { border-inline-end: 1px solid var(--color-border-default); }
+  .bcn-pbs__ref :global(strong) { flex-shrink: 0; font-family: var(--bcn-font-figures); font-size: 12px; font-weight: 500; }
+  .bcn-pbs__ref :global(span) { overflow: hidden; text-overflow: ellipsis; color: var(--color-content-default-secondary); }
+  .bcn-pbs__ref[data-empty] { color: var(--color-content-default-tertiary); }
+  .bcn-pbs__fx { font-style: italic; font-family: Georgia, serif; color: var(--color-content-default-tertiary); border-inline-end: 1px solid var(--color-border-default); }
+  .bcn-pbs__value { font-family: var(--bcn-font-figures); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .bcn-pbs__value :global(small) {
+    font-family: var(--typography-font-family-sans, inherit);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+    padding-inline-start: var(--spacing-200);
+    border-inline-start: 1px solid var(--color-border-default);
+  }
+  .bcn-pbs__note { color: var(--color-content-default-tertiary); }
+
+  /* The year header: its label over its months, right-aligned over the figures; the current year in brand. */
+  .bcn-pbs__grid :global(.bcn-pbs__head) { display: flex; flex-direction: column; align-items: flex-end; inline-size: 100%; line-height: 1.2; }
+  .bcn-pbs__grid :global(.bcn-pbs__head-fy) { font-weight: 600; }
+  .bcn-pbs__grid :global(.bcn-pbs__head-span) { font-size: 11px; font-weight: 400; color: var(--color-content-default-tertiary); }
+  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] .bcn-pbs__head-span) { color: var(--color-content-brand); font-weight: 600; }
+
+  /* Money in the sheet's figures: JetBrains Mono (--bcn-font-figures), so columns of dollars line up digit for digit
+     (DM Sans as loaded has no tabular figures: its 1 is half its 8). Sums take 500, not the sans' 600: a mono's
+     bold runs dark at 13px. */
+  .bcn-pbs__grid :global(.bcn-pbs__money) { font-family: var(--bcn-font-figures); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .bcn-pbs__grid :global(.bcn-pbs__money:is(.bcn-pbs__parent, .bcn-pbs__changed, .bcn-pbs__stray)),
+  .bcn-pbs__grid :global(.ag-row-pinned .bcn-pbs__money) { font-weight: 500; }
+  .bcn-pbs__grid :global(.bcn-pbs__money.bcn-pbs__zero) { color: var(--color-content-default-tertiary); font-weight: 400; }
+  /* Parents sum their children: bold, never editable, and shaded by tier as the Gantt's rows are. */
   .bcn-pbs__grid :global(.bcn-pbs__parent) { font-weight: 600; }
-  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  /* A year the element doesn't run in: quietly shaded, so the schedule shows through the money. */
-  .bcn-pbs__grid :global(.bcn-pbs__off) { background: color-mix(in srgb, var(--color-content-default) 3%, transparent); color: var(--color-content-default-tertiary); }
+  .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-0) { background-color: color-mix(in srgb, var(--color-content-default) 3%, var(--color-background-elevation-raised)); }
+  .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-1) { background-color: color-mix(in srgb, var(--color-content-default) 1.5%, var(--color-background-elevation-raised)); }
+  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name:hover) { text-decoration: underline; }
+  /* A year the element doesn't run in: hatched, so the schedule shows through the money without reading as a sum. */
+  .bcn-pbs__grid :global(.bcn-pbs__off) {
+    background-image: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in srgb, var(--color-content-default) 6%, transparent) 5px 6px);
+    color: var(--color-content-default-tertiary);
+  }
   /* Money in a year the element doesn't run in: worth a look. */
   .bcn-pbs__grid :global(.bcn-pbs__stray) { color: var(--color-content-utility-warning); font-weight: 600; }
-  /* A cell the draft changed from Live. */
-  .bcn-pbs__grid :global(.bcn-pbs__changed) { background: color-mix(in srgb, var(--color-background-brand) 10%, transparent); font-weight: 600; }
-  .bcn-pbs__grid :global(.bcn-pbs__editable) { cursor: text; }
+  /* A cell the draft changed from Live: the draft's green, as its badge. */
+  .bcn-pbs__grid :global(.bcn-pbs__changed) { background-color: color-mix(in srgb, var(--bcn-mark-green) 14%, transparent); font-weight: 600; }
+  /* The spreadsheet's cell cursor over a figure you can type into. */
+  .bcn-pbs__grid :global(.bcn-pbs__editable) { cursor: cell; }
+  /* The total: its own column, and the plan's row along the foot. */
+  .bcn-pbs__grid :global(.bcn-pbs__total) { background-color: color-mix(in srgb, var(--color-content-default) 2%, transparent); }
+  .bcn-pbs__grid :global(.ag-floating-bottom) { border-block-start: 1px solid var(--color-border-default-strong, var(--color-border-default)); }
+  .bcn-pbs__grid :global(.ag-row-pinned) { background-color: var(--color-background-elevation-sunken); }
   .bcn-pbs__grid :global(.ag-row-pinned .ag-cell) { font-weight: 600; }
+
+  /* The cursor: a 2px brand ring inside the cell, as Sheets and Excel draw theirs; no layout shift. */
+  .bcn-pbs__grid :global(.ag-cell.ag-cell-focus) { border-color: transparent !important; box-shadow: inset 0 0 0 2px var(--color-background-brand); }
+  /* Editing lifts the cell: the ring outside, a shadow under, the figure typed where it shows. */
+  .bcn-pbs__grid :global(.ag-cell.ag-cell-inline-editing) {
+    z-index: 2;
+    border-color: transparent !important;
+    background: var(--color-background-elevation-raised);
+    box-shadow: 0 0 0 2px var(--color-background-brand), var(--elevation-2);
+  }
+  .bcn-pbs__grid :global(.ag-cell-inline-editing input) {
+    block-size: 100%;
+    border: 0 !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    outline: 0;
+    padding-inline: 12px;
+    background: transparent;
+    text-align: end;
+    font-family: var(--bcn-font-figures);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
 </style>

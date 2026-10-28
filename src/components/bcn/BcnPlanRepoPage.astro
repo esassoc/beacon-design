@@ -113,8 +113,8 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
             <span data-prp-redo><esa-tooltip text="Redo (Ctrl+Shift+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></esa-tooltip></span>
             <span data-prp-discard><esa-tooltip text="Delete this draft. Live is not affected." position="below"><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></esa-tooltip></span>
           </span>
-          <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
-          <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+          <!-- Live's one action, with an edit pencil; ghost and small in the panel's header (2026-10-28, Andy). -->
+          <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
           <!-- Someone else's draft (2026-10-28): the way back to the plan of record, beside its one action. -->
           <span data-prp-back hidden><esa-tooltip text="Leave this draft for Live" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left" data-fill-icon="arrow-left">Back to Live Plan</EsaButton></esa-tooltip></span>
           <span data-prp-copy hidden><esa-tooltip text="Start your draft from this one" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></esa-tooltip></span>
@@ -368,7 +368,8 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__actions { display: flex; align-items: center; gap: var(--spacing-200); margin-inline-start: auto; }
   /* Inside the card, the chart drops its own frame. */
   .bcn-prp__view :global(.bcn-plan-gantt-host .bcn-plan-gantt) { border: 0; border-radius: 0; }
-  .bcn-prp__view--budget { display: block; padding: var(--spacing-300); }
+  /* The sheet runs flush in the panel, as the chart does; past the viewport it scrolls inside, header and total pinned. */
+  .bcn-prp__view--budget { display: block; --bcn-pbs-max-height: calc(100vh - 10rem); }
   .bcn-prp__view .bcn-prp__no-match { border: 0; border-radius: 0; }
   /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
