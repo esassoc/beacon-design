@@ -16,7 +16,7 @@ import { withBase } from '../../../../lib/base';
   layout: AppShell > PageLayout                       # SPINE
   sections:
     - title badges -> esa-badge                       # level, Deliverable, Milestone
-    - actions      -> esa-button                      # previous, next, Open in Plan, Edit in a Draft, Back to Live Plan
+    - actions      -> esa-button                      # previous, next, Open in Plan, Edit (form, then review), Back to Live Plan
     - page         -> bcn-plan-element-page           # facts strip, two columns of bcn-element-module cards
 -->
 
@@ -33,7 +33,7 @@ import { withBase } from '../../../../lib/base';
       <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
       <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
       <span data-pep-action="open-plan"><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
-      <span data-pep-action="edit" hidden><esa-tooltip text="Change its owners and fields without touching Live" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+      <span data-pep-action="edit" hidden><esa-tooltip text="Name, dates, owners and fields, then review and publish" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
       <span data-pep-action="back" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Back to Live Plan</EsaButton></span>
     </div>
     <BcnPlanElementPage />

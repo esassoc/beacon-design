@@ -1,18 +1,12 @@
 // The Details module's runtime (2026-10-28): the side column's lead card. See ./BcnElementDetails.astro for what it
 // holds and why; ./element-module.ts for the contract.
 
-import '@esa/ecology/esa-side-dialog';
 import '@esa/ecology/esa-select';
-import '@esa/ecology/esa-combobox';
-import '@esa/ecology/esa-text-field';
-import '@esa/ecology/esa-textarea';
-import '@esa/ecology/esa-date-picker';
-import '@esa/ecology/esa-switch-toggle';
 import '@esa/ecology/esa-tooltip';
 import type { ElementContext } from '../../lib/planning/element-context';
 import { PLAN_VIEW_HREF, datesText } from '../../lib/planning/element-context';
 import type { FieldDef } from '../../lib/planning/plan-config';
-import { PLAN_DIRECTORY, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
+import { orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
 import { planAvatar } from './plan-people';
@@ -20,7 +14,6 @@ import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
 import { day, money, type ElementModuleSetup } from './element-module';
 
 type Lit = HTMLElement & { value: unknown; options?: { value: string; label: string }[]; checked?: boolean; errorText?: string };
-type SideDialog = HTMLElement & { open: boolean; heading: string };
 
 const firstName = (name: string) => name.split(' ')[0];
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => Object.assign(document.createElement(tag), { className, textContent: text });
@@ -52,7 +45,6 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
   const q = <T extends HTMLElement = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   const list = q<HTMLDListElement>('[data-det-list]');
   const tpl = (name: string) => (q<HTMLTemplateElement>(`[data-det-tpl="${name}"]`).content.firstElementChild!.cloneNode(true) as HTMLElement);
-  const dialog = q<SideDialog>('[data-det-dialog]');
   fillIcons(root);
 
   const row = (label: string, ...content: (Node | string)[]) => {
@@ -172,149 +164,18 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     const canPublish = ctx.myRole !== 'Contributor' && ctx.myRole !== 'Guest';
     const note = q('[data-det-note]');
     note.textContent =
-      ctx.mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change owners and fields.`
+      ctx.mode === 'live' && !canPublish && ctx.myRole !== 'Guest'
+        ? 'Your edits go to your scenario, for someone who can publish.'
         : ctx.mode === 'view'
           ? `${firstName(ctx.draft!.owner)}'s draft is read-only.`
           : '';
     note.hidden = !note.textContent;
-    q('[data-det-edit]').hidden = !ctx.canEditPlan;
+    // Edit opens the page's form: on Live for anyone who keeps the plan, in your own draft; not in someone else's.
+    q('[data-det-edit]').hidden = !(ctx.mode === 'own' || (ctx.mode === 'live' && ctx.myRole !== 'Guest'));
   }
 
-  // ── The editor (your draft) ──
-  let editing: { owners: string[]; deliverable: boolean; values: Record<string, FieldValue> } | null = null;
-  const controls = new Map<string, Lit>();
-  const ownersList = q<HTMLUListElement>('[data-det-owners]');
-  const addOwner = q<Lit>('[data-det-add-owner]');
-
-  function drawOwners(): void {
-    if (!editing) return;
-    ownersList.replaceChildren(
-      ...editing.owners.map((name) => {
-        const li = document.createElement('li');
-        const label = el('span', '', name);
-        if (orgOf(name)) label.append(' ', el('span', 'bcn-det__org', `(${orgOf(name)})`));
-        const remove = tpl('remove');
-        remove.querySelector('button')?.setAttribute('aria-label', `Remove ${name}`);
-        remove.addEventListener('click', () => {
-          editing!.owners = editing!.owners.filter((n) => n !== name);
-          drawOwners();
-        });
-        li.append(planAvatar(name, 'xs'), label, remove);
-        return li;
-      })
-    );
-    void customElements.whenDefined('esa-combobox').then(() => {
-      addOwner.options = PLAN_DIRECTORY.filter((n) => !editing!.owners.includes(n)).map((n) => ({ value: n, label: orgOf(n) ? `${n} (${orgOf(n)})` : n }));
-    });
-  }
-  addOwner.addEventListener('change', () => {
-    const picked = String(addOwner.value ?? '');
-    if (!picked || !editing || editing.owners.includes(picked)) return;
-    editing.owners = [...editing.owners, picked];
-    drawOwners();
-    requestAnimationFrame(() => (addOwner.value = ''));
-  });
-
-  /** One control per field, by type; its value read back on save. */
-  function control(def: FieldDef, value: FieldValue | undefined): Lit {
-    let c: Lit;
-    const opts = (list: readonly string[]) => list.map((o) => ({ value: o, label: o }));
-    switch (def.type) {
-      case 'longtext':
-        c = document.createElement('esa-textarea') as Lit;
-        c.setAttribute('rows', '3');
-        break;
-      case 'date':
-        c = document.createElement('esa-date-picker') as Lit;
-        break;
-      case 'select':
-      case 'multiselect':
-      case 'person':
-        c = document.createElement('esa-select') as Lit;
-        if (def.type === 'multiselect') c.setAttribute('multiple', '');
-        break;
-      case 'yesno':
-        c = document.createElement('esa-switch-toggle') as Lit;
-        c.setAttribute('label-position', 'end');
-        break;
-      default:
-        c = document.createElement('esa-text-field') as Lit;
-        if (def.type === 'number' || def.type === 'money') c.setAttribute('inputmode', 'decimal');
-        if (def.type === 'money') c.setAttribute('prefix', '$');
-        if (def.type === 'link') c.setAttribute('placeholder', 'https://');
-    }
-    c.setAttribute('size', 'sm');
-    c.setAttribute('label', def.label);
-    if (def.help) c.setAttribute('help-text', def.help);
-    const tag = c.tagName.toLowerCase();
-    void customElements.whenDefined(tag).then(() => {
-      if (def.type === 'select' || def.type === 'multiselect') c.options = opts(def.options ?? []);
-      if (def.type === 'person') c.options = PLAN_DIRECTORY.map((n) => ({ value: n, label: orgOf(n) ? `${n} (${orgOf(n)})` : n }));
-      if (def.type === 'yesno') c.checked = !!value;
-      else if (def.type === 'multiselect') c.value = Array.isArray(value) ? value : [];
-      else c.value = value === null || value === undefined ? '' : String(value);
-    });
-    return c;
-  }
-  function readControl(def: FieldDef, c: Lit): FieldValue {
-    if (def.type === 'yesno') return !!c.checked;
-    if (def.type === 'multiselect') return Array.isArray(c.value) ? (c.value as string[]) : [];
-    const raw = String(c.value ?? '').trim();
-    if (!raw) return null;
-    if (def.type === 'number' || def.type === 'money') {
-      const n = Number(raw.replace(/[$,\s]/g, ''));
-      return Number.isFinite(n) ? n : raw;
-    }
-    return raw;
-  }
-
-  function openEditor(): void {
-    const ctx = host.ctx();
-    if (!ctx.canEditPlan) return;
-    editing = { owners: [...(ctx.attrs.owners ?? [])], deliverable: !!ctx.attrs.deliverable, values: { ...(ctx.attrs.values ?? {}) } };
-    dialog.heading = `Edit ${ctx.element.PlanElementName ?? 'Details'}`;
-    drawOwners();
-    const deliverableSection = q('[data-det-deliverable-section]');
-    deliverableSection.hidden = !(ctx.level.canBeDeliverable || ctx.attrs.deliverable);
-    const toggle = q<Lit>('[data-det-deliverable]');
-    void customElements.whenDefined('esa-switch-toggle').then(() => (toggle.checked = editing!.deliverable));
-    const box = q('[data-det-fields]');
-    controls.clear();
-    box.replaceChildren(
-      ...ctx.fields.map(({ def }) => {
-        const c = control(def, editing!.values[def.id]);
-        controls.set(def.id, c);
-        return c;
-      })
-    );
-    q('[data-det-fields-head]').hidden = !ctx.fields.length;
-    dialog.open = true;
-  }
-  q('[data-det-edit]').addEventListener('click', openEditor);
-  q('[data-det-cancel]').addEventListener('click', () => (dialog.open = false));
-  q('[data-det-save]').addEventListener('click', async () => {
-    const ctx = host.ctx();
-    if (!editing) return;
-    const toggle = q<Lit>('[data-det-deliverable]');
-    const values: Record<string, FieldValue> = {};
-    const changed: string[] = [];
-    for (const { def } of ctx.fields) {
-      const c = controls.get(def.id);
-      if (!c) continue;
-      const v = readControl(def, c);
-      values[def.id] = v;
-      if (JSON.stringify(v ?? null) !== JSON.stringify(ctx.attrs.values?.[def.id] ?? null)) changed.push(def.label);
-    }
-    const owners = editing.owners;
-    if (JSON.stringify(owners) !== JSON.stringify(ctx.attrs.owners ?? [])) changed.unshift(owners.length === 1 ? 'Owner' : 'Owners');
-    const deliverable = !q('[data-det-deliverable-section]').hidden ? !!toggle.checked : !!ctx.attrs.deliverable;
-    if (deliverable !== !!ctx.attrs.deliverable) changed.push('Deliverable');
-    dialog.open = false;
-    if (!changed.length) return;
-    await host.editAttributes({ owners, deliverable, values }, changed.join(', '));
-    host.toast('Saved to your draft.');
-  });
+  // Edit: the page's Edit modal (2026-10-28, Andy: "a form modal (x-large)... and then a republish review").
+  q('[data-det-edit]').addEventListener('click', () => root.dispatchEvent(new CustomEvent('bcn-element-edit', { bubbles: true })));
 
   return { draw };
 };

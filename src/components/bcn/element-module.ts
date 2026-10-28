@@ -15,8 +15,6 @@ export interface ElementModuleHost {
   ctx(): ElementContext;
   /** Re-read the plan and records and draw every module again (after a write a module made itself). */
   refresh(): Promise<void>;
-  /** A draft edit to this element's planned attributes, as the draft's next revision. Only in your own draft. */
-  editAttributes(patch: { owners?: string[]; deliverable?: boolean; values?: Record<string, unknown> }, note: string): Promise<void>;
   /** The page's confirm (esa-confirm-dialog). */
   confirm(opts: { heading: string; message: string; confirmLabel?: string; danger?: boolean }): Promise<boolean>;
   /** A short message at the foot of the page (esa-snackbar). */

@@ -66,7 +66,7 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     <!-- A publish can carry a name ("Submitted to CDFW"), shown on the history's slider as a taller tick. -->
     <esa-text-field class="bcn-prvd__name" data-prvd-name size="sm" placeholder="Name This Revision (Optional)" aria-label="Name This Revision" hidden></esa-text-field>
     <p class="bcn-prvd__note typography-body-sm" data-prvd-note hidden></p>
-    <span data-prvd-close><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
+    <span data-prvd-close><EsaButton variant="ghost" appearance="outline"><span data-prvd-close-label>Close</span></EsaButton></span>
     <span data-prvd-restore hidden><EsaButton variant="primary" icon="rotate-ccw" data-fill-icon="rotate-ccw"><span data-prvd-act-label>Restore</span></EsaButton></span>
     <span data-prvd-publish hidden><EsaButton variant="primary" icon="git-merge" data-fill-icon="git-merge"><span data-prvd-act-label>Publish</span></EsaButton></span>
   </div>
@@ -88,6 +88,9 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
 </script>
 
 <style>
+  /* One edit under review (the element page's Edit): Live against the edit, nothing to step through. */
+  .bcn-prvd[data-single] :global(.bcn-rvs__row),
+  .bcn-prvd[data-single] :global([data-rvs-compare]) { display: none; }
   .bcn-prvd {
     --dialog-width: min(84rem, calc(100vw - 4rem));
     /* The compare chart sits in the dialog's scroll, so it keeps to a height of its own. */

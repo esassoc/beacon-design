@@ -114,6 +114,9 @@ export interface PlanRepoDraft {
   revisions: PlanRevision[];
   /** When its owner, who can't publish, asked someone who can (the draft study, 2026-10-27: "Ask to publish"). */
   publishRequestedAt?: string;
+  /** An element page's Edit, under review (2026-10-28, Andy: "a form modal ... and then a republish review"): one
+   *  edit to one item, published or thrown away when its review closes. Not the person's draft. */
+  transient?: boolean;
 }
 
 export interface PlanRepo {
@@ -1017,7 +1020,27 @@ export async function draftState(draft: PlanRepoDraft, index: number = draft.rev
 /** The viewer's draft of this plan, if they have one. One per person per plan (the 2026-10-26 check-in: "you get one branch at a time"). */
 export function myDraft(planID: string): PlanRepoDraft | null {
   const me = currentUserName();
-  return getRepo(planID).drafts.find((d) => d.owner === me) ?? null;
+  return getRepo(planID).drafts.find((d) => d.owner === me && !d.transient) ?? null;
+}
+
+/** An element page's Edit: a draft of its own holding one edit while it's reviewed. The person's draft, if any, is left
+ *  alone; the review publishes this one or the page discards it. */
+export function startEditDraft(planID: string, itemName: string): PlanRepoDraft {
+  const store = load();
+  const repo = findRepo(store, planID);
+  const draft: PlanRepoDraft = {
+    id: uid(),
+    planID,
+    name: `Edit to ${itemName}`,
+    owner: currentUserName(),
+    createdAt: new Date().toISOString(),
+    baseVersion: latestVersion(repo).number,
+    revisions: [],
+    transient: true,
+  };
+  repo.drafts.push(draft);
+  save(store);
+  return draft;
 }
 
 /**
@@ -1029,7 +1052,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
   const store = load();
   const repo = findRepo(store, planID);
   const me = currentUserName();
-  const existing = repo.drafts.find((d) => d.owner === me);
+  const existing = repo.drafts.find((d) => d.owner === me && !d.transient);
   if (existing && !from) return existing;
   const stamp = new Date();
   const draft: PlanRepoDraft = {
@@ -1043,7 +1066,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
       ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget), attributes: clone(from.revisions.at(-1)?.attributes) }]
       : [],
   };
-  repo.drafts = [...repo.drafts.filter((d) => d.owner !== me), draft];
+  repo.drafts = [...repo.drafts.filter((d) => d.owner !== me || d.transient), draft];
   save(store);
   return draft;
 }
@@ -1162,11 +1185,12 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     number: latestVersion(fresh).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    ...noted(own.length <= 1 ? revisionNote(own, changes.length - own.length) : { action: 'Published', subject: draft.name, shift: `${changes.length} Items` }),
+    // An edit with no date change says what it did (its own note: "Edited, Owners, Lead Agency").
+    ...noted(!changes.length && rev?.note ? rev.note : own.length <= 1 ? revisionNote(own, changes.length - own.length) : { action: 'Published', subject: draft.name, shift: `${changes.length} Items` }),
     changeCount: changes.length,
     label: label?.trim() || null,
     source: 'draft',
-    draftName: draft.name,
+    draftName: draft.transient ? null : draft.name,
     plan: clone(next),
     // Live's budget with the draft's cells over it; the same for its attributes.
     budget: mergeBudget(budgetAt(fresh), rev?.budget),

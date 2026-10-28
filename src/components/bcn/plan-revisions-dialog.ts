@@ -489,7 +489,10 @@ export function setupPlanRevisionsDialog(opts: {
       const nameField = q<HTMLElement & { value: string }>('[data-prvd-name]');
       nameField.value = '';
       const name = live.PlanName ?? 'Plan';
-      dialog.heading = d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
+      // One edit under review (the element page's Edit): no revisions to step through, so no slider.
+      dialog.toggleAttribute('data-single', !!d?.transient);
+      q<HTMLElement>('[data-prvd-close-label]').textContent = d?.transient ? 'Back to Edit' : 'Close';
+      dialog.heading = d?.transient ? `Review Your Edit: ${d.name.replace(/^Edit to /, '')}` : d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
 
       // A fresh slider for these stops (its listeners belong to this open).
       const slot = q<HTMLElement>('[data-prvd-slider-slot]');

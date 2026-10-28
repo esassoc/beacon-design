@@ -5,7 +5,10 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, startDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft, type ElementAttributes } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, startDraft, startEditDraft, discardDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
+import { planDraftWithEdits } from '../../lib/planning/plan-draft';
+import { setupElementEditDialog, type EditMode, type ElementEdit } from './element-edit-dialog';
+import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PREVIEW_CONFIG_KEY, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
@@ -69,16 +72,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   const host: ElementModuleHost = {
     ctx: () => ctx!,
     refresh: () => refresh(),
-    async editAttributes(patch, note) {
-      if (!ctx || ctx.mode !== 'own' || !draft) return;
-      const repo = getRepo(planID);
-      const mine = repo.drafts.find((d) => d.id === draft!.id);
-      if (!mine) return;
-      const prior = mine.revisions.at(-1);
-      const next = mergeAttributes(prior?.attributes ?? {}, { [elementId]: patch as ElementAttributes });
-      addRevision(planID, mine.id, prior?.overrides ?? [], { action: 'Edited', subject: ctx.element.PlanElementName ?? '', shift: note }, { attributes: next });
-      await refresh();
-    },
     confirm: (opts) => confirm({ header: opts.heading, text: opts.message, confirmButtonLabel: opts.confirmLabel, color: opts.danger ? 'warn' : undefined }),
     toast: (message, status = 'success') => pushAlert(message, status),
   };
@@ -137,18 +130,14 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       if (c.element.IsMilestone) titleBadges.append(badge('Milestone', 'neutral', 'sm'));
     }
 
-    const canPublish = c.myRole !== 'Contributor' && c.myRole !== 'Guest';
-
     // The page's actions.
     const set = (name: string, show: boolean) => {
       const el = util(name);
       if (el) el.hidden = !show;
     };
-    set('edit', c.mode === 'live' && c.myRole !== 'Guest');
+    // Edit: on Live for anyone who keeps the plan (reviewed, then published, or saved to a scenario), in your own draft.
+    set('edit', (c.mode === 'live' && c.myRole !== 'Guest') || c.mode === 'own');
     set('back', c.mode === 'own' || c.mode === 'view');
-    // Someone who can't publish makes a scenario (the plan page's word for their draft).
-    const editText = [...(util('edit')?.querySelectorAll('button *, button') ?? [])].flatMap((n) => [...n.childNodes]).find((n) => n.nodeType === Node.TEXT_NODE && /Draft|Scenario/.test(n.textContent ?? ''));
-    if (editText) editText.textContent = canPublish ? 'Edit in a Draft' : 'Make a Scenario';
     const open = util('open-plan')?.querySelector<HTMLAnchorElement>('a');
     if (open) open.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id) + `&el=${encodeURIComponent(elementId)}`;
     // Previous and next, in outline order.
@@ -254,13 +243,70 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   });
   window.addEventListener('storage', soon);
 
-  // ── Actions ──
-  util('edit')?.addEventListener('click', () => {
+  // ── Edit (2026-10-28, Andy: "Shouldn't this just open a form modal (x-large)... and then a republish review?") ──
+  // On Live, for someone who can publish: the form, then the plan's Review and Publish on a short-lived draft holding
+  // just this edit. Publishing lands it as Live's next revision; closing the review throws that draft away and goes
+  // back to the form as it was left. In your own draft, the form saves as its next edit. Someone who can't publish
+  // saves it to their scenario.
+  const editDialog = setupElementEditDialog(document.querySelector<HTMLElement>('[data-bcn-element-edit]')!);
+  const review = setupPlanRevisionsDialog({ planID, canPublish: true, concept: null, onLanded: () => undefined });
+  const reviewEl = document.querySelector<HTMLElement>('[data-bcn-plan-revisions-dialog]')!;
+  /** The edit as a draft's next revision: dates as overrides (and what follows them), fields, attributes. */
+  function applyEdit(draftID: string, edit: ElementEdit): void {
+    const d = getRepo(planID).drafts.find((x) => x.id === draftID);
+    if (!d || !ctx) return;
+    const prior = d.revisions.at(-1);
+    const overrides = edit.dates ? planDraftWithEdits(prior?.overrides ?? [], [edit.dates], ctx.live, true) : (prior?.overrides ?? []);
+    const fields = edit.fields ? { ...(prior?.fields ?? {}), [elementId]: { ...(prior?.fields?.[elementId] ?? {}), ...edit.fields } } : undefined;
+    const attributes = edit.attributes ? mergeAttributes(prior?.attributes ?? {}, { [elementId]: edit.attributes }) : undefined;
+    addRevision(planID, d.id, overrides, { action: 'Edited', subject: ctx.element.PlanElementName ?? '', shift: edit.changed.join(', ') }, { fields, attributes });
+  }
+  /** Resolves when a dialog shuts, however it's shut (esa-dialog sends no event when its code sets open to false). */
+  const closed = (el: HTMLElement) =>
+    new Promise<void>((resolve) => {
+      const watch = new MutationObserver(() => {
+        if (el.hasAttribute('open')) return;
+        watch.disconnect();
+        resolve();
+      });
+      watch.observe(el, { attributes: true, attributeFilter: ['open'] });
+    });
+  async function edit(): Promise<void> {
     if (!ctx) return;
-    const canPublish = ctx.myRole !== 'Contributor' && ctx.myRole !== 'Guest';
-    const mine = startDraft(planID, undefined, canPublish ? 'Draft' : 'Scenario');
-    location.assign(ELEMENT_HREF(planID, elementId, mine.id));
-  });
+    const canPublish = ctx.myRole === 'Owner' || ctx.myRole === 'Editor';
+    const mode: EditMode = ctx.mode === 'own' ? 'save' : canPublish ? 'review' : 'scenario';
+    let keep = false;
+    for (;;) {
+      const result = await editDialog.open(ctx, mode, keep);
+      if (!result) return;
+      if (mode === 'save' && draft) {
+        applyEdit(draft.id, result);
+        pushAlert('Saved to your draft.', 'success');
+        await refresh();
+        return;
+      }
+      if (mode === 'scenario') {
+        const mine = startDraft(planID, undefined, 'Scenario');
+        applyEdit(mine.id, result);
+        pushAlert('Saved to your scenario. Ask to Publish from the plan when it’s ready.', 'success', 7000);
+        return;
+      }
+      const temp = startEditDraft(planID, ctx.element.PlanElementName ?? 'Item');
+      applyEdit(temp.id, result);
+      const shut = closed(reviewEl);
+      await review.open(temp.id);
+      await shut;
+      // Published: the review removed the draft and said so. Otherwise back to the form, nothing saved.
+      if (!getRepo(planID).drafts.some((d) => d.id === temp.id)) {
+        await refresh();
+        return;
+      }
+      discardDraft(planID, temp.id);
+      keep = true;
+    }
+  }
+  util('edit')?.addEventListener('click', () => void edit());
+  root.addEventListener('bcn-element-edit', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));
   for (const name of ['prev', 'next']) {
     util(name)?.addEventListener('click', () => {

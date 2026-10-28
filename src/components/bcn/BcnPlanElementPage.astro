@@ -29,6 +29,8 @@ import BcnElementObligations from './BcnElementObligations.astro';
 import BcnElementComments from './BcnElementComments.astro';
 import BcnElementActivity from './BcnElementActivity.astro';
 import BcnHealthDialog from './BcnHealthDialog.astro';
+import BcnElementEditDialog from './BcnElementEditDialog.astro';
+import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 ---
 
 <div class="bcn-pep" data-bcn-plan-element-page>
@@ -66,6 +68,9 @@ import BcnHealthDialog from './BcnHealthDialog.astro';
 
   <BcnBadgeBank />
   <BcnHealthDialog />
+  <!-- Edit (2026-10-28, Andy): the form, then the plan's own Review and Publish for it. -->
+  <BcnElementEditDialog />
+  <BcnPlanRevisionsDialog />
 </div>
 
 <style>

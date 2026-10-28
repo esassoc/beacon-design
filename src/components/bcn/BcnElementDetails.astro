@@ -5,12 +5,12 @@
 // notes. A field the level requires to complete reads "Needed to Complete" until it has a value.
 //
 // Status is the owner's to set on a leaf; a parent's is derived. Health is derived with an override (the Completion
-// build's health dialog). Owners, the deliverable flag and field values are planned, so they edit in your own draft
-// (decision 5), in the side dialog here, as the draft's next revision. The runtime is ./element-details.ts.
+// build's health dialog). Owners, the deliverable flag and field values are planned: Edit opens the page's Edit form
+// (BcnElementEditDialog), reviewed and published from Live, or saved in your own draft. The runtime is
+// ./element-details.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card); Edit IS esa-button; the editor IS esa-side-dialog with
-// esa-select / esa-text-field / esa-textarea / esa-date-picker / esa-switch-toggle / esa-combobox fields; badges ARE
-// esa-badge (BcnBadgeBank); avatars ARE esa-avatar (BcnPlanPeople). No esa- lego is a record's label and value list
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Edit and Change ARE esa-button; Status IS esa-select;
+// badges ARE esa-badge (BcnBadgeBank); avatars ARE esa-avatar (BcnPlanPeople). No esa- lego is a record's label and value list
 // (BcnKeyValue stacks one pair; this is a dense two-column list); checked Beacon (prod detail panes are fixed
 // templates). The CSS is the list's grid and the owner rows.
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -18,34 +18,10 @@ import BcnElementModule from './BcnElementModule.astro';
 ---
 
 <BcnElementModule key="details">
-  <span slot="actions" data-det-edit hidden><esa-tooltip text="Owners, deliverable and fields, in your draft" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
+  <span slot="actions" data-det-edit hidden><esa-tooltip text="Name, dates, owners and fields" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
   <dl class="bcn-det" data-det-list></dl>
   <p class="bcn-det__note" data-det-note hidden></p>
   <template data-det-tpl="change"><EsaButton variant="ghost" size="xs">Change</EsaButton></template>
-  <template data-det-tpl="remove"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></template>
-
-  <esa-side-dialog class="bcn-det__dialog" heading="Edit Details" size="md" show-close-button data-det-dialog>
-    <form class="bcn-det__form" novalidate data-det-form>
-      <p class="bcn-det__form-note">Saved to your draft as one edit. Live changes when the draft is published.</p>
-      <section class="bcn-det__section">
-        <h3 class="bcn-det__section-head typography-label-md-strong">Owners</h3>
-        <ul class="bcn-det__owners" data-det-owners></ul>
-        <esa-combobox mode="autocomplete" size="sm" placeholder="Add an Owner" aria-label="Add an Owner" data-det-add-owner></esa-combobox>
-      </section>
-      <section class="bcn-det__section" data-det-deliverable-section>
-        <esa-switch-toggle size="sm" label="Deliverable" label-position="end" data-det-deliverable></esa-switch-toggle>
-        <p class="bcn-det__help">A deliverable is sent, received and completed: its page gains Transmittals and Completion.</p>
-      </section>
-      <section class="bcn-det__section">
-        <h3 class="bcn-det__section-head typography-label-md-strong" data-det-fields-head>Fields</h3>
-        <div class="bcn-det__fields" data-det-fields></div>
-      </section>
-    </form>
-    <div slot="footer" class="bcn-det__footer">
-      <span data-det-cancel><EsaButton variant="ghost" size="sm">Cancel</EsaButton></span>
-      <span data-det-save><EsaButton variant="primary" size="sm">Save to Draft</EsaButton></span>
-    </div>
-  </esa-side-dialog>
 </BcnElementModule>
 
 <style>
@@ -131,57 +107,5 @@ import BcnElementModule from './BcnElementModule.astro';
   }
   .bcn-det__note[hidden] {
     display: none;
-  }
-  .bcn-det__form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-500);
-  }
-  .bcn-det__form-note,
-  .bcn-det__help {
-    margin: 0;
-    color: var(--color-content-default-secondary);
-    font-size: var(--typography-body-sm-font-size);
-  }
-  .bcn-det__section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
-  }
-  .bcn-det__section[hidden] {
-    display: none;
-  }
-  .bcn-det__section-head {
-    margin: 0;
-  }
-  .bcn-det__owners {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-100);
-  }
-  .bcn-det__owners :global(li) {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-  }
-  .bcn-det__owners :global(li > span:nth-child(2)) {
-    flex: 1;
-    min-width: 0;
-  }
-  .bcn-det__owners :global(.bcn-det__org) {
-    color: var(--color-content-default-secondary);
-  }
-  .bcn-det__fields {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-  }
-  .bcn-det__footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-200);
   }
 </style>

@@ -1,0 +1,175 @@
+---
+// <BcnElementEditDialog> — an element's Edit, as one large form (2026-10-28, Andy: "Edit in a Draft from the detail
+// page... does this make sense? Shouldn't this just open a form modal (x-large)... and then a republish review?").
+// Everything planned about the item in one place: its name, its dates and their kind, whether it's a milestone, its
+// owners, whether it's a deliverable, its level's fields and its notes. On Live, Review Changes hands the edit to the
+// plan's Review and Publish modal (what changes, what follows, then Publish as Revision N); in your own draft, Save to
+// Draft adds it as the draft's next edit; someone who can't publish saves it to their scenario. Records (documents,
+// sends, status, comments) aren't here: they're kept on Live, in their cards. The runtime is ./element-edit-dialog.ts.
+//
+// bcn-lego-checked: the shell IS esa-dialog (lg, widened through its own --dialog-width-lg hook); fields ARE
+// esa-text-field / esa-textarea / esa-date-picker / esa-select / esa-switch-toggle / esa-button-toggle; Add an Owner
+// IS esa-combobox; avatars ARE esa-avatar (BcnPlanPeople); actions ARE esa-button. Checked Beacon (plan-element-drawer
+// edits dates and notes in a side drawer, no owners or custom fields). The CSS is the form's sections and grid.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+---
+
+<div class="bcn-eed" data-bcn-element-edit>
+  <esa-dialog class="bcn-eed__dialog" heading="Edit" size="lg" show-close-button data-eed-dialog>
+    <form class="bcn-eed__form" novalidate data-eed-form>
+      <p class="bcn-eed__lead" data-eed-lead></p>
+
+      <section class="bcn-eed__section" aria-labelledby="eed-item">
+        <h3 class="bcn-eed__heading" id="eed-item"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" />Item</h3>
+        <esa-text-field data-eed="name" label="Name" size="sm" required></esa-text-field>
+        <div class="bcn-eed__dates" data-eed-dates>
+          <esa-date-picker data-eed="start" label="Start Date" size="sm"></esa-date-picker>
+          <esa-date-picker data-eed="end" label="End Date" size="sm"></esa-date-picker>
+          <div class="bcn-eed__type">
+            <esa-button-toggle data-eed="type" label="Date Type" size="sm"></esa-button-toggle>
+            <p class="bcn-eed__help" data-eed-type-help></p>
+          </div>
+        </div>
+        <p class="bcn-eed__help" data-eed-parent-dates hidden></p>
+        <esa-switch-toggle data-eed="milestone" label="Milestone" label-position="after" size="sm"></esa-switch-toggle>
+      </section>
+
+      <section class="bcn-eed__section" aria-labelledby="eed-people">
+        <h3 class="bcn-eed__heading" id="eed-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS.users} size="sm" />Owners</h3>
+        <ul class="bcn-eed__owners" data-eed-owners></ul>
+        <esa-combobox mode="autocomplete" size="sm" placeholder="Add an Owner" aria-label="Add an Owner" data-eed-add-owner></esa-combobox>
+      </section>
+
+      <section class="bcn-eed__section" data-eed-deliverable-section aria-labelledby="eed-deliverable">
+        <h3 class="bcn-eed__heading" id="eed-deliverable"><EsaIcon name="package" paths={PLAN_ICON_PATHS.package} size="sm" />Deliverable</h3>
+        <esa-switch-toggle data-eed="deliverable" label="This Item Is a Deliverable" label-position="after" size="sm"></esa-switch-toggle>
+        <p class="bcn-eed__help">A deliverable is sent, received and completed: its page gains Transmittals and Completion.</p>
+      </section>
+
+      <section class="bcn-eed__section" data-eed-fields-section aria-labelledby="eed-fields">
+        <h3 class="bcn-eed__heading" id="eed-fields"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="sm" /><span data-eed-fields-title>Fields</span></h3>
+        <div class="bcn-eed__fields" data-eed-fields></div>
+      </section>
+
+      <section class="bcn-eed__section" aria-labelledby="eed-notes">
+        <h3 class="bcn-eed__heading" id="eed-notes"><EsaIcon name="message-square" paths={PLAN_ICON_PATHS['message-square']} size="sm" />Notes</h3>
+        <esa-textarea data-eed="notes" size="sm" rows="3" auto-resize placeholder="Optional" aria-label="Notes"></esa-textarea>
+      </section>
+    </form>
+    <div slot="footer" class="bcn-eed__footer">
+      <span class="bcn-eed__where" data-eed-where></span>
+      <span data-eed-cancel><EsaButton variant="ghost" size="sm">Cancel</EsaButton></span>
+      <span data-eed-submit><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge"><span data-eed-submit-label>Review Changes</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+  <template data-eed-tpl="remove"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></template>
+</div>
+
+<style>
+  .bcn-eed__dialog {
+    --dialog-width-lg: min(960px, calc(100vw - 4rem));
+  }
+  .bcn-eed__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+  }
+  .bcn-eed__lead {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    font-size: var(--typography-body-sm-font-size);
+  }
+  .bcn-eed__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-eed__section[hidden],
+  .bcn-eed__dates[hidden],
+  .bcn-eed__help[hidden] {
+    display: none;
+  }
+  .bcn-eed__heading {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-eed__heading :global(.esa-icon) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eed__dates {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  .bcn-eed__type {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-eed__help {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+  .bcn-eed__owners {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-eed__owners :global(li) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    max-width: 28rem;
+  }
+  .bcn-eed__owners :global(li > span:nth-child(2)) {
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-eed__owners :global(.bcn-eed__org) {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-eed__section :global(esa-combobox) {
+    max-width: 28rem;
+  }
+  /* The level's fields two across; a long text takes the row. */
+  .bcn-eed__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-400) var(--spacing-400);
+  }
+  .bcn-eed__fields :global(esa-textarea) {
+    grid-column: 1 / -1;
+  }
+  .bcn-eed__fields :global(.bcn-eed__needed) {
+    grid-column: 1 / -1;
+  }
+  .bcn-eed__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+  .bcn-eed__where {
+    margin-inline-end: auto;
+    color: var(--color-content-default-secondary);
+    font-size: var(--typography-body-sm-font-size);
+  }
+  @media (max-width: 760px) {
+    .bcn-eed__dates,
+    .bcn-eed__fields {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
