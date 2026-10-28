@@ -29,6 +29,7 @@ import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
 import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
 import { PROGRAMS } from '../../data/fish-plan';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { flattenForest } from '../../data/fish-model';
 import { withBase } from '../../lib/base';
 
@@ -82,20 +83,6 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
         <span class="bcn-prp__status-text"><strong data-prp-status-who></strong> <span data-prp-status-message></span></span>
         <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
       </span>
-      <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
-        <span data-prp-undo><esa-tooltip text="Undo (Ctrl+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></esa-tooltip></span>
-        <span data-prp-redo><esa-tooltip text="Redo (Ctrl+Shift+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></esa-tooltip></span>
-        <span data-prp-discard><esa-tooltip text="Delete this draft. Live is not affected." position="below"><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></esa-tooltip></span>
-      </span>
-      <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
-      <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
-      <!-- Someone else's draft (2026-10-28): the way back to the plan of record, beside its one action. -->
-      <span data-prp-back hidden><esa-tooltip text="Leave this draft for the plan as issued" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left" data-fill-icon="arrow-left">Back to Live Plan</EsaButton></esa-tooltip></span>
-      <span data-prp-copy hidden><esa-tooltip text="Start your draft from a copy of this one" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></esa-tooltip></span>
-      <span data-prp-review hidden><esa-tooltip text="Compare with Live, then publish as the next revision" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
-      <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
-      <span data-prp-ask hidden><esa-tooltip text="Ask someone who can publish to review it" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to Publish</EsaButton></esa-tooltip></span>
-      <span data-prp-asked hidden><EsaBadge value="Publish Requested" variant="neutral" size="sm" /></span>
     </div>
 
   </section>
@@ -112,19 +99,42 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   <div class="bcn-prp__body">
     <div class="bcn-prp__main">
       <!-- The plan's projected views (2026-10-28, Andy): Schedule, the Gantt, and Budget, the fiscal-year sheet; the
-           same elements in both. The tab strip is the panel's header, as About has one. -->
-      <esa-tab-layout class="bcn-prp__views" appearance="underline" size="sm" data-prp-views>
-        <div slot="panel-0" class="bcn-prp__view">
-          <BcnPlanGantt label="Plan schedule" />
-          <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
-          <div class="bcn-prp__no-match" data-prp-no-match hidden>
-            <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
-              <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
-            </EsaEmptyState>
+           same elements in both, switched from the page header. The panel's own header names the view, as About's does,
+           and carries the plan's actions (2026-10-28, out of the strip). -->
+      <section class="bcn-prp__views" aria-labelledby="prp-view-title">
+        <header class="bcn-prp__views-head">
+          <h2 class="bcn-prp__views-title typography-label-md-strong" id="prp-view-title">
+            <span data-prp-view-title="schedule"><EsaIcon name="calendar" size="sm" />Schedule</span>
+            <span data-prp-view-title="budget" hidden><EsaIcon name="sheet" paths={PLAN_ICON_PATHS.sheet} size="sm" />Budget</span>
+          </h2>
+          <div class="bcn-prp__actions">
+          <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
+            <span data-prp-undo><esa-tooltip text="Undo (Ctrl+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></esa-tooltip></span>
+            <span data-prp-redo><esa-tooltip text="Redo (Ctrl+Shift+Z)" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></esa-tooltip></span>
+            <span data-prp-discard><esa-tooltip text="Delete this draft. Live is not affected." position="below"><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></esa-tooltip></span>
+          </span>
+          <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
+          <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+          <!-- Someone else's draft (2026-10-28): the way back to the plan of record, beside its one action. -->
+          <span data-prp-back hidden><esa-tooltip text="Leave this draft for Live" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left" data-fill-icon="arrow-left">Back to Live Plan</EsaButton></esa-tooltip></span>
+          <span data-prp-copy hidden><esa-tooltip text="Start your draft from this one" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></esa-tooltip></span>
+          <span data-prp-review hidden><esa-tooltip text="Compare with Live, then publish" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
+          <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
+          <span data-prp-ask hidden><esa-tooltip text="Ask someone who can publish" position="below" align="end"><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to Publish</EsaButton></esa-tooltip></span>
+          <span data-prp-asked hidden><EsaBadge value="Publish Requested" variant="neutral" size="sm" /></span>
           </div>
+        </header>
+        <div class="bcn-prp__view" data-prp-pane="schedule">
+        <BcnPlanGantt label="Plan schedule" />
+        <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
+        <div class="bcn-prp__no-match" data-prp-no-match hidden>
+          <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
+            <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
+          </EsaEmptyState>
         </div>
-        <div slot="panel-1" class="bcn-prp__view bcn-prp__view--budget"><BcnPlanBudgetSheet /></div>
-      </esa-tab-layout>
+        </div>
+        <div class="bcn-prp__view bcn-prp__view--budget" data-prp-pane="budget" hidden><BcnPlanBudgetSheet /></div>
+      </section>
       <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
       <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
         <span class="bcn-prp__link-anchor" data-prp-link-anchor></span>
@@ -188,7 +198,6 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   import '@esa/ecology/esa-popover';
   import '@esa/ecology/esa-confirm-dialog';
   import '@esa/ecology/esa-tooltip';
-  import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
 </script>
@@ -334,16 +343,29 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__body { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: var(--spacing-400); align-items: stretch; }
   .bcn-prp[data-about='closed'] .bcn-prp__body { grid-template-columns: minmax(0, 1fr) 2.75rem; }
   .bcn-prp__main { min-inline-size: 0; position: relative; }
-  /* The views' panel, About's twin (2026-10-28): a raised card, the tab strip as its sunken header. */
+  /* The views' panel, About's twin (2026-10-28): a raised card under a sunken header that names the view and holds
+     the plan's actions. Both headers share one height. */
   .bcn-prp__views {
-    display: block;
     overflow: hidden;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     box-shadow: var(--elevation-2);
   }
-  .bcn-prp__views::part(tabs) { padding-inline: var(--spacing-200); background: var(--color-background-elevation-sunken); }
+  .bcn-prp__views-head,
+  .bcn-prp__about-head { min-block-size: 3.25rem; box-sizing: border-box; }
+  .bcn-prp__views-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-100) var(--spacing-300) var(--spacing-100) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-prp__views-title { margin: 0; }
+  .bcn-prp__views-title span { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-prp__views-title :global(.esa-icon) { color: var(--color-content-default-secondary); }
+  .bcn-prp__actions { display: flex; align-items: center; gap: var(--spacing-200); margin-inline-start: auto; }
   /* Inside the card, the chart drops its own frame. */
   .bcn-prp__view :global(.bcn-plan-gantt-host .bcn-plan-gantt) { border: 0; border-radius: 0; }
   .bcn-prp__view--budget { display: block; padding: var(--spacing-300); }

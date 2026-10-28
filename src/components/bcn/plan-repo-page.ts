@@ -372,24 +372,26 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Schedule is the Gantt; Budget is the fiscal-year sheet over the same elements. The panel's tabs switch them, the
   // URL keeps the choice (&view=budget), and the drawer's Open in Budget View lands on the element's row.
   type View = 'schedule' | 'budget';
-  const views = q<HTMLElement & { tabs: { label: string; icon?: string }[]; activeIndex: number }>('[data-prp-views]');
-  const glyph = (name: string) =>
-    `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PLAN_ICON_PATHS[name] ?? ''}</svg>`;
+  const viewToggle = document.querySelector<HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string }>('[data-prp-view-toggle]');
   let view: View = params.get('view') === 'budget' ? 'budget' : 'schedule';
-  root.dataset.view = view;
-  void customElements.whenDefined('esa-tab-layout').then(() => {
-    views.tabs = [
-      { label: 'Schedule', icon: glyph('calendar') },
-      { label: 'Budget', icon: glyph('sheet') },
+  void customElements.whenDefined('esa-button-toggle').then(() => {
+    if (!viewToggle) return;
+    viewToggle.options = [
+      { label: 'Schedule', value: 'schedule', icon: PLAN_ICON_PATHS.calendar },
+      { label: 'Budget', value: 'budget', icon: PLAN_ICON_PATHS.sheet },
     ];
-    views.activeIndex = view === 'budget' ? 1 : 0;
+    viewToggle.value = view;
   });
-  views.addEventListener('tabchange', (e) => setView((e as CustomEvent<{ index: number }>).detail.index === 1 ? 'budget' : 'schedule'));
+  viewToggle?.addEventListener('change', (e) => setView(((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value) === 'budget' ? 'budget' : 'schedule'));
+  function showView(): void {
+    root.dataset.view = view;
+    root.querySelectorAll<HTMLElement>('[data-prp-pane]').forEach((pane) => (pane.hidden = pane.dataset.prpPane !== view));
+    root.querySelectorAll<HTMLElement>('[data-prp-view-title]').forEach((t) => (t.hidden = t.dataset.prpViewTitle !== view));
+    if (viewToggle && viewToggle.value !== view) viewToggle.value = view;
+  }
   function setView(next: View, focusID?: string): void {
     view = next;
-    root.dataset.view = next;
-    const index = next === 'budget' ? 1 : 0;
-    if (views.activeIndex !== index) views.activeIndex = index;
+    showView();
     if (next === 'budget') params.set('view', 'budget');
     else params.delete('view');
     const url = new URL(location.href);
@@ -399,6 +401,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     drawSheet();
     if (focusID) requestAnimationFrame(() => sheet.focus(focusID));
   }
+  showView();
 
   const sheet = setupPlanBudgetSheet(q<HTMLElement>('[data-bcn-plan-budget-sheet]'), {
     onEdit: (id, fy, value) => budgetEdit(id, fy, value),
