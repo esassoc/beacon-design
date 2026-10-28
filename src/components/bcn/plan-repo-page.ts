@@ -66,7 +66,7 @@ import { setupPlanDeliverablesView } from './plan-deliverables';
 import { setupPlanDocumentsView } from './plan-documents';
 import { CUSTOMIZE_HREF, ELEMENT_HREF } from '../../lib/planning/element-context';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
-import { planAvatar, setButtonDisabled } from './plan-people';
+import { personColor, planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
 import { changeNote } from './plan-change-note';
 import { PLAN_HREF, REVISIONS_HREF, STUDY_KEYS, fillGlyphs, keepStudy, type StudyKey } from './plan-repo-index';
@@ -422,7 +422,27 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   viewToggle?.addEventListener('change', (e) => setView(asView((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value)));
   /** Beside the view's title (2026-10-28, Andy, in place of the H1's badge): which plan you're in, by the plan menu's
    *  dot and name, then, small and italic, why it won't edit. */
+  // Draft mode studies (2026-10-28, Andy: "going into draft mode isn't clear enough... 4-5 options"): &drafthead= fill,
+  // tint, frame, ribbon or full, each in the draft owner's color. Live is untouched.
+  const draftHead = ['fill', 'tint', 'frame', 'ribbon', 'full'].includes(study.drafthead ?? '') ? study.drafthead! : null;
+  function drawDraftHead(): void {
+    const inDraft = mode !== 'live' && !!draft && !!draftHead;
+    root.toggleAttribute('data-drafthead', inDraft);
+    if (inDraft) root.dataset.drafthead = draftHead!;
+    root.style.setProperty('--prp-draft', draft ? personColor(draft.owner) : '');
+    const avatar = q<HTMLElement>('[data-prp-state-avatar]');
+    avatar.replaceChildren(...(inDraft && draftHead !== 'ribbon' ? [planAvatar(draft!.owner, 'xs')] : []));
+    const ribbon = q<HTMLElement>('[data-prp-ribbon]');
+    ribbon.hidden = !(inDraft && draftHead === 'ribbon');
+    if (!ribbon.hidden) {
+      q<HTMLElement>('[data-prp-ribbon-avatar]').replaceChildren(planAvatar(draft!.owner, 'xs'));
+      const whose = mode === 'own' ? 'your draft' : `${firstName(draft!.owner)}'s draft`;
+      const name = Object.assign(document.createElement('b'), { textContent: draft!.name });
+      q<HTMLElement>('[data-prp-ribbon-text]').replaceChildren('You’re in ', name, `, ${whose}. Live doesn’t change until it’s published.`);
+    }
+  }
   function drawState(): void {
+    drawDraftHead();
     q<HTMLElement>('[data-prp-state] .bcn-prp__state-dot').dataset.dot = mode === 'live' ? 'live' : mode === 'own' ? 'mine' : 'other';
     q<HTMLElement>('[data-prp-state-label]').textContent = mode === 'live' ? 'Live Plan' : draft?.name ?? '';
     q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)

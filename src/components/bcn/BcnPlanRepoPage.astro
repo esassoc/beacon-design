@@ -104,6 +104,13 @@ import { withBase } from '../../lib/base';
            same elements in both, switched from the page header. The panel's own header names the view, as About's does,
            and carries the plan's actions (2026-10-28, out of the strip). -->
       <section class="bcn-prp__views" aria-labelledby="prp-view-title">
+        <!-- Draft mode, made unmistakable (2026-10-28, Andy: "going into draft mode isn't clear enough"): five studies
+             behind &drafthead=, each in the draft owner's color (their avatar's). ribbon puts this strip across the
+             panel's top; the others restyle the header below. -->
+        <div class="bcn-prp__ribbon typography-label-sm" data-prp-ribbon hidden>
+          <span data-prp-ribbon-avatar></span>
+          <span data-prp-ribbon-text></span>
+        </div>
         <header class="bcn-prp__views-head">
           <h2 class="bcn-prp__views-title typography-label-md-strong" id="prp-view-title">
             <span data-prp-view-title="schedule"><EsaIcon name="calendar" size="sm" />Schedule</span>
@@ -113,7 +120,7 @@ import { withBase } from '../../lib/base';
           </h2>
           <!-- Which plan you're in, beside the view's title (2026-10-28, Andy, in place of the H1's badge): the plan
                menu's dot (orange Live, green yours, gray someone else's) and its name; then why it won't edit. -->
-          <span class="bcn-prp__state typography-label-sm-strong" data-prp-state><span class="bcn-prp__state-dot" data-dot="live"></span><span data-prp-state-label>Live Plan</span></span>
+          <span class="bcn-prp__state typography-label-sm-strong" data-prp-state><span class="bcn-prp__state-dot" data-dot="live"></span><span class="bcn-prp__state-avatar" data-prp-state-avatar></span><span data-prp-state-label>Live Plan</span></span>
           <span class="bcn-prp__state-note" data-prp-state-note></span>
           <div class="bcn-prp__actions">
           <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
@@ -413,6 +420,67 @@ import { withBase } from '../../lib/base';
   .bcn-prp__state-dot[data-dot='mine'] { background: var(--bcn-mark-green); }
   .bcn-prp__state-note { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-100); font-style: italic; color: var(--color-content-default-secondary); }
   .bcn-prp__state-note:empty { display: none; }
+
+  /* ── Draft mode studies (&drafthead=, 2026-10-28): --prp-draft is the draft owner's color, set in a draft only ── */
+  .bcn-prp__state-avatar { display: none; }
+  .bcn-prp__ribbon { display: none; }
+  .bcn-prp[data-drafthead] .bcn-prp__state-avatar:not(:empty) { display: inline-flex; }
+  .bcn-prp[data-drafthead] .bcn-prp__state-avatar:not(:empty) + * { margin-inline-start: 0; }
+  .bcn-prp[data-drafthead] .bcn-prp__state:has(.bcn-prp__state-avatar:not(:empty)) .bcn-prp__state-dot { display: none; }
+
+  /* 1. fill (Andy's): the header in their color, everything in it white. */
+  .bcn-prp[data-drafthead='fill'] .bcn-prp__views-head,
+  .bcn-prp[data-drafthead='full'] .bcn-prp__views-head {
+    background: var(--prp-draft);
+    border-block-end-color: var(--prp-draft);
+    color: #fff;
+  }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :is(.bcn-prp__views-title, .bcn-prp__state, .bcn-prp__state-note) { color: #fff; }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-title :global(.esa-icon) { color: #fff; }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native) {
+    color: #fff;
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.55);
+  }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native:hover:not(:disabled)) { background: rgb(255 255 255 / 0.14); }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native svg) { color: #fff; }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 2px rgb(255 255 255 / 0.85); }
+
+  /* 2. tint: a wash of their color, the title and the draft's name in their ink, their avatar beside it. */
+  .bcn-prp[data-drafthead='tint'] .bcn-prp__views-head {
+    background: color-mix(in srgb, var(--prp-draft) 12%, var(--color-background-elevation-raised));
+    border-block-end-color: color-mix(in srgb, var(--prp-draft) 35%, var(--color-border-default));
+  }
+  .bcn-prp[data-drafthead='tint'] .bcn-prp__views-head :is(.bcn-prp__views-title, .bcn-prp__state) { color: var(--prp-draft); }
+  .bcn-prp[data-drafthead='tint'] .bcn-prp__views-title :global(.esa-icon) { color: var(--prp-draft); }
+
+  /* 3. frame: a ring of their color round the whole panel, and the draft's name as a filled pill. */
+  .bcn-prp[data-drafthead='frame'] .bcn-prp__views,
+  .bcn-prp[data-drafthead='full'] .bcn-prp__views {
+    border-color: var(--prp-draft);
+    box-shadow: 0 0 0 1px var(--prp-draft), var(--elevation-2);
+  }
+  .bcn-prp[data-drafthead='frame'] .bcn-prp__state {
+    padding: 2px var(--spacing-200) 2px 2px;
+    border-radius: 999px;
+    background: var(--prp-draft);
+    color: #fff;
+  }
+  .bcn-prp[data-drafthead='frame'] .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.85); }
+
+  /* 4. ribbon: a strip of their color across the panel's top, saying so in words; the header stays as it is. */
+  .bcn-prp[data-drafthead='ribbon'] .bcn-prp__ribbon:not([hidden]) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-400);
+    background: var(--prp-draft);
+    color: #fff;
+  }
+  .bcn-prp__ribbon :global(.esa-avatar) { box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.85); }
+  .bcn-prp__ribbon b { font-weight: 700; }
+
+  /* 5. full: fill and frame together, the loudest. */
   /* On the sunken header an outlined ghost washes out: Review and Publish, Back and Copy keep a raised face. */
   .bcn-prp__actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) { background: var(--color-background-elevation-raised); }
   .bcn-prp__actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native:hover:not(:disabled)) { background: color-mix(in srgb, var(--color-content-default) 6%, var(--color-background-elevation-raised)); }
