@@ -944,6 +944,14 @@ export async function savePlanSettings(planID: string, settings: PlanSettings): 
   save(store);
 }
 
+/** A plan's fields, page layouts and lists saved (the Configure screen, 2026-10-28). Settings, like a repository's:
+ *  no revision. Values on elements stay where they are; a field taken off a level is hidden, never deleted. */
+export function savePlanConfig(planID: string, config: PlanConfig): void {
+  const store = load();
+  findRepo(store, planID).config = clonePlanConfig(config);
+  save(store);
+}
+
 /** A plan deleted: on the API, and its history, drafts and budget with it. */
 export async function deletePlanRepo(planID: string): Promise<void> {
   await planApi.deletePlan(planID);

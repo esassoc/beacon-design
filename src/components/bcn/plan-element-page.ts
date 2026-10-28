@@ -5,7 +5,7 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, startDraft, addRevision, mergeAttributes, flattenPlan, membersOf, type PlanRepoDraft, type ElementAttributes } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, startDraft, addRevision, mergeAttributes, flattenPlan, orgOf, type PlanRepoDraft, type ElementAttributes } from '../../lib/planning/plan-repo';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PREVIEW_CONFIG_KEY, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
@@ -26,7 +26,6 @@ import { setupCompletionModule } from './element-completion';
 import { setupObligationsModule } from './element-obligations';
 import { setupCommentsModule } from './element-comments';
 import { setupActivityModule } from './element-activity';
-import { orgOf } from '../../lib/planning/plan-repo';
 
 const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
   details: setupDetailsModule,
@@ -115,7 +114,8 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     planLink.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id);
     const chevron = planLink.nextElementSibling;
     let after: Element = chevron ?? planLink;
-    for (const a of c.ancestors) {
+    // The top item often carries the plan's own name (the sample's program does); it isn't said twice.
+    for (const a of c.ancestors.filter((x, i) => !(i === 0 && x.PlanElementName === c.live.PlanName))) {
       const link = planLink.cloneNode(true) as HTMLAnchorElement;
       link.textContent = a.PlanElementName ?? '';
       link.href = c.hrefOf(a.PlanElementID ?? '');
@@ -156,7 +156,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       healthFact.append(badge(health.stale ? `${health.health}, Update Missing` : health.health, health.stale ? 'warning' : HEALTH_VARIANT[health.health], 'sm'));
       const why = document.createElement('span');
       why.className = 'bcn-pep__why';
-      why.textContent = health.override ? `Set by ${firstName(health.override.by)}: ${health.why}` : health.why;
+      why.textContent = health.override ? `Set by ${firstName(health.override.by)}: ${health.why}` : health.why === health.health || health.why === 'On plan' ? '' : health.why;
       why.title = why.textContent;
       healthFact.append(why);
     } else healthFact.append(badge('New in This Draft', 'neutral', 'sm'));
@@ -210,8 +210,9 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     };
     set('edit', c.mode === 'live' && c.myRole !== 'Guest');
     set('back', c.mode === 'own' || c.mode === 'view');
-    const editLabel = util('edit')?.querySelector('.esa-button__label, button');
-    if (editLabel && !canPublish && editLabel.textContent?.includes('Draft')) editLabel.lastChild && (editLabel.lastChild.textContent = 'Make a Scenario');
+    // Someone who can't publish makes a scenario (the plan page's word for their draft).
+    const editText = [...(util('edit')?.querySelectorAll('button *, button') ?? [])].flatMap((n) => [...n.childNodes]).find((n) => n.nodeType === Node.TEXT_NODE && /Draft|Scenario/.test(n.textContent ?? ''));
+    if (editText) editText.textContent = canPublish ? 'Edit in a Draft' : 'Make a Scenario';
     const open = util('open-plan')?.querySelector<HTMLAnchorElement>('a');
     if (open) open.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id) + `&el=${encodeURIComponent(elementId)}`;
     // Previous and next, in outline order.
@@ -318,9 +319,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       if (to) location.assign(ctx!.hrefOf(to));
     });
   }
-
-  // The people on the plan, for a guest's view: a Guest sees only what's sent to them (decision 2).
-  if (!previewing && membersOf(getRepo(planID)).find((m) => m.name === host && false)) void 0;
 
   await refresh();
 }

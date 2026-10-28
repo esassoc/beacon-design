@@ -1,0 +1,77 @@
+---
+// One work element's page (2026-10-28, decisions 1 to 8). `?plan=` and `&el=` name it; `&draft=` opens it as a draft
+// has it; `&preview=1` draws it with the Configure screen's unsaved configuration. The head is PageLayout's (title,
+// crumbs filled at runtime); the body is BcnPlanElementPage, a column of module cards laid out by the element's level.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanElementPage from '../../../../components/bcn/BcnPlanElementPage.astro';
+import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
+import BcnChangeNote from '../../../../components/bcn/BcnChangeNote.astro';
+import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
+import { withBase } from '../../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - title badges -> esa-badge                       # level, Deliverable, Milestone
+    - actions      -> esa-button                      # previous, next, Open in Plan, Edit in a Draft, Back to Live Plan
+    - page         -> bcn-plan-element-page           # facts strip, two columns of bcn-element-module cards
+-->
+
+<AppShell title="Item" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
+  <PageLayout
+    title="Item"
+    icon="square-chart-gantt"
+    iconColor="var(--color-content-brand)"
+    iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan', href: withBase('/prototypes/plans-repo/') }, { label: 'Item' }]}
+  >
+    <span slot="title-badge" class="bcn-pep-badges" data-pep-title-badges></span>
+    <div slot="utilities" class="bcn-pep-actions" data-pep-actions>
+      <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
+      <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
+      <span data-pep-action="open-plan"><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
+      <span data-pep-action="edit" hidden><esa-tooltip text="Change its owners and fields without touching Live" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
+      <span data-pep-action="back" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Back to Live Plan</EsaButton></span>
+    </div>
+    <BcnPlanElementPage />
+    <BcnPlanPeople />
+    <BcnChangeNote />
+  </PageLayout>
+</AppShell>
+
+<style>
+  .bcn-pep-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-pep-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-pep-actions [hidden] {
+    display: none;
+  }
+  .bcn-pep-actions a {
+    text-decoration: none;
+  }
+  /* On the gray page an outlined ghost washes out: a raised face, as the plan page's header actions. */
+  .bcn-pep-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
+    background: var(--color-background-elevation-raised);
+  }
+  /* The Configure screen's preview: the page alone, no shell chrome or actions. */
+  :global(html[data-element-preview]) .bcn-pep-actions {
+    display: none;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+  import { setupPlanElementPage } from '../../../../components/bcn/plan-element-page';
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-element-page]');
+  if (root) void setupPlanElementPage(root);
+</script>
