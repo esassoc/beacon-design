@@ -1,0 +1,323 @@
+---
+// <BcnPermitProjectList> — the Permit Tracker's Projects index body: one heading
+// ("My projects") over a responsive grid of project cards.
+// Each card is an esa-card whose project name is the one real link; its ::after
+// stretches over the whole card, so a click anywhere opens the project while
+// keyboard focus and the accessible name stay on that single <a>.
+//
+// A card answers "where does this project stand on permits?":
+//   name + client (header) with the project's state badge (On track / At risk /
+//   Unconfirmed / All issued: the same scheduleOf() rule as the project page's "Ready to
+//   break ground?"), project number, manager, sites, construction start,
+//   permits issued of total (esa-progress-bar), and — active only — the counts that
+//   need attention: in agency review, waiting on another permit, expiring/expired.
+// Zero counts are omitted. Closed cards drop the bar and the attention counts.
+//
+// MEMBERSHIP: with `member`, only the projects whose team includes that person show.
+// The build hides cards by the fixture team (teamOf); the client re-checks every card
+// against the browser's team store (src/lib/project-team-store.ts) and re-checks on
+// TEAM_EVENT, so adding or removing someone on a project page shows here. When no card
+// is left, an esa-empty-state points to All projects.
+//
+// PROJECT EDITS: the client re-reads each card's client, number, manager and
+// construction start from src/lib/project-store.ts and re-runs the state badge with the
+// saved construction start (badges cloned from SSR'd templates, one per state).
+//
+// STATUS IS SSR: issued = the fixture statusId resolved through statusColumn() to the
+// Completed category. The index renders no per-permit status chip, so it does not hook
+// the browser status store (user overrides live per project, on the project page).
+//
+// bcn-lego-checked: the card shell IS esa-card and the meter IS esa-progress-bar —
+// checked Ecology (esa-card has no href/link mode, hence the stretched-link wrapper;
+// no lego for a project tile) and Beacon (projects list is a grid table, not cards).
+// bcn-permit-project-list is the reusable home; only the stretched link and the fact
+// rows are composition here.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import {
+  ROUTES,
+  blockers,
+  expiryFlag,
+  fmtDate,
+  permitsOfProject,
+  READINESS_BADGE,
+  type ReadinessState,
+  sitesOf,
+  statusColumn,
+  teamOf,
+  type Project,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+import { projectState } from './permit-readiness';
+
+interface Props {
+  projects: Project[];
+  /** Section heading, e.g. "My projects". */
+  heading: string;
+  /** Show only the projects this person is on the team of. */
+  member?: string;
+}
+const { projects, heading, member } = Astro.props;
+
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+const cards = projects.map((project) => {
+  const permits = permitsOfProject(project.id);
+  const issued = permits.filter((p) => statusColumn(p.statusId, p.typeId).category === 'Completed').length;
+  const active = project.status === 'active';
+  const attention = active
+    ? [
+        { n: permits.filter((p) => p.submitted && !p.issued).length, text: 'in agency review' },
+        { n: permits.filter((p) => blockers(p).length > 0).length, text: 'waiting on another permit' },
+        { n: permits.filter((p) => expiryFlag(p) === 'expiring').length, text: 'expiring soon' },
+        { n: permits.filter((p) => expiryFlag(p) === 'expired').length, text: 'expired' },
+      ].filter((a) => a.n > 0)
+    : [];
+  return {
+    project,
+    active,
+    href: withBase(ROUTES.project(project.id)),
+    total: permits.length,
+    issued,
+    sites: sitesOf(project.id).length,
+    attention,
+    hidden: !!member && !teamOf(project.id).includes(member),
+    state: active ? projectState(project.id, project.constructionStart) : undefined,
+  };
+});
+const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
+const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<section class="bcn-ppl stack" data-gap="sm" aria-labelledby={headingId} data-bcn-ppl data-member={member}>
+  {
+    STATES.map((st) => (
+      <template data-ppl-badge={st}>
+        <EsaBadge value={READINESS_BADGE[st].label} variant={READINESS_BADGE[st].variant} />
+      </template>
+    ))
+  }
+  <h2 id={headingId} class="bcn-ppl__heading typography-heading-md">{heading}</h2>
+  <ul class="bcn-ppl__grid grid" data-gap="md">
+    {
+      cards.map((c) => (
+        <li class="bcn-ppl__item" data-closed={c.active ? undefined : ''} data-project-id={c.project.id} hidden={c.hidden}>
+          <EsaCard padding="compact">
+            <div slot="header" class="bcn-ppl__head repel" data-gap="sm">
+              <div class="bcn-ppl__titles">
+                <h3 class="bcn-ppl__name typography-title-sm-strong">
+                  <a class="bcn-ppl__link" href={c.href}>{c.project.name}</a>
+                </h3>
+                <p class="bcn-ppl__client typography-body-sm" data-fact="client">{c.project.client}</p>
+              </div>
+              {c.state && (
+                <span class="bcn-ppl__state" data-ppl-state>
+                  <EsaBadge value={READINESS_BADGE[c.state].label} variant={READINESS_BADGE[c.state].variant} />
+                </span>
+              )}
+            </div>
+
+            <div class="stack" data-gap="sm">
+              <dl class="bcn-ppl__facts typography-body-sm">
+                <div class="bcn-ppl__fact">
+                  <dt>Project</dt>
+                  <dd data-fact="number">{c.project.number}</dd>
+                </div>
+                <div class="bcn-ppl__fact">
+                  <dt>Manager</dt>
+                  <dd data-fact="manager">{c.project.manager}</dd>
+                </div>
+                <div class="bcn-ppl__fact">
+                  <dt>Sites</dt>
+                  <dd>{c.sites}</dd>
+                </div>
+                <div class="bcn-ppl__fact">
+                  <dt>Construction start</dt>
+                  <dd data-fact="start">{fmtDate(c.project.constructionStart)}</dd>
+                </div>
+              </dl>
+
+              {c.active ? (
+                <EsaProgressBar
+                  value={c.total ? Math.round((c.issued / c.total) * 100) : 0}
+                  size="sm"
+                  variant={c.issued === c.total ? 'success' : 'primary'}
+                  label={`${c.issued} of ${c.total} issued`}
+                  showValue={false}
+                />
+              ) : (
+                <p class="bcn-ppl__issued typography-body-sm">{plural(c.issued, 'permit')} issued</p>
+              )}
+
+              {c.attention.length > 0 && (
+                <ul class="bcn-ppl__attention cluster typography-body-sm" data-gap="xs">
+                  {c.attention.map((a) => (
+                    <li>
+                      <span class="bcn-ppl__n">{a.n}</span> {a.text}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </EsaCard>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    member && (
+      <div data-ppl-empty hidden={cards.some((c) => !c.hidden)}>
+        <EsaEmptyState title="You're not on any active projects" description="Find your project in All projects, then add yourself to its team." />
+      </div>
+    )
+  }
+</section>
+
+<script>
+  import { TEAM_EVENT, isOnTeam } from '../../lib/project-team-store';
+  import { PROJECT_EVENT, loadProject } from '../../lib/project-store';
+  import { fmtDate } from '../../data/permit-tracker';
+  import { projectState } from './permit-readiness';
+
+  // Every card: its facts and state badge follow the saved project record.
+  document.querySelectorAll<HTMLElement>('[data-bcn-ppl]').forEach((section) => {
+    const badge = (state: string) =>
+      section.querySelector<HTMLTemplateElement>(`[data-ppl-badge="${state}"]`)!.content.firstElementChild!.cloneNode(true);
+    const sync = () =>
+      section.querySelectorAll<HTMLElement>('[data-project-id]').forEach((li) => {
+        const id = li.dataset.projectId!;
+        const r = loadProject(id);
+        const set = (fact: string, text: string) => {
+          const el = li.querySelector(`[data-fact="${fact}"]`);
+          if (el) el.textContent = text;
+        };
+        set('client', r.client);
+        set('number', r.number);
+        set('manager', r.manager);
+        set('start', fmtDate(r.constructionStart));
+        li.querySelector('[data-ppl-state]')?.replaceChildren(badge(projectState(id, r.constructionStart)));
+      });
+    document.addEventListener(PROJECT_EVENT, sync);
+    sync();
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-ppl][data-member]').forEach((section) => {
+    const member = section.dataset.member!;
+    const items = [...section.querySelectorAll<HTMLElement>('[data-project-id]')];
+    const empty = section.querySelector<HTMLElement>('[data-ppl-empty]');
+    const sync = () => {
+      items.forEach((li) => (li.hidden = !isOnTeam(li.dataset.projectId!, member)));
+      if (empty) empty.hidden = items.some((li) => !li.hidden);
+    };
+    document.addEventListener(TEAM_EVENT, sync);
+    sync();
+  });
+</script>
+
+<style>
+  .bcn-ppl__heading {
+    margin: 0;
+  }
+  .bcn-ppl__grid {
+    --grid-min: 20rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Stretched link: the wrapper is the positioning context, the name's ::after
+     covers the card. Hover re-points esa-card's public border hook. */
+  .bcn-ppl [hidden] {
+    display: none;
+  }
+  .bcn-ppl__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-ppl__item > :global(.esa-card) {
+    flex: 1;
+  }
+  .bcn-ppl__item:hover {
+    --card-border-color: var(--color-border-default-strong, #8d8d8d);
+  }
+  .bcn-ppl__head {
+    align-items: start;
+    flex-wrap: nowrap;
+  }
+  .bcn-ppl__titles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 0.125rem);
+    min-width: 0;
+  }
+  .bcn-ppl__state {
+    flex-shrink: 0;
+  }
+  .bcn-ppl__name {
+    margin: 0;
+  }
+  .bcn-ppl__link {
+    color: var(--color-content-default, #202020);
+    text-decoration: none;
+  }
+  .bcn-ppl__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md, 0.5rem);
+  }
+  .bcn-ppl__item:hover .bcn-ppl__link {
+    text-decoration: underline;
+  }
+  .bcn-ppl__link:focus-visible {
+    outline: none;
+  }
+  .bcn-ppl__link:focus-visible::after {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #0d74ce);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-ppl__client {
+    margin: 0;
+    color: var(--color-content-default-secondary, #646464);
+  }
+
+  /* Facts: a two-column label/value list. 14px floor, values darkened. */
+  .bcn-ppl__facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--spacing-100, 0.25rem) var(--spacing-300, 0.75rem);
+  }
+  .bcn-ppl__fact {
+    display: contents;
+  }
+  .bcn-ppl__fact dt {
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-ppl__fact dd {
+    margin: 0;
+    color: var(--color-content-default, #202020);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-ppl__issued {
+    margin: 0;
+    color: var(--color-content-default-secondary, #646464);
+  }
+
+  .bcn-ppl__attention {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-200, 0.5rem) 0 0;
+    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-ppl__n {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default, #202020);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

@@ -1,0 +1,311 @@
+---
+// <BcnPermitPrerequisites> — what stands between a permit and its submittal, and what
+// stands behind it. Three groups, always all three (an empty one reads "None" so the
+// shape stays learnable from permit to permit):
+//
+//   Application requirements — the permit's checklist with an "N of M done" count.
+//     The permit type supplies the standard items; "Add requirement" adds custom ones.
+//     Each item is an esa-checkbox, checked off right here (stamping today and the
+//     current user), with a line for who and when — "Done Oct 2 by Grace Huang ·
+//     the document" or "Grace Huang · due Nov 6" (overdue in warning ink) — its note,
+//     and an edit button opening BcnPermitEditor's requirement drawer (name, owner,
+//     due date, document, note; remove for custom items). The list is rendered by the
+//     client script from src/lib/permit-requirements-store.ts, re-rendered on every
+//     REQUIREMENTS_EVENT; rows are cloned from a <template> so the legos stay legos.
+//   Waits on  — permits in dependsOn. If any are unissued (blockers()), one plain
+//     sentence says this permit can't be submitted until they are.
+//   Needed by — dependents(): the permits waiting on this one.
+//
+// EDIT: with `editable`, "Add requirement" and each item's edit button open the
+// requirement drawer, and Waits on carries an Edit opening the dependencies drawer
+// (BcnPermitEditor). Without it the checklist is read-only (checkboxes disabled).
+//
+// Permit rows link to the permit page, give the scope (Project-wide / site name) and a
+// store-driven status chip: the wrapper carries the data-permit-status contract and
+// the client script runs watchStatusChips() so renamed columns follow the board.
+//
+// bcn-lego-checked: no esa-* lego is a checklist with per-item who/when lines and an
+// edit action (esa-checkbox-group is a bare option list), or a linked dependency row.
+// Checked Beacon (no permit dependency UI). Composed from esa-card, esa-checkbox,
+// esa-button, BcnStatusChip and layout primitives; the bespoke CSS is the row grid,
+// list reset and text color. bcn-permit-prerequisites is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import {
+  getPermit,
+  dependents,
+  blockers,
+  scopeLabel,
+  statusColumn,
+  CATEGORY_META,
+  ROUTES,
+  type Permit,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  permitId: string;
+  /** Show an Edit button that opens BcnPermitEditor's requirements drawer. */
+  editable?: boolean;
+}
+
+const { permitId, editable = false } = Astro.props;
+const p = getPermit(permitId);
+
+const waitsOn: Permit[] = p ? p.dependsOn.map((id) => getPermit(id)).filter((x): x is Permit => !!x) : [];
+const neededBy: Permit[] = p ? dependents(p) : [];
+const blocking = p ? blockers(p) : [];
+
+const listNames = (names: string[]) =>
+  names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+const blockedNote = blocking.length
+  ? `This permit can't be submitted until ${listNames(blocking.map((b) => b.name))} ${blocking.length === 1 ? 'is' : 'are'} issued.`
+  : undefined;
+
+const permitGroups = [
+  { title: 'Waits on', rows: waitsOn, note: blockedNote },
+  { title: 'Needed by', rows: neededBy, note: undefined },
+];
+---
+
+{p && (
+  <EsaCard title="Before you can apply">
+    <div class="bcn-pprq stack" data-gap="lg" data-bcn-permit-prereqs data-permit-id={p.id} data-editable={editable ? '' : undefined}>
+      <section class="stack" data-gap="xs">
+        <div class="repel" data-gap="sm">
+          <div class="cluster" data-gap="sm">
+            <h4 class="bcn-pprq__heading typography-label-lg-strong">Application requirements</h4>
+            <span class="bcn-pprq__muted typography-body-md" data-req-count></span>
+          </div>
+          {editable && (
+            <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" data-permit-edit="requirement">Add requirement</EsaButton>
+          )}
+        </div>
+        <p class="bcn-pprq__muted bcn-pprq__none typography-body-md" data-req-empty hidden>None</p>
+        <ul class="bcn-pprq__list stack" data-gap="sm" data-req-list></ul>
+        <template data-req-tpl>
+          <li class="bcn-pprq__req">
+            <esa-checkbox size="md" data-req-check></esa-checkbox>
+            {editable && (
+              <span class="bcn-pprq__edit" data-req-edit>
+                <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit requirement" data-permit-edit="requirement" />
+              </span>
+            )}
+            <div class="bcn-pprq__meta stack" data-gap="3xs">
+              <span class="typography-body-sm bcn-pprq__muted" data-req-meta></span>
+              <span class="typography-body-sm bcn-pprq__muted" data-req-note hidden></span>
+            </div>
+          </li>
+        </template>
+      </section>
+
+      {permitGroups.map((g) => (
+        <section class="stack" data-gap="xs" data-pprq-group={g.title === 'Waits on' ? 'waits' : 'needed'}>
+          <div class="repel" data-gap="sm">
+            <h4 class="bcn-pprq__heading typography-label-lg-strong">{g.title}</h4>
+            {editable && g.title === 'Waits on' && (
+              <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="dependencies">Edit</EsaButton>
+            )}
+          </div>
+          <p class="bcn-pprq__blocked typography-body-md" data-pprq-note hidden={!g.note}>{g.note}</p>
+          <p class="bcn-pprq__muted bcn-pprq__none typography-body-md" data-pprq-none hidden={g.rows.length > 0}>None</p>
+          {
+            <ul class="bcn-pprq__list stack" data-gap="sm" data-pprq-rows hidden={g.rows.length === 0}>
+              {g.rows.map((d) => {
+                const col = statusColumn(d.statusId, d.typeId);
+                return (
+                  <li class="repel" data-gap="sm">
+                    <div class="stack" data-gap="3xs">
+                      <a class="bcn-pprq__link typography-label-md-strong" href={withBase(ROUTES.permit(d.id))}>{d.name}</a>
+                      <span class="bcn-pprq__muted typography-body-sm">{scopeLabel(d)}</span>
+                    </div>
+                    <span
+                      data-permit-status
+                      data-project-id={d.projectId}
+                      data-permit-id={d.id}
+                      data-type-id={d.typeId}
+                      data-status-id={d.statusId}
+                    >
+                      <BcnStatusChip status={col.category} label={col.name} hex={CATEGORY_META[col.category].tone} />
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          }
+        </section>
+      ))}
+      <!-- One Waits on row, cloned when saved edits change the list (keeps scoped styles). -->
+      <template data-pprq-wait-tpl>
+        <li class="repel" data-gap="sm">
+          <div class="stack" data-gap="3xs">
+            <a class="bcn-pprq__link typography-label-md-strong" data-wait-name></a>
+            <span class="bcn-pprq__muted typography-body-sm" data-wait-scope></span>
+          </div>
+          <span data-permit-status data-wait-status>
+            <BcnStatusChip status="NotStarted" label="" hex={CATEGORY_META.NotStarted.tone} />
+          </span>
+        </li>
+      </template>
+    </div>
+  </EsaCard>
+)}
+
+<script>
+  import '@esa/ecology/esa-checkbox';
+  import { TODAY, fmtDate, type Prerequisite } from '../../data/permit-tracker';
+  import { watchStatusChips, applyStatusChips } from '../../lib/permit-status-store';
+  import { PERMIT_EDIT_EVENT, applyPermitEdits } from '../../lib/permit-edits-store';
+  import { loadAddedPermits } from '../../lib/added-permits-store';
+  import { ROUTES, blockers, getPermit, scopeLabel } from '../../data/permit-tracker';
+  import { withBase } from '../../lib/base';
+
+  // Waits on follows saved edits (src/lib/permit-edits-store.ts): rows, and the blocked note.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-bcn-permit-prereqs]')) {
+    const id = root.dataset.permitId!;
+    const group = root.querySelector<HTMLElement>('[data-pprq-group="waits"]');
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-pprq-wait-tpl]');
+    if (!group || !tpl) continue;
+    const list = (names: string[]) => (names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`);
+    const render = () => {
+      applyPermitEdits();
+      const p = getPermit(id);
+      if (!p) return;
+      const waits = p.dependsOn.map((d) => getPermit(d)).filter((d): d is NonNullable<typeof d> => !!d);
+      const rows = group.querySelector<HTMLElement>('[data-pprq-rows]')!;
+      rows.replaceChildren(
+        ...waits.map((d) => {
+          const li = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+          const a = li.querySelector<HTMLAnchorElement>('[data-wait-name]')!;
+          a.textContent = d.name;
+          a.href = withBase(loadAddedPermits(d.projectId).some((x) => x.id === d.id) ? ROUTES.addedPermit(d.id) : ROUTES.permit(d.id));
+          li.querySelector('[data-wait-scope]')!.textContent = scopeLabel(d);
+          Object.assign(li.querySelector<HTMLElement>('[data-wait-status]')!.dataset, { projectId: d.projectId, permitId: d.id, typeId: d.typeId, statusId: d.statusId });
+          return li;
+        }),
+      );
+      rows.hidden = waits.length === 0;
+      group.querySelector<HTMLElement>('[data-pprq-none]')!.hidden = waits.length > 0;
+      const blocking = blockers(p);
+      const note = group.querySelector<HTMLElement>('[data-pprq-note]')!;
+      note.hidden = blocking.length === 0;
+      note.textContent = blocking.length ? `This permit can't be submitted until ${list(blocking.map((b) => b.name))} ${blocking.length === 1 ? 'is' : 'are'} issued.` : '';
+      applyStatusChips(rows);
+    };
+    document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.permitId === id) render();
+    });
+    render();
+  }
+  import { REQUIREMENTS_EVENT, loadRequirements, setRequirementDone } from '../../lib/permit-requirements-store';
+
+  type CheckEl = HTMLElement & { checked: boolean; label: string; disabled: boolean };
+
+  const metaOf = (r: Prerequisite) => {
+    const parts = r.done
+      ? [r.doneAt ? `Done ${fmtDate(r.doneAt)}${r.doneBy ? ` by ${r.doneBy}` : ''}` : 'Done', r.doc]
+      : [r.owner, r.due ? (r.due < TODAY ? `overdue, was due ${fmtDate(r.due)}` : `due ${fmtDate(r.due)}`) : undefined];
+    if (r.custom) parts.push('Added for this permit');
+    return parts.filter(Boolean).join(' · ') || 'Not done yet';
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-permit-prereqs]').forEach((root) => {
+    watchStatusChips(root);
+    const permitId = root.dataset.permitId!;
+    const editable = root.hasAttribute('data-editable');
+    const list = root.querySelector<HTMLElement>('[data-req-list]')!;
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-req-tpl]')!;
+    const count = root.querySelector<HTMLElement>('[data-req-count]')!;
+    const empty = root.querySelector<HTMLElement>('[data-req-empty]')!;
+
+    const render = () => {
+      const items = loadRequirements(permitId);
+      list.replaceChildren(
+        ...items.map((r) => {
+          const li = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+          li.toggleAttribute('data-done', r.done);
+          const check = li.querySelector<CheckEl>('[data-req-check]')!;
+          check.label = r.label;
+          check.checked = r.done;
+          check.disabled = !editable;
+          check.dataset.reqId = r.id;
+          const meta = li.querySelector<HTMLElement>('[data-req-meta]')!;
+          meta.textContent = metaOf(r);
+          meta.toggleAttribute('data-overdue', !r.done && !!r.due && r.due < TODAY);
+          const note = li.querySelector<HTMLElement>('[data-req-note]')!;
+          note.textContent = r.note ?? '';
+          note.hidden = !r.note;
+          const edit = li.querySelector<HTMLElement>('[data-req-edit] [data-permit-edit]');
+          if (edit) {
+            edit.dataset.reqId = r.id;
+            edit.setAttribute('aria-label', `Edit ${r.label}`);
+          }
+          return li;
+        }),
+      );
+      const done = items.filter((r) => r.done).length;
+      count.textContent = items.length ? `${done} of ${items.length} done` : '';
+      empty.hidden = items.length > 0;
+    };
+
+    list.addEventListener('change', (e) => {
+      const check = (e.target as HTMLElement).closest<CheckEl>('[data-req-check]');
+      if (check?.dataset.reqId) setRequirementDone(permitId, check.dataset.reqId, check.checked);
+    });
+    document.addEventListener(REQUIREMENTS_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.permitId === permitId) render();
+    });
+    render();
+  });
+</script>
+
+<style>
+  .bcn-pprq__heading,
+  .bcn-pprq__none,
+  .bcn-pprq__blocked {
+    margin: 0;
+  }
+  .bcn-pprq__heading {
+    color: var(--color-content-default);
+  }
+  .bcn-pprq__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Checkbox (its label is the item) | edit; the who/when line sits under the label,
+     indented past the box so it reads as the item's, not the list's. */
+  .bcn-pprq__req {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--spacing-200);
+    align-items: start;
+  }
+  .bcn-pprq__meta {
+    grid-column: 1;
+    padding-inline-start: 1.75rem;
+  }
+  .bcn-pprq__edit {
+    margin-block-start: calc(-1 * var(--spacing-100));
+  }
+  .bcn-pprq__meta [data-overdue] {
+    color: var(--color-content-utility-warning);
+  }
+  .bcn-pprq [hidden] {
+    display: none;
+  }
+  .bcn-pprq__muted {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pprq__blocked {
+    color: var(--color-content-default);
+  }
+  .bcn-pprq__link {
+    color: var(--color-content-link, var(--color-background-brand));
+    text-decoration: none;
+  }
+  .bcn-pprq__link:hover {
+    text-decoration: underline;
+  }
+</style>

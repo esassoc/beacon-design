@@ -1,0 +1,81 @@
+---
+// <BcnDurationRange> — a one-line range strip for "how long does this take": a bar from the
+// fastest to the slowest past duration, a tick at the median, and (optionally) a marker for
+// where a live item is today. Shared by the Permit Tracker's timelines table and the
+// per-permit benchmark, so both read off the same axis.
+//
+// Purely visual — the numbers it draws are always printed beside it by the host, so the
+// strip itself is aria-hidden (the host's text is the accessible reading).
+//
+// bcn-lego-checked: esa-progress-bar is a 0→value fill with no range or median, and
+// esa-chart is a full chart canvas, far heavier than an inline table-cell strip; checked
+// Beacon (no range/duration visual in Beacon.Web). bcn-duration-range is the reusable home.
+interface Props {
+  min: number;
+  median: number;
+  max: number;
+  /** Days the axis spans; every strip on one surface must share it. */
+  axisMax?: number;
+  /** Days elapsed for a live item, drawn as a marker. */
+  current?: number;
+}
+const { min, median, max, axisMax = 365, current } = Astro.props;
+const pct = (d: number) => `${Math.min(100, Math.max(0, (d / axisMax) * 100)).toFixed(2)}%`;
+---
+
+<span
+  class="bcn-duration-range"
+  aria-hidden="true"
+  style={`--_from:${pct(min)};--_to:${pct(max)};--_mid:${pct(median)};${current !== undefined ? `--_now:${pct(current)};` : ''}`}
+>
+  <span class="bcn-duration-range__span"></span>
+  <span class="bcn-duration-range__median"></span>
+  {current !== undefined && <span class="bcn-duration-range__now"></span>}
+</span>
+
+<style>
+  .bcn-duration-range {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 8rem;
+    block-size: 0.75rem;
+  }
+  /* The axis: a hairline track the span sits on. */
+  .bcn-duration-range::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 50%;
+    block-size: 1px;
+    background: var(--color-border-default);
+  }
+  .bcn-duration-range__span {
+    position: absolute;
+    inset-block: 0.1875rem;
+    inset-inline-start: var(--_from);
+    inline-size: max(0.25rem, calc(var(--_to) - var(--_from)));
+    border-radius: var(--radius-sm);
+    background: var(--color-background-brand-muted, var(--color-border-default));
+  }
+  .bcn-duration-range__median {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--_mid);
+    inline-size: 0.1875rem;
+    margin-inline-start: -0.09375rem;
+    border-radius: 1px;
+    background: var(--color-background-brand);
+  }
+  .bcn-duration-range__now {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--_now);
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    margin: -0.3125rem 0 0 -0.3125rem;
+    border-radius: 50%;
+    background: var(--color-background-default);
+    border: 2px solid var(--color-content-default);
+  }
+</style>

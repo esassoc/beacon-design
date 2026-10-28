@@ -1,0 +1,77 @@
+---
+// <BcnOrdinanceCheck> — "Check for updates" on a permit type's page: re-reads every
+// jurisdiction's code site for its ordinance link and last amendment, and says when that
+// last ran. Jurisdictions amended since their rules were reviewed then flag in the
+// Agencies grid (BcnPermitDurations) and on their own page (BcnCaoRules).
+//
+// SIMULATED in the prototype: a pause, then every ordinance is stamped checked today and
+// two sample amendments land (SIMULATED_AMENDMENTS), so the flags have something to show.
+// The product would run the crawl server-side and save for every user.
+//
+// bcn-lego-checked: the button is esa-button; the last-checked line is text. No esa-*
+// sync control exists. Checked Beacon (no code-site crawl). The CSS is the line's colour.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { fmtDate } from '../../data/permit-tracker';
+
+/** The sample statewide check: Oct 23, 2026, when the index was read. */
+const INDEX_CHECKED = '2026-10-23';
+---
+
+<div class="cluster bcn-oc" data-gap="sm" data-oc data-index-checked={INDEX_CHECKED}>
+  <span class="bcn-oc__when typography-body-sm" data-oc-when>Last checked {fmtDate(INDEX_CHECKED)}</span>
+  <EsaButton variant="ghost" appearance="outline" icon="rotate-ccw" data-oc-run>Check for updates</EsaButton>
+</div>
+
+<script>
+  import { CAO_EVENT, lastChecked, loadOrdinance, markChecked, saveOrdinances, type OrdinanceRecord } from '../../lib/cao-store';
+  import { CAO_INDEX, agencyName } from '../../data/permit-rules';
+  import { TODAY, fmtDate } from '../../data/permit-tracker';
+  import { toast } from '../../lib/snackbar';
+
+  /** What the simulated crawl "finds": new amendments for two jurisdictions. */
+  const SIMULATED_AMENDMENTS: Record<string, string> = { woodinville: '2026-09-15', 'pierce-county': '2026-08-04' };
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-oc]')) {
+    const when = root.querySelector<HTMLElement>('[data-oc-when]')!;
+    const btn = root.querySelector<HTMLElement>('[data-oc-run]')!;
+    const render = () => (when.textContent = `Last checked ${fmtDate(lastChecked() ?? root.dataset.indexChecked!)}`);
+
+    btn.addEventListener('click', () => {
+      btn.classList.add('esa-button--loading');
+      btn.setAttribute('aria-busy', 'true');
+      btn.setAttribute('disabled', '');
+      toast(`Checking ${CAO_INDEX.length} code sites…`, 'info', 2200);
+      setTimeout(() => {
+        const updates: Record<string, OrdinanceRecord> = {};
+        const changed: string[] = [];
+        for (const e of CAO_INDEX) {
+          const o = loadOrdinance(e.id);
+          if (!o?.url) continue;
+          const found = SIMULATED_AMENDMENTS[e.id];
+          if (found && o.date !== found) {
+            updates[e.id] = { ...o, date: found, ord: '', checkedAt: TODAY };
+            changed.push(agencyName(e.id));
+          } else updates[e.id] = { ...o, checkedAt: TODAY };
+        }
+        saveOrdinances(updates);
+        markChecked(TODAY);
+        btn.classList.remove('esa-button--loading');
+        btn.removeAttribute('aria-busy');
+        btn.removeAttribute('disabled');
+        toast(changed.length ? `Found ${changed.length} new amendments: ${changed.join(', ')}` : 'No ordinances have changed', changed.length ? 'warning' : 'success', 6000);
+      }, 2200);
+    });
+
+    document.addEventListener(CAO_EVENT, render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-oc {
+    align-items: center;
+  }
+  .bcn-oc__when {
+    color: var(--color-content-default-secondary);
+  }
+</style>

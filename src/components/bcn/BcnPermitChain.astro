@@ -1,0 +1,414 @@
+---
+// <BcnPermitChain> — a project's permit dependency chain: which permits must be issued
+// before others can be submitted.
+//
+// Permits sit in columns by chainStep() (Step 1 waits on nothing; each later step waits
+// on something in an earlier one). Connectors run from each permit to the permits that
+// depend on it; a connector out of an issued permit is solid, out of an unissued one
+// dashed. The chain MIXES scopes (a site's critical areas review waits on the project's
+// SEPA), so every node names its scope beside its status.
+//
+// FILTER: on a multi-site project an esa-button-toggle in the card header switches
+// between the entire project and one site's chain. A site's chain includes the
+// project-wide permits (they gate every site), and its steps are counted within it.
+//
+// Hover or focus a node and its whole path lights up — every prerequisite upstream and
+// every dependent downstream — while the rest dims. The connectors are an SVG overlay a
+// small client script draws from measured node rects, redrawn on resize and on every
+// status-store change (a renamed status can change a node's width).
+//
+// STATUS is user data: each chip is wrapped in data-permit-status and re-labelled by
+// watchStatusChips(); an issued node (category Completed, store-resolved) reads as done.
+// "Waiting on" is the derived blockers() flag, never a status. Screen readers get each
+// node's "Waits on: …" as visually hidden text; the SVG is aria-hidden.
+//
+// bcn-lego-checked: no esa-* lego draws a dependency graph — checked esa-chart (data
+// series, no node/edge model) and esa-link-column (a flat list of links); layouts.css
+// .reel supplies the scrolling strip. Checked Beacon: no
+// permit-chain UI in prod. Composed from esa-card (outer shell AND each node), esa-badge
+// (flag), bcn-status-chip, .reel/.stack/.cluster, typography composites. Remaining CSS
+// is the connector overlay, node link reset, done/dim states — bcn-permit-chain is the
+// reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import '@esa/tokens/a11y.css';
+import {
+  permitsOfProject,
+  sitesOf,
+  scopeLabel,
+  blockers,
+  getPermit,
+  statusColumn,
+  CATEGORY_META,
+  ROUTES,
+  type Permit,
+  PERMIT_SHORT,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  projectId: string;
+}
+
+const { projectId } = Astro.props;
+
+const sites = sitesOf(projectId);
+const scopeOrder = (p: Permit) => (p.siteId ? 1 + sites.findIndex((s) => s.id === p.siteId) : 0);
+const all = permitsOfProject(projectId);
+
+// One view for the whole project, plus one per site when there are several. A site's
+// view carries the project-wide permits too, since they gate every site. Steps are
+// counted within the view, so a site's chain starts at Step 1 even when another
+// site's permits are deeper.
+const buildSteps = (permits: Permit[]) => {
+  const inView = new Set(permits.map((p) => p.id));
+  const memo = new Map<string, number>();
+  const step = (p: Permit): number => {
+    if (memo.has(p.id)) return memo.get(p.id)!;
+    const ds = p.dependsOn.filter((d) => inView.has(d)).map((d) => getPermit(d)!);
+    const n = ds.length ? 1 + Math.max(...ds.map(step)) : 1;
+    memo.set(p.id, n);
+    return n;
+  };
+  const count = Math.max(0, ...permits.map(step));
+  return Array.from({ length: count }, (_, i) =>
+    permits
+      .filter((p) => step(p) === i + 1)
+      .sort((a, b) => scopeOrder(a) - scopeOrder(b) || a.name.localeCompare(b.name))
+      .map((p) => {
+        const col = statusColumn(p.statusId, p.typeId);
+        const waits = blockers(p);
+        const prereqs = p.dependsOn.map((id) => getPermit(id)).filter((d): d is Permit => !!d);
+        return {
+          p,
+          col,
+          scope: scopeLabel(p),
+          tone: CATEGORY_META[col.category].tone,
+          waitFlag: waits.length ? `Waiting on ${PERMIT_SHORT[waits[0].typeId]}${waits.length > 1 ? ` +${waits.length - 1}` : ''}` : '',
+          srWaits: prereqs.length ? `Waits on: ${prereqs.map((d) => `${d.name} (${scopeLabel(d)})`).join(', ')}.` : 'Waits on no other permit.',
+        };
+      }),
+  );
+};
+
+const views = [
+  { key: 'all', label: 'Entire project', steps: buildSteps(all) },
+  ...(sites.length > 1
+    ? sites.map((s) => ({ key: s.id, label: s.name, steps: buildSteps(all.filter((p) => !p.siteId || p.siteId === s.id)) }))
+    : []),
+];
+const filterOptions = views.map((v) => ({ value: v.key, label: v.label }));
+
+const uid = `pchain-${projectId}`;
+---
+
+<section class="bcn-pchain" data-pchain aria-label="Dependency chain">
+  <EsaCard title="Dependency chain" padding="compact">
+    {
+      views.length > 1 && (
+        <esa-button-toggle slot="actions" size="sm" aria-label="Show chain for" data-pchain-filter data-options={JSON.stringify(filterOptions)} />
+      )
+    }
+    {
+      views.map((v) => (
+        <div class="bcn-pchain__view" data-pchain-view={v.key} hidden={v.key !== 'all'}>
+          <div class="reel bcn-pchain__reel" data-gap="2xl" data-pchain-reel>
+            <svg class="bcn-pchain__wires" aria-hidden="true" focusable="false" data-pchain-wires />
+          {
+            v.steps.map((list, i) => (
+              <div class="stack bcn-pchain__step" data-gap="sm">
+                <h4 class="typography-label-md-strong bcn-pchain__step-title" id={`${uid}-${v.key}-step-${i + 1}`}>
+                  Step {i + 1}
+                </h4>
+                <ul class="stack bcn-pchain__list" data-gap="sm" role="list" aria-labelledby={`${uid}-${v.key}-step-${i + 1}`}>
+                  {list.map((n) => (
+                    <li>
+                      <a
+                        class="bcn-pchain__node"
+                        href={withBase(ROUTES.permit(n.p.id))}
+                        data-pchain-node={n.p.id}
+                        data-deps={n.p.dependsOn.join(' ')}
+                      >
+                        <EsaCard variant="outlined" padding="compact">
+                          <span class="stack" data-gap="2xs">
+                            <span class="typography-label-md-strong bcn-pchain__name">{n.p.name}</span>
+                            <span class="typography-body-sm bcn-pchain__scope">{n.scope}</span>
+                            <span class="cluster" data-gap="2xs">
+                              <span
+                                data-permit-status
+                                data-project-id={n.p.projectId}
+                                data-permit-id={n.p.id}
+                                data-type-id={n.p.typeId}
+                                data-status-id={n.p.statusId}
+                                data-category={n.col.category}
+                              >
+                                <BcnStatusChip status="permit" label={n.col.name} hex={n.tone} />
+                              </span>
+                              {n.waitFlag && <EsaBadge variant="neutral" value={n.waitFlag} />}
+                            </span>
+                            <span class="visually-hidden">{n.srWaits}</span>
+                          </span>
+                        </EsaCard>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+          </div>
+        </div>
+      ))
+    }
+  </EsaCard>
+</section>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { watchStatusChips, CHANGE_EVENT } from '../../lib/permit-status-store';
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  // Scope filter: Entire project, or one site (with the project-wide permits). Each scope
+  // is its own pre-rendered view; a view's connectors redraw when it is shown, because
+  // its reel goes from no size to its real size and the ResizeObserver below fires.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-pchain]')) {
+    watchStatusChips(section);
+    const filter = section.querySelector<ToggleEl>('[data-pchain-filter]');
+    if (!filter) continue;
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      filter.options = JSON.parse(filter.dataset.options ?? '[]');
+      filter.value = 'all';
+    });
+    filter.addEventListener('change', (e) => {
+      const key = String((e as CustomEvent).detail?.value ?? 'all');
+      section.querySelectorAll<HTMLElement>('[data-pchain-view]').forEach((v) => (v.hidden = v.dataset.pchainView !== key));
+    });
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-pchain-view]')) {
+    const reel = root.querySelector<HTMLElement>('[data-pchain-reel]');
+    const svg = root.querySelector<SVGSVGElement>('[data-pchain-wires]');
+    if (!reel || !svg) continue;
+
+    const nodeEls = [...root.querySelectorAll<HTMLAnchorElement>('[data-pchain-node]')];
+    const byId = new Map(nodeEls.map((el) => [el.dataset.pchainNode!, el]));
+    const deps = new Map(nodeEls.map((el) => [el.dataset.pchainNode!, (el.dataset.deps ?? '').split(' ').filter((d) => byId.has(d))]));
+    const dependentsOf = new Map<string, string[]>();
+    for (const [id, ds] of deps) for (const d of ds) dependentsOf.set(d, [...(dependentsOf.get(d) ?? []), id]);
+
+    const walk = (start: string, next: (id: string) => string[]) => {
+      const seen = new Set<string>();
+      const stack = [...next(start)];
+      while (stack.length) {
+        const id = stack.pop()!;
+        if (seen.has(id)) continue;
+        seen.add(id);
+        stack.push(...next(id));
+      }
+      return seen;
+    };
+
+    const isDone = (id: string) => byId.get(id)?.querySelector<HTMLElement>('[data-permit-status]')?.dataset.category === 'Completed';
+
+    // ── draw ────────────────────────────────────────────────────────────────
+    const draw = () => {
+      const box = reel.getBoundingClientRect();
+      const w = reel.scrollWidth;
+      const h = reel.scrollHeight;
+      svg.setAttribute('width', String(w));
+      svg.setAttribute('height', String(h));
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.replaceChildren();
+      const pos = (el: HTMLElement) => {
+        const r = el.getBoundingClientRect();
+        const x = r.left - box.left + reel.scrollLeft;
+        const y = r.top - box.top + reel.scrollTop;
+        return { left: x, right: x + r.width, mid: y + r.height / 2 };
+      };
+      for (const [to, ds] of deps) {
+        const toEl = byId.get(to)!;
+        const b = pos(toEl);
+        for (const from of ds) {
+          const a = pos(byId.get(from)!);
+          const x1 = a.right;
+          const y1 = a.mid;
+          const x2 = b.left - 2;
+          const y2 = b.mid;
+          const dx = Math.max(24, (x2 - x1) / 2);
+          const g = document.createElementNS(SVG_NS, 'g');
+          g.setAttribute('class', 'bcn-pchain__edge');
+          g.dataset.from = from;
+          g.dataset.to = to;
+          if (!isDone(from)) g.dataset.pending = '';
+          const line = document.createElementNS(SVG_NS, 'path');
+          line.setAttribute('d', `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`);
+          line.setAttribute('class', 'bcn-pchain__line');
+          const head = document.createElementNS(SVG_NS, 'path');
+          head.setAttribute('d', `M ${x2 - 7} ${y2 - 4.5} L ${x2} ${y2} L ${x2 - 7} ${y2 + 4.5}`);
+          head.setAttribute('class', 'bcn-pchain__head');
+          g.append(line, head);
+          svg.append(g);
+        }
+      }
+      if (activeId) light(activeId);
+    };
+
+    // ── highlight ───────────────────────────────────────────────────────────
+    let activeId: string | null = null;
+    const light = (id: string | null) => {
+      activeId = id;
+      if (!id) {
+        delete root.dataset.active;
+        nodeEls.forEach((el) => el.classList.remove('is-lit'));
+        svg.querySelectorAll('.is-lit').forEach((e) => e.classList.remove('is-lit'));
+        return;
+      }
+      const up = walk(id, (x) => deps.get(x) ?? []);
+      const down = walk(id, (x) => dependentsOf.get(x) ?? []);
+      up.add(id);
+      down.add(id);
+      root.dataset.active = '';
+      nodeEls.forEach((el) => {
+        const nid = el.dataset.pchainNode!;
+        el.classList.toggle('is-lit', up.has(nid) || down.has(nid));
+      });
+      svg.querySelectorAll<SVGGElement>('.bcn-pchain__edge').forEach((g) => {
+        const { from = '', to = '' } = g.dataset;
+        g.classList.toggle('is-lit', (up.has(from) && up.has(to)) || (down.has(from) && down.has(to)));
+      });
+    };
+
+    for (const el of nodeEls) {
+      const id = el.dataset.pchainNode!;
+      el.addEventListener('pointerenter', () => light(id));
+      // Leaving with the pointer falls back to the focused node's path, if any.
+      el.addEventListener('pointerleave', () => {
+        const focused = document.activeElement as HTMLElement | null;
+        light(focused && root.contains(focused) ? (focused.dataset.pchainNode ?? null) : null);
+      });
+      el.addEventListener('focus', () => light(id));
+    }
+    root.addEventListener('focusout', (e) => {
+      const next = e.relatedTarget as HTMLElement | null;
+      if (!next || !root.contains(next)) light(null);
+    });
+
+    // ── redraw triggers ─────────────────────────────────────────────────────
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(draw);
+    };
+    const ro = new ResizeObserver(schedule);
+    ro.observe(reel);
+    nodeEls.forEach((el) => ro.observe(el));
+    window.addEventListener('resize', schedule);
+    document.addEventListener(CHANGE_EVENT, schedule);
+    document.fonts?.ready.then(schedule);
+    schedule();
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: connector overlay + node link reset + done/dim states — no esa-*
+     lego models a node/edge graph. See header for the lookup. */
+  .bcn-pchain__reel {
+    position: relative;
+    scroll-snap-type: none;
+    padding-block-end: var(--spacing-200);
+  }
+  .bcn-pchain__step {
+    position: relative;
+    z-index: 1;
+    flex: 1 0 16rem;
+    max-inline-size: 22rem;
+  }
+  .bcn-pchain__step-title {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pchain__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* The overlay sits under the step columns; nodes are opaque cards, so a connector
+     that skips a step passes behind the column it crosses. */
+  .bcn-pchain__wires {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .bcn-pchain__wires :global(.bcn-pchain__line),
+  .bcn-pchain__wires :global(.bcn-pchain__head) {
+    fill: none;
+    stroke: var(--color-border-default-strong, #8d8d8d);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: opacity 120ms ease, stroke 120ms ease;
+  }
+  .bcn-pchain__wires :global(.bcn-pchain__edge[data-pending] .bcn-pchain__line) {
+    stroke-dasharray: 5 4;
+  }
+  .bcn-pchain__view[data-active] .bcn-pchain__wires :global(.bcn-pchain__edge:not(.is-lit)) {
+    opacity: 0.2;
+  }
+  .bcn-pchain__wires :global(.bcn-pchain__edge.is-lit .bcn-pchain__line),
+  .bcn-pchain__wires :global(.bcn-pchain__edge.is-lit .bcn-pchain__head) {
+    stroke: var(--color-border-brand, #005862);
+    stroke-width: 2;
+  }
+
+  /* Node = an esa-card inside a link. The link only resets ink and carries focus. */
+  .bcn-pchain__node {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radius-card, var(--radius-md, 0.5rem));
+    transition: opacity 120ms ease;
+  }
+  .bcn-pchain__node:hover .bcn-pchain__name {
+    text-decoration: underline;
+  }
+  .bcn-pchain__node:focus-visible {
+    outline: 2px solid var(--color-border-focus, #005862);
+    outline-offset: 2px;
+  }
+  .bcn-pchain__node.is-lit {
+    --card-border-color: var(--color-border-brand, #005862);
+  }
+  .bcn-pchain__view[data-active] .bcn-pchain__node:not(.is-lit) {
+    opacity: 0.4;
+  }
+  .bcn-pchain__name {
+    color: var(--color-content-default);
+  }
+  .bcn-pchain__scope {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Issued (store category Completed) reads as done: a sunken surface, quieter name. */
+  .bcn-pchain__node:has([data-permit-status][data-category='Completed']) {
+    --card-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  }
+  .bcn-pchain__node:has([data-permit-status][data-category='Completed']) .bcn-pchain__name {
+    color: var(--color-content-default-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-pchain__node,
+    .bcn-pchain__wires :global(.bcn-pchain__line),
+    .bcn-pchain__wires :global(.bcn-pchain__head) {
+      transition: none;
+    }
+  }
+</style>

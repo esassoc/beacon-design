@@ -1,0 +1,161 @@
+---
+// <BcnAddPermit> — the project page's "Add permit" drawer, opened by any [data-add-permit].
+//
+//   Permit type     esa-select of the eight types (required)
+//   Applies to      Project-wide or one of the project's sites (from the project store, so
+//                   a site added in the browser is offered)
+//   Agency          state and federal types name their office (read-only help text);
+//                   local types pick the city or county: the site's (the agency its other
+//                   local permits name), else the project's lead
+//   Assigned to     esa-select of people
+//   Why it applies  esa-textarea (the permit's trigger)
+//   Waits on        esa-select multiple: the project's other permits
+//
+// Save builds the permit like the fixture's own (createPermit: name, level, first status,
+// the type's application checklist) and saves it (src/lib/added-permits-store.ts): it
+// appears in the List and on the Board, and readiness recounts. Saved per browser in the
+// prototype; a server write every user sees in the product.
+//
+// bcn-lego-checked: shell = esa-side-dialog; fields = esa-select / esa-textarea; actions
+// = esa-button. Same drawer shape as BcnPermitEditor's details drawer. The CSS is the
+// drawer width and footer alignment.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import {
+  JURISDICTIONS,
+  PEOPLE,
+  PERMIT_TYPES,
+  CURRENT_USER,
+  getProject,
+  permitsOfProject,
+} from '../../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+const project = getProject(projectId);
+const typeOptions = PERMIT_TYPES.map((t) => ({ value: t.id, label: `${t.name} (${t.level})` }));
+const agencyOptions = JURISDICTIONS.filter((j) => j.level === 'Local').map((j) => ({ value: j.id, label: j.name }));
+const peopleOptions = PEOPLE.map((p) => ({ value: p, label: p }));
+// Each site's local agency, read from the local permits already on it.
+const siteAgency = Object.fromEntries(
+  permitsOfProject(projectId)
+    .filter((p) => p.siteId && p.level === 'Local')
+    .map((p) => [p.siteId!, p.jurisdictionId]),
+);
+const offices = Object.fromEntries(PERMIT_TYPES.filter((t) => t.jurisdictionId).map((t) => [t.id, JURISDICTIONS.find((j) => j.id === t.jurisdictionId)!.name]));
+---
+
+<div
+  class="bcn-ap"
+  data-bcn-ap
+  data-project-id={projectId}
+  data-lead={project.leadJurisdictionId}
+  data-me={CURRENT_USER}
+  data-offices={JSON.stringify(offices)}
+  data-site-agency={JSON.stringify(siteAgency)}
+>
+  <esa-side-dialog class="bcn-ap__dialog" data-ap-drawer heading="Add permit" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-select data-ap="type" label="Permit type" size="md" required placeholder="Choose a permit type" data-options={JSON.stringify(typeOptions)}></esa-select>
+      <esa-select data-ap="scope" label="Applies to" size="md"></esa-select>
+      <esa-select data-ap="agency" label="Agency" size="md" data-options={JSON.stringify(agencyOptions)}></esa-select>
+      <esa-select data-ap="assignee" label="Assigned to" size="md" data-options={JSON.stringify(peopleOptions)}></esa-select>
+      <esa-textarea data-ap="trigger" label="Why it applies" size="md" rows="3" placeholder="e.g. Work within a regulated stream buffer"></esa-textarea>
+      <esa-select data-ap="depends" label="Waits on" size="md" multiple chip-mode placeholder="No other permits"></esa-select>
+    </div>
+    <div slot="footer" class="cluster bcn-ap__footer" data-gap="sm">
+      <EsaButton variant="primary" data-ap-save>Add permit</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-ap-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import { createPermit, permitType, permitsOfProject, scopeLabel, type PermitTypeId } from '../../data/permit-tracker';
+  import { loadProject } from '../../lib/project-store';
+  import { addPermit, ensureAddedPermits } from '../../lib/added-permits-store';
+  import { toast } from '../../lib/snackbar';
+
+  type Opt = { value: string; label: string };
+  type DialogEl = HTMLElement & { show(): void; close(): void };
+  type SelectEl = HTMLElement & { options: Opt[]; value: string | string[]; disabled: boolean; helpText: string };
+  type FieldEl = HTMLElement & { value: string };
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-ap]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const offices = JSON.parse(root.dataset.offices ?? '{}') as Record<string, string>;
+    const drawer = root.querySelector<DialogEl>('[data-ap-drawer]')!;
+    const el = <T extends HTMLElement>(name: string) => root.querySelector<T>(`[data-ap="${name}"]`)!;
+    const type = el<SelectEl>('type');
+    const agency = el<SelectEl>('agency');
+
+    // State and federal permits have one office; only local ones pick an agency.
+    const syncAgency = () => {
+      const t = type.value ? permitType(type.value as PermitTypeId) : undefined;
+      const fixed = t?.jurisdictionId ? offices[t.id] : '';
+      agency.disabled = !!fixed;
+      agency.helpText = fixed ? `Issued by ${fixed}` : '';
+    };
+    type.addEventListener('change', syncAgency);
+    const siteAgency = JSON.parse(root.dataset.siteAgency ?? '{}') as Record<string, string>;
+    el<SelectEl>('scope').addEventListener('change', () => {
+      agency.value = siteAgency[String(el<SelectEl>('scope').value)] ?? root.dataset.lead!;
+    });
+
+    const open = () => {
+      ensureAddedPermits(projectId);
+      const { sites } = loadProject(projectId);
+      Promise.all(['esa-select', 'esa-textarea'].map((t) => customElements.whenDefined(t))).then(() => {
+        for (const s of root.querySelectorAll<SelectEl>('esa-select[data-options]')) s.options = JSON.parse(s.dataset.options!);
+        el<SelectEl>('scope').options = [{ value: '', label: 'Project-wide' }, ...sites.map((s) => ({ value: s.id, label: s.name }))];
+        el<SelectEl>('depends').options = permitsOfProject(projectId).map((p) => ({ value: p.id, label: `${p.name} (${scopeLabel(p)})` }));
+        type.value = '';
+        el<SelectEl>('scope').value = '';
+        agency.value = root.dataset.lead!;
+        el<SelectEl>('assignee').value = root.dataset.me!;
+        el<FieldEl>('trigger').value = '';
+        el<SelectEl>('depends').value = [];
+        syncAgency();
+      });
+      drawer.show();
+    };
+    document.addEventListener('click', (e) => {
+      if ((e.target as Element | null)?.closest?.('[data-add-permit]')) open();
+    });
+
+    root.querySelector('[data-ap-save]')?.addEventListener('click', () => {
+      const typeId = type.value as PermitTypeId;
+      if (!typeId) return toast('Choose a permit type', 'warning');
+      const scope = String(el<SelectEl>('scope').value ?? '');
+      const depends = el<SelectEl>('depends').value;
+      const permit = createPermit(
+        { projectId, siteId: scope || undefined, localJurisdictionId: String(agency.value || root.dataset.lead) },
+        {
+          id: `${projectId}-${typeId}-${Date.now().toString(36)}`,
+          type: typeId,
+          trigger: el<FieldEl>('trigger').value?.trim() ?? '',
+          assignee: String(el<SelectEl>('assignee').value || root.dataset.me),
+          dependsOn: Array.isArray(depends) ? depends : depends ? [depends] : [],
+        },
+      );
+      addPermit(permit);
+      drawer.close();
+      toast(`${permit.name} added`, 'success');
+    });
+    root.querySelector('[data-ap-cancel]')?.addEventListener('click', () => drawer.close());
+  });
+</script>
+
+<style>
+  .bcn-ap__dialog {
+    --side-dialog-width-lg: 32rem;
+  }
+  .bcn-ap__footer {
+    inline-size: 100%;
+    justify-content: end;
+  }
+</style>

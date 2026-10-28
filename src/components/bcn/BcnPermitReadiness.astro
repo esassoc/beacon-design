@@ -1,0 +1,528 @@
+---
+// <BcnPermitReadiness> — "Ready to break ground?", the top section of a Permit
+// Tracker project page. Answers one question: can construction start on the
+// project's target date?
+//
+//   • state badge: All issued / On track / Unconfirmed / At risk
+//   • three figures: permits issued of total (+ esa-progress-bar), expected
+//     all-issued date, construction start
+//   • under the expected date, where it falls against construction start: a warning
+//     icon and danger ink when it's after (issuance lags the planned start), a check
+//     and success ink when it's before
+//   • counts by backbone category (CATEGORY_META labels + tones) and the derived
+//     flags (waiting on another permit, expiring soon, expired)
+//   • risk lines: permits past their typical review time, permits that can't be
+//     forecast yet, and permits whose expiry falls before construction start
+//     (listed by name, linked to the permit)
+//
+// FORECAST + STATE: scheduleOf() in the data module (forecastIssue walks the dependency
+// chain; at risk = expected all-issued after construction start, or a permit expiring
+// before it). A permit is "past its typical review time" when its expectedIssue() is
+// behind TODAY.
+//
+// LIVE CONSTRUCTION START: the build renders with the fixture's construction start; the
+// client re-runs scheduleOf() with the one saved in src/lib/project-store.ts and again on
+// PROJECT_EVENT, so editing the project re-dates the figures, the badge, the
+// before/after line, the expiring-before-start list and the site schedule. Badges and
+// the before/after marks are cloned from SSR'd templates so they stay legos.
+//
+// SITES: the project's one list of sites, a table under the figures. A Project-wide row
+// (the project-wide permits alone), then each site with its location, its own permits
+// plus the project-wide ones (they gate every site): issued of total, the expected
+// all-issued date and its distance from construction start, and the same state rule as
+// the project. Rows follow the saved sites (renamed, added; a new site carries only the
+// project-wide permits). With `editable`, "Add site" heads the table and each site row
+// has an edit button, both opening BcnSiteEditor's drawer.
+//
+// STATUS: the build counts the fixture statusId (statusColumn()); the client re-counts
+// issued-of-total and the category counts through resolveStatus() (the status store the
+// List and Board use) on load and on CHANGE_EVENT, so a card moved on the Board shows
+// here. The dates (expected all issued, per site) stay the fixture's forecast.
+//
+// bcn-lego-checked: frame is esa-card, figures are esa-stat, the meter is
+// esa-progress-bar, the state is esa-badge, the marks are esa-icon. No esa-* renders a
+// multi-category count line with tone dots (esa-badge/esa-pill are fixed-variant; same
+// gap BcnRollupSummary documents); checked Beacon (no readiness summary in prod).
+// bcn-permit-readiness is the reusable home; only the count line, the before/after line
+// and the risk list are composition here.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSiteEditor from './BcnSiteEditor.astro';
+import '@esa/tokens/a11y.css';
+import {
+  CATEGORIES,
+  CATEGORY_META,
+  READINESS_BADGE,
+  ROUTES,
+  TODAY,
+  blockers,
+  expectedIssue,
+  expiryFlag,
+  fmtDate,
+  getProject,
+  permitsOfProject,
+  scheduleOf,
+  scopeLabel,
+  sitesOf,
+  statusColumn,
+  type ReadinessState,
+  type StatusCategory,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+import { readinessView, siteScheduleRows } from './permit-readiness';
+
+interface Props {
+  projectId: string;
+  /** Add site and per-site edit buttons (BcnSiteEditor). */
+  editable?: boolean;
+}
+const { projectId, editable = false } = Astro.props;
+
+const project = getProject(projectId);
+const permits = permitsOfProject(projectId);
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+// ── counts (independent of construction start) ────────────────────────────────
+const byCategory = new Map<StatusCategory, number>(CATEGORIES.map((c) => [c, 0]));
+for (const p of permits) {
+  const cat = statusColumn(p.statusId, p.typeId).category;
+  byCategory.set(cat, (byCategory.get(cat) ?? 0) + 1);
+}
+const total = permits.length;
+const issued = byCategory.get('Completed') ?? 0;
+const flags = [
+  { n: permits.filter((p) => blockers(p).length > 0).length, text: 'waiting on another permit' },
+  { n: permits.filter((p) => expiryFlag(p) === 'expiring').length, text: 'expires soon', many: 'expire soon' },
+  { n: permits.filter((p) => expiryFlag(p) === 'expired').length, text: 'expired' },
+].filter((f) => f.n > 0);
+
+const outstanding = permits.filter((p) => !p.issued);
+const pastTypical = outstanding.filter((p) => {
+  const e = expectedIssue(p);
+  return e !== undefined && e < TODAY;
+}).length;
+const notSubmitted = outstanding.filter((p) => !p.submitted).length;
+const schedule = scheduleOf(permits, project.constructionStart);
+
+const risks: string[] = [];
+if (pastTypical > 0) risks.push(`${plural(pastTypical, 'permit')} past ${pastTypical === 1 ? 'its' : 'their'} typical review time`);
+if (notSubmitted > 0) risks.push(`${plural(notSubmitted, 'permit')} not yet submitted, forecast from past timelines`);
+if (schedule.unforecast > 0) risks.push(`${plural(schedule.unforecast, 'permit')} with no past timeline to forecast from`);
+
+// ── start-dependent (SSR with the fixture start; the client re-runs these) ────
+const view = readinessView(projectId, project.constructionStart);
+const siteRows = siteScheduleRows(projectId, project.constructionStart, sitesOf(projectId));
+const expiring = permits.filter((p) => p.expires).sort((a, b) => a.expires!.localeCompare(b.expires!));
+const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
+---
+
+<EsaCard>
+  <div slot="header" class="bcn-pr__head">
+    <h2 class="bcn-pr__title typography-title-sm-strong">Ready to break ground?</h2>
+    <span data-pr-state>
+      <EsaBadge value={READINESS_BADGE[view.state].label} variant={READINESS_BADGE[view.state].variant} size="md" />
+    </span>
+  </div>
+
+  <div class="bcn-pr stack" data-gap="md" data-bcn-pr data-project-id={projectId}>
+    <div class="bcn-pr__figures grid" data-gap="md">
+      <div class="stack" data-gap="xs" data-pr-issued>
+        <EsaStat value={`${issued} of ${total}`} label="Permits issued" />
+        <EsaProgressBar
+          value={total ? Math.round((issued / total) * 100) : 0}
+          size="sm"
+          variant={schedule.allIssued ? 'success' : 'primary'}
+          label="Permits issued"
+          showValue={false}
+        />
+      </div>
+      <div class="stack" data-gap="2xs" data-pr-expected>
+        <EsaStat value={view.expectedValue} label={view.expectedLabel} />
+        <span class="bcn-pr__vs typography-body-sm" data-pr-vs data-tone={view.vs.tone} hidden={!view.vs.text}>
+          <span class="bcn-pr__vs-icon" data-icon="late"><EsaIcon name="triangle-alert" size="sm" /></span>
+          <span class="bcn-pr__vs-icon" data-icon="early"><EsaIcon name="circle-check" size="sm" /></span>
+          <span data-pr-vs-text>{view.vs.text}</span>
+        </span>
+      </div>
+      <div data-pr-start>
+        <EsaStat value={view.startValue} label="Construction start" sub={view.startSub} />
+      </div>
+    </div>
+
+    <section class="bcn-pr__sites-block stack" data-gap="xs" aria-labelledby={`bcn-pr-sites-${projectId}`}>
+      <div class="repel" data-gap="sm">
+        <h3 id={`bcn-pr-sites-${projectId}`} class="bcn-pr__subhead typography-label-lg-strong">Sites</h3>
+        {editable && <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" data-site-edit>Add site</EsaButton>}
+      </div>
+    <table class="bcn-pr__sites typography-body-sm" aria-labelledby={`bcn-pr-sites-${projectId}`}>
+      <thead>
+        <tr>
+          <th scope="col">Site</th>
+          <th scope="col">Issued</th>
+          <th scope="col">Expected all issued</th>
+          <th scope="col"><span class="visually-hidden">State</span></th>
+        </tr>
+      </thead>
+      <tbody data-pr-site-rows>
+        {
+          siteRows.map((r) => (
+            <tr>
+              <th scope="row">
+                <span class="stack" data-gap="3xs">
+                  <span>{r.name}</span>
+                  <span class="bcn-pr__meta typography-body-sm">{r.location}</span>
+                </span>
+              </th>
+              <td class="bcn-pr__num">{r.issued}</td>
+              <td>
+                <span class="stack" data-gap="3xs">
+                  <span>{r.expected}</span>
+                  <span class="bcn-pr__vs typography-body-sm" data-tone={r.vs.tone} hidden={!r.vs.text}>
+                    <span class="bcn-pr__vs-icon" data-icon="late"><EsaIcon name="triangle-alert" size="sm" /></span>
+                    <span class="bcn-pr__vs-icon" data-icon="early"><EsaIcon name="circle-check" size="sm" /></span>
+                    <span>{r.vs.text}</span>
+                  </span>
+                </span>
+              </td>
+              <td class="bcn-pr__state">
+                <span class="bcn-pr__state-cell cluster" data-gap="xs">
+                  <EsaBadge value={READINESS_BADGE[r.state].label} variant={READINESS_BADGE[r.state].variant} />
+                  {editable && (
+                    <span class="bcn-pr__edit" data-cell="edit" data-empty={r.id ? undefined : ''}>
+                      <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label={`Edit ${r.name}`} data-site-edit data-site-id={r.id} />
+                    </span>
+                  )}
+                </span>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    </section>
+
+    <div class="bcn-pr__counts cluster" data-gap="md">
+      <ul class="cluster" data-gap="md">
+        {
+          CATEGORIES.map((c) => (
+            <li class="bcn-pr__count typography-body-sm">
+              <span class="bcn-pr__dot" style={`--_c: ${CATEGORY_META[c].tone};`} aria-hidden="true" />
+              <span class="bcn-pr__n" data-pr-count={c}>{byCategory.get(c) ?? 0}</span> {CATEGORY_META[c].label}
+            </li>
+          ))
+        }
+      </ul>
+      {
+        flags.length > 0 && (
+          <ul class="bcn-pr__flags cluster" data-gap="md">
+            {flags.map((f) => (
+              <li class="bcn-pr__count typography-body-sm">
+                <span class="bcn-pr__n">{f.n}</span> {f.n === 1 ? f.text : (f.many ?? f.text)}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="bcn-pr__risks stack" data-gap="xs" data-pr-risks hidden={risks.length === 0 && view.expiresBeforeStart.length === 0}>
+      {
+        risks.length > 0 && (
+          <ul class="bcn-pr__list typography-body-sm" data-pr-risk-lines>
+            {risks.map((r) => (
+              <li>{r}</li>
+            ))}
+          </ul>
+        )
+      }
+      <div class="stack" data-gap="2xs" data-pr-expiring hidden={view.expiresBeforeStart.length === 0}>
+        <h3 class="bcn-pr__subhead typography-label-md-strong">Expires before construction start</h3>
+        <ul class="bcn-pr__list typography-body-sm">
+          {
+            expiring.map((p) => (
+              <li data-expires={p.expires} hidden={!view.expiresBeforeStart.includes(p.id)}>
+                <a href={withBase(ROUTES.permit(p.id))}>{p.name}</a>
+                <span class="bcn-pr__meta">
+                  {' '}
+                  {scopeLabel(p)}, expires {fmtDate(p.expires!)}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloned by the client: one badge per state, at both sizes, and a site row. -->
+  {
+    STATES.map((s) => (
+      <template data-pr-badge={s}>
+        <EsaBadge value={READINESS_BADGE[s].label} variant={READINESS_BADGE[s].variant} size="md" />
+      </template>
+    ))
+  }
+  {
+    STATES.map((s) => (
+      <template data-pr-site-badge={s}>
+        <EsaBadge value={READINESS_BADGE[s].label} variant={READINESS_BADGE[s].variant} />
+      </template>
+    ))
+  }
+  <template data-pr-site-row>
+    <tr>
+      <th scope="row">
+        <span class="stack" data-gap="3xs">
+          <span data-cell="name"></span>
+          <span class="bcn-pr__meta typography-body-sm" data-cell="location"></span>
+        </span>
+      </th>
+      <td class="bcn-pr__num" data-cell="issued"></td>
+      <td>
+        <span class="stack" data-gap="3xs">
+          <span data-cell="expected"></span>
+          <span class="bcn-pr__vs typography-body-sm" data-cell="vs">
+            <span class="bcn-pr__vs-icon" data-icon="late"><EsaIcon name="triangle-alert" size="sm" /></span>
+            <span class="bcn-pr__vs-icon" data-icon="early"><EsaIcon name="circle-check" size="sm" /></span>
+            <span data-cell="vs-text"></span>
+          </span>
+        </span>
+      </td>
+      <td class="bcn-pr__state">
+        <span class="bcn-pr__state-cell cluster" data-gap="xs">
+          <span data-cell="state"></span>
+          {editable && (
+            <span class="bcn-pr__edit" data-cell="edit">
+              <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit site" data-site-edit />
+            </span>
+          )}
+        </span>
+      </td>
+    </tr>
+  </template>
+  {editable && <BcnSiteEditor projectId={projectId} />}
+</EsaCard>
+
+<script>
+  import { PROJECT_EVENT, loadProject } from '../../lib/project-store';
+  import { readinessView, siteScheduleRows } from './permit-readiness';
+  import { ensureAddedPermits } from '../../lib/added-permits-store';
+  import { applyPermitEdits } from '../../lib/permit-edits-store';
+  import { CATEGORIES, permitsOfProject } from '../../data/permit-tracker';
+  import { CHANGE_EVENT, resolveStatus } from '../../lib/permit-status-store';
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-pr]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const card = root.closest('.esa-card') ?? root.parentElement!;
+    const clone = (sel: string) => (card.querySelector<HTMLTemplateElement>(sel)!.content.firstElementChild!.cloneNode(true) as HTMLElement);
+    const setVs = (el: HTMLElement, textEl: HTMLElement, vs: { tone: string; text: string }) => {
+      el.dataset.tone = vs.tone;
+      el.hidden = !vs.text;
+      textEl.textContent = vs.text;
+    };
+
+    const render = () => {
+      applyPermitEdits();
+      ensureAddedPermits(projectId);
+      // Totals follow added permits and live statuses (the Board, Change status).
+      const permits = permitsOfProject(projectId);
+      const cats = permits.map((p) => resolveStatus(projectId, p).category);
+      const nIssued = cats.filter((c) => c === 'Completed').length;
+      const issuedEl = root.querySelector<HTMLElement>('[data-pr-issued]');
+      if (issuedEl) {
+        issuedEl.querySelector('.esa-stat__value')!.textContent = `${nIssued} of ${permits.length}`;
+        const pct = permits.length ? Math.round((nIssued / permits.length) * 100) : 0;
+        issuedEl.querySelector('[role="progressbar"]')?.setAttribute('aria-valuenow', String(pct));
+        issuedEl.querySelector<HTMLElement>('.esa-progress-bar__fill')?.style.setProperty('width', `${pct}%`);
+      }
+      for (const c of CATEGORIES) {
+        const n = root.querySelector(`[data-pr-count="${c}"]`);
+        if (n) n.textContent = String(cats.filter((x) => x === c).length);
+      }
+      const record = loadProject(projectId);
+      const view = readinessView(projectId, record.constructionStart);
+
+      card.querySelector('[data-pr-state]')?.replaceChildren(clone(`[data-pr-badge="${view.state}"]`));
+
+      const expected = root.querySelector<HTMLElement>('[data-pr-expected]')!;
+      expected.querySelector('.esa-stat__value')!.textContent = view.expectedValue;
+      expected.querySelector('.esa-stat__label')!.textContent = view.expectedLabel;
+      const vs = root.querySelector<HTMLElement>('[data-pr-vs]')!;
+      setVs(vs, vs.querySelector<HTMLElement>('[data-pr-vs-text]')!, view.vs);
+
+      const start = root.querySelector<HTMLElement>('[data-pr-start]')!;
+      start.querySelector('.esa-stat__value')!.textContent = view.startValue;
+      const sub = start.querySelector('.esa-stat__sub');
+      if (sub) sub.textContent = view.startSub;
+
+      const rows = siteScheduleRows(projectId, record.constructionStart, record.sites);
+      root.querySelector('[data-pr-site-rows]')!.replaceChildren(
+        ...rows.map((r) => {
+          const tr = clone('[data-pr-site-row]');
+          const cell = (name: string) => tr.querySelector<HTMLElement>(`[data-cell="${name}"]`)!;
+          cell('name').textContent = r.name;
+          cell('location').textContent = r.location;
+          const edit = tr.querySelector<HTMLElement>('[data-cell="edit"]');
+          if (edit) {
+            // Project-wide isn't a site: keep the slot (columns stay aligned), drop the button.
+            edit.toggleAttribute('data-empty', !r.id);
+            const btn = edit.querySelector<HTMLElement>('[data-site-edit]')!;
+            btn.dataset.siteId = r.id;
+            btn.setAttribute('aria-label', `Edit ${r.name}`);
+          }
+          cell('issued').textContent = r.issued;
+          cell('expected').textContent = r.expected;
+          setVs(cell('vs'), cell('vs-text'), r.vs);
+          cell('state').replaceChildren(clone(`[data-pr-site-badge="${r.state}"]`));
+          return tr;
+        }),
+      );
+
+      const expiring = root.querySelector<HTMLElement>('[data-pr-expiring]')!;
+      expiring.querySelectorAll<HTMLElement>('[data-expires]').forEach((li) => (li.hidden = !(li.dataset.expires! < record.constructionStart)));
+      expiring.hidden = view.expiresBeforeStart.length === 0;
+      root.querySelector<HTMLElement>('[data-pr-risks]')!.hidden = !root.querySelector('[data-pr-risk-lines]') && expiring.hidden;
+    };
+
+    document.addEventListener(PROJECT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) render();
+    });
+    document.addEventListener(CHANGE_EVENT, render);
+    render();
+  });
+</script>
+
+<style>
+  .bcn-pr__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300, 0.75rem);
+    flex-wrap: wrap;
+  }
+  .bcn-pr__title {
+    margin: 0;
+  }
+  .bcn-pr__figures {
+    --grid-min: 12rem;
+  }
+
+  .bcn-pr__counts {
+    padding-top: var(--spacing-300, 0.75rem);
+    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
+  }
+  .bcn-pr__counts ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-pr__count {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-pr__n {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default, #202020);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-pr__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full, 9999px);
+    background: var(--_c);
+    flex-shrink: 0;
+  }
+
+  /* Schedule by site: a plain data table — four short columns, no sorting or
+     filtering, so AG Grid's chrome would outweigh it. Includes project-wide permits. */
+  .bcn-pr__sites {
+    inline-size: 100%;
+    border-collapse: collapse;
+    color: var(--color-content-default);
+  }
+  .bcn-pr__sites-block {
+    padding-top: var(--spacing-300, 0.75rem);
+    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
+  }
+  .bcn-pr__state-cell {
+    justify-content: end;
+    flex-wrap: nowrap;
+  }
+  /* Project-wide row: the edit slot keeps its width so badges line up, but is empty. */
+  .bcn-pr__edit[data-empty] {
+    visibility: hidden;
+  }
+  .bcn-pr__sites th,
+  .bcn-pr__sites td {
+    text-align: start;
+    padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem) var(--spacing-150, 0.375rem) 0;
+    border-bottom: 1px solid var(--color-border-default-subtle, #e8e8e8);
+    vertical-align: middle;
+  }
+  .bcn-pr__sites thead th {
+    font-weight: var(--typography-font-weight-regular, 400);
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-pr__sites tbody th {
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+  .bcn-pr__num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-pr__state {
+    text-align: end;
+    padding-inline-end: 0;
+  }
+
+  /* Expected vs construction start: a mark + words, never colour alone. */
+  .bcn-pr__vs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pr__vs[data-tone='late'] {
+    color: var(--color-content-utility-danger);
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+  .bcn-pr__vs[data-tone='early'] {
+    color: var(--color-content-utility-success);
+  }
+  .bcn-pr__vs-icon {
+    display: none;
+  }
+  .bcn-pr__vs[data-tone='late'] [data-icon='late'],
+  .bcn-pr__vs[data-tone='early'] [data-icon='early'] {
+    display: inline-flex;
+  }
+  .bcn-pr [hidden] {
+    display: none;
+  }
+
+  .bcn-pr__risks {
+    padding-top: var(--spacing-300, 0.75rem);
+    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
+  }
+  .bcn-pr__subhead {
+    margin: 0;
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-pr__list {
+    margin: 0;
+    padding-left: var(--spacing-500, 1.25rem);
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-pr__list a {
+    color: var(--color-content-link, #0d74ce);
+  }
+  .bcn-pr__meta {
+    color: var(--color-content-default-secondary, #646464);
+  }
+</style>

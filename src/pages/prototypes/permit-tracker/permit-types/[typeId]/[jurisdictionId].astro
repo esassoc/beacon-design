@@ -1,0 +1,88 @@
+---
+// Permit Tracker — one permit type at one agency: "Critical Areas Review: Lewis County".
+// How long it has taken there (past permits), and what it is issued under. For Critical
+// Areas Review that is the agency's own critical areas ordinance: a link to it online and,
+// how review works and the wetland and stream buffers, each cited to its code section:
+// suggested by AI from the ordinance, edited and validated by a person (BcnCaoRules).
+//
+// Critical Areas Review has a page for EVERY Washington county and city (the statewide
+// index, src/data/wa-cao-index.json), permits or not. Lewis County, Napavine, Grays Harbor
+// County, Pacific County and Raymond are read from the code; the tracker's other sample
+// agencies show example rules (badged); every other jurisdiction shows its ordinance only.
+// Other permit types have a page per agency the tracker has a permit for.
+import PermitTrackerLayout from '../../../../../layouts/PermitTrackerLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPermitAgencyTimeline from '../../../../../components/bcn/BcnPermitAgencyTimeline.astro';
+import BcnGoverningLaw from '../../../../../components/bcn/BcnGoverningLaw.astro';
+import BcnCaoRules from '../../../../../components/bcn/BcnCaoRules.astro';
+import { PERMITS, ROUTES, jurisdiction, permitType, type PermitTypeId } from '../../../../../data/permit-tracker';
+import { CAO_INDEX, agencyName, caoOf, fmtAmended } from '../../../../../data/permit-rules';
+import { withBase } from '../../../../../lib/base';
+
+export function getStaticPaths() {
+  const pairs = new Map<string, { typeId: PermitTypeId; jurisdictionId: string }>();
+  for (const p of PERMITS) pairs.set(`${p.typeId}|${p.jurisdictionId}`, { typeId: p.typeId, jurisdictionId: p.jurisdictionId });
+  for (const e of CAO_INDEX) pairs.set(`critical-areas|${e.id}`, { typeId: 'critical-areas', jurisdictionId: e.id });
+  return [...pairs.values()].map((params) => ({ params }));
+}
+
+const { typeId, jurisdictionId } = Astro.params as { typeId: PermitTypeId; jurisdictionId: string };
+const t = permitType(typeId);
+const cao = typeId === 'critical-areas' ? caoOf(jurisdictionId) : undefined;
+const agency = cao ? agencyName(jurisdictionId) : jurisdiction(jurisdictionId).name;
+const name = typeId === 'critical-areas' ? jurisdiction(jurisdictionId)?.criticalAreasName ?? t.name : t.name;
+
+const meta = [
+  { label: 'Agency', value: agency },
+  ...(cao?.entry.kind === 'City' ? [{ label: 'County', value: cao.entry.county }] : []),
+  ...(cao
+    ? [
+        { label: 'Ordinance', value: cao.ordinance.chapter || 'Not found online' },
+        ...(cao.ordinance.ord ? [{ label: 'Last amended by', value: cao.ordinance.ord }] : []),
+        ...(cao.ordinance.chapter ? [{ label: 'Last amended', value: fmtAmended(cao.ordinance.date) || 'Not shown in the code' }] : []),
+      ]
+    : [{ label: 'Level', value: t.level }]),
+];
+---
+
+<!-- manifest:
+  layout: PermitTrackerLayout > stack(xl)        # SPINE
+  sections:
+    - page header    -> esa-page-header           # permit name; agency, ordinance, last amended; Open ordinance
+    - timeline + law -> bcn-permit-agency-timeline, bcn-governing-law   # side by side (.switcher)
+    - rules          -> bcn-cao-rules             # critical areas: changed-since-review alert; How review works, Wetland and Stream
+                                                  #   buffers with AI suggested / edited / validated badges, Edit, Validate; or Suggest with AI
+-->
+
+<PermitTrackerLayout title={`${name} · ${agency}`} active="types">
+  <div class="stack" data-gap="xl">
+    <EsaPageHeader title={name} meta={meta}>
+      <EsaBreadcrumbs
+        slot="breadcrumbs"
+        items={[
+          { label: 'Permit types', href: withBase(ROUTES.permitTypes) },
+          { label: t.name, href: withBase(ROUTES.permitType(typeId)) },
+          { label: agency },
+        ]}
+      />
+      {
+        cao?.ordinance.url && (
+          <Fragment slot="actions">
+            <EsaButton variant="ghost" appearance="outline" icon="external-link" href={cao.ordinance.url} target="_blank" rel="noopener" data-ordinance-link>
+              Open ordinance
+            </EsaButton>
+          </Fragment>
+        )
+      }
+    </EsaPageHeader>
+
+    <div class="switcher" data-gap="xl" style="--switcher-threshold: 48rem">
+      <BcnPermitAgencyTimeline typeId={typeId} jurisdictionId={jurisdictionId} />
+      <BcnGoverningLaw typeId={typeId} jurisdictionId={jurisdictionId} />
+    </div>
+
+    {cao && <BcnCaoRules jurisdictionId={jurisdictionId} />}
+  </div>
+</PermitTrackerLayout>

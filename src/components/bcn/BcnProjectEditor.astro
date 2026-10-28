@@ -1,0 +1,124 @@
+---
+// <BcnProjectEditor> — the project page's "Edit project" drawer, opened by any
+// `[data-project-edit]` button (the page header's "Edit project").
+//
+//   Client, Project no., Project manager, Construction start. Sites are added and
+//   edited from the Sites table in "Ready to break ground?" (BcnPermitReadiness /
+//   BcnSiteEditor), not here.
+//
+// Save writes src/lib/project-store.ts and fires PROJECT_EVENT: the page header facts
+// and "Ready to break ground?" re-render, and the readiness calculations
+// re-run against the new construction start. A new project manager joins the team.
+// Every open refills from the store, so Cancel / Esc / X / click-outside discard.
+// It also keeps the page header's facts (esa-page-header meta, matched by label) in step
+// with the store, on load and after every save.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog; every field IS an esa-* lego
+// (esa-text-field, esa-select, esa-date-picker); every action IS esa-button. Checked
+// Beacon (no project editor in the permit context). The CSS is the drawer width.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { PEOPLE } from '../../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+
+const json = (v: unknown) => JSON.stringify(v);
+const managerOptions = PEOPLE.map((p) => ({ value: p, label: p }));
+---
+
+<div class="bcn-pje" data-bcn-pje data-project-id={projectId}>
+  <esa-side-dialog class="bcn-pje__dialog" data-pje-drawer heading="Edit project" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-pje="client" label="Client" size="md" required autocomplete="off"></esa-text-field>
+      <esa-text-field data-pje="number" label="Project no." size="md" required autocomplete="off"></esa-text-field>
+      <esa-select data-pje="manager" label="Project manager" size="md" options={json(managerOptions)}></esa-select>
+      <esa-date-picker data-pje="start" label="Construction start" size="md" required></esa-date-picker>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-pje-save>Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-pje-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-date-picker';
+  import { fmtDate } from '../../data/permit-tracker';
+  import { PROJECT_EVENT, loadProject, saveProject } from '../../lib/project-store';
+  import { addTeamMember } from '../../lib/project-team-store';
+  import { toast } from '../../lib/snackbar';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void };
+  type FieldEl = HTMLElement & { value: string };
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-pje]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const drawer = root.querySelector<DialogEl>('[data-pje-drawer]')!;
+    const field = (name: string) => root.querySelector<FieldEl>(`[data-pje="${name}"]`)!;
+
+    const fill = () => {
+      const record = loadProject(projectId);
+      Promise.all(['esa-text-field', 'esa-select', 'esa-date-picker'].map((t) => customElements.whenDefined(t))).then(() => {
+        field('client').value = record.client;
+        field('number').value = record.number;
+        field('manager').value = record.manager;
+        field('start').value = record.constructionStart;
+      });
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!(e.target as Element | null)?.closest?.('[data-project-edit]')) return;
+      fill();
+      drawer.show();
+    });
+
+    root.querySelector('[data-pje-save]')?.addEventListener('click', () => {
+      const record = loadProject(projectId);
+      const client = field('client').value?.trim();
+      const number = field('number').value?.trim();
+      const start = field('start').value;
+      if (!client || !number || !start) {
+        toast('Client, project no. and construction start are required', 'warning');
+        return;
+      }
+      const manager = field('manager').value || record.manager;
+      const moved = start !== record.constructionStart;
+      saveProject(projectId, { client, number, manager, constructionStart: start, sites: record.sites });
+      if (manager !== record.manager) addTeamMember(projectId, manager);
+      drawer.close();
+      toast(moved ? 'Project saved. Readiness recalculated for the new construction start' : 'Project saved', 'success');
+    });
+    root.querySelector('[data-pje-cancel]')?.addEventListener('click', () => drawer.close());
+
+    // The page header's facts, by their labels.
+    const syncHeader = () => {
+      const r = loadProject(projectId);
+      const values: Record<string, string> = {
+        Client: r.client,
+        'Project no.': r.number,
+        'Project manager': r.manager,
+        'Construction start': fmtDate(r.constructionStart),
+      };
+      document.querySelectorAll('.esa-page-header__meta-pair').forEach((pair) => {
+        const label = pair.querySelector('dt')?.textContent?.trim() ?? '';
+        const dd = pair.querySelector('dd');
+        if (dd && label in values) dd.textContent = values[label];
+      });
+    };
+    document.addEventListener(PROJECT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) syncHeader();
+    });
+    syncHeader();
+  });
+</script>
+
+<style>
+  .bcn-pje__dialog {
+    --side-dialog-width-lg: 32rem;
+  }
+</style>

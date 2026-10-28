@@ -1,0 +1,484 @@
+---
+// <BcnPermitTable> — the Permit Tracker project page's "List" view: every permit on
+// one project, project-wide permits first, then each site's permits in site order.
+//
+// Without `projectId` it is the Permits page: every permit on every project, in project
+// order, with a Project column (links to the project) after the permit. The "Applies to"
+// site filter gives way to an esa-button-toggle for the project's status (Active, the
+// default; Closed; All), an external filter like All projects' on the Projects page.
+//
+// Columns are what a person scans a permit list FOR: which permit, where it applies,
+// who issues it, who owns it, where it stands, and the four dates/counts that say how
+// far along it is. Trigger text, agency refs and prerequisites live on the permit page
+// the name links to.
+//
+// STATUS is user data. The SSR rows carry the fixture's status id; the client resolves
+// every row through the browser store (resolveStatus) and re-resolves on CHANGE_EVENT,
+// so a renamed column, a deleted column, or a card moved on the board shows here
+// without a reload. The two FLAGS ride beside the chip and are derived, never statuses:
+// "Waiting on <permit>" (unissued prerequisites, from blockers()) and "Expires soon" /
+// "Expired" (expiryFlag()).
+//
+// ADDED PERMITS (the project page's Add permit, src/lib/added-permits-store.ts) join as
+// rows on load and on ADDED_EVENT, linking to their page (ROUTES.addedPermit). The
+// all-projects list (no projectId) gathers every project's.
+//
+// The flags and the chip are CLONED from SSR'd templates (esa-badge, BcnStatusChip)
+// into the AG Grid cells, so the cells carry the legos' own scoped classes and
+// attributes rather than a hand-copied look.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists (esa-card is a box, esa-link-column
+// a card of links); Beacon's permit list IS an AG Grid, which this spoke ships as the
+// shared kit src/lib/beacon-grid.ts. Shell = esa-card; chrome = bcn-grid-chrome +
+// esa-filter-dropdown (site filter); footer = bcn-grid-footer; flags = esa-badge; chip
+// = bcn-status-chip. Remaining CSS is grid-host geometry + the injected-cell glue
+// (name link, flag cluster) AG Grid renders outside Astro's scope.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import {
+  PROJECTS,
+  getProject,
+  permitsOfProject,
+  sitesOf,
+  scopeLabel,
+  blockers,
+  expiryFlag,
+  jurisdiction,
+  statusColumn,
+  CATEGORY_META,
+  ROUTES,
+  type Permit,
+  type PermitTypeId,
+  PERMIT_SHORT,
+} from '../../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** One project's permits; omitted = every project's (the Permits page). */
+  projectId?: string;
+}
+
+const { projectId } = Astro.props;
+const allProjects = !projectId;
+
+// Active projects first (each in PROJECTS order), then closed ones, newest start first.
+const projects = projectId
+  ? [getProject(projectId)]
+  : [
+      ...PROJECTS.filter((p) => p.status === 'active'),
+      ...PROJECTS.filter((p) => p.status === 'closed').sort((a, b) => b.constructionStart.localeCompare(a.constructionStart)),
+    ];
+const sites = projects.flatMap((p) => sitesOf(p.id));
+const scopeOrder = (p: Permit) => (p.siteId ? 1 + sites.findIndex((s) => s.id === p.siteId) : 0);
+const projectOrder = (p: Permit) => projects.findIndex((x) => x.id === p.projectId);
+
+// Stable default order: by project, then project-wide, then sites in sitesOf order,
+// fixture order within.
+const permits = projects
+  .flatMap((project) => permitsOfProject(project.id))
+  .map((p, i) => ({ p, i }))
+  .sort((a, b) => projectOrder(a.p) - projectOrder(b.p) || scopeOrder(a.p) - scopeOrder(b.p) || a.i - b.i)
+  .map(({ p }) => p);
+
+const rows = permits.map((p) => {
+  const waits = blockers(p);
+  const col = statusColumn(p.statusId, p.typeId);
+  const project = getProject(p.projectId);
+  return {
+    id: p.id,
+    projectId: p.projectId,
+    projectName: project.name,
+    projectHref: withBase(ROUTES.project(project.id)),
+    projectStatus: project.status === 'active' ? 'Active' : 'Closed',
+    typeId: p.typeId,
+    statusId: p.statusId,
+    name: p.name,
+    href: withBase(ROUTES.permit(p.id)),
+    scope: scopeLabel(p),
+    scopeKey: p.siteId ?? 'project',
+    scopeOrder: scopeOrder(p),
+    level: p.level,
+    agency: jurisdiction(p.jurisdictionId).name,
+    assignee: p.assignee,
+    // SSR default; the client overwrites both from the store before first render.
+    statusName: col.name,
+    statusTone: CATEGORY_META[col.category].tone,
+    waitingShort: waits.length ? `Waiting on ${PERMIT_SHORT[waits[0].typeId]}${waits.length > 1 ? ` +${waits.length - 1}` : ''}` : '',
+    waitingFull: waits.map((w) => `${w.name} (${scopeLabel(w)})`).join(', '),
+    expiry: expiryFlag(p) ?? '',
+    submitted: p.submitted ?? '',
+    reviews: p.submitted ? p.reviews.length : null,
+    issued: p.issued ?? '',
+    expires: p.expires ?? '',
+    conditions: p.issued ? (p.hasConditions ? 'Yes' : 'No') : '',
+  };
+});
+
+const scopeOptions = allProjects
+  ? []
+  : [
+      ...(permits.some((p) => !p.siteId) ? [{ label: 'Project-wide', value: 'project' }] : []),
+      ...sites.map((s) => ({ label: s.name, value: s.id })),
+    ];
+const STATUS_OPTIONS = [
+  { label: 'Active', value: 'Active' },
+  { label: 'Closed', value: 'Closed' },
+  { label: 'All', value: 'all' },
+];
+const firstCol = statusColumn(rows[0]?.statusId ?? '', rows[0]?.typeId ?? 'sepa');
+---
+
+<section class="bcn-ptl" data-ptl data-project-id={projectId} data-all-projects={allProjects ? '' : undefined} aria-label="Permits">
+  <EsaCard title={allProjects ? undefined : 'Permits'} padding="compact">
+    <Fragment slot="actions">
+      <div class="cluster" data-gap="xs">
+        {
+          allProjects && (
+            <esa-button-toggle
+              size="sm"
+              aria-label="Show permits on"
+              data-ptl-project-status
+              data-options={JSON.stringify(STATUS_OPTIONS)}
+            />
+          )
+        }
+        {
+          scopeOptions.length > 1 && (
+            <esa-filter-dropdown
+              data-ptl-scope
+              name="scope"
+              label="Applies to"
+              multiple
+              size="sm"
+              options={JSON.stringify(scopeOptions)}
+            />
+          )
+        }
+        <BcnGridChrome prefix="ptl" searchPlaceholder="Search permits…" />
+      </div>
+    </Fragment>
+
+    <div class="bcn-ptl__host" data-ptl-host></div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="ptl" total={rows.length} downloadLabel="Download as CSV" />
+    </Fragment>
+  </EsaCard>
+
+  <script type="application/json" data-ptl-data set:html={JSON.stringify(rows)}></script>
+
+  <!-- Cell templates: cloned into AG Grid cells so they keep the legos' scoped styles. -->
+  <template data-ptl-tpl-chip>
+    <BcnStatusChip status="permit" label={firstCol.name} hex={CATEGORY_META[firstCol.category].tone} />
+  </template>
+  <template data-ptl-tpl-waiting><EsaBadge variant="neutral" value="Waiting on" /></template>
+  <template data-ptl-tpl-expiring><EsaBadge variant="warning" value="Expires soon" /></template>
+  <template data-ptl-tpl-expired><EsaBadge variant="danger" value="Expired" /></template>
+</section>
+
+<script>
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { resolveStatus, categoryTone, CHANGE_EVENT } from '../../lib/permit-status-store';
+  import { fmtDate, blockers, getPermit, getProject, jurisdiction, scopeLabel, PERMIT_SHORT, PROJECTS, ROUTES, type Permit, type PermitTypeId } from '../../data/permit-tracker';
+  import { withBase } from '../../lib/base';
+  import { ADDED_EVENT, ensureAddedPermits } from '../../lib/added-permits-store';
+  import { PERMIT_EDIT_EVENT, applyPermitEdits, loadEdits } from '../../lib/permit-edits-store';
+  import { loadProject } from '../../lib/project-store';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-button-toggle';
+
+  interface Row {
+    id: string;
+    projectId: string;
+    projectName: string;
+    projectHref: string;
+    projectStatus: 'Active' | 'Closed';
+    typeId: PermitTypeId;
+    statusId: string;
+    name: string;
+    href: string;
+    scope: string;
+    scopeKey: string;
+    scopeOrder: number;
+    level: string;
+    agency: string;
+    assignee: string;
+    statusName: string;
+    statusTone: string;
+    waitingShort: string;
+    waitingFull: string;
+    expiry: '' | 'expiring' | 'expired';
+    submitted: string;
+    reviews: number | null;
+    issued: string;
+    expires: string;
+    conditions: string;
+  }
+
+  /** esa-filter-dropdown exposes no public clear(); `_selected` is its own state field. */
+  type FilterDropdownEl = HTMLElement & { _selected: string[] };
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  const resolveRow = (r: Row) => {
+    const col = resolveStatus(r.projectId, { id: r.id, statusId: r.statusId, typeId: r.typeId });
+    r.statusName = col.name;
+    r.statusTone = categoryTone(col);
+  };
+
+  const dateCell = (p: { value: string }) => (p.value ? fmtDate(p.value) : '—');
+  const LEVEL_ORDER = ['Federal', 'State', 'Local'];
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-ptl]')) {
+    const dataEl = mount.querySelector('[data-ptl-data]');
+    if (!dataEl) continue;
+    const rows = JSON.parse(dataEl.textContent || '[]') as Row[];
+    rows.forEach(resolveRow);
+
+    const tpl = (name: string) => mount.querySelector<HTMLTemplateElement>(`[data-ptl-tpl-${name}]`);
+    const cloneFirst = (name: string) => tpl(name)?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+
+    const allProjects = mount.hasAttribute('data-all-projects');
+
+    const link = (href: string | undefined, text: string | undefined) => {
+      const a = document.createElement('a');
+      a.className = 'bcn-ptl__name';
+      a.href = href ?? '#';
+      a.textContent = text ?? '';
+      return a;
+    };
+    const nameRenderer = (p: ICellRendererParams<Row>) => (p.data?.href ? link(p.data.href, p.data.name) : p.data?.name ?? '');
+    const projectRenderer = (p: ICellRendererParams<Row>) => link(p.data?.projectHref, p.data?.projectName);
+
+    const statusRenderer = (p: ICellRendererParams<Row>) => {
+      const r = p.data;
+      if (!r) return '';
+      const wrap = document.createElement('span');
+      wrap.className = 'cluster bcn-ptl__status';
+      wrap.dataset.gap = '2xs';
+      const chip = cloneFirst('chip');
+      if (chip) {
+        chip.style.setProperty('--_chip', r.statusTone);
+        const label = chip.querySelector('.bcn-status-chip__label');
+        if (label) label.textContent = r.statusName;
+        wrap.append(chip);
+      }
+      if (r.waitingShort) {
+        const b = cloneFirst('waiting');
+        if (b) {
+          const t = b.querySelector('.esa-badge__text');
+          if (t) t.textContent = r.waitingShort;
+          b.title = `Waiting on: ${r.waitingFull}`;
+          b.setAttribute('aria-label', `Waiting on: ${r.waitingFull}`);
+          wrap.append(b);
+        }
+      }
+      if (r.expiry) {
+        const b = cloneFirst(r.expiry);
+        if (b) wrap.append(b);
+      }
+      return wrap;
+    };
+
+    let scopeFacet: string[] = [];
+    let projectStatus = 'Active';
+
+    const columnDefs: ColDef<Row>[] = [
+      { field: 'name', headerName: 'Permit', flex: 1.6, minWidth: 220, cellRenderer: nameRenderer },
+      ...(allProjects ? [{ field: 'projectName', headerName: 'Project', flex: 1.3, minWidth: 190, cellRenderer: projectRenderer } as ColDef<Row>] : []),
+      {
+        field: 'scope',
+        headerName: 'Applies to',
+        flex: 1,
+        minWidth: 160,
+        comparator: (_a, _b, na, nb) => (na.data?.scopeOrder ?? 0) - (nb.data?.scopeOrder ?? 0),
+      },
+      {
+        field: 'level',
+        headerName: 'Level',
+        width: 110,
+        comparator: (a: string, b: string) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b),
+      },
+      { field: 'agency', headerName: 'Agency', flex: 1, minWidth: 170 },
+      { field: 'assignee', headerName: 'Assigned to', width: 150 },
+      { field: 'statusName', headerName: 'Status', flex: 1.4, minWidth: 220, cellRenderer: statusRenderer },
+      { field: 'submitted', headerName: 'Submitted', width: 130, valueFormatter: dateCell },
+      {
+        field: 'reviews',
+        headerName: 'Reviews',
+        width: 105,
+        type: 'numericColumn',
+        valueFormatter: (p) => (p.value == null ? '—' : String(p.value)),
+      },
+      { field: 'issued', headerName: 'Issued', width: 130, valueFormatter: dateCell },
+      { field: 'expires', headerName: 'Expires', width: 130, valueFormatter: dateCell },
+      { field: 'conditions', headerName: 'Conditions', width: 120 },
+    ];
+
+    const gridOptions: GridOptions<Row> = {
+      theme: beaconTheme,
+      rowData: rows,
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        wrapText: true,
+        autoHeight: true,
+      },
+      isExternalFilterPresent: () => scopeFacet.length > 0 || (allProjects && projectStatus !== 'all'),
+      doesExternalFilterPass: (node) =>
+        !!node.data &&
+        (!scopeFacet.length || scopeFacet.includes(node.data.scopeKey)) &&
+        (!allProjects || projectStatus === 'all' || node.data.projectStatus === projectStatus),
+    };
+
+    const handle = mountBeaconGrid<Row>({
+      mount,
+      prefix: 'ptl',
+      gridOptions,
+      csvName: allProjects ? 'permits.csv' : `permits-${mount.dataset.projectId ?? 'project'}.csv`,
+      totalRows: () => rows.length,
+    });
+    if (!handle) continue;
+    const { api } = handle;
+
+    // Site facet → external filter; Clear Filters resets it alongside the column filters.
+    const scopeEl = mount.querySelector<FilterDropdownEl>('[data-ptl-scope]');
+    scopeEl?.addEventListener('selection-change', (e) => {
+      scopeFacet = ((e as CustomEvent).detail?.value as string[]) ?? [];
+      api.onFilterChanged();
+    });
+    // Project status toggle (Permits page) → external filter; Clear Filters resets to Active.
+    const toggle = mount.querySelector<ToggleEl>('[data-ptl-project-status]');
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      if (!toggle) return;
+      toggle.options = JSON.parse(toggle.dataset.options ?? '[]');
+      toggle.value = projectStatus;
+    });
+    toggle?.addEventListener('change', (e) => {
+      projectStatus = String((e as CustomEvent).detail?.value ?? 'Active');
+      api.onFilterChanged();
+    });
+    mount.querySelector('[data-ptl-clear-filters]')?.addEventListener('click', () => {
+      scopeFacet = [];
+      if (scopeEl) scopeEl._selected = [];
+      projectStatus = 'Active';
+      if (toggle) toggle.value = projectStatus;
+      api.onFilterChanged();
+    });
+
+    // Permits added in the browser (one project's list only): rows built like the SSR ones.
+    const projectId = mount.dataset.projectId;
+    const rowOf = (p: Permit): Row => {
+      const waits = blockers(p);
+      const site = p.siteId ? loadProject(p.projectId).sites.find((x) => x.id === p.siteId) : undefined;
+      const r: Row = {
+        id: p.id,
+        projectId: p.projectId,
+        projectName: getProject(p.projectId).name,
+        projectHref: withBase(ROUTES.project(p.projectId)),
+        projectStatus: getProject(p.projectId).status === 'active' ? 'Active' : 'Closed',
+        typeId: p.typeId,
+        statusId: p.statusId,
+        name: p.name,
+        href: withBase(ROUTES.addedPermit(p.id)),
+        scope: site?.name ?? scopeLabel(p),
+        scopeKey: p.siteId ?? 'project',
+        scopeOrder: 0,
+        level: p.level,
+        agency: jurisdiction(p.jurisdictionId).name,
+        assignee: p.assignee,
+        statusName: '',
+        statusTone: '',
+        waitingShort: waits.length ? `Waiting on ${PERMIT_SHORT[waits[0].typeId]}${waits.length > 1 ? ` +${waits.length - 1}` : ''}` : '',
+        waitingFull: waits.map((w) => `${w.name} (${scopeLabel(w)})`).join(', '),
+        expiry: '',
+        submitted: '',
+        reviews: null,
+        issued: '',
+        expires: '',
+        conditions: '',
+      };
+      resolveRow(r);
+      return r;
+    };
+    {
+      const projectIds = projectId ? [projectId] : PROJECTS.map((x) => x.id);
+      const added = projectIds.flatMap((pid) => ensureAddedPermits(pid)).map(rowOf);
+      rows.push(...added);
+      api.applyTransaction({ add: added });
+      document.addEventListener(ADDED_EVENT, (e) => {
+        const d = (e as CustomEvent).detail;
+        if (!d || !projectIds.includes(d.projectId)) return;
+        const p = ensureAddedPermits(d.projectId).find((x) => x.id === d.permitId);
+        if (!p || rows.some((r) => r.id === p.id)) return;
+        const r = rowOf(p);
+        rows.push(r);
+        api.applyTransaction({ add: [r] });
+      });
+    }
+
+    // Saved edits (permit page): name, applies to, agency, assignee, waiting.
+    const refresh = (r: Row) => {
+      const p = getPermit(r.id);
+      if (!p) return r;
+      const fresh = rowOf(p);
+      Object.assign(r, { name: fresh.name, scope: fresh.scope, scopeKey: fresh.scopeKey, agency: fresh.agency, assignee: fresh.assignee, waitingShort: fresh.waitingShort, waitingFull: fresh.waitingFull });
+      return r;
+    };
+    applyPermitEdits();
+    const edited = rows.filter((r) => Object.keys(loadEdits(r.id)).length).map(refresh);
+    if (edited.length) api.applyTransaction({ update: edited });
+    document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
+      const r = rows.find((x) => x.id === (e as CustomEvent).detail?.permitId);
+      if (r) api.applyTransaction({ update: [refresh(r)] });
+    });
+
+    // The user's workflow changed (rename, delete, board move) → re-resolve every row.
+    document.addEventListener(CHANGE_EVENT, () => {
+      rows.forEach(resolveRow);
+      api.applyTransaction({ update: rows });
+      api.refreshCells({ columns: ['statusName'], force: true });
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry + injected-cell glue (name link, the
+     chip/flag cluster) — AG Grid renders cells outside Astro's scope. See header. */
+  .bcn-ptl__host {
+    inline-size: 100%;
+    block-size: 34rem;
+  }
+  /* The Permits page: the grid is the page, so it takes the viewport below the header. */
+  .bcn-ptl[data-all-projects] .bcn-ptl__host {
+    block-size: max(34rem, calc(100dvh - 24rem));
+  }
+  .bcn-ptl :global(.ag-cell-wrap-text) {
+    line-height: 1.35;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-ptl :global(.bcn-ptl__name) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-ptl :global(.bcn-ptl__name:hover) {
+    color: var(--color-content-link-hover);
+  }
+  .bcn-ptl :global(.bcn-ptl__status) {
+    align-items: center;
+    padding-block: var(--spacing-050);
+  }
+  /* The 14px dense-data floor. Sanctioned hard-code: the beacon theme's dataFontSize is
+     13px (a config-time literal), and --font-size-200 is fluid down to 12px. */
+  .bcn-ptl :global(.ag-cell) {
+    font-size: 0.875rem;
+  }
+</style>

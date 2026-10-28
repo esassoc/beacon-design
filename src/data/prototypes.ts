@@ -9,7 +9,7 @@
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
 /** The tenant an effort was built for. 'platform' = ships to every tenant. */
-export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'platform';
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'esa' | 'platform';
 
 /** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
 export const TENANT_LABEL: Record<PrototypeTenant, string> = {
@@ -17,6 +17,7 @@ export const TENANT_LABEL: Record<PrototypeTenant, string> = {
   prologis: 'Prologis',
   aws: 'AWS',
   beale: 'Beale',
+  esa: 'ESA internal',
   platform: 'All tenants',
 };
 
@@ -88,6 +89,57 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 }
 
 export const prototypeGroups: PrototypeGroup[] = [
+  {
+    slug: 'permit-tracker',
+    tenant: 'esa',
+    title: 'Permit Tracker',
+    description:
+      'A standalone companion app to Beacon (its own shell and nav) for tracking permit issuance across ESA projects: projects, their sites, and the federal, state and local permits each needs before groundbreaking, with dependencies and timelines learned from past projects.',
+    pages: [
+      {
+        slug: 'permit-tracker-projects',
+        title: 'Projects',
+        description: 'My projects (cards for the active projects you are on the team of: permits issued of total, in agency review, waiting) over All projects, a grid of every project filtered to active, closed or all.',
+        route: '/prototypes/permit-tracker',
+        createdAt: '2026-10-24',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permit-tracker-project',
+        title: 'Project',
+        description:
+          'One project: whether its permits will all be issued by the construction start, overall and site by site, and the permits as a List, a Board whose statuses each project configures (the Actions board model), or a Schedule of bars on a calendar with each permit under the one it waits on. Team adds and removes the people working on it.',
+        route: '/prototypes/permit-tracker/projects/coal-creek-fish-passage',
+        createdAt: '2026-10-24',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permit-tracker-permits',
+        title: 'Permits',
+        description: 'Every permit on every project in one grid: where it applies, agency, owner, status and dates, each linking to its permit page and its project. Shows permits on active projects by default, or closed or all.',
+        route: '/prototypes/permit-tracker/permits',
+        createdAt: '2026-10-28',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permit-tracker-permit',
+        title: 'Permit',
+        description:
+          'One permit: a timeline of submittal, agency review rounds, issuance and expiry read from its status history (Change status logs each step); what the application needs and which permits it waits on; the permit file; the full status history; and how long this permit usually takes at this agency. Each editable section opens its own side drawer.',
+        route: '/prototypes/permit-tracker/permits/cc1-cao',
+        createdAt: '2026-10-24',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permit-tracker-permit-types',
+        title: 'Permit types',
+        description: 'A library of the permit types: each one’s governing law and application needs, and every agency that issues it with its time to issue and past permits. Critical Areas Review links to each city’s and county’s ordinance online, with how review works and the wetland and stream buffer tables, read from the code for five southwest Washington jurisdictions. Rules are suggested by AI, edited and validated by a person, each section badged with its status and history; the Agencies grid flags jurisdictions whose ordinance changed after review, and Check for updates re-reads the code sites. Governing law is editable.',
+        route: '/prototypes/permit-tracker/permit-types',
+        createdAt: '2026-10-24',
+        status: 'in-progress',
+      },
+    ],
+  },
   {
     slug: 'comments',
     tenant: 'platform',
