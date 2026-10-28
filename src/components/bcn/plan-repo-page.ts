@@ -81,13 +81,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // pencil-paper is the recommended combination: drafting's graph paper as the ground, pencil for what changed.
   // issued is the study's recommendation, directions A and D: Live is the issued plan, read-only and printed flat;
   // your draft is where bars stand up and move; the chart's corner carries a title block that says which is which.
-  const concept = study.concept as 'pencil' | 'drafting' | 'night' | 'bench' | 'pencil-paper' | 'issued' | null;
+  // Issued is the default since Andy picked A and D (2026-10-28); &concept=none shows the page without a concept.
+  const concept = (study.concept === 'none' ? null : (study.concept ?? 'issued')) as 'pencil' | 'drafting' | 'night' | 'bench' | 'pencil-paper' | 'issued' | null;
   const issued = concept === 'issued';
   // Who may publish (2026-10-27): someone who can't still makes a scenario, and asks someone who can to publish it.
   // The prototype's stand-in for a permission is &role=contributor.
   const canPublish = study.role !== 'contributor';
   const noun = canPublish ? 'draft' : 'scenario';
-  const yours = canPublish ? 'Your draft' : 'Your scenario';
+  const yours = canPublish ? 'Your Draft' : 'Your Scenario';
   const look = concept === 'pencil-paper' ? 'pencil' : concept;
   const paper = concept === 'drafting' || concept === 'pencil-paper';
   const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
@@ -128,6 +129,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   host.dataset.budget = study.budget ?? 'off';
   host.dataset.sched = study.sched ?? 'pin';
   host.dataset.cascade = study.cascade ?? 'spotlight';
+  if (study.bars) host.dataset.bars = study.bars;
   const tpl = (name: string) => host.querySelector<HTMLTemplateElement>(`[data-gantt-tpl="${name}"]`)!;
   const chart = new PlanGanttChart(host, { caret: tpl('caret'), apply: tpl('apply'), revert: tpl('revert'), badge: tpl('badge') }, {
     label: live.PlanName ?? 'Plan',
@@ -347,10 +349,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     document.title = draft ? `${draft.name} · ${name} | Beacon` : `${name} | Beacon`;
     const badge = document.querySelector<HTMLElement>('[data-prp-title-badge]');
     if (badge) {
-      // The band names the draft, so the title's badge would say it twice.
-      badge.hidden = mode === 'live' || editStyle === 'band';
+      // Beside the plan's name (2026-10-28): Live Plan, or the draft's own name.
+      badge.dataset.state = mode === 'live' ? 'live' : 'draft';
       const t = badge.querySelector('.esa-badge__text');
-      if (t) t.textContent = mode === 'own' ? yours : `${draft ? firstName(draft.owner) : ''}'s draft`;
+      if (t) t.textContent = mode === 'live' ? 'Live Plan' : draft!.name;
     }
 
     drawBar();
@@ -383,7 +385,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     }
     const d = draft!;
     const facts = [d.publishRequestedAt ? 'Publish requested' : `Not issued, from revision ${d.baseVersion}`];
-    return { status: mode === 'own' ? (noun === 'draft' ? 'Draft' : 'Scenario') : `${firstName(d.owner)}'s draft`, facts };
+    return { status: mode === 'own' ? (noun === 'draft' ? 'Draft' : 'Scenario') : `${firstName(d.owner)}'s Draft`, facts };
   }
 
   /**
@@ -457,8 +459,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (tabbed) {
       void customElements.whenDefined('esa-button-toggle').then(() => {
         tabs.options = [
-          { label: 'Live plan', value: 'live' },
-          { label: 'Your draft', value: 'draft' },
+          { label: 'Live Plan', value: 'live' },
+          { label: 'Your Draft', value: 'draft' },
         ];
         tabs.value = mode === 'own' ? 'draft' : 'live';
       });
@@ -467,13 +469,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   function drawBar(): void {
     drawEditStyle();
-    q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live plan' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s draft`;
+    q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live Plan' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
     q<HTMLElement>('[data-prp-draft-count]').textContent = String(repo.drafts.length);
     q<HTMLElement>('[data-prp-version-count]').textContent = String(repo.versions.length);
     q<HTMLAnchorElement>('[data-prp-history-link]').href = keep(REVISIONS_HREF(planID!));
     q<HTMLElement>('[data-prp-edit]').hidden = mode !== 'live';
     const editLabel = q<HTMLElement>('[data-prp-edit] .esa-button__label');
-    if (editLabel) editLabel.textContent = canPublish ? 'Edit in a draft' : 'Make a scenario';
+    if (editLabel) editLabel.textContent = canPublish ? 'Edit in a Draft' : 'Make a Scenario';
     // One primary action per state. Your draft: Review and publish if you can publish, else Ask to publish (then its
     // state). Someone else's: Review and publish when they asked and you can; otherwise Copy to my draft.
     const asked = !!draft?.publishRequestedAt;
@@ -529,6 +531,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       a.append(text, check);
       return a;
     };
+    // No draft yet (2026-10-28, Andy: it "literally looks like a draft"): an action, not a row like one. One line, a
+    // plus, the link color.
+    const startRow = () => {
+      const a = row('start', false, '', '');
+      a.classList.add('bcn-prp__branch-row--start');
+      a.innerHTML = `${planIcon('plus', 16)}<span class="typography-label-md">Start a ${noun === 'draft' ? 'Draft' : 'Scenario'}</span>`;
+      return a;
+    };
     const head = (text: string, aside = '') => {
       const el = Object.assign(document.createElement('div'), { className: 'bcn-prp__branch-head typography-label-sm-strong', textContent: text });
       if (aside) el.append(Object.assign(document.createElement('span'), { textContent: aside }));
@@ -541,10 +551,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       return `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}${d.publishRequestedAt ? ', publish requested' : ''}`;
     };
     list.replaceChildren(
-      row('live', mode === 'live', 'Live plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`),
-      head(yours),
-      mine ? row(mine.id, mode === 'own', mine.name, sub(mine)) : row('start', false, `Start your ${noun}`, 'A private copy to try dates in'),
-      ...(others.length ? [head("Other people's drafts", 'Read-only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`))] : [])
+      row('live', mode === 'live', 'Live Plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`),
+      head(canPublish ? 'Your Draft' : 'Your Scenario'),
+      mine ? row(mine.id, mode === 'own', mine.name, sub(mine)) : startRow(),
+      ...(others.length ? [head("Other People's Drafts", 'Read-Only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`))] : [])
     );
   }
 
@@ -566,7 +576,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       // Named as what it is (2026-10-28): Last update, when, then who did what.
       label.hidden = false;
       label.parentElement!.hidden = false;
-      label.textContent = 'Last update';
+      label.textContent = 'Last Update';
       when(latest.at);
       avatarSlot.replaceChildren(planAvatar(latest.author, 'xs'));
       who.textContent = latest.author;
@@ -584,7 +594,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       // The band names the draft, so the line is its latest edit: Last edit, when, then what. None yet says so alone.
       label.hidden = !last;
       label.parentElement!.hidden = !last;
-      label.textContent = 'Last edit';
+      label.textContent = 'Last Edit';
       when(last ? last.at : null);
       who.textContent = '';
       message.textContent = last ? last.message : 'No edits yet';
@@ -592,7 +602,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     } else {
       label.parentElement!.hidden = true;
       when(null);
-      who.textContent = mode === 'own' ? yours : `${firstName(d.owner)}'s draft`;
+      who.textContent = mode === 'own' ? yours : `${firstName(d.owner)}'s Draft`;
       message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
       meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'}, based on revision ${d.baseVersion}${behind > 0 ? `, <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
     }
@@ -605,7 +615,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   function drawAside(): void {
     // In a draft the pane leads with the draft itself: its edits, newest first, each one a place to go back to.
-    q<HTMLElement>('[data-prp-pane-title]').textContent = mode === 'live' ? 'About' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s draft`;
+    q<HTMLElement>('[data-prp-pane-title]').textContent = mode === 'live' ? 'About' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
     const editsSection = q<HTMLElement>('[data-prp-edits]');
     editsSection.hidden = mode === 'live';
     if (draft && mode !== 'live') {
@@ -656,7 +666,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     };
     const latest = latestVersion(repo);
     const named = [...repo.versions].reverse().find((v) => v.label);
-    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: `All ${repo.versions.length} revisions` });
+    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: `All ${repo.versions.length} Revisions` });
     q<HTMLElement>('[data-prp-releases]').replaceChildren(
       item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)}, ${firstName(latest.author)}`),
       ...(named ? [item(null, 'tag', named.label!, `Revision ${named.number}, ${shortDate(named.at)}`)] : []),
@@ -717,7 +727,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const text = (search.value ?? '').trim();
     const found = chart.setFilter(text);
     noMatch.hidden = !text || found > 0;
-    if (text && !found) noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing matches “${text}”`;
+    if (text && !found) noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing Matches “${text}”`;
   };
   search.addEventListener('change', () => {
     clearTimeout(searchTimer);

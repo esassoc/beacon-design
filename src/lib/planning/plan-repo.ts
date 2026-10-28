@@ -615,7 +615,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft): PlanRepoDraft 
   const draft: PlanRepoDraft = {
     id: existing?.id ?? uid(),
     planID,
-    name: from ? `Copy of ${from.name}` : `${me.split(' ')[0]}'s draft`,
+    name: from ? `Copy of ${from.name}` : `${me.split(' ')[0]}'s Draft`,
     owner: me,
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,

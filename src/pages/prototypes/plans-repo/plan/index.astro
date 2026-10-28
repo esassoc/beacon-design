@@ -25,7 +25,8 @@ import { withBase } from '../../../../lib/base';
     iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
     breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan' }]}
   >
-    <span slot="title-badge" data-prp-title-badge hidden><EsaBadge value="Your draft" variant="neutral" size="sm" /></span>
+    <!-- Which plan this is, beside its name (2026-10-28): Live Plan in orange, a draft's name in green. -->
+    <span slot="title-badge" data-prp-title-badge data-state="live"><EsaBadge value="Live Plan" variant="neutral" size="sm" /></span>
     <BcnPlanRepoPage />
     <BcnPlanPeople />
   </PageLayout>

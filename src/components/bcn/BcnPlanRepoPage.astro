@@ -37,21 +37,21 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <esa-popover position="bottom" trigger="click" data-prp-branch-popover>
         <span data-prp-branch-trigger>
           <EsaButton variant="ghost" appearance="outline" size="sm" icon="git-branch" iconRight="chevron-down" data-fill-icon="git-branch">
-            <span data-prp-branch-label>Live plan</span>
+            <span data-prp-branch-label>Live Plan</span>
           </EsaButton>
         </span>
-        <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Live plan and drafts"></div>
+        <div slot="content" class="bcn-prp__branches" data-prp-branches role="menu" aria-label="Live Plan and Drafts"></div>
       </esa-popover>
       <span class="bcn-prp__base typography-body-sm" data-prp-base hidden>
         <span data-prp-base-rev></span>
         <span class="bcn-prp__behind" data-prp-base-behind hidden><span data-glyph="triangle-alert"></span><span data-prp-base-behind-text></span></span>
       </span>
-      <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> revisions</a>
-      <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> drafts</span>
+      <a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> Revisions</a>
+      <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> Drafts</span>
       <!-- The latest change, in the same row (2026-10-27): named as that, with when, then who and what (2026-10-28). It
            takes the row's free width and truncates. -->
       <span class="bcn-prp__status typography-body-sm" data-prp-status>
-        <span class="bcn-prp__status-when"><strong data-prp-status-label>Last update</strong> <time data-prp-status-time></time></span>
+        <span class="bcn-prp__status-when"><strong data-prp-status-label>Last Update</strong> <time data-prp-status-time></time></span>
         <span data-prp-status-avatar></span>
         <span class="bcn-prp__status-text"><strong data-prp-status-who></strong> <span data-prp-status-message></span></span>
         <span class="bcn-prp__status-meta typography-meta" data-prp-status-meta></span>
@@ -62,12 +62,12 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
         <span data-prp-discard><EsaButton variant="ghost" size="sm" icon="trash-2">Discard</EsaButton></span>
       </span>
       <!-- Live's one action, so it's the colored one (2026-10-28), with an edit pencil, not the plan menu's branch. -->
-      <span data-prp-edit><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a draft</EsaButton></span>
-      <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to my draft</EsaButton></span>
-      <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and publish</EsaButton></span>
+      <span data-prp-edit><EsaButton variant="primary" size="sm" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></span>
+      <span data-prp-copy hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="copy">Copy to My Draft</EsaButton></span>
+      <span data-prp-review hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></span>
       <!-- Someone who can't publish asks someone who can (2026-10-27); once asked, the button becomes its state. -->
-      <span data-prp-ask hidden><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to publish</EsaButton></span>
-      <span data-prp-asked hidden><EsaBadge value="Publish requested" variant="neutral" size="sm" /></span>
+      <span data-prp-ask hidden><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request">Ask to Publish</EsaButton></span>
+      <span data-prp-asked hidden><EsaBadge value="Publish Requested" variant="neutral" size="sm" /></span>
     </div>
 
   </section>
@@ -77,7 +77,7 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
        and the overview set the stretch of time. -->
   <section class="bcn-prp__scope" aria-label="What the chart shows">
     <BcnPlanGanttRange stacked>
-      <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the plan" aria-label="Search the plan" autocomplete="off" data-prp-search></esa-text-field>
+      <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the Plan" aria-label="Search the Plan" autocomplete="off" data-prp-search></esa-text-field>
     </BcnPlanGanttRange>
   </section>
 
@@ -86,8 +86,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
       <BcnPlanGantt label="Plan schedule" />
       <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
       <div class="bcn-prp__no-match" data-prp-no-match hidden>
-        <EsaEmptyState size="sm" title="Nothing matches" description="Try another word.">
-          <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear search</EsaButton></span>
+        <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
+          <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
         </EsaEmptyState>
       </div>
       <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
@@ -151,6 +151,14 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 
 <style>
   .bcn-prp { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  /* The H1's badge (2026-10-28, Andy): solid, white text, orange on Live and green in a draft, from the identity
+     swatches that carry white at AA. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
+  :global([data-prp-title-badge]) {
+    --badge-bg: var(--bcn-mark-orange);
+    --badge-text-color: var(--color-content-default-knockout);
+    --badge-border-color: transparent;
+  }
+  :global([data-prp-title-badge][data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
   .bcn-prp :global([hidden]) { display: none !important; }
   .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
   .bcn-prp :global([data-glyph] svg) { display: block; }
@@ -220,6 +228,11 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
   .bcn-prp__branches :global(.bcn-prp__branch-row:hover),
   .bcn-prp__branches :global(.bcn-prp__branch-row:focus-visible) { background: var(--color-background-elevation-sunken); }
   .bcn-prp__branches :global(.bcn-prp__branch-check) { display: inline-flex; color: var(--color-content-default); }
+  .bcn-prp__branches :global(.bcn-prp__branch-row--start) {
+    display: flex;
+    gap: var(--spacing-200);
+    color: var(--color-content-link, var(--color-content-brand));
+  }
   .bcn-prp__branches :global(.bcn-prp__branch-text) { display: flex; flex-direction: column; min-inline-size: 0; }
   .bcn-prp__branches :global(.bcn-prp__branch-name),
   .bcn-prp__branches :global(.bcn-prp__branch-sub) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -234,6 +247,14 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
     min-inline-size: 0;
     margin-inline-start: var(--spacing-200);
   }
+  /* The plan menu on the bare page (2026-10-28, Andy: it and Edit in a draft "should appear similarly sized"): the
+     ghost button's transparent fill and pale edge vanished into the page, so it read smaller than the solid button
+     beside it at the same 38px. A raised surface and the strong edge make it a select-like block of the same size. */
+  .bcn-prp__bar [data-prp-branch-trigger] :global(.esa-button__native) {
+    background: var(--color-background-elevation-raised);
+    border-color: var(--color-border-default-strong);
+  }
+  .bcn-prp__bar [data-prp-branch-trigger] :global(.esa-button__native:hover) { background: var(--color-background-elevation-sunken); }
   .bcn-prp__status-when { white-space: nowrap; }
   .bcn-prp__status-when strong { font-weight: 600; }
   .bcn-prp__status-when time { color: var(--color-content-default-secondary); }

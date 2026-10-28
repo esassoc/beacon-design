@@ -47,6 +47,20 @@ dialog shell geometry). Treat it now as the **reference for how a page SHOULD lo
 not what to avoid. Token rule it also enforces: components read the **semantic** layer
 (`--color-*`, `--form-*`, `--bcn-status-*`), never the raw `--bcn-gray-*` ramp.
 
+## Copy rule: UI labels are Title Case (Andy, 2026-10-28)
+
+Every label a person clicks, scans or reads as a name is **Title Case**: buttons, menu items, menu and section
+headers, tab and toggle options, field labels and placeholders, badges, counts with their noun, panel and empty-state
+titles. Chicago-style: small words (a, an, the, and, but, or, for, of, to, in, on, at, by) stay lowercase unless they
+come first or last; both halves of a hyphenated word are capped.
+
+- `Live Plan`, `Edit in a Draft`, `Last Update`, `7 Revisions`, `2 Drafts`, `Review and Publish`, `Read-Only`,
+  `Whole Plan`, `5 Years`, `Your Draft`, `Clear Search`, `Publish Requested`
+
+Sentences stay sentence case: status messages ("Alex Rivera moved Fabricate & install... 10 days later"), descriptions,
+help text, empty-state descriptions, the facts line under a row, confirm dialogs. User-entered names are data and keep
+whatever case they were typed in.
+
 ## Escape hatch — `bcn-lego-checked:`
 
 A **PreToolUse hook** (`check-component-first`, shipped by the **spoke-kit plugin** from the ecology marketplace) **blocks** Write/Edit/MultiEdit that introduces bespoke UI in `.astro`/`.css`/`.scss`. To legitimately proceed (you walked Ecology → Beacon and nothing fits), assert it in the content:
