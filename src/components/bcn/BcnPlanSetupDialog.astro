@@ -16,24 +16,38 @@
 //   Danger Zone      (a plan) Delete Plan, behind a confirm
 //
 // The basics in a modal (2026-10-28, Andy: "the basics of the plan config should be in a modal"); the settings page
-// that held them for a day is retired. Settings, like a repo's, not revisions: saving makes no revision. The runtime
-// is ./plan-setup-dialog.ts.
+// that held them for a day is retired. Extra wide, with the settings page's section nav down its left side (Andy, same
+// day: "I want x-large (x-wide) modal with the left sidebar nav... just having everything stacked is not good enough"):
+// one section at a time on the right, a dot beside a section with changes, a red one beside a section that won't save.
+// The body holds one height, so moving between sections doesn't jump. Settings, like a repo's, not revisions: saving
+// makes no revision. The runtime is ./plan-setup-dialog.ts.
 //
 // bcn-lego-checked: the shell IS esa-dialog, fields ARE esa-text-field / esa-textarea, the views' toggles ARE
 // esa-switch-toggle, roles ARE esa-select, Add a Person IS esa-combobox, avatars ARE esa-avatar (BcnPlanPeople), every
-// action IS esa-button, each list IS esa-collapsible over BcnPlanListEditor, Delete sits in BcnDangerZone and asks
-// through esa-confirm-dialog. The level rows are BcnPlanCreateDialog's grid (Jamie's plan-create-dialog, ported from
+// action IS esa-button, each list IS BcnPlanListEditor, Delete sits in BcnDangerZone and asks through
+// esa-confirm-dialog. The section nav is the retired settings page's (no esa- lego is a vertical in-dialog section
+// list: esa-tab-layout is horizontal, esa-sidebar-nav is the app's, BcnSettingsNav links routes). The level rows are BcnPlanCreateDialog's grid (Jamie's plan-create-dialog, ported from
 // Beacon). No esa- lego is a choice card (an option with a glyph, a title and a line of description) or a person row
 // with a role; checked Beacon (plan-create-dialog has no views or people; plan-settings-drawer has levels only). The
 // CSS is those two rows and the sections.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnDangerZone from './BcnDangerZone.astro';
 import BcnPlanListEditor from './BcnPlanListEditor.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
 
+/** The modal's sections, in the nav's order. planOnly ones are a plan's settings, not New Plan's. */
+const SECTIONS = [
+  { id: 'general', label: 'General', icon: 'file-text', planOnly: false },
+  { id: 'tracks', label: 'What It Tracks', icon: 'square-chart-gantt', planOnly: false },
+  { id: 'levels', label: 'Levels', icon: 'list-tree', planOnly: false },
+  { id: 'people', label: 'People', icon: 'users', planOnly: false },
+  { id: 'lists', label: 'Lists', icon: 'tag', planOnly: true },
+  { id: 'template', label: 'Template', icon: 'layout-template', planOnly: true },
+  { id: 'danger', label: 'Danger Zone', icon: 'triangle-alert', planOnly: true },
+];
 const LISTS = [
   { id: 'documentTypes', title: 'Document Types', noun: 'Document Type', placeholder: 'e.g. Field Notes', hint: 'What a document can be filed as. Each level’s Documents card can offer some or all of them.' },
   { id: 'results', title: 'Completion Results', noun: 'Result', placeholder: 'e.g. Accepted', hint: 'What Record Completion offers as the outcome of a deliverable.' },
@@ -43,10 +57,26 @@ const LISTS = [
 ---
 
 <div class="bcn-psu" data-bcn-plan-setup>
-  <esa-dialog class="bcn-psu__dialog" heading="New Plan" show-close-button data-psu-dialog>
+  <esa-dialog class="bcn-psu__dialog" heading="New Plan" size="lg" show-close-button data-psu-dialog>
+    <div class="bcn-psu__layout">
+    <nav class="bcn-psu__nav" aria-label="Settings sections">
+      <ul class="bcn-psu__nav-list" role="list">
+        {
+          SECTIONS.map((sec) => (
+            <li class:list={['bcn-psu__nav-item', sec.id === 'danger' && 'bcn-psu__nav-item--danger']} data-psu-plan-only={sec.planOnly ? '' : undefined}>
+              <button type="button" class:list={['bcn-psu__link', sec.id === 'danger' && 'bcn-psu__link--danger']} data-psu-link={sec.id}>
+                <EsaIcon name={sec.icon} paths={PLAN_ICON_PATHS[sec.icon]} size="sm" />
+                <span class="bcn-psu__link-text">{sec.label}</span>
+                <span class="bcn-psu__dot" data-psu-dot hidden><span class="bcn-psu__vh" data-psu-dot-text>, changed</span></span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
     <form class="bcn-psu__form" novalidate data-psu-form>
-      <section class="bcn-psu__section" aria-labelledby="psu-general">
-        <h3 class="bcn-psu__heading" id="psu-general"><EsaIcon name="file-text" size="sm" />General</h3>
+      <section class="bcn-psu__section" data-psu-section="general" aria-labelledby="psu-general">
+        <h3 class="bcn-psu__heading" id="psu-general">General</h3>
         <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
         <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
         <!-- New Plan only (2026-10-28): a template brings its levels, fields and page layouts; Save as Template in a
@@ -54,8 +84,8 @@ const LISTS = [
         <span data-psu-template-wrap hidden><esa-select data-psu-template label="Start From" size="sm" help-text="A template brings its levels, fields and page layouts."></esa-select></span>
       </section>
 
-      <section class="bcn-psu__section" aria-labelledby="psu-views">
-        <h3 class="bcn-psu__heading" id="psu-views"><EsaIcon name="square-chart-gantt" paths={PLAN_ICON_PATHS['square-chart-gantt']} size="sm" />What It Tracks</h3>
+      <section class="bcn-psu__section" data-psu-section="tracks" aria-labelledby="psu-views" hidden>
+        <h3 class="bcn-psu__heading" id="psu-views">What It Tracks</h3>
         <p class="bcn-psu__hint typography-body-sm">A schedule, a budget, or both. Turning one off hides it; nothing in it is deleted.</p>
         <div class="bcn-psu__views">
           <div class="bcn-psu__view" data-psu-view="schedule">
@@ -72,8 +102,8 @@ const LISTS = [
         <p class="bcn-psu__error typography-body-sm" data-psu-views-error hidden>Pick at least one.</p>
       </section>
 
-      <section class="bcn-psu__section" aria-labelledby="psu-levels">
-        <h3 class="bcn-psu__heading" id="psu-levels"><EsaIcon name="list-tree" paths={PLAN_ICON_PATHS['list-tree']} size="sm" />Levels</h3>
+      <section class="bcn-psu__section" data-psu-section="levels" aria-labelledby="psu-levels" hidden>
+        <h3 class="bcn-psu__heading" id="psu-levels">Levels</h3>
         <p class="bcn-psu__hint typography-body-sm" data-psu-levels-hint>From the top of the plan down, up to 4.</p>
         <div class="bcn-psu__level bcn-psu__level--head typography-label-sm" aria-hidden="true">
           <span></span><span>Singular</span><span>Plural</span><span data-psu-plan-only></span><span></span>
@@ -82,25 +112,29 @@ const LISTS = [
         <span class="bcn-psu__add" data-psu-add-level><EsaButton variant="ghost" size="xs" icon="plus">Add Level</EsaButton></span>
       </section>
 
-      <section class="bcn-psu__section" aria-labelledby="psu-people">
-        <h3 class="bcn-psu__heading" id="psu-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS.users} size="sm" />People</h3>
-        <p class="bcn-psu__hint typography-body-sm">Owners and Editors publish to Live. Contributors draft and ask to publish. Owners also change these settings.</p>
+      <section class="bcn-psu__section" data-psu-section="people" aria-labelledby="psu-people" hidden>
+        <h3 class="bcn-psu__heading" id="psu-people">People</h3>
+        <p class="bcn-psu__hint typography-body-sm">Owners and Editors publish to Live. Contributors draft and ask to publish. Guests (agency reviewers) see only the transmittals sent to them. Owners also change these settings.</p>
         <ul class="bcn-psu__people" data-psu-people></ul>
         <esa-combobox class="bcn-psu__find" data-psu-add-person mode="autocomplete" size="sm" label="Add a Person" placeholder="e.g. Dana Whitfield"></esa-combobox>
         <p class="bcn-psu__error typography-body-sm" data-psu-people-error hidden>A plan needs an Owner.</p>
       </section>
 
-      <section class="bcn-psu__section" data-psu-plan-only aria-labelledby="psu-lists">
-        <h3 class="bcn-psu__heading" id="psu-lists"><EsaIcon name="tag" paths={PLAN_ICON_PATHS.tag} size="sm" />Lists</h3>
+      <section class="bcn-psu__section" data-psu-section="lists" data-psu-plan-only aria-labelledby="psu-lists" hidden>
+        <h3 class="bcn-psu__heading" id="psu-lists">Lists</h3>
         <p class="bcn-psu__hint typography-body-sm">What the plan’s cards offer, in the order they offer it. A renamed document type carries through to the levels that use it.</p>
         <div class="bcn-psu__lists">
           {
             LISTS.map((l) => (
               <div class="bcn-psu__list" data-psu-list={l.id}>
-                <EsaCollapsible title={l.title}>
-                  <p class="bcn-psu__hint typography-body-sm">{l.hint}</p>
+                <h4 class="bcn-psu__subheading typography-label-sm-strong" id={`psu-list-${l.id}`}>
+                  {l.title}
+                  <span data-psu-list-count><EsaBadge value="0" size="xs" /></span>
+                </h4>
+                <p class="bcn-psu__hint typography-body-sm">{l.hint}</p>
+                <div role="group" aria-labelledby={`psu-list-${l.id}`}>
                   <BcnPlanListEditor noun={l.noun} placeholder={l.placeholder} id={l.id} />
-                </EsaCollapsible>
+                </div>
               </div>
             ))
           }
@@ -108,8 +142,8 @@ const LISTS = [
         <esa-text-field class="bcn-psu__days" data-psu="ackDays" type="number" size="sm" label="Days to Confirm Receipt" suffix="days" inputmode="numeric" help-text="How long a To recipient has to confirm a transmittal before Beacon reminds them and the sender."></esa-text-field>
       </section>
 
-      <section class="bcn-psu__section" data-psu-plan-only aria-labelledby="psu-template">
-        <h3 class="bcn-psu__heading" id="psu-template"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="sm" />Template</h3>
+      <section class="bcn-psu__section" data-psu-section="template" data-psu-plan-only aria-labelledby="psu-template" hidden>
+        <h3 class="bcn-psu__heading" id="psu-template">Template</h3>
         <p class="bcn-psu__hint typography-body-sm" data-psu-template-hint></p>
         <div class="bcn-psu__template">
           <esa-text-field data-psu="templateName" size="sm" label="Template Name"></esa-text-field>
@@ -117,12 +151,16 @@ const LISTS = [
         </div>
       </section>
 
-      <div data-psu-danger hidden>
-        <BcnDangerZone title="Delete This Plan" description="Its revisions, drafts and budget go with it. This can't be undone.">
-          <span data-psu-delete><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete Plan</EsaButton></span>
-        </BcnDangerZone>
-      </div>
+      <section class="bcn-psu__section" data-psu-section="danger" data-psu-plan-only aria-labelledby="psu-danger" hidden>
+        <h3 class="bcn-psu__heading" id="psu-danger">Danger Zone</h3>
+        <div data-psu-danger>
+          <BcnDangerZone title="Delete This Plan" description="Its revisions, drafts, budget and records go with it. This can't be undone.">
+            <span data-psu-delete><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete Plan</EsaButton></span>
+          </BcnDangerZone>
+        </div>
+      </section>
     </form>
+    </div>
 
     <div slot="footer" class="bcn-psu__footer">
       <p class="bcn-psu__error typography-body-sm" data-psu-error hidden></p>
@@ -167,14 +205,59 @@ const LISTS = [
 </script>
 
 <style>
-  .bcn-psu__dialog { --dialog-width: min(42rem, calc(100vw - 2rem)); }
+  /* Extra wide (2026-10-28, Andy), through esa-dialog's own lg hook. */
+  .bcn-psu__dialog { --dialog-width-lg: min(1040px, calc(100vw - 4rem)); }
   .bcn-psu :global([hidden]) { display: none !important; }
-  .bcn-psu__form { display: flex; flex-direction: column; gap: var(--spacing-500); margin: 0; }
-  .bcn-psu__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-psu__section + .bcn-psu__section { padding-block-start: var(--spacing-500); border-block-start: 1px solid var(--color-border-default-subtle); }
-  /* A section's heading leads with its glyph, the glyph in the quiet ink so the words lead (the element drawer's). */
-  .bcn-psu__heading { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-200); font-weight: 600; color: var(--color-content-default); }
-  .bcn-psu__heading :global(.esa-icon) { color: var(--color-content-default-secondary); }
+
+  /* The nav down the left, the section on the right; one height, so a short section doesn't shrink the dialog. */
+  .bcn-psu__layout {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: var(--spacing-600);
+    block-size: min(38rem, calc(100vh - 14rem));
+    min-block-size: 0;
+  }
+  .bcn-psu__nav {
+    padding-inline-end: var(--spacing-400);
+    border-inline-end: 1px solid var(--color-border-default-subtle);
+    overflow-y: auto;
+  }
+  .bcn-psu__nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+  .bcn-psu__nav-item--danger { margin-block-start: var(--spacing-300); padding-block-start: var(--spacing-300); border-block-start: 1px solid var(--color-border-default-subtle); }
+  .bcn-psu__link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+    padding: var(--spacing-150) var(--spacing-300);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: none;
+    color: var(--color-content-default-secondary);
+    font-family: inherit;
+    font-size: var(--typography-body-sm-font-size);
+    line-height: var(--typography-body-sm-line-height);
+    text-align: start;
+    cursor: pointer;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+  .bcn-psu__link :global(.esa-icon) { flex: none; color: var(--color-content-default-tertiary); }
+  .bcn-psu__link-text { flex: 1; min-inline-size: 0; }
+  .bcn-psu__link:hover { background: color-mix(in srgb, var(--color-background-elevation-sunken) 50%, transparent); color: var(--color-content-default); }
+  .bcn-psu__link[aria-current='true'] { background: var(--color-background-elevation-sunken); color: var(--color-content-default); font-weight: 600; }
+  .bcn-psu__link[aria-current='true'] :global(.esa-icon) { color: var(--color-content-default); }
+  .bcn-psu__link--danger[aria-current='true'],
+  .bcn-psu__link--danger[aria-current='true'] :global(.esa-icon) { color: var(--color-content-utility-danger); }
+  .bcn-psu__link:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: 2px; }
+  /* A section with unsaved changes: a brand dot. One that won't save: a danger dot. */
+  .bcn-psu__dot { flex: none; inline-size: 6px; block-size: 6px; border-radius: 50%; background: var(--color-background-brand); }
+  .bcn-psu__link[data-error] .bcn-psu__dot { background: var(--color-background-utility-danger, var(--color-content-utility-danger)); }
+  .bcn-psu__vh { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  .bcn-psu__form { margin: 0; min-inline-size: 0; overflow-y: auto; padding-inline-end: var(--spacing-200); }
+  .bcn-psu__section { display: flex; flex-direction: column; gap: var(--spacing-300); max-inline-size: 44rem; }
+  .bcn-psu__heading { margin: 0 0 var(--spacing-100); font-size: var(--font-size-300); font-weight: 600; color: var(--color-content-default); }
+  .bcn-psu__subheading { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; color: var(--color-content-default); }
   .bcn-psu__hint { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-psu__error { margin: 0; color: var(--color-content-utility-danger); }
 
@@ -221,14 +304,18 @@ const LISTS = [
   .bcn-psu__person-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-psu__person-name :global(small) { margin-inline-start: var(--spacing-200); color: var(--color-content-default-secondary); font-size: var(--font-size-100); }
 
-  /* Lists: one collapsible each, its count beside the name; the editor inside. */
-  .bcn-psu__lists { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-psu__list :global(.esa-collapsible__body) { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-psu__list :global(.bcn-psu__count) { margin-inline-start: var(--spacing-200); color: var(--color-content-default-secondary); font-weight: 400; }
+  /* Lists: two across, each its name and count, a line on what it's for, then its editor. */
+  .bcn-psu__lists { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: var(--spacing-500) var(--spacing-500); margin-block-end: var(--spacing-300); }
+  .bcn-psu__list { display: flex; flex-direction: column; gap: var(--spacing-200); min-inline-size: 0; }
+  .bcn-psu__section[data-psu-section='lists'] { max-inline-size: none; }
   .bcn-psu__days { max-inline-size: 30rem; }
   .bcn-psu__template { display: flex; align-items: flex-end; gap: var(--spacing-200); }
   .bcn-psu__template esa-text-field { flex: 1 1 auto; max-inline-size: 24rem; }
 
   .bcn-psu__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
   .bcn-psu__footer .bcn-psu__error { margin-inline-end: auto; }
+  @media (max-width: 760px) {
+    .bcn-psu__layout { grid-template-columns: minmax(0, 1fr); block-size: auto; }
+    .bcn-psu__nav { border-inline-end: 0; padding-inline-end: 0; }
+  }
 </style>

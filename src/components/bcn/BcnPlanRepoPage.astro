@@ -87,7 +87,7 @@ import { withBase } from '../../lib/base';
       <esa-tooltip class="bcn-prp__count-tip" text="Compare and restore past revisions" position="below"><a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> <span data-prp-version-noun>Revisions</span></a></esa-tooltip>
       <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> <span data-prp-draft-noun>Drafts</span></span>
       <!-- The latest change, in the same row (2026-10-27): named as that, with when, then who and what (2026-10-28). It
-           takes the row's free width and truncates. -->
+           takes the row's free width, right-aligned, and truncates. -->
       <span class="bcn-prp__status typography-body-sm" data-prp-status>
         <span class="bcn-prp__status-when"><strong data-prp-status-label>Last Update</strong> <time data-prp-status-time></time></span>
         <span data-prp-status-avatar></span>
@@ -344,9 +344,13 @@ import { withBase } from '../../lib/base';
   .bcn-prp__branches :global(.bcn-prp__branch-sub) { color: var(--color-content-default-secondary); }
 
   /* The latest change takes the row's free width, a step in from the counts, and truncates before anything else does. */
+  /* The last update sits at the row's right end (2026-10-28, Andy: "the last update line in the header should be right
+     aligned"): the plan menu and the counts lead, what last happened closes the row. It still truncates from the item's
+     name when the row runs short. */
   .bcn-prp__status {
     display: flex;
     flex: 1 1 auto;
+    justify-content: flex-end;
     align-items: center;
     gap: var(--spacing-200);
     min-inline-size: 0;

@@ -67,6 +67,21 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   const levelTpl = q<HTMLTemplateElement>('template[data-psu-tpl="level"]');
   const personTpl = q<HTMLTemplateElement>('template[data-psu-tpl="person"]');
 
+  // ── The section nav (2026-10-28, Andy: "x-large (x-wide) modal with the left sidebar nav"): one section at a time ──
+  const SECTIONS = ['general', 'tracks', 'levels', 'people', 'lists', 'template', 'danger'] as const;
+  type Section = (typeof SECTIONS)[number];
+  const navLinks = new Map<Section, HTMLElement>(SECTIONS.map((id) => [id, q<HTMLElement>(`[data-psu-link="${id}"]`)]));
+  const panes = new Map<Section, HTMLElement>(SECTIONS.map((id) => [id, q<HTMLElement>(`[data-psu-section="${id}"]`)]));
+  const form = q<HTMLElement>('[data-psu-form]');
+  let current: Section = 'general';
+  function show(id: Section): void {
+    current = id;
+    for (const [key, pane] of panes) pane.hidden = key !== id;
+    for (const [key, link] of navLinks) link.setAttribute('aria-current', String(key === id));
+    form.scrollTop = 0;
+  }
+  for (const [id, link] of navLinks) link.addEventListener('click', () => show(id));
+
   // The open session: what the dialog edits, and how it began (for "Discard changes?").
   let planID: string | null = null;
   let levels: Required<PlanLevelCreateDto>[] = [];
@@ -215,16 +230,14 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     requestAnimationFrame(() => (addPerson.value = ''));
   });
 
-  // ── Lists (a plan's): each in a collapsible with its count; a renamed document type carries into the levels ──
+  // ── Lists (a plan's): each with its count; a renamed document type carries into the levels ──
   const lists = new Map<ListKey, ListEditor>();
   const countLists = () => {
     for (const key of LIST_KEYS) {
-      const title = root.querySelector<HTMLElement>(`[data-psu-list="${key}"] .esa-collapsible__title`);
-      if (!title) continue;
-      title.dataset.name ??= title.textContent ?? '';
-      const count = Object.assign(document.createElement('span'), { className: 'bcn-psu__count', textContent: String(config?.[key].length ?? 0) });
-      title.replaceChildren(title.dataset.name, count);
+      const count = root.querySelector<HTMLElement>(`[data-psu-list="${key}"] [data-psu-list-count] .esa-badge__text`);
+      if (count) count.textContent = String(config?.[key].length ?? 0);
     }
+    markSections();
   };
   for (const key of LIST_KEYS) {
     lists.set(
@@ -319,20 +332,56 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     if (await askDiscard()) close(null);
   });
 
+  /** Each section's fields, as a string, to tell which ones changed (the nav's dots). */
+  const sectionStates = (): Record<Section, string> => {
+    const s = snapshot();
+    return {
+      general: JSON.stringify([s.name, s.description, template]),
+      tracks: JSON.stringify(s.views),
+      levels: JSON.stringify(s.levels),
+      people: JSON.stringify(s.members),
+      lists: JSON.stringify(config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays]),
+      template: '',
+      danger: '',
+    };
+  };
+  let initialSections = sectionStates();
+  /** The nav's marks: a dot beside a section with changes, a red one beside a section that won't save. */
+  function markSections(): void {
+    const now = sectionStates();
+    for (const id of SECTIONS) {
+      const link = navLinks.get(id)!;
+      const changed = now[id] !== initialSections[id];
+      const bad = failing.has(id);
+      link.toggleAttribute('data-error', bad);
+      const dot = link.querySelector<HTMLElement>('[data-psu-dot]')!;
+      dot.hidden = !changed && !bad;
+      dot.querySelector('[data-psu-dot-text]')!.textContent = bad ? ', needs attention' : ', changed';
+    }
+  }
+  root.addEventListener('input', () => queueMicrotask(markSections));
+  root.addEventListener('change', () => queueMicrotask(markSections));
+
+  /** The sections that won't save, as of the last Save. */
+  const failing = new Set<Section>();
   function validate(s: PlanSettings): boolean {
-    let ok = true;
+    failing.clear();
     name.errorText = s.name ? '' : 'Name the plan.';
-    if (!s.name) ok = false;
+    if (!s.name) failing.add('general');
     levelRows.querySelectorAll<FieldEl>('esa-text-field').forEach((field) => {
       const empty = !(field.value ?? '').trim();
       field.errorText = empty ? 'Required.' : '';
-      if (empty) ok = false;
+      if (empty) failing.add('levels');
     });
-    if (!s.views.length) ok = false;
-    if (!checkOwners()) ok = false;
-    if (config && ackDays.errorText) ok = false;
+    if (!s.views.length) failing.add('tracks');
+    if (!checkOwners()) failing.add('people');
+    if (config && ackDays.errorText) failing.add('lists');
     drawViews();
-    return ok;
+    markSections();
+    // Off to the first section that won't save, in the nav's order.
+    const first = SECTIONS.find((id) => failing.has(id));
+    if (first) show(first);
+    return !first;
   }
 
   q<HTMLElement>('[data-psu-save]').addEventListener('click', async () => {
@@ -413,7 +462,8 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       }
       templateWrap.hidden = !!planID;
       root.toggleAttribute('data-new', !planID);
-      root.querySelectorAll<HTMLDetailsElement>('[data-psu-list] details').forEach((d) => (d.open = false));
+      failing.clear();
+      show('general');
       name.errorText = '';
       q<HTMLElement>('[data-psu-save-label]').textContent = planID ? 'Save Changes' : 'Create Plan';
       q<HTMLElement>('[data-psu-danger]').hidden = !planID;
@@ -421,6 +471,8 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       drawLevels();
       drawPeople();
       initial = state();
+      initialSections = sectionStates();
+      markSections();
       busy = false;
       settled = false;
       dialog.open = true;
