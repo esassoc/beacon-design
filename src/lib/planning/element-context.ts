@@ -115,7 +115,8 @@ export function moduleShows(ctx: ElementContext, p: ModulePlacement): boolean {
   const kind = MODULES[p.key].kind;
   if (kind === 'core' || kind === 'shared') return true;
   if (!p.on) return false;
-  if (kind === 'deliverable') return !!ctx.attrs.deliverable;
+  // A deliverable's modules need the item flagged and its level to allow deliverables (Configure's switch).
+  if (kind === 'deliverable') return !!ctx.attrs.deliverable && ctx.level.canBeDeliverable;
   if (kind === 'parents') return ctx.children.length > 0;
   if (p.key === 'budget') {
     if (!ctx.tracksBudget) return false;

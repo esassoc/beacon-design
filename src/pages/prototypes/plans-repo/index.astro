@@ -8,6 +8,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnPlanRepoIndex from '../../../components/bcn/BcnPlanRepoIndex.astro';
 import BcnPlanPeople from '../../../components/bcn/BcnPlanPeople.astro';
 import BcnPlanSetupDialog from '../../../components/bcn/BcnPlanSetupDialog.astro';
+import BcnTransmittalInbox from '../../../components/bcn/BcnTransmittalInbox.astro';
+import BcnBadgeBank from '../../../components/bcn/BcnBadgeBank.astro';
 import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
 ---
 
@@ -15,6 +17,7 @@ import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
   layout: AppShell > PageLayout                       # SPINE
   sections:
     - utilities -> esa-button x2                      # Start Sample Over (re-seeds the history), New Plan
+    - sent to you -> bcn-transmittal-inbox            # transmittals sent to the viewer, waiting first; hidden when none
     - plans     -> bcn-plan-repo-index                # find + filter, one repo-style row per plan, its branches as rows
     - setup     -> bcn-plan-setup-dialog              # New Plan, and each row's settings for its Owners
     - confirm   -> esa-confirm-dialog                 # Start Sample Over asks first
@@ -27,10 +30,13 @@ import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
       <span data-pri-reset><EsaButton variant="ghost" size="sm" icon="rotate-ccw">Start Sample Over</EsaButton></span>
       <span data-pri-new><EsaButton variant="primary" size="sm" icon="plus">New Plan</EsaButton></span>
     </span>
+    <!-- What's been sent to you (2026-10-28, decision 2): an agency reviewer's way in; hidden when nothing was. -->
+    <BcnTransmittalInbox />
     <BcnPlanRepoIndex />
     <BcnPlanSetupDialog />
     <esa-confirm-dialog data-pri-confirm variant="danger"></esa-confirm-dialog>
     <BcnPlanPeople />
+    <BcnBadgeBank />
   </PageLayout>
 </AppShell>
 
@@ -38,8 +44,12 @@ import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
   import '@esa/ecology/esa-confirm-dialog';
   import { setupPlanRepoIndex } from '../../../components/bcn/plan-repo-index';
   import { resetSample } from '../../../lib/planning/plan-repo';
+  import { setupTransmittalInbox } from '../../../components/bcn/transmittal-inbox';
   const root = document.querySelector<HTMLElement>('[data-bcn-plan-repo-index]');
   const index = root ? setupPlanRepoIndex(root) : null;
+  // Sent to You, once the sample is seeded (the index seeds it).
+  const inbox = document.querySelector<HTMLElement>('[data-bcn-transmittal-inbox]');
+  if (inbox) void Promise.resolve(index).then(() => setupTransmittalInbox(inbox).draw());
   document.querySelector('[data-pri-new]')?.addEventListener('click', async () => (await index)?.newPlan());
   // Start Sample Over asks in a UI modal, not the browser's confirm (2026-10-28, Andy, for the plan page's guard).
   type ConfirmEl = HTMLElement & { heading: string; message: string; confirmLabel: string; cancelLabel: string; open: boolean };
@@ -61,4 +71,6 @@ import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
 
 <style>
   .plans-utilities { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  /* Sent to You sits above the plans with the same room the plans' rows keep between them. */
+  :global([data-bcn-transmittal-inbox]) { margin-bottom: var(--spacing-500); }
 </style>
