@@ -110,6 +110,9 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     z-index: 5;
   }
   .bcn-rvs__tip-body { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
+  /* A change note (BcnChangeNote) wraps in the tip rather than cutting the item's name short. */
+  .bcn-rvs__tip-msg :global(.bcn-change) { flex-wrap: wrap; row-gap: var(--spacing-100); }
+  .bcn-rvs__tip-msg :global(.bcn-change__subject) { white-space: normal; }
   .bcn-rvs__tip-title { font-weight: 600; }
   .bcn-rvs__tip-when, .bcn-rvs__tip-msg { color: var(--color-content-default-secondary); white-space: normal; }
 

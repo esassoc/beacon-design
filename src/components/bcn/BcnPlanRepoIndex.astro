@@ -13,6 +13,7 @@
 // bcn-plan-repo-index is the reusable home for a plans index in the repo model.
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import BcnChangeNote from './BcnChangeNote.astro';
 ---
 
 <section class="bcn-pri" data-bcn-plan-repo-index>
@@ -71,6 +72,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
   </template>
 </section>
 
+<BcnChangeNote />
 <script>
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
@@ -142,8 +144,10 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
     border-radius: var(--radius-200, 6px);
     min-inline-size: 0;
   }
-  .bcn-pri__latest-text { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bcn-pri__latest-text strong { font-weight: 600; margin-inline-end: var(--spacing-100); }
+  /* Who, a hairline, then the change as data (BcnChangeNote, 2026-10-28). */
+  .bcn-pri__latest-text { display: inline-flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; white-space: nowrap; }
+  .bcn-pri__latest-text strong { font-weight: 600; }
+  .bcn-pri__latest-text [data-pri-message] { display: inline-flex; min-inline-size: 0; padding-inline-start: var(--spacing-200); border-inline-start: 1px solid var(--color-border-default); }
   .bcn-pri__when { margin-inline-start: auto; color: var(--color-content-default-tertiary); white-space: nowrap; }
 
   .bcn-pri__drafts { list-style: none; margin: 0; padding: 0 0 0 var(--spacing-300); display: flex; flex-direction: column; gap: var(--spacing-100); }

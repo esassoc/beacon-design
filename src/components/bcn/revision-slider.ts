@@ -11,6 +11,8 @@ export interface RevisionStop {
   /** "4 min ago (Oct 27, 2026)". */
   when: string;
   message: string;
+  /** The message drawn as something richer than its text (the plan's change notes, 2026-10-28). */
+  render?: () => Node;
   /** A named version (a release tag) or the live plan: drawn as a taller tick. */
   mark?: 'labelled' | 'live';
 }
@@ -69,7 +71,9 @@ export function setupRevisionSlider(root: HTMLElement, stops: readonly RevisionS
     q<HTMLElement>('[data-rvs-tip-avatar]').replaceChildren(planAvatar(stop.author, 'sm'));
     q<HTMLElement>('[data-rvs-tip-title]').textContent = stop.title;
     q<HTMLElement>('[data-rvs-tip-when]').textContent = stop.when;
-    q<HTMLElement>('[data-rvs-tip-msg]').textContent = stop.message;
+    const msg = q<HTMLElement>('[data-rvs-tip-msg]');
+    if (stop.render) msg.replaceChildren(stop.render());
+    else msg.textContent = stop.message;
   }
 
   function render(): void {

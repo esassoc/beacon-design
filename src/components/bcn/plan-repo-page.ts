@@ -38,7 +38,8 @@ import {
   planCompare,
   planSpan,
   restoreRevision,
-  revisionMessage,
+  revisionNote,
+  type PlanChangeNote,
   shortDate,
   startDraft,
   timeAgo,
@@ -48,13 +49,12 @@ import {
   type PlanRevision,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, planAvatarStack, setButtonDisabled } from './plan-people';
+import { changeNote } from './plan-change-note';
 import { PLAN_HREF, REVISIONS_HREF, STUDY_KEYS, fillGlyphs, keepStudy, type StudyKey } from './plan-repo-index';
 
 type Mode = 'live' | 'own' | 'view';
 
 const firstName = (name: string) => name.split(' ')[0];
-/** A change's message after a name: "Alex Rivera moved ..." (an acronym keeps its capitals). */
-const afterName = (message: string) => (/^[A-Z][a-z]/.test(message) ? message[0].toLowerCase() + message.slice(1) : message);
 /** When, as a time on a day: "Today, 9:14 AM", "Yesterday, 4:02 PM", "Oct 24, 8:07 AM". */
 function stamp(iso: string, now = new Date()): string {
   const d = new Date(iso);
@@ -254,7 +254,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const changes = planCompare(before, view.Plan);
     const ids = new Set(edits.map((e) => e.PlanElementID));
     const own = changes.filter((c) => ids.has(c.id));
-    addRevision(planID!, draft!.id, next, revisionMessage(own, changes.length - own.length));
+    addRevision(planID!, draft!.id, next, revisionNote(own, changes.length - own.length));
     redo.length = 0;
     shown = view.Plan;
     busy = false;
@@ -315,25 +315,26 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // Opened on the next frame, so the click that opened it isn't read as a click outside.
     requestAnimationFrame(() => (linkPop.open = true));
   }
-  async function afterLinkEdit(message: string): Promise<void> {
+  async function afterLinkEdit(note: PlanChangeNote): Promise<void> {
     linkPop.open = false;
     live = await planApi.getPlan(planID!);
     planStore.set(live);
-    await recordLiveEdit(planID!, message);
+    await recordLiveEdit(planID!, note);
     shown = live;
     refresh();
   }
   q<HTMLElement>('[data-prp-link-unlink]').addEventListener('click', async () => {
     if (!openDep) return;
     await planApi.deleteDependency(planID!, openDep.id, live.VersionToken);
-    await afterLinkEdit(`Unlinked ${openDep.to} from ${openDep.from}`);
+    await afterLinkEdit({ action: 'Unlinked', subject: openDep.from, object: openDep.to });
   });
   q<HTMLElement>('[data-prp-link-save]').addEventListener('click', async () => {
     if (!openDep) return;
     const lag = Math.round(Number(lagField.value));
     if (!Number.isFinite(lag) || lag === openDep.lag) return void (linkPop.open = false);
     await planApi.updateDependency(planID!, openDep.id, lag, live.VersionToken);
-    await afterLinkEdit(`Set ${openDep.to} to start ${lag === 0 ? 'right after' : `${Math.abs(lag)} ${Math.abs(lag) === 1 ? 'day' : 'days'} ${lag > 0 ? 'after' : 'before the end of'}`} ${openDep.from}`);
+    // Lag as a signed count of days: + waits after the predecessor ends, \u2212 overlaps its end.
+    await afterLinkEdit({ action: 'Lag Set', subject: openDep.from, object: openDep.to, shift: `${lag < 0 ? '\u2212' : lag > 0 ? '+' : ''}${Math.abs(lag)} ${Math.abs(lag) === 1 ? 'day' : 'days'}` });
   });
 
   async function undo(): Promise<void> {
@@ -645,7 +646,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       when(latest.at);
       avatarSlot.replaceChildren(planAvatar(latest.author, 'xs'));
       who.textContent = latest.author;
-      message.textContent = afterName(latest.message);
+      message.replaceChildren(changeNote(latest.note, latest.message));
       meta.innerHTML = '';
       actions.hidden = true;
       return;
@@ -662,13 +663,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       label.textContent = 'Last Edit';
       when(last ? last.at : null);
       who.textContent = '';
-      message.textContent = last ? last.message : 'No edits yet';
+      message.replaceChildren(last ? changeNote(last.note, last.message) : 'No edits yet');
       meta.innerHTML = '';
     } else {
       label.parentElement!.hidden = true;
       when(null);
       who.textContent = mode === 'own' ? yours : `${firstName(d.owner)}'s Draft`;
-      message.textContent = last ? last.message : 'No changes yet. Drag a bar to start.';
+      message.replaceChildren(last ? changeNote(last.note, last.message) : 'No changes yet. Drag a bar to start.');
       meta.innerHTML = `<span>${n} ${n === 1 ? 'edit' : 'edits'}, based on revision ${d.baseVersion}${behind > 0 ? `, <b>Live has ${behind} newer ${behind === 1 ? 'revision' : 'revisions'}</b>` : ''}</span>`;
     }
     actions.hidden = mode !== 'own';
@@ -689,7 +690,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const rows = draft.revisions.map((rev, i) => {
         const li = document.createElement('li');
         const text = document.createElement('div');
-        text.textContent = rev.message;
+        text.append(changeNote(rev.note, rev.message));
         const small = document.createElement('small');
         small.textContent = `Edit ${i + 1}, ${timeAgo(rev.at)}`;
         text.append(small);
@@ -788,7 +789,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     box.hidden = !notice;
     if (!notice) return;
     const when = new Date(notice.at);
-    q<HTMLElement>('[data-prp-notice-text]').textContent = `${notice.by} published ${notice.draftName} as Revision ${notice.version}, ${when.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}.`;
+    // As data, like every change line (2026-10-28): what, then who and when.
+    q<HTMLElement>('[data-prp-notice-text]').replaceChildren(
+      changeNote({ action: 'Published', subject: notice.draftName, object: `Revision ${notice.version}` }),
+      Object.assign(document.createElement('span'), {
+        className: 'bcn-prp__notice-meta',
+        textContent: `${notice.by}, ${when.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`,
+      })
+    );
     box.dataset.noticeId = notice.id;
     box.dataset.version = String(notice.version);
   }

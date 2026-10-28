@@ -32,6 +32,7 @@ import {
   type PlanChange,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
+import { changeNote } from './plan-change-note';
 import { PLAN_HREF, fillGlyphs, keepStudy } from './plan-repo-index';
 
 type SwitchEl = HTMLElement & { checked: boolean };
@@ -61,12 +62,13 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
   const cache = new Map<number, Promise<PlanDetailDto>>();
   const stops: Stop[] = draft
     ? [
-        { author: latest.author, title: `Live, revision ${latest.number}`, when: when(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
+        { author: latest.author, title: `Live, revision ${latest.number}`, when: when(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, ownIDs: new Set() },
         ...draft.revisions.map((rev, i) => ({
           author: rev.author,
           title: `Edit ${i + 1} by ${rev.author}`,
           when: when(rev.at),
           message: rev.message,
+          render: () => changeNote(rev.note, rev.message),
           state: async () => (await draftState(draft, i + 1)).Plan,
           ownIDs: new Set(rev.overrides.map((o) => o.PlanElementID)),
         })),
@@ -76,6 +78,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
         title: `Revision ${v.number}${v.label ? ` · ${v.label}` : ''} by ${v.author}`,
         when: when(v.at),
         message: v.message,
+        render: () => changeNote(v.note, v.message),
         mark: v.label ? ('labelled' as const) : undefined,
         state: async () => v.plan,
         ownIDs: new Set<string>(),
@@ -230,7 +233,7 @@ export async function setupPlanRevisions(root: HTMLElement): Promise<void> {
       const stop = stops[side === 'from' ? sel.from : sel.to];
       card.querySelector('[data-prv-avatar]')!.replaceChildren(planAvatar(stop.author, 'xs'));
       card.querySelector('[data-prv-title]')!.textContent = stop.title;
-      card.querySelector('[data-prv-msg]')!.textContent = stop.message;
+      card.querySelector('[data-prv-msg]')!.replaceChildren(stop.render ? stop.render() : stop.message);
       const when = card.querySelector<HTMLElement>('[data-prv-when]')!;
       when.textContent = stop.when.replace(/ \(.*\)$/, '');
       when.title = stop.when;

@@ -32,6 +32,7 @@ import {
   type PlanRepoDraft,
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
+import { changeNote } from './plan-change-note';
 import { pushAlert } from '../../lib/planning/plan-page';
 
 type DialogEl = HTMLElement & { open: boolean; heading: string };
@@ -168,7 +169,7 @@ export function setupPlanRevisionsDialog(opts: {
       head.querySelector('[data-prvd-avatar]')!.replaceChildren(planAvatar(stop.author, 'sm'));
       head.querySelector('[data-prvd-title]')!.textContent = stop.title;
       head.querySelector('[data-prvd-when]')!.textContent = stop.when;
-      head.querySelector('[data-prvd-msg]')!.textContent = stop.message;
+      head.querySelector('[data-prvd-msg]')!.replaceChildren(stop.render ? stop.render() : stop.message);
     }
     // TalentBridge's Current: the To side is the plan as it stands (the history's last revision).
     q<HTMLElement>('[data-prvd-current]').hidden = !!draft || sel.to !== stops.length - 1;
@@ -219,8 +220,13 @@ export function setupPlanRevisionsDialog(opts: {
       el.append(name, dates);
       if (side === 'to' && change?.status === 'moved') {
         const followed = !!draft && !own.has(change.id);
-        const shift = Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift', textContent: followed ? `${signedShift(change.shiftDays)}, Followed` : change.endOnly ? `End ${signedShift(change.shiftDays)}` : signedShift(change.shiftDays) });
-        if (followed) shift.dataset.followed = '';
+        // The shift and why, as two parts (2026-10-28): "+3 months" over "Followed" when it moved with something else.
+        const shift = Object.assign(document.createElement('span'), { className: 'bcn-prvd__shift' });
+        shift.append(Object.assign(document.createElement('span'), { textContent: change.endOnly ? `End ${signedShift(change.shiftDays)}` : signedShift(change.shiftDays) }));
+        if (followed) {
+          shift.dataset.followed = '';
+          shift.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__followed', textContent: 'Followed' }));
+        }
         el.append(shift);
       }
       return el;
@@ -315,12 +321,13 @@ export function setupPlanRevisionsDialog(opts: {
       const d = draft;
       stops = d
         ? [
-            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, mark: 'live', state: async () => live, ownIDs: new Set() },
+            { author: latest.author, title: `Live Plan, Revision ${latest.number}`, when: whenText(latest.at), message: latest.message, render: () => changeNote(latest.note, latest.message), mark: 'live', state: async () => live, ownIDs: new Set() },
             ...d.revisions.map((rev, i) => ({
               author: rev.author,
               title: `Edit ${i + 1} by ${rev.author}`,
               when: whenText(rev.at),
               message: rev.message,
+              render: () => changeNote(rev.note, rev.message),
               state: async () => (await draftState(d, i + 1)).Plan,
               ownIDs: new Set(rev.overrides.map((o) => o.PlanElementID)),
             })),
@@ -330,6 +337,7 @@ export function setupPlanRevisionsDialog(opts: {
             title: `Revision ${v.number}${v.label ? ` (${v.label})` : ''} by ${v.author}`,
             when: whenText(v.at),
             message: v.message,
+            render: () => changeNote(v.note, v.message),
             mark: v.label ? ('labelled' as const) : undefined,
             state: async () => v.plan,
             ownIDs: new Set<string>(),

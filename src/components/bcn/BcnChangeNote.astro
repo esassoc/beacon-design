@@ -1,0 +1,32 @@
+---
+// <BcnChangeNote> — what a plan change did, drawn as data (2026-10-28, Andy: "Moved", the item and "+10 days" read
+// as one casual sentence; "it needs to seem more deterministic, less casual"). Each part is its own element:
+//
+//   [Moved]  Fabricate & install acoustic receiver array  +10 days  +2 Followed
+//    action  subject (truncates first)                     shift     others
+//
+// A dependency names both ends: [Unlinked] Detailed baseline study plan → Acoustic tag & receiver procurement.
+// The data is PlanChangeNote (plan-repo.ts); the runtime is ./plan-change-note.ts (changeNote()), which clones the
+// action tag from this bank, as BcnPlanPeople banks avatars. Include it once per page.
+//
+// bcn-lego-checked: the action tag IS esa-badge (neutral, sm), cloned at runtime from the bank. No esa- lego lays out
+// a change as action, subject, shift and count (esa-pill is a removable chip, esa-key-value a label/value pair);
+// checked Beacon (its change log prints sentences) and TalentBridge (the revisions modal counts words, no per-change
+// line). The styles are the line's layout: what truncates, what never wraps.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+---
+
+<div hidden data-bcn-change-note>
+  <template data-change-tpl="action"><EsaBadge value="" variant="neutral" size="sm" /></template>
+</div>
+
+<style is:global>
+  .bcn-change { display: inline-flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; max-inline-size: 100%; vertical-align: middle; }
+  .bcn-change > .esa-badge { flex: none; }
+  /* The item's name gives way first; the shift and the count never do. */
+  .bcn-change__subject { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-content-default); font-weight: 500; }
+  .bcn-change__arrow { flex: none; color: var(--color-content-default-tertiary); }
+  .bcn-change__shift { flex: none; color: var(--color-content-default); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bcn-change__others { flex: none; color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bcn-change__plain { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-content-default-secondary); }
+</style>

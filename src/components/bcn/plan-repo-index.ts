@@ -6,6 +6,7 @@ import { planIcon } from '../../lib/planning/icons';
 import { currentUserName, ensureSeeded, listPlanSummaries, shortDate, timeAgo, type PlanSummary } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatar, planAvatarStack } from './plan-people';
+import { changeNote } from './plan-change-note';
 
 type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
 type FieldEl = HTMLElement & { value: string };
@@ -111,15 +112,15 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
     }
     r<HTMLElement>('[data-pri-avatar]').replaceWith(planAvatar(s.latest.author, 'xs'));
     r<HTMLElement>('[data-pri-author]').textContent = s.latest.author;
-    r<HTMLElement>('[data-pri-message]').textContent = s.latest.message;
+    r<HTMLElement>('[data-pri-message]').replaceChildren(changeNote(s.latest.note, s.latest.message));
     const when = r<HTMLElement>('[data-pri-when]');
     when.textContent = `Revision ${s.latest.number}, ${timeAgo(s.latest.at)}`;
     when.title = new Date(s.latest.at).toLocaleString();
     r<HTMLElement>('[data-pri-version]').textContent = `Revision ${s.latest.number}`;
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);
-    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'revision' : 'revisions'}`;
-    r<HTMLElement>('[data-pri-span]').textContent = `${year(s.start)}–${year(s.end)} · ${s.elementCount} items`;
+    r<HTMLElement>('[data-pri-versions]').textContent = `${s.repo.versions.length} ${s.repo.versions.length === 1 ? 'Revision' : 'Revisions'}`;
+    r<HTMLElement>('[data-pri-span]').textContent = `${year(s.start)}–${year(s.end)}, ${s.elementCount} Items`;
     r<HTMLElement>('[data-pri-people]').replaceWith(planAvatarStack(s.contributors, 5));
     const drafts = r<HTMLUListElement>('[data-pri-drafts]');
     // Yours first, then everyone else's, newest first.
@@ -133,7 +134,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<void> {
       const behind = s.latest.number - d.baseVersion;
       const n = d.revisions.length;
       item.querySelector('[data-pri-draft-meta]')!.textContent =
-        `${d.owner.split(' ')[0]} · ${n} ${n === 1 ? 'edit' : 'edits'} · ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? ` · ${behind} ${behind === 1 ? 'revision' : 'revisions'} behind Live` : ''}`;
+        `${d.owner.split(' ')[0]}, ${n} ${n === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}`;
       drafts.append(item);
     }
     const mini = r<HTMLElement>('[data-pri-mini]');

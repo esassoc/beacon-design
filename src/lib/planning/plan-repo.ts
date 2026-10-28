@@ -27,12 +27,38 @@ const DAY_MS = 86_400_000;
 
 // ── Types ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
+/**
+ * What a change did, as data (2026-10-28, Andy: "Moved", the item and "+10 days" read as one casual sentence; each is
+ * its own element). The page draws each part as its own token (plan-change-note.ts); `message` keeps the plain form
+ * for titles and tooltips.
+ */
+export interface PlanChangeNote {
+  /** A closed set, in Title Case: Moved, End Moved, Published, Restored, Unlinked, Lag Set, Created, Copied, No Change. */
+  action: string;
+  /** What it acted on: an element, a draft, a revision, "3 Items". */
+  subject?: string;
+  /** A second thing it names: the other end of a dependency, the revision a draft became. */
+  object?: string;
+  /** The signed shift ("+10 days", "−3 weeks") or a lag ("5 days"). */
+  shift?: string;
+  /** Items that moved with it. */
+  others?: number;
+}
+
+/** A note as one plain line, for titles and tooltips: "Moved: Fabricate & install... +10 days, 2 Followed". */
+export function noteText(note: PlanChangeNote): string {
+  const what = [note.subject, note.object].filter(Boolean).join(' \u2192 ');
+  const tail = [note.shift, note.others ? `${note.others} Followed` : ''].filter(Boolean).join(', ');
+  return `${note.action}${what ? `: ${what}` : ''}${tail ? `, ${tail}` : ''}`;
+}
+
 /** One version of the live plan: a snapshot, and the line that says what it changed. */
 export interface PlanVersion {
   number: number;
   author: string;
   at: string;
   message: string;
+  note?: PlanChangeNote;
   /** How many elements this version moved, against the one before it. */
   changeCount: number;
   /** A release-style name, when someone gave it one ("Submitted to CDFW"). */
@@ -50,6 +76,7 @@ export interface PlanRevision {
   author: string;
   at: string;
   message: string;
+  note?: PlanChangeNote;
   overrides: PlanDraftOverrideDto[];
 }
 
@@ -94,8 +121,8 @@ interface RepoStore {
   format?: number;
 }
 
-/** Bumped when the seed's shape changes (2: revision messages in the fixed grammar, 2026-10-28). */
-const SEED_FORMAT = 2;
+/** Bumped when the seed's shape changes (2: revision messages in the fixed grammar; 3: change notes as data). */
+const SEED_FORMAT = 3;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -335,14 +362,17 @@ export function signedShift(days: number): string {
  *   Moved {n} items {±shift}        several, by the first one's shift
  *   ... ({n} others moved)          the items that moved with it
  */
-export function revisionMessage(own: PlanChange[], cascaded: number): string {
-  const others = cascaded ? ` (${cascaded} ${cascaded === 1 ? 'other' : 'others'} moved)` : '';
-  if (!own.length) return cascaded ? `Moved ${cascaded} ${cascaded === 1 ? 'item' : 'items'}` : 'No date changes';
+export function revisionNote(own: PlanChange[], cascaded: number): PlanChangeNote {
+  if (!own.length) return cascaded ? { action: 'Moved', subject: `${cascaded} ${cascaded === 1 ? 'Item' : 'Items'}` } : { action: 'No Change' };
   const first = own[0];
+  const others = cascaded || undefined;
   const shift = signedShift(first.shiftDays);
-  if (own.length > 1) return `Moved ${own.length} items ${shift}${others}`;
-  return `Moved ${first.endOnly ? 'end of ' : ''}${first.name} ${shift}${others}`;
+  if (own.length > 1) return { action: 'Moved', subject: `${own.length} Items`, shift, others };
+  return { action: first.endOnly ? 'End Moved' : 'Moved', subject: first.name, shift, others };
 }
+
+/** The note and its plain line, as a version or revision stores them. */
+export const noted = (note: PlanChangeNote) => ({ note, message: noteText(note) });
 
 // ── Seed ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -453,7 +483,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     watchers: ['Jamie Quishenberry', 'Alex Rivera', 'Sam Okafor', 'Priya Natarajan', 'Andy Lovseth', 'Dana Whitfield'],
     starredBy: ['Jamie Quishenberry', 'Andy Lovseth'],
     versions: [
-      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), message: 'Created the plan from the 2026 study outline', changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live) },
+      { number: 1, author: 'Jamie Quishenberry', at: daysAgo(92), ...noted({ action: 'Created', subject: '2026 Study Outline' }), changeCount: 0, label: 'Baseline', source: 'created', draftName: null, plan: clone(live) },
     ],
     drafts: [],
   };
@@ -468,7 +498,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
       number: repo.versions.length + 1,
       author: step.by,
       at: step.daysAgo < 0.01 ? new Date(Date.now() - 4 * 60_000).toISOString() : daysAgo(step.daysAgo),
-      message: revisionMessage(own, changes.length - own.length),
+      ...noted(revisionNote(own, changes.length - own.length)),
       changeCount: changes.length,
       label: step.label ?? null,
       source: 'draft',
@@ -498,7 +528,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
       shown = (await planApi.previewDraft(planID, overrides)).Plan;
       const changes = planCompare(before, shown);
       const own = changes.filter((c) => c.id === edit.PlanElementID);
-      draft.revisions.push({ id: uid(), author: seed.owner, at: daysAgo(step.daysAgo, 14), message: revisionMessage(own, changes.length - own.length), overrides: clone(overrides) });
+      draft.revisions.push({ id: uid(), author: seed.owner, at: daysAgo(step.daysAgo, 14), ...noted(revisionNote(own, changes.length - own.length)), overrides: clone(overrides) });
     }
     repo.drafts.push(draft);
   }
@@ -520,7 +550,7 @@ async function seedVariant(store: RepoStore, name: string, description: string, 
     visibility: 'Project',
     watchers: [owner, 'Andy Lovseth'],
     starredBy: [],
-    versions: [{ number: 1, author: owner, at: daysAgo(ageDays), message: 'Created the plan', changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(live) }],
+    versions: [{ number: 1, author: owner, at: daysAgo(ageDays), ...noted({ action: 'Created' }), changeCount: 0, label: null, source: 'created', draftName: null, plan: clone(live) }],
     drafts: [],
   };
   if (draftName) {
@@ -537,7 +567,7 @@ async function seedVariant(store: RepoStore, name: string, description: string, 
         owner,
         createdAt: daysAgo(6),
         baseVersion: 1,
-        revisions: [{ id: uid(), author: owner, at: daysAgo(6, 15), message: revisionMessage(own, changes.length - own.length), overrides }],
+        revisions: [{ id: uid(), author: owner, at: daysAgo(6, 15), ...noted(revisionNote(own, changes.length - own.length)), overrides }],
       });
     }
   }
@@ -658,7 +688,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
     revisions: from
-      ? [{ id: uid(), author: me, at: stamp.toISOString(), message: `Copied ${from.owner.split(' ')[0]}'s draft "${from.name}"`, overrides: clone(from.revisions[from.revisions.length - 1]?.overrides ?? []) }]
+      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions[from.revisions.length - 1]?.overrides ?? []) }]
       : [],
   };
   repo.drafts = [...repo.drafts.filter((d) => d.owner !== me), draft];
@@ -698,11 +728,11 @@ export function renameDraft(planID: string, draftID: string, name: string): void
 }
 
 /** One drop in a draft: the draft's new overrides, as its next revision. */
-export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], message: string): PlanRevision {
+export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote): PlanRevision {
   const store = load();
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) throw new Error('That draft is gone.');
-  const revision: PlanRevision = { id: uid(), author: currentUserName(), at: new Date().toISOString(), message, overrides: clone(overrides) };
+  const revision: PlanRevision = { id: uid(), author: currentUserName(), at: new Date().toISOString(), ...noted(note), overrides: clone(overrides) };
   draft.revisions.push(revision);
   save(store);
   return revision;
@@ -747,7 +777,7 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
     number: latestVersion(fresh).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    message: own.length <= 1 ? revisionMessage(own, changes.length - own.length) : `Published ${draft.name} (${changes.length} items moved)`,
+    ...noted(own.length <= 1 ? revisionNote(own, changes.length - own.length) : { action: 'Published', subject: draft.name, shift: `${changes.length} Items` }),
     changeCount: changes.length,
     label: label?.trim() || null,
     source: 'draft',
@@ -823,7 +853,7 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
     number: latestVersion(fresh).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    message: `Restored Revision ${number}${target.label ? ` (${target.label})` : ''}`,
+    ...noted({ action: 'Restored', subject: `Revision ${number}${target.label ? `, ${target.label}` : ''}` }),
     changeCount: planCompare(live, next).length,
     label: null,
     source: 'restore',
@@ -839,7 +869,7 @@ export async function restoreVersion(planID: string, number: number): Promise<Pl
  * An exact edit made straight on Live (a dependency unlinked, a lag changed: the drawer's kind of change, which Jamie's
  * split keeps out of drafts) becomes the next revision, with its sentence.
  */
-export async function recordLiveEdit(planID: string, message: string): Promise<PlanVersion> {
+export async function recordLiveEdit(planID: string, note: PlanChangeNote): Promise<PlanVersion> {
   const plan = await planApi.getPlan(planID);
   const store = load();
   const repo = findRepo(store, planID);
@@ -848,7 +878,7 @@ export async function recordLiveEdit(planID: string, message: string): Promise<P
     number: latestVersion(repo).number + 1,
     author: currentUserName(),
     at: new Date().toISOString(),
-    message,
+    ...noted(note),
     changeCount: planCompare(before, plan).length,
     label: null,
     source: 'edit',

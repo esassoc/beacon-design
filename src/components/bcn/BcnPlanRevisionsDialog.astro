@@ -94,6 +94,8 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     --bcn-plan-gantt-max-height: 26rem;
   }
   .bcn-prvd :global([hidden]) { display: none !important; }
+  /* In the dialog's scroll the slider's hover card opens downward, where it isn't clipped. */
+  .bcn-prvd :global(.bcn-rvs__tip) { bottom: auto; top: calc(100% + 8px); }
   .bcn-prvd__body { display: flex; flex-direction: column; gap: var(--spacing-400); }
 
   /* TalentBridge's controls panel: a sunken box around the slider and its options. */
@@ -128,7 +130,7 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
   .bcn-prvd__author-name { display: flex; align-items: center; gap: var(--spacing-200); }
   .bcn-prvd__when,
   .bcn-prvd__msg { color: var(--color-content-default-secondary); }
-  .bcn-prvd__msg { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-prvd__msg { display: flex; min-inline-size: 0; margin-block-start: var(--spacing-100); }
 
   .bcn-prvd__rows :global(.bcn-prvd__row + .bcn-prvd__row) { border-block-start: 1px solid var(--color-border-default-subtle); }
   .bcn-prvd__rows :global(.bcn-prvd__cell) {
@@ -151,7 +153,8 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
   .bcn-prvd__rows :global(del) { color: var(--color-content-utility-danger); background: var(--color-background-utility-danger-muted); text-decoration: line-through; }
   .bcn-prvd__rows :global(ins) { color: var(--color-content-utility-success); background: var(--color-background-utility-success-muted); text-decoration: none; }
   .bcn-prvd__rows :global(.bcn-prvd__shift) { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .bcn-prvd__rows :global(.bcn-prvd__shift[data-followed]) { font-weight: 400; color: var(--color-content-default-secondary); }
+  .bcn-prvd__rows :global(.bcn-prvd__shift) { display: flex; flex-direction: column; align-items: flex-end; }
+  .bcn-prvd__rows :global(.bcn-prvd__followed) { font-weight: 400; color: var(--color-content-default-secondary); }
   .bcn-prvd__rows :global(.bcn-prvd__none) { margin: 0; padding: var(--spacing-400); color: var(--color-content-default-secondary); }
 
   .bcn-prvd__chart { display: flex; flex-direction: column; gap: var(--spacing-200); }
