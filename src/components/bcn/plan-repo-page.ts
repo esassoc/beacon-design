@@ -383,11 +383,24 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
   applyViews();
   viewToggle?.addEventListener('change', (e) => setView(((e as CustomEvent<{ value: string }>).detail?.value ?? viewToggle.value) === 'budget' ? 'budget' : 'schedule'));
+  /** Beside the view's title (2026-10-28, Andy, in place of the H1's badge): which plan you're in, by the plan menu's
+   *  dot and name, then, small and italic, why it won't edit. */
+  function drawState(): void {
+    q<HTMLElement>('[data-prp-state] .bcn-prp__state-dot').dataset.dot = mode === 'live' ? 'live' : mode === 'own' ? 'mine' : 'other';
+    q<HTMLElement>('[data-prp-state-label]').textContent = mode === 'live' ? 'Live Plan' : draft?.name ?? '';
+    q<HTMLElement>('[data-prp-state-note]').textContent =
+      mode === 'live'
+        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change ${view === 'budget' ? 'the budget' : 'it'}.`
+        : mode === 'view'
+          ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
+          : '';
+  }
   function showView(): void {
     root.dataset.view = view;
     root.querySelectorAll<HTMLElement>('[data-prp-pane]').forEach((pane) => (pane.hidden = pane.dataset.prpPane !== view));
     root.querySelectorAll<HTMLElement>('[data-prp-view-title]').forEach((t) => (t.hidden = t.dataset.prpViewTitle !== view));
     if (viewToggle && viewToggle.value !== view) viewToggle.value = view;
+    drawState();
   }
   function setView(next: View, focusID?: string): void {
     view = next;
@@ -409,13 +422,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   });
   function drawSheet(): void {
     if (view !== 'budget') return;
-    // The value bar's end: why the sheet won't take a figure, or, in your draft, how it reads one.
-    q<HTMLElement>('[data-pbs-note]').textContent =
-      mode === 'live'
-        ? `Live is read-only. ${canPublish ? 'Edit in a Draft' : 'Make a Scenario'} to change the budget.`
-        : mode === 'view'
-          ? `${firstName(draft!.owner)}'s draft is read-only.`
-          : 'Type a figure: 250k or 1.2m works.';
     sheet.set({
       plan: shown,
       budget: currentBudget(),
@@ -556,13 +562,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const crumb = document.querySelector('.breadcrumbs [aria-current="page"], .breadcrumbs span:last-child');
     if (crumb) crumb.textContent = name;
     document.title = draft ? `${draft.name} · ${name} | Beacon` : `${name} | Beacon`;
-    const badge = document.querySelector<HTMLElement>('[data-prp-title-badge]');
-    if (badge) {
-      // Beside the plan's name (2026-10-28): Live Plan, or the draft's own name.
-      badge.dataset.state = mode === 'live' ? 'live' : 'draft';
-      const t = badge.querySelector('.esa-badge__text');
-      if (t) t.textContent = mode === 'live' ? 'Live Plan' : draft!.name;
-    }
+    drawState();
 
     drawBar();
     drawStatus();

@@ -20,13 +20,18 @@
 ---
 
 <div class="bcn-pbs" data-bcn-plan-budget-sheet>
-  <!-- A spreadsheet's name box and value bar: where the cursor is, and what the cell holds. Its end says why the sheet
-       won't take a figure, or how it reads one. -->
+  <!-- A spreadsheet's name box and value bar: where the cursor is, and what the cell holds; at its end, the key. -->
   <div class="bcn-pbs__bar typography-body-sm" aria-live="polite">
     <span class="bcn-pbs__ref" data-pbs-ref data-empty>Select a Cell</span>
     <span class="bcn-pbs__fx" aria-hidden="true">fx</span>
     <span class="bcn-pbs__value" data-pbs-value></span>
-    <span class="bcn-pbs__note" data-pbs-note></span>
+    <!-- What the cells mean (2026-10-28, Andy: "so unclear which cells are editable vs rollups"). Editable shows in your
+         draft only. -->
+    <span class="bcn-pbs__legend" aria-label="Key">
+      <span data-legend="edit"><i></i>Editable</span>
+      <span data-legend="sum"><i></i>Sum</span>
+      <span data-legend="off"><i></i>Outside Its Dates</span>
+    </span>
   </div>
   <div class="bcn-pbs__grid" data-pbs-grid></div>
 </div>
@@ -37,6 +42,13 @@
     flex-direction: column;
     /* The cursor's column header and row name. */
     --_pbs-lit: color-mix(in srgb, var(--color-background-brand) 9%, var(--color-background-elevation-raised));
+    /* The three kinds of cell, one look each, the key drawn from the same values: a figure you can type into (an
+       input's white with a teal wash and edge), a sum (gray, computed), a year outside the task's dates (hatched). */
+    --_pbs-edit: var(--color-background-elevation-raised);
+    --_pbs-edit-edge: color-mix(in srgb, var(--color-background-brand) 40%, transparent);
+    --_pbs-sum: color-mix(in srgb, var(--color-content-default) 9%, var(--color-background-elevation-raised));
+    --_pbs-hatch: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--color-content-default) 14%, transparent) 4px 5px);
+    --_pbs-why: color-mix(in srgb, var(--color-background-utility-warning) 22%, transparent);
   }
   .bcn-pbs__grid { inline-size: 100%; }
 
@@ -63,7 +75,16 @@
     padding-inline-start: var(--spacing-200);
     border-inline-start: 1px solid var(--color-border-default);
   }
-  .bcn-pbs__note { color: var(--color-content-default-tertiary); }
+  .bcn-pbs__value :global(.bcn-pbs__why) { font-family: var(--typography-font-family-sans, inherit); color: var(--color-content-utility-warning); font-weight: 600; }
+  /* The key: a swatch per kind of cell, drawn as the cells are. */
+  .bcn-pbs__legend { gap: var(--spacing-300); color: var(--color-content-default-secondary); border-inline-start: 1px solid var(--color-border-default); }
+  .bcn-pbs__legend > span { display: inline-flex; align-items: center; gap: var(--spacing-100); white-space: nowrap; }
+  .bcn-pbs__legend i { display: inline-block; inline-size: 0.875rem; block-size: 0.875rem; border-radius: 2px; border: 1px solid var(--color-border-default); }
+  .bcn-pbs__legend [data-legend='edit'] i { background: var(--_pbs-edit); border-color: var(--_pbs-edit-edge); }
+  .bcn-pbs__legend [data-legend='sum'] i { background: var(--_pbs-sum); }
+  .bcn-pbs__legend [data-legend='off'] i { background-image: var(--_pbs-hatch); }
+  .bcn-pbs[data-editable='true'] .bcn-pbs__legend [data-legend='off'] i { background-color: var(--_pbs-sum); }
+  .bcn-pbs:not([data-editable='true']) [data-legend='edit'] { display: none; }
 
   /* The year header: its label over its months, right-aligned over the figures; the current year in brand. */
   .bcn-pbs__grid :global(.bcn-pbs__head) { display: flex; flex-direction: column; align-items: flex-end; inline-size: 100%; line-height: 1.2; }
@@ -84,17 +105,25 @@
   .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-1) { background-color: color-mix(in srgb, var(--color-content-default) 1.5%, var(--color-background-elevation-raised)); }
   .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
   .bcn-pbs__grid :global(.ag-row .bcn-pbs__name:hover) { text-decoration: underline; }
-  /* A year the element doesn't run in: hatched, so the schedule shows through the money without reading as a sum. */
-  .bcn-pbs__grid :global(.bcn-pbs__off) {
-    background-image: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in srgb, var(--color-content-default) 6%, transparent) 5px 6px);
-    color: var(--color-content-default-tertiary);
-  }
+  /* A year the task doesn't run in: hatched, and quieter. */
+  .bcn-pbs__grid :global(.bcn-pbs__off) { background-image: var(--_pbs-hatch); color: var(--color-content-default-tertiary); }
   /* Money in a year the element doesn't run in: worth a look. */
   .bcn-pbs__grid :global(.bcn-pbs__stray) { color: var(--color-content-utility-warning); font-weight: 600; }
   /* A cell the draft changed from Live: the draft's green, as its badge. */
-  .bcn-pbs__grid :global(.bcn-pbs__changed) { background-color: color-mix(in srgb, var(--bcn-mark-green) 14%, transparent); font-weight: 600; }
-  /* The spreadsheet's cell cursor over a figure you can type into. */
-  .bcn-pbs__grid :global(.bcn-pbs__editable) { cursor: cell; }
+  /* A sum: gray, computed, never typed into (parents, the Total column, the plan's row). */
+  .bcn-pbs__grid :global(.ag-cell.bcn-pbs__sum) { background-color: var(--_pbs-sum); }
+  /* In your draft, a figure you can type into reads as an input field: white, a teal edge on every one (stronger on
+     hover), the cell cursor. Everything else in the grid is gray or hatched, so the fields stand out. */
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__editable) { background-color: var(--_pbs-edit); box-shadow: inset 0 0 0 1px var(--_pbs-edit-edge); cursor: cell; }
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__editable:not(.ag-cell-focus):hover) { box-shadow: inset 0 0 0 2px var(--_pbs-edit-edge); }
+  /* A cell the draft changed from Live: the draft's green, as its badge, over whatever kind of cell it is. */
+  .bcn-pbs .bcn-pbs__grid :global(.ag-cell.bcn-pbs__changed),
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__changed) { background-color: color-mix(in srgb, var(--bcn-mark-green) 16%, var(--color-background-elevation-raised)); font-weight: 600; }
+  /* The cursor's ring wins over a field's edge. */
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.ag-cell-focus:not(.ag-cell-inline-editing)) { box-shadow: inset 0 0 0 2px var(--color-background-brand); }
+  /* In your draft the non-editable task years go gray under the hatch, so only the fields stay white. */
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__off:not(.bcn-pbs__editable)) { background-color: var(--_pbs-sum); }
+  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell:not(.bcn-pbs__editable):not([col-id='name'])) { cursor: default; }
   /* The total: its own column, and the plan's row along the foot. */
   .bcn-pbs__grid :global(.bcn-pbs__total) { background-color: color-mix(in srgb, var(--color-content-default) 2%, transparent); }
   .bcn-pbs__grid :global(.ag-floating-bottom) { border-block-start: 1px solid var(--color-border-default-strong, var(--color-border-default)); }

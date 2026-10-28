@@ -126,7 +126,22 @@ export function setupPlanBudgetSheet(
 
   const fyKey = (fy: number) => `fy${fy}` as const;
   const fyOfCol = (colId: string) => (colId.startsWith('fy') ? Number(colId.slice(2)) : null);
-  const canEdit = (row: SheetRow | undefined, colId: string) => editable && !!row && row.kind === 'task' && fyOfCol(colId) !== null;
+  /** A year inside a task's dates. */
+  const inDates = (row: SheetRow, fy: number) => row.startFy !== null && fy >= row.startFy && fy <= (row.endFy ?? row.startFy);
+  // What a draft can type into (2026-10-28, Andy: "make it clear what I can and can't edit"): a task's years inside
+  // its dates. Sums never; a year outside the dates only to clear money already sitting there.
+  const canEdit = (row: SheetRow | undefined, colId: string) => {
+    const fy = fyOfCol(colId);
+    return editable && !!row && row.kind === 'task' && fy !== null && (inDates(row, fy) || !!row[fyKey(fy)]);
+  };
+  const yearsOf = (row: SheetRow) => (row.startFy === null ? 'it has no dates' : row.endFy !== null && row.endFy !== row.startFy ? `${fiscalYearLabel(row.startFy)} to ${fiscalYearLabel(row.endFy)}` : fiscalYearLabel(row.startFy));
+  /** Why the cursor's cell won't take a figure, in a draft. */
+  function whyNot(row: SheetRow, colId: string): string {
+    const fy = fyOfCol(colId);
+    if (row.id === 'total' || colId === 'total' || row.kind === 'parent') return `A sum. Edit the tasks under it.`;
+    if (fy !== null && !inDates(row, fy)) return `Outside its dates (${yearsOf(row)}). Change its dates to budget this year.`;
+    return '';
+  }
 
   const nameColumn = (heading: string): ColDef<SheetRow> => ({
     headerName: heading,
@@ -170,12 +185,12 @@ export function setupPlanBudgetSheet(
       if (!row || p.node.isRowPinned()) return classes.join(' ');
       // The schedule shows through on the rows that carry money: a parent's own dates are its planned window, not
       // where its tasks' money falls.
-      const off = row.kind !== 'parent' && (row.startFy === null || fy < row.startFy || fy > (row.endFy ?? row.startFy));
+      const off = row.kind === 'task' && !inDates(row, fy);
       if (off) classes.push('bcn-pbs__off');
       if (off && row[fyKey(fy)]) classes.push('bcn-pbs__stray');
       if (row.changed.has(fy)) classes.push('bcn-pbs__changed');
       if (canEdit(row, fyKey(fy))) classes.push('bcn-pbs__editable');
-      if (row.kind === 'parent') classes.push('bcn-pbs__parent');
+      if (row.kind === 'parent') classes.push('bcn-pbs__parent', 'bcn-pbs__sum');
       return classes.join(' ');
     },
   });
@@ -187,7 +202,7 @@ export function setupPlanBudgetSheet(
     width: 144,
     type: 'numericColumn',
     valueFormatter: money,
-    cellClass: 'bcn-pbs__money bcn-pbs__parent bcn-pbs__total',
+    cellClass: 'bcn-pbs__money bcn-pbs__parent bcn-pbs__sum bcn-pbs__total',
   };
 
   const api: GridApi<SheetRow> = createGrid(host, {
@@ -271,7 +286,8 @@ export function setupPlanBudgetSheet(
       if (row.id === 'total') parts.push(small('Sum of the Plan'));
       else if (row.kind === 'parent' || at.colId === 'total') parts.push(small(row.kind === 'parent' ? `Sum of ${row.leaves} ${row.leaves === 1 ? 'Task' : 'Tasks'}` : 'Sum of Its Years'));
       if (fy !== null && row.changed.has(fy)) parts.push(small(`Live ${dollars.format(row.changed.get(fy)!)}`));
-      if (fy !== null && row.kind === 'task' && (row.startFy === null || fy < row.startFy || fy > (row.endFy ?? row.startFy))) parts.push(small('Outside Its Dates'));
+      if (fy !== null && row.kind === 'task' && !inDates(row, fy)) parts.push(small(`Outside its dates (${yearsOf(row)})`));
+      if (editable && !canEdit(row, at.colId)) parts.push(small('Read-Only'));
     }
     valueEl.replaceChildren(...parts);
 
@@ -304,6 +320,18 @@ export function setupPlanBudgetSheet(
     if (api.getEditingCells().length || e.metaKey || e.ctrlKey || e.altKey) return;
     const at = cursor();
     if (!at?.node?.data) return;
+    // In a draft, a try at a cell that won't take a figure says why, in the value bar, instead of doing nothing.
+    const attempt = e.key.length === 1 || e.key === 'Enter' || e.key === 'F2' || e.key === 'Delete' || e.key === 'Backspace';
+    if (editable && attempt && at.colId !== 'name' && !canEdit(at.node.data, at.colId)) {
+      const why = whyNot(at.node.data, at.colId);
+      if (why) {
+        e.preventDefault();
+        const note = Object.assign(document.createElement('span'), { className: 'bcn-pbs__why', textContent: why });
+        valueEl.replaceChildren(note);
+        root.querySelector('.bcn-pbs__bar')?.animate([{ backgroundColor: 'var(--_pbs-why)' }, { backgroundColor: 'transparent' }], { duration: 900, easing: 'ease-out' });
+      }
+      return;
+    }
     if ((e.key === 'Delete' || e.key === 'Backspace') && canEdit(at.node.data, at.colId) && !at.node.isRowPinned()) {
       e.preventDefault();
       if (at.node.data[at.colId as `fy${number}`]) commit([{ id: at.node.data.id, fy: fyOfCol(at.colId)!, value: 0 }]);
@@ -390,7 +418,8 @@ export function setupPlanBudgetSheet(
       }
       return row;
     });
-    return { rows, years: fys };
+    // Milestones carry no money: the sheet leaves them out (2026-10-28, Andy).
+    return { rows: rows.filter((r) => r.kind !== 'milestone'), years: fys };
   }
 
   return {

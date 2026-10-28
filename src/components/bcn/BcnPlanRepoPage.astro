@@ -108,6 +108,10 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
             <span data-prp-view-title="schedule"><EsaIcon name="calendar" size="sm" />Schedule</span>
             <span data-prp-view-title="budget" hidden><EsaIcon name="sheet" paths={PLAN_ICON_PATHS.sheet} size="sm" />Budget</span>
           </h2>
+          <!-- Which plan you're in, beside the view's title (2026-10-28, Andy, in place of the H1's badge): the plan
+               menu's dot (orange Live, green yours, gray someone else's) and its name; then why it won't edit. -->
+          <span class="bcn-prp__state typography-label-sm-strong" data-prp-state><span class="bcn-prp__state-dot" data-dot="live"></span><span data-prp-state-label>Live Plan</span></span>
+          <span class="bcn-prp__state-note" data-prp-state-note></span>
           <div class="bcn-prp__actions">
           <span class="bcn-prp__status-actions" data-prp-draft-actions hidden>
             <span data-prp-undo><esa-tooltip text="Undo (Ctrl+Z)" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="undo-2" label="Undo (Ctrl+Z)" data-fill-icon="undo-2" /></esa-tooltip></span>
@@ -217,30 +221,20 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__notice-actions { display: inline-flex; gap: var(--spacing-200); margin-inline-start: auto; }
   /* The H1's badge (2026-10-28, Andy): solid, white text, his orange on Live (below AA, his call) and the identity
      green in a draft. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
-  :global(:is([data-prp-title-badge], .bcn-plan-state-badge)) {
+  :global(.bcn-plan-state-badge) {
     --badge-bg: var(--bcn-live-badge);
     --badge-text-color: var(--color-content-default-knockout);
     --badge-border-color: transparent;
   }
-  :global(:is([data-prp-title-badge], .bcn-plan-state-badge)[data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
+  :global(.bcn-plan-state-badge[data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
   .bcn-prp :global([hidden]) { display: none !important; }
   .bcn-prp :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
   .bcn-prp :global([data-glyph] svg) { display: block; }
 
-  /* ── The head: one row, chromeless (2026-10-28) ── */
+  /* ── The head: one row, chromeless in every mode (2026-10-28, Andy: no band, no padding when a draft opens) ── */
   /* Which plan and version this is, and what last happened to it, straight on the page. The scope card under it holds
-     what the chart shows. In a draft the row is the band: a sunken neutral strip, the cards' width. */
-  .bcn-prp__head {
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-200);
-    transition: background-color 200ms ease, padding 200ms ease;
-  }
-  /* Your own draft only (2026-10-28, Andy): someone else's draft keeps the bare row. */
-  .bcn-prp__head:has(.bcn-prp__bar[data-band][data-band-of='own']) {
-    padding: var(--spacing-200) var(--spacing-300);
-    background: var(--bcn-prp-band-surface, var(--color-background-elevation-sunken));
-  }
+     what the chart shows. Which plan you're in reads beside the view's title, below. */
+  .bcn-prp__head { display: flex; flex-direction: column; }
   .bcn-prp__scope {
     display: flex;
     flex-direction: column;
@@ -375,6 +369,12 @@ const detailIndex = Object.fromEntries(flattenForest(PROGRAMS).map(({ node }) =>
   .bcn-prp__views-title span { display: inline-flex; align-items: center; gap: var(--spacing-200); }
   .bcn-prp__views-title :global(.esa-icon) { color: var(--color-content-default-secondary); }
   .bcn-prp__actions { display: flex; align-items: center; gap: var(--spacing-200); margin-inline-start: auto; }
+  .bcn-prp__state { display: inline-flex; align-items: center; gap: var(--spacing-150); white-space: nowrap; padding-inline-start: var(--spacing-100); }
+  .bcn-prp__state-dot { inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; background: var(--color-content-default-tertiary); flex: none; }
+  .bcn-prp__state-dot[data-dot='live'] { background: var(--bcn-live-badge); }
+  .bcn-prp__state-dot[data-dot='mine'] { background: var(--bcn-mark-green); }
+  .bcn-prp__state-note { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-100); font-style: italic; color: var(--color-content-default-secondary); }
+  .bcn-prp__state-note:empty { display: none; }
   /* On the sunken header an outlined ghost washes out: Review and Publish, Back and Copy keep a raised face. */
   .bcn-prp__actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) { background: var(--color-background-elevation-raised); }
   .bcn-prp__actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native:hover:not(:disabled)) { background: color-mix(in srgb, var(--color-content-default) 6%, var(--color-background-elevation-raised)); }

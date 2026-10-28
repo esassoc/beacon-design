@@ -3,7 +3,6 @@
 // anyone else's read-only). Dragging a bar on Live checks out your draft. Review and publish opens the revisions page.
 import AppShell from '../../../../layouts/AppShell.astro';
 import PageLayout from '../../../../layouts/PageLayout.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnPlanRepoPage from '../../../../components/bcn/BcnPlanRepoPage.astro';
 import BcnPlanElementDrawer from '../../../../components/bcn/BcnPlanElementDrawer.astro';
 import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
@@ -27,10 +26,8 @@ import { withBase } from '../../../../lib/base';
     iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
     breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Plan' }]}
   >
-    <!-- Which plan this is, beside its name (2026-10-28): Live Plan in orange, a draft's name in green. -->
     <!-- The plan's views (2026-10-28, Andy: "in the page header aligned right of the h1"). -->
     <esa-button-toggle slot="utilities" size="md" label="" aria-label="View" data-prp-view-toggle></esa-button-toggle>
-    <span slot="title-badge" data-prp-title-badge data-state="live"><EsaBadge value="Live Plan" variant="neutral" size="sm" /></span>
     <BcnPlanRepoPage />
     <BcnPlanPeople />
     <BcnPlanElementDrawer />
