@@ -9,7 +9,7 @@ import { budgetAt, seesBudget, latestVersion, flattenPlan, attributesAt, orgOf, 
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
-import { CUSTOMIZE_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
+import { CUSTOMIZE_HREF, ELEMENT_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 
 type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
 type FieldEl = HTMLElement & { value: string };
@@ -22,11 +22,14 @@ const FILTERS = [
 ];
 
 /** Late tasks and milestones on Live (2026-10-29, the traps audit: a PM checking every plan had to open each one). */
-function lateCount(repo: PlanSummary['repo']): number {
+/** The plan's late items (leaves), in outline order: their ids and names. */
+function lateItems(repo: PlanSummary['repo']): { id: string; name: string }[] {
   const plan = latestVersion(repo).plan;
   const rec = recordsFor(repo.planID);
   const attrs = attributesAt(repo);
-  return flattenPlan(plan.Elements).filter(({ element }) => !element.Children?.length && healthOf(rec, plan, element.PlanElementID ?? '', (x) => !!attrs[x]?.deliverable).health === 'Late').length;
+  return flattenPlan(plan.Elements)
+    .filter(({ element }) => !element.Children?.length && healthOf(rec, plan, element.PlanElementID ?? '', (x) => !!attrs[x]?.deliverable).health === 'Late')
+    .map(({ element }) => ({ id: element.PlanElementID ?? '', name: element.PlanElementName ?? '' }));
 }
 
 /** What a plan waits on you for (2026-10-29, the traps audit: Ask to Publish had no loop): drafts asked to publish,
@@ -138,7 +141,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
   const visible = (all: PlanSummary[]) => all.filter((s) => roleOn(s) && roleOn(s) !== 'Guest');
   const everything = await listPlanSummaries();
   let summaries = visible(everything);
-  let lateBy = new Map(summaries.map((s) => [s.repo.planID, lateCount(s.repo)]));
+  let lateBy = new Map(summaries.map((s) => [s.repo.planID, lateItems(s.repo)]));
   // New Plan and Start Sample Over are the project's staff's (ESA and DWR), or anyone already working on a plan.
   const staff = ['ESA', 'DWR'].includes(orgOf(me)) || summaries.length > 0;
   if (!staff) document.querySelectorAll<HTMLElement>('[data-pri-new], [data-pri-reset]').forEach((b) => (b.hidden = true));
@@ -159,7 +162,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     const shown = summaries.filter((s) => {
       if (text && !`${s.name} ${s.description}`.toLowerCase().includes(text)) return false;
       if (mode === 'drafts' && !s.repo.drafts.length) return false;
-      if (mode === 'late' && !lateBy.get(s.repo.planID)) return false;
+      if (mode === 'late' && !lateBy.get(s.repo.planID)?.length) return false;
       if (mode === 'you') {
         const w = waitingOn(s.repo, me);
         if (!w.asked.length && !w.back.length && !w.receipts.length) return false;
@@ -192,8 +195,11 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
 
     // Facts: what it tracks, its span and items, its budget, its revisions, its people.
     const tracks = viewsOf(s.repo);
+    const myRole = membersOf(s.repo).find((m) => m.name === currentUserName())?.role;
+    // The chips name the tabs this person gets (2026-10-29): Budget only where Who Sees It shows them money, as the
+    // plan page's tabs do, so a Contributor isn't promised a Budget tab that isn't there.
     r<HTMLElement>('[data-pri-tracks]').replaceChildren(
-      ...tracks.map((t) => {
+      ...tracks.filter((t) => t !== 'budget' || seesBudget(s.repo, myRole)).map((t) => {
         const chip = el('span', '', 'bcn-pri__track');
         const glyph = document.createElement('span');
         glyph.dataset.glyph = TRACKS[t].glyph;
@@ -205,7 +211,6 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     r<HTMLElement>('[data-pri-items]').textContent = count(s.elementCount, 'Item', 'Items');
     const budget = budgetAt(s.repo);
     const total = Object.values(budget).reduce((sum, row) => sum + Object.values(row).reduce((a, b) => a + b, 0), 0);
-    const myRole = membersOf(s.repo).find((m) => m.name === currentUserName())?.role;
     if (tracks.includes('budget') && total && seesBudget(s.repo, myRole)) {
       const b = r<HTMLElement>('[data-pri-budget]');
       b.hidden = false;
@@ -218,12 +223,15 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       drafts.href = href;
       r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.length, 'Draft', 'Drafts');
     }
-    const late = lateBy.get(s.repo.planID) ?? 0;
-    if (late) {
+    const late = lateBy.get(s.repo.planID) ?? [];
+    if (late.length) {
       const link = r<HTMLAnchorElement>('[data-pri-late]');
       link.hidden = false;
-      link.href = PLAN_HREF(s.repo.planID, '&health=Late');
-      r<HTMLElement>('[data-pri-late-text]').textContent = `${late} Late`;
+      // The Schedule's Health filter finds them; a plan that tracks only money has no Schedule (2026-10-29: the link
+      // opened the budget sheet, which marks nothing late), so there it opens the first late item and names them all.
+      link.href = tracks.includes('schedule') ? PLAN_HREF(s.repo.planID, '&health=Late') : ELEMENT_HREF(s.repo.planID, late[0].id);
+      link.title = `Late: ${late.map((x) => x.name).join(', ')}`;
+      r<HTMLElement>('[data-pri-late-text]').textContent = `${late.length} Late`;
     }
     const wait = waitingOn(s.repo, me);
     const first = wait.asked[0] ?? wait.back[0];
@@ -247,7 +255,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
 
   async function reload(): Promise<void> {
     summaries = visible(await listPlanSummaries());
-    lateBy = new Map(summaries.map((s) => [s.repo.planID, lateCount(s.repo)]));
+    lateBy = new Map(summaries.map((s) => [s.repo.planID, lateItems(s.repo)]));
     draw();
   }
   /** A plan's settings, the modal (2026-10-28, Andy: "the basics of the plan config should be in a modal"). A level's
