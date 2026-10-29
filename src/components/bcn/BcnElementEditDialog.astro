@@ -21,6 +21,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   <esa-dialog class="bcn-eed__dialog" heading="Edit" size="lg" show-close-button data-eed-dialog>
     <form class="bcn-eed__form" novalidate data-eed-form>
       <p class="bcn-eed__lead" data-eed-lead></p>
+      <!-- From Live (2026-10-29, several drafts per person): which of your drafts it saves to, your current one picked,
+           or a new one. The footer's line says where. -->
+      <esa-select class="bcn-eed__target" data-eed-target label="Saves To" size="sm" hidden></esa-select>
 
       <section class="bcn-eed__section" aria-labelledby="eed-item">
         <h3 class="bcn-eed__heading" id="eed-item"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" />Item</h3>
@@ -88,6 +91,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     flex-direction: column;
     gap: var(--spacing-300);
   }
+  .bcn-eed__target {
+    max-inline-size: 28rem;
+  }
+  .bcn-eed__target[hidden],
   .bcn-eed__section[hidden],
   .bcn-eed__dates[hidden],
   .bcn-eed__help[hidden] {

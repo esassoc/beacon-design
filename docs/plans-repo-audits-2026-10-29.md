@@ -79,7 +79,8 @@ An evaluator walked Sam (Contributor), Priya (Editor), Rowan (agency), Andy (new
 work), and keyboard and 1024px passes. What became of its twelve (`traps2.mjs` checks most):
 
 1. Review published more than it showed (From on a later edit): Done, Publish starts from Live only.
-   **Andy's call:** one draft per person per plan, so a what-if and real edits can't be kept apart.
+   ~~**Andy's call:** one draft per person per plan, so a what-if and real edits can't be kept apart.~~ Done
+   (2026-10-29, Andy: "allow more than one draft"): several named drafts per person; see the resume doc (`drafts.mjs`).
 2. A publish interrupted by leaving the page left Live half-built: Done, all or nothing (stores kept and put back on
    failure or on the next load); leaving mid-publish asks first.
 3. Blocked status hidden by an old health override: Done, Blocked or Completed clears it.

@@ -202,7 +202,7 @@ interface RepoStore {
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
  *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
-const SEED_FORMAT = 13;
+const SEED_FORMAT = 14;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -688,6 +688,50 @@ const FISH_DRAFTS: { name: string; owner: string; startedDaysAgo: number; askedD
   },
 ];
 
+type DraftSeed = (typeof FISH_DRAFTS)[number];
+
+/** One seeded draft: its edits replayed on Live, one revision each. */
+async function seedDraft(planID: string, baseVersion: number, live: PlanDetailDto, seed: DraftSeed): Promise<PlanRepoDraft> {
+  const draft: PlanRepoDraft = {
+    id: uid(),
+    planID,
+    name: seed.name,
+    owner: seed.owner,
+    createdAt: daysAgo(seed.startedDaysAgo, 9),
+    baseVersion,
+    revisions: [],
+    ...(seed.askedDaysAgo ? { publishRequestedAt: daysAgo(seed.askedDaysAgo, 16) } : {}),
+  };
+  let overrides: PlanDraftOverrideDto[] = [];
+  let shown = live;
+  for (const step of seed.edits) {
+    const edit = seedEdit(shown, step);
+    if (!edit) continue;
+    const before = shown;
+    overrides = planDraftWithEdits(overrides, [edit], live, true);
+    shown = (await planApi.previewDraft(planID, overrides)).Plan;
+    const changes = planCompare(before, shown);
+    const own = changes.filter((c) => c.id === edit.PlanElementID);
+    draft.revisions.push({ id: uid(), author: seed.owner, at: daysAgo(step.daysAgo, 14), ...noted(revisionNote(own, changes.length - own.length)), overrides: clone(overrides) });
+  }
+  return draft;
+}
+
+/** Alex's second draft on the fisheries plan (2026-10-29, several drafts per person): the week's real edits, kept
+ *  apart from his what-if. Seeded last, so every id seeded before it (links pasted anywhere) stays as it was. */
+const FISH_SECOND_DRAFT: DraftSeed = {
+  name: 'Weekly updates',
+  owner: 'Alex Rivera',
+  startedDaysAgo: 1,
+  edits: [{ daysAgo: 0.6, name: 'Predation study plan & permitting', days: 14, endOnly: true }],
+};
+async function seedSecondDrafts(store: RepoStore): Promise<void> {
+  const repo = store.repos.find((r) => latestVersion(r).plan.PlanName === 'Fisheries Evaluation Studies');
+  if (!repo) return;
+  const latest = latestVersion(repo);
+  repo.drafts.push(await seedDraft(repo.planID, latest.number, latest.plan, FISH_SECOND_DRAFT));
+}
+
 /** The edit a seed step makes, read against the plan as it stands. */
 function seedEdit(plan: PlanDetailDto, step: { name: string; days: number; endOnly?: boolean }): PlanDraftEdit | null {
   const element = elementByName(plan, step.name);
@@ -780,31 +824,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
     });
     live = next;
   }
-  for (const seed of FISH_DRAFTS) {
-    const draft: PlanRepoDraft = {
-      id: uid(),
-      planID,
-      name: seed.name,
-      owner: seed.owner,
-      createdAt: daysAgo(seed.startedDaysAgo, 9),
-      baseVersion: repo.versions.length,
-      revisions: [],
-      ...(seed.askedDaysAgo ? { publishRequestedAt: daysAgo(seed.askedDaysAgo, 16) } : {}),
-    };
-    let overrides: PlanDraftOverrideDto[] = [];
-    let shown = live;
-    for (const step of seed.edits) {
-      const edit = seedEdit(shown, step);
-      if (!edit) continue;
-      const before = shown;
-      overrides = planDraftWithEdits(overrides, [edit], live, true);
-      shown = (await planApi.previewDraft(planID, overrides)).Plan;
-      const changes = planCompare(before, shown);
-      const own = changes.filter((c) => c.id === edit.PlanElementID);
-      draft.revisions.push({ id: uid(), author: seed.owner, at: daysAgo(step.daysAgo, 14), ...noted(revisionNote(own, changes.length - own.length)), overrides: clone(overrides) });
-    }
-    repo.drafts.push(draft);
-  }
+  for (const seed of FISH_DRAFTS) repo.drafts.push(await seedDraft(planID, repo.versions.length, live, seed));
   store.repos.push(repo);
   seedPlanRecords(planID, live);
 }
@@ -878,6 +898,7 @@ async function seedOnce(onProgress?: (text: string) => void): Promise<void> {
       await seedFisheries(store);
       await seedVariant(store, 'habitat', 'Priya Natarajan', 40, null);
       await seedVariant(store, 'geotech', 'Sam Okafor', 18, { name: 'Reach 3 access change', item: 'Drilling contractor procurement', days: 35 });
+      await seedSecondDrafts(store);
     });
   } finally {
     setPlanApiLatency(220);
@@ -1123,10 +1144,74 @@ export async function draftState(draft: PlanRepoDraft, index: number = draft.rev
 
 // ── Writes ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-/** The viewer's draft of this plan, if they have one. One per person per plan (the 2026-10-26 check-in: "you get one branch at a time"). */
-export function myDraft(planID: string): PlanRepoDraft | null {
+// ── Several drafts per person (2026-10-29, Andy: "Let's go with allow more than one draft") ──
+// A person may keep any number of drafts on a plan, each named ("Draft", "Draft 2", or what they call it), so a what-if
+// stays apart from the week's real edits. An edit begun on Live lands in their current draft: the one they were in last
+// on this plan (remembered per person per plan, in this browser), or a new one when they have none.
+
+const CURRENT_KEY = 'bcn-plan-current-draft';
+const currentKey = (planID: string, user: string) => `${user}|${planID}`;
+function readCurrent(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(CURRENT_KEY) ?? '{}') as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+/** The viewer's drafts of this plan, oldest first; short-lived review drafts are not theirs to list. */
+export function myDrafts(planID: string, owner: string = currentUserName()): PlanRepoDraft[] {
+  return getRepo(planID).drafts.filter((d) => d.owner === owner && !d.transient);
+}
+
+/** When a draft was last touched: its last edit, or when it started. */
+export const draftTouchedAt = (d: PlanRepoDraft) => d.revisions.at(-1)?.at ?? d.createdAt;
+
+/** The draft an edit begun on Live goes to: the one the viewer was in last on this plan, or else the one they touched
+ *  last. Null when they have none. */
+export function currentDraft(planID: string): PlanRepoDraft | null {
   const me = currentUserName();
-  return getRepo(planID).drafts.find((d) => d.owner === me && !d.transient) ?? null;
+  const mine = myDrafts(planID, me);
+  if (!mine.length) return null;
+  const id = readCurrent()[currentKey(planID, me)];
+  return mine.find((d) => d.id === id) ?? [...mine].sort((a, b) => draftTouchedAt(b).localeCompare(draftTouchedAt(a)))[0];
+}
+
+/** Remembers which of the viewer's drafts they're in (opening one of theirs, starting one, saving into one). */
+export function setCurrentDraft(planID: string, draftID: string): void {
+  try {
+    const all = readCurrent();
+    all[currentKey(planID, currentUserName())] = draftID;
+    localStorage.setItem(CURRENT_KEY, JSON.stringify(all));
+  } catch {
+    /* a blocked store falls back to the draft touched last */
+  }
+}
+
+/** Kept for older callers: the viewer's current draft (see currentDraft). */
+export const myDraft = currentDraft;
+
+/** A new draft's default name: "Draft", then "Draft 2", "Draft 3", the first one the person isn't using on this plan. */
+export function nextDraftName(planID: string, owner: string = currentUserName()): string {
+  const taken = new Set(myDrafts(planID, owner).map((d) => d.name.trim().toLowerCase()));
+  for (let n = 1; ; n++) {
+    const name = n === 1 ? 'Draft' : `Draft ${n}`;
+    if (!taken.has(name.toLowerCase())) return name;
+  }
+}
+
+/** Where an edit begun on Live goes: the viewer's current draft, or a new one (which becomes current). */
+export function draftForEdit(planID: string): PlanRepoDraft {
+  return currentDraft(planID) ?? startDraft(planID);
+}
+
+/** One of the viewer's drafts by id, or a new one for any other choice ("new"), named `name` or the next default. It
+ *  becomes their current draft. */
+export function chosenDraft(planID: string, choice: string, name?: string): PlanRepoDraft {
+  const mine = myDrafts(planID).find((d) => d.id === choice);
+  const draft = mine ?? startDraft(planID, undefined, 'Draft', name);
+  setCurrentDraft(planID, draft.id);
+  return draft;
 }
 
 /** Every item a draft changes: its dates (by hand or moved by another edit), fields, budget, attributes, or a link to
@@ -1202,21 +1287,21 @@ export function startEditDraft(planID: string, itemName: string): PlanRepoDraft 
 }
 
 /**
- * The viewer's draft, started from the latest version if they have none. One per person per plan: asking again
- * returns the one they have. `from` copies another person's draft into it (theirs is untouched).
+ * A new draft of the viewer's, started from the latest version (several per person, 2026-10-29): named `name`, or the
+ * next default ("Draft", "Draft 2"). `from` copies another draft into it (that one is untouched), named "Copy of ...".
+ * It becomes the viewer's current draft. `kind` is kept for older callers (Scenario is retired in the UI).
  */
-/** `kind` names a new one: "Andy's Draft" (Scenario is kept for older callers; the word is retired in the UI). */
-export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' | 'Scenario' = 'Draft'): PlanRepoDraft {
+export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' | 'Scenario' = 'Draft', name?: string): PlanRepoDraft {
+  void kind;
+  const me = currentUserName();
+  const fallback = from ? `Copy of ${from.name}` : nextDraftName(planID, me);
   const store = load();
   const repo = findRepo(store, planID);
-  const me = currentUserName();
-  const existing = repo.drafts.find((d) => d.owner === me && !d.transient);
-  if (existing && !from) return existing;
   const stamp = new Date();
   const draft: PlanRepoDraft = {
-    id: existing?.id ?? uid(),
+    id: uid(),
     planID,
-    name: from ? `Copy of ${from.name}` : `${me.split(' ')[0]}'s ${kind}`,
+    name: name?.trim() || fallback,
     owner: me,
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
@@ -1224,8 +1309,9 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
       ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget), attributes: clone(from.revisions.at(-1)?.attributes), links: clone(from.revisions.at(-1)?.links), structure: clone(from.revisions.at(-1)?.structure) }]
       : [],
   };
-  repo.drafts = [...repo.drafts.filter((d) => d.owner !== me || d.transient), draft];
+  repo.drafts = [...repo.drafts, draft];
   save(store);
+  setCurrentDraft(planID, draft.id);
   return draft;
 }
 

@@ -19,7 +19,8 @@ import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, withItemsCarried, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
-import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW } from '../../lib/planning/plan-copy';
+import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW, alsoChange, goesInto, quoted, savedTo } from '../../lib/planning/plan-copy';
+import { NEW_DRAFT, draftChoiceLabel, openDraftChooser } from './draft-chooser';
 import { findPlanElement, planLevelBounds, validPlanLevels } from '../../lib/planning/plan-element';
 import {
   planElementDeleteConfirmHeader,
@@ -51,7 +52,13 @@ import {
   getRepo,
   latestVersion,
   listPlanSummaries,
-  myDraft,
+  currentDraft,
+  myDrafts,
+  setCurrentDraft,
+  nextDraftName,
+  chosenDraft,
+  draftForEdit,
+  renameDraft,
   noticesFor,
   planCompare,
   planSpan,
@@ -165,7 +172,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const paper = concept === 'drafting' || concept === 'pencil-paper';
   const editStyle = study.edit ?? (concept ? 'band' : 'quiet');
 
-  // A door into your draft from elsewhere (the branch menu on another page): opened here, the URL put right.
+  // A door into a new draft from elsewhere (the branch menu's Start a New Draft, opened in a new tab): started here, the
+  // URL put right.
   if (params.get('start')) {
     params.set('draft', startDraft(planID, undefined, kind).id);
     history.replaceState(null, '', keep(PLAN_HREF(planID, `&draft=${params.get('draft')}`)));
@@ -192,6 +200,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     queueMicrotask(() => pushAlert('That draft is closed: it was published or discarded. This is the Live plan.', 'info', 7000));
   }
   let mode: Mode = !draft ? 'live' : draft.owner === me ? 'own' : 'view';
+  // One of yours, opened: the draft an edit begun on Live goes to from now on (several drafts, 2026-10-29).
+  if (mode === 'own' && draft) setCurrentDraft(planID, draft.id);
   let shown: PlanDetailDto = draft ? (await draftState(draft)).Plan : live;
   const redo: PlanRevision[] = [];
   let busy = false;
@@ -212,7 +222,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function tellFromLive(): void {
     if (!toldFromLive) return;
     toldFromLive = false;
-    if (mode === 'own') pushAlert(canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.', 'success', 7000);
+    if (mode === 'own' && draft) pushAlert(savedTo(draft.name, canPublish), 'success', 7000);
   }
   /** The drafting concept's delta tags: the edit that last moved each row. */
   let editOf: ReadonlyMap<string, number> = new Map();
@@ -295,6 +305,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     busy = true;
     draft = target;
     mode = !draft ? 'live' : draft.owner === me ? 'own' : 'view';
+    if (mode === 'own' && draft) setCurrentDraft(planID!, draft.id);
     shown = draft ? (await draftState(draft)).Plan : live;
     redo.length = 0;
     if (how.push !== false) history.pushState(null, '', keep(PLAN_HREF(planID!, draft ? `&draft=${draft.id}` : '')));
@@ -325,9 +336,24 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     pop.open = false;
     const to = a.dataset.prpTo!;
     if (to === 'live') return void switchTo(null);
-    if (to === 'start') return void switchTo(startDraft(planID!, undefined, kind), { rise: true });
+    if (to === 'start') return void startNewDraft();
     void switchTo(getRepo(planID!).drafts.find((d) => d.id === to) ?? null);
   });
+  /** Start a New Draft (the branch menu, 2026-10-29): named first, then opened. Your other drafts stay as they are. */
+  async function startNewDraft(): Promise<void> {
+    const answer = await openDraftChooser({ kind: 'new', nextName: nextDraftName(planID!) });
+    if (!answer) return;
+    await switchTo(startDraft(planID!, undefined, kind, answer.name), { rise: true });
+  }
+  /** Edit in a Draft (2026-10-29, several drafts): none, one starts; one, it opens; several, a small chooser asks which
+   *  (or a new one), the one you were in last picked. */
+  async function editInDraft(): Promise<void> {
+    const mine = myDrafts(planID!);
+    if (mine.length <= 1) return switchTo(mine[0] ?? startDraft(planID!, undefined, kind), { rise: true });
+    const answer = await openDraftChooser({ kind: 'choose', drafts: mine, current: currentDraft(planID!)?.id ?? null, nextName: nextDraftName(planID!) });
+    if (!answer) return;
+    await switchTo(chosenDraft(planID!, answer.choice, answer.name), { rise: true });
+  }
 
   // ── Drops: Live checks out your draft; your draft takes a revision per drop ──
   async function drop(drag: GanttDragEvent): Promise<void> {
@@ -335,9 +361,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // Issued: Live is read-only; a draft starts only from its door, never from a drag.
     if (issued && mode === 'live') return draw();
     if (mode === 'live') {
-      const mine = myDraft(planID!);
+      const mine = currentDraft(planID!);
       if (mine && mine.revisions.length) {
-        // One draft per person: you already have one, so it opens and takes the move, on its own version of the item
+        // Your current draft (the one you were in last) opens and takes the move, on its own version of the item
         // (2026-10-29, the entry points audit: the drop used to open the draft and lose the move).
         await switchTo(mine);
         if ((mode as Mode) !== 'own') return;
@@ -345,6 +371,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         return applyEdits(planDraftEditsForDrag(shown, drag));
       }
       draft = mine ?? startDraft(planID!, undefined, kind);
+      setCurrentDraft(planID!, draft.id);
       mode = 'own';
       entering = true;
       toldFromLive = true;
@@ -423,16 +450,30 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     void applyEdits(change.dates ? withItemsCarried(shown, change.dates) : [], change.fields ? { fields: change.fields, note: change.note } : undefined);
   }
 
-  /** From Live (draft first, 2026-10-28): your draft opens, started if need be, and takes the edit. */
-  async function saveToMyDraft(edit: DrawerEdit, said?: string): Promise<void> {
+  /** From Live (draft first, 2026-10-28): the draft chosen in the drawer (your current one by default, 2026-10-29)
+   *  opens, started if need be, and takes the edit. */
+  async function saveToMyDraft(edit: DrawerEdit, choice: string = currentDraft(planID!)?.id ?? NEW_DRAFT): Promise<void> {
     if (!drawerChange(edit, live)) return;
     // The drawer has closed itself; the switch shouldn't ask it again.
     elementDrawer = null;
     await Promise.resolve();
-    const mine = myDraft(planID!) ?? startDraft(planID!, undefined, kind);
+    const mine = chosenDraft(planID!, choice);
     await switchTo(mine, { rise: !mine.revisions.length });
     saveFromDrawer(edit);
-    pushAlert(said ?? (canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.'), said ? 'warning' : 'success', 7000);
+    pushAlert(savedTo(mine.name, canPublish), 'success', 7000);
+  }
+
+  /** The drawer's and the link editor's Saves To on Live (2026-10-29): your drafts, the current one picked, or a new one. */
+  function draftTarget(): { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string } {
+    const mine = myDrafts(planID!);
+    const current = currentDraft(planID!);
+    const next = nextDraftName(planID!);
+    return {
+      label: 'Saves To',
+      options: [...mine.map((d) => ({ label: draftChoiceLabel(d), value: d.id })), { label: `A New Draft (${next})`, value: NEW_DRAFT }],
+      value: current?.id ?? NEW_DRAFT,
+      describe: (value) => goesInto(mine.find((d) => d.id === value) ?? null, next),
+    };
   }
 
   /** Review and Publish from Live's drawer: the review on this edit, and whatever it moves with it. Nothing reaches
@@ -459,11 +500,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Add, Move Up, Move Down, Move To, Delete and new links are your draft's next edits, as a drag is; from Live your
   // draft opens first (started if you have none). A new item has a temporary id until the draft is published.
   const newID = () => `new-${Math.random().toString(36).slice(2, 10)}`;
-  /** Your draft, opened from Live if need be. False for someone else's draft. */
-  async function enterMyDraft(): Promise<boolean> {
+  /** Your draft, opened from Live if need be: the one chosen (a draft's id, or NEW_DRAFT), else your current one, else a
+   *  new one. False for someone else's draft. */
+  async function enterMyDraft(choice?: string): Promise<boolean> {
     if (mode === 'own' && draft) return true;
     if (mode === 'view') return false;
-    const mine = myDraft(planID!) ?? startDraft(planID!, undefined, kind);
+    const mine = choice ? chosenDraft(planID!, choice) : draftForEdit(planID!);
     await switchTo(mine, { rise: !mine.revisions.length });
     toldFromLive = mode === 'own';
     return mode === 'own' && !!draft;
@@ -626,7 +668,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     redo.length = 0;
     toldFromLive = false;
     await reload();
-    pushAlert(`Imported ${result.rows.length} ${result.rows.length === 1 ? 'item' : 'items'} into your draft. Review and Publish when it’s ready.`, 'success', 7000);
+    pushAlert(`Imported ${result.rows.length} ${result.rows.length === 1 ? 'item' : 'items'} into your draft ${quoted(draft.name)}. ${canPublish ? 'Review and Publish' : 'Ask to Publish'} when it’s ready.`, 'success', 7000);
   }
   q<HTMLElement>('[data-prp-import]').addEventListener('click', () => void importItems());
   q<HTMLElement>('[data-prp-empty-import]').addEventListener('click', () => void importItems());
@@ -635,13 +677,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   /** The drawer's Waits On in a draft (2026-10-28): each change is your draft's next edit; from Live, your draft opens
    *  and the drawer comes back on the same item there. */
-  function drawerLinks(id: string) {
+  function drawerLinks(id: string, choice: () => string | undefined = () => undefined) {
     const name = (x: string) => findPlanElement(shown.Elements, x)?.element.PlanElementName ?? '';
     const dep = (depID: string) => (shown.Dependencies ?? []).find((d) => d.PlanElementDependencyID === depID);
     const edit = async (change: (prior: PlanRevision | undefined) => { structure?: DraftStructureOp[]; links?: Record<string, number | null> }, note: PlanChangeNote) => {
       const fromLive = mode === 'live';
       if (fromLive) elementDrawer = null;
-      if (!(await enterMyDraft()) || !draft) return;
+      if (!(await enterMyDraft(fromLive ? choice() : undefined)) || !draft) return;
       const prior = draft.revisions.at(-1);
       addRevision(planID!, draft.id, prior?.overrides ?? [], note, change(prior));
       redo.length = 0;
@@ -674,23 +716,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // Your draft already changing the item: it opens there instead, on the draft's version.
     let liveNote: string | undefined;
     let offerPublish = false;
+    let target: ReturnType<typeof draftTarget> | undefined;
     if (mode === 'live') {
       const touching = await draftsTouching(planID!, id, live);
-      const mine = myDraft(planID!);
+      const mine = currentDraft(planID!);
       if (mine && touching.some((d) => d.id === mine.id)) {
         await switchTo(mine);
-        pushAlert('Your draft already changes this item, so it opens there.', 'info');
+        pushAlert(`Your draft ${quoted(mine.name)} already changes this item, so it opens there.`, 'info');
         return openElement(id);
       }
-      const others = touching.map((d) => firstName(d.owner));
-      offerPublish = canPublish && !others.length;
-      liveNote = !canPublish
-        ? DRAFT_FIRST_ASK
-        : others.length
-          ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so changes save to your draft.`
-          : DRAFT_FIRST_NOW;
+      offerPublish = canPublish && !touching.length;
+      liveNote = !canPublish ? DRAFT_FIRST_ASK : touching.length ? `${alsoChange(touching, me)} this item, so changes save to a draft.` : DRAFT_FIRST_NOW;
+      target = draftTarget();
     }
-    const note = mode === 'live' ? liveNote : mode === 'view' ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.` : undefined;
+    const note = mode === 'live' ? liveNote : mode === 'view' ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Drafts to change it.` : undefined;
     const handle = openPlanElementDrawer({
       target: { kind: 'edit', planElementID: id },
       onOpenElement: (other) => void openElement(other),
@@ -703,14 +742,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         editsFields: mode !== 'view',
         note,
         saveLabel: mode === 'live' ? 'Save to My Draft' : 'Save',
-        links: mode === 'view' ? undefined : drawerLinks(id),
+        links: mode === 'view' ? undefined : drawerLinks(id, () => target?.value),
         publishNow: offerPublish ? (edit) => publishFromDrawer(edit) : undefined,
         plan: () => shown,
         subscribe: (listener) => {
           drawerListeners.add(listener);
           return () => drawerListeners.delete(listener);
         },
-        save: (edit) => (mode === 'live' ? void saveToMyDraft(edit) : saveFromDrawer(edit)),
+        target,
+        save: (edit) => (mode === 'live' ? void saveToMyDraft(edit, target?.value) : saveFromDrawer(edit)),
         budget: () => budgetSummary(id),
         hideBudget: !seesBudget(repo, myRole, findPlanElement(shown.Elements, id)?.element.LevelDepth),
         onOpenBudget: () => {
@@ -815,7 +855,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       : mode === 'live'
         ? canPublish ? DRAFT_FIRST : DRAFT_FIRST_ASK
         : mode === 'view'
-          ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
+          ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Drafts to change it.`
           : '';
   }
   function showView(): void {
@@ -994,7 +1034,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     openDep = { id: dep.PlanElementDependencyID, from: nameOf(link.fromId), to: nameOf(link.toId), lag: dep.LagDays ?? 0 };
     q<HTMLElement>('[data-prp-link-from]').textContent = openDep.from;
     q<HTMLElement>('[data-prp-link-to]').textContent = openDep.to;
-    q<HTMLElement>('[data-prp-link-where]').textContent = mode === 'live' ? 'Saved to your draft, to review and publish with it.' : 'Saved as your draft’s next edit.';
+    const into = currentDraft(planID!);
+    q<HTMLElement>('[data-prp-link-where]').textContent =
+      mode === 'live' ? (into ? `Saved to your draft ${quoted(into.name)}, to review and publish with it.` : `Starts a new draft, ${quoted(nextDraftName(planID!))}, to review and publish.`) : 'Saved as your draft’s next edit.';
     q<HTMLElement>('[data-prp-link-save] .esa-button__label').textContent = mode === 'live' ? 'Save to My Draft' : 'Save';
     lagField.value = String(openDep.lag);
     const box = q<HTMLElement>('.bcn-prp__main').getBoundingClientRect();
@@ -1221,7 +1263,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
 
   function drawBar(): void {
     drawEditStyle();
-    q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live Plan' : mode === 'own' ? yours : `${firstName(draft!.owner)}'s Draft`;
+    // Yours by its name (2026-10-29: with several, "Your Draft" didn't say which).
+    q<HTMLElement>('[data-prp-branch-label]').textContent = mode === 'live' ? 'Live Plan' : mode === 'own' ? draft!.name : `${firstName(draft!.owner)}'s Draft`;
     q<HTMLElement>('[data-prp-draft-count]').textContent = String(openDrafts().length);
     q<HTMLElement>('[data-prp-version-count]').textContent = String(repo.versions.length);
     q<HTMLElement>('[data-prp-draft-noun]').textContent = openDrafts().length === 1 ? 'Draft' : 'Drafts';
@@ -1302,7 +1345,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const startRow = () => {
       const a = row('start', false, '', '');
       a.classList.add('bcn-prp__branch-row--start');
-      a.innerHTML = `${planIcon('plus', 16)}<span class="typography-label-md">Start a Draft</span>`;
+      a.innerHTML = `${planIcon('plus', 16)}<span class="typography-label-md">Start a New Draft</span>`;
       return a;
     };
     const head = (text: string, aside = '') => {
@@ -1310,16 +1353,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       if (aside) el.append(Object.assign(document.createElement('span'), { textContent: aside }));
       return el;
     };
-    const mine = openDrafts().find((d) => d.owner === me) ?? null;
+    // Several drafts per person (2026-10-29): Live, then each of yours, then Start a New Draft (always there), then
+    // everyone else's. With more than one of yours, the current one (where an edit begun on Live goes) says so.
+    const mine = openDrafts().filter((d) => d.owner === me);
+    const current = mine.length > 1 ? currentDraft(planID!)?.id : undefined;
     const others = openDrafts().filter((d) => d.owner !== me);
     const sub = (d: PlanRepoDraft) => {
       const behind = versionsBehind(repo, d);
-      return `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}${d.publishRequestedAt ? ', publish requested' : ''}`;
+      return `${d.revisions.length} ${d.revisions.length === 1 ? 'edit' : 'edits'}, ${timeAgo(d.revisions.at(-1)?.at ?? d.createdAt)}${behind > 0 ? `, ${behind} behind Live` : ''}${d.publishRequestedAt ? ', publish requested' : ''}${d.id === current ? ', edits from Live go here' : ''}`;
     };
     list.replaceChildren(
       row('live', mode === 'live', 'Live Plan', `Revision ${latest.number}, ${firstName(latest.author)}, ${timeAgo(latest.at)}`, 'live'),
-      head('Your Draft'),
-      mine ? row(mine.id, mode === 'own', mine.name, sub(mine), 'mine') : startRow(),
+      head(mine.length === 1 ? 'Your Draft' : 'Your Drafts'),
+      ...mine.map((d) => row(d.id, draft?.id === d.id, d.name, sub(d), 'mine')),
+      startRow(),
       ...(others.length ? [head("Other People's Drafts", 'Read-Only'), ...others.map((d) => row(d.id, draft?.id === d.id, d.name, `${firstName(d.owner)}, ${sub(d)}`, 'other'))] : [])
     );
   }
@@ -1572,9 +1619,16 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-tabs]').addEventListener('change', (e) => {
     const value = (e.currentTarget as HTMLElement & { value: string }).value;
     if (value === 'live' && mode !== 'live') void switchTo(null);
-    if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!, undefined, kind), { rise: true });
+    if (value === 'draft' && mode !== 'own') void switchTo(draftForEdit(planID!), { rise: true });
   });
-  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!, undefined, kind), { rise: true }));
+  q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void editInDraft());
+  q<HTMLElement>('[data-prp-rename]').addEventListener('click', async () => {
+    if (mode !== 'own' || !draft) return;
+    const answer = await openDraftChooser({ kind: 'rename', draft });
+    if (!answer || answer.name === draft.name) return;
+    renameDraft(planID!, draft.id, answer.name);
+    refresh();
+  });
   // Ask to Publish opens the review (2026-10-29, Andy: "more of a diff view" than a paragraph): each change side by side
   // and on the chart, the request and an optional note at its foot.
   q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
@@ -1583,7 +1637,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   });
   const onAsked = () => {
     const asked = membersOf(getRepo(planID!)).filter((m) => m.role === 'Owner' || m.role === 'Editor').map((m) => m.name.split(' ')[0]);
-    pushAlert(`Asked ${asked.length > 1 ? `${asked.slice(0, -1).join(', ')} or ${asked.at(-1)}` : (asked[0] ?? 'the Owners')} to publish your draft. A new edit withdraws the request.`, 'success', 7000);
+    pushAlert(`Asked ${asked.length > 1 ? `${asked.slice(0, -1).join(', ')} or ${asked.at(-1)}` : (asked[0] ?? 'the Owners')} to publish your draft${draft ? ` ${quoted(draft.name)}` : ''}. A new edit withdraws the request.`, 'success', 7000);
     refresh();
   };
   // Revisions in a modal (2026-10-28): the history from the Revisions link and About; a draft's review from Review and
@@ -1682,18 +1736,25 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       guard.addEventListener('resolved', (e) => resolve((e as CustomEvent<{ confirmed: boolean }>).detail.confirmed), { once: true });
       guard.open = true;
     });
+  // Copy to My Drafts (2026-10-29, several drafts): a new draft of yours, "Copy of …"; your other drafts are untouched,
+  // so nothing is replaced and nothing is asked.
   q<HTMLElement>('[data-prp-copy]').addEventListener('click', async () => {
-    const mine = myDraft(planID!);
-    const edits = mine?.revisions.length ?? 0;
-    if (edits && !(await ask(`Replace ${mine!.name}?`, `Your draft and its ${edits} ${edits === 1 ? 'edit' : 'edits'} are replaced by a copy of ${firstName(draft!.owner)}'s. This can't be undone.`, 'Replace My Draft'))) return;
-    void switchTo(startDraft(planID!, draft!, kind), { rise: true });
+    if (!draft) return;
+    const copy = startDraft(planID!, draft, kind);
+    await switchTo(copy, { rise: true });
+    pushAlert(`Copied to your drafts as ${quoted(copy.name)}.`, 'success', 6000);
   });
+  // Discard one draft (2026-10-29: by name, since you may have several); your others stay.
   q<HTMLElement>('[data-prp-discard]').addEventListener('click', async () => {
     if (!draft) return;
     const edits = draft.revisions.length;
-    if (edits && !(await ask(`Discard ${draft.name}?`, `${edits === 1 ? 'Its 1 edit is' : `Its ${edits} edits are`} deleted. Live is not affected. This can't be undone.`, 'Discard Draft'))) return;
+    const rest = myDrafts(planID!).filter((d) => d.id !== draft!.id).length;
+    const kept = rest ? ` Your ${rest === 1 ? 'other draft stays' : `${rest} other drafts stay`}.` : '';
+    if (edits && !(await ask(`Discard ${quoted(draft.name)}?`, `${edits === 1 ? 'Its 1 edit is' : `Its ${edits} edits are`} deleted. Live is not affected.${kept} This can't be undone.`, 'Discard Draft'))) return;
+    const name = draft.name;
     discardDraft(planID!, draft.id);
-    void switchTo(null);
+    await switchTo(null);
+    pushAlert(`Discarded ${quoted(name)}.`, 'success', 5000);
   });
   q<HTMLElement>('[data-prp-undo]').addEventListener('click', () => void undo());
   q<HTMLElement>('[data-prp-redo]').addEventListener('click', () => void redoStep());

@@ -117,6 +117,9 @@ export interface PlanElementDrawerDraft {
   detail?: () => { href: string; label: string } | null;
   /** The footer's Save, named for where it goes ("Save to My Draft" from Live, 2026-10-28 draft first). */
   saveLabel?: string;
+  /** Which of the person's drafts Save goes to (2026-10-29, several drafts per person): a Saves To select over the
+   *  fields, `value` kept up to date as it changes; `describe` is the line under it ("Goes into “Weekly updates” ..."). */
+  target?: { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string };
   /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. The drawer
    *  stays open under the page's review of the edit (2026-10-29: every Publish Now shows the diff first) and closes
    *  when the promise says so: true published (or sent elsewhere), false Back to Edit, the form as it was left. */
@@ -1195,6 +1198,23 @@ export function openPlanElementDrawer(args: {
   const on = (el: EventTarget, type: string, handler: (e: Event) => void) => el.addEventListener(type, handler, { signal: ac.signal });
   // The Budget section's way to the sheet, where the fiscal years are edited.
   on(q('budget-open'), 'click', () => draft?.onOpenBudget?.());
+  // Saves To (2026-10-29): which of the person's drafts Save goes to; its line says where.
+  const targetField = q<OptionsEl>('target');
+  const drawTarget = () => {
+    const t = draft?.target;
+    targetField.hidden = !t || isCreate;
+    if (!t) return;
+    if (JSON.stringify(targetField.options) !== JSON.stringify(t.options)) targetField.options = t.options;
+    targetField.value = t.value;
+    targetField.helpText = t.describe(t.value);
+  };
+  on(targetField, 'change', (e) => {
+    const t = draft?.target;
+    if (!t) return;
+    t.value = detailValue(e, targetField) || t.value;
+    targetField.helpText = t.describe(t.value);
+  });
+  drawTarget();
   const detailValue = (e: Event, el: { value: unknown }) => String((e as CustomEvent<{ value: unknown }>).detail?.value ?? el.value ?? '');
   const touch = (control: AbstractControl) => () => {
     control.markAsTouched();

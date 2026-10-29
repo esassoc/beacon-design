@@ -9,7 +9,7 @@ import type { FieldDef } from '../../lib/planning/plan-config';
 import { attributesAt, ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
-import { DRAFT_FIRST_ASK } from '../../lib/planning/plan-copy';
+import { DRAFT_FIRST_ASK, quoted } from '../../lib/planning/plan-copy';
 import { DEFAULT_REMINDERS, reminderOwners, reminderState } from '../../lib/planning/plan-reminders';
 import { planAvatar } from './plan-people';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
@@ -150,7 +150,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     const planDd = row('Plan');
     const dot = el('span', 'bcn-det__dot');
     dot.dataset.dot = ctx.mode === 'own' ? 'mine' : ctx.mode === 'view' ? 'other' : 'live';
-    const link = el('a', '', ctx.mode === 'own' ? 'Your Draft' : ctx.draft ? ctx.draft.name : 'Live Plan');
+    const link = el('a', '', ctx.mode === 'own' && ctx.draft ? `Your Draft ${quoted(ctx.draft.name)}` : ctx.draft ? ctx.draft.name : 'Live Plan');
     link.href = PLAN_VIEW_HREF(ctx.planID, undefined, ctx.draft?.id);
     planDd.append(dot, link);
 

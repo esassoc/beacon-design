@@ -17,8 +17,9 @@ hatch, Title Case labels, semantic tokens only). Then read this file to the end 
   only `preview/draft-mode-concepts/` is ours). Refresh it when a chunk lands (recipe below).
 - **Dev server:** `npx astro dev --port 4321` (no base). It dies when the container restarts; restart it.
 - **Checks:** `scripts/plans-repo-checks/*.mjs` (Playwright against the dev server; see `lib.mjs`). Each prints
-  `PASS`/`FAIL` lines and a total. Last green on this commit: setup 26, editmodal 13, edraft 15, custom 21, sheet 19,
-  revbudget 5, pub 15, ids (deterministic links, not-found, Guest stop).
+  `PASS`/`FAIL` lines and a total. Last green (2026-10-29, several drafts): drafts 34, edraft 15, drawer 18, editmodal
+  28, entrypoints 42, outline 22, table 8, links 16, sheet 19, askloop 8, askdiff 6, pub 15, access 13, traps2 9,
+  windiff 4, drafthead and ids (no totals; screenshots and lines). Run a few at a time: they flake under load.
 - **Type check:** `npx tsc --noEmit -p .` and grep for the files you touched. Many unrelated files have old errors;
   only yours matter.
 
@@ -72,6 +73,43 @@ Personas: default user is Andy (Owner everywhere). `?user=Alex%20Rivera` (Editor
 8. The Last Update line in the plan header is right-aligned. (The review called that row a fact strip; Andy kept it.)
 9. One word for every role: Draft ("Scenario" retired). Buttons small, ghost or outline in headers.
 10. Copy: Title Case labels, sentence case descriptions; no em dashes or middots in UI copy; no colored left borders.
+11. **Several drafts per person** (2026-10-29: "Let's go with allow more than one draft"). See the next section.
+
+## Drafts: several per person (2026-10-29)
+
+A person may keep any number of drafts on a plan, each named, so a what-if stays apart from real edits.
+
+- **Model** (`plan-repo.ts`): `myDrafts(planID)` lists the viewer's (transient review drafts never count);
+  `currentDraft(planID)` is the one they were in last on this plan, remembered per person per plan in localStorage
+  (`bcn-plan-current-draft`, `setCurrentDraft`), else the one touched last; `startDraft(planID, from?, kind, name?)`
+  always makes a new one (default names "Draft", "Draft 2" from `nextDraftName`; a copy is "Copy of …") and makes it
+  current; `draftForEdit` is current-or-new; `chosenDraft(planID, idOr'new', name?)` resolves a Saves To choice.
+  `myDraft` is kept as an alias of `currentDraft`. Opening one of your drafts (plan page or item page) makes it current.
+- **Where an edit begun on Live goes:** your current draft, or a new one if you have none. Drag, table cell, budget
+  cell, import, outline ops, link edits and the drawer's Waits On all go through `enterMyDraft` / `draftForEdit`. The
+  drawer on Live and the item page's Edit form show a **Saves To** select (your drafts, the current one picked, or "A New
+  Draft (Draft 2)") with the line "Goes into “Weekly updates” (2 other edits)." The confirmation names it ("Saved to
+  your draft “Weekly updates”."), as do the link editor and Import. Sentences live in `plan-copy.ts` (`goesInto`,
+  `savedTo`, `alsoChange`, `quoted`).
+- **Your current draft already changes the item:** the drawer and Edit open there (named). Another of your drafts
+  changing it is said like anyone's ("Your other draft, “Permit delay scenario”, also changes this item") and takes
+  Review and Publish off the table, as before.
+- **Branch menu** (`drawBranches`): Live; Your Drafts (each with edits, age, behind Live, publish requested; with
+  several, the current one says "edits from Live go here"); **Start a New Draft** (always there, asks a name); Other
+  People's Drafts. The menu button shows your draft's name, not "Your Draft".
+- **Edit in a Draft:** none starts one; one opens it; several opens `BcnDraftChooser` (`draft-chooser.ts`: an
+  esa-dialog with an esa-radio-group of your drafts plus A New Draft with a name), the current one picked. The same
+  dialog names a new draft and does **Rename** (the draft header's Rename beside Discard).
+- **Per draft:** Discard confirms by name and says your other drafts stay; Copy to My Drafts makes a new draft (it no
+  longer replaces yours); Ask to Publish, Send Back, the review heading ("Review Your Draft “X”: Plan"), partial-publish
+  text and the publish notice all name the draft. Overlaps in review between two of your drafts read "Your other draft,
+  “X”, also changes …".
+- **Index:** the drafts chip reads "3 Drafts, 2 Yours" and opens your current one; Needs You counts each sent-back draft
+  ("2 of Your Drafts Sent Back").
+- **Seed:** Alex has "Permit delay scenario" and "Weekly updates" (one end-date edit to Predation study plan &
+  permitting, chosen because no check uses it). It is seeded last so every earlier seeded id is unchanged.
+- **Check:** `drafts.mjs` (34): menu, chooser, Start a New Draft, an edit in each draft staying in its own, the drawer's
+  Saves To from Live, publishing one while the others stay, Rename, Discard by name, the index counts.
 
 ## Gotchas that cost time
 

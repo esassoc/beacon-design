@@ -55,6 +55,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <form class="plan-element__fields" data-ped="form" novalidate>
         <!-- Draft mode: a read-only drawer says why it's read-only (Live, someone else's draft). -->
         <p class="plan-element__hint" data-ped="draft-note" hidden>In a draft you change dates and the date type. The name, level, dependencies and structure are edited on the live plan.</p>
+        <!-- On Live (2026-10-29, several drafts per person): which of your drafts Save goes to, your current one picked, or a
+             new one; the line under it says where. -->
+        <esa-select data-ped="target" label="Saves To" size="sm" hidden></esa-select>
         <!-- Sections with a heading and a glyph (2026-10-28, Andy): General, Schedule, Budget. -->
         <section class="plan-element__section" aria-labelledby="plan-element-drawer-general-heading">
           <h3 class="plan-element__heading" id="plan-element-drawer-general-heading"><EsaIcon name="file-text" size="sm" />General</h3>

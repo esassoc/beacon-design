@@ -47,9 +47,12 @@ check('Partial: draft kept with 2 edits', /2 edits/.test(mineRow), mineRow.repla
 await shot('3-menu-kept');
 await page.keyboard.press('Escape'); await page.mouse.click(900, 180); await wait(300);
 // the kept draft opens and its comparison is just the remaining edits
-await page.locator('a.bcn-prp__branch-row', { hasText: "Andy's Draft" }).click().catch(async () => { await page.click('[data-prp-branch-trigger] button'); await wait(300); await page.locator('a.bcn-prp__branch-row', { hasText: "Andy's Draft" }).click(); });
+// Several drafts per person (2026-10-29): a new draft's default name is "Draft"; the row is found by its green dot.
+const mineSel = 'a.bcn-prp__branch-row:has(.bcn-prp__branch-dot[data-dot="mine"])';
+await page.locator(mineSel).first().click().catch(async () => { await page.click('[data-prp-branch-trigger] button'); await wait(300); await page.locator(mineSel).first().click(); });
 await wait(1200);
-check('Kept draft: Your Draft', (await label()) === 'Your Draft', await label());
+// The branch menu names your draft by its name (2026-10-29: with several, "Your Draft" didn't say which).
+check('Kept draft: the menu names it', (await label()) === 'Draft', await label());
 check('Kept draft: not behind Live', !(await page.locator('[data-prp-base-behind]').isVisible()));
 await page.click('[data-prp-review] button'); await wait(1500);
 const kept = await page.locator('[data-prvd-counts]').textContent();

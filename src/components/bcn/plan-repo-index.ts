@@ -5,7 +5,7 @@ import { withBase } from '../../lib/base';
 
 import { planIcon } from '../../lib/planning/icons';
 import { recordsFor, healthOf, receiptOverdue, todayIso, type Transmittal } from '../../lib/planning/plan-records';
-import { budgetAt, seesBudget, latestVersion, flattenPlan, attributesAt, orgOf, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
+import { currentDraft, budgetAt, seesBudget, latestVersion, flattenPlan, attributesAt, orgOf, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
@@ -39,7 +39,7 @@ function waitingOn(repo: PlanSummary['repo'], me: string): { asked: PlanSummary[
   const publishes = role === 'Owner' || role === 'Editor';
   return {
     asked: publishes ? repo.drafts.filter((d) => d.publishRequestedAt && d.owner !== me && !d.transient) : [],
-    back: repo.drafts.filter((d) => d.owner === me && d.sentBack),
+    back: repo.drafts.filter((d) => d.owner === me && d.sentBack && !d.transient),
     // Sends of yours a recipient hasn't confirmed past the due date (2026-10-29, the second traps audit).
     receipts: recordsFor(repo.planID).transmittals.filter((t) => t.from === me && !t.closedAt && t.to.some((n) => receiptOverdue(t, n))),
   };
@@ -217,11 +217,15 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       b.textContent = `${compactDollars.format(total)} Budget`;
     }
     // Open drafts, counted (the plan page lists them), so Has Drafts has something to show.
-    if (s.repo.drafts.filter((d) => !d.transient).length) {
+    // Several per person (2026-10-29): the count says how many are yours, and opens your current one when you have any.
+    const open = s.repo.drafts.filter((d) => !d.transient);
+    if (open.length) {
       const drafts = r<HTMLAnchorElement>('[data-pri-drafts]');
       drafts.hidden = false;
-      drafts.href = href;
-      r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.filter((d) => !d.transient).length, 'Draft', 'Drafts');
+      const mine = open.filter((d) => d.owner === me);
+      const current = mine.length ? currentDraft(s.repo.planID) : null;
+      drafts.href = current ? PLAN_HREF(s.repo.planID, `&draft=${current.id}`) : href;
+      r<HTMLElement>('[data-pri-drafts-text]').textContent = `${count(open.length, 'Draft', 'Drafts')}${mine.length ? `, ${mine.length} Yours` : ''}`;
     }
     const late = lateBy.get(s.repo.planID) ?? [];
     if (late.length) {
@@ -239,7 +243,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       const link = r<HTMLAnchorElement>('[data-pri-waiting]');
       link.hidden = false;
       link.href = first ? PLAN_HREF(s.repo.planID, `&draft=${first.id}`) : TRANSMITTAL_HREF(s.repo.planID, wait.receipts[0].id);
-      const parts = [wait.asked.length ? count(wait.asked.length, 'Publish Request', 'Publish Requests') : '', wait.back.length ? 'Your Draft Sent Back' : '', wait.receipts.length ? count(wait.receipts.length, 'Receipt Overdue', 'Receipts Overdue') : ''].filter(Boolean);
+      const parts = [wait.asked.length ? count(wait.asked.length, 'Publish Request', 'Publish Requests') : '', wait.back.length ? (wait.back.length === 1 ? 'Your Draft Sent Back' : `${wait.back.length} of Your Drafts Sent Back`) : '', wait.receipts.length ? count(wait.receipts.length, 'Receipt Overdue', 'Receipts Overdue') : ''].filter(Boolean);
       r<HTMLElement>('[data-pri-waiting-text]').textContent = parts.join(', ');
     }
     const history = r<HTMLAnchorElement>('[data-pri-history]');

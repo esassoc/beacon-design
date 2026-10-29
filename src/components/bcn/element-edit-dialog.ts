@@ -39,11 +39,16 @@ export interface EditOffer {
   /** One line beside the actions: where the edit goes, or why Publish Now isn't offered. */
   where: string;
   publishNow: boolean;
+  /** From Live (2026-10-29, several drafts per person): which of your drafts it saves to, as a Saves To select; `describe`
+   *  is the footer's line for a choice, with `where` after it. */
+  target?: { options: { label: string; value: string }[]; value: string; describe: (value: string) => string };
 }
 /** The form's answer: the edit, and whether it's to go to Live now. */
 export interface EditResult {
   edit: ElementEdit;
   publishNow: boolean;
+  /** The Saves To choice (a draft's id, or "new"), when the form offered one. */
+  target?: string;
 }
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => Object.assign(document.createElement(tag), { className, textContent: text });
@@ -261,10 +266,19 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
     q<HTMLElement>('[data-eed-fields-title]').textContent = `${c.levelName} Fields`;
   }
 
+  // Saves To (2026-10-29): the footer's line follows the choice.
+  const target = q('[data-eed-target]');
+  let offered: EditOffer | null = null;
+  const drawWhere = () => {
+    const t = offered?.target;
+    const choice = String(target.value ?? t?.value ?? '');
+    q<HTMLElement>('[data-eed-where]').textContent = t ? `${t.describe(choice)} ${offered!.where}`.trim() : (offered?.where ?? '');
+  };
+  target.addEventListener('change', drawWhere);
   const submit = (publishNow: boolean) => {
     const edit = collect();
     if (!edit) return;
-    finish(edit.changed.length ? { edit, publishNow } : null);
+    finish(edit.changed.length ? { edit, publishNow, target: offered?.target ? String(target.value ?? offered.target.value) : undefined } : null);
   };
   q<HTMLElement>('[data-eed-submit]').addEventListener('click', () => submit(false));
   q<HTMLElement>('[data-eed-publish]').addEventListener('click', () => submit(true));
@@ -304,7 +318,15 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
       ctx = c;
       if (!keep) fill(c);
       q<HTMLElement>('[data-eed-submit-label]').textContent = offer.label;
-      q<HTMLElement>('[data-eed-where]').textContent = offer.where;
+      // A form kept on a second pass (Back to Edit) keeps the draft picked in it.
+      const picked = keep && offered?.target ? String(target.value ?? '') : '';
+      offered = offer;
+      target.hidden = !offer.target;
+      if (offer.target) {
+        target.options = offer.target.options;
+        target.value = offer.target.options.some((o) => o.value === picked) ? picked : offer.target.value;
+      }
+      drawWhere();
       q<HTMLElement>('[data-eed-publish]').hidden = !offer.publishNow;
       done = false;
       dialog.open = true;

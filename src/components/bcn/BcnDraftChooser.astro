@@ -1,0 +1,59 @@
+---
+// <BcnDraftChooser> — which of your drafts, or a new one, named (2026-10-29, Andy: "Let's go with allow more than one
+// draft"). Three asks over one small dialog: Edit in a Draft when you have several (each of yours, or a new one; the one
+// you were in last is picked), Start a New Draft (its name), and Rename (the draft's name). The opener acts on the answer.
+// The runtime is ./draft-chooser.ts (openDraftChooser).
+//
+// bcn-lego-checked: the shell IS esa-dialog (size sm), the choice IS esa-radio-group, the name IS esa-text-field, the
+// buttons ARE esa-button. No esa- lego picks one of a person's drafts; checked Beacon (plan-gantt's draft bar picks drafts
+// from a dropdown over a list of names only, no "new" with a name). bcn-draft-chooser is the reusable home; the only CSS
+// is the dialog's width and the footer row.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-draft-chooser" data-bcn-draft-chooser>
+  <esa-dialog class="bcn-draft-chooser__dialog" size="sm" heading="Edit in a Draft">
+    <div class="bcn-draft-chooser__body">
+      <p class="bcn-draft-chooser__lead typography-body-sm" data-bdc-lead></p>
+      <esa-radio-group label="Your Drafts" size="sm" data-bdc-choice></esa-radio-group>
+      <esa-text-field label="Name" size="sm" maxlength="80" required data-bdc-name></esa-text-field>
+    </div>
+    <div slot="footer" class="bcn-draft-chooser__actions">
+      <span data-bdc-cancel><EsaButton variant="ghost" appearance="outline" size="sm" type="button">Cancel</EsaButton></span>
+      <span data-bdc-go><EsaButton variant="primary" size="sm" type="button"><span data-bdc-go-label>Open Draft</span></EsaButton></span>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-radio-group';
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  .bcn-draft-chooser__dialog {
+    --dialog-width-sm: min(90vw, 440px);
+  }
+  .bcn-draft-chooser__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-draft-chooser__lead {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-draft-chooser__lead:empty {
+    display: none;
+  }
+  .bcn-draft-chooser__body :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-draft-chooser__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+</style>
