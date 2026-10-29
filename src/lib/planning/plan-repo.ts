@@ -128,6 +128,8 @@ export interface PlanRepoDraft {
   /** Sent back by someone who can publish, with what to change (2026-10-29, the traps audit: Ask to Publish had no way
    *  back). Cleared by the next Ask to Publish. */
   sentBack?: { by: string; at: string; note: string };
+  /** What its owner said with Ask to Publish, for whoever reviews it (2026-10-29). Goes when the request does. */
+  askNote?: string;
   /** An element page's Edit, under review (2026-10-28, Andy: "a form modal ... and then a republish review"): one
    *  edit to one item, published or thrown away when its review closes. Not the person's draft. */
   transient?: boolean;
@@ -1277,18 +1279,23 @@ export function addRevision(planID: string, draftID: string, overrides: PlanDraf
   draft.revisions.push(revision);
   // A new edit after Ask to Publish withdraws the request (2026-10-29, the traps audit): whoever answers it would have
   // published edits made after it. The owner asks again when it's ready.
-  if (draft.publishRequestedAt && revision.author === draft.owner) delete draft.publishRequestedAt;
+  if (draft.publishRequestedAt && revision.author === draft.owner) {
+    delete draft.publishRequestedAt;
+    delete draft.askNote;
+  }
   save(store);
   return revision;
 }
 
 /** Ask to publish: the owner of a draft, who can't publish, asks someone who can. A request, not a lock: the draft
  *  stays editable, and publishing (by anyone who can) closes it as usual. */
-export function requestPublish(planID: string, draftID: string): void {
+export function requestPublish(planID: string, draftID: string, note = ''): void {
   const store = load();
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) return;
   draft.publishRequestedAt = new Date().toISOString();
+  if (note.trim()) draft.askNote = note.trim();
+  else delete draft.askNote;
   delete draft.sentBack;
   save(store);
 }
@@ -1299,6 +1306,7 @@ export function sendBack(planID: string, draftID: string, by: string, note: stri
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) return;
   delete draft.publishRequestedAt;
+  delete draft.askNote;
   draft.sentBack = { by, at: new Date().toISOString(), note };
   save(store);
 }
@@ -1517,6 +1525,7 @@ async function publishSteps(planID: string, draftID: string, revisionIndex?: num
     }));
     kept.baseVersion = version.number;
     delete kept.publishRequestedAt;
+    delete kept.askNote;
   } else fresh.drafts = fresh.drafts.filter((d) => d.id !== draftID);
   // Someone else's draft, published: its owner hears about it on their next visit.
   if (draft.owner !== version.author) {

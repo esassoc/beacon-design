@@ -51,7 +51,6 @@ import {
   flattenPlan,
   getRepo,
   latestVersion,
-  requestPublish,
   listPlanSummaries,
   myDraft,
   noticesFor,
@@ -1552,26 +1551,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!, undefined, kind), { rise: true });
   });
   q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!, undefined, kind), { rise: true }));
-  q<HTMLElement>('[data-prp-ask]').addEventListener('click', async () => {
+  // Ask to Publish opens the review (2026-10-29, Andy: "more of a diff view" than a paragraph): each change side by side
+  // and on the chart, the request and an optional note at its foot.
+  q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
     if (!draft || !draft.revisions.length) return;
+    void revisions.open(draft.id);
+  });
+  const onAsked = () => {
     const asked = membersOf(getRepo(planID!)).filter((m) => m.role === 'Owner' || m.role === 'Editor').map((m) => m.name.split(' ')[0]);
-    // What's being asked for, said first (2026-10-29, the second traps audit: one click sent edits never looked at).
-    const edits = draft.revisions.map((r) => r.message).filter(Boolean);
-    const listed = edits.length > 4 ? `${edits.slice(0, 4).join('; ')}; and ${edits.length - 4} more` : edits.join('; ');
-    const ok = await confirm({
-      header: `Ask to Publish ${draft.name}?`,
-      text: `It holds ${edits.length} ${edits.length === 1 ? 'edit' : 'edits'}: ${listed}. Review shows each one first, if you'd like to check.`,
-      confirmButtonLabel: 'Ask to Publish',
-      cancelButtonLabel: 'Not Yet',
-    });
-    if (!ok) return;
-    requestPublish(planID!, draft.id);
     pushAlert(`Asked ${asked.length > 1 ? `${asked.slice(0, -1).join(', ')} or ${asked.at(-1)}` : (asked[0] ?? 'the Owners')} to publish your draft. A new edit withdraws the request.`, 'success', 7000);
     refresh();
-  });
+  };
   // Revisions in a modal (2026-10-28): the history from the Revisions link and About; a draft's review from Review and
   // Publish. A publish or a restore lands back here, on Live, without a reload.
-  const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive });
+  const revisions = setupPlanRevisionsDialog({ planID: planID!, canPublish, concept, onLanded: landOnLive, onAsked });
   // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index ──
   // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index;
   //    a level's Customize Page, that item's page ──

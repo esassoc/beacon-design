@@ -33,6 +33,7 @@ import {
   planCompare,
   planSpan,
   publishDraft,
+  requestPublish,
   sendBack,
   restoreVersion,
   shiftText,
@@ -209,6 +210,8 @@ export function setupPlanRevisionsDialog(opts: {
   concept: string | null;
   /** After a publish or a restore: the page shows Live again, with the new revision. */
   onLanded: () => Promise<void> | void;
+  /** After Ask to Publish from the review: the page says who was asked. */
+  onAsked?: () => void;
 }): PlanRevisionsDialog {
   const dialog = document.querySelector<DialogEl>('[data-bcn-plan-revisions-dialog]')!;
   const q = <T extends Element>(sel: string) => dialog.querySelector<T>(sel)!;
@@ -490,6 +493,10 @@ export function setupPlanRevisionsDialog(opts: {
     note.hidden = true;
     name.hidden = true;
     partial.hidden = true;
+    const ask = q<HTMLElement>('[data-prvd-ask]');
+    const askNote = q<HTMLElement>('[data-prvd-ask-note]');
+    ask.hidden = true;
+    askNote.hidden = true;
     if (!draft) {
       publish.hidden = true;
       const isCurrent = sel.to === stops.length - 1;
@@ -509,6 +516,25 @@ export function setupPlanRevisionsDialog(opts: {
     }
     publish.hidden = !may;
     if (!may) {
+      // Your own draft, and you can't publish: ask from here, having seen each change.
+      if (!opts.canPublish && draft.owner === me && !draft.transient) {
+        if (draft.publishRequestedAt) {
+          note.hidden = false;
+          note.textContent = 'Publish requested. A new edit withdraws the request.';
+          return;
+        }
+        const n = draft.revisions.length;
+        ask.hidden = false;
+        askNote.hidden = false;
+        q<HTMLElement>('[data-prvd-ask-label]').textContent = `Ask to Publish ${n === 1 ? 'This Edit' : `All ${n} Edits`}`;
+        setButtonDisabled(ask.querySelector('button'), !n || !changeCount && sel.from === 0 && sel.to === stops.length - 1);
+        // Comparing a part: the request still covers the whole draft.
+        if (sel.from > 0 || sel.to < stops.length - 1) {
+          partial.hidden = false;
+          q<HTMLElement>('[data-prvd-partial-text]').textContent = `Asking covers all ${n} ${n === 1 ? 'edit' : 'edits'} in your draft. The slider only changes what you compare.`;
+        }
+        return;
+      }
       note.hidden = false;
       note.textContent = !opts.canPublish ? "You can't publish. Ask to Publish sends it to someone who can." : `${firstName(draft.owner)} hasn't asked to publish this draft.`;
       return;
@@ -559,6 +585,13 @@ export function setupPlanRevisionsDialog(opts: {
     setButtonDisabled(btn, false);
     dialog.open = false;
     await opts.onLanded();
+  });
+  q<HTMLElement>('[data-prvd-ask]').addEventListener('click', () => {
+    const btn = q<HTMLElement>('[data-prvd-ask] button') as HTMLButtonElement;
+    if (btn.disabled || !draft) return;
+    requestPublish(opts.planID, draft.id, String(q<HTMLElement & { value: string }>('[data-prvd-ask-note]').value ?? ''));
+    dialog.open = false;
+    opts.onAsked?.();
   });
   // Send Back: the first click asks what to change (Publish steps aside); the second sends it.
   let backing = false;
@@ -671,12 +704,20 @@ export function setupPlanRevisionsDialog(opts: {
       const nameField = q<HTMLElement & { value: string }>('[data-prvd-name]');
       nameField.value = '';
       q<HTMLElement & { value: string }>('[data-prvd-back-note]').value = '';
+      q<HTMLElement & { value: string }>('[data-prvd-ask-note]').value = '';
+      // The requester's note, for whoever reviews the request.
+      const said = d && d.owner !== me && d.publishRequestedAt ? d.askNote : '';
+      q<HTMLElement>('[data-prvd-asknote]').hidden = !said;
+      if (said) {
+        q<HTMLElement>('[data-prvd-asknote-text]').textContent = `${firstName(d!.owner)}: “${said}”`;
+      }
       setBacking(false);
       const name = live.PlanName ?? 'Plan';
       // One edit under review (the element page's Edit): no revisions to step through, so no slider.
       dialog.toggleAttribute('data-single', !!d?.transient);
       q<HTMLElement>('[data-prvd-close-label]').textContent = d?.transient ? 'Back to Edit' : 'Close';
-      dialog.heading = d?.transient ? `Review Your Edit: ${d.name.replace(/^Edit to /, '')}` : d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
+      const asking = !!d && !opts.canPublish && d.owner === me && !d.transient && !d.publishRequestedAt;
+      dialog.heading = asking ? `Ask to Publish Your Draft: ${name}` : d?.transient ? `Review Your Edit: ${d.name.replace(/^Edit to /, '')}` : d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
 
       // A fresh slider for these stops (its listeners belong to this open).
       const slot = q<HTMLElement>('[data-prvd-slider-slot]');
