@@ -348,7 +348,8 @@ import '../../styles/bcn-dialog-heading.css';
   .bcn-psu__section[data-psu-section='lists'] { max-inline-size: none; }
   .bcn-psu__days { max-inline-size: 30rem; }
   .bcn-psu__template { display: flex; align-items: flex-end; gap: var(--spacing-200); }
-  .bcn-psu__template esa-text-field { flex: 1 1 auto; max-inline-size: 24rem; }
+  /* The field at its button's height, so the pair lines up (design QA, 2026-10-29), as BcnPlanListEditor's Add row. */
+  .bcn-psu__template esa-text-field { flex: 1 1 auto; max-inline-size: 24rem; --_field-padding-y: calc((2 * var(--spacing-250) + var(--typography-microcopy-xs-font-size) + 2px - 1.3em) / 2 - var(--form-border-width, 1px)); }
 
   .bcn-psu__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
   .bcn-psu__footer .bcn-psu__error { margin-inline-end: auto; }
