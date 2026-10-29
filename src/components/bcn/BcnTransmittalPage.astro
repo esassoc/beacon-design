@@ -179,6 +179,7 @@ import { withBase } from '../../lib/base';
     <div class="bcn-trp__form">
       <p class="bcn-trp__muted typography-body-sm" data-trp-response-lede></p>
       <esa-textarea data-trp-response-text label="What Came Back" size="sm" rows="3" required placeholder="e.g. Eleven comments; two on receiver spacing"></esa-textarea>
+      <esa-date-picker data-trp-response-on label="Received On" size="sm" required help-text="The day it came back, if that wasn’t today."></esa-date-picker>
       <EsaFormField label="Response Letter or Comments" size="sm" helpText="Optional. An upload is filed on the deliverable as Correspondence.">
         <esa-select data-trp-response-pick size="sm" aria-label="Response Letter or Comments" placeholder="None"></esa-select>
       </EsaFormField>
@@ -233,6 +234,7 @@ import { withBase } from '../../lib/base';
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
   import '@esa/ecology/esa-file-upload';
 </script>
 
@@ -291,7 +293,7 @@ import { withBase } from '../../lib/base';
      glyph and the title centred in its first row, the note in the second under the title. */
   .bcn-trp__head {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     column-gap: var(--spacing-200);
     row-gap: 2px;
@@ -331,7 +333,10 @@ import { withBase } from '../../lib/base';
     color: var(--color-content-utility-danger);
     font-weight: 600;
   }
+  /* The third column, beside the title and its note (the grid above had two, so the actions fell under the glyph). */
   .bcn-trp__actions {
+    grid-row: 1 / span 2;
+    grid-column: 3;
     display: flex;
     align-items: center;
     gap: var(--spacing-100);

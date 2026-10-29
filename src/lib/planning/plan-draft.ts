@@ -297,5 +297,6 @@ export function planDraftUpdatedLabel(iso: string, now: Date = new Date()): stri
   if (days === 0) return `at ${then.toLocaleTimeString(LOCALE, { hour: 'numeric', minute: '2-digit' })}`;
   if (days === 1) return 'yesterday';
   if (days < 7) return `${days} days ago`;
-  return `on ${then.toLocaleDateString(LOCALE, { month: 'short', day: 'numeric' })}`;
+  // A draft from another year names its year: "on Oct 2" from last year reads as this October.
+  return `on ${then.toLocaleDateString(LOCALE, { month: 'short', day: 'numeric', ...(then.getFullYear() !== now.getFullYear() ? { year: 'numeric' as const } : {}) })}`;
 }

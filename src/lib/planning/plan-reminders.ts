@@ -72,7 +72,9 @@ export function reminderState(due: string, cfg: ReminderConfig, today = todayIso
 /** Who an item's reminders reach: its owners (an organization's members on the plan), and Additional Recipients. */
 export function reminderRecipients(repo: PlanRepo, owners: readonly string[], cfg: ReminderConfig): string[] {
   const members = membersOf(repo).map((m) => m.name);
-  const people = owners.flatMap((o) => (isOrganization(o) ? members.filter((m) => orgOf(m) === o) : [o]));
+  // An owner taken off the plan's People gets no more reminders for it (2026-10-29, the handoff pass: someone who left
+  // kept getting Due for You rows that opened Not Shared With You). Plan Settings says so when they're removed.
+  const people = owners.flatMap((o) => (isOrganization(o) ? members.filter((m) => orgOf(m) === o) : members.includes(o) ? [o] : []));
   return [...new Set([...people, ...cfg.extra])];
 }
 

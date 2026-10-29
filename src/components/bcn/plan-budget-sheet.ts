@@ -12,6 +12,7 @@
 import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import type { CellClassParams, CellPosition, Column, ColDef, GridApi, ICellRendererParams, IHeaderComp, IHeaderParams, IRowNode, ValueFormatterParams } from 'ag-grid-community';
 import { settingsEsaTheme } from '../../lib/beacon-grid';
+import { todayIso } from '../../lib/planning/plan-records';
 import { fiscalYearLabel, fiscalYearOf, fiscalYearSpan, flattenPlan, type PlanBudget } from '../../lib/planning/plan-repo';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 
@@ -72,7 +73,7 @@ export function parseMoney(input: unknown): number | null {
 class YearHeader implements IHeaderComp {
   private gui!: HTMLElement;
   init(params: IHeaderParams & { fy: number }): void {
-    const current = fiscalYearOf(new Date().toISOString().slice(0, 10)) === params.fy;
+    const current = fiscalYearOf(todayIso()) === params.fy;
     this.gui = document.createElement('div');
     this.gui.className = 'bcn-pbs__head';
     if (current) this.gui.dataset.current = '';

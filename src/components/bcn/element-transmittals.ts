@@ -10,6 +10,8 @@ import {
   receiptCount,
   receiptOverdue,
   recordsFor,
+  respondedOn,
+  responseDaysLate,
   responseOverdue,
   sendTransmittal,
   deleteDraftTransmittal,
@@ -60,7 +62,10 @@ export function transmittalFacts(t: Transmittal): HTMLElement[] {
     out.push(receipt);
   }
   if (t.closedAt) out.push(fact(`Closed ${day(t.closedAt)}`));
-  else if (t.response) out.push(fact(`Responded ${day(t.response.at)}`));
+  else if (t.response) {
+    const late = responseDaysLate(t);
+    out.push(fact(`Responded ${day(respondedOn(t))}${late ? `, ${late} ${late === 1 ? 'day' : 'days'} late` : ''}`, late ? 'warning' : undefined));
+  }
   else if (t.responseDue) out.push(fact(`Response due ${day(t.responseDue)}`, responseOverdue(t) ? 'danger' : undefined));
   return out;
 }

@@ -4,6 +4,7 @@
 import { type ElementContext } from '../../lib/planning/element-context';
 import { PLAN_DATE_TYPE_HINTS } from '../../lib/planning/plan-element';
 import type { PlanElementDto } from '../../lib/planning/model';
+import { todayIso } from '../../lib/planning/plan-records';
 import { flattenPlan, signedShift } from '../../lib/planning/plan-repo';
 import { fillIcons } from '../../lib/planning/icons';
 import { type ElementModuleSetup } from './element-module';
@@ -86,7 +87,7 @@ export const setupScheduleModule: ElementModuleSetup = (root) => {
         const li = el('li');
         const a = el('a', '', other.PlanElementName ?? '');
         a.href = ctx.hrefOf(d.id);
-        const lag = d.lag ? `, ${d.lag > 0 ? '+' : ''}${d.lag} days lag` : '';
+        const lag = d.lag ? `, ${d.lag > 0 ? '+' : ''}${d.lag} ${Math.abs(d.lag) === 1 ? 'day' : 'days'} lag` : '';
         li.append(a, el('span', 'bcn-esch__dep-meta', `${other.IsMilestone ? 'Due' : 'Ends'} ${day(endOf(other))}${lag}`));
         ul.append(li);
       }
@@ -107,7 +108,7 @@ export const setupScheduleModule: ElementModuleSetup = (root) => {
     const pct = (iso: string) => `${Math.min(100, Math.max(0, ((Date.parse(iso) - from) / span) * 100))}%`;
     q('[data-esch-tl-start]').textContent = monthYear(start);
     q('[data-esch-tl-end]').textContent = monthYear(end);
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayIso();
     const showToday = today >= start! && today <= end!;
     q('[data-esch-tl-rows]').replaceChildren(
       ...kids.map((k) => {

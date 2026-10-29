@@ -6,6 +6,7 @@
 import { planApi, currentUserName } from '../../lib/planning/plan-server';
 import {
   PLAN_DIRECTORY,
+  attributesAt,
   createPlanRepo,
   deletePlanRepo,
   configOf,
@@ -486,6 +487,13 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       const gone = before.filter((m) => m.name !== me && !roleOf(s.members, m.name)).map((m) => m.name);
       const drafts = getRepo(planID).drafts.filter((d) => gone.includes(d.owner) && !d.transient);
       if (drafts.length) said.push(`${drafts.map((d) => `${firstName(d.owner)}'s draft (${d.name})`).join(', ')} ${drafts.length === 1 ? 'stays' : 'stay'} on the plan, where an Owner or Editor can publish or discard ${drafts.length === 1 ? 'it' : 'them'}; ${drafts.length === 1 ? 'its owner' : 'their owners'} can't open ${drafts.length === 1 ? 'it' : 'them'}.`);
+      // The items they own (2026-10-29, the handoff pass: someone leaving kept their items, silently, and the items'
+      // reminders went nowhere): counted, with what happens and where to hand them over.
+      const attrs = attributesAt(getRepo(planID));
+      for (const name of gone) {
+        const owned = Object.values(attrs).filter((a) => a.owners?.includes(name)).length;
+        if (owned) said.push(`${name} owns ${owned} ${owned === 1 ? 'item' : 'items'}. ${owned === 1 ? 'It keeps' : 'They keep'} ${firstName(name)} as owner, with no reminders, until you give ${owned === 1 ? 'it' : 'them'} a new owner in a draft (the Owner filter finds ${owned === 1 ? 'it' : 'them'}).`);
+      }
       if (said.length && !(await ask('Save These People?', said.join(' '), 'Save', 'Keep Editing'))) return;
     }
     busy = true;

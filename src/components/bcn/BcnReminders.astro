@@ -50,7 +50,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-rem__glyph { display: inline-flex; grid-row: 1; color: var(--color-content-default-secondary); }
   .bcn-rem__titles { display: contents; }
   .bcn-rem__title-row { display: flex; grid-row: 1; grid-column: 2; align-items: center; gap: var(--spacing-150); }
-  .bcn-rem__title-row [data-rem-count] { display: inline-flex; }
+  .bcn-rem__title-row [data-rem-count]:not([hidden]) { display: inline-flex; }
   .bcn-rem__note { grid-row: 2; grid-column: 2; }
   .bcn-rem__title-row h2 { margin: 0; color: var(--color-content-default); }
   .bcn-rem__note { color: var(--color-content-default-secondary); }

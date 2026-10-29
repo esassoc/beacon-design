@@ -112,7 +112,9 @@ export interface Transmittal {
   sentAt?: string;
   closedAt?: string;
   receipts: Record<string, Receipt>;
-  response?: { at: string; by: string; note: string; fileId?: string };
+  /** `at` is when it was recorded; `receivedOn` (yyyy-MM-dd) the day it came back, when someone records a letter or an
+   *  email after the fact (2026-10-29, the agency-side pass: a response emailed last week read as answered today). */
+  response?: { at: string; by: string; note: string; fileId?: string; receivedOn?: string };
 }
 
 export interface Completion {
@@ -205,7 +207,11 @@ export function clearPlanRecords(planID?: string): void {
 /** Deterministic while the sample seeds (./seed-ids.ts). */
 const uid = seedShortId;
 const nowIso = () => new Date().toISOString();
-export const todayIso = () => new Date().toISOString().slice(0, 10);
+/** Today as the person's own calendar sees it (yyyy-MM-dd), not UTC's: after 5 PM in California, UTC is already
+ *  tomorrow, which made a due-today item read Late, and prefilled tomorrow's date on a completion or a document
+ *  (2026-10-29, the Pacific-evening pass). Every plans surface that asks "what day is it" asks this. */
+export const todayIso = (now: Date = new Date()) =>
+  `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 const addDays = (iso: string, days: number) => new Date(Date.parse(iso) + days * 86_400_000).toISOString();
 
 // ── Status and health ──────────────────────────────────────────────────────────────────────────────────────────────
@@ -298,6 +304,14 @@ export function receiptCount(t: Transmittal): { confirmed: number; of: number } 
 /** A To recipient past the acknowledgment due date without confirming. */
 export const receiptOverdue = (t: Transmittal, name: string, today = todayIso()) => !!t.sentAt && !!t.ackDue && !t.receipts[name]?.confirmedAt && t.to.includes(name) && t.ackDue.slice(0, 10) < today;
 export const responseOverdue = (t: Transmittal, today = todayIso()) => !!t.sentAt && !t.response && !t.closedAt && !!t.responseDue && t.responseDue < today;
+/** The day a response came back (yyyy-MM-dd): the day given, else the day it was recorded, on the local calendar. */
+export const respondedOn = (t: Transmittal): string | null => (t.response ? (t.response.receivedOn ?? todayIso(new Date(t.response.at))) : null);
+/** How many days past its due date the response came back; 0 when on time or nothing was due. */
+export function responseDaysLate(t: Transmittal): number {
+  const on = respondedOn(t);
+  if (!on || !t.responseDue) return 0;
+  return Math.max(0, Math.round((Date.parse(`${on}T00:00:00Z`) - Date.parse(`${t.responseDue.slice(0, 10)}T00:00:00Z`)) / 86_400_000));
+}
 
 export function transmittalsFor(rec: PlanRecords, elementId: string): Transmittal[] {
   return rec.transmittals.filter((t) => t.elementId === elementId).sort((a, b) => b.number - a.number);
@@ -374,10 +388,10 @@ export function remindRecipient(planID: string, id: string, name: string): void 
     if (t?.receipts[name]) t.receipts[name].remindedAt = nowIso();
   });
 }
-export function recordResponse(planID: string, id: string, note: string, fileId?: string): void {
+export function recordResponse(planID: string, id: string, note: string, fileId?: string, receivedOn?: string): void {
   updateRecords(planID, (r) => {
     const t = r.transmittals.find((x) => x.id === id);
-    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId };
+    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId, ...(receivedOn && receivedOn !== todayIso() ? { receivedOn } : {}) };
   });
 }
 export function closeTransmittal(planID: string, id: string): void {
@@ -541,7 +555,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
       if (behind > 10) return { health: 'At Risk', why: `${behind} points behind plan` };
     } else if (end && status === 'Not Started') {
       const days = Math.round((Date.parse(end) - Date.parse(today)) / 86_400_000);
-      if (days <= 14) return { health: 'At Risk', why: `Due in ${days} days, not started` };
+      if (days <= 14) return { health: 'At Risk', why: `${days === 0 ? 'Due today' : days === 1 ? 'Due tomorrow' : `Due in ${days} days`}, not started` };
     }
     if (start && start > today && status === 'Not Started') return { health: 'On Track', why: `Starts ${dateWords(start)}` };
     return { health: 'On Track', why: 'On plan' };
@@ -665,7 +679,7 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   status(baseline, 'In Progress', 'Alex Rivera', '2026-09-28');
   status(permits, 'In Progress', 'Sam Okafor', '2026-10-01');
   // The two dated from today (plan-repo's RELATIVE_TASKS): both under way, one already past its end.
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayIso();
   status(byName('Predator survey collection permit'), 'In Progress', 'Priya Natarajan', today);
   status(byName('Quarterly agency coordination memo'), 'In Progress', 'Alex Rivera', today);
   if (permits) rec.health[permits] = { health: 'At Risk', note: 'USACE pre-application meeting slipped to December; two sites may need individual permits.', by: 'Sam Okafor', at: at('2026-10-22') };

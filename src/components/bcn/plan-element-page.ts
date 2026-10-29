@@ -5,11 +5,11 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, membersOf, stamp, type PlanRepo, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
 import { setupElementEditDialog, type ElementEdit } from './element-edit-dialog';
 import { setupPlanRevisionsDialog, type PlanRevisionsDialog } from './plan-revisions-dialog';
-import { planApi } from '../../lib/planning/plan-server';
+import { currentUserName, planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
 import type { ModuleKey } from '../../lib/planning/plan-config';
@@ -203,7 +203,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   let drawing: Promise<void> | null = null;
   let again = false;
   /** A link that points nowhere (2026-10-28, the review: it opened a blank "Item"): the plan's gone, or the item. */
-  function missing(planKnown: boolean): void {
+  function missing(planKnown: boolean, repo?: PlanRepo): void {
     q('[data-pep-missing]').hidden = false;
     q('[data-pep-cols]').hidden = true;
     document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
@@ -215,7 +215,27 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     if (titleText) titleText.textContent = title;
     q('[data-pep-missing] .esa-empty-state__title').textContent = title;
     if (!planKnown) q('[data-pep-missing] .esa-empty-state__description').textContent = 'This link points to a plan that isn’t here. It may have been deleted, or the sample was started over.';
-    document.title = `${title} | Beacon`;
+    // Removed by a publish (2026-10-29, the orthogonal pass: a page left open in another tab turned into "isn't in the
+    // plan, or it was removed"): for someone on the plan, name the item, the revision that took it out, who and when.
+    const me = currentUserName();
+    const member = repo ? membersOf(repo).find((m) => m.name === me) : undefined;
+    const gone = planKnown && !draft && repo && member && member.role !== 'Guest' ? removedIn(repo) : null;
+    if (gone) {
+      q('[data-pep-missing] .esa-empty-state__title').textContent = 'Removed From the Plan';
+      q('[data-pep-missing] .esa-empty-state__description').textContent = `${gone.name} was removed in Revision ${gone.number} by ${gone.author}, ${stamp(gone.at)}.`;
+      if (titleText) titleText.textContent = gone.name;
+    }
+    document.title = `${gone ? gone.name : title} | Beacon`;
+  }
+  /** The revision whose publish took this item out of Live: the one after the last revision that held it. */
+  function removedIn(repo: PlanRepo): { name: string; number: number; author: string; at: string } | null {
+    const holds = (i: number) => flattenPlan(repo.versions[i].plan.Elements).find((x) => x.element.PlanElementID === elementId)?.element;
+    for (let i = repo.versions.length - 1; i > 0; i--) {
+      if (holds(i)) return null;
+      const was = holds(i - 1);
+      if (was) return { name: was.PlanElementName ?? 'This item', number: repo.versions[i].number, author: repo.versions[i].author, at: repo.versions[i].at };
+    }
+    return null;
   }
 
   async function load(): Promise<void> {
@@ -230,7 +250,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     draft = repo.drafts.find((d) => d.id === new URLSearchParams(location.search).get('draft')) ?? null;
     const shown = draft ? (await draftState(draft)).Plan : live;
     ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
-    if (!ctx) return missing(true);
+    if (!ctx) return missing(true, repo);
     q('[data-pep-missing]').hidden = true;
     // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
     if (ctx.myRole === 'Guest') {

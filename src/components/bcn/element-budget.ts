@@ -2,6 +2,7 @@
 // draft's. See ./BcnElementBudget.astro; ./element-module.ts for the contract.
 
 import { PLAN_VIEW_HREF, type ElementContext } from '../../lib/planning/element-context';
+import { todayIso } from '../../lib/planning/plan-records';
 import { budgetAt, fiscalYearLabel, fiscalYearOf, flattenPlan, type PlanBudget } from '../../lib/planning/plan-repo';
 import { fillIcons } from '../../lib/planning/icons';
 import { money, setModuleNote, type ElementModuleSetup } from './element-module';
@@ -26,7 +27,7 @@ export const setupBudgetModule: ElementModuleSetup = (root) => {
     const now = byYear(ctx.budget, leaves);
     const was = ctx.draft ? byYear(budgetAt(ctx.repo), leaves) : null;
     const years = [...new Set([...now.keys(), ...(was?.keys() ?? [])])].sort((a, b) => a - b).filter((fy) => (now.get(fy) ?? 0) || (was?.get(fy) ?? 0));
-    const thisYear = fiscalYearOf(new Date().toISOString().slice(0, 10));
+    const thisYear = fiscalYearOf(todayIso());
     list.replaceChildren();
     let total = 0;
     let totalWas = 0;

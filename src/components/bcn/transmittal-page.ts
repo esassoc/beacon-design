@@ -25,7 +25,10 @@ import {
   recordResponse,
   recordsFor,
   remindRecipient,
+  respondedOn,
+  responseDaysLate,
   responseOverdue,
+  todayIso,
   sendTransmittal,
   transmittalNumber,
   transmittalStatus,
@@ -78,10 +81,16 @@ export function receiptState(t: Transmittal, name: string): ReceiptState {
   // Days to Confirm Receipt's promise (2026-10-28, the SOW review): the night after it passes, Beacon emails the
   // recipient and the sender on its own; Send Reminder is the sender's extra nudge.
   const auto = t.ackDue ? `Beacon reminded them ${day(new Date(Date.parse(`${t.ackDue.slice(0, 10)}T12:00:00Z`) + 86_400_000).toISOString())}` : '';
-  if (receiptOverdue(t, name)) return { label: 'Overdue', variant: 'warning', detail: [`Was due ${day(t.ackDue)}`, auto, reminded, opened].filter(Boolean).join('. '), confirmed: false };
-  if (r.openedAt) return { label: 'Opened', variant: 'neutral', detail: [`${dayTime(r.openedAt)}, not confirmed`, reminded].filter(Boolean).join('. '), confirmed: false };
-  return { label: 'Not Yet', variant: 'neutral', detail: [t.ackDue ? `Due ${day(t.ackDue)}` : '', reminded].filter(Boolean).join('. '), confirmed: false };
+  if (receiptOverdue(t, name)) return { label: 'Overdue', variant: 'warning', detail: sentences([`Was due ${day(t.ackDue)}`, auto, reminded, opened]), confirmed: false };
+  if (r.openedAt) return { label: 'Opened', variant: 'neutral', detail: sentences([`${dayTime(r.openedAt)}, not confirmed`, reminded]), confirmed: false };
+  return { label: 'Not Yet', variant: 'neutral', detail: sentences([t.ackDue ? `Due ${day(t.ackDue)}` : '', reminded]), confirmed: false };
 }
+
+/** Facts as one line: a lone fact bare ("Due Oct 25, 2026"); two or more as sentences, the last one closed too. */
+const sentences = (parts: string[]) => {
+  const p = parts.filter(Boolean);
+  return p.length > 1 ? `${p.join('. ')}.` : (p[0] ?? '');
+};
 
 /** The version a file stood at when it went (a memo isn't pinned in the record; its last save before the send is). */
 const versionAt = (f: PlanFile, iso?: string) => (iso ? ([...f.versions].reverse().find((v) => v.at <= iso) ?? f.versions.at(-1)) : f.versions.at(-1));
@@ -184,6 +193,11 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
   }
 
   // ── The two views ──
+  /** ", 2 days late" after a response's date, when it came back past its due date. */
+  const lateWords = (x: Transmittal) => {
+    const n = responseDaysLate(x);
+    return n ? `, ${n} ${n === 1 ? 'day' : 'days'} late` : '';
+  };
   function drawSender(x: Transmittal, r: PlanRecords, elementName: string): void {
     const status = transmittalStatus(x);
     const draft = status === 'Draft';
@@ -193,7 +207,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     const response = x.closedAt
       ? ` Closed ${day(x.closedAt)}.`
       : x.response
-        ? ` Responded ${day(x.response.at)}.`
+        ? ` Responded ${day(respondedOn(x))}${lateWords(x)}.`
         : x.responseDue
           ? responseOverdue(x)
             ? ` <span data-tone="danger">Response was due ${day(x.responseDue)}.</span>`
@@ -231,8 +245,12 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
       said.textContent = x.response.note;
       const f = fileById(r, x.response.fileId);
       respFiles.replaceChildren(...(f ? [fileRow(f, 'Response', revisionText(f.revision, f.versions.at(-1)?.number))] : []));
-      by.textContent = `Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`;
-      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.` : x.responseDue ? `Due ${day(x.responseDue)}.` : '';
+      by.textContent = x.response.receivedOn
+        ? `Received ${day(x.response.receivedOn)}. Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`
+        : `Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`;
+      const late = responseDaysLate(x);
+      const dueWords = x.responseDue ? (late ? `<span data-tone="warning">Was due ${day(x.responseDue)}; it came back ${late} ${late === 1 ? 'day' : 'days'} late.</span>` : `Due ${day(x.responseDue)}.`) : '';
+      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.${dueWords && late ? ` ${dueWords}` : ''}` : dueWords;
     } else {
       said.textContent = '';
       respFiles.replaceChildren();
@@ -449,9 +467,16 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
   const responseDialog = q<DialogEl>('[data-trp-response-dialog]');
   const responseText = q<FieldEl>('[data-trp-response-text]');
   const responsePick = docPicker(q<SelectEl>('[data-trp-response-pick]'), q('[data-trp-response-upload]'), 'None');
+  // The day it came back (2026-10-29, the agency-side pass): a letter or an email recorded days later keeps its own
+  // date, so a response that arrived on time doesn't read late, and one that arrived late says so.
+  const responseOn = q<FieldEl & { min: string; max: string }>('[data-trp-response-on]');
   q('[data-trp-act="respond"]').addEventListener('click', async () => {
     if (!t) return;
-    await Promise.all(['esa-select', 'esa-textarea'].map((n) => customElements.whenDefined(n)));
+    await Promise.all(['esa-select', 'esa-textarea', 'esa-date-picker'].map((n) => customElements.whenDefined(n)));
+    responseOn.min = t.sentAt ? todayIso(new Date(t.sentAt)) : '';
+    responseOn.max = todayIso();
+    responseOn.value = todayIso();
+    responseOn.errorText = '';
     responseDialog.heading = `Record Response to ${num()}`;
     q('[data-trp-response-lede]').textContent = `What came back from ${names([...new Set(t.to.map((n) => orgOf(n) || n))])}: comments, a letter, an acceptance. Receipt is separate and stays as it is.`;
     responseText.value = '';
@@ -465,10 +490,12 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     if (!t) return;
     const text = (responseText.value ?? '').trim();
     responseText.errorText = text ? '' : 'Say what came back, in a line.';
-    if (!text) return;
+    const on = responseOn.value ?? '';
+    responseOn.errorText = !on ? 'Give the day it came back.' : on > todayIso() ? 'It can’t come back after today.' : responseOn.min && on < responseOn.min ? `It went out ${day(responseOn.min)}; it can’t come back before that.` : '';
+    if (!text || responseOn.errorText) return;
     const pick = responsePick.value();
     const fileId = pick.upload ? fileUpload(planID, t.elementId, pick.upload, { note: `Response to ${num()}`, direction: 'Received', agency: agencyFor(planID, t.elementId, t.to) }) : pick.fileId;
-    recordResponse(planID, t.id, text, fileId);
+    recordResponse(planID, t.id, text, fileId, on);
     responseDialog.open = false;
     pushAlert(`Response to ${num()} recorded.`, 'success');
   });
