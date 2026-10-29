@@ -106,6 +106,8 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   /** How many levels the plan has now: rows past it are new. */
   let saved = 0;
   let members: PlanMember[] = [];
+  /** The people as the plan has them, to say what a save changes for whom. */
+  let before: PlanMember[] = [];
   let views = new Set<PlanView>();
   /** A plan's configuration: the Lists section edits its lists; the rest rides along to Save as Template. */
   let config: PlanConfig | null = null;
@@ -220,6 +222,9 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
           member.role = (role.value as PlanRole) || member.role;
           checkOwners();
         });
+        // Each Remove names its person, for a screen reader's list of buttons.
+        row.querySelector('[data-person-remove] button')?.setAttribute('aria-label', `Remove ${member.name}`);
+        row.querySelector('[data-person-remove] esa-tooltip, [data-person-remove]')?.setAttribute('title', `Remove ${member.name}`);
         row.querySelector('[data-person-remove]')!.addEventListener('click', () => {
           members = members.filter((m) => m !== member);
           drawPeople();
@@ -456,6 +461,19 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     const s = snapshot();
     errorEl.hidden = true;
     if (!validate(s)) return;
+    // What the People changes do, said before they land (2026-10-29, the traps audit): your own role lowered or gone,
+    // and the drafts of the people removed.
+    if (planID) {
+      const roleOf = (list: PlanMember[], n: string) => list.find((m) => m.name === n)?.role;
+      const mine = { was: roleOf(before, me), now: roleOf(s.members, me) };
+      const said: string[] = [];
+      if (mine.was === 'Owner' && mine.now !== 'Owner') said.push(mine.now ? `You become ${mine.now === 'Editor' ? 'an Editor' : `a ${mine.now}`} and can't open these settings again.` : 'You leave the plan and stop seeing it.');
+      else if (mine.was && !mine.now) said.push('You leave the plan and stop seeing it.');
+      const gone = before.filter((m) => m.name !== me && !roleOf(s.members, m.name)).map((m) => m.name);
+      const drafts = getRepo(planID).drafts.filter((d) => gone.includes(d.owner) && !d.transient);
+      if (drafts.length) said.push(`${drafts.map((d) => `${firstName(d.owner)}'s draft (${d.name})`).join(', ')} ${drafts.length === 1 ? 'stays' : 'stay'} on the plan, where an Owner or Editor can publish or discard ${drafts.length === 1 ? 'it' : 'them'}; ${drafts.length === 1 ? 'its owner' : 'their owners'} can't open ${drafts.length === 1 ? 'it' : 'them'}.`);
+      if (said.length && !(await ask('Save These People?', said.join(' '), 'Save', 'Keep Editing'))) return;
+    }
     busy = true;
     try {
       if (planID) {
@@ -524,6 +542,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         templateName.errorText = '';
         q<HTMLElement>('[data-psu-template-hint]').textContent = `${config.template ? `Started from ${config.template}. ` : ''}Save its levels, fields, page layouts and lists under a name New Plan can start from. Its items, dates, money and people stay with this plan.`;
         members = membersOf(repo).map((m) => ({ ...m }));
+        before = members.map((m) => ({ ...m }));
         views = new Set(viewsOf(repo));
         name.value = plan.PlanName ?? '';
         description.value = plan.Description ?? '';
