@@ -85,6 +85,7 @@ import {
   draftAttributes,
   configOf,
   type PlanChange,
+  orgOf,
 } from '../../lib/planning/plan-repo';
 import { setupPlanDeliverablesView } from './plan-deliverables';
 import { setupPlanDocumentsView } from './plan-documents';
@@ -491,8 +492,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       },
     });
     elementDrawer = handle;
+    // Closed (Escape included), focus goes back where it came from, the row (2026-10-29, the second traps audit).
+    const from = document.activeElement as HTMLElement | null;
     void handle.closed.then(() => {
       if (elementDrawer === handle) elementDrawer = null;
+      setTimeout(() => {
+        if (from?.isConnected && (document.activeElement === document.body || !document.activeElement)) from.focus();
+      }, 400);
     });
   }
 
@@ -689,8 +695,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       },
     });
     elementDrawer = handle;
+    // Closed (Escape included), focus goes back where it came from, the row (2026-10-29, the second traps audit).
+    const rowSel = () => root.querySelector<HTMLElement>(`.bcn-plan-gantt__select[data-select="${id}"]`);
     void handle.closed.then(() => {
       if (elementDrawer === handle) elementDrawer = null;
+      // After esa-side-dialog's close animation, which hands focus to the page body.
+      setTimeout(() => {
+        if (document.activeElement === document.body || !document.activeElement) rowSel()?.focus();
+      }, 400);
     });
   }
 
@@ -1062,7 +1074,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
-    if (healthPick.length) applyHealth();
+    if (healthPick.length || ownerPick) applyHealth();
     drawTable();
     drawerListeners.forEach((listener) => listener());
     // Adding (2026-10-28): the header's Add names the top level; an empty plan says where its first item comes from.
@@ -1664,9 +1676,27 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     healthFacet.options = ['Late', 'At Risk', DUE_SOON, 'Blocked', 'Completed'].map((h) => ({ value: h, label: h }));
     if (healthPick.length) healthFacet._selected = [...healthPick];
   });
-  /** The tasks and milestones the Health filter keeps, or null for every row. */
+  // Owner (2026-10-29, the second traps audit: a Contributor told to update his tasks opened every row to find them):
+  // Mine, or one owner, a person or an organization.
+  const ownerFacet = q<FacetEl>('[data-prp-owner]');
+  let ownerPick = new URLSearchParams(location.search).get('owner') ?? '';
+  const MINE = 'mine';
+  function drawOwnerFacet(): void {
+    const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
+    const names = [...new Set(Object.values(attrs).flatMap((a) => a?.owners ?? []))].sort();
+    ownerFacet.options = [{ value: MINE, label: 'Mine' }, ...names.map((n) => ({ value: n, label: n }))];
+    if (ownerPick) ownerFacet._selected = [ownerPick];
+  }
+  void customElements.whenDefined('esa-filter-dropdown').then(drawOwnerFacet);
+  ownerFacet.addEventListener('selection-change', (e) => {
+    const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
+    ownerPick = (Array.isArray(v) ? v[0] : v) ?? '';
+    applyHealth();
+  });
+  const ownedBy = (owners: string[] | undefined, pick: string) => !!owners?.some((o) => (pick === MINE ? o === me || o === orgOf(me) : o === pick));
+  /** The tasks and milestones the Health and Owner filters keep, or null for every row. */
   function healthRows(): Set<string> | null {
-    if (!healthPick.length) return null;
+    if (!healthPick.length && !ownerPick) return null;
     const rec = recordsFor(planID!);
     const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
     const todayIso = toLocalIsoDate(new Date());
@@ -1678,7 +1708,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const h = healthOf(rec, shown, id, (x) => !!attrs[x]?.deliverable);
       const end = element.EndDate ?? element.StartDate ?? null;
       const dueSoon = h.health !== 'Completed' && !!end && end >= todayIso && end <= soon;
-      if (healthPick.includes(h.health) || (healthPick.includes(DUE_SOON) && dueSoon)) out.add(id);
+      const healthOk = !healthPick.length || healthPick.includes(h.health) || (healthPick.includes(DUE_SOON) && dueSoon);
+      if (healthOk && (!ownerPick || ownedBy(attrs[id]?.owners, ownerPick))) out.add(id);
     }
     return out;
   }
@@ -1688,11 +1719,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const none = q<HTMLElement>('[data-prp-no-match]');
     none.hidden = !rows || rows.size > 0;
     if (rows && !rows.size) {
-      none.querySelector('.esa-empty-state__title')!.textContent = `Nothing ${healthPick.join(' or ')}`;
-      none.querySelector('.esa-empty-state__description')!.textContent = 'Clear the Health filter to see every item.';
+      const whose = ownerPick ? (ownerPick === MINE ? ' of Yours' : ` for ${ownerPick}`) : '';
+      none.querySelector('.esa-empty-state__title')!.textContent = healthPick.length ? `Nothing ${healthPick.join(' or ')}${whose}` : `No Items${whose}`;
+      none.querySelector('.esa-empty-state__description')!.textContent = 'Clear the filters to see every item.';
     }
     // The empty state's button clears what emptied it (2026-10-29: it said Clear Search under the Health filter).
-    q<HTMLElement>('[data-prp-search-clear-label]').textContent = rows && !rows.size ? 'Clear Health Filter' : 'Clear Search';
+    q<HTMLElement>('[data-prp-search-clear-label]').textContent = rows && !rows.size ? 'Clear Filters' : 'Clear Search';
   }
   healthFacet.addEventListener('selection-change', (e) => {
     const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
@@ -1725,9 +1757,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     applySearch();
   });
   q<HTMLElement>('[data-prp-search-clear]').addEventListener('click', () => {
-    if (healthPick.length && q<HTMLElement>('[data-prp-search-clear-label]').textContent === 'Clear Health Filter') {
+    if ((healthPick.length || ownerPick) && q<HTMLElement>('[data-prp-search-clear-label]').textContent === 'Clear Filters') {
       healthPick = [];
       healthFacet._selected = [];
+      ownerPick = '';
+      ownerFacet._selected = [];
       applyHealth();
       return;
     }

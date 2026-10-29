@@ -171,6 +171,7 @@ import { withBase } from '../../lib/base';
             <!-- What needs attention across the whole plan (2026-10-28, the SOW review: the overdue view covered only
                  deliverables): every task and milestone by health, or due within 30 days. -->
             <esa-filter-dropdown slot="lead" size="sm" label="Health" name="health" multiple data-prp-health></esa-filter-dropdown>
+            <esa-filter-dropdown slot="lead" size="sm" label="Owner" name="owner" data-prp-owner></esa-filter-dropdown>
             <!-- The schedule as a chart or a table you can edit (2026-10-28, the SOW review: table editing). -->
             <esa-button-toggle slot="lead" size="sm" label="" aria-label="Show As" data-prp-showas></esa-button-toggle>
           </BcnPlanGanttRange>
@@ -575,7 +576,7 @@ import { withBase } from '../../lib/base';
   /* Download is the budget's (the records views have their own). */
   .bcn-prp:not([data-view='budget']) [data-prp-download] { display: none; }
   /* Chart or Table and Health are the schedule's; the budget is its own sheet (2026-10-29, the second traps audit). */
-  .bcn-prp[data-view='budget'] :is([data-prp-showas], [data-prp-health]) { display: none; }
+  .bcn-prp[data-view='budget'] :is([data-prp-showas], [data-prp-health], [data-prp-owner]) { display: none; }
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);

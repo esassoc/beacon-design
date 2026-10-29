@@ -530,6 +530,8 @@ const { label, id } = Astro.props;
   /* budget=off (the levels study): the Budget column leaves the outline; the readout and About still carry it. */
   .bcn-plan-gantt-host[data-budget='off'] :global(.bcn-plan-gantt__budget),
   .bcn-plan-gantt-host[data-budget='off'] :global(.bcn-plan-gantt__corner-budget) { display: none; }
+  /* With no Budget column, the row menu sits at the row's end, over the name's tail, not mid-name (2026-10-29). */
+  .bcn-plan-gantt-host[data-budget='off'] :global(.bcn-plan-gantt__actions) { inset-inline-end: 0; padding-inline-end: var(--spacing-200); }
   .bcn-plan-gantt-host[data-levels='rules'] :global(.bcn-plan-gantt__mark:has(.bcn-plan-gantt__summary)) { filter: none; transform: none; }
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='1']),
   .bcn-plan-gantt-host[data-levels='sections'] :global(li[aria-level='2']) { background: var(--color-background-elevation-sunken); }
