@@ -15,6 +15,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import '../../styles/bcn-dialog-heading.css';
 ---
 
 <div class="bcn-eed" data-bcn-element-edit>
@@ -23,7 +24,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <p class="bcn-eed__lead" data-eed-lead></p>
 
       <section class="bcn-eed__section" aria-labelledby="eed-item">
-        <h3 class="bcn-eed__heading" id="eed-item"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" />Item</h3>
+        <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-item"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" />Item</h3>
         <esa-text-field data-eed="name" label="Name" size="sm" required></esa-text-field>
         <div class="bcn-eed__dates" data-eed-dates>
           <esa-date-picker data-eed="start" label="Start Date" size="sm"></esa-date-picker>
@@ -38,24 +39,24 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       </section>
 
       <section class="bcn-eed__section" aria-labelledby="eed-people">
-        <h3 class="bcn-eed__heading" id="eed-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS.users} size="sm" />Owners</h3>
+        <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS.users} size="sm" />Owners</h3>
         <ul class="bcn-eed__owners" data-eed-owners></ul>
         <esa-combobox mode="autocomplete" size="sm" placeholder="Add an Owner" aria-label="Add an Owner" data-eed-add-owner></esa-combobox>
       </section>
 
       <section class="bcn-eed__section" data-eed-deliverable-section aria-labelledby="eed-deliverable">
-        <h3 class="bcn-eed__heading" id="eed-deliverable"><EsaIcon name="package" paths={PLAN_ICON_PATHS.package} size="sm" />Deliverable</h3>
+        <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-deliverable"><EsaIcon name="package" paths={PLAN_ICON_PATHS.package} size="sm" />Deliverable</h3>
         <esa-switch-toggle data-eed="deliverable" label="This Item Is a Deliverable" label-position="after" size="sm"></esa-switch-toggle>
         <p class="bcn-eed__help">A deliverable is sent, received and completed: its page gains Transmittals and Completion.</p>
       </section>
 
       <section class="bcn-eed__section" data-eed-fields-section aria-labelledby="eed-fields">
-        <h3 class="bcn-eed__heading" id="eed-fields"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="sm" /><span data-eed-fields-title>Fields</span></h3>
+        <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-fields"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS['layout-template']} size="sm" /><span data-eed-fields-title>Fields</span></h3>
         <div class="bcn-eed__fields" data-eed-fields></div>
       </section>
 
       <section class="bcn-eed__section" aria-labelledby="eed-notes">
-        <h3 class="bcn-eed__heading" id="eed-notes"><EsaIcon name="message-square" paths={PLAN_ICON_PATHS['message-square']} size="sm" />Notes</h3>
+        <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-notes"><EsaIcon name="message-square" paths={PLAN_ICON_PATHS['message-square']} size="sm" />Notes</h3>
         <esa-textarea data-eed="notes" size="sm" rows="3" auto-resize placeholder="Optional" aria-label="Notes"></esa-textarea>
       </section>
     </form>
@@ -92,18 +93,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-eed__dates[hidden],
   .bcn-eed__help[hidden] {
     display: none;
-  }
-  .bcn-eed__heading {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    font-size: var(--typography-label-md-font-size);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default);
-  }
-  .bcn-eed__heading :global(.esa-icon) {
-    color: var(--color-content-default-secondary);
   }
   .bcn-eed__dates {
     display: grid;

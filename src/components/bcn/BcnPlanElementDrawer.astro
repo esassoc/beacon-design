@@ -28,7 +28,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 <div class="bcn-ped" data-bcn-plan-element-drawer>
   <esa-side-dialog class="bcn-ped__dialog" size="md">
     <div slot="header" class="bcn-ped__head">
-      <h2 class="bcn-ped__title typography-title" id="plan-element-drawer-title" data-ped="title"></h2>
+      <h2 class="bcn-ped__title typography-title-strong" id="plan-element-drawer-title" data-ped="title"></h2>
       <!-- Which plan it's read from (2026-10-28): the page's badge, Live Plan in orange or the draft's name in green. -->
       <!-- Which plan this edit lands in, as the plan header says it: the dot and the label, never a pill (design QA,
            2026-10-29: "Live Plan" had three forms). The runtime writes the label into .esa-badge__text. -->
@@ -58,7 +58,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <p class="plan-element__hint" data-ped="draft-note" hidden>In a draft you change dates and the date type. The name, level, dependencies and structure are edited on the live plan.</p>
         <!-- Sections with a heading and a glyph (2026-10-28, Andy): General, Schedule, Budget. -->
         <section class="plan-element__section" aria-labelledby="plan-element-drawer-general-heading">
-          <h3 class="plan-element__heading" id="plan-element-drawer-general-heading"><EsaIcon name="file-text" size="sm" />General</h3>
+          <h3 class="plan-element__heading bcn-dialog-heading" id="plan-element-drawer-general-heading"><EsaIcon name="file-text" size="sm" />General</h3>
           <esa-text-field data-ped="name" label="Name" required maxlength="500"></esa-text-field>
           <div class="bcn-ped__level">
             <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select a Level…"></esa-select>
@@ -72,7 +72,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         </section>
 
         <section class="plan-element__section" aria-labelledby="plan-element-drawer-schedule-heading">
-          <h3 class="plan-element__heading" id="plan-element-drawer-schedule-heading"><EsaIcon name="calendar" size="sm" />Schedule</h3>
+          <h3 class="plan-element__heading bcn-dialog-heading" id="plan-element-drawer-schedule-heading"><EsaIcon name="calendar" size="sm" />Schedule</h3>
           <!-- Milestone leads the schedule (2026-10-28, out from beside Level): a milestone is one date, not a span. The
                reason it can't be shows as the toggle's hint, so touch and screen readers get it too. -->
           <div class="plan-element__milestone">
@@ -100,7 +100,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         </section>
 
         <section class="plan-element__section" aria-labelledby="plan-element-drawer-budget-heading" data-ped="budget-section">
-          <h3 class="plan-element__heading" id="plan-element-drawer-budget-heading"><EsaIcon name="wallet" paths={PLAN_ICON_PATHS.wallet} size="sm" />Budget</h3>
+          <h3 class="plan-element__heading bcn-dialog-heading" id="plan-element-drawer-budget-heading"><EsaIcon name="wallet" paths={PLAN_ICON_PATHS.wallet} size="sm" />Budget</h3>
           <!-- One amount (2026-10-21), where the page has no budget sheet. A milestone is a date, not work: no budget. -->
           <div class="plan-element__budget" data-ped="budget-wrap">
             <esa-text-field data-ped="budget" label="Budget" type="number" prefix="$" min="0" step="1000"></esa-text-field>
@@ -116,7 +116,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-waits-on-heading" data-ped="waits-on">
         <!-- The section's own action beside its heading, so an empty list and a full one both read heading → list. -->
         <div class="plan-element__heading-row">
-          <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Waits On</h3>
+          <h3 class="plan-element__heading bcn-dialog-heading" id="plan-element-drawer-waits-on-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Waits On</h3>
           <div data-ped="add-pred-open-wrap">
             <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add Predecessor</EsaButton>
           </div>
@@ -141,7 +141,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       </section>
 
       <section class="plan-element__section" aria-labelledby="plan-element-drawer-blocks-heading" data-ped="blocks">
-        <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Blocks</h3>
+        <h3 class="plan-element__heading bcn-dialog-heading" id="plan-element-drawer-blocks-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Blocks</h3>
         <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
         <div class="plan-element__empty" data-ped="succ-none">
           <EsaEmptyState title="Nothing Waits on This" description="Add it as a predecessor from another item." size="sm" />
@@ -244,16 +244,12 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-ped__kept { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-ped__kept-actions { display: flex; flex-wrap: wrap; gap: var(--spacing-200); }
 
-  /* ── One field height (EXPERIMENT 2026-10-21): the md fields at 14px text, their padding solved for 36px — the
+  /* ── One field height (EXPERIMENT 2026-10-21): the md fields, their padding solved for 36px (their text is the theme's
+     one form size since the design QA, 2026-10-29; this drawer no longer re-declares the type tokens) — the
      BcnFilterBar compact technique (each lego's private padding hook, from its own line box). The legos' sm step would
      drop the text to ~11px, under the 14px dense floor. An <input> is never shorter than its font's normal line
      height (~1.3em), so the text fields solve from that; the select's trigger from 1lh. Worth a /request-lego: one
      shared control-height scale. ── */
-  .bcn-ped__dialog {
-    --typography-microcopy-md-font-size: 14px;
-    --typography-microcopy-md-strong-font-size: 14px;
-    --typography-microcopy-md-subtle-font-size: 14px;
-  }
   .bcn-ped__dialog :global(esa-text-field:not([size='sm'])),
   .bcn-ped__dialog :global(esa-date-picker),
   .bcn-ped__dialog :global(esa-combobox) {
@@ -261,8 +257,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     --_field-padding-y: calc((38px - 1.3em) / 2 - var(--form-border-width, 1px));
   }
   .bcn-ped__dialog :global(esa-select) {
-    /* A chosen value sets in body-md (15px+), not the placeholder's microcopy: stepped to the fields' 14px too. */
-    --typography-body-md-font-size: 14px;
     --_field-padding-y: calc((36px - 1lh) / 2 - var(--form-border-width, 1px));
   }
   .bcn-ped__dialog :global(esa-button-toggle) {
@@ -299,16 +293,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     border-top: 1px solid var(--color-border-default-subtle);
   }
   /* A section's heading leads with its glyph (2026-10-28), the glyph in the quiet ink so the words lead. */
-  .plan-element__heading {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    margin: 0;
-    font-size: var(--font-size-200);
-    font-weight: 600;
-    color: var(--color-content-default);
-  }
-  .plan-element__heading :global(.esa-icon) { color: var(--color-content-default-secondary); }
+  /* The headings are bcn-dialog-heading (bcn-dialog-heading.css): one dialog section heading everywhere. */
   /* Budget by fiscal year: label left, amount right, the total under a hairline. */
   .bcn-ped__fy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-300); }
   .bcn-ped__fy-list { display: flex; flex-direction: column; gap: var(--spacing-100); inline-size: 100%; margin: 0; font-size: var(--font-size-150); }
@@ -476,7 +461,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     align-items: flex-start;
     gap: var(--spacing-100);
     margin: 0;
-    font-size: 0.8125rem; /* the meta size, as the Gantt's tags; the spoke has no meta token */
+    font-size: var(--bcn-type-size-meta); /* the meta size, as the Gantt's tags */
     line-height: 1.35;
     color: var(--color-content-default-tertiary);
   }
@@ -484,7 +469,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
   /* Budget keeps to a figure's width rather than the drawer's. */
   .plan-element__budget { max-inline-size: 14rem; }
-  .bcn-ped__dialog :global(esa-textarea) { --typography-body-md-font-size: 14px; }
 
   /* Milestone, level with the Level picker's field; its reason (a parent can't be one) under it. */
   .plan-element__milestone {

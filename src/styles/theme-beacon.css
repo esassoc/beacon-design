@@ -496,6 +496,23 @@
   --bcn-print-desk: var(--bcn-gray-200);
 }
 
+/* ===== One form type size (design QA, 2026-10-29) =====
+   A typed value, a placeholder and a chosen option read --bcn-form-font-size at every size step of every form lego.
+   The hub types an sm field's value at microcopy-xs (12px at 1440) and an md field's at microcopy-md (15px), so the
+   dialogs (sm) read 12px while the drawer re-declared the tokens at 14px for its md fields; prod sets one
+   $input-font-size. Re-pointed on the form legos' hosts only: the properties inherit into their shadow roots and reach
+   nothing else (a button's or a tooltip's microcopy keeps its own step). Labels, help and errors keep their steps. */
+[data-theme="beacon"] :is(esa-text-field, esa-textarea, esa-select, esa-date-picker, esa-combobox, esa-input-tag, esa-filter-dropdown) {
+  --typography-microcopy-2xs-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-xs-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-sm-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-md-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-lg-subtle-font-size: var(--bcn-form-font-size);
+  --typography-body-2xs-font-size: var(--bcn-form-font-size);
+  --typography-body-xs-font-size: var(--bcn-form-font-size);
+  --typography-body-md-font-size: var(--bcn-form-font-size);
+}
+
 /* ===== One focus ring on every focusable element (design QA, 2026-10-29) =====
    A floor, at the lowest specificity a rule can have here: a link, a reset button or any tabbable element that draws no
    ring of its own takes the theme's, never the browser's default. Components that draw their own (the outline row's

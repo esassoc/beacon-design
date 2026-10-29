@@ -56,6 +56,7 @@ const LISTS = [
   { id: 'purposes', title: 'Transmittal Purposes', noun: 'Purpose', placeholder: 'e.g. For Review', hint: 'Why a deliverable is sent, chosen on each transmittal.' },
   { id: 'agencies', title: 'Agencies', noun: 'Agency', placeholder: 'e.g. USFWS', hint: 'The agencies the plan sends to and hears from.' },
 ];
+import '../../styles/bcn-dialog-heading.css';
 ---
 
 <div class="bcn-psu" data-bcn-plan-setup>
@@ -78,7 +79,7 @@ const LISTS = [
     </nav>
     <form class="bcn-psu__form" novalidate data-psu-form>
       <section class="bcn-psu__section" data-psu-section="general" aria-labelledby="psu-general">
-        <h3 class="bcn-psu__heading" id="psu-general">General</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-general"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS["file-text"]} size="sm" />General</h3>
         <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
         <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
         <!-- The plan's planned span (2026-10-28, the build-from-scratch review): the chart's window before any item has
@@ -93,7 +94,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="tracks" aria-labelledby="psu-views" hidden>
-        <h3 class="bcn-psu__heading" id="psu-views">What It Tracks</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-views"><EsaIcon name="square-chart-gantt" paths={PLAN_ICON_PATHS["square-chart-gantt"]} size="sm" />What It Tracks</h3>
         <p class="bcn-psu__hint typography-body-sm">A schedule, a budget, or both. Turning one off hides it; nothing in it is deleted.</p>
         <div class="bcn-psu__views">
           <div class="bcn-psu__view" data-psu-view="schedule">
@@ -111,7 +112,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="levels" aria-labelledby="psu-levels" hidden>
-        <h3 class="bcn-psu__heading" id="psu-levels">Levels</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-levels"><EsaIcon name="list-tree" paths={PLAN_ICON_PATHS["list-tree"]} size="sm" />Levels</h3>
         <p class="bcn-psu__hint typography-body-sm" data-psu-levels-hint>From the top of the plan down, up to 4.</p>
         <div class="bcn-psu__level bcn-psu__level--head typography-label-sm" aria-hidden="true">
           <span></span><span>Singular</span><span>Plural</span><span data-psu-plan-only></span><span></span>
@@ -121,7 +122,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="people" aria-labelledby="psu-people" hidden>
-        <h3 class="bcn-psu__heading" id="psu-people">People</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-people"><EsaIcon name="users" paths={PLAN_ICON_PATHS["users"]} size="sm" />People</h3>
         <p class="bcn-psu__hint typography-body-sm">Owners and Editors publish to Live. Contributors draft and ask to publish. Guests (agency reviewers) see only the transmittals sent to them. Owners also change these settings.</p>
         <ul class="bcn-psu__people" data-psu-people></ul>
         <esa-combobox class="bcn-psu__find" data-psu-add-person mode="autocomplete" size="sm" label="Add a Person" placeholder="e.g. Dana Whitfield"></esa-combobox>
@@ -129,7 +130,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="lists" data-psu-plan-only aria-labelledby="psu-lists" hidden>
-        <h3 class="bcn-psu__heading" id="psu-lists">Lists</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-lists"><EsaIcon name="tag" paths={PLAN_ICON_PATHS["tag"]} size="sm" />Lists</h3>
         <p class="bcn-psu__hint typography-body-sm">What the plan’s cards offer, in the order they offer it. A renamed document type carries through to the levels that use it.</p>
         <div class="bcn-psu__lists">
           {
@@ -153,7 +154,7 @@ const LISTS = [
       <!-- Reminders (2026-10-28, the SOW review; prod's action notifications): Beacon's nightly emails to an item's owners
            as its due date nears, on the day, and after it. -->
       <section class="bcn-psu__section" data-psu-section="reminders" data-psu-plan-only aria-labelledby="psu-reminders" hidden>
-        <h3 class="bcn-psu__heading" id="psu-reminders">Reminders</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-reminders"><EsaIcon name="clock" paths={PLAN_ICON_PATHS["clock"]} size="sm" />Reminders</h3>
         <p class="bcn-psu__hint typography-body-sm">Each night Beacon emails an item’s owners as its end date nears, on the day, and after it while it isn’t complete. An organization’s people on this plan hear for the items it owns. Receipt reminders follow Days to Confirm Receipt, in Lists.</p>
         <div class="bcn-psu__rem">
           <EsaCard title="Coming Up" padding="compact">
@@ -179,7 +180,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="template" data-psu-plan-only aria-labelledby="psu-template" hidden>
-        <h3 class="bcn-psu__heading" id="psu-template">Template</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-template"><EsaIcon name="layout-template" paths={PLAN_ICON_PATHS["layout-template"]} size="sm" />Template</h3>
         <p class="bcn-psu__hint typography-body-sm" data-psu-template-hint></p>
         <div class="bcn-psu__template">
           <esa-text-field data-psu="templateName" size="sm" label="Template Name"></esa-text-field>
@@ -188,7 +189,7 @@ const LISTS = [
       </section>
 
       <section class="bcn-psu__section" data-psu-section="danger" data-psu-plan-only aria-labelledby="psu-danger" hidden>
-        <h3 class="bcn-psu__heading" id="psu-danger">Danger Zone</h3>
+        <h3 class="bcn-psu__heading bcn-dialog-heading" id="psu-danger"><EsaIcon name="triangle-alert" paths={PLAN_ICON_PATHS["triangle-alert"]} size="sm" />Danger Zone</h3>
         <div data-psu-danger>
           <BcnDangerZone title="Delete This Plan" description="Its revisions, drafts, budget and records go with it. This can't be undone.">
             <span data-psu-delete><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete Plan</EsaButton></span>
@@ -293,7 +294,7 @@ const LISTS = [
 
   .bcn-psu__form { margin: 0; min-inline-size: 0; overflow-y: auto; padding-inline-end: var(--spacing-200); }
   .bcn-psu__section { display: flex; flex-direction: column; gap: var(--spacing-300); max-inline-size: 44rem; }
-  .bcn-psu__heading { margin: 0 0 var(--spacing-100); font-size: var(--font-size-300); font-weight: 600; color: var(--color-content-default); }
+  .bcn-psu__heading { margin-block-end: var(--spacing-100); }
   .bcn-psu__subheading { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; color: var(--color-content-default); }
   .bcn-psu__hint { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-psu__error { margin: 0; color: var(--color-content-utility-danger); }
