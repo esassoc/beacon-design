@@ -90,7 +90,19 @@ export interface Receipt {
   evidenceFileId?: string;
   remindedAt?: string;
 }
-export type TransmittalStatus = 'Draft' | 'Sent' | 'Received' | 'Responded' | 'Closed';
+export type TransmittalStatus = 'Draft' | 'Sent' | 'Received' | 'Responded' | 'Closed' | 'Superseded';
+
+/** What the agency decided, recorded with the response (2026-10-29, the resubmittal pass: there was no Rejected or
+ *  Revisions Requested, and no link from a resend to the send it replaces). The accepting words are the completion
+ *  results' own, so a response and the completion it leads to say the same thing; Revisions Requested and Rejected keep
+ *  the deliverable open and offer Revise and Resubmit; Comments Only is a response that decides nothing (a draft for
+ *  comment). */
+export type ResponseOutcome = 'Accepted' | 'Accepted With Comments' | 'Revisions Requested' | 'Rejected' | 'Comments Only';
+export const RESPONSE_OUTCOMES: ResponseOutcome[] = ['Accepted', 'Accepted With Comments', 'Revisions Requested', 'Rejected', 'Comments Only'];
+/** Outcomes that send the work back: the deliverable stays open until a resubmittal is accepted. */
+export const SENDS_BACK: ReadonlySet<string> = new Set<ResponseOutcome>(['Revisions Requested', 'Rejected']);
+/** Outcomes that accept it: Record Completion can follow. */
+export const ACCEPTS: ReadonlySet<string> = new Set<ResponseOutcome>(['Accepted', 'Accepted With Comments']);
 export interface Transmittal {
   id: string;
   /** Per plan, in order: T-001. */
@@ -114,7 +126,11 @@ export interface Transmittal {
   receipts: Record<string, Receipt>;
   /** `at` is when it was recorded; `receivedOn` (yyyy-MM-dd) the day it came back, when someone records a letter or an
    *  email after the fact (2026-10-29, the agency-side pass: a response emailed last week read as answered today). */
-  response?: { at: string; by: string; note: string; fileId?: string; receivedOn?: string };
+  response?: { at: string; by: string; note: string; fileId?: string; receivedOn?: string; outcome?: ResponseOutcome };
+  /** A resubmittal: the transmittal this one replaces (its id). Set when it's started from Revise and Resubmit. */
+  supersedes?: string;
+  /** Set on the replaced one when its resubmittal is sent (a record about the send, like closedAt). */
+  supersededBy?: string;
 }
 
 export interface Completion {
@@ -292,6 +308,7 @@ export const fileById = (rec: PlanRecords, id: string | undefined) => (id ? rec.
 export const transmittalNumber = (t: Pick<Transmittal, 'number'>) => `T-${String(t.number).padStart(3, '0')}`;
 
 export function transmittalStatus(t: Transmittal): TransmittalStatus {
+  if (t.supersededBy) return 'Superseded';
   if (t.closedAt) return 'Closed';
   if (!t.sentAt) return 'Draft';
   if (t.response) return 'Responded';
@@ -352,6 +369,12 @@ export function sendTransmittal(planID: string, id: string, ackDays = 2): void {
       return { fileId: e.fileId, version: f?.versions.at(-1)?.number ?? e.version, revision: f?.revision ?? e.revision };
     });
     for (const n of [...t.to, ...t.cc]) t.receipts[n] = {};
+    // A resubmittal replaces the one it supersedes: that one reads Superseded by this, and closes (no more reminders).
+    const old = t.supersedes ? r.transmittals.find((x) => x.id === t.supersedes) : undefined;
+    if (old) {
+      old.supersededBy = t.id;
+      old.closedAt ??= t.sentAt;
+    }
   });
 }
 /** Opened while signed in: logged, but not receipt. */
@@ -388,11 +411,50 @@ export function remindRecipient(planID: string, id: string, name: string): void 
     if (t?.receipts[name]) t.receipts[name].remindedAt = nowIso();
   });
 }
-export function recordResponse(planID: string, id: string, note: string, fileId?: string, receivedOn?: string): void {
+export function recordResponse(planID: string, id: string, note: string, fileId?: string, receivedOn?: string, outcome?: ResponseOutcome): void {
   updateRecords(planID, (r) => {
     const t = r.transmittals.find((x) => x.id === id);
-    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId, ...(receivedOn && receivedOn !== todayIso() ? { receivedOn } : {}) };
+    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId, ...(receivedOn && receivedOn !== todayIso() ? { receivedOn } : {}), ...(outcome ? { outcome } : {}) };
   });
+}
+
+// ── Resubmittals (2026-10-29): a chain of sends of one deliverable, each replacing the last ──────────────────────
+
+/** The sent transmittal that replaced this one, if any. */
+export const supersededByOf = (rec: PlanRecords, t: Transmittal) => (t.supersededBy ? rec.transmittals.find((x) => x.id === t.supersededBy) : undefined);
+/** The one this resubmits, if any. */
+export const supersedesOf = (rec: PlanRecords, t: Transmittal) => (t.supersedes ? rec.transmittals.find((x) => x.id === t.supersedes) : undefined);
+/** A resubmittal started from this one and not yet sent. */
+export const resubmittalDraftOf = (rec: PlanRecords, t: Transmittal) => rec.transmittals.find((x) => x.supersedes === t.id && !x.sentAt);
+/** Every send in its review chain, first submittal first (this one included; an unsent resubmittal left out). */
+export function reviewChain(rec: PlanRecords, t: Transmittal): Transmittal[] {
+  let first = t;
+  const seen = new Set([t.id]);
+  for (let prev = supersedesOf(rec, first); prev && !seen.has(prev.id); prev = supersedesOf(rec, first)) {
+    seen.add(prev.id);
+    first = prev;
+  }
+  const out = [first];
+  for (let next = supersededByOf(rec, first); next && !out.includes(next); next = supersededByOf(rec, next)) out.push(next);
+  if (!out.includes(t)) out.push(t);
+  return out;
+}
+/** Which round of review this send is: 1 for a first submittal, 2 for its first resubmittal. */
+export function reviewRound(rec: PlanRecords, t: Transmittal): number {
+  let n = 1;
+  const seen = new Set([t.id]);
+  for (let prev = supersedesOf(rec, t); prev && !seen.has(prev.id); prev = supersedesOf(rec, prev)) {
+    seen.add(prev.id);
+    n++;
+  }
+  return n;
+}
+/** Revise and Resubmit applies: sent, answered with anything short of acceptance, and not yet replaced. */
+export const canResubmit = (t: Transmittal) => !!t.sentAt && !!t.response && !ACCEPTS.has(t.response.outcome ?? '') && !t.supersededBy;
+/** A deliverable sent back and not yet resubmitted: its newest send came back Revisions Requested or Rejected. */
+export function sentBack(rec: PlanRecords, elementId: string): Transmittal | undefined {
+  const newest = transmittalsFor(rec, elementId).find((t) => t.sentAt);
+  return newest && SENDS_BACK.has(newest.response?.outcome ?? '') && !newest.supersededBy ? newest : undefined;
 }
 export function closeTransmittal(planID: string, id: string): void {
   updateRecords(planID, (r) => {
@@ -549,6 +611,9 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
     const end = el ? endOf(el) : null;
     const start = el ? startOf(el) : null;
     if (end && end < today) return { health: 'Late', why: `Ended ${dateWords(end)}, not complete` };
+    // Sent back by the agency and not yet resubmitted: at risk until the revision goes out.
+    const back = sentBack(rec, id);
+    if (back) return { health: 'At Risk', why: `${back.response!.outcome} ${dateWords(respondedOn(back)!)}, not resubmitted` };
     if ((tree.children.get(id) ?? []).length) {
       const p = progressOf(rec, plan, id, isDeliverable, today);
       const behind = Math.round((p.planned - p.earned) * 100);
@@ -658,12 +723,31 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   // an 11:30 send).
   const rcpt = (opened: string, confirmed?: string) => ({ openedAt: at(opened, '16:20'), confirmedAt: confirmed ? at(confirmed, '16:24') : undefined });
   rec.transmittals.push(
-    { id: 't1', number: 1, elementId: scoping, subject: 'Near-field scoping memo, draft', purpose: 'For Comment', from: 'Alex Rivera', to: ['Jordan Reyes', 'Casey Lin'], cc: ['Morgan Ellis'], memoFileId: memoCover1.id, enclosures: [{ fileId: smDraft.id, version: 2, revision: 'Draft 1' }], responseDue: '2026-09-14', ackDue: '2026-08-16', createdBy: 'Alex Rivera', createdAt: at('2026-08-13'), sentAt: at('2026-08-14', '15:05'), receipts: { 'Jordan Reyes': rcpt('2026-08-14', '2026-08-14'), 'Casey Lin': rcpt('2026-08-15', '2026-08-15'), 'Morgan Ellis': { openedAt: at('2026-08-17') } }, response: { at: at('2026-09-11'), by: 'Alex Rivera', note: 'CDFW comments received; eleven comments.', fileId: smComments.id } },
-    { id: 't2', number: 2, elementId: feasibility, subject: 'Tag technology feasibility memo', purpose: 'For Review', from: 'Sam Okafor', to: ['Rowan Hale', 'Jordan Reyes'], cc: ['Morgan Ellis'], memoFileId: tfCover.id, enclosures: [{ fileId: tfMemo.id, version: 1, revision: 'Final' }], responseDue: '2026-10-30', ackDue: '2026-10-02', createdBy: 'Sam Okafor', createdAt: at('2026-09-29'), sentAt: at('2026-09-30', '13:40'), receipts: { 'Rowan Hale': rcpt('2026-10-01', '2026-10-01'), 'Jordan Reyes': rcpt('2026-09-30', '2026-09-30'), 'Morgan Ellis': {} }, response: { at: at('2026-10-20'), by: 'Sam Okafor', note: 'Accepted with three comments.', fileId: tfComments.id }, closedAt: at('2026-10-21') },
-    { id: 't3', number: 3, elementId: scoping, subject: 'Near-field scoping memo, final', purpose: 'Final', from: 'Alex Rivera', to: ['Jordan Reyes', 'Casey Lin'], cc: ['Morgan Ellis'], memoFileId: memoCover3.id, enclosures: [{ fileId: smFinal.id, version: 1, revision: 'Final' }], ackDue: '2026-09-27', createdBy: 'Alex Rivera', createdAt: at('2026-09-24'), sentAt: at('2026-09-25', '10:02'), receipts: { 'Jordan Reyes': rcpt('2026-09-25', '2026-09-25'), 'Casey Lin': { ...rcpt('2026-09-29'), confirmedAt: at('2026-09-29', '16:10'), recordedBy: 'Alex Rivera' }, 'Morgan Ellis': { openedAt: at('2026-09-26') } }, response: { at: at('2026-10-09'), by: 'Alex Rivera', note: 'Accepted by CDFW.', fileId: smAccept.id }, closedAt: at('2026-10-09', '14:00') },
+    { id: 't1', number: 1, elementId: scoping, subject: 'Near-field scoping memo, draft', purpose: 'For Comment', from: 'Alex Rivera', to: ['Jordan Reyes', 'Casey Lin'], cc: ['Morgan Ellis'], memoFileId: memoCover1.id, enclosures: [{ fileId: smDraft.id, version: 2, revision: 'Draft 1' }], responseDue: '2026-09-14', ackDue: '2026-08-16', createdBy: 'Alex Rivera', createdAt: at('2026-08-13'), sentAt: at('2026-08-14', '15:05'), receipts: { 'Jordan Reyes': rcpt('2026-08-14', '2026-08-14'), 'Casey Lin': rcpt('2026-08-15', '2026-08-15'), 'Morgan Ellis': { openedAt: at('2026-08-17') } }, response: { at: at('2026-09-11'), by: 'Alex Rivera', note: 'CDFW comments received; eleven comments.', fileId: smComments.id, outcome: 'Comments Only' }, supersededBy: 't3', closedAt: at('2026-09-25', '10:02') },
+    { id: 't2', number: 2, elementId: feasibility, subject: 'Tag technology feasibility memo', purpose: 'For Review', from: 'Sam Okafor', to: ['Rowan Hale', 'Jordan Reyes'], cc: ['Morgan Ellis'], memoFileId: tfCover.id, enclosures: [{ fileId: tfMemo.id, version: 1, revision: 'Final' }], responseDue: '2026-10-30', ackDue: '2026-10-02', createdBy: 'Sam Okafor', createdAt: at('2026-09-29'), sentAt: at('2026-09-30', '13:40'), receipts: { 'Rowan Hale': rcpt('2026-10-01', '2026-10-01'), 'Jordan Reyes': rcpt('2026-09-30', '2026-09-30'), 'Morgan Ellis': {} }, response: { at: at('2026-10-20'), by: 'Sam Okafor', note: 'Accepted with three comments.', fileId: tfComments.id, outcome: 'Accepted With Comments' }, closedAt: at('2026-10-21') },
+    { id: 't3', number: 3, elementId: scoping, subject: 'Near-field scoping memo, final', purpose: 'Final', from: 'Alex Rivera', to: ['Jordan Reyes', 'Casey Lin'], cc: ['Morgan Ellis'], memoFileId: memoCover3.id, enclosures: [{ fileId: smFinal.id, version: 1, revision: 'Final' }], ackDue: '2026-09-27', createdBy: 'Alex Rivera', createdAt: at('2026-09-24'), sentAt: at('2026-09-25', '10:02'), receipts: { 'Jordan Reyes': rcpt('2026-09-25', '2026-09-25'), 'Casey Lin': { ...rcpt('2026-09-29'), confirmedAt: at('2026-09-29', '16:10'), recordedBy: 'Alex Rivera' }, 'Morgan Ellis': { openedAt: at('2026-09-26') } }, response: { at: at('2026-10-09'), by: 'Alex Rivera', note: 'Accepted by CDFW.', fileId: smAccept.id, outcome: 'Accepted' }, supersedes: 't1', closedAt: at('2026-10-09', '14:00') },
     { id: 't4', number: 4, elementId: baseline, subject: 'Baseline study plan, draft 2', purpose: 'For Comment', from: 'Alex Rivera', to: ['Jordan Reyes', 'Casey Lin', 'Rowan Hale'], cc: ['Morgan Ellis'], memoFileId: bpCover.id, enclosures: [{ fileId: bpDraft.id, version: 3, revision: 'Draft 2' }], responseDue: '2026-11-23', ackDue: '2026-10-25', createdBy: 'Alex Rivera', createdAt: at('2026-10-22'), sentAt: at('2026-10-23', '11:30'), receipts: { 'Jordan Reyes': rcpt('2026-10-23', '2026-10-23'), 'Casey Lin': rcpt('2026-10-26', '2026-10-26'), 'Rowan Hale': { remindedAt: at('2026-10-27', '08:00') }, 'Morgan Ellis': {} } },
     { id: 't5', number: 5, elementId: permits, subject: 'Encroachment permit application package', purpose: 'For Information', from: 'Sam Okafor', to: ['Morgan Ellis'], cc: [], enclosures: [{ fileId: cslc.id, version: 1, revision: 'Final' }], responseDue: undefined, createdBy: 'Sam Okafor', createdAt: at('2026-10-27', '16:00'), receipts: {} }
   );
+
+  // The collection permit, sent back and resubmitted (2026-10-29, the resubmittal pass): CDFW found the first
+  // application incomplete (Revisions Requested); the revised one went out last week and is in its second round of
+  // review. Dated from today, as the permit's own dates are (plan-repo's RELATIVE_TASKS).
+  const scp = byName('Predator survey collection permit');
+  if (scp) {
+    const today = todayIso();
+    const ago = (days: number) => new Date(Date.parse(`${today}T12:00:00Z`) - days * 86_400_000).toISOString().slice(0, 10);
+    const scpApp = file('Predator survey SCP application.pdf', 'Priya Natarajan', ago(48), 'Revision 1', { versions: 2, size: 860_000 });
+    scpApp.versions[1].at = at(ago(9), '15:10');
+    const scpLetter = file('CDFW incomplete-application letter.pdf', 'Priya Natarajan', ago(20), 'Final');
+    link(scpApp, scp, 'Permit', ago(9), 'Revision 1 answers CDFW’s incomplete-application letter', 'Priya Natarajan');
+    link(scpLetter, scp, 'Correspondence', ago(20), 'Incomplete: gear specifications and a take estimate by species', 'Priya Natarajan', { agency: 'CDFW', direction: 'Received', letterDate: ago(21), agreement: 'Resubmit with gear specifications and take by species' });
+    const base = { elementId: scp, purpose: 'For Approval', from: 'Priya Natarajan', to: ['Casey Lin'], cc: ['Morgan Ellis'], createdBy: 'Priya Natarajan' };
+    rec.transmittals.push(
+      { ...base, id: 't6', number: 6, subject: 'Predator survey collection permit application', enclosures: [{ fileId: scpApp.id, version: 1, revision: 'Original' }], responseDue: ago(18), ackDue: ago(45), createdAt: at(ago(48)), sentAt: at(ago(47), '14:20'), receipts: { 'Casey Lin': rcpt(ago(46), ago(46)), 'Morgan Ellis': { openedAt: at(ago(46)) } }, response: { at: at(ago(20), '09:40'), by: 'Priya Natarajan', note: 'Incomplete: CDFW needs gear specifications and a take estimate by species before it can act.', fileId: scpLetter.id, receivedOn: ago(21), outcome: 'Revisions Requested' }, supersededBy: 't7', closedAt: at(ago(8), '11:05') },
+      { ...base, id: 't7', number: 7, subject: 'Predator survey collection permit application, Revision 1', supersedes: 't6', enclosures: [{ fileId: scpApp.id, version: 2, revision: 'Revision 1' }], notes: 'Adds the gear specifications (Section 3) and the take estimate by species (Table 5) CDFW asked for.', responseDue: ago(-22), ackDue: ago(6), createdAt: at(ago(9)), sentAt: at(ago(8), '11:05'), receipts: { 'Casey Lin': rcpt(ago(7), ago(7)), 'Morgan Ellis': {} } }
+    );
+  }
   for (const f of [memoCover1, memoCover3, tfCover, bpCover]) void f;
   // Link the two later cover letters onto their elements too, so the memo is a document there.
   link(memoCover3, scoping, 'Correspondence', '2026-09-25', 'Cover letter for T-003', 'Alex Rivera', { agency: 'CDFW', direction: 'Sent', letterDate: '2026-09-25' });
@@ -700,6 +784,8 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   comment(baseline, 'Jamie Quishenberry', '2026-10-27', '14:22', 'If NMFS needs more time, the response date can slip a week without moving the procurement start.');
   comment(permits, 'Sam Okafor', '2026-10-22', '10:30', 'USACE moved our pre-application meeting to December. Flagged At Risk until it is on the calendar.');
   comment(scoping, 'Alex Rivera', '2026-10-09', '14:10', 'Accepted. Closing this out; the final is in Documents.');
+  const scpAgo = (days: number) => new Date(Date.parse(`${todayIso()}T12:00:00Z`) - days * 86_400_000).toISOString().slice(0, 10);
+  comment(byName('Predator survey collection permit'), 'Priya Natarajan', scpAgo(20), '10:02', 'CDFW called it incomplete. Revision 1 adds the gear specifications and the take estimate; Casey says a second round usually takes three weeks.');
 
   updateRecords(planID, (r) => Object.assign(r, rec));
 }

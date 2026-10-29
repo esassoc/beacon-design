@@ -150,7 +150,7 @@ export function docPicker(select: SelectEl, initialUpload: HTMLElement, noneLabe
 export interface TransmittalDialog {
   /** New (no transmittalId) or a draft's edit. `check` shows what a send still needs as it opens (a row's Send on an
    *  incomplete draft lands here). */
-  open(opts: { planID: string; elementId: string; transmittalId?: string; check?: boolean }): Promise<TransmittalDialogResult>;
+  open(opts: { planID: string; elementId: string; transmittalId?: string; check?: boolean; resubmitOf?: string }): Promise<TransmittalDialogResult>;
 }
 
 export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
@@ -167,6 +167,8 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
   const noFiles = q<HTMLElement>('[data-tmd-no-files]');
   const enclosureError = q<HTMLElement>('[data-tmd-enclosure-error]');
   const errorEl = q<HTMLElement>('[data-tmd-error]');
+  const resubmitBox = q<HTMLElement>('[data-tmd-resubmit]');
+  const resubmitText = q<HTMLElement>('[data-tmd-resubmit-text]');
   const confirmEl = q<ConfirmEl>('[data-tmd-confirm]');
   const fileTpl = q<HTMLTemplateElement>('template[data-tmd-tpl="enclosure"]');
   fillIcons(root);
@@ -175,6 +177,8 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
   let planID = '';
   let elementId = '';
   let editing: Transmittal | null = null;
+  /** The send a resubmittal replaces (Revise and Resubmit), new or a draft of one. */
+  let replaces: Transmittal | null = null;
   let number = '';
   let files: PlanFile[] = [];
   let selected = new Set<string>();
@@ -224,7 +228,10 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
         check.disabled = isMemo;
         row.toggleAttribute('data-memo', isMemo);
         const latest = f.versions.at(-1);
-        row.querySelector('[data-file-meta]')!.textContent = isMemo ? 'The Memo' : revisionText(f.revision, latest?.number);
+        // A resubmittal says which of these went last time, at what version: the revised one should be newer.
+        const before = replaces?.enclosures.find((e) => e.fileId === f.id);
+        const was = before ? (before.version === latest?.number ? `. Unchanged since ${transmittalNumber(replaces!)}` : `. ${transmittalNumber(replaces!)} sent Version ${before.version}`) : '';
+        row.querySelector('[data-file-meta]')!.textContent = isMemo ? 'The Memo' : `${revisionText(f.revision, latest?.number)}${was}`;
         row.querySelector('[data-file-date]')!.textContent = day(latest?.at ?? f.addedAt);
         const toggle = (on: boolean) => {
           if (on) selected.add(f.id);
@@ -303,7 +310,7 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
       id = editing.id;
       num = transmittalNumber(editing);
     } else {
-      const t = newTransmittal(planID, { ...body, elementId, from: currentUserName() });
+      const t = newTransmittal(planID, { ...body, elementId, from: currentUserName(), ...(replaces ? { supersedes: replaces.id } : {}) });
       id = t.id;
       num = transmittalNumber(t);
     }
@@ -400,6 +407,8 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
       const config = configOf(repo);
       const rec = recordsFor(planID);
       editing = opts.transmittalId ? (rec.transmittals.find((t) => t.id === opts.transmittalId && !t.sentAt) ?? null) : null;
+      const replacesId = editing?.supersedes ?? (editing ? undefined : opts.resubmitOf);
+      replaces = replacesId ? (rec.transmittals.find((t) => t.id === replacesId && !!t.sentAt) ?? null) : null;
       const element = flattenPlan(latestVersion(repo).plan.Elements).find(({ element: e }) => e.PlanElementID === elementId)?.element;
       const values = attributesAt(repo)[elementId]?.values ?? {};
       const docs = documentsFor(rec, elementId).filter((d) => d.file.kind === 'file');
@@ -421,6 +430,22 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
         notes.value = editing.notes ?? '';
         selected = new Set(editing.enclosures.map((e) => e.fileId).filter((id) => files.some((f) => f.id === id)));
         memo.fill(files, editing.memoFileId && files.some((f) => f.id === editing!.memoFileId) ? editing.memoFileId : '');
+      } else if (replaces) {
+        // Revise and Resubmit: the same people, purpose and notes' place, a fresh due date, the revised document.
+        const prior = replaces;
+        dialog.heading = 'Revise and Resubmit';
+        lede.textContent = `${number} from ${withOrg(me)}, resubmitting ${element?.PlanElementName ?? 'this deliverable'}. Nothing goes out until it's sent.`;
+        subject.value = prior.subject.replace(/,\s*(revised|resubmittal|revision \d+)$/i, '') + ', revised';
+        purpose.value = prior.purpose;
+        to.value = [...prior.to];
+        cc.value = [...prior.cc];
+        due.value = period > 0 ? daysFromToday(period) : '';
+        notes.value = '';
+        // The revised work: what went last time (at its newest version), else the newest work on the deliverable.
+        const again = prior.enclosures.map((e) => e.fileId).filter((id) => files.some((f) => f.id === id));
+        const newest = docs.find((d) => d.link.type !== 'Correspondence');
+        selected = new Set(again.length ? again : newest ? [newest.file.id] : []);
+        memo.fill(files, '');
       } else {
         dialog.heading = 'New Transmittal';
         lede.textContent = `${number} from ${withOrg(me)}, sending ${element?.PlanElementName ?? 'this deliverable'}. Nothing goes out until it's sent.`;
@@ -435,6 +460,12 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
         const newest = docs.find((d) => d.link.type !== 'Correspondence') ?? docs[0];
         selected = new Set(newest ? [newest.file.id] : []);
         memo.fill(files, '');
+      }
+      // What it replaces, said once above the form.
+      resubmitBox.hidden = !replaces;
+      if (replaces) {
+        const outcome = replaces.response?.outcome;
+        resubmitText.textContent = `Supersedes ${transmittalNumber(replaces)}, which came back ${outcome && outcome !== 'Comments Only' ? outcome : 'with comments'}${replaces.response ? ` on ${day(replaces.response.receivedOn ?? replaces.response.at)}` : ''}. Once this is sent, ${transmittalNumber(replaces)} reads Superseded and its recipients are pointed here. Enclose the revised version.`;
       }
       syncPeople();
       // Fields keep a previous session's errors otherwise.

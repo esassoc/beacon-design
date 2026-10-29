@@ -14,6 +14,8 @@ import {
   receiptCount,
   receiptOverdue,
   recordsFor,
+  reviewRound,
+  sentBack,
   statusOf,
   todayIso,
   transmittalNumber,
@@ -53,6 +55,10 @@ interface Row {
   draftOnly?: Transmittal;
   receipt?: { confirmed: number; of: number; overdue: boolean };
   completion?: Completion;
+  /** Which round of review the newest send is (1 for a first submittal). */
+  round: number;
+  /** The send that came back Revisions Requested or Rejected, not yet resubmitted. */
+  back?: Transmittal;
 }
 
 type SortKey = 'name' | 'study' | 'due' | 'health' | 'status';
@@ -73,7 +79,7 @@ const DUE_OPTIONS = [
   { value: '-1', label: 'Waiting on Agency' },
 ];
 /** An agency still owes something on it: a receipt not confirmed, or a response not in by its due date. */
-const waitingOnAgency = (r: Row) => !!r.sent && !r.sent.closedAt && (!!(r.receipt && r.receipt.confirmed < r.receipt.of) || (!!r.sent.responseDue && !r.sent.response));
+const waitingOnAgency = (r: Row) => !r.back && !!r.sent && !r.sent.closedAt && (!!(r.receipt && r.receipt.confirmed < r.receipt.of) || (!!r.sent.responseDue && !r.sent.response));
 const healthText = (h: HealthReading) => (h.stale ? `${h.health}, Update Missing` : h.health);
 
 export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverablesOptions): { draw(): void } {
@@ -121,6 +127,8 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
             draftOnly: sent ? undefined : ts[0],
             receipt: sent && rc ? { ...rc, overdue: sent.to.some((n) => receiptOverdue(sent, n, today)) } : undefined,
             completion: rec.completions[id],
+            round: sent ? reviewRound(rec, sent) : 1,
+            back: sentBack(rec, id),
           });
         }
         walk(e.Children, [...chain, e]);
@@ -143,7 +151,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
 
   const matches = (r: Row) => {
     if (!term) return true;
-    const hay = [r.name, r.study, r.status, r.health.health, r.completion?.result, r.sent ? transmittalNumber(r.sent) : '', r.sent?.purpose].join(' ').toLowerCase();
+    const hay = [r.name, r.study, r.status, r.health.health, r.completion?.result, r.back?.response?.outcome, r.round > 1 ? `round ${r.round}` : '', r.sent ? transmittalNumber(r.sent) : '', r.sent?.purpose].join(' ').toLowerCase();
     return term
       .toLowerCase()
       .split(/\s+/)
@@ -202,6 +210,11 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
       wrap.innerHTML = `<a class="bcn-pdv__num" href="${esc(TRANSMITTAL_HREF(opts.planID, t.id))}">${esc(transmittalNumber(t))}</a><span class="${r.sent ? '' : 'bcn-pdv__quiet'}">${esc(r.sent ? t.purpose : 'Not Sent')}</span>`;
       wrap.title = r.sent ? `${t.subject}, sent ${day(t.sentAt)}` : `${t.subject}, a draft`;
       sent.append(wrap);
+      // The rounds it took, once it took more than one: "Round 2 of Review".
+      if (r.round > 1) {
+        sent.classList.add('bcn-pdv__stack');
+        sent.append(Object.assign(document.createElement('small'), { className: 'bcn-pdv__round', textContent: `Round ${r.round} of Review` }));
+      }
     } else sent.append(quiet('None'));
 
     const receipt = cell();
@@ -216,6 +229,16 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
       date.textContent = day(r.completion.completedOn);
       wrap.append(document.createTextNode(r.completion.result), date);
       wrap.title = r.completion.acceptedBy ? `Accepted by ${r.completion.acceptedBy}` : '';
+      completion.append(wrap);
+    } else if (r.back) {
+      // Sent back: open, and why, in the warning tone.
+      const wrap = document.createElement('span');
+      wrap.className = 'bcn-pdv__result';
+      const why = document.createElement('small');
+      why.className = 'bcn-pdv__back';
+      why.textContent = r.back.response?.outcome ?? '';
+      wrap.append(document.createTextNode('Open'), why);
+      wrap.title = `${transmittalNumber(r.back)} came back ${r.back.response?.outcome}; not resubmitted yet`;
       completion.append(wrap);
     } else completion.append(quiet('Open'));
 
@@ -311,7 +334,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   // ── Export: the rows shown, as the table reads them ──
   q('[data-pdv-export]').addEventListener('click', () => {
     const csvCell = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
-    const header = ['Deliverable', 'Study', 'Due', 'Health', 'Health Note', 'Status', 'Last Transmittal', 'Purpose', 'Sent', 'Receipt', 'Completion', 'Completed On', 'Accepted By'];
+    const header = ['Deliverable', 'Study', 'Due', 'Health', 'Health Note', 'Status', 'Last Transmittal', 'Purpose', 'Sent', 'Round', 'Response', 'Receipt', 'Completion', 'Completed On', 'Accepted By'];
     const lines = shown.map((r) => [
       r.name,
       r.study,
@@ -322,6 +345,8 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
       r.sent ? transmittalNumber(r.sent) : '',
       r.sent?.purpose ?? '',
       r.sent?.sentAt?.slice(0, 10) ?? '',
+      r.sent ? String(r.round) : '',
+      r.sent?.response?.outcome ?? '',
       r.receipt ? `${r.receipt.confirmed} of ${r.receipt.of}` : '',
       r.completion?.result ?? 'Open',
       r.completion?.completedOn ?? '',

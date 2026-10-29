@@ -219,6 +219,19 @@ const COLUMNS: { key: string; label: string; sort?: boolean; cls?: string }[] = 
     font-size: var(--font-size-100);
     color: var(--color-content-default-secondary);
   }
+  /* The last send's round under it, and a sent-back deliverable's outcome under Open (2026-10-29, resubmittals). */
+  .bcn-pdv__table :global(td.bcn-pdv__stack) {
+    line-height: 1.3;
+  }
+  .bcn-pdv__table :global(.bcn-pdv__round) {
+    display: block;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pdv__table :global(.bcn-pdv__result small.bcn-pdv__back) {
+    color: var(--color-content-utility-warning);
+    font-weight: 600;
+  }
 
   .bcn-pdv__empty {
     padding: var(--spacing-600) var(--spacing-400);

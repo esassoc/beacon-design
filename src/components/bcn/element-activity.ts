@@ -73,13 +73,15 @@ function recordEvents(ctx: ElementContext, id: string): Dated[] {
       out.push(ev(t.createdAt, t.createdBy, 'Drafted', num, href));
       continue;
     }
-    out.push(ev(t.sentAt, t.from, `Sent ${t.purpose.toLowerCase()} to ${t.to.join(', ')}:`, num, href));
+    const replaced = t.supersedes ? r.transmittals.find((x) => x.id === t.supersedes) : undefined;
+    out.push(ev(t.sentAt, t.from, replaced ? `Resubmitted ${t.purpose.toLowerCase()} to ${t.to.join(', ')}, superseding ${transmittalNumber(replaced)}:` : `Sent ${t.purpose.toLowerCase()} to ${t.to.join(', ')}:`, num, href));
     for (const [name, rec] of Object.entries(t.receipts)) {
       if (rec.confirmedAt) out.push(ev(rec.confirmedAt, rec.recordedBy ?? name, rec.recordedBy ? `Recorded ${name}'s receipt of` : 'Confirmed receipt of', num, href));
       if (rec.remindedAt) out.push(ev(rec.remindedAt, t.from, `Reminded ${name} about`, num, href));
     }
-    if (t.response) out.push(ev(t.response.at, t.response.by, 'Recorded the response to', num, href));
-    if (t.closedAt) out.push(ev(t.closedAt, t.from, 'Closed', num, href));
+    if (t.response) out.push(ev(t.response.at, t.response.by, t.response.outcome && t.response.outcome !== 'Comments Only' ? `Recorded ${t.response.outcome} on` : 'Recorded the response to', num, href));
+    // A superseded one closed when its resubmittal went: that send is the event.
+    if (t.closedAt && !t.supersededBy) out.push(ev(t.closedAt, t.from, 'Closed', num, href));
   }
   const c = r.completions[id];
   if (c) {

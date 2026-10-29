@@ -39,7 +39,7 @@ Personas: default user is Andy (Owner everywhere). `?user=Alex%20Rivera` (Editor
 ## Architecture map (read the file headers; each explains itself)
 
 - **State:** `src/lib/planning/plan-repo.ts` (repos, versions, drafts, attributes, `savePlanConfig`, seeding,
-  `SEED_FORMAT` 8), `plan-server.ts` (mock API in localStorage), `plan-records.ts` (documents, transmittals, receipts,
+  `SEED_FORMAT` 13), `plan-server.ts` (mock API in localStorage), `plan-records.ts` (documents, transmittals, receipts,
   completion, comments, health), `seed-ids.ts` (deterministic ids while seeding, so pasted links resolve anywhere).
 - **Samples:** `src/data/sample-plan.ts` `SAMPLES` (fisheries, geotech, habitat). Fisheries uses the Study Program
   config; the other two use Blank.
@@ -144,6 +144,50 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
    the index row's Schedule and Budget chips look like buttons; one date formatter (Mon D, YYYY, time only today);
    the inbox's Confirm Receipt is a badge, not a button; completed items still say "Moves when the plan is
    rescheduled".
+
+## Design note: Revise and Resubmit (2026-10-29)
+
+Andy: "no Rejected or Revise and Resubmit result and no 'supersedes T-004' link for a resend." The path a deliverable
+takes when an agency sends it back, built so each person in it reads the same chain. Check: `resubmit.mjs` (29).
+
+**Vocabulary.** A response now records an **Outcome** (Record Response requires it): Accepted, Accepted With Comments,
+Revisions Requested, Rejected, Comments Only (`RESPONSE_OUTCOMES` in `plan-records.ts`). The accepting words are the
+completion results' own, so the response and the completion it leads to say the same thing (Beacon prod has no
+submittal vocabulary to reuse; "Approved" would have been a second word for the same state). Revisions Requested is
+the outcome (what the agency said); **Revise and Resubmit** is the action (what ESA does about it). Comments Only is a
+draft-for-comment answer that decides nothing; it's the default when the purpose is For Comment or For Information.
+Completion results stay as they were: Superseded and Withdrawn keep their real meanings (the deliverable itself was
+replaced, or dropped), not "a send was replaced".
+
+**The workflow.**
+1. Record Response with Revisions Requested or Rejected: the deliverable stays open. Health reads At Risk ("Revisions
+   Requested Oct 8, 2026, not resubmitted"; Late still wins once past its end), the Completion card says to resubmit
+   first, the Deliverables view's Completion reads Open with the outcome under it in the warning tone, and Waiting on
+   Agency leaves it out (the ball is ESA's).
+2. **Revise and Resubmit** (on the transmittal's Response card, and on its row in the item's Transmittals card) opens
+   the transmittal dialog prefilled from the old send: recipients, purpose, its enclosures at their newest version, a
+   fresh due date from the Review Period, and an info alert "Supersedes T-004, which came back...". Each enclosure says
+   whether it is "Unchanged since T-004" or newer. Save for Later keeps it as a draft linked to T-004 (the button then
+   reads Open T-008 Draft); any outcome short of acceptance offers it (`canResubmit`).
+3. On send (`sendTransmittal`), the old one gets `supersededBy` and closes (no more reminders): status **Superseded**.
+   The new one carries `supersedes`. Both lines under the title link each other ("Supersedes T-004; round 2 of review",
+   "Superseded by T-008, sent Oct 29, 2026"), and a **Review Rounds** card lists the chain, each round's outcome.
+4. Agency side: the inbox shows the new one ("Round 2, replaces T-004", Confirm Receipt) and marks the old Superseded,
+   None Owed. Opening the old one shows a Superseded alert pointing to the new one; the new one says what it replaces.
+5. An Accepted or Accepted With Comments response offers **Record Completion**, which opens the item's completion
+   dialog (`&complete=1`) prefilled from the response: result, date received, the enclosure sent, the reviewer, and the
+   note ("Accepted in round 2 of review").
+6. The PM's count: the item's Transmittals card head says "Round 2 of Review, Under Review"; the Deliverables view
+   puts "Round 2 of Review" under the last transmittal and exports Round and Response columns.
+
+**Seed** (`SEED_FORMAT` 13): the Predator survey collection permit (CDFW, Casey Lin). T-006 went 47 days ago, came
+back Revisions Requested (incomplete: gear specifications and take by species); T-007, Revision 1, went 8 days ago and
+is in round 2. T-003 (scoping memo final) now supersedes T-001 (draft for comment, Comments Only), so a finished
+two-round chain is visible too. Existing responses carry outcomes (T-002 Accepted With Comments, T-003 Accepted).
+
+**Open for Andy:** Accepted vs Approved (agencies say both; For Approval is a purpose); whether Rejected should offer
+Withdraw beside Revise and Resubmit; whether a resubmittal may go to different people (it can today, the chain holds);
+whether the round count belongs on the Gantt bar's tooltip too.
 
 ## Done on 2026-10-28 (don't redo)
 

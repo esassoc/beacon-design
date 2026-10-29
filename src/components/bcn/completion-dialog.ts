@@ -10,7 +10,7 @@
 import type { ElementContext } from '../../lib/planning/element-context';
 import type { FieldDef } from '../../lib/planning/plan-config';
 import { PLAN_DIRECTORY, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
-import { documentsFor, recordCompletion, todayIso, type Completion, type ElementDocument } from '../../lib/planning/plan-records';
+import { ACCEPTS, documentsFor, recordCompletion, respondedOn, reviewRound, todayIso, transmittalNumber, transmittalsFor, type Completion, type ElementDocument } from '../../lib/planning/plan-records';
 import { confirm } from '../../lib/planning/plan-page';
 import { setButtonDisabled } from './plan-people';
 import { day } from './element-module';
@@ -231,10 +231,13 @@ function setupCompletionDialog(root: HTMLElement): { open(ctx: ElementContext): 
       const results = [...c.config.results];
       if (existing?.result && !results.includes(existing.result)) results.push(existing.result);
       result.options = results.map((r) => ({ value: r, label: r }));
-      result.value = existing?.result ?? '';
+      // The accepting response, when there is one (2026-10-29): its outcome, day, enclosure and reviewer are the answer.
+      const acceptance = existing ? undefined : transmittalsFor(c.records, id).find((t) => t.sentAt && ACCEPTS.has(t.response?.outcome ?? ''));
+      result.value = existing?.result ?? (acceptance && results.includes(acceptance.response!.outcome!) ? acceptance.response!.outcome! : '');
+      if (acceptance) lede.textContent = `${name} becomes Complete when this is saved. Filled in from ${transmittalNumber(acceptance)}, ${acceptance.response!.outcome} on ${day(respondedOn(acceptance))}.`;
 
       completed.max = todayIso();
-      completed.value = existing?.completedOn ?? todayIso();
+      completed.value = existing?.completedOn ?? (acceptance ? (respondedOn(acceptance) ?? todayIso()) : todayIso());
 
       // Where it lives: the element's documents, newest first, one row a file.
       const seen = new Set<string>();
@@ -247,19 +250,20 @@ function setupCompletionDialog(root: HTMLElement): { open(ctx: ElementContext): 
         { value: 'link', label: 'A Link' },
       ];
       whereKind.value = existing ? (existing.where.url ? 'link' : 'doc') : docs.length ? 'doc' : 'link';
-      file.value = existing?.where.fileId ?? guess?.file.id ?? '';
+      const sentFile = acceptance?.enclosures.map((e) => e.fileId).find((fid) => docs.some((d) => d.file.id === fid));
+      file.value = existing?.where.fileId ?? sentFile ?? guess?.file.id ?? '';
       url.value = existing?.where.url ?? '';
       label.value = existing?.where.label ?? '';
       drawWhere();
 
       // Accepted by: the directory, the element's agency reviewer first guess.
-      const who = existing ? existing.acceptedBy : reviewerOf(c);
+      const who = existing ? existing.acceptedBy : (acceptance?.to[0] ?? reviewerOf(c));
       const people: string[] = [...PLAN_DIRECTORY];
       if (who && !people.includes(who)) people.push(who);
       accepted.options = people.map((n) => ({ value: n, label: n }));
       accepted.value = who;
       drawAccepted();
-      note.value = existing?.note ?? '';
+      note.value = existing?.note ?? (acceptance ? `${acceptance.response!.note}${acceptance.supersedes ? ` Accepted in round ${reviewRound(c.records, acceptance)} of review.` : ''}` : '');
 
       for (const el of [result, completed, file, url]) el.errorText = '';
       errorEl.hidden = true;
