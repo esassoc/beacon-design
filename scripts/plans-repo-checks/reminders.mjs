@@ -6,7 +6,7 @@ const { browser, page, planID } = await open({ scale: 1 });
 const errs = []; page.on('pageerror', (e) => errs.push(e.message));
 let pass = 0, fail = 0;
 const check = (n, ok, x = '') => { ok ? pass++ : fail++; console.log(`${ok ? 'PASS' : 'FAIL'} ${n}${x ? ' :: ' + x : ''}`); };
-const dueRows = () => page.locator('[data-bcn-reminders] [data-rem-rows] > div').allInnerTexts();
+const dueRows = () => page.locator('[data-bcn-reminders] [data-rem-rows] > tr').allInnerTexts();
 
 // Andy co-owns the memo due in 5 days: its Coming Up went out.
 await page.goto(`${BASE}/prototypes/plans-repo/`); await page.waitForTimeout(2500);

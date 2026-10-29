@@ -55,7 +55,8 @@ interface Row {
   completion?: Completion;
 }
 
-type SortKey = 'name' | 'study' | 'due' | 'health' | 'status';
+// Every column sorts (design QA, 2026-10-29: a read list sorts on every data column or on none).
+type SortKey = 'name' | 'study' | 'due' | 'health' | 'status' | 'sent' | 'receipt' | 'completion';
 /** Worst first, when sorted by health. */
 const HEALTH_ORDER = ['Late', 'Blocked', 'At Risk', 'On Track', 'Completed'];
 const STATUS_ORDER: ElementStatus[] = ['Blocked', 'In Progress', 'Not Started', 'Completed'];
@@ -137,6 +138,11 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
     else if (sort.key === 'study') d = (a.study || '￿').localeCompare(b.study || '￿');
     else if (sort.key === 'health') d = HEALTH_ORDER.indexOf(a.health.health) - HEALTH_ORDER.indexOf(b.health.health);
     else if (sort.key === 'status') d = STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status);
+    // Newest send last; a row with nothing sent sorts after every send.
+    else if (sort.key === 'sent') d = (a.sent?.sentAt ?? '￿').localeCompare(b.sent?.sentAt ?? '￿');
+    // Least received first; nothing sent after every receipt.
+    else if (sort.key === 'receipt') d = (a.receipt ? a.receipt.confirmed / (a.receipt.of || 1) : 2) - (b.receipt ? b.receipt.confirmed / (b.receipt.of || 1) : 2);
+    else if (sort.key === 'completion') d = (a.completion?.completedOn ?? '￿').localeCompare(b.completion?.completedOn ?? '￿');
     else d = byDue(a, b);
     return d * sort.dir || byDue(a, b);
   }

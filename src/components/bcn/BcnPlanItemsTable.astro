@@ -4,7 +4,7 @@
 // Date Type, Milestone, Owners and Notes, one row per item in outline order. In your draft the editable cells are
 // white with the brand edge, as the budget sheet's; the rest read. The runtime is ./plan-items-table.ts.
 //
-// bcn-lego-checked: the table IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts), as the budget
+// bcn-lego-checked: the table IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts, its dense variant), as the budget
 // sheet and Beacon's grids are; its editors are AG Grid's. No esa- lego is an editable grid. The CSS is the cell states.
 ---
 
@@ -21,4 +21,8 @@
   .bcn-pit :global(.bcn-pit__parent) { font-weight: var(--typography-font-weight-semibold); }
   .bcn-pit[data-editable] :global(.bcn-pit__edit) { background: var(--color-background-elevation-raised); box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--color-background-brand) 40%, transparent); }
   .bcn-pit[data-editable] :global(.bcn-pit__read) { background: color-mix(in srgb, var(--color-content-default) 5%, var(--color-background-elevation-raised)); color: var(--color-content-default-secondary); }
+  /* The row under the pointer still answers in a draft, where every cell paints its own state: the one row-hover token
+     (the grid's rowHoverColor) on the read cells, half of it on the fields. */
+  .bcn-pit[data-editable] :global(.ag-row-hover .bcn-pit__read) { background: var(--color-background-default-hover); }
+  .bcn-pit[data-editable] :global(.ag-row-hover .bcn-pit__edit) { background: color-mix(in srgb, var(--color-background-default-hover) 50%, var(--color-background-elevation-raised)); }
 </style>

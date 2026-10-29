@@ -76,6 +76,26 @@ export const settingsEsaTheme = beaconTheme.withParams({
   headerColumnResizeHandleColor: '#dcdcdc', // gray-200
 });
 
+/**
+ * The declared dense variant (design QA, 2026-10-29): Beacon's grid, verbatim (the teal header at 48px, 13px/600
+ * white labels, the gray-50 zebra, the funnel), at 32px rows, for a data grid that edits like a sheet. ONE variant,
+ * shared by every editable data grid (the plan's Budget sheet and Schedule Table), so they never drift apart again
+ * (they had a 41px and a 49px white header, two zebras, two resize handles and no hover between them).
+ *
+ * Hover reads the spoke's one row-hover token, as every read list does (bcn-record-table.css): AG Grid writes each
+ * param into a CSS custom property, so a var() reaches the theme at paint time. The resize handle is prod's: a
+ * hairline of white at 20%, half the header's height. Flush corners: the grid fills its panel, which is the frame.
+ */
+export const beaconDenseTheme = beaconTheme.withParams({
+  rowHeight: 32,
+  headerHeight: 48,
+  rowHoverColor: 'var(--color-background-default-hover)',
+  headerColumnResizeHandleHeight: '50%',
+  headerColumnResizeHandleWidth: 1,
+  wrapperBorder: false,
+  wrapperBorderRadius: 0,
+});
+
 /** Status metadata: a label + a literal hex (kept in sync with --bcn-status-* by value). */
 export type StatusMeta = Record<string, { label: string; hex: string }>;
 

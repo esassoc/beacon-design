@@ -11,7 +11,7 @@
 
 import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import type { CellClassParams, CellPosition, Column, ColDef, GridApi, ICellRendererParams, IHeaderComp, IHeaderParams, IRowNode, ValueFormatterParams } from 'ag-grid-community';
-import { settingsEsaTheme } from '../../lib/beacon-grid';
+import { beaconDenseTheme } from '../../lib/beacon-grid';
 import { todayIso } from '../../lib/planning/plan-records';
 import { fiscalYearLabel, fiscalYearOf, fiscalYearSpan, flattenPlan, type PlanBudget } from '../../lib/planning/plan-repo';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
@@ -80,6 +80,19 @@ class YearHeader implements IHeaderComp {
     const label = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-fy', textContent: params.displayName });
     const months = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-span', textContent: `Jul ${params.fy}–Jun ${params.fy + 1}` });
     this.gui.append(label, months);
+    // Sorts as the grid's own headers do (design QA, 2026-10-29: sorting on in both data grids): a click steps
+    // ascending, descending, off; the arrow sits before the label, as AG Grid's right-aligned headers put it.
+    if (params.enableSorting) {
+      const arrow = Object.assign(document.createElement('span'), { className: 'bcn-pbs__head-sort', ariaHidden: 'true' });
+      label.prepend(arrow);
+      const show = () => {
+        const dir = params.column.getSort();
+        arrow.textContent = dir === 'asc' ? '↑' : dir === 'desc' ? '↓' : '';
+      };
+      this.gui.addEventListener('click', (e) => params.progressSort(e.shiftKey));
+      params.column.addEventListener('sortChanged', show);
+      show();
+    }
   }
   getGui(): HTMLElement {
     return this.gui;
@@ -89,21 +102,14 @@ class YearHeader implements IHeaderComp {
   }
 }
 
-// The sheet's grid: the card's light-header theme, made a spreadsheet. Flush with its panel (no wrapper border or
-// corners: the panel is the frame), no zebra (cell states are the only fills, and the parents carry the Gantt's tier
-// shading), a hairline between columns as well as rows, denser rows, and a two-line header. Literal hex, as
-// beacon-grid's are: AG Grid reads its params at config time.
-const sheetTheme = settingsEsaTheme.withParams({
-  wrapperBorder: false,
-  wrapperBorderRadius: 0,
+// The sheet's grid: Beacon's grid in its dense variant, the one the Schedule Table shares (design QA, 2026-10-29: the
+// teal header, its zebra and hover, its resize handle; 32px rows and a 48px header, which the two-line year header
+// fits). A spreadsheet's only additions: a hairline between columns as well as rows, and the cursor's colors.
+// Literal hex, as beacon-grid's are.
+const sheetTheme = beaconDenseTheme.withParams({
   rowHeight: ROW_PX,
   headerHeight: HEAD_PX,
-  oddRowBackgroundColor: '#ffffff', // no zebra
-  rowHoverColor: '#fafafa', // gray-50
   columnBorder: { color: '#efefef' }, // gray-100
-  rowBorder: { color: '#efefef' }, // gray-100
-  headerColumnBorder: { color: '#efefef' }, // gray-100
-  headerRowBorder: { color: '#bdbdbd' }, // gray-300: the header's rule, a step firmer than the cells'
   rangeSelectionBorderColor: '#005862', // teal-900 / --color-background-brand
   valueChangeValueHighlightBackgroundColor: 'rgba(0, 88, 98, 0.18)', // teal-900 at 18%
   cellHorizontalPadding: 10,
@@ -200,7 +206,9 @@ export function setupPlanBudgetSheet(
     valueParser: (p) => parseMoney(p.newValue) ?? p.oldValue,
     cellClass: (p: CellClassParams<SheetRow>) => {
       const row = p.data;
-      const classes = ['bcn-pbs__money'];
+      // A cellClass replaces the numericColumn type's own, so the right alignment is restated (design QA: the
+      // figures sat at the cell's left under a right-aligned header).
+      const classes = ['ag-right-aligned-cell', 'bcn-pbs__money'];
       if (!p.value) classes.push('bcn-pbs__zero');
       if (!row || p.node.isRowPinned()) return classes.join(' ');
       // The schedule shows through on the rows that carry money: a parent's own dates are its planned window, not
@@ -222,7 +230,7 @@ export function setupPlanBudgetSheet(
     width: 124,
     type: 'numericColumn',
     valueFormatter: money,
-    cellClass: 'bcn-pbs__money bcn-pbs__parent bcn-pbs__sum bcn-pbs__total',
+    cellClass: 'ag-right-aligned-cell bcn-pbs__money bcn-pbs__parent bcn-pbs__sum bcn-pbs__total',
   };
 
   const api: GridApi<SheetRow> = createGrid(host, {
@@ -236,7 +244,8 @@ export function setupPlanBudgetSheet(
     // Sheets and Excel: Enter commits and moves down a row.
     enterNavigatesVerticallyAfterEdit: true,
     defaultColDef: {
-      sortable: false,
+      // Sorting on, as prod's grids (design QA, 2026-10-29); a third click returns the outline's order.
+      sortable: true,
       resizable: true,
       suppressMovable: true,
       // Delete and Backspace clear the cell outright (below), rather than opening an empty editor.
@@ -314,8 +323,7 @@ export function setupPlanBudgetSheet(
 
     const rowSel = at.node && !at.node.isRowPinned() ? `.ag-row[row-id=${JSON.stringify(at.node.id)}] .ag-cell[col-id="name"]` : '';
     focusStyle.textContent = [
-      `[data-pbs-grid] .ag-header-cell[col-id=${JSON.stringify(at.colId)}] { background: var(--_pbs-lit); }`,
-      `[data-pbs-grid] .ag-header-cell[col-id=${JSON.stringify(at.colId)}] :is(.ag-header-cell-text, .bcn-pbs__head-fy) { color: var(--color-content-brand); }`,
+      `[data-pbs-grid] .ag-header-cell[col-id=${JSON.stringify(at.colId)}] { background: var(--_pbs-lit-head); }`,
       rowSel ? `[data-pbs-grid] ${rowSel} { background: var(--_pbs-lit); }` : '',
       rowSel ? `[data-pbs-grid] ${rowSel} .bcn-pbs__name { color: var(--color-content-brand); }` : '',
     ].join('\n');

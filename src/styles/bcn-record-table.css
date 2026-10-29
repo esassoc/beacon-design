@@ -1,20 +1,27 @@
-/* bcn-record-table — ONE definition of the plan's record tables (2026-10-28).
+/* bcn-record-table — ONE definition of the plan's read lists (2026-10-28; every read list since the design QA,
+ * 2026-10-29).
  *
- * The plan page's Documents and Deliverables views are read-only lists of a few dozen rows: a semantic <table>, not
- * AG Grid. Each kept its own copy of the table and they drifted: one 14px at weight 400 on 22px lines, the other 14px
- * on hairlines with a 12px head, neither striped, both reading thin and big beside the Budget sheet (AG Grid, 13px at
- * 500 to 600). Andy, 2026-10-28: "Why aren't there zebra striping on the tables for deliverables and documents" and
- * "Why is the typography in the tables too thin and big looking".
+ * Two kinds of table, and only two (design QA rule: "anything with columns is either the Beacon AG theme or
+ * bcn-rtable; no third grid-of-divs"). The data grids (Budget, the Schedule Table) are AG Grid on the Beacon theme
+ * (src/lib/beacon-grid.ts, beaconDenseTheme). Every read-only list is this: the plan page's Documents and
+ * Deliverables, the Plans index's Due for You, Sent to You, the transmittal's receipts and the import preview. A
+ * semantic <table>, not AG Grid: a few dozen rows that read.
  *
- * So the table lives here once, on the sheet's density and the hub's grid tokens (--grid-cell-padding-*, the head's
- * --grid-header-*, the hover's --grid-row-bg-hover). The stripe is not --grid-row-stripe-bg: that token resolves to
- * --color-background-default, one value off the raised panel these tables sit on, so the band is invisible (the drift
- * bcn-tree.css records). It mixes the sunken surface into the raised one instead, the same weight as the trees' band.
+ * The table sits on the sheet's density and the hub's grid tokens (--grid-cell-padding-*, the head's
+ * --grid-header-*). The stripe is not --grid-row-stripe-bg: that token resolves to --color-background-default, one
+ * value off the raised panel these tables sit on, so the band is invisible (the drift bcn-tree.css records). It mixes
+ * the sunken surface into the raised one instead, the same weight as the trees' band.
  *
- *   .bcn-rtable              the table: 13px cells at 450 on 1.4 lines, the head 12px at 600, sticky
+ *   .bcn-rtable              the table: 13px cells (--bcn-type-size-meta) at 450 on 1.4 lines, middle-aligned; the
+ *                            head 36px, 12px at 600, sticky
  *   .bcn-rtable__primary     the row's name: 600 in the default ink (a link keeps the link ink)
  *   .bcn-rtable__sub         a quiet second line under a cell's value
+ *   .bcn-rtable__num         a figure: right-aligned with its header, in the UI font's tabular figures
  *   tr[data-rtable-group]    a group's heading row (the Agency Record's months): not striped, not counted
+ *   tr[data-rtable-link]     a row that is one link (Sent to You): it alone takes the pointer
+ *
+ * One hover token for every row (--color-background-default-hover, as the AG grids' rowHoverColor), the pointer only
+ * on a whole-row link, and one focus ring (the theme's --focus-ring-color) on every link and button in a cell.
  *
  * The edges keep the band's inset (BcnViewToolbar's spacing-400), so the first column sits under the search.
  *
@@ -25,7 +32,7 @@
 .bcn-rtable {
   inline-size: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--bcn-type-size-meta);
   font-weight: 450;
   line-height: 1.4;
   color: var(--color-content-default);
@@ -34,6 +41,7 @@
 .bcn-rtable td {
   padding: var(--grid-cell-padding-y, var(--spacing-200)) var(--grid-cell-padding-x, var(--spacing-300));
   text-align: start;
+  vertical-align: middle;
 }
 .bcn-rtable th:first-child,
 .bcn-rtable td:first-child {
@@ -47,11 +55,12 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 1;
-  font-size: var(--grid-header-font-size, 12px);
+  block-size: 2.25rem;
+  padding-block: 0;
+  font-size: var(--grid-header-font-size, var(--typography-label-xs-font-size));
   font-weight: 600;
   color: var(--color-content-default-secondary);
   white-space: nowrap;
-  vertical-align: middle;
   background: var(--color-background-elevation-raised);
   border-block-end: 1px solid var(--grid-header-border-color, var(--color-border-default));
 }
@@ -66,7 +75,15 @@
   background: color-mix(in srgb, var(--color-background-elevation-sunken) 55%, var(--color-background-elevation-raised));
 }
 .bcn-rtable tbody tr:not([data-rtable-group]):hover td {
-  background: var(--grid-row-bg-hover, var(--color-background-elevation-sunken));
+  background: var(--color-background-default-hover);
+}
+.bcn-rtable tbody tr[data-rtable-link] {
+  cursor: pointer;
+}
+.bcn-rtable :is(a, button):focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--radius-100, 2px);
 }
 .bcn-rtable .bcn-rtable__primary {
   font-weight: 600;
@@ -78,7 +95,11 @@
 .bcn-rtable .bcn-rtable__sub {
   display: block;
   margin-block-start: 1px;
-  font-size: 12px;
+  font-size: var(--typography-body-xs-font-size);
   font-weight: 400;
   color: var(--color-content-default-secondary);
+}
+.bcn-rtable .bcn-rtable__num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
 }
