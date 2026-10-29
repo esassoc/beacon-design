@@ -116,7 +116,8 @@ interface DetailDiff {
   values: { label: string; from: string; to: string }[];
 }
 /** The elements whose details differ, in the "to" plan's order. */
-function detailDiff(from: PlanAttributes, to: PlanAttributes, plan: PlanDetailDto, labels: Map<string, string>): DetailDiff[] {
+function detailDiff(from: PlanAttributes, to: PlanAttributes, plan: PlanDetailDto, labels: Map<string, string>, fromPlan?: PlanDetailDto): DetailDiff[] {
+  const was = new Map(flattenPlan(fromPlan?.Elements).map(({ element }) => [element.PlanElementID ?? '', element]));
   const show = (x: unknown) => (x === null || x === undefined || x === '' || (Array.isArray(x) && !x.length) ? 'Not set' : Array.isArray(x) ? x.join(', ') : typeof x === 'boolean' ? (x ? 'Yes' : 'No') : String(x));
   const out: DetailDiff[] = [];
   for (const { element, path } of flattenPlan(plan.Elements)) {
@@ -124,6 +125,11 @@ function detailDiff(from: PlanAttributes, to: PlanAttributes, plan: PlanDetailDt
     const a = from[id] ?? {};
     const b = to[id] ?? {};
     const values: DetailDiff['values'] = [];
+    // The item's own fields (a draft's renames, notes and milestone flags), beside its attributes.
+    const w = was.get(id);
+    if (w && (w.PlanElementName ?? '') !== (element.PlanElementName ?? '')) values.push({ label: 'Name', from: w.PlanElementName ?? '', to: element.PlanElementName ?? '' });
+    if (w && !!w.IsMilestone !== !!element.IsMilestone) values.push({ label: 'Milestone', from: show(!!w.IsMilestone), to: show(!!element.IsMilestone) });
+    if (w && (w.Notes ?? '') !== (element.Notes ?? '')) values.push({ label: 'Notes', from: show(w.Notes), to: show(element.Notes) });
     if (show(a.owners) !== show(b.owners)) values.push({ label: 'Owners', from: show(a.owners), to: show(b.owners) });
     if (!!a.deliverable !== !!b.deliverable) values.push({ label: 'Deliverable', from: show(!!a.deliverable), to: show(!!b.deliverable) });
     for (const key of new Set([...Object.keys(a.values ?? {}), ...Object.keys(b.values ?? {})])) {
@@ -249,7 +255,7 @@ export function setupPlanRevisionsDialog(opts: {
       }
     }
     const labels = new Map(configOf(getRepo(opts.planID)).fields.map((f) => [f.id, f.label]));
-    current = { from, to, changes: planCompare(from, to), own, money: seesBudget(getRepo(opts.planID), membersOf(getRepo(opts.planID)).find((m) => m.name === me)?.role) ? budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) : [], details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels), links: linkDiff(from, to), shape: shapeDiff(from, to) };
+    current = { from, to, changes: planCompare(from, to), own, money: seesBudget(getRepo(opts.planID), membersOf(getRepo(opts.planID)).find((m) => m.name === me)?.role) ? budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) : [], details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels, from), links: linkDiff(from, to), shape: shapeDiff(from, to) };
     draw();
   }
 

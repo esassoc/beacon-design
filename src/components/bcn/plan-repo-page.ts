@@ -11,6 +11,8 @@ import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog, budgetDiff, signedDollars } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
 import { setupPlanBudgetSheet, type BudgetChange } from './plan-budget-sheet';
+import { setupPlanItemsTable, type ItemChange } from './plan-items-table';
+import { setupPlanImportDialog } from './plan-import-dialog';
 import { PLAN_ICON_PATHS, fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
@@ -32,7 +34,7 @@ import {
 import { openPlanElementMoveDialog } from './plan-element-move-dialog';
 import type { EsaMenuItem } from '@esa/ecology/esa-dropdown-menu';
 import { planApi, type DraftStructureOp } from '../../lib/planning/plan-server';
-import type { PlanDetailDto, PlanElementDto, PlanLevelDto } from '../../lib/planning/model';
+import { PlanDateTypeEnum, type PlanDetailDto, type PlanElementDto, type PlanLevelDto } from '../../lib/planning/model';
 import type { GanttDragEvent } from '../../lib/planning/gantt-types';
 import {
   addRevision,
@@ -57,6 +59,9 @@ import {
   restoreRevision,
   revisionNote,
   mergeBudget,
+  spreadBudget,
+  mergeAttributes,
+  type PlanAttributes,
   budgetAt,
   draftBudget,
   fiscalYearLabel,
@@ -301,7 +306,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   /** Your draft takes edits (a drag, or the element drawer's Save) as its next revision. */
-  async function applyEdits(edits: PlanDraftEdit[], patch?: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; note: PlanChangeNote }): Promise<void> {
+  async function applyEdits(edits: PlanDraftEdit[], patch?: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; attributes?: PlanAttributes; note: PlanChangeNote }): Promise<void> {
     if ((!edits.length && !patch) || !draft || mode !== 'own' || busy) return draw();
     busy = true;
     const before = shown;
@@ -319,6 +324,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     addRevision(planID!, draft!.id, next, note!, {
       fields: patch?.fields ? { ...(prior?.fields ?? {}), ...patch.fields } : undefined,
       budget: patch?.budget ? mergeBudget(prior?.budget ?? {}, patch.budget) : undefined,
+      attributes: patch?.attributes ? mergeAttributes(prior?.attributes ?? {}, patch.attributes) : undefined,
     });
     redo.length = 0;
     repo = getRepo(planID!);
@@ -523,6 +529,28 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     return frag;
   }
 
+  // ── Import (2026-10-28, the SOW review): rows from a file or a spreadsheet, as new items in your draft ──
+  const importer = setupPlanImportDialog(document.querySelector<HTMLElement>('[data-bcn-plan-import]')!);
+  async function importItems(): Promise<void> {
+    if (mode === 'view') return;
+    const result = await importer.open(shown, live.PlanName ?? 'the Plan');
+    if (!result || !(await enterMyDraft()) || !draft) return;
+    const prior = draft.revisions.at(-1);
+    const ops: DraftStructureOp[] = [...(prior?.structure ?? []), ...result.rows.map((r) => ({ op: 'add' as const, id: r.id, dto: r.dto }))];
+    // Owners as attributes; a budget spread over the fiscal years its dates run in, as the sample's figures are.
+    const attributes: PlanAttributes = Object.fromEntries(result.rows.filter((r) => r.owners.length).map((r) => [r.id, { owners: r.owners }]));
+    const budget = spreadBudget({ Elements: result.rows.filter((r) => r.dto.Budget).map((r) => ({ PlanElementID: r.id, StartDate: r.dto.StartDate, EndDate: r.dto.EndDate, Budget: r.dto.Budget, Children: [] })) } as unknown as PlanDetailDto);
+    addRevision(planID!, draft.id, prior?.overrides ?? [], { action: 'Imported', subject: `${result.rows.length} ${result.rows.length === 1 ? 'Item' : 'Items'}`, object: result.source }, {
+      structure: ops,
+      attributes: Object.keys(attributes).length ? mergeAttributes(prior?.attributes ?? {}, attributes) : undefined,
+      budget: Object.keys(budget).length ? mergeBudget(prior?.budget ?? {}, budget) : undefined,
+    });
+    redo.length = 0;
+    await reload();
+    pushAlert(`Imported ${result.rows.length} ${result.rows.length === 1 ? 'item' : 'items'} into your draft. Review and Publish when it’s ready.`, 'success', 7000);
+  }
+  q<HTMLElement>('[data-prp-import]').addEventListener('click', () => void importItems());
+  q<HTMLElement>('[data-prp-empty-import]').addEventListener('click', () => void importItems());
   q<HTMLElement>('[data-prp-add]').addEventListener('click', () => void openCreate(null));
   q<HTMLElement>('[data-prp-empty-add]').addEventListener('click', () => void openCreate(null));
 
@@ -782,6 +810,69 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     void applyEdits([], { budget: patch, note });
   }
 
+  // ── The schedule as a table (2026-10-28, the SOW review): the same items, edited cell by cell; Show As picks ──
+  type ShowAs = 'chart' | 'table';
+  const showAsToggle = q<HTMLElement & { value: string; options: { label: string; value: string }[] }>('[data-prp-showas]');
+  const tableBox = q<HTMLElement>('[data-prp-table]');
+  const itemsTable = setupPlanItemsTable(q<HTMLElement>('[data-bcn-plan-items-table]'), (changes) => void tableEdit(changes));
+  let showAs: ShowAs = new URLSearchParams(location.search).get('showas') === 'table' ? 'table' : 'chart';
+  void customElements.whenDefined('esa-button-toggle').then(() => {
+    showAsToggle.options = [
+      { label: 'Chart', value: 'chart' },
+      { label: 'Table', value: 'table' },
+    ];
+    showAsToggle.value = showAs;
+  });
+  showAsToggle.addEventListener('change', (e) => {
+    showAs = ((e as CustomEvent<{ value: string }>).detail?.value ?? showAsToggle.value) === 'table' ? 'table' : 'chart';
+    drawTable();
+  });
+  function drawTable(): void {
+    root.dataset.showas = showAs;
+    tableBox.hidden = showAs !== 'table';
+    if (showAs !== 'table') return;
+    const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
+    itemsTable.set({
+      plan: shown,
+      owners: Object.fromEntries(Object.entries(attrs).map(([id, a]) => [id, a.owners ?? []])),
+      editable: mode !== 'view',
+      query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
+    });
+  }
+  /** Cells changed in the table (or a pasted block): one edit of your draft. From Live, your draft opens first. */
+  async function tableEdit(changes: ItemChange[]): Promise<void> {
+    if (mode === 'view' || !changes.length) return drawTable();
+    if (mode === 'live' && !(await enterMyDraft())) return drawTable();
+    const byId = new Map(flattenPlan(shown.Elements).map(({ element }) => [element.PlanElementID ?? '', element]));
+    const attrs = draft ? draftAttributes(repo, draft) : attributesAt(repo);
+    const dates = new Map<string, PlanDraftEdit>();
+    const fields: Record<string, PlanFieldEdit> = {};
+    const attributes: PlanAttributes = {};
+    const words: Record<ItemChange['field'], string> = { name: 'Name', start: 'Start', end: 'End', type: 'Date Type', milestone: 'Milestone', owners: 'Owners', notes: 'Notes' };
+    for (const c of changes) {
+      const el = byId.get(c.id);
+      if (!el) continue;
+      if (c.field === 'start' || c.field === 'end' || c.field === 'type') {
+        const d = dates.get(c.id) ?? { PlanElementID: c.id, StartDate: el.StartDate ?? null, EndDate: el.EndDate ?? null, PlanDateType: el.PlanDateType ?? PlanDateTypeEnum.Estimated };
+        if (c.field === 'start') d.StartDate = c.value as string | null;
+        if (c.field === 'end') d.EndDate = c.value as string | null;
+        if (c.field === 'type') d.PlanDateType = c.value === 'Scheduled' ? PlanDateTypeEnum.Scheduled : PlanDateTypeEnum.Estimated;
+        if (el.IsMilestone) d.EndDate = d.StartDate;
+        dates.set(c.id, d);
+      } else if (c.field === 'owners') attributes[c.id] = { ...attrs[c.id], owners: c.value as string[] };
+      else fields[c.id] = { ...fields[c.id], ...(c.field === 'name' ? { PlanElementName: c.value as string } : c.field === 'notes' ? { Notes: c.value as string | null } : { IsMilestone: c.value as boolean }) };
+    }
+    const one = changes[0];
+    const items = new Set(changes.map((c) => c.id));
+    const note: PlanChangeNote =
+      changes.length === 1
+        ? one.field === 'name'
+          ? { action: 'Renamed', subject: byId.get(one.id)?.PlanElementName ?? '', object: String(one.value) }
+          : { action: 'Edited', subject: byId.get(one.id)?.PlanElementName ?? '', shift: words[one.field] }
+        : { action: 'Edited in the Table', subject: items.size === 1 ? (byId.get(one.id)?.PlanElementName ?? '') : `${items.size} Items`, shift: `${changes.length} Cells` };
+    await applyEdits([...dates.values()], { fields: Object.keys(fields).length ? fields : undefined, attributes: Object.keys(attributes).length ? attributes : undefined, note });
+  }
+
   // ── A dependency as an object: change its lag or unlink it. Draft first (2026-10-28, Andy): from Live the edit goes
   // to your draft, which opens, as a drag does; in your draft it's the next revision. Reviewed and published with the
   // rest of the draft. ──
@@ -924,11 +1015,14 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
     if (healthPick.length) applyHealth();
+    drawTable();
     drawerListeners.forEach((listener) => listener());
     // Adding (2026-10-28): the header's Add names the top level; an empty plan says where its first item comes from.
     const top = topLevelName();
     const empty = !flattenPlan(shown.Elements).length;
     q<HTMLElement>('[data-prp-add]').hidden = mode === 'view' || empty;
+    q<HTMLElement>('[data-prp-import]').hidden = mode === 'view' || empty;
+    q<HTMLElement>('[data-prp-empty-import]').hidden = mode === 'view';
     q<HTMLElement>('[data-prp-add-label]').textContent = `Add ${top}`;
     q<HTMLElement>('[data-prp-empty]').hidden = !empty;
     q<HTMLElement>('[data-prp-legend]').hidden = empty;
@@ -1541,6 +1635,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       noMatch.querySelector('.esa-empty-state__description')!.textContent = 'Try another word.';
     }
     drawSheet();
+    drawTable();
   };
   search.addEventListener('change', () => {
     clearTimeout(searchTimer);

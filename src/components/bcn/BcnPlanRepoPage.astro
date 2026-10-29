@@ -29,6 +29,8 @@ import BcnPlanGanttRange from './BcnPlanGanttRange.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnChangeNote from './BcnChangeNote.astro';
 import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
+import BcnPlanItemsTable from './BcnPlanItemsTable.astro';
+import BcnPlanImportDialog from './BcnPlanImportDialog.astro';
 import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
 import BcnPlanDeliverables from './BcnPlanDeliverables.astro';
 import BcnPlanDocuments from './BcnPlanDocuments.astro';
@@ -131,6 +133,7 @@ import { withBase } from '../../lib/base';
           </span>
           <!-- Add the plan's top-level item (2026-10-28, the build-from-scratch review), named for its level; from Live it
                goes to your draft. Rows add their own children from the outline. -->
+          <span data-prp-import hidden><esa-tooltip text="Add items from a CSV or a spreadsheet" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="upload">Import</EsaButton></esa-tooltip></span>
           <span data-prp-add hidden><esa-tooltip text="Add an item at the top of the outline" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="plus"><span data-prp-add-label>Add</span></EsaButton></esa-tooltip></span>
           <!-- Live's one action, with an edit pencil; ghost and small in the panel's header (2026-10-28, Andy). -->
           <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
@@ -155,10 +158,13 @@ import { withBase } from '../../lib/base';
             <!-- What needs attention across the whole plan (2026-10-28, the SOW review: the overdue view covered only
                  deliverables): every task and milestone by health, or due within 30 days. -->
             <esa-filter-dropdown slot="lead" size="sm" label="Health" name="health" multiple data-prp-health></esa-filter-dropdown>
+            <!-- The schedule as a chart or a table you can edit (2026-10-28, the SOW review: table editing). -->
+            <esa-button-toggle slot="lead" size="sm" label="" aria-label="Show As" data-prp-showas></esa-button-toggle>
           </BcnPlanGanttRange>
         </section>
         <div class="bcn-prp__view" data-prp-pane="schedule">
         <BcnPlanGantt label="Plan schedule" />
+        <div class="bcn-prp__table" data-prp-table hidden><BcnPlanItemsTable /></div>
         <!-- What the bars' colors and outlines mean (2026-10-28): health fills, a conflict's outline, Scheduled's square ends. -->
         <div class="bcn-prp__legend typography-body-sm" data-prp-legend aria-label="Chart key">
           <span><i data-key="late"></i>Late</span>
@@ -172,7 +178,10 @@ import { withBase } from '../../lib/base';
         <!-- A plan with no items yet (2026-10-28, the build-from-scratch review): where its first one comes from. -->
         <div class="bcn-prp__no-match" data-prp-empty hidden>
           <EsaEmptyState size="sm" title="No Items Yet" description="Start the outline with its first item. It goes to your draft; Review and Publish takes it to Live.">
-            <span data-prp-empty-add><EsaButton variant="primary" size="sm" icon="plus"><span data-prp-empty-add-label>Add</span></EsaButton></span>
+            <span class="bcn-prp__empty-actions">
+              <span data-prp-empty-import><EsaButton variant="ghost" appearance="outline" size="sm" icon="upload">Import From a File</EsaButton></span>
+              <span data-prp-empty-add><EsaButton variant="primary" size="sm" icon="plus"><span data-prp-empty-add-label>Add</span></EsaButton></span>
+            </span>
           </EsaEmptyState>
         </div>
         <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
@@ -263,6 +272,7 @@ import { withBase } from '../../lib/base';
   <BcnPlanRevisionsDialog />
   <BcnPlanSetupDialog />
   <BcnPlanElementMoveDialog />
+  <BcnPlanImportDialog />
   <!-- An outline row's actions (2026-10-28): + Add (named for the level it adds) and its menu. -->
   <template data-prp-row-tpl="add"><span><esa-tooltip text="Add" position="below"><EsaButton variant="ghost" iconOnly icon="plus" label="Add" size="xs" /></esa-tooltip></span></template>
   <template data-prp-row-tpl="menu">
@@ -534,6 +544,11 @@ import { withBase } from '../../lib/base';
   .bcn-prp__legend i[data-key='conflict'] { background: transparent; outline: 2px solid var(--color-border-utility-danger); outline-offset: -2px; }
   .bcn-prp__legend i[data-key='scheduled'] { border-radius: 0; }
   .bcn-prp__legend[hidden] { display: none; }
+  .bcn-prp__table[hidden] { display: none; }
+  .bcn-prp__empty-actions { display: inline-flex; gap: var(--spacing-200); flex-wrap: wrap; justify-content: center; }
+  .bcn-prp__empty-actions [hidden] { display: none; }
+  .bcn-prp[data-showas='table'] [data-prp-pane='schedule'] :global(.bcn-plan-gantt-host),
+  .bcn-prp[data-showas='table'] .bcn-prp__legend { display: none; }
   /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
   /* The record views carry their own search and filters: no chart scope, and no draft actions (records are Live's). */
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__scope,
