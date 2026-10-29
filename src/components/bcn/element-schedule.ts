@@ -6,6 +6,7 @@ import { PLAN_DATE_TYPE_HINTS } from '../../lib/planning/plan-element';
 import type { PlanElementDto } from '../../lib/planning/model';
 import { todayIso } from '../../lib/planning/plan-records';
 import { flattenPlan, signedShift } from '../../lib/planning/plan-repo';
+import { slipHistory, slipSentence } from '../../lib/planning/plan-slip';
 import { fillIcons } from '../../lib/planning/icons';
 import { type ElementModuleSetup } from './element-module';
 
@@ -58,6 +59,9 @@ export const setupScheduleModule: ElementModuleSetup = (root) => {
       dd.title = PLAN_DATE_TYPE_HINTS[e.PlanDateType];
       dd.append(el('span', 'bcn-esch__muted', e.PlanDateType === 'Scheduled' ? 'Fixed; shifts never move it' : 'Moves when the plan is rescheduled'));
     }
+    // How it got here (2026-10-29, Andy: inferred from the log): how often it moved, how far in all, and why.
+    const slip = ctx.inLive ? slipSentence(slipHistory(ctx.repo, id)) : null;
+    if (slip) row('History', el('span', 'bcn-esch__history', slip));
     // In a draft, where Live has it, when that differs.
     if (ctx.draft && ctx.inLive) {
       const was = flattenPlan(ctx.live.Elements).find((x) => x.element.PlanElementID === id)?.element;
