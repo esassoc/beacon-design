@@ -25,7 +25,11 @@ import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
   <div class="bcn-tm" data-bcn-element-transmittals>
     <ol class="bcn-tm__list" data-tm-list hidden></ol>
     <div class="bcn-tm__empty" data-tm-empty hidden>
-      <EsaEmptyState size="xs" title="No Transmittals Yet" description="Send it to its reviewers with New Transmittal." />
+      <!-- One empty state per card (sm), its CTA in the empty state while the header has none (design QA, 2026-10-29: the
+           Documents card's rule). The header's New Transmittal comes back once there is a list. -->
+      <EsaEmptyState size="sm" title="No Transmittals Yet" description="Send it to its reviewers with New Transmittal.">
+        <span data-tm-empty-new hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="plus">New Transmittal</EsaButton></span>
+      </EsaEmptyState>
     </div>
 
     <template data-tm-tpl="row">

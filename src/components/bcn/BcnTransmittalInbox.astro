@@ -16,10 +16,11 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import '../../styles/bcn-record-table.css';
+import '../../styles/bcn-section-card.css';
 ---
 
-<section class="bcn-tib" data-bcn-transmittal-inbox aria-labelledby="tib-title" hidden>
-  <EsaCard padding="compact">
+<section class="bcn-tib bcn-section-card" data-bcn-transmittal-inbox aria-labelledby="tib-title" hidden>
+  <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-tib__head">
       <span class="bcn-tib__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
       <span class="bcn-tib__titles">

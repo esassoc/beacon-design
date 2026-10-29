@@ -123,7 +123,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         </div>
         <ul class="plan-element__dependencies" data-ped="pred-list"></ul>
         <div class="plan-element__empty" data-ped="pred-none">
-          <EsaEmptyState title="No Predecessors" description="Nothing has to finish before this starts." size="xs" />
+          <EsaEmptyState title="No Predecessors" description="Nothing has to finish before this starts." size="sm" />
         </div>
 
         <form class="plan-element__add-predecessor" data-ped="add-pred" novalidate hidden>
@@ -144,7 +144,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Blocks</h3>
         <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
         <div class="plan-element__empty" data-ped="succ-none">
-          <EsaEmptyState title="Nothing Waits on This" description="Add it as a predecessor from another item." size="xs" />
+          <EsaEmptyState title="Nothing Waits on This" description="Add it as a predecessor from another item." size="sm" />
         </div>
       </section>
     </div>

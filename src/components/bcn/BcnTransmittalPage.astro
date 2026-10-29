@@ -29,15 +29,16 @@ import BcnBadgeBank from './BcnBadgeBank.astro';
 import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
+import '../../styles/bcn-section-card.css';
 ---
 
-<div class="bcn-trp" data-bcn-transmittal-page>
+<div class="bcn-trp bcn-section-card" data-bcn-transmittal-page>
   <p class="bcn-trp__line typography-body-md" data-trp-line hidden></p>
 
   <!-- ── The sender's view ── -->
   <div class="bcn-trp__cols" data-trp-sender hidden>
     <div class="bcn-trp__col">
-      <EsaCard padding="compact" headerVariant="muted">
+      <EsaCard headerVariant="muted">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="paperclip" paths={PLAN_ICON_PATHS.paperclip} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -48,7 +49,7 @@ import { withBase } from '../../lib/base';
         <ul class="bcn-trp__files" data-trp-files></ul>
       </EsaCard>
 
-      <EsaCard padding="compact" headerVariant="muted">
+      <EsaCard headerVariant="muted">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="check-check" paths={PLAN_ICON_PATHS['check-check']} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -60,7 +61,7 @@ import { withBase } from '../../lib/base';
       </EsaCard>
 
       <div data-trp-response-card>
-        <EsaCard padding="compact" headerVariant="muted">
+        <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
             <span class="bcn-trp__glyph"><EsaIcon name="mail" paths={PLAN_ICON_PATHS.mail} size="sm" /></span>
             <span class="bcn-trp__titles">
@@ -82,7 +83,7 @@ import { withBase } from '../../lib/base';
     </div>
 
     <div class="bcn-trp__col">
-      <EsaCard padding="compact" variant="filled">
+      <EsaCard variant="filled">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -101,7 +102,7 @@ import { withBase } from '../../lib/base';
       </EsaCard>
 
       <div data-trp-notes-card hidden>
-        <EsaCard padding="compact" headerVariant="muted">
+        <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
             <span class="bcn-trp__glyph"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" /></span>
             <span class="bcn-trp__titles"><h2 class="bcn-trp__title typography-label-md-strong">Notes</h2></span>
@@ -240,6 +241,7 @@ import { withBase } from '../../lib/base';
 </script>
 
 <style>
+
   .bcn-trp {
     display: flex;
     flex-direction: column;

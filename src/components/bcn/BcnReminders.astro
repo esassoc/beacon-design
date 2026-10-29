@@ -14,10 +14,11 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import '../../styles/bcn-record-table.css';
+import '../../styles/bcn-section-card.css';
 ---
 
-<section class="bcn-rem" data-bcn-reminders aria-labelledby="rem-title" hidden>
-  <EsaCard padding="compact" headerVariant="muted">
+<section class="bcn-rem bcn-section-card" data-bcn-reminders aria-labelledby="rem-title" hidden>
+  <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-rem__head">
       <span class="bcn-rem__glyph"><EsaIcon name="clock" paths={PLAN_ICON_PATHS.clock} size="sm" /></span>
       <span class="bcn-rem__titles">
