@@ -48,6 +48,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
           <span data-pri-items></span>
           <span data-pri-budget hidden></span>
           <a class="bcn-pri__metalink" data-pri-drafts hidden><span data-glyph="git-branch"></span><span data-pri-drafts-text></span></a>
+          <a class="bcn-pri__metalink bcn-pri__metalink--late" data-pri-late hidden><span data-glyph="triangle-alert"></span><span data-pri-late-text></span></a>
           <a class="bcn-pri__metalink bcn-pri__metalink--you" data-pri-waiting hidden><span data-glyph="git-pull-request"></span><span data-pri-waiting-text></span></a>
           <a class="bcn-pri__metalink" data-pri-history><span data-glyph="history"></span><span data-pri-versions></span></a>
           <span class="bcn-pri__people" data-pri-people></span>
@@ -129,6 +130,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
   }
   .bcn-pri__metalink { color: inherit; text-decoration: none; }
   .bcn-pri__metalink:hover { color: var(--color-content-brand); }
+  .bcn-pri__metalink--late { color: var(--color-content-danger); font-weight: 600; }
   .bcn-pri__metalink--you { color: var(--color-content-brand); font-weight: 600; }
   .bcn-pri__people { margin-inline-start: auto; }
 

@@ -179,7 +179,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const redo: PlanRevision[] = [];
   let busy = false;
   /** The Schedule's Health filter (set below): kept here so every redraw can reapply it. */
-  let healthPick: string[] = [];
+  // Arrived for one health (the index's "3 Late"): the filter starts on it.
+  let healthPick: string[] = new URLSearchParams(location.search).getAll('health');
   /** The element drawer open over the chart, if any (2026-10-28: Jamie's drawer, in its draft mode). */
   let elementDrawer: PlanElementDrawerHandle | null = null;
   /** The open drawer's subscription: it re-reads the plan on every draw. */
@@ -1637,6 +1638,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const DUE_SOON = 'Due in 30 Days';
   void customElements.whenDefined('esa-filter-dropdown').then(() => {
     healthFacet.options = ['Late', 'At Risk', DUE_SOON, 'Blocked', 'Completed'].map((h) => ({ value: h, label: h }));
+    if (healthPick.length) healthFacet._selected = [...healthPick];
   });
   /** The tasks and milestones the Health filter keeps, or null for every row. */
   function healthRows(): Set<string> | null {
