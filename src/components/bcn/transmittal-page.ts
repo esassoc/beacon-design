@@ -60,6 +60,10 @@ export interface ReceiptState {
   confirmed: boolean;
 }
 
+/** A person's work address, as the prototype's directory would give it: ESA's and DWR's domains. */
+const DOMAIN: Record<string, string> = { ESA: 'esassoc.com', DWR: 'water.ca.gov', CDFW: 'wildlife.ca.gov', NMFS: 'noaa.gov', USFWS: 'fws.gov' };
+const emailOf = (name: string) => `${name.toLowerCase().replace(/[^a-z ]/g, '').trim().replace(/\s+/g, '.')}@${DOMAIN[orgOf(name)] ?? 'example.com'}`;
+
 /** One recipient's receipt of a sent transmittal, as the sender's list says it. */
 export function receiptState(t: Transmittal, name: string): ReceiptState {
   const r = t.receipts[name] ?? {};
@@ -290,8 +294,10 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     if (isTo && x.ackDue && !mine.confirmedAt) li(receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, receiptOverdue(x, me) ? 'warning' : undefined);
     if (isTo) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
     // How to answer it (a reviewer asked): to the sender, who records it here.
-    if (isTo && !x.response && !x.closedAt) li(`To respond, send your comments or letter to ${x.from}${orgOf(x.from) ? ` (${orgOf(x.from)})` : ''}; they record it on this transmittal`);
-    else li('You’re copied: no receipt or response is owed');
+    // With the sender's address as text, to copy (2026-10-29, the second traps audit: no way to reach them was given).
+    if (isTo && !x.response && !x.closedAt) li(`To respond, reply to the transmittal email or write to ${x.from}${orgOf(x.from) ? ` (${orgOf(x.from)})` : ''} at ${emailOf(x.from)}; they record it on this transmittal`);
+    else if (isTo && x.response) li('Your response is recorded on this transmittal');
+    else if (!isTo) li('You’re copied: no receipt or response is owed');
     if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
     q('[data-trp-dates]').replaceChildren(...dates);
 

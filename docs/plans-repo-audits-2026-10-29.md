@@ -72,3 +72,27 @@ Blocked); draft header text on the knockout token (`minors.mjs`).
 Still open: one compact shift formatter (chart and draft bar each have one); Move Plan from prod.
 
 Andy's call: whether Contributors may change records on Live (send transmittals, unlink obligations, record completion).
+
+## 4. Second trap audit (role journeys, keyboard, 1024)
+
+An evaluator walked Sam (Contributor), Priya (Editor), Rowan (agency), Andy (new plan from scratch), Alex (two lines of
+work), and keyboard and 1024px passes. What became of its twelve (`traps2.mjs` checks most):
+
+1. Review published more than it showed (From on a later edit): Done, Publish starts from Live only.
+   **Andy's call:** one draft per person per plan, so a what-if and real edits can't be kept apart.
+2. A publish interrupted by leaving the page left Live half-built: Done, all or nothing (stores kept and put back on
+   failure or on the next load); leaving mid-publish asks first.
+3. Blocked status hidden by an old health override: Done, Blocked or Completed clears it.
+4. Status saved to Live under a "goes to your draft" banner, item pages only: Done, it says Saves to Live; Status
+   (Live) column in the schedule table; Owner filter with Mine (chart and table; `?owner=mine`).
+5. Ask to Publish sent unseen edits: Done, it lists them first. (Edit landing in an older draft is the one-draft model.)
+6. Requests and overdue receipts never reached Priya: Done, Needs You counts overdue receipts on your sends; the seeded
+   request is now Sam's (a Contributor), not an Editor's what-if.
+7. A new plan looked lost on return (empty Live): Done, it opens on its owner's draft.
+8. Agency people joined as Contributors: Done, they join as Guests; the picker shows organizations.
+9. Item names showed to outsiders; blank index: Done.
+10. Keyboard: status select is a listbox (arrows, Enter, Escape); the drawer hands focus back to its row. Done.
+11. Agency reviewer had no way to respond: Done, the sender's address as text (or reply to the email); a To recipient
+    after a response no longer reads "You're copied".
+12. Minors: 1024 status line wraps; Budget hides Chart/Table and Health; empty Budget heading gone; Clear Filters
+    clears what emptied the list; row menu no longer sits mid-name. Done.
