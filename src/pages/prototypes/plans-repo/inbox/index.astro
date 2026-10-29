@@ -35,7 +35,7 @@ import { withBase } from '../../../../lib/base';
 </AppShell>
 
 <script>
-  import { ensureSeeded } from '../../../../lib/planning/plan-repo';
+  import { ensureSeeded, listPlanSummaries, membersOf, currentUserName } from '../../../../lib/planning/plan-repo';
   import { setupTransmittalInbox } from '../../../../components/bcn/transmittal-inbox';
   const root = document.querySelector<HTMLElement>('[data-bcn-transmittal-inbox]');
   const empty = document.querySelector<HTMLElement>('[data-inbox-empty]');
@@ -44,5 +44,16 @@ import { withBase } from '../../../../lib/base';
     // The inbox hides itself when empty; this route says why instead of showing nothing.
     root.addEventListener('bcn-transmittal-inbox', (e) => empty && (empty.hidden = (e as CustomEvent<{ count: number }>).detail.count > 0));
     setupTransmittalInbox(root).draw();
+  });
+  // Someone who works on no plan (a Guest, an agency reviewer) has no Plans to go back to (2026-10-29, the traps
+  // audit): the crumb starts at Sent to You.
+  void ensureSeeded().then(async () => {
+    const me = currentUserName();
+    const works = (await listPlanSummaries()).some((s) => { const r = membersOf(s.repo).find((m) => m.name === me)?.role; return !!r && r !== 'Guest'; });
+    const first = document.querySelector<HTMLElement>('.breadcrumbs__items a.breadcrumb-item');
+    if (!works && first) {
+      first.nextElementSibling?.remove();
+      first.remove();
+    }
   });
 </script>
