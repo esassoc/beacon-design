@@ -59,6 +59,17 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   fillIcons(root);
   const name = q<FieldEl>('[data-psu="name"]');
   const description = q<FieldEl>('[data-psu="description"]');
+  const startField = q<FieldEl>('[data-psu="start"]');
+  const endField = q<FieldEl>('[data-psu="end"]');
+  // A year in a new plan's name ("Delta Smelt Monitoring 2027") fills an untouched window with that year.
+  let windowTouched = false;
+  for (const f of [startField, endField]) f.addEventListener('change', () => (windowTouched = true));
+  name.addEventListener('input', () => {
+    const year = /\b(20\d{2})\b/.exec(String(name.value ?? ''))?.[1];
+    if (windowTouched || !year) return;
+    startField.value = `${year}-01-01`;
+    endField.value = `${year}-12-31`;
+  });
   const levelRows = q<HTMLElement>('[data-psu-levels]');
   const peopleList = q<HTMLElement>('[data-psu-people]');
   const addPerson = q<HTMLElement & { value: string | string[]; options: { value: string; label: string }[] }>('[data-psu-add-person]');
@@ -110,7 +121,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   });
 
   const state = () => JSON.stringify({ s: snapshot(), lists: config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays] });
-  const snapshot = (): PlanSettings => ({ name: (name.value ?? '').trim(), description: (description.value ?? '').trim(), views: (['schedule', 'budget'] as const).filter((v) => views.has(v)), levels: levels.map((l) => ({ ...l })), members: members.map((m) => ({ ...m })) });
+  const snapshot = (): PlanSettings => ({ name: (name.value ?? '').trim(), description: (description.value ?? '').trim(), window: { start: String(startField.value ?? '') || null, end: String(endField.value ?? '') || null }, views: (['schedule', 'budget'] as const).filter((v) => views.has(v)), levels: levels.map((l) => ({ ...l })), members: members.map((m) => ({ ...m })) });
 
   // ── What it tracks ──
   const viewCards = [...root.querySelectorAll<HTMLElement>('[data-psu-view]')];
@@ -336,7 +347,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   const sectionStates = (): Record<Section, string> => {
     const s = snapshot();
     return {
-      general: JSON.stringify([s.name, s.description, template]),
+      general: JSON.stringify([s.name, s.description, s.window, template]),
       tracks: JSON.stringify(s.views),
       levels: JSON.stringify(s.levels),
       people: JSON.stringify(s.members),
@@ -368,6 +379,9 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     failing.clear();
     name.errorText = s.name ? '' : 'Name the plan.';
     if (!s.name) failing.add('general');
+    const backwards = !!(s.window?.start && s.window.end && s.window.end < s.window.start);
+    endField.errorText = backwards ? 'End on or after the start.' : '';
+    if (backwards) failing.add('general');
     levelRows.querySelectorAll<FieldEl>('esa-text-field').forEach((field) => {
       const empty = !(field.value ?? '').trim();
       field.errorText = empty ? 'Required.' : '';
@@ -442,6 +456,10 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         views = new Set(viewsOf(repo));
         name.value = plan.PlanName ?? '';
         description.value = plan.Description ?? '';
+        startField.value = repo.window?.start ?? '';
+        endField.value = repo.window?.end ?? '';
+        endField.errorText = '';
+        windowTouched = true;
         dialog.heading = `Plan Settings: ${plan.PlanName ?? ''}`;
       } else {
         levels = STARTER_LEVELS.map((l) => ({ ...l }));
@@ -451,6 +469,10 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         views = new Set<PlanView>(['schedule', 'budget']);
         name.value = '';
         description.value = '';
+        startField.value = '';
+        endField.value = '';
+        endField.errorText = '';
+        windowTouched = false;
         dialog.heading = 'New Plan';
         config = null;
         firstAt = new Map();

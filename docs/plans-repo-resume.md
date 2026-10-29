@@ -113,6 +113,14 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
    `withLinks` in the mock's `previewDraft`, applied first in `publishDraft`); Review and Publish lists them under
    Dependencies and warns when another open draft changes the same items (`draftOverlaps`). A lag change doesn't
    move successors, as it didn't on Live; worth a look. Check: `links.mjs` (16).
+1b. **Done: building a plan from scratch** (the build-from-scratch review, 2026-10-28). Drafts carry structure
+   (`PlanRevision.structure`: add, remove, move, order, link; `withDraft` in the mock's `previewDraft`;
+   `landStructure` + `remapRevision` at publish turn temporary `new-…` ids into real ones). The plan page: an empty
+   state with Add {Top Level}, a header Add, each outline row's + Add {Next Level} and menu (Move Up, Move Down,
+   Move To…, Delete), the drawer creating in a draft and its Waits On working in drafts (`links` adapter), the
+   budget sheet starting your draft on Live, Planned Start and End in Plan Settings (a year in a new plan's name
+   fills them) as the chart's window before any dates. Review and Publish lists Added, Deleted, Outline and
+   Dependencies. Check: `outline.mjs` (22).
 2. **Effects in the review.** Review and Publish should list conflicts created or worsened, overruns, budget left in
    fiscal years an item no longer covers, and deliverable due dates that moved. In single mode drop the slider and
    the Compare toggle; the From column shouldn't show the previous revision's own note.

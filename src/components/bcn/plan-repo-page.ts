@@ -15,9 +15,23 @@ import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
-import { planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
-import { planApi } from '../../lib/planning/plan-server';
-import type { PlanDetailDto } from '../../lib/planning/model';
+import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
+import { findPlanElement, planLevelBounds, validPlanLevels } from '../../lib/planning/plan-element';
+import {
+  planElementDeleteConfirmHeader,
+  planElementDeleteConfirmText,
+  planElementDeleteImpact,
+  planElementSubtreeIDs,
+  planMoveTargets,
+  planReorderIndex,
+  planRowActionsViews,
+  planSiblingPosition,
+  type PlanRowActionsView,
+} from '../../lib/planning/plan-row-actions';
+import { openPlanElementMoveDialog } from './plan-element-move-dialog';
+import type { EsaMenuItem } from '@esa/ecology/esa-dropdown-menu';
+import { planApi, type DraftStructureOp } from '../../lib/planning/plan-server';
+import type { PlanDetailDto, PlanElementDto, PlanLevelDto } from '../../lib/planning/model';
 import type { GanttDragEvent } from '../../lib/planning/gantt-types';
 import {
   addRevision,
@@ -193,10 +207,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     },
     onDragEnd: (drag) => void drop(drag),
     onLinkSelect: (link, at) => openLink(link, at),
+    rowActions: (row) => rowActionsFor(row.id),
   });
+  // The items' span; before any item has dates, the plan's planned window (Plan Settings, General), so the first bar has
+  // somewhere to land (2026-10-28, the build-from-scratch review).
   const extent = () => {
     const span = planSpan(shown);
-    return span.start && span.end ? { start: span.start, end: span.end } : null;
+    if (span.start && span.end) return { start: span.start, end: span.end };
+    const w = getRepo(planID!).window;
+    return w?.start && w.end ? { start: w.start, end: w.end } : null;
   };
   const range = setupPlanGanttRange(q<HTMLElement>('[data-bcn-plan-range]'), {
     extent,
@@ -370,6 +389,169 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     pushAlert(`Published as Revision ${version.number}.`, 'success');
   }
 
+  // ── The outline, draft first (2026-10-28, the build-from-scratch review: "you can't build a plan from scratch") ──
+  // Add, Move Up, Move Down, Move To, Delete and new links are your draft's next edits, as a drag is; from Live your
+  // draft opens first (started if you have none). A new item has a temporary id until the draft is published.
+  const newID = () => `new-${Math.random().toString(36).slice(2, 10)}`;
+  /** Your draft, opened from Live if need be. False for someone else's draft. */
+  async function enterMyDraft(): Promise<boolean> {
+    if (mode === 'own' && draft) return true;
+    if (mode === 'view') return false;
+    const mine = myDraft(planID!) ?? startDraft(planID!, undefined, kind);
+    await switchTo(mine, { rise: !mine.revisions.length });
+    return mode === 'own' && !!draft;
+  }
+  /** One change to the plan's shape as your draft's next revision. Deleting an item the draft added drops it, and
+   *  everything the draft did to it, as if it had never been. */
+  async function shapeEdit(op: DraftStructureOp, note: PlanChangeNote): Promise<void> {
+    if (!(await enterMyDraft()) || !draft) return;
+    const prior = draft.revisions.at(-1);
+    let ops = [...(prior?.structure ?? [])];
+    let overrides = prior?.overrides ?? [];
+    const added = op.op === 'remove' && ops.some((o) => o.op === 'add' && o.id === op.id);
+    if (added) {
+      const el = findPlanElement(shown.Elements, op.id)?.element;
+      const gone = el ? planElementSubtreeIDs(el) : new Set([op.id]);
+      ops = ops.filter((o) => (o.op === 'link' ? !gone.has(o.from) && !gone.has(o.to) : !gone.has(o.id)));
+      overrides = overrides.filter((o) => !gone.has(o.PlanElementID));
+    } else ops.push(op);
+    addRevision(planID!, draft.id, overrides, note, { structure: ops });
+    redo.length = 0;
+    await reload();
+  }
+  /** The level a new item under `parent` takes: the next one down (the top level for a new top item). */
+  function childLevel(parent: PlanElementDto | null): PlanLevelDto | null {
+    return validPlanLevels(shown.Levels, planLevelBounds(parent, null))[0] ?? null;
+  }
+  function topLevelName(): string {
+    return childLevel(null)?.SingularName ?? 'Item';
+  }
+
+  /** The drawer in create mode, in your draft: Save adds the item. */
+  async function openCreate(parentID: string | null): Promise<void> {
+    if (elementDrawer && !(await elementDrawer.requestClose())) return;
+    if (!(await enterMyDraft()) || !draft) return;
+    const handle = openPlanElementDrawer({
+      target: { kind: 'create', parentPlanElementID: parentID },
+      onOpenElement: (other) => void openElement(other),
+      draft: {
+        label: draft.name,
+        badge: { text: draft.name, state: 'draft' },
+        readOnly: false,
+        editsFields: true,
+        plan: () => shown,
+        subscribe: (listener) => {
+          drawerListeners.add(listener);
+          return () => drawerListeners.delete(listener);
+        },
+        save: () => undefined,
+        create: (dto) => void shapeEdit({ op: 'add', id: newID(), dto }, { action: 'Added', subject: dto.PlanElementName ?? '' }),
+      },
+    });
+    elementDrawer = handle;
+    void handle.closed.then(() => {
+      if (elementDrawer === handle) elementDrawer = null;
+    });
+  }
+
+  async function reorder(id: string, direction: 'up' | 'down'): Promise<void> {
+    const position = planSiblingPosition(shown.Elements, id);
+    const name = findPlanElement(shown.Elements, id)?.element.PlanElementName ?? '';
+    if (!position) return;
+    await shapeEdit({ op: 'order', id, index: planReorderIndex(position, direction) }, { action: direction === 'up' ? 'Moved Up' : 'Moved Down', subject: name });
+  }
+  async function moveTo(id: string): Promise<void> {
+    const name = findPlanElement(shown.Elements, id)?.element.PlanElementName ?? '';
+    const target = await openPlanElementMoveDialog({ planElementName: name, targets: planMoveTargets(shown, id) });
+    if (!target) return;
+    await shapeEdit({ op: 'move', id, parentId: target.parentPlanElementID ?? null }, { action: 'Moved Under', subject: name, object: target.parentPlanElementID ? target.name : 'the Plan' });
+  }
+  async function remove(id: string): Promise<void> {
+    const element = findPlanElement(shown.Elements, id)?.element;
+    if (!element) return;
+    const text = planElementDeleteConfirmText(element, planElementDeleteImpact(element, shown.Dependencies)).replace('This cannot be undone.', mode === 'live' ? 'It goes to your draft; Live keeps it until the draft is published.' : 'Undo takes it back.');
+    const ok = await confirm({ color: 'warn', header: planElementDeleteConfirmHeader(element), text, confirmButtonLabel: 'Delete' });
+    if (!ok) return;
+    await shapeEdit({ op: 'remove', id }, { action: 'Deleted', subject: element.PlanElementName ?? '' });
+  }
+
+  /** Each outline row's + Add (named for the level it adds) and its menu: Move Up, Move Down, Move To, Delete. */
+  let rowViews: { plan: PlanDetailDto; views: Record<string, PlanRowActionsView> } | null = null;
+  const rowTpl = (name: string) => root.querySelector<HTMLTemplateElement>(`[data-prp-row-tpl="${name}"]`)!;
+  function rowActionsFor(id: string): Node | null {
+    if (mode === 'view') return null;
+    if (rowViews?.plan !== shown) rowViews = { plan: shown, views: planRowActionsViews(shown, true, shown.Levels?.length ?? 0) };
+    const v = rowViews.views[id];
+    const element = findPlanElement(shown.Elements, id)?.element;
+    if (!v || !element) return null;
+    const frag = document.createDocumentFragment();
+    const level = v.canAddChild ? childLevel(element) : null;
+    if (level) {
+      const add = rowTpl('add').content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const label = `Add ${level.SingularName ?? 'Item'} to ${element.PlanElementName}`;
+      add.querySelector('esa-tooltip')?.setAttribute('text', `Add ${level.SingularName ?? 'Item'}`);
+      add.querySelector('button')?.setAttribute('aria-label', label);
+      add.addEventListener('click', (e) => {
+        e.stopPropagation();
+        void openCreate(id);
+      });
+      frag.append(add);
+    }
+    const menu = rowTpl('menu').content.firstElementChild!.cloneNode(true) as HTMLElement & { items: EsaMenuItem[] };
+    menu.querySelector('button')?.setAttribute('aria-label', `Actions for ${element.PlanElementName}`);
+    const items: EsaMenuItem[] = [
+      { label: 'Move Up', action: 'up', disabled: v.isFirst },
+      { label: 'Move Down', action: 'down', disabled: v.isLast },
+      { label: 'Move To…', action: 'move', disabled: !v.canMove },
+      { label: '', divider: true },
+      { label: 'Delete', action: 'delete', variant: 'danger' },
+    ];
+    void customElements.whenDefined('esa-dropdown-menu').then(() => (menu.items = items));
+    menu.addEventListener('click', (e) => e.stopPropagation());
+    menu.addEventListener('menu-action', (e) => {
+      const action = (e as CustomEvent<string>).detail;
+      if (action === 'up' || action === 'down') void reorder(id, action);
+      else if (action === 'move') void moveTo(id);
+      else if (action === 'delete') void remove(id);
+    });
+    fillIcons(menu);
+    frag.append(menu);
+    return frag;
+  }
+
+  q<HTMLElement>('[data-prp-add]').addEventListener('click', () => void openCreate(null));
+  q<HTMLElement>('[data-prp-empty-add]').addEventListener('click', () => void openCreate(null));
+
+  /** The drawer's Waits On in a draft (2026-10-28): each change is your draft's next edit; from Live, your draft opens
+   *  and the drawer comes back on the same item there. */
+  function drawerLinks(id: string) {
+    const name = (x: string) => findPlanElement(shown.Elements, x)?.element.PlanElementName ?? '';
+    const dep = (depID: string) => (shown.Dependencies ?? []).find((d) => d.PlanElementDependencyID === depID);
+    const edit = async (change: (prior: PlanRevision | undefined) => { structure?: DraftStructureOp[]; links?: Record<string, number | null> }, note: PlanChangeNote) => {
+      const fromLive = mode === 'live';
+      if (fromLive) elementDrawer = null;
+      if (!(await enterMyDraft()) || !draft) return;
+      const prior = draft.revisions.at(-1);
+      addRevision(planID!, draft.id, prior?.overrides ?? [], note, change(prior));
+      redo.length = 0;
+      await reload();
+      if (fromLive) void openElement(id);
+    };
+    return {
+      candidates: (successorID: string) => planApi.predecessorCandidates(planID!, successorID, draft?.revisions.at(-1)?.links, draft?.revisions.at(-1)?.structure),
+      add: (from: string, to: string, lag: number) =>
+        void edit((prior) => ({ structure: [...(prior?.structure ?? []), { op: 'link', id: newID(), from, to, lag }] }), { action: 'Linked', subject: name(from), object: name(to) }),
+      setLag: (depID: string, lag: number) => {
+        const d = dep(depID);
+        void edit((prior) => ({ links: { ...(prior?.links ?? {}), [depID]: lag } }), { action: 'Lag Set', subject: name(d?.PredecessorPlanElementID ?? ''), object: name(d?.SuccessorPlanElementID ?? ''), shift: `${lag} ${Math.abs(lag) === 1 ? 'day' : 'days'}` });
+      },
+      remove: (depID: string) => {
+        const d = dep(depID);
+        void edit((prior) => ({ links: { ...(prior?.links ?? {}), [depID]: null } }), { action: 'Unlinked', subject: name(d?.PredecessorPlanElementID ?? ''), object: name(d?.SuccessorPlanElementID ?? '') });
+      },
+    };
+  }
+
   /**
    * An element's drawer (2026-10-28, Andy: "does this prototype not have side panels when you click a work element?"):
    * Jamie's BcnPlanElementDrawer in its draft mode. Other people's drafts open it read-only; your draft opens it
@@ -410,6 +592,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         editsFields: mode !== 'view',
         note,
         saveLabel: mode === 'live' ? 'Save to My Draft' : 'Save',
+        links: mode === 'view' ? undefined : drawerLinks(id),
         publishNow: offerPublish ? (edit) => void publishFromDrawer(edit) : undefined,
         plan: () => shown,
         subscribe: (listener) => {
@@ -511,7 +694,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)
       ? 'Records are kept on Live: they read the same in every draft.'
       : mode === 'live'
-        ? `Live is read-only. Edit in a Draft to change ${view === 'budget' ? 'the budget' : 'it'}.`
+        ? 'Changes go to your draft; Review and Publish takes them to Live.'
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
           : '';
@@ -565,15 +748,17 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       plan: shown,
       budget: currentBudget(),
       base: draft && mode !== 'live' ? budgetAt(repo) : null,
-      editable: mode === 'own',
+      // Live edits too (draft first): the first figure typed opens your draft and lands there.
+      editable: mode !== 'view',
       query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
       heading: planGanttView(shown).outlineHeading,
     });
   }
   /** Cells changed in your draft: one edit. A typed figure is "Budget Set", a deleted one "Budget Cleared", a pasted
    *  block "Budget Pasted" with its count of cells. */
-  function budgetEdit(changes: BudgetChange[]): void {
-    if (mode !== 'own') return drawSheet();
+  async function budgetEdit(changes: BudgetChange[]): Promise<void> {
+    if (mode === 'view') return drawSheet();
+    if (mode === 'live' && !(await enterMyDraft())) return drawSheet();
     const was = currentBudget();
     const real = changes.filter((c) => (was[c.id]?.[String(c.fy)] ?? 0) !== c.value);
     if (!real.length) return drawSheet();
@@ -718,6 +903,16 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
     drawerListeners.forEach((listener) => listener());
+    // Adding (2026-10-28): the header's Add names the top level; an empty plan says where its first item comes from.
+    const top = topLevelName();
+    const empty = !flattenPlan(shown.Elements).length;
+    q<HTMLElement>('[data-prp-add]').hidden = mode === 'view' || empty;
+    q<HTMLElement>('[data-prp-add-label]').textContent = `Add ${top}`;
+    q<HTMLElement>('[data-prp-empty]').hidden = !empty;
+    q<HTMLElement>('[data-prp-empty-add]').hidden = mode === 'view';
+    q<HTMLElement>('[data-prp-empty-add-label]').textContent = `Add ${top}`;
+    q<HTMLElement>('[data-prp-empty] .esa-empty-state__description').textContent =
+      mode === 'view' ? 'This draft has no items yet.' : `Start the outline with its first ${top}. ${mode === 'live' ? 'It goes to your draft; ' : ''}Review and Publish takes it to Live.`;
     drawSheet();
   }
 
@@ -1081,8 +1276,17 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (draft && mode !== 'live') drawChanges(draft);
     q<HTMLElement>('[data-prp-about-head]').hidden = mode === 'live';
     q<HTMLElement>('[data-prp-desc]').textContent = live.Description ?? '';
+    // Span: the items' years; the planned window beside them when one is set, or in their place before any dates.
     const span = planSpan(shown);
-    q<HTMLElement>('[data-prp-span]').textContent = span.start && span.end ? `${new Date(span.start).getUTCFullYear()}–${new Date(span.end).getUTCFullYear()}` : 'No Dates Yet';
+    const w = repo.window;
+    const years = (a: string, b: string) => {
+      const x = new Date(a).getUTCFullYear();
+      const y = new Date(b).getUTCFullYear();
+      return x === y ? String(x) : `${x}–${y}`;
+    };
+    const planned = w?.start && w.end ? `Planned ${shortDate(w.start)} to ${shortDate(w.end)}` : '';
+    q<HTMLElement>('[data-prp-span]').textContent =
+      span.start && span.end ? `${years(span.start, span.end)}${planned ? `. ${planned}` : ''}` : planned || 'No Dates Yet';
     q<HTMLElement>('[data-prp-items]').textContent = String(flattenPlan(shown.Elements).length);
     q<HTMLElement>('[data-prp-deps]').textContent = String(shown.Dependencies?.length ?? 0);
     q<HTMLElement>('[data-prp-tracks]').textContent = viewsOf(repo).map((v) => VIEW_OPTIONS[v].label).join(', ');
@@ -1115,7 +1319,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     };
     const latest = latestVersion(repo);
     const named = [...repo.versions].reverse().find((v) => v.label);
-    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: `All ${repo.versions.length} Revisions` });
+    const more = Object.assign(document.createElement('a'), { className: 'bcn-prp__more', href: keep(REVISIONS_HREF(planID!)), textContent: repo.versions.length === 1 ? 'The 1 Revision' : `All ${repo.versions.length} Revisions` });
     more.dataset.prpRevisions = '';
     q<HTMLElement>('[data-prp-releases]').replaceChildren(
       item(latest.author, null, `Revision ${latest.number}`, `${shortDate(latest.at)}, ${firstName(latest.author)}`),

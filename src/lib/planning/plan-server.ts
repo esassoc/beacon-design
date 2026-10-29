@@ -581,12 +581,71 @@ function replayDraft(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[
   return { work, movedBy, stale, flags: [...flags.values()] };
 }
 
-/** The plan with a draft's link edits laid over its dependencies (new lags; null removes one). The prototype's own
- *  extension: Beacon's draft API carries date overrides only. */
-function withLinks(plan: StoredPlan, links?: Record<string, number | null>): StoredPlan {
-  if (!links || !Object.keys(links).length) return plan;
-  const deps = plan.Dependencies.filter((d) => links[d.PlanElementDependencyID] !== null).map((d) => (d.PlanElementDependencyID in links ? { ...d, LagDays: links[d.PlanElementDependencyID] as number } : d));
-  return { ...plan, Dependencies: deps };
+/** A draft's change to the plan's shape (2026-10-28, draft first: adding, removing, moving and linking are drafted
+ *  like dates). The prototype's own extension: Beacon's draft API carries date overrides only. */
+export type DraftStructureOp =
+  | { op: 'add'; id: string; dto: PlanElementCreateDto }
+  | { op: 'remove'; id: string }
+  | { op: 'move'; id: string; parentId: string | null }
+  | { op: 'order'; id: string; index: number }
+  | { op: 'link'; id: string; from: string; to: string; lag: number };
+
+/**
+ * The plan as a draft has its shape: its structure ops in order (each skipped when it no longer applies, as when what
+ * it names is gone), then its link edits (new lags; null removes one). Writes nothing.
+ */
+function withDraft(plan: StoredPlan, links?: Record<string, number | null>, structure?: readonly DraftStructureOp[]): StoredPlan {
+  if (!structure?.length && (!links || !Object.keys(links).length)) return plan;
+  const work: StoredPlan = { ...plan, Elements: plan.Elements.map((e) => ({ ...e })), Dependencies: plan.Dependencies.map((d) => ({ ...d })) };
+  const has = (id: string | null) => !id || work.Elements.some((e) => e.PlanElementID === id);
+  for (const o of structure ?? []) {
+    if (o.op === 'add') {
+      const parent = o.dto.ParentPlanElementID ?? null;
+      if (!has(parent) || has(o.id)) continue;
+      const siblings = siblingsOf(work, parent);
+      work.Elements.push({
+        PlanElementID: o.id,
+        ParentPlanElementID: parent,
+        PlanElementName: (o.dto.PlanElementName ?? '').trim(),
+        SortOrder: o.dto.SortOrder ?? siblings.length,
+        LevelDepth: o.dto.LevelDepth ?? 1,
+        IsMilestone: !!o.dto.IsMilestone,
+        PlanDateType: o.dto.PlanDateType ?? PlanDateTypeEnum.Estimated,
+        StartDate: o.dto.StartDate ?? null,
+        EndDate: o.dto.IsMilestone ? (o.dto.StartDate ?? null) : (o.dto.EndDate ?? null),
+        Budget: o.dto.IsMilestone ? null : (o.dto.Budget ?? null),
+        Notes: o.dto.Notes?.trim() || null,
+        UpdateDate: now(),
+        UpdateUserName: currentUserName(),
+        Version: 1,
+      });
+    } else if (o.op === 'remove') {
+      const element = work.Elements.find((e) => e.PlanElementID === o.id);
+      if (!element) continue;
+      const subtree = new Set(toSchedule(work).SelfAndDescendantIDs(o.id));
+      work.Dependencies = work.Dependencies.filter((d) => !subtree.has(d.PredecessorPlanElementID) && !subtree.has(d.SuccessorPlanElementID));
+      work.Elements = work.Elements.filter((e) => !subtree.has(e.PlanElementID));
+      renumber(siblingsOf(work, element.ParentPlanElementID));
+    } else if (o.op === 'move') {
+      const element = work.Elements.find((e) => e.PlanElementID === o.id);
+      if (!element || !has(o.parentId) || (o.parentId && toSchedule(work).IsSelfOrDescendant(o.id, o.parentId))) continue;
+      renumber(siblingsOf(work, element.ParentPlanElementID, o.id));
+      const next = [...siblingsOf(work, o.parentId, o.id), element];
+      element.ParentPlanElementID = o.parentId;
+      renumber(next);
+    } else if (o.op === 'order') {
+      const element = work.Elements.find((e) => e.PlanElementID === o.id);
+      if (!element) continue;
+      const siblings = siblingsOf(work, element.ParentPlanElementID, o.id);
+      siblings.splice(Math.max(0, Math.min(o.index, siblings.length)), 0, element);
+      renumber(siblings);
+    } else if (o.op === 'link') {
+      if (!has(o.from) || !has(o.to) || work.Dependencies.some((d) => d.PredecessorPlanElementID === o.from && d.SuccessorPlanElementID === o.to)) continue;
+      work.Dependencies.push({ PlanElementDependencyID: o.id, PredecessorPlanElementID: o.from, SuccessorPlanElementID: o.to, LagDays: o.lag });
+    }
+  }
+  if (links) work.Dependencies = work.Dependencies.filter((d) => links[d.PlanElementDependencyID] !== null).map((d) => (d.PlanElementDependencyID in links ? { ...d, LagDays: links[d.PlanElementDependencyID] as number } : d));
+  return work;
 }
 
 function draftView(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[], keepLive: ReadonlySet<string> = new Set()): PlanDraftViewDto {
@@ -903,9 +962,10 @@ export const planApi = {
       )
     ),
 
-  predecessorCandidates: (planID: string, successorPlanElementID: string): Promise<PlanLinkCandidateDto[]> =>
+  /** With a draft's links and structure: what the item may wait on as the draft has the plan. */
+  predecessorCandidates: (planID: string, successorPlanElementID: string, links?: Record<string, number | null>, structure?: readonly DraftStructureOp[]): Promise<PlanLinkCandidateDto[]> =>
     delay(() => {
-      const plan = findPlan(load(), planID);
+      const plan = withDraft(findPlan(load(), planID), links, structure);
       const ids = toSchedule(plan).PredecessorCandidateIDs(successorPlanElementID);
       const level = (depth: number) => plan.Levels.find((l) => l.Depth === depth);
       const out: PlanLinkCandidateDto[] = [];
@@ -1066,8 +1126,8 @@ export const planApi = {
    * The draft as the chart draws it, recomputed against the live plan as it is now. Writes nothing. Publish's summary
    * passes the stale elements the planner set to keep their live dates, so it shows what publishing would really do.
    */
-  previewDraft: (planID: string, overrides: PlanDraftOverrideDto[], keepLivePlanElementIDs: string[] = [], links?: Record<string, number | null>): Promise<PlanDraftViewDto> =>
-    delay(() => draftView(withLinks(findPlan(load(), planID), links), overrides, new Set(keepLivePlanElementIDs))),
+  previewDraft: (planID: string, overrides: PlanDraftOverrideDto[], keepLivePlanElementIDs: string[] = [], links?: Record<string, number | null>, structure?: readonly DraftStructureOp[]): Promise<PlanDraftViewDto> =>
+    delay(() => draftView(withDraft(findPlan(load(), planID), links, structure), overrides, new Set(keepLivePlanElementIDs))),
 
   /**
    * Publish: replays the draft on the live plan once more (keeping the live dates where the planner chose them), saves

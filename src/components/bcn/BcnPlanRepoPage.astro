@@ -32,6 +32,7 @@ import BcnPlanBudgetSheet from './BcnPlanBudgetSheet.astro';
 import BcnPlanSetupDialog from './BcnPlanSetupDialog.astro';
 import BcnPlanDeliverables from './BcnPlanDeliverables.astro';
 import BcnPlanDocuments from './BcnPlanDocuments.astro';
+import BcnPlanElementMoveDialog from './BcnPlanElementMoveDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
 
@@ -128,6 +129,9 @@ import { withBase } from '../../lib/base';
             <span data-prp-redo><esa-tooltip text="Redo (Ctrl+Shift+Z)" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="redo-2" label="Redo (Ctrl+Shift+Z)" data-fill-icon="redo-2" /></esa-tooltip></span>
             <span data-prp-discard><esa-tooltip text="Delete this draft. Live is not affected." position="below"><EsaButton variant="ghost" size="xs" icon="trash-2">Discard</EsaButton></esa-tooltip></span>
           </span>
+          <!-- Add the plan's top-level item (2026-10-28, the build-from-scratch review), named for its level; from Live it
+               goes to your draft. Rows add their own children from the outline. -->
+          <span data-prp-add hidden><esa-tooltip text="Add an item at the top of the outline" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="plus"><span data-prp-add-label>Add</span></EsaButton></esa-tooltip></span>
           <!-- Live's one action, with an edit pencil; ghost and small in the panel's header (2026-10-28, Andy). -->
           <span data-prp-edit><esa-tooltip text="Change dates without touching Live" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit in a Draft</EsaButton></esa-tooltip></span>
           <!-- Someone else's draft (2026-10-28): the way back to the plan of record, beside its one action. -->
@@ -152,6 +156,12 @@ import { withBase } from '../../lib/base';
         </section>
         <div class="bcn-prp__view" data-prp-pane="schedule">
         <BcnPlanGantt label="Plan schedule" />
+        <!-- A plan with no items yet (2026-10-28, the build-from-scratch review): where its first one comes from. -->
+        <div class="bcn-prp__no-match" data-prp-empty hidden>
+          <EsaEmptyState size="sm" title="No Items Yet" description="Start the outline with its first item. It goes to your draft; Review and Publish takes it to Live.">
+            <span data-prp-empty-add><EsaButton variant="primary" size="sm" icon="plus"><span data-prp-empty-add-label>Add</span></EsaButton></span>
+          </EsaEmptyState>
+        </div>
         <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
         <div class="bcn-prp__no-match" data-prp-no-match hidden>
           <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
@@ -239,6 +249,14 @@ import { withBase } from '../../lib/base';
   <!-- Revisions in a modal (2026-10-28, after TalentBridge): the history, and a draft's review before it publishes. -->
   <BcnPlanRevisionsDialog />
   <BcnPlanSetupDialog />
+  <BcnPlanElementMoveDialog />
+  <!-- An outline row's actions (2026-10-28): + Add (named for the level it adds) and its menu. -->
+  <template data-prp-row-tpl="add"><span><esa-tooltip text="Add" position="below"><EsaButton variant="ghost" iconOnly icon="plus" label="Add" size="xs" /></esa-tooltip></span></template>
+  <template data-prp-row-tpl="menu">
+    <esa-dropdown-menu position="below-end">
+      <EsaButton variant="ghost" iconOnly icon="ellipsis-vertical" label="Actions" size="xs" data-fill-icon="ellipsis-vertical" />
+    </esa-dropdown-menu>
+  </template>
   <BcnChangeNote />
 </div>
 
@@ -248,6 +266,7 @@ import { withBase } from '../../lib/base';
   import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-dropdown-menu';
 </script>
 
 <style>

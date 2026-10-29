@@ -17,7 +17,7 @@ import '@esa/ecology/esa-switch-toggle';
 import '@esa/ecology/esa-tooltip';
 
 import { controlErrorMessage, formatDate, FormControl, HttpErrorResponse, type AbstractControl, type FormGroup } from '../../lib/planning/ng-shim';
-import type { PlanDateTypeEnum, PlanDetailDto, PlanElementDto, PlanElementScheduleChangeDto, PlanScheduleChangeModeEnum as PlanScheduleChangeModeType } from '../../lib/planning/model';
+import type { PlanDateTypeEnum, PlanDetailDto, PlanElementCreateDto, PlanLinkCandidateDto, PlanElementDto, PlanElementScheduleChangeDto, PlanScheduleChangeModeEnum as PlanScheduleChangeModeType } from '../../lib/planning/model';
 import { PlanScheduleChangeModeEnum } from '../../lib/planning/model';
 import {
   canAddPlanLevelInline,
@@ -117,6 +117,15 @@ export interface PlanElementDrawerDraft {
   saveLabel?: string;
   /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. */
   publishNow?: (edit: Parameters<PlanElementDrawerDraft['save']>[0]) => void;
+  /** A new item in the draft (2026-10-28, draft first): the create form's element, as the API would take it. */
+  create?: (dto: PlanElementCreateDto) => void;
+  /** Waits On in the draft (2026-10-28): its links added, re-lagged and removed as the draft's next edits. */
+  links?: {
+    candidates(successorID: string): Promise<PlanLinkCandidateDto[]>;
+    add(predecessorID: string, successorID: string, lag: number): void;
+    setLag(dependencyID: string, lag: number): void;
+    remove(dependencyID: string): void;
+  };
   /** The plan as the draft has it. */
   plan(): PlanDetailDto;
   subscribe(listener: () => void): () => void;
@@ -522,9 +531,10 @@ export function openPlanElementDrawer(args: {
     notesField.helpText = flags.Notes ?? '';
 
     // Waits on / Blocks (edit only)
-    show(q('waits-on'), !isCreate && !draft);
-    show(q('blocks'), !isCreate && !draft);
-    if (!isCreate && !draft) {
+    const linksHere = !draft || (!!draft.links && !draft.readOnly);
+    show(q('waits-on'), !isCreate && linksHere);
+    show(q('blocks'), !isCreate && linksHere);
+    if (!isCreate && linksHere) {
       renderPredecessors();
       renderAddPredecessor();
       renderSuccessors();
@@ -731,6 +741,12 @@ export function openPlanElementDrawer(args: {
     render();
 
     const value = form.getRawValue();
+    if (draft?.create && target.kind === 'create') {
+      isSaving = false;
+      draft.create(toPlanElementCreateDto(value, target.parentPlanElementID, nextPlanElementSortOrder(parent()?.Children ?? plan().Elements)));
+      close();
+      return;
+    }
     if (draft && target.kind === 'edit') {
       isSaving = false;
       (publish && draft.publishNow ? draft.publishNow : draft.save)({
@@ -972,6 +988,13 @@ export function openPlanElementDrawer(args: {
       render();
       return;
     }
+    if (draft?.links) {
+      draft.links.setLag(row.planElementDependencyID, toPlanElementDependencyUpdateDto(lagForm).LagDays!);
+      pendingLink = null;
+      lagEditorID = null;
+      render();
+      return;
+    }
     const planID = plan().PlanID!;
     void (planWrite(
       (token) => planApi.updateDependency(planID, row.planElementDependencyID, toPlanElementDependencyUpdateDto(lagForm).LagDays!, token),
@@ -1001,6 +1024,14 @@ export function openPlanElementDrawer(args: {
       confirmButtonLabel: 'Remove',
     });
     if (!confirmed || !isOpen || !beginLink('remove', row.planElementDependencyID)) return;
+    if (draft?.links) {
+      draft.links.remove(row.planElementDependencyID);
+      pendingLink = null;
+      if (lagEditorID === row.planElementDependencyID) lagEditorID = null;
+      if (isAddingPredecessor) reloadCandidates();
+      render();
+      return;
+    }
     const planID = plan().PlanID!;
     try {
       const updated = (await planWrite((token) => planApi.deleteDependency(planID, row.planElementDependencyID, token), versionPin)) as PlanDetailDto;
@@ -1046,6 +1077,17 @@ export function openPlanElementDrawer(args: {
       return;
     }
     candidatesRequest += 1;
+    if (draft?.links) {
+      const dto = toPlanElementDependencyCreateDto(predecessorForm, target.planElementID);
+      draft.links.add(dto.PredecessorPlanElementID!, target.planElementID, dto.LagDays ?? 0);
+      predecessorForm.reset({ PredecessorPlanElementID: null, LagDays: PLAN_DEFAULT_LAG_DAYS });
+      syncPredecessorFields();
+      pendingLink = null;
+      // The page's redraw lands the link in the draft's plan; the picker refetches after it.
+      setTimeout(() => reloadCandidates(), 300);
+      render();
+      return;
+    }
     const planID = plan().PlanID!;
     try {
       const updated = (await planWrite(
@@ -1090,7 +1132,7 @@ export function openPlanElementDrawer(args: {
     predecessorCandidates = { status: 'loading' };
     render();
     try {
-      const candidates = await planApi.predecessorCandidates(plan().PlanID!, target.planElementID);
+      const candidates = draft?.links ? await draft.links.candidates(target.planElementID) : await planApi.predecessorCandidates(plan().PlanID!, target.planElementID);
       if (request !== candidatesRequest || !isOpen) return;
       predecessorCandidates = { status: 'loaded', options: planPredecessorOptions(candidates) };
     } catch {

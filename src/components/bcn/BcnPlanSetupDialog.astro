@@ -79,6 +79,12 @@ const LISTS = [
         <h3 class="bcn-psu__heading" id="psu-general">General</h3>
         <esa-text-field data-psu="name" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
         <esa-textarea data-psu="description" label="Description" size="sm" rows="2" placeholder="Optional"></esa-textarea>
+        <!-- The plan's planned span (2026-10-28, the build-from-scratch review): the chart's window before any item has
+             dates. A year in the name fills it for a new plan. -->
+        <div class="bcn-psu__window">
+          <esa-date-picker data-psu="start" label="Planned Start" size="sm"></esa-date-picker>
+          <esa-date-picker data-psu="end" label="Planned End" size="sm"></esa-date-picker>
+        </div>
         <!-- New Plan only (2026-10-28): a template brings its levels, fields and page layouts; Save as Template in a
              plan's settings adds to the list. -->
         <span data-psu-template-wrap hidden><esa-select data-psu-template label="Start From" size="sm" help-text="A template brings its levels, fields and page layouts."></esa-select></span>
@@ -197,6 +203,7 @@ const LISTS = [
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
   import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-combobox';
@@ -318,4 +325,5 @@ const LISTS = [
     .bcn-psu__layout { grid-template-columns: minmax(0, 1fr); block-size: auto; }
     .bcn-psu__nav { border-inline-end: 0; padding-inline-end: 0; }
   }
+  .bcn-psu__window { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
 </style>

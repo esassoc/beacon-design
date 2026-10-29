@@ -15,7 +15,7 @@ await fyCell.click(); await page.waitForTimeout(300);
 const ref = (await page.locator('[data-pbs-ref]').textContent()).trim();
 check('name box shows year and item', /^FY \d{4}–\d{2}/.test(ref), ref);
 check('focus style lights header', (await page.locator('[data-bcn-plan-budget-sheet] > style').textContent()).includes('ag-header-cell'));
-check('note in Live', /Live is read-only/.test(await page.locator('[data-prp-state-note]').textContent()));
+check('note in Live', /Changes go to your draft/.test(await page.locator('[data-prp-state-note]').textContent()));
 await page.keyboard.type('5'); await page.waitForTimeout(200);
 check('Live does not edit on type', !(await page.locator('.ag-cell-inline-editing').count()));
 await page.screenshot({ path: OUT + 's-live-cursor.png' });

@@ -9,7 +9,7 @@ const check = (n, ok, x = '') => { ok ? pass++ : fail++; console.log(`${ok ? 'PA
 const repo = () => page.evaluate((planID) => { for (const k of Object.keys(localStorage)) { try { const v = JSON.parse(localStorage.getItem(k)); const r = v?.repos?.find?.((x) => x.planID === planID); if (r) return { versions: r.versions.length, drafts: r.drafts.map((d) => ({ owner: d.owner, transient: !!d.transient, edits: d.revisions.length })) }; } catch {} } }, planID);
 const idOf = (name) => page.evaluate((name) => [...document.querySelectorAll('.bcn-plan-gantt__item')].find((li) => li.querySelector('.bcn-plan-gantt__name')?.textContent.trim().startsWith(name))?.dataset.rowId, name);
 const drawer = 'esa-side-dialog[data-ped="dialog"], [data-bcn-plan-element-drawer] esa-side-dialog';
-const openRow = async (id) => { await page.click(`[data-select="${id}"]`); await page.waitForTimeout(1200); };
+const openRow = async (id) => { await page.click(`[data-select="${id}"]`, { position: { x: 12, y: 8 } }); await page.waitForTimeout(1200); };
 const isOpen = () => page.evaluate(() => [...document.querySelectorAll('esa-side-dialog')].some((d) => d.open));
 const shown = (sel) => page.locator(sel).first().evaluate((el) => { const b = el.closest('.esa-button') ?? el; return !b.hidden && getComputedStyle(b).display !== 'none'; });
 const setNotes = (text) => page.locator('[data-ped="notes"]').evaluate((f, text) => { f.value = text; f.dispatchEvent(new Event('input', { bubbles: true })); f.dispatchEvent(new Event('change', { bubbles: true })); }, text);

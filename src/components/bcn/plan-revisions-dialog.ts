@@ -157,6 +157,39 @@ function linkDiff(a: PlanDetailDto, b: PlanDetailDto): LinkDiff[] {
   return out;
 }
 
+/** One item whose place in the outline differs (a new parent, or a new position among the same siblings). */
+interface ShapeDiff {
+  name: string;
+  depth: number;
+  was: string;
+  now: string;
+}
+/** The items that moved in the outline between two stops (2026-10-28: building the outline is drafted). Added and
+ *  removed items are the Schedule rows' own. */
+function shapeDiff(a: PlanDetailDto, b: PlanDetailDto): ShapeDiff[] {
+  const place = (plan: PlanDetailDto) => {
+    const out = new Map<string, { parent: string; index: number }>();
+    const walk = (list: readonly { PlanElementID?: string; PlanElementName?: string; Children?: unknown[] | null }[] | null | undefined, parent: string) =>
+      (list ?? []).forEach((e, index) => {
+        out.set(e.PlanElementID ?? '', { parent, index });
+        walk(e.Children as never, e.PlanElementName ?? '');
+      });
+    walk(plan.Elements, '');
+    return out;
+  };
+  const before = place(a);
+  const after = place(b);
+  const out: ShapeDiff[] = [];
+  for (const { element, path } of flattenPlan(b.Elements)) {
+    const x = before.get(element.PlanElementID ?? '');
+    const y = after.get(element.PlanElementID ?? '');
+    if (!x || !y) continue;
+    if (x.parent !== y.parent) out.push({ name: element.PlanElementName ?? '', depth: path.length, was: `Under ${x.parent || 'the Plan'}`, now: `Under ${y.parent || 'the Plan'}` });
+    else if (x.index !== y.index) out.push({ name: element.PlanElementName ?? '', depth: path.length, was: `Position ${x.index + 1}`, now: `Position ${y.index + 1}` });
+  }
+  return out;
+}
+
 const day = (iso: string | null) =>
   iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Unscheduled';
 
@@ -191,7 +224,7 @@ export function setupPlanRevisionsDialog(opts: {
   let sel: RevisionSelection = { from: 0, to: 0, compareTwo: false };
   let latestNumber = 0;
   let cache = new Map<number, Promise<PlanDetailDto>>();
-  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[]; details: DetailDiff[]; links: LinkDiff[] } | null = null;
+  let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[]; details: DetailDiff[]; links: LinkDiff[]; shape: ShapeDiff[] } | null = null;
   let only: CheckEl | null = null;
   let token = 0;
 
@@ -214,17 +247,17 @@ export function setupPlanRevisionsDialog(opts: {
       }
     }
     const labels = new Map(configOf(getRepo(opts.planID)).fields.map((f) => [f.id, f.label]));
-    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to), details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels), links: linkDiff(from, to) };
+    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to), details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels), links: linkDiff(from, to), shape: shapeDiff(from, to) };
     draw();
   }
 
   function draw(): void {
     if (!current) return;
-    const { from, to, changes, own, money, details, links } = current;
+    const { from, to, changes, own, money, details, links, shape } = current;
     drawHeads();
-    drawCounts(changes, own, money, details, links);
-    drawRows(from, to, changes, own, money, details, links);
-    drawFooter(changes.length + money.length + details.length + links.length);
+    drawCounts(changes, own, money, details, links, shape);
+    drawRows(from, to, changes, own, money, details, links, shape);
+    drawFooter(changes.length + money.length + details.length + links.length + shape.length);
     // A budget-only or details-only comparison has nothing to show on the chart.
     q<HTMLElement>('.bcn-prvd__chart').hidden = !changes.length && money.length + details.length > 0 && !links.length;
 
@@ -273,17 +306,22 @@ export function setupPlanRevisionsDialog(opts: {
     q<HTMLElement>('[data-prvd-current]').hidden = !!draft || sel.to !== stops.length - 1;
   }
 
-  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[], links: LinkDiff[]): void {
+  function drawCounts(changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[], links: LinkDiff[], shape: ShapeDiff[]): void {
     const counts = q<HTMLElement>('[data-prvd-counts]');
     const b = (n: number, label: string) => `<span><b>${n}</b> ${label}</span>`;
     const budget = money.length ? b(money.length, money.length === 1 ? 'Budget Change' : 'Budget Changes') : '';
     const detail = details.length ? b(details.length, details.length === 1 ? 'Item Edited' : 'Items Edited') : '';
     const link = links.length ? b(links.length, links.length === 1 ? 'Link Changed' : 'Links Changed') : '';
-    const only = !changes.length && (money.length || details.length || links.length);
-    if (!draft) counts.innerHTML = (only ? '' : b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved')) + budget + detail + link;
+    const added = changes.filter((c) => c.status === 'added').length;
+    const removed = changes.filter((c) => c.status === 'removed').length;
+    const outline =
+      (added ? b(added, 'Added') : '') + (removed ? b(removed, 'Deleted') : '') + (shape.length ? b(shape.length, shape.length === 1 ? 'Item Rearranged' : 'Items Rearranged') : '');
+    changes = changes.filter((c) => c.status === 'moved');
+    const only = !changes.length && (money.length || details.length || links.length || added || removed || shape.length);
+    if (!draft) counts.innerHTML = (only ? '' : b(changes.length, changes.length === 1 ? 'Item Moved' : 'Items Moved')) + outline + budget + detail + link;
     else {
       const mine = changes.filter((c) => own.has(c.id)).length;
-      counts.innerHTML = (only ? '' : b(mine, 'Moved') + b(changes.length - mine, 'Followed')) + budget + detail + link;
+      counts.innerHTML = (only ? '' : b(mine, 'Moved') + b(changes.length - mine, 'Followed')) + outline + budget + detail + link;
     }
   }
 
@@ -292,7 +330,7 @@ export function setupPlanRevisionsDialog(opts: {
    * order. A changed date is struck on the left and marked on the right; the right ends with the shift (an item that
    * moved only because what it waits on did reads Followed). Changes Only leaves out the items that didn't change.
    */
-  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[], links: LinkDiff[]): void {
+  function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[], links: LinkDiff[], shape: ShapeDiff[]): void {
     const fromRows = new Map(planGanttView(from).rows.map((r) => [r.id, r]));
     const toRows = planGanttView(to).rows;
     const toById = new Map(toRows.map((r) => [r.id, r]));
@@ -300,7 +338,7 @@ export function setupPlanRevisionsDialog(opts: {
     const order = [...toRows.map((r) => r.id), ...[...fromRows.keys()].filter((id) => !toById.has(id))];
     const list = q<HTMLElement>('[data-prvd-rows]');
     const ids = order.filter((id) => !only?.checked || byId.has(id));
-    if (!ids.length && !money.length && !details.length && !links.length) {
+    if (!ids.length && !money.length && !details.length && !links.length && !shape.length) {
       list.innerHTML = `<p class="bcn-prvd__none">No differences between these revisions.</p>`;
       return;
     }
@@ -385,6 +423,23 @@ export function setupPlanRevisionsDialog(opts: {
         row.className = 'bcn-prvd__row';
         row.dataset.kind = 'moved';
         row.append(moneyCell('from', diff), moneyCell('to', diff));
+        return row;
+      }),
+      ...(shape.length ? [heading('Outline')] : []),
+      ...shape.map((diff) => {
+        const row = document.createElement('div');
+        row.className = 'bcn-prvd__row';
+        row.dataset.kind = 'moved';
+        const side = (which: 'from' | 'to') => {
+          const el = document.createElement('div');
+          el.className = `bcn-prvd__cell bcn-prvd__cell--${which}`;
+          el.style.setProperty('--depth', String(diff.depth));
+          const where = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates' });
+          where.append(Object.assign(document.createElement(which === 'from' ? 'del' : 'ins'), { textContent: which === 'from' ? diff.was : diff.now }));
+          el.append(Object.assign(document.createElement('span'), { className: 'bcn-prvd__name', textContent: diff.name }), where);
+          return el;
+        };
+        row.append(side('from'), side('to'));
         return row;
       }),
       ...(links.length ? [heading('Dependencies')] : []),
