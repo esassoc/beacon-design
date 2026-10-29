@@ -50,10 +50,25 @@ Blockers (all Done; check `access.mjs`):
 Found on the way: New Plan could name the sample's seeding user (Jamie) its Owner when opened mid-seed; fixed (the
 dialog reads who you are when it opens; seeding reads storage after the API answers).
 
-Majors (open): an item edit lands in an existing what-if draft and an old publish request stays live; deleting an item
-or plan orphans transmittals and documents silently; Ask to Publish has no loop (no toast, no return-with-note, not on
-item pages); the Edit form drops typed text on Esc or Back; Publish Now isn't re-checked at click; the Guest sees the
-whole internal app and a broken Plans breadcrumb; Guests can open `/deliverables/` and `/documents/`; the PM's status
-check (cut-off columns at 1280, no Waiting on Agency filter, no cross-plan late view, no budget export).
+Majors:
+- Ask to Publish loop: Done. A reviewer can Send Back with a note (the review modal); the owner sees it on their draft
+  and on the index; the index's Needs You filter and link find requests waiting on you (`askloop.mjs`). A new owner
+  edit withdraws a request.
+- Deleting: an item or plan with a send still out is held (open it from the confirm); otherwise the confirm counts what
+  goes, whose drafts are lost, and the plan's records go with it (`plandelete.mjs`).
+- Edit form keeps typed text on Esc or Cancel (asks first). Done.
+- Publish Now re-checks other drafts at click. Done.
+- Guests: the transmittal page and inbox crumbs start at Sent to You; plan and item pages stop them with Shared With
+  You for Review. Open, **Andy's call**: the agency user still sees the whole internal shell (Project, Tracking...).
+- PM's check: Waiting on Agency filter, sticky deliverables head; Download the budget as CSV (prod's grid wording;
+  records views renamed Export to Download); each index row counts its late items and links to the plan filtered to
+  Late, Has Late Items filter (`download.mjs`, `late.mjs`). Done.
+- People: Plan Settings asks before you lower your own role or remove someone with a draft; Remove names its person
+  (`people.mjs`). Done.
+
+Minors done: a link to a closed draft says so; a range or FY in a new plan's name fills its window; transmittal cards
+take the muted header; "Not Scheduled" for no dates; server messages say item; item status is BcnStatusSelect (with
+Blocked); draft header text on the knockout token (`minors.mjs`).
+Still open: one compact shift formatter (chart and draft bar each have one); Move Plan from prod.
 
 Andy's call: whether Contributors may change records on Live (send transmittals, unlink obligations, record completion).
