@@ -121,6 +121,19 @@
   /* The form type size, set once (design QA, 2026-10-29: the drawer re-declared 14px, the dialogs read 12px): every
      form lego's typed value and placeholder, at every size step, reads this. See the form-lego block below. */
   --bcn-form-font-size: var(--font-size-150);
+  /* A grabbable thing's lift (design QA, 2026-10-29: the Gantt's bars and the revision slider's handles each wrote their
+     own literal shadows, which no theme or scheme could reach). Drop-shadow filter steps for an SVG bar, box-shadows for
+     a handle: rest, hovered (lifted), pressed, and dragged (the ghost). Raw values live here per token discipline; the
+     night scheme below deepens them for its dark ground. */
+  --bcn-lift-ink: rgb(0 0 0 / 0.1);
+  --bcn-lift-ink-strong: rgb(0 0 0 / 0.16);
+  --bcn-lift-filter-rest: drop-shadow(0 1px 2px var(--bcn-lift-ink));
+  --bcn-lift-filter-hover: drop-shadow(0 4px 6px var(--bcn-lift-ink-strong));
+  --bcn-lift-filter-pressed: drop-shadow(0 1px 1px var(--bcn-lift-ink));
+  --bcn-lift-filter-drag: drop-shadow(0 10px 14px var(--bcn-lift-ink-strong));
+  --bcn-lift-shadow-rest: 0 1px 0 var(--bcn-lift-ink-strong), 0 2px 5px var(--bcn-lift-ink-strong);
+  --bcn-lift-shadow-hover: 0 2px 0 var(--bcn-lift-ink-strong), 0 6px 10px var(--bcn-lift-ink-strong);
+  --bcn-inset-shadow: inset 0 1px 1px var(--bcn-lift-ink);
   /* Every control in a filter bar, one height (bcn-filter-band.css): the hub's sm step, the Documents bar's 32px. */
   --bcn-filter-control-height: 2rem;
   /* Opt-in serif voice (setup wizard). Beacon-only — the hub has no equivalent;
@@ -609,4 +622,16 @@ html,
   --color-background-utility-danger: var(--color-red-dark-9);
   --color-background-utility-danger-hover: var(--color-red-dark-10);
   --focus-ring-color: var(--bcn-night-brand-text);
+  /* A lift reads on a dark ground only much deeper. */
+  --bcn-lift-ink: rgb(0 0 0 / 0.5);
+  --bcn-lift-ink-strong: rgb(0 0 0 / 0.6);
+  /* Restated so they take the island's ink (a var() resolves where it is declared, so the theme's copies carry the
+     light ink down). */
+  --bcn-lift-filter-rest: drop-shadow(0 1px 2px var(--bcn-lift-ink));
+  --bcn-lift-filter-hover: drop-shadow(0 4px 6px var(--bcn-lift-ink-strong));
+  --bcn-lift-filter-pressed: drop-shadow(0 1px 1px var(--bcn-lift-ink));
+  --bcn-lift-filter-drag: drop-shadow(0 10px 14px var(--bcn-lift-ink-strong));
+  --bcn-lift-shadow-rest: 0 1px 0 var(--bcn-lift-ink-strong), 0 2px 5px var(--bcn-lift-ink-strong);
+  --bcn-lift-shadow-hover: 0 2px 0 var(--bcn-lift-ink-strong), 0 6px 10px var(--bcn-lift-ink-strong);
+  --bcn-inset-shadow: inset 0 1px 1px var(--bcn-lift-ink);
 }

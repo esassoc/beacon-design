@@ -475,16 +475,16 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__fill-top) { stop-color: color-mix(in srgb, var(--_brand) 86%, white); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__fill-bottom) { stop-color: color-mix(in srgb, var(--_brand) 92%, black); }
   .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark) {
-    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+    filter: var(--bcn-lift-filter-rest);
     transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 160ms ease;
   }
   .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--hovered) {
     transform: translateY(-2px);
-    filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.14));
+    filter: var(--bcn-lift-filter-hover);
   }
   .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--pressed) {
     transform: translateY(0);
-    filter: brightness(0.97) drop-shadow(0 1px 1px rgb(0 0 0 / 0.12));
+    filter: brightness(0.97) var(--bcn-lift-filter-pressed);
     transition-duration: 60ms;
   }
   .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark--previewed) { opacity: 0.25; filter: none; transform: none; }
@@ -503,7 +503,7 @@ const { label, id } = Astro.props;
     stroke: none;
     stroke-dasharray: none;
     rx: 7px;
-    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.2));
+    filter: var(--bcn-lift-filter-drag);
     transform: translateY(-4px);
   }
   .bcn-plan-gantt-host[data-density='tactile'] :global(.bcn-plan-gantt__name) { font-size: var(--font-size-200, 0.9375rem); }
@@ -565,7 +565,7 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host[data-cascade]:not([data-cascade='none']) :global(.bcn-plan-gantt__link--chain .bcn-plan-gantt__link-head) { fill: var(--_text); }
   .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__item--chain),
   .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__item--chain-root) { background: var(--color-background-elevation-sunken); }
-  .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__mark--chain) { transform: translateY(-2px); filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.14)); }
+  .bcn-plan-gantt-host[data-cascade='rows'] :global(.bcn-plan-gantt__mark--chain) { transform: translateY(-2px); filter: var(--bcn-lift-filter-hover); }
 
   @media (prefers-reduced-motion: reduce) {
     .bcn-plan-gantt-host[data-feel='tactile'] :global(.bcn-plan-gantt__mark),
@@ -583,7 +583,7 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host[data-rise] :global(.bcn-plan-gantt__mark) { animation: bcn-plan-gantt-stand 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
   @keyframes bcn-plan-gantt-stand {
     from { filter: none; transform: translateY(1px); }
-    to { filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)); transform: translateY(0); }
+    to { filter: var(--bcn-lift-filter-rest); transform: translateY(0); }
   }
   @media (prefers-reduced-motion: reduce) {
     .bcn-plan-gantt-host[data-rise] :global(.bcn-plan-gantt__mark) { animation: none; }
@@ -662,8 +662,8 @@ const { label, id } = Astro.props;
   }
   @keyframes bcn-plan-gantt-rise {
     from { filter: none; transform: translateY(0); }
-    55% { filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.14)); transform: translateY(-2px); }
-    to { filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)); transform: translateY(0); }
+    55% { filter: var(--bcn-lift-filter-hover); transform: translateY(-2px); }
+    to { filter: var(--bcn-lift-filter-rest); transform: translateY(0); }
   }
 
   /* Drafting: the draft is a working drawing. Graph paper ruled to the time scale (months, split nearer square when
@@ -703,7 +703,7 @@ const { label, id } = Astro.props;
      layer when the scheme changes, a little slower than the page, like lights coming down. */
   .bcn-plan-gantt-host[data-draft-look='night'] { view-transition-name: bcn-plan-chart; }
   .bcn-plan-gantt-host[data-scheme='night'] :global(.bcn-plan-gantt__fill-top) { stop-color: color-mix(in srgb, var(--_brand) 88%, white); }
-  .bcn-plan-gantt-host[data-scheme='night'] :global(.bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--hovered, .bcn-plan-gantt__mark--pressed, .bcn-plan-gantt__mark--previewed)) { filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.5)); }
+  .bcn-plan-gantt-host[data-scheme='night'] :global(.bcn-plan-gantt__mark:not(.bcn-plan-gantt__mark--hovered, .bcn-plan-gantt__mark--pressed, .bcn-plan-gantt__mark--previewed)) { filter: var(--bcn-lift-filter-rest); }
   :global(::view-transition-group(bcn-plan-chart)) { animation-duration: 520ms; }
   :global(::view-transition-old(bcn-plan-chart)),
   :global(::view-transition-new(bcn-plan-chart)) { animation-duration: 520ms; animation-timing-function: ease-in-out; }
