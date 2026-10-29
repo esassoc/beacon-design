@@ -125,6 +125,8 @@ const { stacked = false } = Astro.props;
   .bcn-plan-range--stacked .bcn-plan-range__group esa-button-toggle {
     --form-border-width: 0;
     --color-background-elevation-sunken: transparent;
+    /* Borderless in the rail, so its options take the 2px the track's border would: the filter band's height. */
+    --_pad-y: calc((var(--bcn-filter-control-height, 2rem) - 4px - max(1lh, 14px)) / 2);
   }
   .bcn-plan-range__rule { align-self: stretch; inline-size: 1px; margin: var(--spacing-100) var(--spacing-150); background: var(--color-border-default); }
   .bcn-plan-range--stacked .bcn-plan-range__group esa-button-toggle { padding-inline-start: 2px; }

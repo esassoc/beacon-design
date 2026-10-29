@@ -33,9 +33,10 @@ import '../../styles/bcn-record-table.css';
     <span data-pdocs-facet="type"><esa-filter-dropdown size="sm" label="Type" name="type" data-pdocs-filter="type"></esa-filter-dropdown></span>
     <span data-pdocs-facet="agency" hidden><esa-filter-dropdown size="sm" label="Agency" name="agency" data-pdocs-filter="agency"></esa-filter-dropdown></span>
     <span data-pdocs-facet="study"><esa-filter-dropdown size="sm" label="Study" name="study" data-pdocs-filter="study"></esa-filter-dropdown></span>
-    <span slot="end" class="bcn-pdocs__summary typography-body-sm" data-pdocs-summary aria-live="polite"></span>
     <esa-button-toggle slot="end" size="sm" aria-label="Documents View" data-icons data-pdocs-mode></esa-button-toggle>
     <span slot="end" data-pdocs-export><EsaButton variant="ghost" size="sm" icon="download">Download</EsaButton></span>
+    <!-- The result count: one slot, the bar's right end, "N Noun" (design QA, 2026-10-29); any breakdown in its tip. -->
+    <esa-tooltip slot="end" text="" position="below" align="end" data-pdocs-summary-tip><span class="bcn-pdocs__summary typography-body-sm" data-pdocs-summary aria-live="polite"></span></esa-tooltip>
   </BcnViewToolbar>
 
   <div class="bcn-pdocs__scroll" data-pdocs-scroll>
@@ -50,6 +51,7 @@ import '../../styles/bcn-record-table.css';
 </div>
 
 <script>
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-filter-dropdown';

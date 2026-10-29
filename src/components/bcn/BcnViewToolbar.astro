@@ -3,7 +3,7 @@
 // documents and deliverables have their filters below the chrome, but schedule and budget above?" and "Why are the ui
 // elements different for filters on all four tabs"). Every plan view uses it, in the same place, with the same
 // controls: what narrows the list on the left (the search first, then the facets), what shapes or acts on it on the
-// right (the count, a pivot, Export). "Anything that narrows goes left, anything that acts goes right" (BcnFilterBar's
+// right (a pivot, Export, and the result count last, at the bar's right end, as "N Noun"). "Anything that narrows goes left, anything that acts goes right" (BcnFilterBar's
 // rule, Beacon's grid header), on one row instead of BcnFilterBar's two bands: a panel header is above it already.
 //
 // One control height, 32px, and one text size, 14px, whatever the lego: the search is esa-text-field (mark it
@@ -21,9 +21,10 @@
 // (the plan page's view panel). No esa- lego is a one-row toolbar with a right-hand end. bcn-view-toolbar is the
 // reusable home; the CSS is the row and the 32px control height (BcnFilterBar's compact technique).
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import '../../styles/bcn-filter-band.css';
 ---
 
-<div class="bcn-vtb">
+<div class="bcn-vtb bcn-filter-band">
   <div class="bcn-vtb__narrow">
     <FilterContainer><slot /></FilterContainer>
   </div>
@@ -45,10 +46,7 @@ import FilterContainer from '@esa/ecology/esa-filter-container.astro';
     padding: var(--spacing-300) var(--spacing-400);
     border-block-end: 1px solid var(--color-border-default);
     background: var(--color-background-elevation-raised);
-    /* One text size in the band, 14px, for every lego's microcopy. */
-    --typography-microcopy-md-font-size: 14px;
-    --typography-microcopy-md-strong-font-size: 14px;
-    --typography-microcopy-md-subtle-font-size: 14px;
+    /* One control height and one text size for every lego in the band: bcn-filter-band.css. */
   }
   .bcn-vtb :global([hidden]) {
     display: none !important;
@@ -68,13 +66,5 @@ import FilterContainer from '@esa/ecology/esa-filter-container.astro';
   /* The search: the same width on every view. */
   .bcn-vtb :global([data-vtb-search]) {
     inline-size: 16rem;
-  }
-  /* 32px controls, from each lego's own padding hook (BcnFilterBar's compact technique). */
-  .bcn-vtb :global(esa-text-field) {
-    --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
-  }
-  .bcn-vtb :global(esa-button-toggle) {
-    --_icon-size: 14px;
-    --_pad-y: calc((26px - max(1lh, 14px)) / 2);
   }
 </style>

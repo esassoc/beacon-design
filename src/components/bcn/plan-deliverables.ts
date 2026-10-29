@@ -85,6 +85,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   const dueFacet = q<FacetEl>('[data-pdv-due]');
   const tbody = q('[data-pdv-rows]');
   const count = q('[data-pdv-count]');
+  const countTip = q('[data-pdv-count-tip]');
   const tableWrap = q('[data-pdv-table-wrap]');
   const noMatch = q('[data-pdv-no-match]');
   const none = q('[data-pdv-none]');
@@ -261,8 +262,9 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
     const late = shown.filter((r) => r.health.health === 'Late').length;
     const atRisk = shown.filter((r) => r.health.health === 'At Risk').length;
     const head = filtered ? `${shown.length} of ${plural(all.length, 'Deliverable')}` : plural(all.length, 'Deliverable');
-    count.textContent = [head, complete ? `${complete} Complete` : '', atRisk ? `${atRisk} At Risk` : '', late ? `${late} Late` : ''].filter(Boolean).join(', ');
-    count.hidden = !all.length;
+    count.textContent = head;
+    countTip.setAttribute('text', [complete ? `${complete} Complete` : '', atRisk ? `${atRisk} At Risk` : '', late ? `${late} Late` : ''].filter(Boolean).join(', '));
+    countTip.hidden = !all.length;
 
     none.hidden = all.length > 0;
     noMatch.hidden = !all.length || shown.length > 0;

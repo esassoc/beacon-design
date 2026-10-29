@@ -15,10 +15,11 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import '../../styles/bcn-filter-band.css';
 ---
 
 <section class="bcn-pri" data-bcn-plan-repo-index>
-  <div class="bcn-pri__bar">
+  <div class="bcn-pri__bar bcn-filter-band">
     <esa-text-field class="bcn-pri__find" data-pri-find placeholder="Find a Plan" size="sm" aria-label="Find a Plan"></esa-text-field>
     <esa-button-toggle size="sm" data-pri-filter label=""></esa-button-toggle>
     <span class="bcn-pri__count" data-pri-count></span>
@@ -73,7 +74,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 
   .bcn-pri__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
   .bcn-pri__find { inline-size: min(22rem, 100%); }
-  .bcn-pri__count { margin-inline-start: auto; color: var(--color-content-default-secondary); font-size: var(--font-size-150); }
+  .bcn-pri__count { margin-inline-start: auto; color: var(--color-content-default-secondary); font-size: var(--typography-body-sm-font-size); }
 
   .bcn-pri__loading { display: flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default-secondary); padding-block: var(--spacing-600); }
 

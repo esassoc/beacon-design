@@ -60,6 +60,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
   const table = q<HTMLTableElement>('[data-pdocs-table]');
   const scroll = q<HTMLElement>('[data-pdocs-scroll]');
   const summary = q<HTMLElement>('[data-pdocs-summary]');
+  const summaryTip = q<HTMLElement>('[data-pdocs-summary-tip]');
   const empty = q<HTMLElement>('[data-pdocs-empty]');
 
   let mode: Mode = 'all';
@@ -214,6 +215,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     }
     table.replaceChildren(...head([{ label: 'Document', width: '28%' }, { label: 'Type', width: '9rem' }, { label: 'Added', width: '7rem' }, { label: 'Item', width: '22%' }, { label: 'Note' }]), tbody);
     summary.textContent = visible.length === rows.length ? plural(rows.length, 'Document') : `${visible.length} of ${plural(rows.length, 'Document')}`;
+    summaryTip.setAttribute('text', '');
   }
 
   // ── Agency Record ──
@@ -267,7 +269,8 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     });
     table.replaceChildren(...head([{ label: 'Letter Date', width: '6.75rem' }, { label: 'Agency', width: '5rem' }, { label: 'Direction', width: '6.25rem' }, { label: 'Agreement', width: '27%' }, { label: 'Document', width: '23%' }, { label: 'Item' }]), ...bodies);
     const agreed = letters.filter((l) => l[0].link.correspondence?.agreement).length;
-    summary.textContent = `${plural(letters.length, 'Letter')}, ${plural(agreed, 'Agreement')}`;
+    summary.textContent = plural(letters.length, 'Letter');
+    summaryTip.setAttribute('text', `${plural(agreed, 'Agreement')} on Record`);
   }
   const wrapTd = (child: HTMLElement) => {
     const td = el('td');

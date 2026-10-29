@@ -1,0 +1,41 @@
+/* bcn-filter-band — one control size and one type size for every control in a filter bar (design QA, 2026-10-29).
+ *
+ * The schedule's bar mixed 32, 36 and 38px controls with 12 and 14px text in one row; the Plans index ran 38px; the
+ * Documents bar was already all 32px (the model). The hub sizes each lego from its own padding plus its own type step,
+ * so an sm text field, an sm filter dropdown, an sm toggle, an sm date picker and an sm button come out at five
+ * heights. This solves each lego's private padding hook for one height (--bcn-filter-control-height, prod's sm control
+ * at the hub's sm step) and points every microcopy step inside the band at the theme's form type size, so placeholder,
+ * value, option and button label read alike.
+ *
+ * Put the class on the bar: BcnViewToolbar (Documents, Deliverables), the plan page's schedule scope, the Plans index.
+ * It is BcnFilterBar's compact technique, once, instead of three local copies (BcnViewToolbar, the plan scope and the
+ * element drawer each solved their own). A hub request: a shared control-height scale.
+ *
+ * bcn-lego-checked: every control IS its esa- lego; this re-points their sizing hooks, nothing more. Checked Beacon
+ * (.bcn-filterbar: every control at $input-height-sm).
+ */
+
+.bcn-filter-band {
+  --typography-microcopy-xs-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-xs-strong-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-xs-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-sm-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-sm-strong-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-sm-subtle-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-md-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-md-strong-font-size: var(--bcn-form-font-size);
+  --typography-microcopy-md-subtle-font-size: var(--bcn-form-font-size);
+}
+/* An <input> is never shorter than its font's normal line height (~1.3em), so the fields solve from that. */
+.bcn-filter-band :is(esa-text-field, esa-date-picker) {
+  --_field-padding-y: calc((var(--bcn-filter-control-height) - 1.3em) / 2 - var(--form-border-width, 1px));
+}
+/* The toggle's options sit 3px inside its track. */
+.bcn-filter-band esa-button-toggle {
+  --_icon-size: 14px;
+  --_pad-y: calc((var(--bcn-filter-control-height) - 6px - max(1lh, 14px)) / 2);
+}
+/* A button in the bar (Download, Clear) at the controls' height, from the theme's height lock. */
+.bcn-filter-band .esa-button.esa-button--sm {
+  --_btn-pad-y: calc((var(--bcn-filter-control-height) - 1lh - 2 * var(--border-width-default, 1px)) / 2);
+}

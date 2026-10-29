@@ -38,6 +38,7 @@ import BcnPlanElementMoveDialog from './BcnPlanElementMoveDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
 
+import '../../styles/bcn-filter-band.css';
 ---
 
 <div class="bcn-prp" data-bcn-plan-repo-page data-about="open">
@@ -165,7 +166,7 @@ import { withBase } from '../../lib/base';
              time. The panel's filter band, flush under its header, where Documents and Deliverables carry theirs
              (2026-10-28, Andy: "Why does the documents and deliverables have their filters below the chrome, but
              schedule and budget above?"): BcnViewToolbar's place, inset and 32px controls. -->
-        <section class="bcn-prp__scope" aria-label="What the chart shows">
+        <section class="bcn-prp__scope bcn-filter-band" aria-label="What the chart shows">
           <BcnPlanGanttRange stacked>
             <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the Plan" aria-label="Search the Plan" autocomplete="off" data-prp-search></esa-text-field>
             <!-- What needs attention across the whole plan (2026-10-28, the SOW review: the overdue view covered only
@@ -334,11 +335,7 @@ import { withBase } from '../../lib/base';
     padding: var(--spacing-300) var(--spacing-400);
     background: var(--color-background-elevation-raised);
     border-block-end: 1px solid var(--color-border-default);
-    --typography-microcopy-md-font-size: 14px;
-    --typography-microcopy-md-strong-font-size: 14px;
-    --typography-microcopy-md-subtle-font-size: 14px;
   }
-  .bcn-prp__scope :global(esa-text-field) { --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px)); }
   /* The search: BcnViewToolbar's width, on every view. */
   .bcn-prp__search { inline-size: 16rem; }
   .bcn-prp__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }

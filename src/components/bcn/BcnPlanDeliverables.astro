@@ -37,8 +37,10 @@ const COLUMNS: { key: string; label: string; sort?: boolean; cls?: string }[] = 
     <esa-filter-dropdown size="sm" label="Study" name="study" data-pdv-study></esa-filter-dropdown>
     <esa-filter-dropdown size="sm" label="Health" name="health" multiple data-pdv-health></esa-filter-dropdown>
     <esa-filter-dropdown size="sm" label="Due" name="due" data-pdv-due></esa-filter-dropdown>
-    <span slot="end" class="bcn-pdv__count typography-body-sm" data-pdv-count aria-live="polite"></span>
     <span slot="end" data-pdv-export><EsaButton variant="ghost" size="sm" icon="download">Download</EsaButton></span>
+    <!-- The result count: one slot, the bar's right end, "N Noun" (design QA, 2026-10-29); the health breakdown in its
+         tip, not a sentence in the bar. -->
+    <esa-tooltip slot="end" text="" position="below" align="end" data-pdv-count-tip><span class="bcn-pdv__count typography-body-sm" data-pdv-count aria-live="polite"></span></esa-tooltip>
   </BcnViewToolbar>
 
   <div class="bcn-pdv__scroll" data-pdv-table-wrap>
@@ -78,6 +80,7 @@ const COLUMNS: { key: string; label: string; sort?: boolean; cls?: string }[] = 
 </div>
 
 <script>
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-filter-dropdown';
 </script>
