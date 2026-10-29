@@ -6,7 +6,7 @@
 // arithmetic (edits from a drag, overrides, the cascade) is hers too (plan-draft.ts, the mock's previewDraft).
 
 import { PlanGanttChart, type GanttDraftOverlay, type GanttRowHealth } from './plan-gantt-chart';
-import { healthOf, recordsFor } from '../../lib/planning/plan-records';
+import { healthOf, recordsFor, setStatus, statusOf, type ElementStatus } from '../../lib/planning/plan-records';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog, budgetDiff, signedDollars } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
@@ -874,7 +874,16 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   type ShowAs = 'chart' | 'table';
   const showAsToggle = q<HTMLElement & { value: string; options: { label: string; value: string }[] }>('[data-prp-showas]');
   const tableBox = q<HTMLElement>('[data-prp-table]');
-  const itemsTable = setupPlanItemsTable(q<HTMLElement>('[data-bcn-plan-items-table]'), (changes) => void tableEdit(changes));
+  const itemsTable = setupPlanItemsTable(
+    q<HTMLElement>('[data-bcn-plan-items-table]'),
+    (changes) => void tableEdit(changes),
+    (id, status) => {
+      const name = findPlanElement(live.Elements, id)?.element.PlanElementName ?? 'The item';
+      const cleared = setStatus(planID!, id, status as ElementStatus);
+      pushAlert(`${name}: ${status}, on Live.${cleared ? ' Its earlier health note is cleared.' : ''}`, 'success', 5000);
+      draw();
+    }
+  );
   let showAs: ShowAs = new URLSearchParams(location.search).get('showas') === 'table' ? 'table' : 'chart';
   void customElements.whenDefined('esa-button-toggle').then(() => {
     showAsToggle.options = [
@@ -897,6 +906,18 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       owners: Object.fromEntries(Object.entries(attrs).map(([id, a]) => [id, a.owners ?? []])),
       editable: mode !== 'view',
       query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
+      // Status is Live's record: set on items Live has, by anyone working on the plan.
+      statuses: Object.fromEntries(flattenPlan(live.Elements).filter(({ element }) => !element.Children?.length).map(({ element }) => [element.PlanElementID ?? '', statusOf(recordsFor(planID!), live, element.PlanElementID ?? '')])),
+      canRecord: !!myRole,
+      keep: (() => {
+        const rows = healthRows();
+        if (!rows) return null;
+        const parentOf = new Map(flattenPlan(shown.Elements).map(({ element }) => [element.PlanElementID ?? '', element.ParentPlanElementID ?? null]));
+        const out = new Set<string>();
+        for (const id of rows) for (let at: string | null | undefined = id; at && !out.has(at); at = parentOf.get(at)) out.add(at);
+        return out;
+      })(),
+      deliverables: new Set(Object.entries(attrs).filter(([, a]) => a?.deliverable).map(([id]) => id)),
     });
   }
   /** Cells changed in the table (or a pasted block): one edit of your draft. From Live, your draft opens first. */
@@ -1692,6 +1713,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
     ownerPick = (Array.isArray(v) ? v[0] : v) ?? '';
     applyHealth();
+    drawTable();
   });
   const ownedBy = (owners: string[] | undefined, pick: string) => !!owners?.some((o) => (pick === MINE ? o === me || o === orgOf(me) : o === pick));
   /** The tasks and milestones the Health and Owner filters keep, or null for every row. */
@@ -1730,6 +1752,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
     healthPick = Array.isArray(v) ? v : v ? [v] : [];
     applyHealth();
+    drawTable();
   });
 
   // ── Search (2026-10-27): narrows the rows to the matches, their parents and contents; the names mark the hits ──

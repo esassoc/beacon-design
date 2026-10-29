@@ -12,6 +12,7 @@ import type { CellClassParams, ColDef, GridApi, ValueFormatterParams } from 'ag-
 import { settingsEsaTheme } from '../../lib/beacon-grid';
 import { flattenPlan, isOrganization, PLAN_DIRECTORY, PLAN_ORGANIZATIONS } from '../../lib/planning/plan-repo';
 import { PlanDateTypeEnum, type PlanDetailDto } from '../../lib/planning/model';
+import { STATUSES } from '../../lib/planning/plan-records';
 
 export type ItemField = 'name' | 'start' | 'end' | 'type' | 'milestone' | 'owners' | 'notes';
 export interface ItemChange {
@@ -31,9 +32,13 @@ interface TableRow {
   milestone: boolean;
   owners: string[];
   notes: string;
+  /** A task's or milestone's status, a record kept on Live; null where it has none to set (a parent, a new item). */
+  status: string | null;
 }
 export interface PlanItemsTable {
-  set(data: { plan: PlanDetailDto; owners: Record<string, string[]>; editable: boolean; query: string }): void;
+  /** statuses and canRecord (2026-10-29, the second traps audit: a Contributor opened each task to set its status):
+   *  the Status column, which saves to Live whatever the rest of the table edits. */
+  set(data: { plan: PlanDetailDto; owners: Record<string, string[]>; editable: boolean; query: string; statuses?: Record<string, string>; canRecord?: boolean; deliverables?: Set<string>; keep?: ReadonlySet<string> | null }): void;
 }
 
 let registered = false;
@@ -63,7 +68,9 @@ export function parseOwners(input: unknown): string[] | undefined {
 const yes = (v: unknown) => (typeof v === 'boolean' ? v : /^(y|yes|true|1|x)$/i.test(String(v ?? '').trim()));
 const day = (iso: string | null) => (iso ? new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
 
-export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemChange[]) => void): PlanItemsTable {
+export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemChange[]) => void, onStatus: (id: string, status: string) => void = () => {}): PlanItemsTable {
+  let canRecord = false;
+  let deliverableIds: ReadonlySet<string> = new Set();
   if (!registered) {
     ModuleRegistry.registerModules([AllCommunityModule]);
     registered = true;
@@ -107,6 +114,18 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
       valueFormatter: (p: ValueFormatterParams<TableRow>) => (p.value as string[] | undefined)?.join(', ') ?? '',
       valueParser: (p) => parseOwners(p.newValue) ?? p.oldValue,
       tooltipValueGetter: () => (editable ? 'Names or organizations, separated by commas' : ''),
+    },
+    {
+      field: 'status',
+      headerName: 'Status (Live)',
+      width: 150,
+      headerTooltip: 'Saves to Live, not to a draft',
+      editable: (p) => canRecord && !!p.data && p.data.status !== null,
+      cellClass: (p: CellClassParams<TableRow>) => [canRecord && p.data?.status !== null ? 'bcn-pit__edit' : 'bcn-pit__read', p.data?.parent ? 'bcn-pit__parent' : ''].filter(Boolean),
+      cellEditor: 'agSelectCellEditor',
+      // A deliverable completes through Record Completion, on its page.
+      cellEditorParams: (p: { data?: TableRow }) => ({ values: STATUSES.filter((s) => !(s === 'Completed' && p.data && deliverableIds.has(p.data.id))) }),
+      valueFormatter: (p: ValueFormatterParams<TableRow>) => p.value ?? '',
     },
     { field: 'notes', headerName: 'Notes', minWidth: 220, flex: 1.6, editable: (p) => canEdit(p.data, 'notes'), cellClass: cellClass('notes') },
   ];
@@ -155,6 +174,10 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
     stopEditingWhenCellsLoseFocus: true,
     enterNavigatesVerticallyAfterEdit: true,
     onCellValueChanged: (e) => {
+      if (e.colDef.field === 'status') {
+        if (e.data && e.newValue && e.newValue !== e.oldValue) onStatus(e.data.id, String(e.newValue));
+        return;
+      }
       const field = e.colDef.field as ItemField;
       const row = { ...e.data, [field]: e.oldValue } as TableRow;
       const change = asChange(row, field, e.newValue);
@@ -190,12 +213,16 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
   });
 
   return {
-    set({ plan, owners, editable: canEditNow, query }) {
+    set({ plan, owners, editable: canEditNow, query, statuses = {}, canRecord: records = false, deliverables = new Set(), keep = null }) {
+      deliverableIds = deliverables;
       editable = canEditNow;
+      canRecord = records;
       root.toggleAttribute('data-editable', editable);
       const q = query.trim().toLowerCase();
       const rows: TableRow[] = flattenPlan(plan.Elements)
         .filter(({ element, path }) => !q || (element.PlanElementName ?? '').toLowerCase().includes(q) || path.some((p) => p.toLowerCase().includes(q)))
+        // The chart's Health and Owner filters hold here too: the rows they keep, with the parents above them.
+        .filter(({ element }) => !keep || keep.has(element.PlanElementID ?? ''))
         .map(({ element, path }) => ({
           id: element.PlanElementID ?? '',
           name: element.PlanElementName ?? '',
@@ -208,6 +235,7 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
           milestone: !!element.IsMilestone,
           owners: (owners[element.PlanElementID ?? ''] ?? []).filter((o) => o && (isOrganization(o) || KNOWN.has(o.toLowerCase()))),
           notes: element.Notes ?? '',
+          status: element.Children?.length ? null : (statuses[element.PlanElementID ?? ''] ?? null),
         }));
       api.setGridOption('rowData', rows);
       api.refreshCells({ force: true });
