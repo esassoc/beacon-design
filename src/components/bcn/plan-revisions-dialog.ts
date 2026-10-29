@@ -65,6 +65,9 @@ interface Stop extends RevisionStop {
 export interface PlanRevisionsDialog {
   /** null: the plan's history (at a revision's number, or the latest). A draft's id: that draft against Live. */
   open(draftID: string | null, at?: number): Promise<void>;
+  /** Publish Now's guard (2026-10-29): a short-lived edit draft reviewed against Live. Resolves when the review shuts,
+   *  true if it was published (the draft is gone), false if it was closed (Back to Edit; the caller discards it). */
+  review(draftID: string): Promise<boolean>;
 }
 
 const firstName = (name: string) => name.split(' ')[0];
@@ -645,7 +648,21 @@ export function setupPlanRevisionsDialog(opts: {
   });
   fillIcons(dialog);
 
-  return {
+  const api: PlanRevisionsDialog = {
+    async review(draftID) {
+      // esa-dialog sends no event when code sets open to false, so its reflected attribute is watched.
+      const shut = new Promise<void>((resolve) => {
+        const watch = new MutationObserver(() => {
+          if (dialog.hasAttribute('open')) return;
+          watch.disconnect();
+          resolve();
+        });
+        watch.observe(dialog, { attributes: true, attributeFilter: ['open'] });
+      });
+      await api.open(draftID);
+      await shut;
+      return !getRepo(opts.planID).drafts.some((d) => d.id === draftID);
+    },
     async open(draftID, at) {
       const repo = getRepo(opts.planID);
       const live = await planApi.getPlan(opts.planID);
@@ -745,4 +762,5 @@ export function setupPlanRevisionsDialog(opts: {
       await compute();
     },
   };
+  return api;
 }

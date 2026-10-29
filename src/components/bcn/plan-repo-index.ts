@@ -158,7 +158,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     const mode = filter.value || 'all';
     const shown = summaries.filter((s) => {
       if (text && !`${s.name} ${s.description}`.toLowerCase().includes(text)) return false;
-      if (mode === 'drafts' && !s.repo.drafts.length) return false;
+      if (mode === 'drafts' && !s.repo.drafts.filter((d) => !d.transient).length) return false;
       if (mode === 'late' && !lateBy.get(s.repo.planID)) return false;
       if (mode === 'you') {
         const w = waitingOn(s.repo, me);
@@ -212,11 +212,11 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       b.textContent = `${compactDollars.format(total)} Budget`;
     }
     // Open drafts, counted (the plan page lists them), so Has Drafts has something to show.
-    if (s.repo.drafts.length) {
+    if (s.repo.drafts.filter((d) => !d.transient).length) {
       const drafts = r<HTMLAnchorElement>('[data-pri-drafts]');
       drafts.hidden = false;
       drafts.href = href;
-      r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.length, 'Draft', 'Drafts');
+      r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.filter((d) => !d.transient).length, 'Draft', 'Drafts');
     }
     const late = lateBy.get(s.repo.planID) ?? 0;
     if (late) {

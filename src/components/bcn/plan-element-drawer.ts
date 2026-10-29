@@ -117,8 +117,10 @@ export interface PlanElementDrawerDraft {
   detail?: () => { href: string; label: string } | null;
   /** The footer's Save, named for where it goes ("Save to My Draft" from Live, 2026-10-28 draft first). */
   saveLabel?: string;
-  /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. */
-  publishNow?: (edit: Parameters<PlanElementDrawerDraft['save']>[0]) => void;
+  /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. The drawer
+   *  stays open under the page's review of the edit (2026-10-29: every Publish Now shows the diff first) and closes
+   *  when the promise says so: true published (or sent elsewhere), false Back to Edit, the form as it was left. */
+  publishNow?: (edit: Parameters<PlanElementDrawerDraft['save']>[0]) => Promise<boolean>;
   /** A new item in the draft (2026-10-28, draft first): the create form's element, as the API would take it. */
   create?: (dto: PlanElementCreateDto) => void;
   /** Waits On in the draft (2026-10-28): its links added, re-lagged and removed as the draft's next edits. */
@@ -750,8 +752,7 @@ export function openPlanElementDrawer(args: {
       return;
     }
     if (draft && target.kind === 'edit') {
-      isSaving = false;
-      (publish && draft.publishNow ? draft.publishNow : draft.save)({
+      const edit = {
         PlanElementID: target.planElementID,
         StartDate: value.StartDate || null,
         EndDate: (value.IsMilestone ? value.StartDate : value.EndDate) || null,
@@ -759,7 +760,18 @@ export function openPlanElementDrawer(args: {
         ...(draft.editsFields
           ? { fields: { PlanElementName: value.PlanElementName.trim(), LevelDepth: value.LevelDepth ?? undefined, IsMilestone: value.IsMilestone, Notes: value.Notes.trim() || null } }
           : {}),
-      });
+      };
+      if (publish && draft.publishNow) {
+        // Held (its buttons busy) while the review is up; closed once the edit is published or sent to the draft.
+        void draft.publishNow(edit).then((done) => {
+          isSaving = false;
+          if (done) close();
+          else render();
+        });
+        return;
+      }
+      isSaving = false;
+      draft.save(edit);
       close();
       return;
     }

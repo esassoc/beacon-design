@@ -5,10 +5,10 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, publishDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
+import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
 import { setupElementEditDialog, type ElementEdit } from './element-edit-dialog';
-import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
+import { setupPlanRevisionsDialog, type PlanRevisionsDialog } from './plan-revisions-dialog';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
@@ -51,6 +51,7 @@ const SETUPS: Record<ModuleKey, ElementModuleSetup> = {
 export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   await ensureSeeded();
+  dropStaleEditDrafts();
   const params = new URLSearchParams(location.search);
   const planID = params.get('plan') ?? '';
   const elementId = params.get('el') ?? '';
@@ -144,7 +145,12 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     // Edit: on Live for anyone who keeps the plan (it goes to their draft), in your own draft. Review and Publish: in your
     // own draft, for someone who can publish (draft first: the way an item's edit reaches Live).
     set('edit', (c.mode === 'live' && c.myRole !== 'Guest') || c.mode === 'own');
-    set('review', c.mode === 'own' && (c.myRole === 'Owner' || c.myRole === 'Editor'));
+    // A Contributor's own draft: the same review, ending in Ask to Publish, as the plan page's.
+    set('review', c.mode === 'own');
+    const asks = c.myRole !== 'Owner' && c.myRole !== 'Editor';
+    const reviewLabel = util('review')?.querySelector('.esa-button__label');
+    if (reviewLabel) reviewLabel.textContent = asks ? 'Ask to Publish' : 'Review and Publish';
+    util('review')?.querySelector('esa-tooltip')?.setAttribute('text', asks ? 'Compare your draft with Live, then ask to publish' : 'Compare your draft with Live, then publish');
     set('back', c.mode === 'own' || c.mode === 'view');
     // Customize Page: the level's page, for its Owners, from Live.
     set('customize', c.mode === 'live' && c.myRole === 'Owner');
@@ -292,16 +298,24 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   // someone who can publish, when no open draft changes the item, and goes through only when nothing else moves;
   // otherwise publishing that draft later would quietly put Live's edit back.
   const editDialog = setupElementEditDialog(document.querySelector<HTMLElement>('[data-bcn-element-edit]')!);
-  const review = setupPlanRevisionsDialog({
-    planID,
-    canPublish: true,
-    concept: null,
-    // Published: back on Live, unless part of the draft stayed.
-    onLanded: async () => {
-      if (draft && !getRepo(planID).drafts.some((d) => d.id === draft!.id)) history.replaceState(null, '', ELEMENT_HREF(planID, elementId));
-      await refresh();
-    },
-  });
+  // Set up on first use, once the viewer's role is known: someone who can publish gets Publish, a Contributor Ask to
+  // Publish (2026-10-29, the entry points audit: the item page told Contributors to ask "from the plan").
+  let reviewDialog: PlanRevisionsDialog | null = null;
+  const review = (): PlanRevisionsDialog =>
+    (reviewDialog ??= setupPlanRevisionsDialog({
+      planID,
+      canPublish: ctx?.myRole === 'Owner' || ctx?.myRole === 'Editor',
+      concept: null,
+      // Published: back on Live, unless part of the draft stayed.
+      onLanded: async () => {
+        if (draft && !getRepo(planID).drafts.some((d) => d.id === draft!.id)) history.replaceState(null, '', ELEMENT_HREF(planID, elementId));
+        await refresh();
+      },
+      onAsked: () => {
+        pushAlert('Asked the plan’s Owners and Editors to publish your draft. A new edit withdraws the request.', 'success', 7000);
+        void refresh();
+      },
+    }));
   /** The edit as a draft's next revision: dates as overrides (and what follows them), fields, attributes. */
   function applyEdit(draftID: string, edit: ElementEdit): void {
     const d = getRepo(planID).drafts.find((x) => x.id === draftID);
@@ -354,8 +368,8 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         ? 'Saved to your draft; someone who can publish takes it to Live.'
         : others.length
           ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so this edit goes to your draft.`
-          : `${into} Review and Publish takes it to Live.`;
-      if (!canPublish) where = `${into} Someone who can publish takes it to Live.`;
+          : `${into} Review and Publish takes it to Live; Publish Now reviews just this edit.`;
+      if (!canPublish) where = `${into} Ask to Publish when it’s ready.`;
       let publishNow = canPublish && !others.length;
       let keep = false;
       for (;;) {
@@ -377,17 +391,20 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
             keep = true;
             continue;
           }
+          // Reviewed before it lands (2026-10-29, Andy: "users should always get that guard"): the edit waits in a
+          // short-lived draft while the review shows it beside Live. Its Publish lands it (and says so); Back to Edit
+          // throws that draft away and returns to the form as it was left.
           const temp = startEditDraft(planID, ctx.element.PlanElementName ?? 'Item');
           applyEdit(temp.id, result.edit);
-          const version = await publishDraft(planID, temp.id);
-          await refresh();
-          pushAlert(`Published as Revision ${version.number}.`, 'success');
-          return;
+          if (await review().review(temp.id)) return;
+          discardDraft(planID, temp.id);
+          keep = true;
+          continue;
         }
         const target = startDraft(planID, undefined, 'Draft');
         applyEdit(target.id, result.edit);
         await show(target.id);
-        pushAlert(canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish from the plan when it’s ready.', 'success', 7000);
+        pushAlert(canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.', 'success', 7000);
         return;
       }
     }
@@ -400,7 +417,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   }
   window.addEventListener('popstate', () => void refresh());
   util('review')?.addEventListener('click', () => {
-    if (draft) void review.open(draft.id);
+    if (draft) void review().open(draft.id);
   });
   util('edit')?.addEventListener('click', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));

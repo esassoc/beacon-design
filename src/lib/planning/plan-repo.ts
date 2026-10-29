@@ -1318,6 +1318,24 @@ export function discardDraft(planID: string, draftID: string): void {
   save(store);
 }
 
+/** A short-lived edit draft lives only while its review is open (Publish Now, the item page's Edit). One left behind,
+ *  when the page was left mid-review, is dropped the next time its owner opens a plan page (after an hour, so a review
+ *  still open in another tab keeps its draft). */
+export function dropStaleEditDrafts(): void {
+  const store = load();
+  const me = currentUserName();
+  const old = Date.now() - 60 * 60 * 1000;
+  let dropped = false;
+  for (const repo of store.repos) {
+    const keep = repo.drafts.filter((d) => !(d.transient && d.owner === me && Date.parse(d.createdAt) < old));
+    if (keep.length !== repo.drafts.length) {
+      repo.drafts = keep;
+      dropped = true;
+    }
+  }
+  if (dropped) save(store);
+}
+
 /** A draft's structure ops replayed on Live through the API, in order; returns each temporary id's real one. An op
  *  that no longer applies (what it names is gone) is skipped, as the preview skips it. */
 async function landStructure(planID: string, ops: readonly DraftStructureOp[]): Promise<Map<string, string>> {

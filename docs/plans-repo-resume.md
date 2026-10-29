@@ -108,7 +108,11 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
    follows it there; Review and Publish sits in the item page's header in your draft. If your own draft already
    changes the item, Edit opens it there. Publish Now shows only for Owners and Editors when no open draft changes the
    item (`draftsTouching` in `plan-repo.ts`) and goes through only when nothing else moves; otherwise the form says
-   why. Check: `editmodal.mjs` (26).
+   why. Check: `editmodal.mjs` (27).
+   **Every Publish Now shows the review first** (Andy, 2026-10-29: "users should always get that guard"): the edit
+   waits in a transient draft (`startEditDraft`) while `revisions.review(id)` shows it beside Live; the review's
+   Publish lands it, Back to Edit returns to the form or drawer as left and discards the draft. Nothing calls
+   `publishDraft` outside the review modal. Every entry point is walked by `entrypoints.mjs` (42).
    Dependencies are drafted too (Andy, 2026-10-28): a link's lag or Unlink goes to your draft (`PlanRevision.links`,
    `withLinks` in the mock's `previewDraft`, applied first in `publishDraft`); Review and Publish lists them under
    Dependencies and warns when another open draft changes the same items (`draftOverlaps`). A lag change doesn't
@@ -129,7 +133,7 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
    the tooltip names the conflict ("Starts 14 days before its predecessor ends").
 4. ~~The Live drawer is a dead end~~ **Done, draft first:** on Live the drawer edits; Save to My Draft opens your draft
    with the edit; Publish Now on the same terms as the item page (a cascading one goes to your draft instead, with a
-   warning toast). Check: `drawer.mjs` (14).
+   warning toast). Check: `drawer.mjs` (15).
 5. **Revisions: one UI.** Keep the modal, retire `/revisions/`, point the index's count at the modal.
 6. **1024 and 1280.** Content overflows at 1024 and the About rail is pushed off. Below 1280, About becomes an
    esa-side-dialog; the bands wrap inside the panel.
