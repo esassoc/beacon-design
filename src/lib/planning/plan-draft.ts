@@ -53,28 +53,8 @@ export function planDraftEditsForDrag(shown: PlanDetailDto, drag: GanttDragEvent
       EndDate: request.change.EndDate ?? null,
       PlanDateType: element?.PlanDateType ?? PlanDateTypeEnum.Estimated,
     };
-    // Moving a parent moves its items with it (2026-10-29, Andy: "moving a parent should move its tasks too"): the same
-    // days for everything under it, as a multi-drag carries a subtree. A Scheduled item (a fixed date) holds, as it does
-    // in a multi-drag. Stretching an end changes the window alone.
-    if (element?.Children?.length && drag.mode === 'move' && drag.startDeltaDays === drag.endDeltaDays && drag.startDeltaDays) {
-      const under: PlanDraftEdit[] = [];
-      const walk = (items: readonly PlanElementDto[] | null | undefined) => {
-        for (const child of items ?? []) {
-          if (child.StartDate && child.PlanDateType !== PlanDateTypeEnum.Scheduled) {
-            under.push({
-              PlanElementID: child.PlanElementID ?? '',
-              StartDate: shiftIso(child.StartDate, drag.startDeltaDays),
-              EndDate: child.EndDate ? shiftIso(child.EndDate, drag.startDeltaDays) : null,
-              PlanDateType: child.PlanDateType ?? PlanDateTypeEnum.Estimated,
-            });
-          }
-          walk(child.Children);
-        }
-      };
-      walk(element.Children);
-      return [own, ...under];
-    }
-    return [own];
+    // A parent moved, stretched at neither end, carries its items (withItemsCarried); a stretch changes the window alone.
+    return drag.mode === 'move' ? withItemsCarried(shown, own) : [own];
   }
   const picked = new Set(drag.pickedIds);
   const edits: PlanDraftEdit[] = [];
@@ -90,6 +70,35 @@ export function planDraftEditsForDrag(shown: PlanDetailDto, drag: GanttDragEvent
     });
   }
   return edits;
+}
+
+/**
+ * Moving a parent moves its items with it (2026-10-29, Andy: "moving a parent should move its tasks too"; the drawer
+ * matches the drag): when an edit shifts a parent's start and end by the same days, everything under it shifts by those
+ * days too, as a multi-drag carries a subtree. A Scheduled item (a fixed date) holds, as it does in a multi-drag.
+ * Otherwise (a stretch, a leaf, nothing moved) the edit alone.
+ */
+export function withItemsCarried(base: PlanDetailDto, edit: PlanDraftEdit): PlanDraftEdit[] {
+  const element = findPlanElement(base.Elements, edit.PlanElementID)?.element;
+  if (!element?.Children?.length || !element.StartDate || !element.EndDate || !edit.StartDate || !edit.EndDate) return [edit];
+  const days = (dayNumber(edit.StartDate) ?? 0) - (dayNumber(element.StartDate) ?? 0);
+  if (!days || (dayNumber(edit.EndDate) ?? 0) - (dayNumber(element.EndDate) ?? 0) !== days) return [edit];
+  const under: PlanDraftEdit[] = [];
+  const walk = (items: readonly PlanElementDto[] | null | undefined) => {
+    for (const child of items ?? []) {
+      if (child.StartDate && child.PlanDateType !== PlanDateTypeEnum.Scheduled) {
+        under.push({
+          PlanElementID: child.PlanElementID ?? '',
+          StartDate: shiftIso(child.StartDate, days),
+          EndDate: child.EndDate ? shiftIso(child.EndDate, days) : null,
+          PlanDateType: child.PlanDateType ?? PlanDateTypeEnum.Estimated,
+        });
+      }
+      walk(child.Children);
+    }
+  };
+  walk(element.Children);
+  return [edit, ...under];
 }
 
 /**

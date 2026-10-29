@@ -16,7 +16,7 @@ import { setupPlanImportDialog } from './plan-import-dialog';
 import { PLAN_ICON_PATHS, fillIcons, planIcon } from '../../lib/planning/icons';
 import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
-import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
+import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, withItemsCarried, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
 import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW } from '../../lib/planning/plan-copy';
@@ -402,7 +402,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function saveFromDrawer(edit: DrawerEdit): void {
     const change = drawerChange(edit, shown);
     if (!change) return;
-    void applyEdits(change.dates ? [change.dates] : [], change.fields ? { fields: change.fields, note: change.note } : undefined);
+    // A parent's dates moved whole carry its items, as a drag does.
+    void applyEdits(change.dates ? withItemsCarried(shown, change.dates) : [], change.fields ? { fields: change.fields, note: change.note } : undefined);
   }
 
   /** From Live (draft first, 2026-10-28): your draft opens, started if need be, and takes the edit. */
@@ -421,18 +422,21 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   async function publishFromDrawer(edit: DrawerEdit): Promise<void> {
     const change = drawerChange(edit, live);
     if (!change) return;
+    // A parent moved whole carries its items: those are the edit, not something else it moves.
+    const edits = change.dates ? withItemsCarried(live, change.dates) : [];
+    const carried = new Set(edits.map((e) => e.PlanElementID));
     if (change.dates) {
-      const view = await planApi.previewDraft(planID!, planDraftWithEdits([], [change.dates], live, true));
+      const view = await planApi.previewDraft(planID!, planDraftWithEdits([], edits, live, true));
       const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
       const n = flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
         const w = was.get(e.PlanElementID);
-        return e.PlanElementID !== edit.PlanElementID && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
+        return !carried.has(e.PlanElementID ?? '') && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
       }).length;
       if (n) return saveToMyDraft(edit, `It moves ${n} other ${n === 1 ? 'item' : 'items'}, so it went to your draft for review.`);
     }
     const name = flattenPlan(live.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element.PlanElementName ?? 'Item';
     const temp = startEditDraft(planID!, name);
-    addRevision(planID!, temp.id, change.dates ? planDraftWithEdits([], [change.dates], live, true) : [], change.note, { fields: change.fields });
+    addRevision(planID!, temp.id, edits.length ? planDraftWithEdits([], edits, live, true) : [], change.note, { fields: change.fields });
     const version = await publishDraft(planID!, temp.id);
     await landOnLive();
     pushAlert(`Published as Revision ${version.number}.`, 'success');

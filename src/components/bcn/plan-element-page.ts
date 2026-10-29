@@ -6,7 +6,7 @@
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
 import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, publishDraft, addRevision, mergeAttributes, flattenPlan, type PlanRepoDraft } from '../../lib/planning/plan-repo';
-import { planDraftWithEdits } from '../../lib/planning/plan-draft';
+import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
 import { setupElementEditDialog, type ElementEdit } from './element-edit-dialog';
 import { setupPlanRevisionsDialog } from './plan-revisions-dialog';
 import { planApi } from '../../lib/planning/plan-server';
@@ -307,7 +307,8 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     const d = getRepo(planID).drafts.find((x) => x.id === draftID);
     if (!d || !ctx) return;
     const prior = d.revisions.at(-1);
-    const overrides = edit.dates ? planDraftWithEdits(prior?.overrides ?? [], [edit.dates], ctx.live, true) : (prior?.overrides ?? []);
+    // A parent's dates moved whole carry its items, as the plan's drag and drawer do.
+    const overrides = edit.dates ? planDraftWithEdits(prior?.overrides ?? [], withItemsCarried(ctx.plan, edit.dates), ctx.live, true) : (prior?.overrides ?? []);
     const fields = edit.fields ? { ...(prior?.fields ?? {}), [elementId]: { ...(prior?.fields?.[elementId] ?? {}), ...edit.fields } } : undefined;
     const attributes = edit.attributes ? mergeAttributes(prior?.attributes ?? {}, { [elementId]: edit.attributes }) : undefined;
     addRevision(planID, d.id, overrides, { action: 'Edited', subject: ctx.element.PlanElementName ?? '', shift: edit.changed.join(', ') }, { fields, attributes });
@@ -321,11 +322,14 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   async function moves(edit: ElementEdit): Promise<number> {
     if (!edit.dates || !ctx) return 0;
     const live = ctx.live;
-    const view = await planApi.previewDraft(planID, planDraftWithEdits([], [edit.dates], live, true));
+    // Its own items, carried with a parent, are the edit itself, not something else it moves.
+    const edits = withItemsCarried(live, edit.dates);
+    const carried = new Set(edits.map((e) => e.PlanElementID));
+    const view = await planApi.previewDraft(planID, planDraftWithEdits([], edits, live, true));
     const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
     return flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
       const w = was.get(e.PlanElementID);
-      return e.PlanElementID !== elementId && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
+      return !carried.has(e.PlanElementID ?? '') && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
     }).length;
   }
   const firstName = (n: string) => n.split(' ')[0];
