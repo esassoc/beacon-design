@@ -31,6 +31,7 @@ import BcnObligationHeader from '../../../components/bcn/BcnObligationHeader.ast
 import BcnObligationFacets from '../../../components/bcn/BcnObligationFacets.astro';
 import BcnObligationScope from '../../../components/bcn/BcnObligationScope.astro';
 import BcnEvidenceList from '../../../components/bcn/BcnEvidenceList.astro';
+import BcnObligationPlanItems from '../../../components/bcn/BcnObligationPlanItems.astro';
 import { POPULATED } from '../../../data/component-dashboard';
 import type { Obligation } from '../../../data/obligations';
 import { withBase } from '../../../lib/base';
@@ -101,6 +102,7 @@ const EXAMPLE_EVIDENCE = [
     - condition        -> esa-card                # the non-compliance a monitor observes — what a field form offers
     - parameters       -> esa-card                # where sources disagree; absent on the 42% that carry none
     - evidence         -> bcn-evidence-list       # Evidence of Compliance box (example records — registry has none)
+    - plan items       -> bcn-obligation-plan-items # the study plan items serving it, both ways with the item's Obligations card
     - facets rail      -> bcn-obligation-facets   # class, nested subjects, construction activities, species, commitments by source
     - in force at      -> bcn-obligation-scope    # full-width scope table, sibling of the Action page's Tracked Actions
 -->
@@ -154,6 +156,8 @@ const EXAMPLE_EVIDENCE = [
           <EsaCard title="Evidence of Compliance" padding="compact">
             <BcnEvidenceList items={EXAMPLE_EVIDENCE} />
           </EsaCard>
+
+          <BcnObligationPlanItems obligationId={o.id} />
         </div>
       </div>
 

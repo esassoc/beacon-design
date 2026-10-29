@@ -1,0 +1,92 @@
+---
+// <BcnObligationPlanItems> — on an obligation's page, the study plan items that serve it (2026-10-28, the SOW review:
+// "study deliverables and compliance obligations reference each other"). The other half of the item page's
+// Obligations card: the same join (plan records' `obligations`), read from the obligation's side across every plan.
+// Each row names the item, its plan and level, whether it's a deliverable, and its status, and links to its page.
+// Items served through a parent are counted under it. Read live from the plans in this browser (the mock store).
+//
+// bcn-lego-checked: the card IS esa-card; the empty state IS esa-empty-state; status and Deliverable ARE esa-badge
+// (built client-side as esa-badge's markup via BcnBadgeBank). No esa- lego is a cross-record reference list; checked
+// Beacon (data catalog pages list linked records inline, as BcnElementObligations does). The CSS is the rows.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnBadgeBank from './BcnBadgeBank.astro';
+interface Props {
+  obligationId: string;
+}
+const { obligationId } = Astro.props;
+---
+
+<div class="bcn-opi" data-bcn-obligation-plan-items data-obligation={obligationId}>
+  <EsaCard title="Study Plan Items" padding="compact">
+    <p class="bcn-opi__lead typography-body-sm" data-opi-lead>Reading the study plans…</p>
+    <ul class="bcn-opi__list" data-opi-list></ul>
+    <div data-opi-empty hidden>
+      <EsaEmptyState size="sm" title="No Plan Items Yet" description="Link this obligation from a study plan item's Obligations card, and the item shows here." />
+    </div>
+  </EsaCard>
+  <BcnBadgeBank />
+</div>
+
+<style>
+  .bcn-opi__lead { margin: 0 0 var(--spacing-300); color: var(--color-content-default-secondary); }
+  .bcn-opi__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-opi__list :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--spacing-100) var(--spacing-300);
+    padding-block: var(--spacing-200);
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-opi__list :global(li:first-child) { border-top: 0; }
+  .bcn-opi__list :global(a) { color: var(--color-content-brand); font-weight: var(--typography-font-weight-semibold); text-decoration: none; }
+  .bcn-opi__list :global(a:hover) { text-decoration: underline; }
+  .bcn-opi__list :global(.bcn-opi__meta) { grid-column: 1; color: var(--color-content-default-secondary); font-size: var(--typography-body-sm-font-size); }
+  .bcn-opi__list :global(.bcn-opi__badges) { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: var(--spacing-100); align-items: start; }
+  [hidden] { display: none !important; }
+</style>
+
+<script>
+  import { ensureSeeded, flattenPlan, latestVersion, listPlanSummaries, attributesAt } from '../../lib/planning/plan-repo';
+  import { recordsFor, elementsServing, statusOf } from '../../lib/planning/plan-records';
+  import { ELEMENT_HREF } from '../../lib/planning/element-context';
+  import { badge } from './badge-bank';
+
+  const root = document.querySelector<HTMLElement>('[data-bcn-obligation-plan-items]');
+  if (root) void draw(root);
+
+  async function draw(el: HTMLElement): Promise<void> {
+    const id = el.dataset.obligation ?? '';
+    await ensureSeeded();
+    const rows: HTMLLIElement[] = [];
+    for (const s of await listPlanSummaries()) {
+      const planID = s.repo.planID;
+      const plan = latestVersion(s.repo).plan;
+      const rec = recordsFor(planID);
+      const attrs = attributesAt(s.repo);
+      const flat = flattenPlan(plan.Elements);
+      for (const itemId of elementsServing(rec, id)) {
+        const at = flat.find((x) => x.element.PlanElementID === itemId);
+        if (!at) continue;
+        const e = at.element;
+        const under = flattenPlan(e.Children).length;
+        const li = document.createElement('li');
+        const a = Object.assign(document.createElement('a'), { href: ELEMENT_HREF(planID, itemId), textContent: e.PlanElementName ?? '' });
+        const meta = Object.assign(document.createElement('span'), {
+          className: 'bcn-opi__meta',
+          textContent: [s.name, e.LevelSingularName, under ? `${under} ${under === 1 ? 'item' : 'items'} under it` : ''].filter(Boolean).join(', '),
+        });
+        const badges = Object.assign(document.createElement('span'), { className: 'bcn-opi__badges' });
+        if (attrs[itemId]?.deliverable) badges.append(badge('Deliverable', 'primary', 'sm'));
+        badges.append(badge(statusOf(rec, plan, itemId), 'neutral', 'sm'));
+        li.append(a, badges, meta);
+        rows.push(li);
+      }
+    }
+    el.querySelector<HTMLElement>('[data-opi-list]')!.replaceChildren(...rows);
+    el.querySelector<HTMLElement>('[data-opi-empty]')!.hidden = rows.length > 0;
+    el.querySelector<HTMLElement>('[data-opi-lead]')!.textContent = rows.length
+      ? `${rows.length} ${rows.length === 1 ? 'item serves' : 'items serve'} this obligation, linked from their Obligations cards.`
+      : '';
+  }
+</script>
