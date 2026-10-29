@@ -68,8 +68,8 @@ import { withBase } from '../../lib/base';
               <span class="bcn-trp__note typography-body-sm" data-trp-response-note></span>
             </span>
             <span class="bcn-trp__actions">
-              <span data-trp-act="respond" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="plus">Record Response</EsaButton></span>
-              <span data-trp-act="close" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Close Transmittal</EsaButton></span>
+              <span data-trp-act="respond" hidden><EsaButton variant="ghost" size="sm" icon="plus">Record Response</EsaButton></span>
+              <span data-trp-act="close" hidden><EsaButton variant="ghost" size="sm" icon="check">Close Transmittal</EsaButton></span>
             </span>
           </div>
           <div class="bcn-trp__response">
@@ -95,7 +95,7 @@ import { withBase } from '../../lib/base';
             <span class="bcn-trp__mail-subject typography-label-sm-strong" data-trp-mail-subject></span>
           </div>
           <p class="bcn-trp__mail-body typography-body-sm" data-trp-mail-body></p>
-          <span class="bcn-trp__mail-open" data-trp-mail-open><a target="_blank" rel="noopener"><EsaButton variant="ghost" appearance="outline" size="xs" icon="external-link">Open in Beacon</EsaButton></a></span>
+          <span class="bcn-trp__mail-open" data-trp-mail-open><a target="_blank" rel="noopener"><EsaButton variant="ghost" size="sm" icon="external-link">Open in Beacon</EsaButton></a></span>
         </div>
         <p class="bcn-trp__hint typography-body-sm" data-trp-mail-hint></p>
       </EsaCard>
@@ -169,8 +169,8 @@ import { withBase } from '../../lib/base';
       <esa-file-upload data-trp-receipt-upload label="Upload Their Reply" max-size-mb="25" hidden></esa-file-upload>
     </div>
     <div slot="footer" class="bcn-trp__footer">
-      <span data-trp-receipt-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-trp-receipt-save><EsaButton variant="primary" size="sm" icon="check">Record Receipt</EsaButton></span>
+      <span data-trp-receipt-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-trp-receipt-save><EsaButton variant="primary">Record Receipt</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -186,8 +186,8 @@ import { withBase } from '../../lib/base';
       <esa-file-upload data-trp-response-upload label="Upload the Response" max-size-mb="25" hidden></esa-file-upload>
     </div>
     <div slot="footer" class="bcn-trp__footer">
-      <span data-trp-response-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-trp-response-save><EsaButton variant="primary" size="sm">Record Response</EsaButton></span>
+      <span data-trp-response-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-trp-response-save><EsaButton variant="primary">Record Response</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -219,9 +219,9 @@ import { withBase } from '../../lib/base';
           <span class="bcn-trp__muted typography-body-sm" data-person-detail></span>
         </span>
         <span class="bcn-trp__person-acts" data-person-acts>
-          <span data-person-act="remind" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="bell">Send Reminder</EsaButton></span>
-          <span data-person-act="record" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Record Receipt</EsaButton></span>
-          <span data-person-act="confirm" hidden><EsaButton variant="primary" size="xs" icon="check">Confirm Receipt</EsaButton></span>
+          <span data-person-act="remind" hidden><EsaButton variant="ghost" size="sm" icon="bell">Send Reminder</EsaButton></span>
+          <span data-person-act="record" hidden><EsaButton variant="ghost" size="sm" icon="check">Record Receipt</EsaButton></span>
+          <span data-person-act="confirm" hidden><EsaButton variant="primary" size="sm" icon="check">Confirm Receipt</EsaButton></span>
         </span>
       </span>
     </li>

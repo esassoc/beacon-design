@@ -134,7 +134,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
           </div>
           <div class="plan-element__add-actions">
             <EsaButton variant="primary" size="sm" type="submit" data-ped="pred-add">Add</EsaButton>
-            <EsaButton variant="secondary" appearance="outline" size="sm" data-ped="pred-cancel">Cancel</EsaButton>
+            <EsaButton variant="ghost" appearance="outline" size="sm" data-ped="pred-cancel">Cancel</EsaButton>
           </div>
         </form>
       </section>
@@ -150,11 +150,11 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
     <div slot="footer" class="plan-element__actions">
       <!-- The element's own page (2026-10-28): its full record, read-only as you land, by its level ("Open Task Page"). -->
-      <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" size="sm" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
+      <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
       <!-- Draft first (2026-10-28): Publish Now beside Save to My Draft on Live, only when it's safe. -->
       <EsaButton variant="ghost" appearance="outline" data-ped="cancel">Cancel</EsaButton>
       <EsaButton variant="ghost" appearance="outline" data-ped="close">Close</EsaButton>
-      <EsaButton variant="secondary" data-ped="publish">Review and Publish</EsaButton>
+      <EsaButton variant="primary" appearance="outline" data-ped="publish">Review and Publish</EsaButton>
       <EsaButton variant="primary" data-ped="save">Save</EsaButton>
     </div>
   </esa-side-dialog>
@@ -200,7 +200,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     </li>
   </template>
   <!-- The esa-button spinner, lifted onto a pressed button while its request is out (Beacon's loadingButton). -->
-  <template data-ped-tpl="spinner"><EsaButton loading size="sm">Saving</EsaButton></template>
+  <template data-ped-tpl="spinner"><EsaButton loading>Saving</EsaButton></template>
 </div>
 
 <script>

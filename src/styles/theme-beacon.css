@@ -114,6 +114,13 @@
   /* Figures in a sheet (2026-10-28, Andy: "use JetBrains"): money and counts in columns, monospaced so they line up
      digit for digit. Spoke-only; the budget sheet reaches for it explicitly. */
   --bcn-font-figures: 'JetBrains Mono', var(--typography-font-family-mono);
+  /* Prod's $type-size-meta (_type-sizes.scss): the fixed 13px floor for dense data (grid cells, a table's rows, a
+     sheet's figures) and the smallest supporting text. Not fluid, by prod's own reasoning: data holds at a legible
+     13px rather than riding the scale down. The one non-fluid member; components read it instead of writing 13px. */
+  --bcn-type-size-meta: 0.8125rem;
+  /* The form type size, set once (design QA, 2026-10-29: the drawer re-declared 14px, the dialogs read 12px): every
+     form lego's typed value and placeholder, at every size step, reads this. See the form-lego block below. */
+  --bcn-form-font-size: var(--font-size-150);
   /* Opt-in serif voice (setup wizard). Beacon-only — the hub has no equivalent;
      --typography-font-family-display stays sans. Components reach for this token explicitly. */
   --font-decorative: 'Besley', serif;
@@ -477,6 +484,47 @@
   --bcn-print-paper: var(--bcn-gray-0);
   /* The gray the screen preview sets the paper on (prod: #e0e0e0). */
   --bcn-print-desk: var(--bcn-gray-200);
+}
+
+/* ===== esa-button: two spoke overrides, both hub requests (design QA, 2026-10-29) =====
+   esa-button's light-DOM styles are Astro-scoped (one attribute), so these win with one more class; neither touches
+   the hub source. Ledgered as hub requests: height-lock esa-button per size, and draw disabled from the disabled role
+   tokens.
+
+   1. A button's height is set by its size alone. The hub sizes a button from padding plus its content, so a 16px icon
+      in a 12px label made an sm button 38px beside a plain 34px one (Cancel 4px shorter than Save in four footers).
+      The block size is the plain label's: two paddings, one line of the label's own leading, two borders. An icon
+      centres inside it. Icon-only buttons keep the hub's square. */
+[data-theme="beacon"] .esa-button:not(.esa-button--icon-only) > .esa-button__native {
+  box-sizing: border-box;
+  block-size: calc(2 * var(--_btn-pad-y) + 1lh + 2 * var(--border-width-default, 1px));
+  padding-block: 0;
+}
+/* An icon-only button at sm and up is the same height as its labeled neighbours (a square of that height): a 38px gear
+   beside 34px header actions read as a different control. xs keeps the hub's square (dense rows only). */
+[data-theme="beacon"] .esa-button.esa-button--icon-only:not(.esa-button--xs) > .esa-button__native {
+  box-sizing: border-box;
+  block-size: calc(2 * var(--_btn-pad-y) + 1lh + 2 * var(--border-width-default, 1px));
+  inline-size: calc(2 * var(--_btn-pad-y) + 1lh + 2 * var(--border-width-default, 1px));
+  padding: 0;
+}
+/* Ghost hovers with the one row/control hover token, so a ghost on a sunken card band still answers the pointer (the
+   hub's sunken hover is the band's own color). */
+[data-theme="beacon"] .esa-button.esa-button--variant-ghost .esa-button__native:hover:not(:disabled) {
+  background: var(--color-background-default-hover);
+}
+/* 2. Disabled is a neutral fill, never reduced opacity (prod ui-button: "one muted gray treatment across every
+      color/appearance ... instead of a flat opacity that washed the button out"). Some runtimes put the hub's
+      --disabled class on the wrapper, some on the native button, and some set only the native `disabled`, so all
+      three read the same. A loading button keeps its color (prod's exception: the spinner reads on the fill). */
+[data-theme="beacon"] .esa-button.esa-button--disabled,
+[data-theme="beacon"] .esa-button .esa-button__native.esa-button--disabled { opacity: 1; }
+[data-theme="beacon"] .esa-button:not(.esa-button--loading):not(.esa-button--variant-chrome) .esa-button__native:is(:disabled, [aria-disabled='true'], .esa-button--disabled),
+[data-theme="beacon"] .esa-button.esa-button--disabled:not(.esa-button--loading):not(.esa-button--variant-chrome) .esa-button__native {
+  background: var(--color-background-disabled);
+  border-color: var(--color-border-disabled);
+  color: var(--color-content-disabled);
+  cursor: not-allowed;
 }
 
 /* ===== Smooth in-page scrolling — app-wide, canonical spot =====

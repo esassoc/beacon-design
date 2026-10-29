@@ -37,10 +37,10 @@ import { withBase } from '../../../../lib/base';
   >
     <span slot="title-badge" class="trp-badges" data-trp-title-badges></span>
     <div slot="utilities" class="trp-actions" data-trp-actions>
-      <span data-trp-page-act="deliverable" hidden><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Open Deliverable</EsaButton></a></span>
-      <span data-trp-page-act="delete" hidden><EsaButton variant="danger" appearance="outline" size="xs" icon="trash-2">Delete</EsaButton></span>
-      <span data-trp-page-act="edit" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
-      <span data-trp-page-act="send" hidden><EsaButton variant="primary" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
+      <span data-trp-page-act="deliverable" hidden><a><EsaButton variant="ghost" size="sm" icon="arrow-left">Open Deliverable</EsaButton></a></span>
+      <span data-trp-page-act="delete" hidden><EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2">Delete</EsaButton></span>
+      <span data-trp-page-act="edit" hidden><EsaButton variant="ghost" size="sm" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
+      <span data-trp-page-act="send" hidden><EsaButton variant="primary" size="sm" icon="send" data-fill-icon="send">Send</EsaButton></span>
     </div>
     <BcnTransmittalPage />
     <BcnPlanPeople />
@@ -63,10 +63,6 @@ import { withBase } from '../../../../lib/base';
   }
   .trp-actions a {
     text-decoration: none;
-  }
-  /* On the gray page an outlined ghost washes out: a raised face, as the element page's header actions. */
-  .trp-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
-    background: var(--color-background-elevation-raised);
   }
 </style>
 

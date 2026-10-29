@@ -30,13 +30,13 @@ import { withBase } from '../../../../lib/base';
   >
     <span slot="title-badge" class="bcn-pep-badges" data-pep-title-badges></span>
     <div slot="utilities" class="bcn-pep-actions" data-pep-actions>
-      <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
-      <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
-      <span data-pep-action="open-plan"><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
-      <span data-pep-action="customize" hidden><esa-tooltip text="Arrange the cards and fields every item at this level shows" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></esa-tooltip></span>
-      <span data-pep-action="edit" hidden><esa-tooltip text="Name, dates, owners and fields, saved to your draft" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
-      <span data-pep-action="review" hidden><esa-tooltip text="Compare your draft with Live, then publish" position="below" align="end"><EsaButton variant="ghost" appearance="outline" size="xs" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
-      <span data-pep-action="back" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Back to Live Plan</EsaButton></span>
+      <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
+      <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="sm" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
+      <span data-pep-action="open-plan"><a><EsaButton variant="ghost" size="sm" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
+      <span data-pep-action="customize" hidden><esa-tooltip text="Arrange the cards and fields every item at this level shows" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></esa-tooltip></span>
+      <span data-pep-action="edit" hidden><esa-tooltip text="Name, dates, owners and fields, saved to your draft" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
+      <span data-pep-action="review" hidden><esa-tooltip text="Compare your draft with Live, then publish" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
+      <span data-pep-action="back" hidden><EsaButton variant="ghost" size="sm" icon="arrow-left">Back to Live Plan</EsaButton></span>
     </div>
     <BcnPlanElementPage />
     <BcnPlanPeople />
@@ -60,10 +60,6 @@ import { withBase } from '../../../../lib/base';
   }
   .bcn-pep-actions a {
     text-decoration: none;
-  }
-  /* On the gray page an outlined ghost washes out: a raised face, as the plan page's header actions. */
-  .bcn-pep-actions :global(.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native) {
-    background: var(--color-background-elevation-raised);
   }
 </style>
 

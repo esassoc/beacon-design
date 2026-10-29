@@ -21,7 +21,7 @@ import '../../styles/bcn-record-table.css';
         <div class="bcn-pid__source">
           <esa-file-upload accept=".csv,text/csv,.tsv,.txt" label="Choose a CSV" data-pid-file></esa-file-upload>
           <esa-textarea size="sm" rows="4" label="Or Paste Rows" placeholder="Copy rows from Excel, header included, and paste them here" data-pid-paste></esa-textarea>
-          <span data-pid-example><EsaButton variant="ghost" appearance="outline" size="xs" icon="file-text">Use the Example</EsaButton></span>
+          <span data-pid-example><EsaButton variant="ghost" appearance="outline" size="sm" icon="file-text">Use the Example</EsaButton></span>
         </div>
       </section>
       <section class="bcn-pid__step" data-pid-map-step hidden aria-labelledby="pid-map">
@@ -42,8 +42,8 @@ import '../../styles/bcn-record-table.css';
     </div>
     <div slot="footer" class="bcn-pid__footer">
       <span class="bcn-pid__where typography-body-sm" data-pid-where>They go to your draft; Review and Publish takes them to Live.</span>
-      <span data-pid-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-pid-add><EsaButton variant="primary" size="sm" icon="git-branch" data-fill-icon="git-branch"><span data-pid-add-label>Add to My Draft</span></EsaButton></span>
+      <span data-pid-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-pid-add><EsaButton variant="primary"><span data-pid-add-label>Add to My Draft</span></EsaButton></span>
     </div>
   </esa-dialog>
   <template data-pid-tpl="map"><esa-select size="sm"></esa-select></template>
