@@ -21,6 +21,8 @@ const struck = await page.locator('[data-prvd-rows] .bcn-prvd__cell--from del').
 const marked = await page.locator('[data-prvd-rows] .bcn-prvd__cell--to ins').count();
 check('the parent row names its planned window', /Planned Start/.test(from) && /Planned Start/.test(to), `${from} | ${to}`);
 check('what moved is struck and marked', struck > 0 && marked > 0, `${struck} struck, ${marked} marked`);
+const counts = (await page.locator('[data-prvd-counts]').innerText()).replace(/\s+/g, ' ');
+check('the review counts the parent as moved, its items as followed', /1 Moved/.test(counts) && /6 Followed/.test(counts), counts);
 const shifts = await page.locator('[data-prvd-rows] .bcn-prvd__cell--to .bcn-prvd__shift').allInnerTexts();
 const names = await page.locator('[data-prvd-rows] .bcn-prvd__cell--to .bcn-prvd__name').allInnerTexts();
 check('its items moved with it, by the same shift', names.length > 1 && new Set(shifts.map((t) => t.split('\n')[0])).size === 1, names.map((n, i) => `${n} ${shifts[i] ?? ''}`).join(' | '));

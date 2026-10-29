@@ -263,6 +263,10 @@ export function setupPlanRevisionsDialog(opts: {
         if (!was || was.StartDate !== o.StartDate || was.EndDate !== o.EndDate) own.add(o.PlanElementID);
       }
     }
+    // Carried, not grabbed: an item moved with a parent that was moved in the same edit counts as followed, as the
+    // plan's change line counts it ("Moved Reach 1 +5 months, +6 Followed").
+    const parentOf = new Map(flattenPlan(to.Elements).map(({ element }) => [element.PlanElementID ?? '', element.ParentPlanElementID ?? null]));
+    for (const id of [...own]) for (let at = parentOf.get(id); at; at = parentOf.get(at)) if (own.has(at)) { own.delete(id); break; }
     const labels = new Map(configOf(getRepo(opts.planID)).fields.map((f) => [f.id, f.label]));
     current = { from, to, changes: planCompare(from, to), own, money: seesBudget(getRepo(opts.planID), membersOf(getRepo(opts.planID)).find((m) => m.name === me)?.role) ? budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) : [], details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels, from), links: linkDiff(from, to), shape: shapeDiff(from, to) };
     draw();
