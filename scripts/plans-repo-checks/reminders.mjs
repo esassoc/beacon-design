@@ -41,5 +41,21 @@ await page.goto(`${BASE}/prototypes/plans-repo/`); await page.waitForTimeout(250
 rows = await dueRows();
 check('with Coming Up off, the memo leaves Due for You', !rows.some((r) => r.includes('Quarterly agency coordination memo')), rows.join(' | '));
 console.log('errors', errs.length, errs.slice(0, 2));
+// An item no one on the plan owns still reminds someone (2026-10-29): its parent's owners, else the plan's Owners.
+const fb = await page.evaluate(async () => {
+  const R = await import('/src/lib/planning/plan-repo.ts');
+  const M = await import('/src/lib/planning/plan-reminders.ts');
+  const seen = { parent: 0, plan: 0, nobody: 0 };
+  for (const s of await R.listPlanSummaries()) {
+    const plan = R.latestVersion(s.repo).plan; const attrs = R.attributesAt(s.repo);
+    for (const { element } of R.flattenPlan(plan.Elements)) {
+      if (element.Children?.length) continue;
+      const o = M.reminderOwners(s.repo, plan, attrs, element.PlanElementID);
+      if (o.via !== 'item') seen[o.owners.length ? o.via : 'nobody']++;
+    }
+  }
+  return seen;
+});
+check('unowned items fall back to a parent or the plan’s Owners; none reaches nobody', fb.nobody === 0 && fb.parent + fb.plan > 0, JSON.stringify(fb));
 console.log(`${pass} PASS, ${fail} FAIL`);
 await browser.close();

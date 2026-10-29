@@ -9,8 +9,9 @@
 // Recipients. Not a complete item, not one without an end date. Receipt reminders stay the transmittal's own
 // (Plan Settings, Days to Confirm Receipt).
 
-import { attributesAt, flattenPlan, latestVersion, listPlanSummaries, membersOf, configOf, isOrganization, orgOf, type PlanRepo } from './plan-repo';
+import { attributesAt, flattenPlan, latestVersion, listPlanSummaries, membersOf, configOf, isOrganization, orgOf, type PlanAttributes, type PlanRepo } from './plan-repo';
 import { recordsFor, statusOf } from './plan-records';
+import type { PlanDetailDto } from './model';
 
 export interface ReminderConfig {
   comingUp: { on: boolean; leadDays: number; repeatDays: number | null };
@@ -78,6 +79,22 @@ export function reminderRecipients(repo: PlanRepo, owners: readonly string[], cf
   return [...new Set([...people, ...cfg.extra])];
 }
 
+/** Who an item's reminders go to, and why (2026-10-29, Andy: "fall back"): its own owners when any of them is on the
+ *  plan; otherwise the nearest parent's; otherwise the plan's Owners, so a late item without an owner still reaches
+ *  someone. */
+export function reminderOwners(repo: PlanRepo, plan: PlanDetailDto, attrs: PlanAttributes, id: string): { owners: string[]; via: 'item' | 'parent' | 'plan'; from?: string } {
+  const members = membersOf(repo).map((m) => m.name);
+  const reaches = (owners: readonly string[]) => owners.some((o) => (isOrganization(o) ? members.some((m) => orgOf(m) === o) : members.includes(o)));
+  const own = attrs[id]?.owners ?? [];
+  if (reaches(own)) return { owners: own, via: 'item' };
+  const byId = new Map(flattenPlan(plan.Elements).map(({ element }) => [element.PlanElementID ?? '', element]));
+  for (let at = byId.get(id)?.ParentPlanElementID ?? null; at; at = byId.get(at)?.ParentPlanElementID ?? null) {
+    const theirs = attrs[at]?.owners ?? [];
+    if (reaches(theirs)) return { owners: theirs, via: 'parent', from: byId.get(at)?.PlanElementName ?? '' };
+  }
+  return { owners: membersOf(repo).filter((m) => m.role === 'Owner').map((m) => m.name), via: 'plan' };
+}
+
 export interface ReminderEntry {
   planID: string;
   planName: string;
@@ -86,8 +103,9 @@ export interface ReminderEntry {
   due: string;
   /** The latest send to this person. */
   last: ReminderSend;
-  /** Why it reaches them. */
-  as: 'Owner' | 'Organization' | 'Copied';
+  /** Why it reaches them: its owner, their organization owns it, copied, or as the fallback for an item no one on the
+   *  plan owns (the parent's owner, the plan's Owner). */
+  as: 'Owner' | 'Organization' | 'Copied' | 'Parent Owner' | 'Plan Owner';
 }
 
 /** The reminders a person has had in the last two weeks, or that still stand (an item past due), across every plan:
@@ -106,11 +124,12 @@ export async function remindersFor(user: string, today = todayIso()): Promise<Re
       const id = element.PlanElementID ?? '';
       const due = element.EndDate ?? element.StartDate;
       if (!due || statusOf(rec, plan, id) === 'Completed') continue;
-      const owners = attrs[id]?.owners ?? [];
+      const { owners, via } = reminderOwners(repo, plan, attrs, id);
       if (!reminderRecipients(repo, owners, cfg).includes(user)) continue;
       const { last } = reminderState(due, cfg, today);
       if (!last || (last.date < recent && last.kind !== 'Past Due')) continue;
-      const as = owners.includes(user) ? 'Owner' : owners.some((o) => isOrganization(o) && orgOf(user) === o) ? 'Organization' : 'Copied';
+      const mine = owners.includes(user) || owners.some((o) => isOrganization(o) && orgOf(user) === o);
+      const as: ReminderEntry['as'] = mine && via === 'parent' ? 'Parent Owner' : mine && via === 'plan' ? 'Plan Owner' : owners.includes(user) ? 'Owner' : mine ? 'Organization' : 'Copied';
       out.push({ planID: repo.planID, planName: s.name, itemId: id, itemName: element.PlanElementName ?? '', due, last, as });
     }
   }

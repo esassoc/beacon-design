@@ -6,11 +6,11 @@ import '@esa/ecology/esa-tooltip';
 import type { ElementContext } from '../../lib/planning/element-context';
 import { PLAN_VIEW_HREF, datesText } from '../../lib/planning/element-context';
 import type { FieldDef } from '../../lib/planning/plan-config';
-import { ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
+import { attributesAt, ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
 import { DRAFT_FIRST_ASK } from '../../lib/planning/plan-copy';
-import { DEFAULT_REMINDERS, reminderState } from '../../lib/planning/plan-reminders';
+import { DEFAULT_REMINDERS, reminderOwners, reminderState } from '../../lib/planning/plan-reminders';
 import { planAvatar } from './plan-people';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
 import { setupStatusSelect, type StatusSelectController } from './status-select';
@@ -134,9 +134,15 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     // Reminders (2026-10-28, prod's action notifications): the owners' last email about this item and the next one,
     // on a task or milestone that isn't complete. Plan Settings, Reminders sets when they go.
     const due = ctx.element.EndDate ?? ctx.element.StartDate;
-    if (!ctx.children.length && due && statusOf(ctx.records, ctx.live, ctx.element.PlanElementID ?? '') !== 'Completed' && owners.length) {
+    // An item no one on the plan owns still reminds someone (2026-10-29, Andy: "fall back"): its parent's owners, or
+    // the plan's Owners; the row says who.
+    if (!ctx.children.length && due && statusOf(ctx.records, ctx.live, ctx.element.PlanElementID ?? '') !== 'Completed') {
       const { last, next } = reminderState(due, ctx.config.reminders ?? DEFAULT_REMINDERS);
       const parts = [last ? `Sent ${day(last.date)} (${last.kind})` : '', next ? `Next ${day(next.date)} (${next.kind})` : ''].filter(Boolean);
+      const to = reminderOwners(ctx.repo, ctx.live, attributesAt(ctx.repo), ctx.element.PlanElementID ?? '');
+      const who = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0] ?? 'no one');
+      if (to.via === 'parent') parts.push(`No owner here, so they go to ${who(to.owners)}, who ${to.owners.length === 1 ? 'owns' : 'own'} ${to.from}`);
+      if (to.via === 'plan') parts.push(`No owner here or above, so they go to the plan's Owners, ${who(to.owners)}`);
       row('Reminders', parts.length ? parts.join('. ') : 'Off for this plan');
     }
 
