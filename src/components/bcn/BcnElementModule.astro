@@ -102,6 +102,11 @@ const meta = MODULES[key];
     margin: 0;
     color: var(--color-content-default);
   }
+  /* The count's wrapper a flex box: inline, its baseline space set the badge 2.4px under the title (2026-10-29,
+     align.mjs). */
+  .bcn-elm__title-row [data-elm-count] {
+    display: inline-flex;
+  }
   .bcn-elm__note {
     color: var(--color-content-default-secondary);
   }

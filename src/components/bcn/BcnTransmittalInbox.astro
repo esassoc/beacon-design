@@ -60,27 +60,37 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-tib[hidden] {
     display: none;
   }
+  /* Glyph, title and count on one centre line (2026-10-29, measured): a grid, the glyph and the title row centred in its
+     first row, the note in the second under the title; the count's wrapper a flex box, no inline baseline under it. */
   .bcn-tib__head {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-200);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--spacing-200);
+    row-gap: 2px;
     min-width: 0;
   }
   .bcn-tib__glyph {
     display: inline-flex;
-    padding-block-start: 2px;
+    grid-row: 1;
     color: var(--color-content-default-secondary);
   }
   .bcn-tib__titles {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
+    display: contents;
   }
   .bcn-tib__title-row {
     display: flex;
+    grid-row: 1;
+    grid-column: 2;
     align-items: center;
     gap: var(--spacing-150);
+  }
+  .bcn-tib__title-row [data-tib-count] {
+    display: inline-flex;
+  }
+  .bcn-tib__note {
+    grid-row: 2;
+    grid-column: 2;
   }
   .bcn-tib__title {
     margin: 0;

@@ -287,24 +287,31 @@ import { withBase } from '../../lib/base';
   }
 
   /* A section's head: the module card's (BcnElementModule), with its actions at the right. */
+  /* Glyph and title on one centre line (2026-10-29, align.mjs: the glyph sat 2px high on a hand-set offset): a grid, the
+     glyph and the title centred in its first row, the note in the second under the title. */
   .bcn-trp__head {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-200);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--spacing-200);
+    row-gap: 2px;
     flex: 1;
     min-width: 0;
   }
   .bcn-trp__glyph {
     display: inline-flex;
-    padding-block-start: 2px;
+    grid-row: 1;
     color: var(--color-content-default-secondary);
   }
   .bcn-trp__titles {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-    min-width: 0;
+    display: contents;
+  }
+  .bcn-trp__titles > :first-child {
+    grid-row: 1;
+    grid-column: 2;
+  }
+  .bcn-trp__titles > :not(:first-child) {
+    grid-column: 2;
   }
   .bcn-trp__title {
     margin: 0;

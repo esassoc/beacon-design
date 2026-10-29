@@ -43,10 +43,15 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* The header is Sent to You's (BcnTransmittalInbox), its sibling on the page (2026-10-29, Andy: the title and count
      sat off-line, the note too far below, the clock floating between them): the glyph on the title's line, the title
      and count on one centered row, the note tight under it. */
-  .bcn-rem__head { display: flex; align-items: flex-start; gap: var(--spacing-200); min-width: 0; }
-  .bcn-rem__glyph { display: inline-flex; padding-block-start: 2px; color: var(--color-content-default-secondary); }
-  .bcn-rem__titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .bcn-rem__title-row { display: flex; align-items: center; gap: var(--spacing-150); }
+  /* One centre line for glyph, title and count (2026-10-29, Andy: "icon too high, badge too low"; measured 274, 277.6,
+     280px): a grid whose first row holds the glyph and the title row, centred together; the note on the second row
+     under the title. The count's wrapper is a flex box, so no inline baseline space pushes the badge down. */
+  .bcn-rem__head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--spacing-200); row-gap: 2px; min-width: 0; }
+  .bcn-rem__glyph { display: inline-flex; grid-row: 1; color: var(--color-content-default-secondary); }
+  .bcn-rem__titles { display: contents; }
+  .bcn-rem__title-row { display: flex; grid-row: 1; grid-column: 2; align-items: center; gap: var(--spacing-150); }
+  .bcn-rem__title-row [data-rem-count] { display: inline-flex; }
+  .bcn-rem__note { grid-row: 2; grid-column: 2; }
   .bcn-rem__title-row h2 { margin: 0; color: var(--color-content-default); }
   .bcn-rem__note { color: var(--color-content-default-secondary); }
   /* The rows are drawn by the script, so their grid is global under the register (scoped, it never reached them and
