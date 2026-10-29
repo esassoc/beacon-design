@@ -4,7 +4,7 @@
 import { withBase } from '../../lib/base';
 
 import { planIcon } from '../../lib/planning/icons';
-import { recordsFor, healthOf, receiptOverdue, type Transmittal } from '../../lib/planning/plan-records';
+import { recordsFor, healthOf, receiptOverdue, todayIso, type Transmittal } from '../../lib/planning/plan-records';
 import { budgetAt, seesBudget, latestVersion, flattenPlan, attributesAt, orgOf, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
@@ -81,7 +81,7 @@ function miniature(summary: PlanSummary): string {
     const bx = x(row.start);
     parts.push(`<rect class="mini-bar mini-bar--${Math.min(row.depth, 2)}" x="${bx}" y="${TOP + i * ROW}" width="${Math.max(2, x(row.end) - bx)}" height="${ROW - 3}" rx="1.5"/>`);
   });
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayIso();
   if (today > summary.start! && today < summary.end!) parts.push(`<line class="mini-today" x1="${x(today)}" x2="${x(today)}" y1="${TOP - 4}" y2="${H}"/>`);
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Schedule, ${shortDate(summary.start!)} to ${shortDate(summary.end!)}">${parts.join('')}</svg>`;
 }
@@ -97,7 +97,7 @@ function moneyMiniature(budget: PlanBudget): string {
   const TOP = 14;
   const max = Math.max(...byYear.values()) || 1;
   const step = W / years.length;
-  const now = fiscalYearOf(new Date().toISOString().slice(0, 10));
+  const now = fiscalYearOf(todayIso());
   const parts = years.map((fy, i) => {
     const h = Math.max(1, ((byYear.get(fy) ?? 0) / max) * (H - TOP - 2));
     const x = i * step + step * 0.18;

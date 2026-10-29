@@ -8,7 +8,7 @@
 import { listPlanSummaries, orgOf } from '../../lib/planning/plan-repo';
 import { currentUserName } from '../../lib/planning/plan-server';
 import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
-import { receiptOverdue, recordsFor, transmittalNumber, transmittalsTo, type Transmittal } from '../../lib/planning/plan-records';
+import { receiptOverdue, recordsFor, todayIso, transmittalNumber, transmittalsTo, type Transmittal } from '../../lib/planning/plan-records';
 import { planAvatar } from './plan-people';
 import { badge } from './badge-bank';
 import { day } from './element-module';
@@ -58,7 +58,7 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
     else if (t.response) Object.assign(due, { textContent: 'Responded' }).dataset.tone = 'quiet';
     else if (t.responseDue && isTo) {
       due.textContent = day(t.responseDue);
-      if (t.responseDue < new Date().toISOString().slice(0, 10)) due.dataset.tone = 'danger';
+      if (t.responseDue < todayIso()) due.dataset.tone = 'danger';
     } else Object.assign(due, { textContent: isTo ? 'None Set' : 'None Owed' }).dataset.tone = 'quiet';
 
     el.addEventListener('click', (e) => {

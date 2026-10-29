@@ -21,7 +21,7 @@ import type { PlanDraftOverrideDto, PlanDraftViewDto } from './plan-draft-model'
 import { planDraftWithEdits, type PlanDraftEdit } from './plan-draft';
 import { PROJECT_ID, currentUserName, planApi, setPlanApiLatency, type DraftStructureOp } from './plan-server';
 import { TEMPLATES, clonePlanConfig, type PlanConfig } from './plan-config';
-import { clearPlanRecords, seedPlanRecords } from './plan-records';
+import { clearPlanRecords, seedPlanRecords, todayIso } from './plan-records';
 import { seeding, seedShortId } from './seed-ids';
 import type { SampleKey } from '../../data/sample-plan';
 
@@ -534,10 +534,13 @@ export function timeAgo(iso: string, now: Date = new Date()): string {
   const days = Math.round(hours / 24);
   if (days === 1) return 'yesterday';
   if (days < 30) return `${days} days ago`;
-  return `on ${new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+  const d = new Date(iso);
+  return `on ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(d.getFullYear() !== now.getFullYear() ? { year: 'numeric' as const } : {}) })}`;
 }
 
-export const shortDate = (iso: string) => new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+/** "Oct 29, 2026". A bare date (yyyy-MM-dd) is a calendar day, read as such; `new Date('2027-01-01')` is UTC midnight,
+ *  which west of Greenwich printed the day before (a plan's planned window read Dec 31, 2026). */
+export const shortDate = (iso: string) => new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? `${iso}T00:00:00` : iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
 /** "3 weeks later", "2 months earlier", "10 days later". */
 export function shiftWords(days: number): string {
@@ -611,7 +614,7 @@ const EARLY_TASKS = [
 
 /** Two deliverables dated from the day the sample is seeded (2026-10-28, the SOW review: "Late or Due in 30 Days"
  *  was empty in every demo): one past its end and still in progress, one due in 5 days (its Coming Up reminder sent). */
-const isoFromToday = (days: number) => new Date(Date.now() + days * 86_400_000).toISOString().slice(0, 10);
+const isoFromToday = (days: number) => new Date(Date.parse(`${todayIso()}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 const RELATIVE_TASKS = () => [
   { under: 'Predator density', name: 'Predator survey collection permit', start: isoFromToday(-75), end: isoFromToday(-9), budget: 12_000 },
   { under: 'Near-field intake behavior', name: 'Quarterly agency coordination memo', start: isoFromToday(-20), end: isoFromToday(5), budget: 9_000 },

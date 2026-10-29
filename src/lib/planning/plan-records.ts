@@ -205,7 +205,11 @@ export function clearPlanRecords(planID?: string): void {
 /** Deterministic while the sample seeds (./seed-ids.ts). */
 const uid = seedShortId;
 const nowIso = () => new Date().toISOString();
-export const todayIso = () => new Date().toISOString().slice(0, 10);
+/** Today as the person's own calendar sees it (yyyy-MM-dd), not UTC's: after 5 PM in California, UTC is already
+ *  tomorrow, which made a due-today item read Late, and prefilled tomorrow's date on a completion or a document
+ *  (2026-10-29, the Pacific-evening pass). Every plans surface that asks "what day is it" asks this. */
+export const todayIso = (now: Date = new Date()) =>
+  `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 const addDays = (iso: string, days: number) => new Date(Date.parse(iso) + days * 86_400_000).toISOString();
 
 // ── Status and health ──────────────────────────────────────────────────────────────────────────────────────────────
@@ -541,7 +545,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
       if (behind > 10) return { health: 'At Risk', why: `${behind} points behind plan` };
     } else if (end && status === 'Not Started') {
       const days = Math.round((Date.parse(end) - Date.parse(today)) / 86_400_000);
-      if (days <= 14) return { health: 'At Risk', why: `Due in ${days} days, not started` };
+      if (days <= 14) return { health: 'At Risk', why: `${days === 0 ? 'Due today' : days === 1 ? 'Due tomorrow' : `Due in ${days} days`}, not started` };
     }
     if (start && start > today && status === 'Not Started') return { health: 'On Track', why: `Starts ${dateWords(start)}` };
     return { health: 'On Track', why: 'On plan' };
@@ -665,7 +669,7 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   status(baseline, 'In Progress', 'Alex Rivera', '2026-09-28');
   status(permits, 'In Progress', 'Sam Okafor', '2026-10-01');
   // The two dated from today (plan-repo's RELATIVE_TASKS): both under way, one already past its end.
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayIso();
   status(byName('Predator survey collection permit'), 'In Progress', 'Priya Natarajan', today);
   status(byName('Quarterly agency coordination memo'), 'In Progress', 'Alex Rivera', today);
   if (permits) rec.health[permits] = { health: 'At Risk', note: 'USACE pre-application meeting slipped to December; two sites may need individual permits.', by: 'Sam Okafor', at: at('2026-10-22') };
