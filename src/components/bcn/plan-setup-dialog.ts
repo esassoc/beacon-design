@@ -26,6 +26,10 @@ import { saveTemplate, templateChoices, templateNameTaken } from '../../lib/plan
 import { clonePlanConfig, type PlanConfig } from '../../lib/planning/plan-config';
 import { DEFAULT_REMINDERS, type ReminderConfig } from '../../lib/planning/plan-reminders';
 import { pushAlert } from '../../lib/planning/plan-page';
+import { recordsFor } from '../../lib/planning/plan-records';
+import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
+
+const firstName = (name: string) => name.split(' ')[0];
 import { listEditor, setEsaButtonDisabled, type ListChange, type ListEditor } from './plan-list-editor';
 
 export type PlanSetupResult = { kind: 'created'; planID: string } | { kind: 'saved' } | { kind: 'deleted' } | { kind: 'customize'; elementId: string } | null;
@@ -471,7 +475,23 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   q<HTMLElement>('[data-psu-delete]').addEventListener('click', async () => {
     if (!planID || busy) return;
     const planName = (name.value ?? '').trim() || 'this plan';
-    if (!(await ask(`Delete ${planName}?`, 'Its revisions, drafts and budget go with it. This can’t be undone.', 'Delete Plan', 'Keep Plan'))) return;
+    // Said before it happens (2026-10-29, the traps audit): a send still out holds the delete, and the confirm names
+    // what goes with the plan, other people's drafts among it.
+    const rec = recordsFor(planID);
+    const out = rec.transmittals.filter((t) => t.sentAt && !t.closedAt);
+    const tNum = (n: number) => `T-${String(n).padStart(3, '0')}`;
+    if (out.length) {
+      if (await ask(`${planName} Has Sends Still Out`, `${out.map((t) => tNum(t.number)).join(', ')} ${out.length === 1 ? 'is' : 'are'} still with ${[...new Set(out.flatMap((t) => t.to))].join(', ')}. Close ${out.length === 1 ? 'it' : 'them'} first, so nobody answers a plan that's gone.`, `Open ${tNum(out[0].number)}`, 'Keep Plan')) location.assign(TRANSMITTAL_HREF(planID, out[0].id));
+      return;
+    }
+    const repo = getRepo(planID);
+    const others = [...new Set(repo.drafts.filter((d) => d.owner !== me && !d.transient).map((d) => firstName(d.owner)))];
+    const n = (k: number, one: string, many: string) => (k ? `${k} ${k === 1 ? one : many}` : '');
+    const obligations = Object.values(rec.obligations).reduce((a, ids) => a + ids.length, 0);
+    const goes = [n(repo.versions.length, 'revision', 'revisions'), n(repo.drafts.filter((d) => !d.transient).length, 'draft', 'drafts'), n(rec.transmittals.length, 'transmittal', 'transmittals'), n(rec.links.length + rec.files.length, 'document', 'documents'), n(rec.comments.length, 'comment', 'comments'), n(obligations, 'obligation link', 'obligation links')].filter(Boolean);
+    const list = goes.length > 1 ? `${goes.slice(0, -1).join(', ')} and ${goes.at(-1)}` : goes[0] ?? 'Its revisions';
+    const theirs = others.length ? ` ${others.join(' and ')} ${others.length === 1 ? 'loses a draft' : 'lose their drafts'}.` : '';
+    if (!(await ask(`Delete ${planName}?`, `Its ${list} go with it, budget included.${theirs} This can’t be undone.`, 'Delete Plan', 'Keep Plan'))) return;
     busy = true;
     await deletePlanRepo(planID);
     close({ kind: 'deleted' });

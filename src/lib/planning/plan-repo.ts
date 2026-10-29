@@ -1057,6 +1057,9 @@ export async function deletePlanRepo(planID: string): Promise<void> {
   const store = load();
   store.repos = store.repos.filter((r) => r.planID !== planID);
   save(store);
+  // Its records go with it (2026-10-29, the traps audit): no transmittals, documents or obligation links left pointing
+  // at a plan that isn't there.
+  clearPlanRecords(planID);
 }
 
 export function contributorsOf(repo: PlanRepo): string[] {
