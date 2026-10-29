@@ -18,7 +18,7 @@ if (!owners) await page.locator('[data-person-role]').first().evaluate((s) => { 
 await page.locator('[data-psu-save] button').click(); await page.waitForTimeout(800);
 const said = await page.locator('esa-confirm-dialog[open]').evaluate((d) => d.message).catch(() => '');
 check('saving asks, naming your new role', /You become an Editor/.test(said), said);
-check('and the removed person’s draft', /Alex's draft \(Permit delay scenario\) stays/.test(said), said);
+check('and the removed person’s draft', /Alex's drafts \(Permit delay scenario, Weekly updates\) stay/.test(said), said);
 await page.locator('esa-confirm-dialog[open]').getByRole('button', { name: 'Keep Editing' }).click(); await page.waitForTimeout(300);
 check('Keep Editing keeps the dialog', await page.locator('[data-psu-save]').isVisible());
 console.log('errors', errs.length, errs.slice(0, 2));

@@ -486,13 +486,21 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       else if (mine.was && !mine.now) said.push('You leave the plan and stop seeing it.');
       const gone = before.filter((m) => m.name !== me && !roleOf(s.members, m.name)).map((m) => m.name);
       const drafts = getRepo(planID).drafts.filter((d) => gone.includes(d.owner) && !d.transient);
-      if (drafts.length) said.push(`${drafts.map((d) => `${firstName(d.owner)}'s draft (${d.name})`).join(', ')} ${drafts.length === 1 ? 'stays' : 'stay'} on the plan, where an Owner or Editor can publish or discard ${drafts.length === 1 ? 'it' : 'them'}; ${drafts.length === 1 ? 'its owner' : 'their owners'} can't open ${drafts.length === 1 ? 'it' : 'them'}.`);
+      // Grouped by person, now that someone can have several (2026-10-29): "Alex's drafts (A, B) stay ...".
+      if (drafts.length) {
+        const byOwner = [...new Set(drafts.map((d) => d.owner))].map((o) => {
+          const theirs = drafts.filter((d) => d.owner === o).map((d) => d.name);
+          return `${firstName(o)}'s ${theirs.length === 1 ? 'draft' : 'drafts'} (${theirs.join(', ')})`;
+        });
+        const many = drafts.length > 1;
+        said.push(`${byOwner.join(' and ')} ${many ? 'stay' : 'stays'} on the plan, where an Owner or Editor can publish or discard ${many ? 'them' : 'it'}; ${many ? 'their owners' : 'its owner'} can't open ${many ? 'them' : 'it'}.`);
+      }
       // The items they own (2026-10-29, the handoff pass: someone leaving kept their items, silently, and the items'
       // reminders went nowhere): counted, with what happens and where to hand them over.
       const attrs = attributesAt(getRepo(planID));
       for (const name of gone) {
         const owned = Object.values(attrs).filter((a) => a.owners?.includes(name)).length;
-        if (owned) said.push(`${name} owns ${owned} ${owned === 1 ? 'item' : 'items'}. ${owned === 1 ? 'It keeps' : 'They keep'} ${firstName(name)} as owner, with no reminders, until you give ${owned === 1 ? 'it' : 'them'} a new owner in a draft (the Owner filter finds ${owned === 1 ? 'it' : 'them'}).`);
+        if (owned) said.push(`${name} owns ${owned} ${owned === 1 ? 'item' : 'items'}. ${owned === 1 ? 'It keeps' : 'They keep'} ${firstName(name)} as owner, ${owned === 1 ? 'its' : 'their'} reminders going to the parent's owners or the plan's Owners, until you give ${owned === 1 ? 'it' : 'them'} a new owner in a draft (the Owner filter finds ${owned === 1 ? 'it' : 'them'}).`);
       }
       if (said.length && !(await ask('Save These People?', said.join(' '), 'Save', 'Keep Editing'))) return;
     }
