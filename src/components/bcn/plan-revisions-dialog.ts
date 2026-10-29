@@ -366,13 +366,21 @@ export function setupPlanRevisionsDialog(opts: {
       // Each date named, as the budget's years are (2026-10-28, Andy: "make the schedule changes like that"): Start and
       // End, or Date for a milestone. A changed row shows only what changed, struck on the left and marked on the right.
       const dates = Object.assign(document.createElement('span'), { className: 'bcn-prvd__dates bcn-prvd__money' });
-      const single = !row.end || row.end === row.start;
-      const keys: { key: 'start' | 'end'; label: string }[] = single ? [{ key: 'start', label: 'Date' }] : [{ key: 'start', label: 'Start' }, { key: 'end', label: 'End' }];
-      const moved = (key: 'start' | 'end') => !!other && other[key] !== row[key];
+      // A parent's own dates are its planned window; its bar's span comes from its items (2026-10-29, Andy: "stating a
+      // diff but not showing it": a parent's window moved +8 days while the span, which was shown, stayed put). The
+      // change is measured on the stored dates, so a parent shows its window, named Planned.
+      const windowed = !!row.hasChildren && !!(row.windowStart || other?.windowStart);
+      type Key = 'start' | 'end' | 'windowStart' | 'windowEnd';
+      const val = (r: UiVizGanttRow | undefined, key: Key) => (r ? (r[key] ?? null) : null);
+      const single = !windowed && (!row.end || row.end === row.start);
+      const keys: { key: Key; label: string }[] = windowed
+        ? [{ key: 'windowStart', label: 'Planned Start' }, { key: 'windowEnd', label: 'Planned End' }]
+        : single ? [{ key: 'start', label: 'Date' }] : [{ key: 'start', label: 'Start' }, { key: 'end', label: 'End' }];
+      const moved = (key: Key) => !!other && val(other, key) !== val(row, key);
       const shown = change && keys.some((k) => moved(k.key)) ? keys.filter((k) => moved(k.key)) : keys;
       shown.forEach(({ key, label }, i) => {
         if (i) dates.append(document.createTextNode(', '));
-        const text = day(row[key]);
+        const text = day(val(row, key));
         dates.append(`${label} `, moved(key) ? Object.assign(document.createElement(side === 'from' ? 'del' : 'ins'), { textContent: text }) : Object.assign(document.createElement('span'), { textContent: text }));
       });
       el.append(name, dates);
