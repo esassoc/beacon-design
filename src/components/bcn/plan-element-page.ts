@@ -126,9 +126,10 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     document.title = `${name} | ${c.live.PlanName ?? 'Plan'} | Beacon`;
     drawCrumbs(c);
     if (titleBadges) {
-      titleBadges.replaceChildren(badge(c.levelName, 'neutral', 'sm'));
-      if (c.attrs.deliverable) titleBadges.append(badge('Deliverable', 'primary', 'sm'));
-      if (c.element.IsMilestone) titleBadges.append(badge('Milestone', 'neutral', 'sm'));
+      // Kind badges, one form (design QA, 2026-10-29): neutral sm, bordered, one height. A milestone reads as a
+      // milestone, not as a kind of task beside a second badge; a deliverable adds its own.
+      titleBadges.replaceChildren(badge(c.element.IsMilestone ? 'Milestone' : c.levelName, 'neutral', 'sm'));
+      if (c.attrs.deliverable) titleBadges.append(badge('Deliverable', 'neutral', 'sm'));
     }
 
     // The page's actions.

@@ -21,7 +21,7 @@ import BcnStatusSelect from './BcnStatusSelect.astro';
 <BcnElementModule key="details">
   <dl class="bcn-det" data-det-list></dl>
   <p class="bcn-det__note" data-det-note hidden></p>
-  <template data-det-tpl="status"><BcnStatusSelect label="" size="sm" states={['not-started', 'in-progress', 'blocked', 'completed']} /></template>
+  <template data-det-tpl="status"><BcnStatusSelect label="" size="badge" states={['not-started', 'in-progress', 'blocked', 'completed']} /></template>
   <template data-det-tpl="change"><EsaButton variant="ghost" size="sm">Change</EsaButton></template>
 </BcnElementModule>
 
@@ -57,6 +57,9 @@ import BcnStatusSelect from './BcnStatusSelect.astro';
   }
   .bcn-det :global(.bcn-det__muted) {
     color: var(--color-content-default-secondary);
+  }
+  .bcn-det :global(.bcn-det__why) {
+    flex-basis: 100%;
   }
   .bcn-det :global(.bcn-det__unset) {
     color: var(--color-content-default-tertiary);

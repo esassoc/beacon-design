@@ -22,7 +22,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 ---
 
@@ -31,7 +30,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     <div slot="header" class="bcn-ped__head">
       <h2 class="bcn-ped__title typography-title" id="plan-element-drawer-title" data-ped="title"></h2>
       <!-- Which plan it's read from (2026-10-28): the page's badge, Live Plan in orange or the draft's name in green. -->
-      <span class="bcn-ped__badge bcn-plan-state-badge" data-ped="badge" hidden><EsaBadge value="" variant="neutral" size="sm" /></span>
+      <!-- Which plan this edit lands in, as the plan header says it: the dot and the label, never a pill (design QA,
+           2026-10-29: "Live Plan" had three forms). The runtime writes the label into .esa-badge__text. -->
+      <span class="bcn-ped__badge bcn-ped__state typography-label-sm-strong" data-ped="badge" hidden><span class="bcn-ped__state-dot" aria-hidden="true"></span><span class="esa-badge__text"></span></span>
       <p class="bcn-ped__subtitle typography-body-sm" data-ped="subtitle" hidden></p>
     </div>
 
@@ -233,6 +234,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* A long name wraps tight (2026-10-28, Andy: the title's line-height was too loose). */
   .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; line-height: 1.25; }
   .bcn-ped__badge { align-self: flex-start; margin-block-start: var(--spacing-100); }
+  /* The plan header's state mark (BcnPlanRepoPage .bcn-prp__state): orange Live, green a draft. */
+  .bcn-ped__state:not([hidden]) { display: inline-flex; align-items: center; gap: var(--spacing-150); color: var(--color-content-default); }
+  .bcn-ped__state-dot { inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; flex: none; background: var(--bcn-live-badge); }
+  .bcn-ped__state[data-state='draft'] .bcn-ped__state-dot { background: var(--bcn-mark-green); }
   .bcn-ped__subtitle { margin: 0; color: var(--color-content-default-secondary); }
 
   /* ── Unsaved changes: the notice's sentence, its two actions under it ── */

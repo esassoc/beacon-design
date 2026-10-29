@@ -314,14 +314,6 @@ import { withBase } from '../../lib/base';
   .bcn-prp { display: flex; flex-direction: column; gap: var(--spacing-400); }
   .bcn-prp__notice-body { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-400); }
   .bcn-prp__notice-actions { display: inline-flex; gap: var(--spacing-200); margin-inline-start: auto; }
-  /* The H1's badge (2026-10-28, Andy): solid, white text, his orange on Live (below AA, his call) and the identity
-     green in a draft. A label in a solid fill, against esa-badge's tinted rule, by Andy's call. */
-  :global(.bcn-plan-state-badge) {
-    --badge-bg: var(--bcn-live-badge);
-    --badge-text-color: var(--color-content-default-knockout);
-    --badge-border-color: transparent;
-  }
-  :global(.bcn-plan-state-badge[data-state='draft']) { --badge-bg: var(--bcn-mark-green); }
   .bcn-prp :global([hidden]) { display: none !important; }
   /* Not found, or a Guest: the empty state alone. */
   .bcn-prp[data-stopped] > :not([data-prp-stop]) { display: none !important; }

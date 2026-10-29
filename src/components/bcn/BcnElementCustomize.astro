@@ -128,6 +128,11 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     align-items: center;
     gap: var(--spacing-200);
   }
+  /* The card's rule, one badge form (design QA, 2026-10-29: a 27px line box round a 20px badge read as a second chip
+     style): the wrapper hugs the badge. */
+  .bcn-elc__tag {
+    display: inline-flex;
+  }
   .bcn-elc__tag:empty {
     display: none;
   }

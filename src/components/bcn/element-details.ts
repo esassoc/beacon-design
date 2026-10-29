@@ -106,12 +106,14 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
       const h = healthOf(ctx.records, ctx.live, id, ctx.isDeliverable);
       healthDd.append(badge(h.stale ? `${h.health}, Update Missing` : h.health, h.stale ? 'warning' : HEALTH_VARIANT[h.health], 'sm'));
       const why = h.override ? `${firstName(h.override.by)}: ${h.why}` : h.why === 'On plan' || h.why === h.health ? '' : h.why;
-      if (why) healthDd.append(el('span', 'bcn-det__muted', why));
+      // Change sits beside the badge on every kind of item, the reason under them (design QA, 2026-10-29: it sat inline on
+      // a program and wrapped under the date on a task).
       if (ctx.canRecord && h.health !== 'Completed') {
         const change = tpl('change');
         change.addEventListener('click', () => root.dispatchEvent(new CustomEvent('bcn-element-health', { bubbles: true, detail: { elementId: id, reading: h } })));
         healthDd.append(change);
       }
+      if (why) healthDd.append(el('span', 'bcn-det__muted bcn-det__why', why));
     } else healthDd.append(el('span', 'bcn-det__unset', 'New in this draft'));
 
     row('Dates', datesText(ctx.element));
