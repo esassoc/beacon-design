@@ -64,18 +64,18 @@ const t = await page.locator('[data-prvd-head="to"] [data-prvd-title]').textCont
 check('Name: on the revision', /Baseline reset/.test(t), t);
 await page.locator('[data-prvd-close] button').click(); await wait(400);
 
-// 2 + 4: Alex's requested draft is behind Live; publish it
+// 2 + 4: Sam's requested draft is behind Live; publish it
 await page.click('[data-prp-branch-trigger] button'); await wait(300);
-await page.locator('a.bcn-prp__branch-row', { hasText: 'Permit delay scenario' }).click(); await wait(1200);
+await page.locator('a.bcn-prp__branch-row', { hasText: 'Tagging season re-sequence' }).click(); await wait(1200);
 await page.click('[data-prp-review] button'); await wait(1500);
-check("Behind: warning on Alex's draft", await page.locator('[data-prvd-behind]').isVisible(), await page.locator('[data-prvd-behind-text]').textContent());
+check("Behind: warning on Sam's draft", await page.locator('[data-prvd-behind]').isVisible(), await page.locator('[data-prvd-behind-text]').textContent());
 await shot('5-behind');
 await page.locator('[data-prvd-publish] button').click(); await wait(2200);
 const toast2 = await toastText();
-check('Notice: publisher toast says Alex hears', /Alex sees it/.test(toast2), toast2);
-// as Alex
-await go('&user=Alex%20Rivera');
-check('Notice: shown to Alex', await page.locator('[data-prp-notice]').isVisible(), (await page.locator('[data-prp-notice-text]').textContent()));
+check('Notice: publisher toast says Sam hears', /Sam sees it/.test(toast2), toast2);
+// as Sam
+await go('&user=Sam%20Okafor');
+check('Notice: shown to Sam', await page.locator('[data-prp-notice]').isVisible(), (await page.locator('[data-prp-notice-text]').textContent()));
 await shot('6-alex-notice');
 await page.locator('[data-prp-notice-view] button').click(); await wait(1500);
 const t2 = await page.locator('[data-prvd-head="to"] [data-prvd-title]').textContent();
@@ -83,7 +83,7 @@ check('Notice: View Revision opens that revision', /Andy Lovseth/.test(t2), t2);
 await page.locator('[data-prvd-close] button').click(); await wait(400);
 await page.locator('[data-prp-notice-dismiss] button').click(); await wait(400);
 check('Notice: Dismiss hides it', !(await page.locator('[data-prp-notice]').isVisible()));
-await go('&user=Alex%20Rivera');
+await go('&user=Sam%20Okafor');
 check('Notice: stays dismissed', !(await page.locator('[data-prp-notice]').isVisible()));
 console.log(results.join('\n'));
 console.log('\nERRORS (' + errors.length + '):\n' + errors.join('\n'));
