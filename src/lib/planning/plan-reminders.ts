@@ -103,7 +103,7 @@ export async function remindersFor(user: string, today = todayIso()): Promise<Re
       if (element.Children?.length) continue;
       const id = element.PlanElementID ?? '';
       const due = element.EndDate ?? element.StartDate;
-      if (!due || statusOf(rec, plan, id) === 'Complete') continue;
+      if (!due || statusOf(rec, plan, id) === 'Completed') continue;
       const owners = attrs[id]?.owners ?? [];
       if (!reminderRecipients(repo, owners, cfg).includes(user)) continue;
       const { last } = reminderState(due, cfg, today);

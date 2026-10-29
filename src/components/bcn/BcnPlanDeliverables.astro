@@ -96,8 +96,19 @@ const COLUMNS: { key: string; label: string; sort?: boolean; cls?: string }[] = 
     color: var(--color-content-default-secondary);
   }
 
+  /* Scrolls inside the panel at narrower widths (2026-10-29, the traps audit: Receipt and Completion were cut off at
+     1280), the deliverable's name pinned so a row still says what it is. */
   .bcn-pdv__scroll {
     overflow-x: auto;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+  .bcn-pdv__table :global(:is(th, td):first-child) {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background: var(--color-background-elevation-raised);
+    box-shadow: 1px 0 0 var(--color-border-default);
   }
   /* The table is bcn-record-table.css; what's here is this table's columns and its sort buttons. */
   .bcn-pdv__th {

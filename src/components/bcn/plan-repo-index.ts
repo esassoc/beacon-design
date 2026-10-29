@@ -4,7 +4,7 @@
 import { withBase } from '../../lib/base';
 
 import { planIcon } from '../../lib/planning/icons';
-import { budgetAt, seesBudget, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
+import { budgetAt, seesBudget, orgOf, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
@@ -19,7 +19,8 @@ const FILTERS = [
 ];
 
 export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
-export const REVISIONS_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/revisions/?id=${encodeURIComponent(planID)}${extra}`);
+/** A plan's revisions: its page with the Revisions modal open (2026-10-29: the old /revisions/ page is retired). */
+export const REVISIONS_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}&revisions=1${extra}`);
 
 /** The design studies' URL keys (2026-10-27): the plan and revisions pages carry them through their links. */
 export const STUDY_KEYS = ['density', 'levels', 'sched', 'cascade', 'edit', 'about', 'outline', 'budget', 'concept', 'marks', 'role', 'stamp', 'view', 'drafthead'] as const;
@@ -109,16 +110,14 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
   // (2026-10-28, the review: Rowan saw every plan and budget here). Their plans leave the list; someone who is a Guest
   // and on no plan otherwise is outside the project, and sees only Sent to You above, without New Plan.
   const roleOn = (s: PlanSummary) => membersOf(s.repo).find((m) => m.name === me)?.role;
-  const visible = (all: PlanSummary[]) => {
-    const outside = all.some((s) => roleOn(s) === 'Guest') && !all.some((s) => roleOn(s) && roleOn(s) !== 'Guest');
-    return outside ? [] : all.filter((s) => roleOn(s) !== 'Guest');
-  };
+  // Only the plans you're on, as more than a Guest (2026-10-29, the traps audit: everyone else saw every plan).
+  const visible = (all: PlanSummary[]) => all.filter((s) => roleOn(s) && roleOn(s) !== 'Guest');
   const everything = await listPlanSummaries();
   let summaries = visible(everything);
-  if (!summaries.length && everything.length) {
-    root.hidden = true;
-    document.querySelectorAll<HTMLElement>('[data-pri-new], [data-pri-reset]').forEach((b) => (b.hidden = true));
-  }
+  // New Plan and Start Sample Over are the project's staff's (ESA and DWR), or anyone already working on a plan.
+  const staff = ['ESA', 'DWR'].includes(orgOf(me)) || summaries.length > 0;
+  if (!staff) document.querySelectorAll<HTMLElement>('[data-pri-new], [data-pri-reset]').forEach((b) => (b.hidden = true));
+  if (!summaries.length && everything.length) root.hidden = true;
   loading.hidden = true;
   rowsEl.hidden = false;
 

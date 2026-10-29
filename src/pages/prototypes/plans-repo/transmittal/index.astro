@@ -37,10 +37,10 @@ import { withBase } from '../../../../lib/base';
   >
     <span slot="title-badge" class="trp-badges" data-trp-title-badges></span>
     <div slot="utilities" class="trp-actions" data-trp-actions>
-      <span data-trp-page-act="edit" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit Draft</EsaButton></span>
-      <span data-trp-page-act="delete" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="trash-2">Delete Draft</EsaButton></span>
-      <span data-trp-page-act="send" hidden><EsaButton variant="primary" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
       <span data-trp-page-act="deliverable" hidden><a><EsaButton variant="ghost" appearance="outline" size="xs" icon="arrow-left">Open Deliverable</EsaButton></a></span>
+      <span data-trp-page-act="delete" hidden><EsaButton variant="danger" appearance="outline" size="xs" icon="trash-2">Delete</EsaButton></span>
+      <span data-trp-page-act="edit" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
+      <span data-trp-page-act="send" hidden><EsaButton variant="primary" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
     </div>
     <BcnTransmittalPage />
     <BcnPlanPeople />

@@ -32,24 +32,8 @@ import { withBase } from '../../../../lib/base';
 </AppShell>
 
 <script>
-  import { ensureSeeded } from '../../../../lib/planning/plan-repo';
-  import { planApi } from '../../../../lib/planning/plan-server';
-  import { ELEMENT_HREF, PLAN_VIEW_HREF } from '../../../../lib/planning/element-context';
-  import { setupPlanDocumentsView } from '../../../../components/bcn/plan-documents';
-
-  const root = document.querySelector<HTMLElement>('[data-bcn-plan-documents]');
-  const planID = new URLSearchParams(location.search).get('id') ?? '';
-  async function mount(root: HTMLElement): Promise<void> {
-    await ensureSeeded();
-    const live = await planApi.getPlan(planID);
-    // The crumb to the plan, filled once the plan is known.
-    const planLink = document.querySelectorAll<HTMLAnchorElement>('.breadcrumbs__items a.breadcrumb-item')[1];
-    if (planLink) {
-      planLink.textContent = live.PlanName ?? 'Plan';
-      planLink.href = PLAN_VIEW_HREF(planID);
-    }
-    document.title = `Documents | ${live.PlanName ?? 'Plan'} | Beacon`;
-    setupPlanDocumentsView(root, { planID, plan: () => live, elementHref: (id) => ELEMENT_HREF(planID, id) }).draw();
-  }
-  if (root && planID) void mount(root);
+  // Retired (2026-10-29) for the plan page's Documents tab: a link here opens that, where the plan's stops hold.
+  const p = new URLSearchParams(location.search);
+  p.set('view', 'documents');
+  location.replace(`${location.pathname.replace(/documents\/?$/, 'plan/')}?${p.toString()}`);
 </script>

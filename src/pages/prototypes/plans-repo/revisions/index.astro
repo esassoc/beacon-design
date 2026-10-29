@@ -28,7 +28,9 @@ import { withBase } from '../../../../lib/base';
 </AppShell>
 
 <script>
-  import { setupPlanRevisions } from '../../../../components/bcn/plan-revisions';
-  const root = document.querySelector<HTMLElement>('[data-bcn-plan-revisions]');
-  if (root) void setupPlanRevisions(root);
+  // Retired (2026-10-29) for the plan page's Revisions modal: a link here opens that (or the draft it named), carrying
+  // the rest of its query (?user=, the studies).
+  const p = new URLSearchParams(location.search);
+  if (!p.has('draft')) p.set('revisions', '1');
+  location.replace(`${location.pathname.replace(/revisions\/?$/, 'plan/')}?${p.toString()}`);
 </script>

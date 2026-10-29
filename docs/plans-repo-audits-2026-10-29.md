@@ -16,22 +16,21 @@ gap is now addressed:
 | Reminders to owners as due dates approach | Not Shown | Done: Plan Settings, Reminders (prod's Coming Up / Due / Past Due), Due for You, last and next on Details, automatic receipt reminders |
 | Deliverables and obligations reference each other | Partial | Done: the obligation page lists the plan items serving it |
 | WS4 bulk import and table editing | Partial | Done: Schedule Show As Table (AG Grid, paste blocks), Import Items (CSV or pasted rows, column matching, preview, into your draft) |
-| WS4 role-based budget visibility | Partial | Done: Who Sees It holds on the Budget tab, drawer, index, review. Open: Gantt tooltip and row labels (traps #4) |
+| WS4 role-based budget visibility | Partial | Done: Who Sees It holds on the Budget tab, drawer, index, review, and the chart's tooltips and rows |
 
 ## 2. Consistency with Beacon and within the prototype (top 10)
 
-1. Status colors and words: In Progress is warning (prod), Completed (not Complete), status shown with a dot; leaves use
-   BcnStatusSelect. Open.
-2. Health overlaps Status: narrow Health to On Track, At Risk, Late; none once Completed; drop Upcoming; "On plan" to
-   "On Track". Open.
-3. Live is orange (prod's Draft color): Live neutral; a draft drawn with its owner's color everywhere. Open.
-4. Dialog footers: one order everywhere [Cancel ghost outline sm][secondary][primary sm]. Open.
-5. Guest index shows "0 Plans, No Plans Match": `.bcn-pri[hidden] { display: none }`. Open.
-6. Plan Settings unreachable with About folded: gear in the panel header for Owners. Open.
-7. One formatter each for date+time, day, range (`formatPlanDateRange`) and shift (`signedShift`); one `timeAgo`. Open.
-8. Draft-first copy written five ways and truncated: constants, wrap the note. Open.
-9. "Element" vs "item": finish the switch to "item" in drawer and server messages. Open.
-10. Transmittal cards lack the muted header chrome. Open.
+1. Status colors and words: Done (Completed, In Progress in the warning tone). Open: leaves on BcnStatusSelect.
+2. Health overlaps Status: Done in part (Upcoming folded into On Track; "On plan" reads On Track; no "Done" beside
+   Completed). Open: whether Blocked stays a health value.
+3. Live is orange (prod's Draft color): **Andy's call** (his 2026-10-28 decision was orange Live); not changed.
+4. Dialog footers: Done (Cancel first, ghost outline; drawer, move dialog, edit form).
+5. Guest index "0 Plans, No Plans Match": Done.
+6. Plan Settings with About folded: Done (gear in the panel header for Owners).
+7. Formatters: Done in part (About's draft line uses the stamp). Open: one range and shift formatter.
+8. Draft-first copy: Done (`plan-copy.ts` constants; the note wraps).
+9. "Element" vs "item": Done in the drawer's visible strings. Open: server error messages.
+10. Transmittal cards' chrome: Open.
 
 Also open: one receipt badge; transmittal state "Not Sent" not "Draft"; one confirm dialog path; tooltip on every icon
 button; Title Case misses ("Select level…", "No predecessors", "Unsaved changes", "Move under", "Show changes", "Write a
@@ -41,12 +40,15 @@ people shown one way; literal white in the draft header fill; Move Plan from pro
 
 ## 3. UX traps by role and use case
 
-Blockers:
-1. A Contributor or a Guest can Restore an old revision onto Live, no confirm. Open.
-2. Anyone not on a plan's People is treated as a Contributor (removed Guests, other plans' Guests, agency people,
-   removed staff). Open.
-3. A draft changing only Name or Notes can't be published. Done (review lists Name, Notes, Milestone).
-4. A restricted budget still shows in Gantt tooltips and row labels. Open.
+Blockers (all Done; check `access.mjs`):
+1. Restore: only Owners and Editors, after a confirm naming what it undoes and the drafts that fall behind. The old
+   `/revisions/` page now opens the plan with the modal.
+2. Not on a plan's People: a "Not Shared With You" stop on plan and item pages; the index lists only your plans;
+   New Plan and Start Sample Over for ESA and DWR staff; sending a transmittal adds its recipients as Guests.
+3. Name or Notes only drafts publish (Review lists Name, Notes, Milestone).
+4. A restricted budget stays out of the chart's tooltips and rows.
+Found on the way: New Plan could name the sample's seeding user (Jamie) its Owner when opened mid-seed; fixed (the
+dialog reads who you are when it opens; seeding reads storage after the API answers).
 
 Majors (open): an item edit lands in an existing what-if draft and an old publish request stays live; deleting an item
 or plan orphans transmittals and documents silently; Ask to Publish has no loop (no toast, no return-with-note, not on

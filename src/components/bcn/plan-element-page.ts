@@ -229,6 +229,10 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
     if (ctx.myRole === 'Guest') {
       q('[data-pep-guest]').hidden = false;
+      if (!ctx.onPlan) {
+        q('[data-pep-guest] .esa-empty-state__title').textContent = 'Not Shared With You';
+        q('[data-pep-guest] .esa-empty-state__description').textContent = 'You aren’t on this plan’s People. Ask one of its Owners to add you.';
+      }
       q('[data-pep-cols]').hidden = true;
       if (titleText) titleText.textContent = ctx.element.PlanElementName ?? '';
       document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
@@ -330,17 +334,29 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         return edit();
       }
       const others = touching.map((d) => firstName(d.owner));
+      // Which draft it lands in, said (2026-10-29, the traps audit: a weekly edit vanished into a what-if draft).
+      const into = mine
+        ? `Goes into ${mine.name} (${mine.revisions.length} other ${mine.revisions.length === 1 ? 'edit' : 'edits'}${mine.publishRequestedAt ? ', publish requested: this withdraws the request' : ''}).`
+        : 'Starts your draft.';
       let where = !canPublish
         ? 'Saved to your draft; someone who can publish takes it to Live.'
         : others.length
           ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so this edit goes to your draft.`
-          : 'Saved to your draft, to review and publish with it.';
+          : `${into} Review and Publish takes it to Live.`;
+      if (!canPublish) where = `${into} Someone who can publish takes it to Live.`;
       let publishNow = canPublish && !others.length;
       let keep = false;
       for (;;) {
         const result = await editDialog.open(ctx, { label: 'Save to My Draft', where, publishNow }, keep);
         if (!result) return;
         if (result.publishNow) {
+          const now = (await draftsTouching(planID, elementId, ctx.live)).map((d) => firstName(d.owner));
+          if (now.length) {
+            where = `${now.length === 1 ? `${now[0]}’s draft` : `${now.length} drafts`} started changing this item while you edited, so it goes to your draft.`;
+            publishNow = false;
+            keep = true;
+            continue;
+          }
           const n = await moves(result.edit);
           if (n) {
             // Something else moves: that's for the review, so back to the form with Publish Now gone.

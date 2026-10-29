@@ -60,9 +60,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
           <h3 class="plan-element__heading" id="plan-element-drawer-general-heading"><EsaIcon name="file-text" size="sm" />General</h3>
           <esa-text-field data-ped="name" label="Name" required maxlength="500"></esa-text-field>
           <div class="bcn-ped__level">
-            <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
+            <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select a Level…"></esa-select>
             <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
-              <esa-tooltip text="Add level">
+              <esa-tooltip text="Add Level">
                 <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add Level" data-ped="add-level" />
               </esa-tooltip>
             </span>
@@ -122,7 +122,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         </div>
         <ul class="plan-element__dependencies" data-ped="pred-list"></ul>
         <div class="plan-element__empty" data-ped="pred-none">
-          <EsaEmptyState title="No predecessors" description="Nothing has to finish before this starts." size="xs" />
+          <EsaEmptyState title="No Predecessors" description="Nothing has to finish before this starts." size="xs" />
         </div>
 
         <form class="plan-element__add-predecessor" data-ped="add-pred" novalidate hidden>
@@ -143,7 +143,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading"><EsaIcon name="link" paths={PLAN_ICON_PATHS.link} size="sm" />Blocks</h3>
         <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
         <div class="plan-element__empty" data-ped="succ-none">
-          <EsaEmptyState title="Nothing waits on this" description="Add it as a predecessor from another element." size="xs" />
+          <EsaEmptyState title="Nothing Waits on This" description="Add it as a predecessor from another item." size="xs" />
         </div>
       </section>
     </div>
@@ -152,10 +152,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <!-- The element's own page (2026-10-28): its full record, read-only as you land, by its level ("Open Task Page"). -->
       <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" size="sm" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
       <!-- Draft first (2026-10-28): Publish Now beside Save to My Draft on Live, only when it's safe. -->
+      <EsaButton variant="ghost" appearance="outline" data-ped="cancel">Cancel</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-ped="close">Close</EsaButton>
       <EsaButton variant="secondary" data-ped="publish">Publish Now</EsaButton>
       <EsaButton variant="primary" data-ped="save">Save</EsaButton>
-      <EsaButton variant="secondary" appearance="outline" data-ped="cancel">Cancel</EsaButton>
-      <EsaButton variant="secondary" appearance="outline" data-ped="close">Close</EsaButton>
     </div>
   </esa-side-dialog>
 
@@ -167,7 +167,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <esa-text-field class="plan-element__lag-input" data-row="lag-input" type="number" size="sm" suffix="days"></esa-text-field>
         <span class="plan-element__row-actions">
           <esa-tooltip text="" data-row="save-lag-tip">
-            <EsaButton variant="ghost" size="sm" iconOnly icon="check" type="submit" label="Save lag" data-row="save-lag" />
+            <EsaButton variant="ghost" size="sm" iconOnly icon="check" type="submit" label="Save Lag" data-row="save-lag" />
           </esa-tooltip>
           <esa-tooltip text="Cancel">
             <EsaButton variant="ghost" size="sm" iconOnly icon="x" label="Cancel" data-row="cancel-lag" />
@@ -179,10 +179,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <span class="plan-element__dependency-lag" data-row="lag"></span>
         <span class="plan-element__row-actions" data-row="actions">
           <esa-tooltip text="" data-row="edit-lag-tip">
-            <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit lag" class="plan-element__edit-lag" data-row="edit-lag" />
+            <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit Lag" class="plan-element__edit-lag" data-row="edit-lag" />
           </esa-tooltip>
           <esa-tooltip text="" data-row="remove-tip">
-            <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Remove link" class="plan-element__remove-predecessor" data-row="remove" />
+            <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Remove Link" class="plan-element__remove-predecessor" data-row="remove" />
           </esa-tooltip>
         </span>
       </span>

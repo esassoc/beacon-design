@@ -197,7 +197,7 @@ interface RepoStore {
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
  *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
-const SEED_FORMAT = 10;
+const SEED_FORMAT = 11;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -844,8 +844,10 @@ export function ensureSeeded(onProgress?: (text: string) => void): Promise<void>
   return seedingNow;
 }
 async function seedOnce(onProgress?: (text: string) => void): Promise<void> {
-  const store = load();
   const plans = await planApi.listPlans(PROJECT_ID);
+  // Read after the API answers (2026-10-29): read before, a plan created meanwhile (New Plan on the index) was saved
+  // over by this stale copy and came back without its People.
+  const store = load();
   const known = new Set(plans.map((p) => p.PlanID));
   store.repos = store.repos.filter((r) => known.has(r.planID));
   if (store.repos.length && store.format === SEED_FORMAT) {
@@ -1031,6 +1033,19 @@ export function savePlanConfig(planID: string, config: PlanConfig): void {
   const store = load();
   findRepo(store, planID).config = clonePlanConfig(config);
   save(store);
+}
+
+/** People a transmittal went to who aren't on the plan join it as Guests (2026-10-29, the traps audit): on the plan
+ *  for what was sent to them, nothing more. Returns who was added. */
+export function addGuests(planID: string, names: readonly string[]): string[] {
+  const store = load();
+  const repo = findRepo(store, planID);
+  const members = membersOf(repo);
+  const added = names.filter((n) => !members.some((m) => m.name === n));
+  if (!added.length) return [];
+  repo.members = [...members, ...added.map((name) => ({ name, role: 'Guest' as const }))];
+  save(store);
+  return added;
 }
 
 /** A plan deleted: on the API, and its history, drafts and budget with it. */
@@ -1252,6 +1267,9 @@ export function addRevision(planID: string, draftID: string, overrides: PlanDraf
     structure: clone(extras.structure ?? prior?.structure),
   };
   draft.revisions.push(revision);
+  // A new edit after Ask to Publish withdraws the request (2026-10-29, the traps audit): whoever answers it would have
+  // published edits made after it. The owner asks again when it's ready.
+  if (draft.publishRequestedAt && revision.author === draft.owner) delete draft.publishRequestedAt;
   save(store);
   return revision;
 }

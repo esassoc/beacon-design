@@ -92,6 +92,8 @@ export interface ElementContext {
   inLive: boolean;
   me: string;
   myRole: PlanRole;
+  /** On the plan's People at all (2026-10-29): someone who isn't is stopped like a Guest, with their own words. */
+  onPlan: boolean;
   /** Plan fields edit only in your own draft. */
   canEditPlan: boolean;
   /** Records (status, documents, sends, completion, comments) are kept by Owners, Editors and Contributors, on Live
@@ -147,7 +149,8 @@ export function elementContext(opts: { planID: string; elementId: string; live: 
   const depth = element.LevelDepth ?? ancestors.length + 1;
   const attributes = draft ? draftAttributes(repo, draft) : attributesAt(repo);
   const attrs = attributes[elementId] ?? {};
-  const myRole = membersOf(repo).find((m) => m.name === me)?.role ?? 'Contributor';
+  const roleHere = membersOf(repo).find((m) => m.name === me)?.role;
+  const myRole: PlanRole = roleHere ?? 'Guest';
   const liveIds = new Set(flattenPlan(live.Elements).map(({ element: e }) => e.PlanElementID));
   const inLive = liveIds.has(elementId);
   const deps = shown.Dependencies ?? [];
@@ -175,6 +178,7 @@ export function elementContext(opts: { planID: string; elementId: string; live: 
     inLive,
     me,
     myRole,
+    onPlan: !!roleHere,
     canEditPlan: mode === 'own',
     // Records attach to Live and read the same in every draft (decision 5).
     canRecord: mode === 'live' && inLive && myRole !== 'Guest',

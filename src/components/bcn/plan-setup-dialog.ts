@@ -198,7 +198,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   });
 
   // ── People ──
-  const me = currentUserName();
+  let me = currentUserName();
   function drawPeople(): void {
     peopleList.replaceChildren(
       ...members.map((member) => {
@@ -479,6 +479,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
 
   return {
     async open(id?: string) {
+      me = currentUserName();
       planID = id ?? null;
       errorEl.hidden = true;
       if (planID) {

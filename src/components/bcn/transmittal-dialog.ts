@@ -8,7 +8,7 @@
 // upload as Correspondence, the checks a send needs, and the confirm's words.
 
 import { currentUserName } from '../../lib/planning/plan-server';
-import { attributesAt, configOf, flattenPlan, getRepo, latestVersion, orgOf, PLAN_DIRECTORY } from '../../lib/planning/plan-repo';
+import { addGuests, attributesAt, configOf, flattenPlan, getRepo, latestVersion, orgOf, PLAN_DIRECTORY } from '../../lib/planning/plan-repo';
 import {
   addFile,
   documentsFor,
@@ -384,6 +384,7 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
     try {
       const id = persist();
       sendTransmittal(planID, id, ackDays);
+      addGuests(planID, [...f.to, ...f.cc]);
       close({ kind: 'sent', id });
     } catch (err) {
       fail(err);

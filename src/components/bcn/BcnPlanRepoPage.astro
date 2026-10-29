@@ -53,6 +53,11 @@ import { withBase } from '../../lib/base';
       <a href={withBase('/prototypes/plans-repo/inbox/')}><EsaButton variant="primary" size="sm" icon="inbox" data-fill-icon="inbox">Sent to You</EsaButton></a>
     </EsaEmptyState>
   </div>
+  <div class="bcn-prp__stop" data-prp-stop="outside" hidden>
+    <EsaEmptyState title="Not Shared With You" description="You aren’t on this plan’s People.">
+      <a href={withBase('/prototypes/plans-repo/')}><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Plans</EsaButton></a>
+    </EsaEmptyState>
+  </div>
   <!-- Word for the person whose draft someone else published (2026-10-28), shown until they dismiss it. -->
   <div class="bcn-prp__notice" data-prp-notice hidden>
     <EsaAlertBox variant="success" title="Your Draft Was Published">
@@ -88,7 +93,7 @@ import { withBase } from '../../lib/base';
         <span class="bcn-prp__behind" data-prp-base-behind hidden><span data-glyph="triangle-alert"></span><span data-prp-base-behind-text></span></span>
       </span>
       <esa-tooltip class="bcn-prp__count-tip" text="Compare and restore past revisions" position="below"><a class="bcn-prp__count typography-label-sm" data-prp-history-link><span data-glyph="history"></span><b data-prp-version-count>0</b> <span data-prp-version-noun>Revisions</span></a></esa-tooltip>
-      <span class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> <span data-prp-draft-noun>Drafts</span></span>
+      <esa-tooltip class="bcn-prp__count-tip" text="Open a draft, or start yours" position="below"><a href="#" role="button" class="bcn-prp__count typography-label-sm" data-prp-draft-counter><span data-glyph="git-branch"></span><b data-prp-draft-count>0</b> <span data-prp-draft-noun>Drafts</span></a></esa-tooltip>
       <!-- The latest change, in the same row (2026-10-27): named as that, with when, then who and what (2026-10-28). It
            takes the row's free width, right-aligned, and truncates. -->
       <span class="bcn-prp__status typography-body-sm" data-prp-status>
@@ -133,6 +138,7 @@ import { withBase } from '../../lib/base';
           </span>
           <!-- Add the plan's top-level item (2026-10-28, the build-from-scratch review), named for its level; from Live it
                goes to your draft. Rows add their own children from the outline. -->
+          <span data-prp-settings-head hidden><esa-tooltip text="Plan Settings" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Plan Settings" data-fill-icon="settings" /></esa-tooltip></span>
           <span data-prp-import hidden><esa-tooltip text="Add items from a CSV or a spreadsheet" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="upload">Import</EsaButton></esa-tooltip></span>
           <span data-prp-add hidden><esa-tooltip text="Add an item at the top of the outline" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="plus"><span data-prp-add-label>Add</span></EsaButton></esa-tooltip></span>
           <!-- Live's one action, with an edit pencil; ghost and small in the panel's header (2026-10-28, Andy). -->
@@ -170,8 +176,8 @@ import { withBase } from '../../lib/base';
           <span><i data-key="late"></i>Late</span>
           <span><i data-key="risk"></i>At Risk</span>
           <span><i data-key="blocked"></i>Blocked</span>
-          <span><i data-key="done"></i>Complete</span>
-          <span><i data-key="track"></i>On Track or Upcoming</span>
+          <span><i data-key="done"></i>Completed</span>
+          <span><i data-key="track"></i>On Track</span>
           <span><i data-key="conflict"></i>Conflict</span>
           <span><i data-key="scheduled"></i>Scheduled (Fixed)</span>
         </div>
@@ -462,7 +468,7 @@ import { withBase } from '../../lib/base';
   .bcn-prp__state-dot { inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; background: var(--color-content-default-tertiary); flex: none; }
   .bcn-prp__state-dot[data-dot='live'] { background: var(--bcn-live-badge); }
   .bcn-prp__state-dot[data-dot='mine'] { background: var(--bcn-mark-green); }
-  .bcn-prp__state-note { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-100); font-style: italic; color: var(--color-content-default-secondary); }
+  .bcn-prp__state-note { min-inline-size: 0; font-size: var(--font-size-100); font-style: italic; color: var(--color-content-default-secondary); }
   .bcn-prp__state-note:empty { display: none; }
 
   /* ── Draft mode studies (&drafthead=, 2026-10-28): --prp-draft is the draft owner's color, set in a draft only ── */

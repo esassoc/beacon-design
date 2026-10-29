@@ -3,6 +3,8 @@
 // lands on the transmittal's page, where receipt is tracked. Records attach to Live (decision 5): `ctx.canRecord` is
 // false in a draft, the preview and for Guests, and then the list only reads. See ./element-module.ts.
 
+import { receiptBadge } from './badge-bank';
+import { addGuests } from '../../lib/planning/plan-repo';
 import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 import {
   receiptCount,
@@ -50,7 +52,7 @@ export function transmittalFacts(t: Transmittal): HTMLElement[] {
   const { confirmed, of } = receiptCount(t);
   const late = t.to.some((n) => receiptOverdue(t, n));
   if (of) {
-    const receipt = fact(`${confirmed} of ${of} Received`, late ? 'warning' : confirmed === of ? 'success' : undefined);
+    const receipt = receiptBadge(confirmed, of, late);
     // Who it's waiting on, on hover: "Waiting on Rowan Hale (overdue, reminded Oct 27, 2026)".
     const waiting = t.to.filter((n) => !t.receipts[n]?.confirmedAt);
     if (waiting.length)
@@ -100,11 +102,12 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     const ok = await host.confirm({ heading: `Send ${transmittalNumber(t)}?`, message: sendMessage(t, ctx.config.ackDays), confirmLabel: 'Send' });
     if (!ok) return;
     sendTransmittal(ctx.planID, t.id, ctx.config.ackDays);
+    addGuests(ctx.planID, [...t.to, ...t.cc]);
     location.assign(transmittalPage(ctx.planID, t.id, true));
   }
   async function remove(t: Transmittal): Promise<void> {
     const ctx = host.ctx();
-    const ok = await host.confirm({ heading: `Delete ${transmittalNumber(t)}?`, message: 'The draft goes. Nothing was sent, so no one is told.', confirmLabel: 'Delete Draft', danger: true });
+    const ok = await host.confirm({ heading: `Delete ${transmittalNumber(t)}?`, message: 'It goes. Nothing was sent, so no one is told.', confirmLabel: 'Delete Transmittal', danger: true });
     if (!ok) return;
     deleteDraftTransmittal(ctx.planID, t.id);
     host.toast(`${transmittalNumber(t)} deleted.`);

@@ -54,7 +54,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
       </div>
       <a class="bcn-pri__mini" data-pri-mini tabindex="-1" aria-hidden="true"></a>
       <!-- The plan's settings, for its Owners: the row's top-right corner (2026-10-28, Andy). -->
-      <span class="bcn-pri__settings" data-pri-settings hidden><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Plan Settings" /></span>
+      <span class="bcn-pri__settings" data-pri-settings hidden><esa-tooltip text="Plan Settings" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Plan Settings" /></esa-tooltip></span>
     </li>
   </template>
 </section>
@@ -65,6 +65,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 </script>
 
 <style>
+  .bcn-pri[hidden] { display: none; }
   .bcn-pri { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-pri :global([hidden]) { display: none !important; }
 

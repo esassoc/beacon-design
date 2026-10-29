@@ -2,6 +2,7 @@
 // decides what the edit becomes: your draft's next revision (draft first, Andy's call), or, when the page offers it and
 // it's safe, Publish Now straight to Live. See ./BcnElementEditDialog.astro.
 
+import { confirm } from '../../lib/planning/plan-page';
 import '@esa/ecology/esa-dialog';
 import '@esa/ecology/esa-text-field';
 import '@esa/ecology/esa-textarea';
@@ -267,9 +268,29 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
   };
   q<HTMLElement>('[data-eed-submit]').addEventListener('click', () => submit(false));
   q<HTMLElement>('[data-eed-publish]').addEventListener('click', () => submit(true));
-  q<HTMLElement>('[data-eed-cancel]').addEventListener('click', () => finish(null));
-  dialog.addEventListener('close', () => {
-    if (!done) finish(null);
+  /** Typed changes the form holds (a form that won't read yet counts as changed). */
+  const dirty = () => {
+    if (!ctx) return false;
+    const was = [name.errorText, start.errorText, end.errorText];
+    const edit = collect();
+    [name.errorText, start.errorText, end.errorText] = was;
+    return !edit || edit.changed.length > 0;
+  };
+  /** Cancel, Esc or the close button: straight away when nothing changed; otherwise asked first. */
+  async function leave(): Promise<void> {
+    if (done) return;
+    if (dirty()) {
+      dialog.open = true;
+      const ok = await confirm({ header: 'Discard Your Changes?', text: 'What you typed in this form isn’t saved anywhere yet.', confirmButtonLabel: 'Discard', cancelButtonLabel: 'Keep Editing', color: 'warn' });
+      if (!ok) return;
+    }
+    finish(null);
+  }
+  q<HTMLElement>('[data-eed-cancel]').addEventListener('click', () => void leave());
+  dialog.addEventListener('close', () => void leave());
+  // Leaving the page with typed changes asks too.
+  window.addEventListener('beforeunload', (e) => {
+    if (!done && dirty()) e.preventDefault();
   });
   function finish(result: EditResult | null): void {
     if (done) return;

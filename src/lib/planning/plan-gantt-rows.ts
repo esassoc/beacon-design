@@ -40,7 +40,7 @@ export const GANTT_LINK_TYPE_BY_DEPENDENCY_TYPE: Readonly<Record<PlanElementDepe
  * Because indent no longer tells the level, every row is tagged with its own level's name — or
  * {@link MILESTONE_TAG} for a milestone.
  */
-export function planGanttRows(elements: readonly PlanElementDto[] | null | undefined): UiVizGanttRow[] {
+export function planGanttRows(elements: readonly PlanElementDto[] | null | undefined, seesBudget: (depth: number) => boolean = () => true): UiVizGanttRow[] {
     const rows: UiVizGanttRow[] = [];
     const visit = (element: PlanElementDto, parentId: string | null): void => {
         const children = element.Children ?? [];
@@ -58,7 +58,7 @@ export function planGanttRows(elements: readonly PlanElementDto[] | null | undef
             windowEnd: hasChildren ? (element.EndDate ?? null) : null,
             scheduled: element.PlanDateType === PlanDateTypeEnum.Scheduled,
             tag: element.IsMilestone ? MILESTONE_TAG : (element.LevelSingularName ?? null),
-            budget: element.IsMilestone ? null : (element.Budget ?? null),
+            budget: element.IsMilestone || !seesBudget(element.LevelDepth ?? 0) ? null : (element.Budget ?? null),
             notes: element.Notes ?? null,
         });
         children.forEach((child) => visit(child, element.PlanElementID));
@@ -104,9 +104,10 @@ export interface PlanGanttView {
     outlineHeading: string;
 }
 
-export function planGanttView(plan: PlanDetailDto): PlanGanttView {
+/** `seesBudget` (2026-10-29): whether the viewer sees money at a level (Who Sees It); a hidden level's rows carry none. */
+export function planGanttView(plan: PlanDetailDto, seesBudget?: (depth: number) => boolean): PlanGanttView {
     return {
-        rows: planGanttRows(plan.Elements),
+        rows: planGanttRows(plan.Elements, seesBudget),
         links: planGanttLinks(plan.Dependencies),
         landmarks: planGanttLandmarks(plan.Landmarks),
         outlineHeading: planOutlineHeading(plan.Levels),

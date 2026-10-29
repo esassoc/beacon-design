@@ -124,7 +124,7 @@ export const setupCompletionModule: ElementModuleSetup = (root, host) => {
       if (c) drawDone(ctx, c);
       else {
         const missing = missingToComplete(ctx);
-        const markedDone = ctx.inLive && statusOf(ctx.records, ctx.live, id) === 'Complete';
+        const markedDone = ctx.inLive && statusOf(ctx.records, ctx.live, id) === 'Completed';
         // What it needs is said to whoever can record it; anyone else reads where it stands.
         q('[data-elc-needs]').textContent = !ctx.inLive || !keeps
           ? 'Not complete yet.'

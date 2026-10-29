@@ -12,18 +12,26 @@ export function badge(text: string, variant: BadgeVariant = 'neutral', size: Bad
   return node;
 }
 
+/** A transmittal's receipts, one way everywhere (2026-10-29): "2 of 3 Received", success once all are in, warning while
+ *  one is past its date, neutral otherwise. */
+export function receiptBadge(confirmed: number, of: number, overdue: boolean, size: BadgeSize = 'sm'): HTMLElement {
+  const b = badge(`${confirmed} of ${of} Received`, confirmed === of ? 'success' : overdue ? 'warning' : 'neutral', size);
+  b.title = confirmed === of ? `All ${of} confirmed receipt` : `${confirmed} of ${of} confirmed receipt${overdue ? '; past the date to confirm' : ''}`;
+  return b;
+}
+
 /** Status and health, in the colors the rest of the planning pages use for them. */
 export const STATUS_VARIANT: Record<string, BadgeVariant> = {
   'Not Started': 'neutral',
-  'In Progress': 'info',
+  // Beacon's ramp (prod's status pill, --bcn-status-*): In Progress is the warning tone, Completed success.
+  'In Progress': 'warning',
   Blocked: 'danger',
-  Complete: 'success',
+  Completed: 'success',
 };
 export const HEALTH_VARIANT: Record<string, BadgeVariant> = {
-  Upcoming: 'neutral',
   'On Track': 'success',
   'At Risk': 'warning',
   Late: 'danger',
-  Complete: 'success',
+  Completed: 'success',
   Blocked: 'danger',
 };

@@ -38,10 +38,10 @@ const { label, id } = Astro.props;
 <div class="bcn-plan-gantt-host" id={id} data-bcn-plan-gantt data-label={label}>
   <div class="bcn-plan-gantt" hidden></div>
   <!-- A quiet row marker (new design: "Scheduled", and "Unsaved changes" visible only to its author); the runtime sets its text. -->
-  <template data-gantt-tpl="badge"><EsaBadge value="Unsaved changes" variant="secondary" size="sm" /></template>
+  <template data-gantt-tpl="badge"><EsaBadge value="Unsaved Changes" variant="secondary" size="sm" /></template>
   <template data-gantt-tpl="caret"><EsaButton variant="ghost" iconOnly icon="chevron-down" label="Collapse" size="xs" /></template>
-  <template data-gantt-tpl="apply"><EsaButton variant="primary" iconOnly icon="check" label="Apply change" size="sm" /></template>
-  <template data-gantt-tpl="revert"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert change" size="sm" data-fill-icon="undo-2" /></template>
+  <template data-gantt-tpl="apply"><EsaButton variant="primary" iconOnly icon="check" label="Apply Change" size="sm" /></template>
+  <template data-gantt-tpl="revert"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert Change" size="sm" data-fill-icon="undo-2" /></template>
 </div>
 
 <style>
@@ -815,7 +815,7 @@ const { label, id } = Astro.props;
     -webkit-line-clamp: 2;
     line-clamp: 2;
   }
-  :global(.bcn-plan-gantt-tip__note)::before { content: '·'; margin-inline: var(--spacing-150); }
+  :global(.bcn-plan-gantt-tip__note)::before { content: ', '; }
   :global(.bcn-plan-gantt-tip__warnings) {
     display: flex;
     flex-direction: column;

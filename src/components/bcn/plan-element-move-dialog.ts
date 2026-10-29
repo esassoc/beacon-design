@@ -26,7 +26,7 @@ type ComboEl = HTMLElement & { options: { value: string; label: string }[]; valu
  */
 export function planMoveTargetLabel(target: PlanMoveTarget): string {
   const named = target.levelName ? `${target.levelName} ${target.name}` : target.name;
-  return target.path ? `${named} · ${target.path}` : named;
+  return target.path ? `${named}, in ${target.path}` : named;
 }
 
 interface ElementMoveShell {

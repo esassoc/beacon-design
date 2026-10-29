@@ -25,6 +25,7 @@ import {
   type Transmittal,
 } from '../../lib/planning/plan-records';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT, type BadgeVariant } from './badge-bank';
+import { receiptBadge as receiptBadgeOf } from './badge-bank';
 import { day, esc } from './element-module';
 import { datesIn } from './health-dialog';
 
@@ -56,20 +57,23 @@ interface Row {
 
 type SortKey = 'name' | 'study' | 'due' | 'health' | 'status';
 /** Worst first, when sorted by health. */
-const HEALTH_ORDER = ['Late', 'Blocked', 'At Risk', 'On Track', 'Upcoming', 'Complete'];
-const STATUS_ORDER: ElementStatus[] = ['Blocked', 'In Progress', 'Not Started', 'Complete'];
+const HEALTH_ORDER = ['Late', 'Blocked', 'At Risk', 'On Track', 'Completed'];
+const STATUS_ORDER: ElementStatus[] = ['Blocked', 'In Progress', 'Not Started', 'Completed'];
 
 const endOf = (e: PlanElementDto) => e.SpanEndDate ?? e.EndDate ?? e.StartDate ?? null;
 const addDays = (iso: string, days: number) => new Date(Date.parse(`${iso}T12:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Late, or due within so many days, and not complete: the memo's overdue list at 30. */
-const dueWithin = (r: Row, today: string, days: number) => r.status !== 'Complete' && !!r.due && r.due <= addDays(today, days);
+const dueWithin = (r: Row, today: string, days: number) => r.status !== 'Completed' && !!r.due && r.due <= addDays(today, days);
 /** The Due facet: the memo's overdue list, and the quarter ahead. */
 const DUE_OPTIONS = [
   { value: '30', label: 'Late or Due in 30 Days' },
   { value: '90', label: 'Late or Due in 90 Days' },
+  { value: '-1', label: 'Waiting on Agency' },
 ];
+/** An agency still owes something on it: a receipt not confirmed, or a response not in by its due date. */
+const waitingOnAgency = (r: Row) => !!r.sent && !r.sent.closedAt && (!!(r.receipt && r.receipt.confirmed < r.receipt.of) || (!!r.sent.responseDue && !r.sent.response));
 const healthText = (h: HealthReading) => (h.stale ? `${h.health}, Update Missing` : h.health);
 
 export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverablesOptions): { draw(): void } {
@@ -157,10 +161,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
   function receiptBadge(r: Row): HTMLElement {
     if (!r.receipt || !r.receipt.of) return quiet('None');
     const { confirmed, of, overdue } = r.receipt;
-    const variant: BadgeVariant = confirmed === of ? 'success' : overdue ? 'warning' : 'neutral';
-    const b = badge(confirmed === of ? 'All' : `${confirmed} of ${of}`, variant, 'sm');
-    b.title = confirmed === of ? `All ${of} confirmed receipt` : `${confirmed} of ${of} confirmed receipt${overdue ? '; past the acknowledgment date' : ''}`;
-    return b;
+    return receiptBadgeOf(confirmed, of, overdue);
   }
 
   function drawRow(r: Row): HTMLTableRowElement {
@@ -183,7 +184,7 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
 
     // Done needs no health: Status already says Complete.
     const health = cell();
-    if (r.status === 'Complete' && !r.health.override) health.append(quiet('Done'));
+    if (r.status === 'Completed' && !r.health.override) health.append(quiet('None'));
     else {
       const hb = badge(healthText(r.health), r.health.stale ? 'warning' : (HEALTH_VARIANT[r.health.health] ?? 'neutral'), 'sm');
       hb.title = r.health.override ? `Set by ${r.health.override.by}: ${r.health.why}` : datesIn(r.health.why);
@@ -245,12 +246,12 @@ export function setupPlanDeliverablesView(root: HTMLElement, opts: PlanDeliverab
     const all = rowsOf(opts.plan());
     const today = todayIso();
     drawFacets(all);
-    shown = all.filter((r) => (!study || r.studyId === study) && (!healths.length || healths.includes(r.health.health)) && (!dueDays || dueWithin(r, today, dueDays)) && matches(r)).sort(compare);
+    shown = all.filter((r) => (!study || r.studyId === study) && (!healths.length || healths.includes(r.health.health)) && (!dueDays || (dueDays < 0 ? waitingOnAgency(r) : dueWithin(r, today, dueDays))) && matches(r)).sort(compare);
     tbody.replaceChildren(...shown.map(drawRow));
     drawSort();
 
     const filtered = shown.length !== all.length;
-    const complete = shown.filter((r) => r.status === 'Complete').length;
+    const complete = shown.filter((r) => r.status === 'Completed').length;
     const late = shown.filter((r) => r.health.health === 'Late').length;
     const atRisk = shown.filter((r) => r.health.health === 'At Risk').length;
     const head = filtered ? `${shown.length} of ${plural(all.length, 'Deliverable')}` : plural(all.length, 'Deliverable');

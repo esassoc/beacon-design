@@ -16,9 +16,10 @@ import { seedShortId } from './seed-ids';
 
 // ── Types ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-export type ElementStatus = 'Not Started' | 'In Progress' | 'Complete' | 'Blocked';
-export const STATUSES: ElementStatus[] = ['Not Started', 'In Progress', 'Blocked', 'Complete'];
-export type Health = 'Upcoming' | 'On Track' | 'At Risk' | 'Late' | 'Complete' | 'Blocked';
+export type ElementStatus = 'Not Started' | 'In Progress' | 'Completed' | 'Blocked';
+export const STATUSES: ElementStatus[] = ['Not Started', 'In Progress', 'Blocked', 'Completed'];
+/** Upcoming folded into On Track (2026-10-29, the consistency audit): "Starts Mar 17, 2027" already says it. */
+export type Health = 'On Track' | 'At Risk' | 'Late' | 'Completed' | 'Blocked';
 /** The health choices an owner can override to, with a note. */
 export const HEALTH_CHOICES: Health[] = ['On Track', 'At Risk', 'Late', 'Blocked'];
 
@@ -385,7 +386,7 @@ export function closeTransmittal(planID: string, id: string): void {
 export function recordCompletion(planID: string, c: Omit<Completion, 'recordedBy' | 'recordedAt'>): void {
   updateRecords(planID, (r) => {
     r.completions[c.elementId] = { ...c, recordedBy: currentUserName(), recordedAt: nowIso() };
-    r.status[c.elementId] = { status: 'Complete', by: currentUserName(), at: nowIso() };
+    r.status[c.elementId] = { status: 'Completed', by: currentUserName(), at: nowIso() };
   });
 }
 /** Completion withdrawn: back to In Progress. */
@@ -461,12 +462,12 @@ const dateWords = (iso: string) => new Date(`${iso.slice(0, 10)}T00:00:00Z`).toL
 export function statusOf(rec: PlanRecords, plan: PlanDetailDto, id: string): ElementStatus {
   const tree = treeOf(plan);
   const leaves = leavesUnder(tree, id);
-  const own = (leafId: string) => (rec.completions[leafId] ? 'Complete' : (rec.status[leafId]?.status ?? 'Not Started'));
+  const own = (leafId: string) => (rec.completions[leafId] ? 'Completed' : (rec.status[leafId]?.status ?? 'Not Started'));
   if ((tree.children.get(id) ?? []).length === 0) return own(id);
   const all = leaves.map((l) => own(l.PlanElementID ?? ''));
-  if (all.length && all.every((s) => s === 'Complete')) return 'Complete';
+  if (all.length && all.every((s) => s === 'Completed')) return 'Completed';
   if (all.some((s) => s === 'Blocked')) return 'Blocked';
-  if (all.some((s) => s === 'In Progress' || s === 'Complete')) return 'In Progress';
+  if (all.some((s) => s === 'In Progress' || s === 'Completed')) return 'In Progress';
   return 'Not Started';
 }
 
@@ -491,9 +492,9 @@ export function progressOf(rec: PlanRecords, plan: PlanDetailDto, id: string, is
   const counted = marked.length ? marked : leaves;
   const weight = (e: PlanElementDto) => (marked.length ? (rec.weights[e.PlanElementID ?? ''] ?? 1) : 1);
   const total = counted.reduce((s, e) => s + weight(e), 0) || 1;
-  const done = counted.filter((e) => statusOf(rec, plan, e.PlanElementID ?? '') === 'Complete');
+  const done = counted.filter((e) => statusOf(rec, plan, e.PlanElementID ?? '') === 'Completed');
   const due = counted.filter((e) => (endOf(e) ?? '9999') <= today);
-  const byStatus: Record<ElementStatus, number> = { 'Not Started': 0, 'In Progress': 0, Blocked: 0, Complete: 0 };
+  const byStatus: Record<ElementStatus, number> = { 'Not Started': 0, 'In Progress': 0, Blocked: 0, Completed: 0 };
   for (const l of leaves) byStatus[statusOf(rec, plan, l.PlanElementID ?? '')]++;
   return {
     earned: done.reduce((s, e) => s + weight(e), 0) / total,
@@ -522,7 +523,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
   const override = rec.health[id];
   const stale = !!override && Date.parse(today) - Date.parse(override.at) > 30 * 86_400_000;
   const derived = ((): Omit<HealthReading, 'override' | 'stale'> => {
-    if (status === 'Complete') return { health: 'Complete', why: 'Complete' };
+    if (status === 'Completed') return { health: 'Completed', why: 'Completed' };
     if (status === 'Blocked') return { health: 'Blocked', why: 'Blocked' };
     const end = el ? endOf(el) : null;
     const start = el ? startOf(el) : null;
@@ -535,7 +536,7 @@ export function healthOf(rec: PlanRecords, plan: PlanDetailDto, id: string, isDe
       const days = Math.round((Date.parse(end) - Date.parse(today)) / 86_400_000);
       if (days <= 14) return { health: 'At Risk', why: `Due in ${days} days, not started` };
     }
-    if (start && start > today && status === 'Not Started') return { health: 'Upcoming', why: `Starts ${dateWords(start)}` };
+    if (start && start > today && status === 'Not Started') return { health: 'On Track', why: `Starts ${dateWords(start)}` };
     return { health: 'On Track', why: 'On plan' };
   })();
   return override ? { health: override.health, override, stale, why: override.note || derived.why } : { ...derived };
@@ -652,8 +653,8 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   rec.completions[scoping] = { elementId: scoping, result: 'Accepted', completedOn: '2026-10-09', where: { fileId: smFinal.id }, acceptedBy: 'Jordan Reyes', note: 'CDFW acceptance letter of 2026-10-08.', recordedBy: 'Alex Rivera', recordedAt: at('2026-10-09', '14:05') };
   rec.completions[feasibility] = { elementId: feasibility, result: 'Accepted With Comments', completedOn: '2026-10-20', where: { url: 'https://esassoc.sharepoint.com/sites/DCP-Fish/Tag-Technology/Final', label: 'SharePoint: Tag technology final' }, acceptedBy: 'Rowan Hale', note: 'Three comments carry into the baseline study plan.', recordedBy: 'Sam Okafor', recordedAt: at('2026-10-21') };
   const status = (id: string, s: ElementStatus, by: string, day: string) => id && (rec.status[id] = { status: s, by, at: at(day) });
-  status(scoping, 'Complete', 'Alex Rivera', '2026-10-09');
-  status(feasibility, 'Complete', 'Sam Okafor', '2026-10-21');
+  status(scoping, 'Completed', 'Alex Rivera', '2026-10-09');
+  status(feasibility, 'Completed', 'Sam Okafor', '2026-10-21');
   status(baseline, 'In Progress', 'Alex Rivera', '2026-09-28');
   status(permits, 'In Progress', 'Sam Okafor', '2026-10-01');
   // The two dated from today (plan-repo's RELATIVE_TASKS): both under way, one already past its end.

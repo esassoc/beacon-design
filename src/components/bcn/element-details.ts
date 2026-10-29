@@ -9,6 +9,7 @@ import type { FieldDef } from '../../lib/planning/plan-config';
 import { ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
+import { DRAFT_FIRST_ASK } from '../../lib/planning/plan-copy';
 import { DEFAULT_REMINDERS, reminderState } from '../../lib/planning/plan-reminders';
 import { planAvatar } from './plan-people';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
@@ -69,7 +70,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
       const select = document.createElement('esa-select') as Lit;
       select.setAttribute('size', 'sm');
       select.setAttribute('aria-label', 'Status');
-      const choices = STATUSES.filter((s) => !(ctx.attrs.deliverable && s === 'Complete'));
+      const choices = STATUSES.filter((s) => !(ctx.attrs.deliverable && s === 'Completed'));
       void customElements.whenDefined('esa-select').then(() => {
         select.options = choices.map((s) => ({ value: s, label: s }));
         select.value = status;
@@ -96,7 +97,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
       healthDd.append(badge(h.stale ? `${h.health}, Update Missing` : h.health, h.stale ? 'warning' : HEALTH_VARIANT[h.health], 'sm'));
       const why = h.override ? `${firstName(h.override.by)}: ${h.why}` : h.why === 'On plan' || h.why === h.health ? '' : h.why;
       if (why) healthDd.append(el('span', 'bcn-det__muted', why));
-      if (ctx.canRecord && h.health !== 'Complete') {
+      if (ctx.canRecord && h.health !== 'Completed') {
         const change = tpl('change');
         change.addEventListener('click', () => root.dispatchEvent(new CustomEvent('bcn-element-health', { bubbles: true, detail: { elementId: id, reading: h } })));
         healthDd.append(change);
@@ -123,7 +124,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     // Reminders (2026-10-28, prod's action notifications): the owners' last email about this item and the next one,
     // on a task or milestone that isn't complete. Plan Settings, Reminders sets when they go.
     const due = ctx.element.EndDate ?? ctx.element.StartDate;
-    if (!ctx.children.length && due && statusOf(ctx.records, ctx.live, ctx.element.PlanElementID ?? '') !== 'Complete' && owners.length) {
+    if (!ctx.children.length && due && statusOf(ctx.records, ctx.live, ctx.element.PlanElementID ?? '') !== 'Completed' && owners.length) {
       const { last, next } = reminderState(due, ctx.config.reminders ?? DEFAULT_REMINDERS);
       const parts = [last ? `Sent ${day(last.date)} (${last.kind})` : '', next ? `Next ${day(next.date)} (${next.kind})` : ''].filter(Boolean);
       row('Reminders', parts.length ? parts.join('. ') : 'Off for this plan');
@@ -175,7 +176,7 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     const note = q('[data-det-note]');
     note.textContent =
       ctx.mode === 'live' && !canPublish && ctx.myRole !== 'Guest'
-        ? 'Your edits go to your draft, for someone who can publish.'
+        ? DRAFT_FIRST_ASK
         : ctx.mode === 'view'
           ? `${firstName(ctx.draft!.owner)}'s draft is read-only.`
           : '';

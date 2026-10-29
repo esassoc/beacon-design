@@ -7,7 +7,8 @@
 // only writes are records about the send: receipts, reminders, the response, closing; a draft's edits go through
 // BcnTransmittalDialog.
 
-import { ensureSeeded, getRepo, latestVersion, flattenPlan, membersOf, configOf, orgOf, type PlanRepo } from '../../lib/planning/plan-repo';
+import { withBase } from '../../lib/base';
+import { addGuests, ensureSeeded, getRepo, latestVersion, flattenPlan, membersOf, configOf, orgOf, type PlanRepo } from '../../lib/planning/plan-repo';
 import { currentUserName } from '../../lib/planning/plan-server';
 import { ELEMENT_HREF, PLAN_VIEW_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 import {
@@ -211,8 +212,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     note.innerHTML = draft
       ? 'To recipients confirm once it is sent; Cc recipients don’t have to.'
       : confirmed === of
-        ? `${confirmed} of ${of} Received.`
-        : `${confirmed} of ${of} Received. ${late ? `<span data-tone="warning">Receipt was due ${day(x.ackDue)}.</span>` : `Receipt due ${day(x.ackDue)}.`}`;
+        ? `${confirmed} of ${of} received.`
+        : `${confirmed} of ${of} received. ${late ? `<span data-tone="warning">Receipt was due ${day(x.ackDue)}.</span>` : `Receipt due ${day(x.ackDue)}.`}`;
     q('[data-trp-receipts]').replaceChildren(...[...x.to, ...x.cc].map((n) => personRow(x, n)));
 
     // Response.
@@ -287,6 +288,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     // Receipt, until they've confirmed (or someone recorded it for them); then only what's still ahead.
     if (isTo && x.ackDue && !mine.confirmedAt) li(receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, receiptOverdue(x, me) ? 'warning' : undefined);
     if (isTo) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
+    // How to answer it (a reviewer asked): to the sender, who records it here.
+    if (isTo && !x.response && !x.closedAt) li(`To respond, send your comments or letter to ${x.from}${orgOf(x.from) ? ` (${orgOf(x.from)})` : ''}; they record it on this transmittal`);
     else li('You’re copied: no receipt or response is owed');
     if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
     q('[data-trp-dates]').replaceChildren(...dates);
@@ -319,7 +322,11 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     const items = document.querySelector<HTMLElement>('.breadcrumbs__items');
     if (!items) return;
     const links = [...items.querySelectorAll<HTMLAnchorElement>('a.breadcrumb-item')];
-    const [, planLink, elLink] = links;
+    const [rootLink, planLink, elLink] = links;
+    if (rootLink && recipient) {
+      rootLink.textContent = 'Sent to You';
+      rootLink.href = withBase('/prototypes/plans-repo/inbox/');
+    }
     if (planLink && elLink) {
       if (recipient || !x) {
         // A recipient outside the plan sees only what was sent to them.
@@ -387,7 +394,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     titleBadges?.replaceChildren(...(t.purpose ? [badge(t.purpose, 'neutral', 'sm')] : []));
 
     if (view === 'sender') {
-      titleBadges?.append(badge(status, TRANSMITTAL_STATUS_VARIANT[status], 'sm'));
+      titleBadges?.append(badge(status === 'Draft' ? 'Not Sent' : status, TRANSMITTAL_STATUS_VARIANT[status], 'sm'));
       drawSender(t, rec, elementName ?? '');
       const draft = status === 'Draft';
       pageAct('edit')!.hidden = !(draft && canRecord);
@@ -488,11 +495,12 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     const ackDays = configOf(repo).ackDays;
     if (!(await confirm({ header: `Send ${num()}?`, text: sendMessage(t, ackDays), confirmButtonLabel: 'Send', cancelButtonLabel: 'Keep Editing' }))) return;
     sendTransmittal(planID, t.id, ackDays);
+    addGuests(planID, [...t.to, ...t.cc]);
     announceSent();
   });
   pageAct('delete')?.addEventListener('click', async () => {
     if (!t) return;
-    if (!(await confirm({ header: `Delete ${num()}?`, text: 'The draft goes. Nothing was sent, so no one is told.', confirmButtonLabel: 'Delete Draft', cancelButtonLabel: 'Keep Draft', color: 'warn' }))) return;
+    if (!(await confirm({ header: `Delete ${num()}?`, text: 'It goes. Nothing was sent, so no one is told.', confirmButtonLabel: 'Delete Transmittal', cancelButtonLabel: 'Keep Draft', color: 'warn' }))) return;
     const elementId = t.elementId;
     deleteDraftTransmittal(planID, t.id);
     location.assign(ELEMENT_HREF(planID, elementId));

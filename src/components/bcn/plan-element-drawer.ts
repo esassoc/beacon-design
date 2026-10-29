@@ -644,7 +644,7 @@ export function openPlanElementDrawer(args: {
       }
       lagInput.errorText = errorOf(lagForm.controls.LagDays);
       const saveLagButton = part('save-lag');
-      nameIconButton(saveLagButton, `Save lag after ${row.planElementName}`);
+      nameIconButton(saveLagButton, `Save Lag After ${row.planElementName}`);
       setButtonLoading(saveLagButton, pendingLink?.verb === 'lag' && pendingLink.planElementDependencyID === row.planElementDependencyID, s.spinner);
       setButtonDisabled(saveLagButton, busy);
       const cancelLagButton = part('cancel-lag');
@@ -654,11 +654,11 @@ export function openPlanElementDrawer(args: {
       show(part('actions'), rights.canUpdate || rights.canDelete);
       const editLagButton = part('edit-lag');
       show(editLagButton.closest('esa-tooltip')!, rights.canUpdate);
-      nameIconButton(editLagButton, `Edit lag after ${row.planElementName}`);
+      nameIconButton(editLagButton, `Edit Lag After ${row.planElementName}`);
       setButtonDisabled(editLagButton, busy);
       const removeButton = part('remove');
       show(removeButton.closest('esa-tooltip')!, rights.canDelete);
-      nameIconButton(removeButton, `Remove link to ${row.planElementName}`);
+      nameIconButton(removeButton, `Remove Link to ${row.planElementName}`);
       setButtonLoading(removeButton, pendingLink?.verb === 'remove' && pendingLink.planElementDependencyID === row.planElementDependencyID, s.spinner);
       setButtonDisabled(removeButton, busy);
     }
@@ -960,7 +960,7 @@ export function openPlanElementDrawer(args: {
       const who = refused.userName ?? 'Someone';
       const base = `${who} changed this plan after you opened this. Your changes are kept here.`;
       text = refused.overlap.length
-        ? `${base} They also changed the ${list(refused.overlap)} — check the flagged fields, then Save.`
+        ? `${base} They also changed the ${list(refused.overlap)}. Check the flagged fields, then Save.`
         : refused.theirs.length
           ? `${base} They changed the ${list(refused.theirs)}, which you didn't. Save applies your changes to the current plan.`
           : `${base} Save applies them to the current plan.`;
@@ -1336,5 +1336,5 @@ export function openPlanElementDrawer(args: {
 /** A candidate as one option label: its level as a quiet tag before the name, its path after (her option template). */
 function predecessorOptionLabel(option: PlanPredecessorOption): string {
   const name = option.levelName ? `${option.levelName}: ${option.name}` : option.name;
-  return option.path ? `${name} — ${option.path}` : name;
+  return option.path ? `${name}, in ${option.path}` : name;
 }

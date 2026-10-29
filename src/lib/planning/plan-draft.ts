@@ -235,15 +235,15 @@ export function planDraftRowNotes(
   if (live && view) {
     for (const change of view.Changes) {
       const was = findPlanElement(live.Elements, change.PlanElementID)?.element;
-      add(change.PlanElementID, { label: 'Live plan', value: formatPlanDateRange(was?.StartDate, was?.EndDate, LOCALE) });
-      if (change.LivePlanDateType !== change.DraftPlanDateType) add(change.PlanElementID, { label: 'Date type', value: `${change.LivePlanDateType} → ${change.DraftPlanDateType}` });
+      add(change.PlanElementID, { label: 'Live Plan', value: formatPlanDateRange(was?.StartDate, was?.EndDate, LOCALE) });
+      if (change.LivePlanDateType !== change.DraftPlanDateType) add(change.PlanElementID, { label: 'Date Type', value: `${change.LivePlanDateType} → ${change.DraftPlanDateType}` });
       add(change.PlanElementID, {
-        label: 'Moved by',
+        label: 'Moved By',
         value: change.Cause === 'own' ? 'you' : change.CausedByPlanElementName ? `cascade from ${change.CausedByPlanElementName}` : 'cascade',
       });
     }
   }
-  for (const id of pending) add(id, { label: 'Moved by', value: 'cascade, updating…' });
+  for (const id of pending) add(id, { label: 'Moved By', value: 'cascade, updating…' });
   for (const conflict of conflicts) add(conflict.SuccessorPlanElementID, { label: 'Conflict', value: planConflictSentence(conflict), tone: 'danger' });
   return notes;
 }

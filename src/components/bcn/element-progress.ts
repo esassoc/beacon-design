@@ -31,7 +31,7 @@ export const setupProgressModule: ElementModuleSetup = (root) => {
     q('[data-eprog-pct]').textContent = `${earned}%`;
     const gap = q('[data-eprog-gap]');
     const behind = planned - earned;
-    gap.textContent = behind > 0 ? `${behind} points behind plan` : behind < 0 ? `${-behind} points ahead of plan` : 'On plan';
+    gap.textContent = behind > 0 ? `${behind} points behind plan` : behind < 0 ? `${-behind} points ahead of plan` : 'On Track';
     gap.dataset.tone = behind > 10 ? 'behind' : '';
     q('[data-eprog-earned]').style.width = `${earned}%`;
     const tick = q('[data-eprog-planned]');
@@ -59,7 +59,7 @@ export const setupProgressModule: ElementModuleSetup = (root) => {
     // Overdue, and due next: the leaves under it, not complete.
     const leaves = flattenPlan(ctx.element.Children ?? [])
       .map((x) => x.element)
-      .filter((e) => !(e.Children ?? []).length && statusOf(ctx.records, ctx.live, e.PlanElementID ?? '') !== 'Complete');
+      .filter((e) => !(e.Children ?? []).length && statusOf(ctx.records, ctx.live, e.PlanElementID ?? '') !== 'Completed');
     const late = leaves.filter((e) => (endOf(e) ?? '9999') < today).sort((a, b) => (endOf(a) ?? '').localeCompare(endOf(b) ?? ''));
     const next = leaves
       .filter((e) => (endOf(e) ?? '') >= today && (ctx.isDeliverable(e.PlanElementID ?? '') || e.IsMilestone))

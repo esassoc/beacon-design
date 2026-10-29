@@ -18,7 +18,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 <div class="bcn-plan-element-move" data-bcn-plan-element-move-dialog>
   <esa-dialog class="bcn-plan-element-move__dialog" size="sm" heading="Move">
     <esa-combobox
-      label="Move under"
+      label="Move Under"
       help-text="Everything under it moves too, and it goes last among its new siblings."
       placeholder="Search…"
       required
@@ -26,8 +26,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     ></esa-combobox>
 
     <div slot="footer" class="bcn-plan-element-move__actions">
-      <EsaButton variant="primary" type="button" disabled data-pem-move>Move</EsaButton>
       <EsaButton variant="ghost" appearance="outline" type="button" data-pem-cancel>Cancel</EsaButton>
+      <EsaButton variant="primary" type="button" disabled data-pem-move>Move</EsaButton>
     </div>
   </esa-dialog>
 

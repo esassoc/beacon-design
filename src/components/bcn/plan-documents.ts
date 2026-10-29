@@ -331,7 +331,7 @@ export function setupPlanDocumentsView(root: HTMLElement, opts: PlanDocumentsOpt
     scroll.hidden = visible.length === 0;
     const title = empty.querySelector<HTMLElement>('.esa-empty-state__title');
     const desc = empty.querySelector<HTMLElement>('.esa-empty-state__description');
-    if (title) title.textContent = none ? (mode === 'agency' ? 'No Agency Correspondence Yet' : 'No Documents Yet') : 'Nothing Matches';
+    if (title) title.textContent = none ? (mode === 'agency' ? 'No Agency Correspondence Yet' : 'No Documents Yet') : 'No Documents Match';
     if (desc) desc.textContent = none ? (mode === 'agency' ? 'Add a Correspondence document on any item.' : 'Add documents from any item’s Documents card.') : 'Clear the filters to see every document.';
     q<HTMLElement>('[data-pdocs-clear]').hidden = none || !filtered;
   }

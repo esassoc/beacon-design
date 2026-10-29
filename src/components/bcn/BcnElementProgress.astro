@@ -15,7 +15,7 @@ import BcnElementModule from './BcnElementModule.astro';
   <div class="bcn-eprog">
     <div class="bcn-eprog__head">
       <span class="bcn-eprog__pct" data-eprog-pct>0%</span>
-      <span class="bcn-eprog__label">Complete</span>
+      <span class="bcn-eprog__label">Completed</span>
       <span class="bcn-eprog__gap" data-eprog-gap></span>
     </div>
     <div class="bcn-eprog__meter" role="img" data-eprog-meter>
@@ -117,7 +117,7 @@ import BcnElementModule from './BcnElementModule.astro';
   .bcn-eprog__split :global(i[data-status='In Progress']) {
     background: var(--color-content-utility-info, var(--color-blue-9));
   }
-  .bcn-eprog__split :global(i[data-status='Complete']) {
+  .bcn-eprog__split :global(i[data-status='Completed']) {
     background: var(--color-content-utility-success, var(--color-grass-9));
   }
   .bcn-eprog__split :global(i[data-status='Blocked']) {

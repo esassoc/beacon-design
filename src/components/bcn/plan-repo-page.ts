@@ -19,6 +19,7 @@ import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
+import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW } from '../../lib/planning/plan-copy';
 import { findPlanElement, planLevelBounds, validPlanLevels } from '../../lib/planning/plan-element';
 import {
   planElementDeleteConfirmHeader,
@@ -87,7 +88,7 @@ import {
 } from '../../lib/planning/plan-repo';
 import { setupPlanDeliverablesView } from './plan-deliverables';
 import { setupPlanDocumentsView } from './plan-documents';
-import { CUSTOMIZE_HREF, ELEMENT_HREF } from '../../lib/planning/element-context';
+import { CUSTOMIZE_HREF, ELEMENT_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
 import { personColor, planAvatar, setButtonDisabled } from './plan-people';
 import { withBase } from '../../lib/base';
@@ -106,7 +107,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const me = currentUserName();
 
   // A link to a plan that isn't here, or a Guest (2026-10-28, the review): the page's empty state, nothing else.
-  const stop = (which: 'missing' | 'guest', title: string): void => {
+  const stop = (which: 'missing' | 'guest' | 'outside', title: string): void => {
     root.setAttribute('data-stopped', '');
     q<HTMLElement>(`[data-prp-stop="${which}"]`).hidden = false;
     document.querySelector<HTMLElement>('.bcn-plan-views')?.setAttribute('hidden', '');
@@ -125,7 +126,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     known = false;
   }
   if (!known) return stop('missing', 'Plan Not Found');
-  if (membersOf(getRepo(planID)).find((m) => m.name === me)?.role === 'Guest') return stop('guest', (await planApi.getPlan(planID)).PlanName ?? 'Plan');
+  const roleHere = membersOf(getRepo(planID)).find((m) => m.name === me)?.role;
+  if (roleHere === 'Guest') return stop('guest', (await planApi.getPlan(planID)).PlanName ?? 'Plan');
+  // Not on the plan's People at all (2026-10-29, the traps audit: anyone not on a plan got a Contributor's page): no way
+  // in; the stop names its Owners to ask.
+  if (!roleHere) {
+    const owners = membersOf(getRepo(planID)).filter((m) => m.role === 'Owner').map((m) => m.name);
+    q<HTMLElement>('[data-prp-stop="outside"] .esa-empty-state__description').textContent = `You aren’t on this plan’s People. Ask ${owners.length ? owners.join(' or ') : 'its Owner'} to add you.`;
+    return stop('outside', 'Not Shared With You');
+  }
 
   // The design studies (2026-10-27) switch variants from the URL; navigation keeps them.
   const study = Object.fromEntries(STUDY_KEYS.map((k) => [k, params.get(k)])) as Record<StudyKey, string | null>;
@@ -143,7 +152,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // Who may publish (2026-10-27): someone who can't still makes a scenario, and asks someone who can to publish it.
   // The plan's people say who can (2026-10-28): Owners and Editors publish, Contributors and anyone not on the plan
   // ask. &role=contributor still forces the contributor's page.
-  const myRole = membersOf(getRepo(planID)).find((m) => m.name === currentUserName())?.role ?? 'Contributor';
+  const myRole = roleHere;
+  /** Whether this person sees money at a level (each level's Who Sees It). */
+  const moneyAt = (depth: number) => seesBudget(getRepo(planID), myRole, depth);
   const canPublish = study.role !== 'contributor' && myRole !== 'Contributor';
   // One word for every role (2026-10-28, the review: "Draft vs Scenario vs Edit" is vocabulary a program manager won't
   // parse). Whether you can publish changes only the draft's last button: Publish, or Ask to Publish.
@@ -229,7 +240,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const range = setupPlanGanttRange(q<HTMLElement>('[data-bcn-plan-range]'), {
     extent,
     overview: () =>
-      planGanttView(shown)
+      planGanttView(shown, moneyAt)
         .rows.filter((row) => row.kind === 'summary')
         .map((row) => ({ start: row.start, end: row.end, tier: row.depth <= 0 ? 0 : row.depth === 1 ? 1 : 2 })),
     today,
@@ -274,6 +285,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     void switchTo(id ? (getRepo(planID!).drafts.find((d) => d.id === id) ?? null) : null, { push: false });
   });
   /** The menu's and About's links to Live and the drafts: switched in place, unless asked for a new tab. */
+  q<HTMLElement>('[data-prp-draft-counter]').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const pop = q<HTMLElement & { open: boolean }>('[data-prp-branch-popover]');
+    requestAnimationFrame(() => (pop.open = true));
+  });
   root.addEventListener('click', (e) => {
     const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-prp-to]');
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -479,7 +496,23 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   async function remove(id: string): Promise<void> {
     const element = findPlanElement(shown.Elements, id)?.element;
     if (!element) return;
-    const text = planElementDeleteConfirmText(element, planElementDeleteImpact(element, shown.Dependencies)).replace('This cannot be undone.', mode === 'live' ? 'It goes to your draft; Live keeps it until the draft is published.' : 'Undo takes it back.');
+    const gone = planElementSubtreeIDs(element);
+    const rec = recordsFor(planID!);
+    const out = rec.transmittals.filter((t) => gone.has(t.elementId) && t.sentAt && !t.closedAt);
+    if (out.length) {
+      const t = out[0];
+      const open = await confirm({
+        header: `${element.PlanElementName} Has Sends Still Out`,
+        text: `${out.map((x) => `T-${String(x.number).padStart(3, '0')}`).join(', ')} ${out.length === 1 ? 'is' : 'are'} still with ${[...new Set(out.flatMap((x) => x.to))].join(', ')}. Close ${out.length === 1 ? 'it' : 'them'} on ${out.length === 1 ? 'its page' : 'their pages'} first, so the record of what was sent keeps its item.`,
+        confirmButtonLabel: `Open T-${String(t.number).padStart(3, '0')}`,
+      });
+      if (open) location.assign(TRANSMITTAL_HREF(planID!, t.id));
+      return;
+    }
+    const docs = rec.links.filter((l) => gone.has(l.elementId)).length;
+    const talk = rec.comments.filter((c) => gone.has(c.elementId)).length;
+    const records = [docs ? `${docs} ${docs === 1 ? 'document link' : 'document links'}` : '', talk ? `${talk} ${talk === 1 ? 'comment' : 'comments'}` : ''].filter(Boolean);
+    const text = (planElementDeleteConfirmText(element, planElementDeleteImpact(element, shown.Dependencies)) + (records.length ? ` Its ${records.join(' and ')} stay in the plan's records without an item.` : '')).replace('This cannot be undone.', mode === 'live' ? 'It goes to your draft; Live keeps it until the draft is published.' : 'Undo takes it back.');
     const ok = await confirm({ color: 'warn', header: planElementDeleteConfirmHeader(element), text, confirmButtonLabel: 'Delete' });
     if (!ok) return;
     await shapeEdit({ op: 'remove', id }, { action: 'Deleted', subject: element.PlanElementName ?? '' });
@@ -606,10 +639,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const others = touching.map((d) => firstName(d.owner));
       offerPublish = canPublish && !others.length;
       liveNote = !canPublish
-        ? 'Changes save to your draft; someone who can publish takes it to Live.'
+        ? DRAFT_FIRST_ASK
         : others.length
           ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so changes save to your draft.`
-          : 'Changes save to your draft, to review and publish with it. Publish Now when nothing else moves.';
+          : DRAFT_FIRST_NOW;
     }
     const note = mode === 'live' ? liveNote : mode === 'view' ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.` : undefined;
     const handle = openPlanElementDrawer({
@@ -728,7 +761,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)
       ? 'Records are kept on Live: they read the same in every draft.'
       : mode === 'live'
-        ? 'Changes go to your draft; Review and Publish takes them to Live.'
+        ? canPublish ? DRAFT_FIRST : DRAFT_FIRST_ASK
         : mode === 'view'
           ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
           : '';
@@ -785,7 +818,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       // Live edits too (draft first): the first figure typed opens your draft and lands there.
       editable: mode !== 'view',
       query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
-      heading: planGanttView(shown).outlineHeading,
+      heading: planGanttView(shown, moneyAt).outlineHeading,
     });
   }
   /** Cells changed in your draft: one edit. A typed figure is "Budget Set", a deleted one "Budget Cleared", a pasted
@@ -974,7 +1007,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   function rowHealth(): Map<string, GanttRowHealth> {
     const rec = recordsFor(planID!);
     const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
-    const tone: Partial<Record<string, GanttRowHealth>> = { Late: 'late', 'At Risk': 'risk', Blocked: 'blocked', Complete: 'done' };
+    const tone: Partial<Record<string, GanttRowHealth>> = { Late: 'late', 'At Risk': 'risk', Blocked: 'blocked', Completed: 'done' };
     const out = new Map<string, GanttRowHealth>();
     for (const { element } of flattenPlan(shown.Elements)) {
       if (element.Children?.length) continue;
@@ -998,7 +1031,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     drawStatus();
     drawAside();
 
-    const view = planGanttView(shown);
+    const view = planGanttView(shown, moneyAt);
     chart.setEditable(issued ? mode === 'own' : mode !== 'view');
     drawConcept();
     chart.setAnnotations({
@@ -1277,7 +1310,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
    */
   function drawChanges(d: PlanRepoDraft): void {
     const last = d.revisions.at(-1);
-    q<HTMLElement>('[data-prp-draft-meta]').textContent = `Started from Revision ${d.baseVersion}. ${last ? `Last edit ${timeAgo(last.at)}.` : 'No edits yet.'}`;
+    q<HTMLElement>('[data-prp-draft-meta]').textContent = `Started from Revision ${d.baseVersion}. ${last ? `Last edit ${stamp(last.at)}.` : 'No edits yet.'}`;
 
     const lines = new Map<string, { key: string; value: string; text?: boolean; after?: string }[]>();
     const add = (id: string, key: string, value: string, text = false, after?: string) => lines.set(id, [...(lines.get(id) ?? []), { key, value, text, after }]);
@@ -1417,6 +1450,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // Plan settings aren't drafted, so their Edit lives on Live's About only (2026-10-28: beside "Your Draft" it read
     // as editing the draft).
     q<HTMLElement>('[data-prp-settings]').hidden = myRole !== 'Owner' || mode !== 'live';
+    q<HTMLElement>('[data-prp-settings-head]').hidden = myRole !== 'Owner' || mode !== 'live';
 
     const item = (avatarName: string | null, glyph: string | null, title: string, sub: string, href?: string, to?: string) => {
       const el = document.createElement('div');
@@ -1466,6 +1500,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
     if (!draft || !draft.revisions.length) return;
     requestPublish(planID!, draft.id);
+    const asked = membersOf(getRepo(planID!)).filter((m) => m.role === 'Owner' || m.role === 'Editor').map((m) => m.name.split(' ')[0]);
+    pushAlert(`Asked ${asked.length > 1 ? `${asked.slice(0, -1).join(', ')} or ${asked.at(-1)}` : (asked[0] ?? 'the Owners')} to publish your draft. A new edit withdraws the request.`, 'success', 7000);
     refresh();
   });
   // Revisions in a modal (2026-10-28): the history from the Revisions link and About; a draft's review from Review and
@@ -1475,6 +1511,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index;
   //    a level's Customize Page, that item's page ──
   const setup = setupPlanSetupDialog(document.querySelector<HTMLElement>('[data-bcn-plan-setup]')!);
+  q<HTMLElement>('[data-prp-settings-head]').addEventListener('click', () => q<HTMLElement>('[data-prp-settings] button').click());
   q<HTMLElement>('[data-prp-settings]').addEventListener('click', async () => {
     const result = await setup.open(planID!);
     if (result?.kind === 'deleted') return void location.assign(keep(withBase('/prototypes/plans-repo/')));
@@ -1533,6 +1570,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   q<HTMLElement>('[data-prp-review]').addEventListener('click', () => draft && void revisions.open(draft.id));
   q<HTMLElement>('[data-prp-back]').addEventListener('click', () => void switchTo(null));
   q<HTMLElement>('[data-prp-history-link]').setAttribute('data-prp-revisions', '');
+  // Arrived for the revisions (the index's count, the old /revisions/ link): the modal opens over the plan.
+  if (params.get('revisions') === '1') void revisions.open(null);
   root.addEventListener('click', (e) => {
     const a = (e.target as HTMLElement).closest('a[data-prp-revisions]');
     if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -1586,7 +1625,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   const healthFacet = q<FacetEl>('[data-prp-health]');
   const DUE_SOON = 'Due in 30 Days';
   void customElements.whenDefined('esa-filter-dropdown').then(() => {
-    healthFacet.options = ['Late', 'At Risk', DUE_SOON, 'Blocked', 'Complete'].map((h) => ({ value: h, label: h }));
+    healthFacet.options = ['Late', 'At Risk', DUE_SOON, 'Blocked', 'Completed'].map((h) => ({ value: h, label: h }));
   });
   /** The tasks and milestones the Health filter keeps, or null for every row. */
   function healthRows(): Set<string> | null {
@@ -1601,7 +1640,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       const id = element.PlanElementID ?? '';
       const h = healthOf(rec, shown, id, (x) => !!attrs[x]?.deliverable);
       const end = element.EndDate ?? element.StartDate ?? null;
-      const dueSoon = h.health !== 'Complete' && !!end && end >= todayIso && end <= soon;
+      const dueSoon = h.health !== 'Completed' && !!end && end >= todayIso && end <= soon;
       if (healthPick.includes(h.health) || (healthPick.includes(DUE_SOON) && dueSoon)) out.add(id);
     }
     return out;

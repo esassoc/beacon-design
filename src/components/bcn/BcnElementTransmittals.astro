@@ -40,7 +40,7 @@ import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
         <span class="bcn-tm__acts" data-tm-acts hidden>
           <span data-tm-act="edit"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
           <span data-tm-act="send"><EsaButton variant="ghost" appearance="outline" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
-          <span data-tm-act="delete"><EsaButton variant="ghost" size="xs" iconOnly icon="trash-2" label="Delete Draft" /></span>
+          <span data-tm-act="delete"><esa-tooltip text="Delete Transmittal" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="trash-2" label="Delete Transmittal" /></esa-tooltip></span>
         </span>
       </li>
     </template>

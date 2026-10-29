@@ -45,7 +45,7 @@ import {
 } from '../../lib/planning/plan-repo';
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { changeNote } from './plan-change-note';
-import { pushAlert } from '../../lib/planning/plan-page';
+import { confirm, pushAlert } from '../../lib/planning/plan-page';
 
 type DialogEl = HTMLElement & { open: boolean; heading: string };
 type CheckEl = HTMLElement & { checked: boolean };
@@ -235,6 +235,8 @@ export function setupPlanRevisionsDialog(opts: {
   let current: { from: PlanDetailDto; to: PlanDetailDto; changes: PlanChange[]; own: ReadonlySet<string>; money: BudgetDiff[]; details: DetailDiff[]; links: LinkDiff[]; shape: ShapeDiff[] } | null = null;
   let only: CheckEl | null = null;
   let token = 0;
+  /** Whether the viewer sees money at a level (Who Sees It): the chart's tooltips and rows carry none where not. */
+  const moneyAt = (depth: number) => seesBudget(getRepo(opts.planID), membersOf(getRepo(opts.planID)).find((m) => m.name === me)?.role, depth);
 
   const stateAt = (i: number) => {
     if (!cache.has(i)) cache.set(i, stops[i].state());
@@ -280,7 +282,7 @@ export function setupPlanRevisionsDialog(opts: {
       countsDependents: false,
     });
     chart.setRange(focusRange(from, to, changes));
-    const view = planGanttView(to);
+    const view = planGanttView(to, moneyAt);
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
     chart.setRowFilter(only?.checked ? changed : null);
   }
@@ -339,8 +341,8 @@ export function setupPlanRevisionsDialog(opts: {
    * moved only because what it waits on did reads Followed). Changes Only leaves out the items that didn't change.
    */
   function drawRows(from: PlanDetailDto, to: PlanDetailDto, changes: PlanChange[], own: ReadonlySet<string>, money: BudgetDiff[], details: DetailDiff[], links: LinkDiff[], shape: ShapeDiff[]): void {
-    const fromRows = new Map(planGanttView(from).rows.map((r) => [r.id, r]));
-    const toRows = planGanttView(to).rows;
+    const fromRows = new Map(planGanttView(from, moneyAt).rows.map((r) => [r.id, r]));
+    const toRows = planGanttView(to, moneyAt).rows;
     const toById = new Map(toRows.map((r) => [r.id, r]));
     const byId = new Map(changes.map((c) => [c.id, c]));
     const order = [...toRows.map((r) => r.id), ...[...fromRows.keys()].filter((id) => !toById.has(id))];
@@ -490,7 +492,8 @@ export function setupPlanRevisionsDialog(opts: {
     if (!draft) {
       publish.hidden = true;
       const isCurrent = sel.to === stops.length - 1;
-      restore.hidden = isCurrent;
+      // Only someone who can publish puts an old revision back on Live (2026-10-29, the traps audit).
+      restore.hidden = isCurrent || !opts.canPublish;
       restore.querySelector('[data-prvd-act-label]')!.textContent = `Restore Revision ${getRepo(opts.planID).versions[sel.to].number}`;
       return;
     }
@@ -519,7 +522,19 @@ export function setupPlanRevisionsDialog(opts: {
   q<HTMLElement>('[data-prvd-close]').addEventListener('click', () => (dialog.open = false));
   q<HTMLElement>('[data-prvd-restore]').addEventListener('click', async () => {
     const btn = q<HTMLElement>('[data-prvd-restore] button') as HTMLButtonElement;
-    if (btn.disabled || draft) return;
+    if (btn.disabled || draft || !opts.canPublish) return;
+    const repo = getRepo(opts.planID);
+    const target = repo.versions[sel.to];
+    const latest = latestVersion(repo);
+    const behind = repo.drafts.filter((d) => !d.transient).length;
+    // Said before it happens: what it undoes, and the drafts that fall behind. The confirm opens over the modal.
+    const ok = await confirm({
+      header: `Restore Revision ${target.number}?`,
+      text: `Live becomes Revision ${latest.number + 1}, a copy of Revision ${target.number}. It undoes ${latest.number - target.number} later ${latest.number - target.number === 1 ? 'revision' : 'revisions'}; they stay in the history.${behind ? ` ${behind} open ${behind === 1 ? 'draft falls' : 'drafts fall'} behind Live.` : ''}`,
+      confirmButtonLabel: 'Restore',
+      color: 'warn',
+    });
+    if (!ok) return;
     setButtonDisabled(btn, true);
     await restoreVersion(opts.planID, getRepo(opts.planID).versions[sel.to].number);
     setButtonDisabled(btn, false);
