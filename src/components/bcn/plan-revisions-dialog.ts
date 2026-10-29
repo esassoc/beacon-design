@@ -23,6 +23,8 @@ import {
   currentUserName,
   draftBudget,
   draftOverlaps,
+  membersOf,
+  seesBudget,
   draftState,
   fiscalYearLabel,
   flattenPlan,
@@ -247,7 +249,7 @@ export function setupPlanRevisionsDialog(opts: {
       }
     }
     const labels = new Map(configOf(getRepo(opts.planID)).fields.map((f) => [f.id, f.label]));
-    current = { from, to, changes: planCompare(from, to), own, money: budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to), details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels), links: linkDiff(from, to), shape: shapeDiff(from, to) };
+    current = { from, to, changes: planCompare(from, to), own, money: seesBudget(getRepo(opts.planID), membersOf(getRepo(opts.planID)).find((m) => m.name === me)?.role) ? budgetDiff(stops[sel.from].budget(), stops[sel.to].budget(), from, to) : [], details: detailDiff(stops[sel.from].attributes(), stops[sel.to].attributes(), to, labels), links: linkDiff(from, to), shape: shapeDiff(from, to) };
     draw();
   }
 

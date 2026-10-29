@@ -111,6 +111,8 @@ export interface PlanElementDrawerDraft {
   /** Budget by fiscal year, read here and edited in the page's Budget view, in place of the one Budget field. */
   budget?: () => { rows: { label: string; amount: string }[]; total: string } | null;
   onOpenBudget?: () => void;
+  /** No money for this person at this level (Who Sees It): the Budget field and summary both stay out. */
+  hideBudget?: boolean;
   /** The element's own page ("Open Task Page"), when it has one. */
   detail?: () => { href: string; label: string } | null;
   /** The footer's Save, named for where it goes ("Save to My Draft" from Live, 2026-10-28 draft first). */
@@ -514,8 +516,8 @@ export function openPlanElementDrawer(args: {
     // Budget: none on a milestone. By fiscal year where the page has a budget sheet; else the one amount.
     const fy = draft?.budget ? draft.budget() : null;
     show(q('budget-section'), !milestone);
-    show(budgetWrap, !milestone && !draft?.budget);
-    show(q('budget-summary'), !milestone && !!draft?.budget);
+    show(budgetWrap, !milestone && !draft?.budget && !draft?.hideBudget);
+    show(q('budget-summary'), !milestone && !!draft?.budget && !draft?.hideBudget);
     if (fy) {
       const row = (label: string, amount: string, total = false) => {
         const div = document.createElement('div');

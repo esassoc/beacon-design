@@ -905,6 +905,20 @@ export function latestVersion(repo: PlanRepo): PlanVersion {
   return repo.versions[repo.versions.length - 1];
 }
 
+/**
+ * Whether a role sees budget figures (2026-10-28, the SOW review: the Budget card's Who Sees It held on the item page
+ * only). At one level, that level's Budget card decides; with no level, the plan-wide surfaces (the Budget tab, the
+ * index's figure, Review's Budget section) show only when every level shows money to the role, so none leaks.
+ * Owners and Editors always see it. The prototype hides in the UI; real enforcement is the API withholding the figures.
+ */
+export function seesBudget(repo: PlanRepo, role: PlanRole | null | undefined, depth?: number | null): boolean {
+  if (role === 'Owner' || role === 'Editor') return true;
+  const config = configOf(repo);
+  const restricted = (d: number) => config.levels[d]?.modules.find((m) => m.key === 'budget')?.settings?.visibleTo === 'editors';
+  if (depth !== undefined && depth !== null) return !restricted(depth);
+  return !Object.keys(config.levels).some((d) => restricted(Number(d)));
+}
+
 export const viewsOf = (repo: PlanRepo): PlanView[] => (repo.views?.length ? repo.views : ['schedule', 'budget']);
 
 export function membersOf(repo: PlanRepo): PlanMember[] {

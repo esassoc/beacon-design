@@ -4,7 +4,7 @@
 import { withBase } from '../../lib/base';
 
 import { planIcon } from '../../lib/planning/icons';
-import { budgetAt, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
+import { budgetAt, seesBudget, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
@@ -169,7 +169,8 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     r<HTMLElement>('[data-pri-items]').textContent = count(s.elementCount, 'Item', 'Items');
     const budget = budgetAt(s.repo);
     const total = Object.values(budget).reduce((sum, row) => sum + Object.values(row).reduce((a, b) => a + b, 0), 0);
-    if (tracks.includes('budget') && total) {
+    const myRole = membersOf(s.repo).find((m) => m.name === currentUserName())?.role;
+    if (tracks.includes('budget') && total && seesBudget(s.repo, myRole)) {
       const b = r<HTMLElement>('[data-pri-budget]');
       b.hidden = false;
       b.textContent = `${compactDollars.format(total)} Budget`;
@@ -187,7 +188,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     r<HTMLElement>('[data-pri-people]').replaceWith(planAvatarStack(members.map((m) => m.name), 5));
 
     // The miniature: the schedule, or the money when that's all it tracks.
-    r<HTMLElement>('[data-pri-mini]').innerHTML = tracks.includes('schedule') ? miniature(s) : moneyMiniature(budget);
+    r<HTMLElement>('[data-pri-mini]').innerHTML = tracks.includes('schedule') ? miniature(s) : seesBudget(s.repo, myRole) ? moneyMiniature(budget) : '';
     fillGlyphs(li);
     return li;
   }

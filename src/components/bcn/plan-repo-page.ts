@@ -70,6 +70,7 @@ import {
   type PlanRepoDraft,
   type PlanRevision,
   membersOf,
+  seesBudget,
   viewsOf,
   stamp,
   signedShift,
@@ -601,6 +602,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         },
         save: (edit) => (mode === 'live' ? void saveToMyDraft(edit) : saveFromDrawer(edit)),
         budget: () => budgetSummary(id),
+        hideBudget: !seesBudget(repo, myRole, findPlanElement(shown.Elements, id)?.element.LevelDepth),
         onOpenBudget: () => {
           void handle.requestClose().then((closed) => closed && setView('budget', id));
         },
@@ -654,7 +656,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     deliverables: { label: 'Deliverables', value: 'deliverables', icon: PLAN_ICON_PATHS.package },
   };
   function applyViews(): void {
-    const tracks: View[] = [...viewsOf(getRepo(planID!)), ...RECORD_VIEWS];
+    // Budget only for those who see money at every level (Who Sees It, on each level's Budget card).
+    const tracks: View[] = [...viewsOf(getRepo(planID!)).filter((v) => v !== 'budget' || seesBudget(getRepo(planID!), myRole)), ...RECORD_VIEWS];
     if (!tracks.includes(view)) view = tracks[0];
     void customElements.whenDefined('esa-button-toggle').then(() => {
       if (!viewToggle) return;
