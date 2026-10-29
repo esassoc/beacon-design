@@ -34,8 +34,11 @@ await page.evaluate(() => {
 });
 await page.locator('[data-eed-add-owner]').click(); await page.keyboard.type('Priya'); await page.waitForTimeout(400); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
 await page.click('[data-eed-publish] button'); await page.waitForTimeout(1500);
-const where = await page.locator('[data-eed-where]').textContent();
-check('a cascading edit: back to the form, Publish Now gone', /^It moves \d+ other/.test(where) && (await page.locator('[data-eed-dialog][open]').count()) === 1 && !(await shown('[data-eed-publish]')), where);
+// The review shows what the edit moves with it (2026-10-29: no Review and Publish skips the review); Back to Edit.
+const cascadeRows = await page.locator('[data-prvd-rows] .bcn-prvd__cell--to .bcn-prvd__name').count();
+check('a cascading edit: the review shows what it moves', cascadeRows > 1 && (await page.locator('[data-bcn-plan-revisions-dialog][open]').count()) === 1, `${cascadeRows} rows`);
+await page.click('[data-prvd-close] button'); await page.waitForTimeout(1200);
+check('Back to Edit: the form again', (await page.locator('[data-eed-dialog][open]').count()) === 1);
 {
   const kept = await page.locator('[data-eed-owners]').innerText();
   check('form kept the edit', kept.includes('Priya'), kept);

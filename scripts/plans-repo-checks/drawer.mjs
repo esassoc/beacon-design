@@ -36,12 +36,19 @@ const a1 = await repo();
 check('Publish Now: one revision, nothing left behind', a1.versions === start.versions + 1 && !a1.drafts.some((d) => d.transient), JSON.stringify(a1));
 check('still on Live', !new URL(page.url()).searchParams.has('draft'));
 
-// 2. A date that moves what follows: Publish Now sends it to your draft instead.
+// 2. A date that moves what follows: Review and Publish shows the knock-on moves in the review (2026-10-29, Andy:
+// "Publish Now (with no review) seems wrong"); Back to Edit, then Save to My Draft keeps it for later.
 await openRow(proc);
 await setEnd(20);
+check('the button reads Review and Publish', (await label('[data-ped="publish"]')) === 'Review and Publish');
 await page.click('[data-ped="publish"]'); await page.waitForTimeout(2500);
+const cascadeRows = await page.locator('[data-prvd-rows] .bcn-prvd__cell--to .bcn-prvd__name').count();
+check('a cascading edit: the review shows what it moves, Live unchanged', cascadeRows > 1 && (await repo()).versions === a1.versions, `${cascadeRows} rows`);
+await page.click('[data-prvd-close] button'); await page.waitForTimeout(800);
+check('Back to Edit returns to the drawer', await isOpen());
+await page.click('[data-ped="save"]'); await page.waitForTimeout(2500);
 const a2 = await repo();
-check('a cascading Publish Now goes to your draft', a2.versions === a1.versions && a2.drafts.some((d) => d.owner === 'Andy Lovseth' && d.edits === 1), JSON.stringify(a2));
+check('Save to My Draft keeps it in your draft', a2.versions === a1.versions && a2.drafts.some((d) => d.owner === 'Andy Lovseth' && !d.transient && d.edits === 1), JSON.stringify(a2));
 check('page switched into the draft', new URL(page.url()).searchParams.has('draft'));
 
 // 3. Back on Live, the same item: your draft changes it, so the drawer opens there.

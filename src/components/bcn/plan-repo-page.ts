@@ -435,8 +435,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     pushAlert(said ?? (canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.'), said ? 'warning' : 'success', 7000);
   }
 
-  /** Publish Now from Live's drawer: the review on just this edit when nothing else moves (otherwise it goes to your
-   *  draft). Nothing reaches Live unseen (2026-10-29, Andy: "users should always get that guard"): the edit waits in a
+  /** Review and Publish from Live's drawer: the review on this edit, and whatever it moves with it. Nothing reaches
+   *  Live unseen (2026-10-29, Andy: "Publish Now (with no review) seems wrong"; the knock-on moves are shown in the
+   *  review rather than sent to your draft) (2026-10-29, Andy: "users should always get that guard"): the edit waits in a
    *  short-lived draft while the review shows it beside Live; its Publish lands it, Back to Edit returns to the drawer
    *  as it was left. True when the drawer can close. */
   async function publishFromDrawer(edit: DrawerEdit): Promise<boolean> {
@@ -444,20 +445,6 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (!change) return true;
     // A parent moved whole carries its items: those are the edit, not something else it moves.
     const edits = change.dates ? withItemsCarried(live, change.dates) : [];
-    const carried = new Set(edits.map((e) => e.PlanElementID));
-    if (change.dates) {
-      const view = await planApi.previewDraft(planID!, planDraftWithEdits([], edits, live, true));
-      const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
-      const n = flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
-        const w = was.get(e.PlanElementID);
-        return !carried.has(e.PlanElementID ?? '') && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
-      }).length;
-      if (n) {
-        // The drawer closes first; then the edit goes to your draft.
-        setTimeout(() => void saveToMyDraft(edit, `It moves ${n} other ${n === 1 ? 'item' : 'items'}, so it went to your draft for review.`));
-        return true;
-      }
-    }
     const name = flattenPlan(live.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element.PlanElementName ?? 'Item';
     const temp = startEditDraft(planID!, name);
     addRevision(planID!, temp.id, edits.length ? planDraftWithEdits([], edits, live, true) : [], change.note, { fields: change.fields });

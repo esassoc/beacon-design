@@ -6,6 +6,6 @@ export const DRAFT_FIRST = 'Changes go to your draft; Review and Publish takes t
 /** Live, for someone who can't (a Contributor). */
 export const DRAFT_FIRST_ASK = 'Changes go to your draft; someone who can publish takes them to Live.';
 /** Live, with Publish Now on offer (the drawer, the item's Edit). */
-export const DRAFT_FIRST_NOW = 'Changes go to your draft; Review and Publish takes them to Live. Publish Now reviews just this change, when nothing else moves.';
+export const DRAFT_FIRST_NOW = 'Save to My Draft keeps it for later; Review and Publish shows this change, and anything it moves, before it goes to Live.';
 /** Someone else's draft. */
 export const DRAFT_READ_ONLY = (owner: string) => `${owner}’s draft is read-only. Copy to My Draft to change it.`;

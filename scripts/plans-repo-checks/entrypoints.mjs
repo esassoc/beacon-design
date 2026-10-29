@@ -29,7 +29,7 @@ let r0 = await repo();
 // ── 1. Owner, the drawer's Publish Now on Live: the review first, Live unchanged until its Publish ──
 await openRow(memo);
 check('drawer: Publish Now offered on Live', await shown('[data-ped="publish"]'));
-check('drawer note says Publish Now reviews', /Publish Now reviews/.test(await page.locator('[data-ped="draft-note"]').textContent()));
+check('drawer note says Review and Publish shows the change', /Review and Publish shows/.test(await page.locator('[data-ped="draft-note"]').textContent()));
 await setNotes('[data-ped="notes"]', 'Entry points: drawer, Publish Now.');
 await page.click('[data-ped="publish"]'); await page.waitForTimeout(2500);
 let r1 = await repo();

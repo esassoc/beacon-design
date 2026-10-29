@@ -352,20 +352,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     history.pushState(null, '', ELEMENT_HREF(planID, elementId, draftID));
     await refresh();
   }
-  /** The other items an edit's dates would move (leaves only: a parent's span follows its items anyway). */
-  async function moves(edit: ElementEdit): Promise<number> {
-    if (!edit.dates || !ctx) return 0;
-    const live = ctx.live;
-    // Its own items, carried with a parent, are the edit itself, not something else it moves.
-    const edits = withItemsCarried(live, edit.dates);
-    const carried = new Set(edits.map((e) => e.PlanElementID));
-    const view = await planApi.previewDraft(planID, planDraftWithEdits([], edits, live, true));
-    const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
-    return flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
-      const w = was.get(e.PlanElementID);
-      return !carried.has(e.PlanElementID ?? '') && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
-    }).length;
-  }
   const firstName = (n: string) => n.split(' ')[0];
   async function edit(): Promise<void> {
     if (!ctx) return;
@@ -388,7 +374,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         ? 'Saved to your draft; someone who can publish takes it to Live.'
         : others.length
           ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so this edit goes to your draft.`
-          : `${into} Review and Publish takes it to Live; Publish Now reviews just this edit.`;
+          : `${into} Or Review and Publish this edit now, with whatever it moves.`;
       if (!canPublish) where = `${into} Ask to Publish when it’s ready.`;
       let publishNow = canPublish && !others.length;
       let keep = false;
@@ -399,14 +385,6 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
           const now = (await draftsTouching(planID, elementId, ctx.live)).map((d) => firstName(d.owner));
           if (now.length) {
             where = `${now.length === 1 ? `${now[0]}’s draft` : `${now.length} drafts`} started changing this item while you edited, so it goes to your draft.`;
-            publishNow = false;
-            keep = true;
-            continue;
-          }
-          const n = await moves(result.edit);
-          if (n) {
-            // Something else moves: that's for the review, so back to the form with Publish Now gone.
-            where = `It moves ${n} other ${n === 1 ? 'item' : 'items'}, so it goes to your draft for review.`;
             publishNow = false;
             keep = true;
             continue;
