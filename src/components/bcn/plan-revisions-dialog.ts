@@ -513,6 +513,14 @@ export function setupPlanRevisionsDialog(opts: {
       note.textContent = !opts.canPublish ? "You can't publish. Ask to Publish sends it to someone who can." : `${firstName(draft.owner)} hasn't asked to publish this draft.`;
       return;
     }
+    // A publish takes the draft from Live (2026-10-29, the second traps audit: with From on a later edit, the review
+    // showed one change while Publish took them all). Compare freely; publish from Live.
+    if (sel.from > 0) {
+      publish.hidden = true;
+      note.hidden = false;
+      note.textContent = 'Publishing starts from Live. Move From back to Live to publish.';
+      return;
+    }
     const last = sel.to === stops.length - 1;
     name.hidden = false;
     publish.querySelector('[data-prvd-act-label]')!.textContent = last ? `Publish as Revision ${latestNumber + 1}` : `Publish Up to Edit ${sel.to}`;

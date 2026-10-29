@@ -200,7 +200,7 @@ interface RepoStore {
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
  *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
-const SEED_FORMAT = 11;
+const SEED_FORMAT = 12;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -663,7 +663,6 @@ const FISH_DRAFTS: { name: string; owner: string; startedDaysAgo: number; askedD
     name: 'Permit delay scenario',
     owner: 'Alex Rivera',
     startedDaysAgo: 4,
-    askedDaysAgo: 0.8,
     edits: [
       { daysAgo: 4, name: 'Receiver-site encroachment', days: 45 },
       { daysAgo: 3, name: 'Regional receiver network build-out', days: 30 },
@@ -674,6 +673,8 @@ const FISH_DRAFTS: { name: string; owner: string; startedDaysAgo: number; askedD
   {
     name: 'Tagging season re-sequence',
     owner: 'Sam Okafor',
+    // A Contributor's draft, asked to publish: who can't publish asks (2026-10-29: was Alex's what-if, an Editor's).
+    askedDaysAgo: 0.8,
     startedDaysAgo: 2,
     edits: [
       { daysAgo: 2, name: 'Winter-freshet acoustic tagging', days: -30 },
@@ -847,6 +848,7 @@ export function ensureSeeded(onProgress?: (text: string) => void): Promise<void>
   return seedingNow;
 }
 async function seedOnce(onProgress?: (text: string) => void): Promise<void> {
+  recoverPublish();
   const plans = await planApi.listPlans(PROJECT_ID);
   // Read after the API answers (2026-10-29): read before, a plan created meanwhile (New Plan on the index) was saved
   // over by this stale copy and came back without its People.
@@ -1377,7 +1379,53 @@ function remapRevision(rev: PlanRevision, ids: ReadonlyMap<string, string>, now:
  * Publish: the draft as it stood at `revisionIndex` (its latest by default — WordPress lets you restore any revision,
  * so here any revision can be the one published) becomes the next live version. The draft is closed.
  */
+/**
+ * A publish is several writes (2026-10-29, the second traps audit: leaving the page mid-publish left Live half-built,
+ * and publishing again doubled its new items). So it runs all or nothing: the stores are kept before it starts and put
+ * back if it fails, or, if the page closed under it, on the next load (recoverPublish). Leaving asks first meanwhile.
+ */
+const PUBLISHING_KEY = 'bcn-plan-publishing';
+const PUBLISH_STORES = ['bcn-planning-store-v1', REPO_KEY, 'bcn-plan-records-v1'];
+function restoreStores(kept: Record<string, string | null>): void {
+  for (const [k, v] of Object.entries(kept)) v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v);
+}
+/** A publish the page closed under, older than any publish still running: undone, so Live is as it was. */
+export function recoverPublish(): boolean {
+  try {
+    const raw = localStorage.getItem(PUBLISHING_KEY);
+    if (!raw) return false;
+    const mark = JSON.parse(raw) as { at: number; kept: Record<string, string | null> };
+    if (Date.now() - mark.at < 30_000) return false;
+    restoreStores(mark.kept);
+    localStorage.removeItem(PUBLISHING_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
 export async function publishDraft(planID: string, draftID: string, revisionIndex?: number, label?: string): Promise<PlanVersion> {
+  const kept = Object.fromEntries(PUBLISH_STORES.map((k) => [k, localStorage.getItem(k)]));
+  try {
+    localStorage.setItem(PUBLISHING_KEY, JSON.stringify({ at: Date.now(), kept }));
+  } catch {
+    /* too big to keep: the publish still runs, unguarded */
+  }
+  const hold = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+  addEventListener('beforeunload', hold);
+  try {
+    return await publishSteps(planID, draftID, revisionIndex, label);
+  } catch (err) {
+    restoreStores(kept);
+    throw err;
+  } finally {
+    removeEventListener('beforeunload', hold);
+    localStorage.removeItem(PUBLISHING_KEY);
+  }
+}
+async function publishSteps(planID: string, draftID: string, revisionIndex?: number, label?: string): Promise<PlanVersion> {
   const before = load();
   const repo = findRepo(before, planID);
   const draft = repo.drafts.find((d) => d.id === draftID);

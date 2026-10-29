@@ -128,5 +128,7 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
     border-radius: var(--radius-200); cursor: pointer; white-space: nowrap;
   }
   .bcn-status-select__opt:hover { background: var(--color-background-elevation-sunken); }
+  .bcn-status-select__opt:focus-visible { background: var(--color-background-elevation-sunken); outline: 2px solid var(--color-background-brand); outline-offset: -2px; }
+  .bcn-status-select__opt[hidden] { display: none; }
   .bcn-status-select__opt[aria-selected='true'] { background: var(--color-background-elevation-sunken); font-weight: var(--typography-font-weight-semibold); }
 </style>

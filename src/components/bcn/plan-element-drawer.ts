@@ -515,7 +515,7 @@ export function openPlanElementDrawer(args: {
 
     // Budget: none on a milestone. By fiscal year where the page has a budget sheet; else the one amount.
     const fy = draft?.budget ? draft.budget() : null;
-    show(q('budget-section'), !milestone);
+    show(q('budget-section'), !milestone && !draft?.hideBudget);
     show(budgetWrap, !milestone && !draft?.budget && !draft?.hideBudget);
     show(q('budget-summary'), !milestone && !!draft?.budget && !draft?.hideBudget);
     if (fy) {
@@ -1173,7 +1173,7 @@ export function openPlanElementDrawer(args: {
     return confirm({
       header: 'Discard unsaved changes?',
       text: 'You have unsaved changes to this element. Closing now will discard them.',
-      confirmButtonLabel: 'Discard changes',
+      confirmButtonLabel: 'Discard Changes',
       color: 'warn',
     });
   };

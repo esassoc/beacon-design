@@ -200,7 +200,7 @@ import { withBase } from '../../lib/base';
         <!-- A search that matches nothing: the chart steps aside for this (its own rule with no rows). -->
         <div class="bcn-prp__no-match" data-prp-no-match hidden>
           <EsaEmptyState size="sm" title="Nothing Matches" description="Try another word.">
-            <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm">Clear Search</EsaButton></span>
+            <span data-prp-search-clear><EsaButton variant="ghost" appearance="outline" size="sm"><span data-prp-search-clear-label>Clear Search</span></EsaButton></span>
           </EsaEmptyState>
         </div>
         </div>
@@ -345,7 +345,7 @@ import { withBase } from '../../lib/base';
   .bcn-prp__scope :global(esa-text-field) { --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px)); }
   /* The search: BcnViewToolbar's width, on every view. */
   .bcn-prp__search { inline-size: 16rem; }
-  .bcn-prp__bar { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
+  .bcn-prp__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-200) var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__bar[data-band] :is(.bcn-prp__count, .bcn-prp__count-tip) { display: none; }
   .bcn-prp__base { display: inline-flex; align-items: center; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-prp__behind { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-default); }
@@ -413,7 +413,8 @@ import { withBase } from '../../lib/base';
      name when the row runs short. */
   .bcn-prp__status {
     display: flex;
-    flex: 1 1 auto;
+    /* Under 30rem of room (a 1024 window) the latest change takes its own line rather than losing its end. */
+    flex: 1 1 30rem;
     justify-content: flex-end;
     align-items: center;
     gap: var(--spacing-200);
@@ -435,7 +436,10 @@ import { withBase } from '../../lib/base';
   /* Who, a hairline, then the change as data (BcnChangeNote): the item's name gives way first. */
   .bcn-prp__status-text { display: inline-flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; white-space: nowrap; }
   .bcn-prp__status-text strong { font-weight: 600; }
-  .bcn-prp__status-text [data-prp-status-message] { display: inline-flex; min-inline-size: 0; }
+  .bcn-prp__status-text [data-prp-status-message] { display: inline-flex; min-inline-size: 0; overflow: hidden; }
+  /* At 1024 the item's name gives way, so the shift at the end stays whole (2026-10-29, the second traps audit). */
+  .bcn-prp__status-text { overflow: hidden; }
+  .bcn-prp__status-text [data-prp-status-message] :global(.bcn-change__shift) { flex-shrink: 0; }
   .bcn-prp__status-text strong:not(:empty) + [data-prp-status-message] { padding-inline-start: var(--spacing-200); border-inline-start: 1px solid var(--color-border-default); }
   .bcn-prp__notice-body [data-prp-notice-text] { display: inline-flex; align-items: center; gap: var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__notice-body :global(.bcn-prp__notice-meta) { color: var(--color-content-default-secondary); white-space: nowrap; }
@@ -570,6 +574,8 @@ import { withBase } from '../../lib/base';
   .bcn-prp__view--records { padding: 0; }
   /* Download is the budget's (the records views have their own). */
   .bcn-prp:not([data-view='budget']) [data-prp-download] { display: none; }
+  /* Chart or Table and Health are the schedule's; the budget is its own sheet (2026-10-29, the second traps audit). */
+  .bcn-prp[data-view='budget'] :is([data-prp-showas], [data-prp-health]) { display: none; }
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);

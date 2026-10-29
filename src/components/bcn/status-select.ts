@@ -56,7 +56,10 @@ export function setupStatusSelect(root: HTMLElement): StatusSelectController {
 
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    openMenu(Boolean(menu.hidden));
+    const opening = Boolean(menu.hidden);
+    openMenu(opening);
+    // Opened from the keyboard (Enter or Space: a click with no pointer), the current option takes focus.
+    if (opening && (e as MouseEvent).detail === 0) (optFor(current) ?? opts[0])?.focus();
   });
 
   opts.forEach((opt) =>
@@ -64,9 +67,40 @@ export function setupStatusSelect(root: HTMLElement): StatusSelectController {
       const value = opt.dataset.value as string;
       paint(value);
       openMenu(false);
+      trigger.focus();
       root.dispatchEvent(new CustomEvent('change', { detail: { value }, bubbles: true }));
     }),
   );
+
+  // The listbox keys (2026-10-29, the second traps audit: Arrow keys scrolled the page and Escape left it open): Down,
+  // Up, Home and End move among the options; Enter or Space picks; Escape and Tab close, back on the trigger.
+  opts.forEach((o) => (o.tabIndex = -1));
+  const visible = () => opts.filter((o) => !o.hidden);
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    openMenu(true);
+    (optFor(current) ?? visible()[0])?.focus();
+  });
+  menu.addEventListener('keydown', (e) => {
+    const list = visible();
+    const at = list.indexOf(document.activeElement as HTMLLIElement);
+    const move = (i: number) => list[(i + list.length) % list.length]?.focus();
+    if (e.key === 'ArrowDown') move(at + 1);
+    else if (e.key === 'ArrowUp') move(at - 1);
+    else if (e.key === 'Home') move(0);
+    else if (e.key === 'End') move(list.length - 1);
+    else if (e.key === 'Enter' || e.key === ' ') (document.activeElement as HTMLElement)?.click();
+    else if (e.key === 'Escape' || e.key === 'Tab') {
+      openMenu(false);
+      if (e.key === 'Escape') {
+        trigger.focus();
+        e.stopPropagation();
+      }
+      return;
+    } else return;
+    e.preventDefault();
+  });
 
   document.addEventListener('click', (e) => {
     if (!root.contains(e.target as Node)) openMenu(false);

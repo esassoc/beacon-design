@@ -4,12 +4,12 @@
 import { withBase } from '../../lib/base';
 
 import { planIcon } from '../../lib/planning/icons';
-import { recordsFor, healthOf } from '../../lib/planning/plan-records';
+import { recordsFor, healthOf, receiptOverdue, type Transmittal } from '../../lib/planning/plan-records';
 import { budgetAt, seesBudget, latestVersion, flattenPlan, attributesAt, orgOf, currentUserName, ensureSeeded, fiscalYearOf, listPlanSummaries, membersOf, shortDate, viewsOf, type PlanBudget, type PlanSummary, type PlanView } from '../../lib/planning/plan-repo';
 import { dayNumber } from '../../lib/planning/gantt-geometry';
 import { planAvatarStack } from './plan-people';
 import { setupPlanSetupDialog } from './plan-setup-dialog';
-import { CUSTOMIZE_HREF } from '../../lib/planning/element-context';
+import { CUSTOMIZE_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 
 type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
 type FieldEl = HTMLElement & { value: string };
@@ -31,12 +31,14 @@ function lateCount(repo: PlanSummary['repo']): number {
 
 /** What a plan waits on you for (2026-10-29, the traps audit: Ask to Publish had no loop): drafts asked to publish,
  *  if you can publish; your own draft, sent back. Each opens that draft. */
-function waitingOn(repo: PlanSummary['repo'], me: string): { asked: PlanSummary['repo']['drafts']; back: PlanSummary['repo']['drafts'] } {
+function waitingOn(repo: PlanSummary['repo'], me: string): { asked: PlanSummary['repo']['drafts']; back: PlanSummary['repo']['drafts']; receipts: Transmittal[] } {
   const role = membersOf(repo).find((m) => m.name === me)?.role;
   const publishes = role === 'Owner' || role === 'Editor';
   return {
     asked: publishes ? repo.drafts.filter((d) => d.publishRequestedAt && d.owner !== me && !d.transient) : [],
     back: repo.drafts.filter((d) => d.owner === me && d.sentBack),
+    // Sends of yours a recipient hasn't confirmed past the due date (2026-10-29, the second traps audit).
+    receipts: recordsFor(repo.planID).transmittals.filter((t) => t.from === me && !t.closedAt && t.to.some((n) => receiptOverdue(t, n))),
   };
 }
 
@@ -140,7 +142,14 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
   // New Plan and Start Sample Over are the project's staff's (ESA and DWR), or anyone already working on a plan.
   const staff = ['ESA', 'DWR'].includes(orgOf(me)) || summaries.length > 0;
   if (!staff) document.querySelectorAll<HTMLElement>('[data-pri-new], [data-pri-reset]').forEach((b) => (b.hidden = true));
-  if (!summaries.length && everything.length) root.hidden = true;
+  // On no plan (an agency reviewer, an outsider): no finder over nothing, but a word on where plans come from
+  // (2026-10-29, the second traps audit: the page was blank).
+  const onNone = !summaries.length && everything.length > 0;
+  if (onNone) {
+    q<HTMLElement>('.bcn-pri__bar').hidden = true;
+    none.querySelector('.esa-empty-state__title')!.textContent = 'No Plans Shared With You';
+    none.querySelector('.esa-empty-state__description')!.textContent = 'A plan shows here once one of its Owners adds you. Transmittals sent to you are in Sent to You.';
+  }
   loading.hidden = true;
   rowsEl.hidden = false;
 
@@ -153,7 +162,7 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       if (mode === 'late' && !lateBy.get(s.repo.planID)) return false;
       if (mode === 'you') {
         const w = waitingOn(s.repo, me);
-        if (!w.asked.length && !w.back.length) return false;
+        if (!w.asked.length && !w.back.length && !w.receipts.length) return false;
       }
       return true;
     });
@@ -218,11 +227,11 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     }
     const wait = waitingOn(s.repo, me);
     const first = wait.asked[0] ?? wait.back[0];
-    if (first) {
+    if (first || wait.receipts.length) {
       const link = r<HTMLAnchorElement>('[data-pri-waiting]');
       link.hidden = false;
-      link.href = PLAN_HREF(s.repo.planID, `&draft=${first.id}`);
-      const parts = [wait.asked.length ? count(wait.asked.length, 'Publish Request', 'Publish Requests') : '', wait.back.length ? 'Your Draft Sent Back' : ''].filter(Boolean);
+      link.href = first ? PLAN_HREF(s.repo.planID, `&draft=${first.id}`) : TRANSMITTAL_HREF(s.repo.planID, wait.receipts[0].id);
+      const parts = [wait.asked.length ? count(wait.asked.length, 'Publish Request', 'Publish Requests') : '', wait.back.length ? 'Your Draft Sent Back' : '', wait.receipts.length ? count(wait.receipts.length, 'Receipt Overdue', 'Receipts Overdue') : ''].filter(Boolean);
       r<HTMLElement>('[data-pri-waiting-text]').textContent = parts.join(', ');
     }
     const history = r<HTMLAnchorElement>('[data-pri-history]');

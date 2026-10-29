@@ -10,6 +10,7 @@ import {
   deletePlanRepo,
   configOf,
   getRepo,
+  orgOf,
   membersOf,
   savePlanConfig,
   savePlanSettings,
@@ -245,7 +246,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       })
     );
     void customElements.whenDefined('esa-combobox').then(() => {
-      addPerson.options = PLAN_DIRECTORY.filter((n) => !members.some((m) => m.name === n)).map((n) => ({ value: n, label: n }));
+      addPerson.options = PLAN_DIRECTORY.filter((n) => !members.some((m) => m.name === n)).map((n) => ({ value: n, label: orgOf(n) ? `${n} (${orgOf(n)})` : n }));
     });
     checkOwners();
   }
@@ -254,11 +255,12 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     q<HTMLElement>('[data-psu-people-error]').hidden = ok;
     return ok;
   };
-  // A person added comes in as a Contributor: the least they can do, raised by hand.
+  // A person added comes in at the least they can do, raised by hand: the project's staff (ESA, DWR) as Contributors,
+  // anyone from an agency as a Guest (2026-10-29, the second traps audit: an agency reviewer came in able to draft).
   addPerson.addEventListener('change', () => {
     const picked = String(addPerson.value ?? '');
     if (!picked || members.some((m) => m.name === picked)) return;
-    members.push({ name: picked, role: 'Contributor' });
+    members.push({ name: picked, role: ['ESA', 'DWR'].includes(orgOf(picked)) ? 'Contributor' : 'Guest' });
     drawPeople();
     requestAnimationFrame(() => (addPerson.value = ''));
   });

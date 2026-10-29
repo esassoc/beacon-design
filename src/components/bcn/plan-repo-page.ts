@@ -174,6 +174,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   let repo: PlanRepo = getRepo(planID);
   let live: PlanDetailDto = await planApi.getPlan(planID);
   let draft: PlanRepoDraft | null = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
+  // A new plan built in its owner's draft (2026-10-29, the second traps audit: back on the plan, an empty Live read as
+  // lost work): while Live has nothing, the plan opens on your draft.
+  if (!params.get('draft') && !flattenPlan(live.Elements).length) {
+    const mine = repo.drafts.find((d) => d.owner === me && !d.transient && d.revisions.length);
+    if (mine) {
+      draft = mine;
+      history.replaceState(null, '', keep(PLAN_HREF(planID, `&draft=${mine.id}`)));
+    }
+  }
   // A link to a draft that's gone (published or discarded since; 2026-10-29, the traps audit): say so, then show Live.
   if (params.get('draft') && !draft) {
     history.replaceState(null, '', keep(PLAN_HREF(planID)));
@@ -1510,10 +1519,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (value === 'draft' && mode !== 'own') void switchTo(startDraft(planID!, undefined, kind), { rise: true });
   });
   q<HTMLElement>('[data-prp-edit]').addEventListener('click', () => void switchTo(startDraft(planID!, undefined, kind), { rise: true }));
-  q<HTMLElement>('[data-prp-ask]').addEventListener('click', () => {
+  q<HTMLElement>('[data-prp-ask]').addEventListener('click', async () => {
     if (!draft || !draft.revisions.length) return;
-    requestPublish(planID!, draft.id);
     const asked = membersOf(getRepo(planID!)).filter((m) => m.role === 'Owner' || m.role === 'Editor').map((m) => m.name.split(' ')[0]);
+    // What's being asked for, said first (2026-10-29, the second traps audit: one click sent edits never looked at).
+    const edits = draft.revisions.map((r) => r.message).filter(Boolean);
+    const listed = edits.length > 4 ? `${edits.slice(0, 4).join('; ')}; and ${edits.length - 4} more` : edits.join('; ');
+    const ok = await confirm({
+      header: `Ask to Publish ${draft.name}?`,
+      text: `It holds ${edits.length} ${edits.length === 1 ? 'edit' : 'edits'}: ${listed}. Review shows each one first, if you'd like to check.`,
+      confirmButtonLabel: 'Ask to Publish',
+      cancelButtonLabel: 'Not Yet',
+    });
+    if (!ok) return;
+    requestPublish(planID!, draft.id);
     pushAlert(`Asked ${asked.length > 1 ? `${asked.slice(0, -1).join(', ')} or ${asked.at(-1)}` : (asked[0] ?? 'the Owners')} to publish your draft. A new edit withdraws the request.`, 'success', 7000);
     refresh();
   });
@@ -1672,6 +1691,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       none.querySelector('.esa-empty-state__title')!.textContent = `Nothing ${healthPick.join(' or ')}`;
       none.querySelector('.esa-empty-state__description')!.textContent = 'Clear the Health filter to see every item.';
     }
+    // The empty state's button clears what emptied it (2026-10-29: it said Clear Search under the Health filter).
+    q<HTMLElement>('[data-prp-search-clear-label]').textContent = rows && !rows.size ? 'Clear Health Filter' : 'Clear Search';
   }
   healthFacet.addEventListener('selection-change', (e) => {
     const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
@@ -1704,6 +1725,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     applySearch();
   });
   q<HTMLElement>('[data-prp-search-clear]').addEventListener('click', () => {
+    if (healthPick.length && q<HTMLElement>('[data-prp-search-clear-label]').textContent === 'Clear Health Filter') {
+      healthPick = [];
+      healthFacet._selected = [];
+      applyHealth();
+      return;
+    }
     search.value = '';
     applySearch();
     search.focus();

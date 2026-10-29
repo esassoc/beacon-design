@@ -86,11 +86,13 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
       statusOnChange = (v) => {
         const next = STATUSES.find((s) => wire(s) === v);
         if (next && next !== status) {
-          setStatus(ctx.planID, id, next);
-          host.toast(`Status set to ${next}.`);
+          const cleared = setStatus(ctx.planID, id, next);
+          host.toast(`Status set to ${next} on Live.${cleared ? ` Health now reads ${next} too; the earlier health note is cleared.` : ''}`);
         }
       };
       statusDd.append(ctl.element);
+      // Records are Live's: said where the page's banner talks about drafts.
+      statusDd.append(el('span', 'bcn-det__muted', 'Saves to Live, not to a draft.'));
       if (ctx.attrs.deliverable) statusDd.append(el('span', 'bcn-det__muted', 'Record Completion to complete it.'));
     } else {
       statusDd.append(badge(status, STATUS_VARIANT[status], 'sm'));

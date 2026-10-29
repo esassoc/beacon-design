@@ -234,7 +234,15 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         q('[data-pep-guest] .esa-empty-state__description').textContent = 'You aren’t on this plan’s People. Ask one of its Owners to add you.';
       }
       q('[data-pep-cols]').hidden = true;
-      if (titleText) titleText.textContent = ctx.element.PlanElementName ?? '';
+      // Someone not on the plan learns nothing of it, the item's name included (2026-10-29, the second traps audit).
+      if (titleText) titleText.textContent = ctx.onPlan ? (ctx.element.PlanElementName ?? '') : 'Not Shared With You';
+      if (!ctx.onPlan) {
+        document.title = 'Not Shared With You | Beacon';
+        const crumbs = [...document.querySelectorAll<HTMLElement>('.breadcrumbs__items a.breadcrumb-item')].slice(1);
+        crumbs.forEach((c) => (c.nextElementSibling?.remove(), c.remove()));
+        const current = document.querySelector('.breadcrumbs__items [aria-current="page"]');
+        if (current) current.textContent = 'Not Shared With You';
+      }
       document.querySelectorAll<HTMLElement>('[data-pep-action]').forEach((a) => (a.hidden = true));
       return;
     }

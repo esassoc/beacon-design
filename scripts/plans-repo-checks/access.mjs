@@ -20,7 +20,7 @@ check('outsider: the plan stops', await page.locator('[data-prp-stop="outside"]'
 await page.goto(`${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${baseline}`); await page.waitForTimeout(2000);
 check('outsider: the item stops', (await page.locator('[data-pep-guest]').innerText()).includes('Not Shared With You'));
 await page.goto(`${BASE}/prototypes/plans-repo/`); await page.waitForTimeout(2500);
-check('outsider: no plans listed, no New Plan', await page.locator('[data-bcn-plan-repo-index]').evaluate((e) => e.hidden || getComputedStyle(e).display === 'none') && await page.locator('[data-pri-new]').evaluate((e) => e.hidden));
+check('outsider: no plans listed, a word on why, no New Plan', (await page.locator('li.bcn-pri__row').count()) === 0 && (await page.locator('[data-pri-none]').innerText()).includes('No Plans Shared With You') && await page.locator('[data-pri-new]').evaluate((e) => e.hidden));
 
 // A Contributor: no Restore; no money in the chart's rows.
 await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}&user=Morgan%20Ellis&revisions=1`); await page.waitForTimeout(3000);

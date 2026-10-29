@@ -210,9 +210,16 @@ const addDays = (iso: string, days: number) => new Date(Date.parse(iso) + days *
 
 // ── Status and health ──────────────────────────────────────────────────────────────────────────────────────────────
 
-export function setStatus(planID: string, elementId: string, status: ElementStatus): void {
-  updateRecords(planID, (r) => {
+/** Set a status. Returns whether it cleared a health override: a status that says Blocked or Completed outranks an
+ *  older word on health (2026-10-29, the second traps audit: a week-old At Risk hid a fresh Blocked everywhere). */
+export function setStatus(planID: string, elementId: string, status: ElementStatus): boolean {
+  return updateRecords(planID, (r) => {
     r.status[elementId] = { status, by: currentUserName(), at: nowIso() };
+    if ((status === 'Blocked' || status === 'Completed') && r.health[elementId]) {
+      delete r.health[elementId];
+      return true;
+    }
+    return false;
   });
 }
 /** An owner's health, with a note; null goes back to the derived one. */
