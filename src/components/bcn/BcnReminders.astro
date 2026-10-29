@@ -1,0 +1,114 @@
+---
+// <BcnReminders> — Due for You (2026-10-28, the SOW review: "Reminders to task owners as due dates approach"). The
+// reminders Beacon's nightly send has emailed the signed-in person in the last two weeks, and every item still past
+// due, across every plan: the item (opening its page), its plan, its due date, which reminder went last and when, and
+// why it reached them (owner, their organization owns it, or copied). Hidden when there are none. Plan Settings,
+// Reminders sets when they go (./plan-reminders.ts works out the sends). Include BcnBadgeBank on the page.
+//
+// bcn-lego-checked: the shell IS esa-card (muted header, as the item page's cards), the glyph IS esa-icon, the count and
+// kinds ARE esa-badge (BcnBadgeBank). No esa- lego is a register with columns; checked Beacon (prod lists are ag-grid,
+// too heavy for a short list). Its grid follows BcnTransmittalInbox, its sibling on the same page.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+---
+
+<section class="bcn-rem" data-bcn-reminders aria-labelledby="rem-title" hidden>
+  <EsaCard padding="compact" headerVariant="muted">
+    <div slot="header" class="bcn-rem__head">
+      <span class="bcn-rem__glyph"><EsaIcon name="clock" paths={PLAN_ICON_PATHS.clock} size="sm" /></span>
+      <span class="bcn-rem__titles">
+        <span class="bcn-rem__title-row">
+          <h2 class="typography-label-md-strong" id="rem-title">Due for You</h2>
+          <span data-rem-count><EsaBadge value="0" size="xs" /></span>
+        </span>
+        <span class="bcn-rem__note typography-body-sm" data-rem-note></span>
+      </span>
+    </div>
+    <div class="bcn-rem__grid" role="table" aria-labelledby="rem-title">
+      <div class="bcn-rem__row bcn-rem__row--head typography-label-xs" role="row">
+        <span role="columnheader">Item</span>
+        <span role="columnheader">Due</span>
+        <span role="columnheader">Reminder</span>
+        <span role="columnheader">You Are</span>
+      </div>
+      <div role="rowgroup" data-rem-rows></div>
+    </div>
+  </EsaCard>
+</section>
+
+<style>
+  .bcn-rem[hidden] { display: none; }
+  .bcn-rem__head { display: flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-rem__glyph { display: inline-flex; color: var(--color-content-brand); }
+  .bcn-rem__titles { display: flex; flex-direction: column; gap: var(--spacing-050); }
+  .bcn-rem__title-row { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-rem__title-row h2 { margin: 0; }
+  .bcn-rem__note { color: var(--color-content-default-secondary); }
+  .bcn-rem__row {
+    display: grid;
+    grid-template-columns: minmax(0, 2.4fr) minmax(7rem, 0.8fr) minmax(12rem, 1.2fr) minmax(7rem, 0.6fr);
+    gap: var(--spacing-300);
+    align-items: center;
+    padding: var(--spacing-200) 0;
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-rem__row--head { border-top: 0; color: var(--color-content-default-secondary); }
+  .bcn-rem__grid :global(.bcn-rem__item) { display: flex; flex-direction: column; min-width: 0; }
+  .bcn-rem__grid :global(.bcn-rem__item a) { color: var(--color-content-brand); font-weight: var(--typography-font-weight-semibold); text-decoration: none; }
+  .bcn-rem__grid :global(.bcn-rem__item a:hover) { text-decoration: underline; }
+  .bcn-rem__grid :global(.bcn-rem__muted) { color: var(--color-content-default-secondary); font-size: var(--typography-body-sm-font-size); }
+  .bcn-rem__grid :global(.bcn-rem__sent) { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  @media (max-width: 760px) {
+    .bcn-rem__row { grid-template-columns: minmax(0, 1fr) auto; }
+    .bcn-rem__row--head { display: none; }
+  }
+</style>
+
+<script>
+  import { ensureSeeded } from '../../lib/planning/plan-repo';
+  import { currentUserName } from '../../lib/planning/plan-server';
+  import { remindersFor, todayIso, type ReminderEntry } from '../../lib/planning/plan-reminders';
+  import { ELEMENT_HREF } from '../../lib/planning/element-context';
+  import { badge } from './badge-bank';
+  import { day } from './element-module';
+
+  const root = document.querySelector<HTMLElement>('[data-bcn-reminders]');
+  const TONE = { 'Coming Up': 'info', Due: 'warning', 'Past Due': 'danger' } as const;
+  const days = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000);
+
+  function row(r: ReminderEntry, today: string): HTMLElement {
+    const el = Object.assign(document.createElement('div'), { className: 'bcn-rem__row' });
+    el.setAttribute('role', 'row');
+    const item = Object.assign(document.createElement('span'), { className: 'bcn-rem__item' });
+    item.setAttribute('role', 'cell');
+    item.append(Object.assign(document.createElement('a'), { href: ELEMENT_HREF(r.planID, r.itemId), textContent: r.itemName }), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: r.planName }));
+    const due = Object.assign(document.createElement('span'), { className: 'typography-body-sm' });
+    due.setAttribute('role', 'cell');
+    const left = days(today, r.due);
+    due.append(day(r.due), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: left > 0 ? ` (in ${left} ${left === 1 ? 'day' : 'days'})` : left === 0 ? ' (today)' : ` (${-left} ${left === -1 ? 'day' : 'days'} late)` }));
+    const sent = Object.assign(document.createElement('span'), { className: 'bcn-rem__sent' });
+    sent.setAttribute('role', 'cell');
+    sent.append(badge(r.last.kind, TONE[r.last.kind], 'sm'), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: `Emailed ${day(r.last.date)}` }));
+    const as = Object.assign(document.createElement('span'), { className: 'typography-body-sm', textContent: r.as === 'Organization' ? 'Your Organization' : r.as });
+    as.setAttribute('role', 'cell');
+    el.append(item, due, sent, as);
+    return el;
+  }
+
+  async function draw(el: HTMLElement): Promise<void> {
+    await ensureSeeded();
+    const today = todayIso();
+    const list = await remindersFor(currentUserName(), today);
+    el.hidden = !list.length;
+    el.querySelector<HTMLElement>('[data-rem-rows]')!.replaceChildren(...list.map((r) => row(r, today)));
+    const count = el.querySelector<HTMLElement>('[data-rem-count] .esa-badge__text');
+    if (count) count.textContent = String(list.length);
+    const late = list.filter((r) => r.last.kind === 'Past Due').length;
+    el.querySelector<HTMLElement>('[data-rem-note]')!.textContent = late
+      ? `${late === 1 ? 'One is' : `${late} are`} past due. Beacon keeps reminding until it’s complete or the reminders run out.`
+      : 'What Beacon has emailed you about, as due dates near.';
+  }
+  if (root) void draw(root);
+</script>

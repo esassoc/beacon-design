@@ -119,6 +119,8 @@ export interface PlanConfig {
   agencies: string[];
   /** Days a To recipient has to confirm receipt (ProjectWise's default is 2). */
   ackDays: number;
+  /** Reminders to owners as due dates approach (2026-10-28; ./plan-reminders.ts). Absent: prod's defaults. */
+  reminders?: import('./plan-reminders').ReminderConfig;
   /** The template it came from, for the Configure screen's header. */
   template?: string;
 }

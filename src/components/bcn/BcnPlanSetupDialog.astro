@@ -33,6 +33,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnDangerZone from './BcnDangerZone.astro';
 import BcnPlanListEditor from './BcnPlanListEditor.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
@@ -45,6 +46,7 @@ const SECTIONS = [
   { id: 'levels', label: 'Levels', icon: 'list-tree', planOnly: false },
   { id: 'people', label: 'People', icon: 'users', planOnly: false },
   { id: 'lists', label: 'Lists', icon: 'tag', planOnly: true },
+  { id: 'reminders', label: 'Reminders', icon: 'clock', planOnly: true },
   { id: 'template', label: 'Template', icon: 'layout-template', planOnly: true },
   { id: 'danger', label: 'Danger Zone', icon: 'triangle-alert', planOnly: true },
 ];
@@ -146,6 +148,34 @@ const LISTS = [
           }
         </div>
         <esa-text-field class="bcn-psu__days" data-psu="ackDays" type="number" size="sm" label="Days to Confirm Receipt" suffix="days" inputmode="numeric" help-text="How long a To recipient has to confirm a transmittal before Beacon reminds them and the sender."></esa-text-field>
+      </section>
+
+      <!-- Reminders (2026-10-28, the SOW review; prod's action notifications): Beacon's nightly emails to an item's owners
+           as its due date nears, on the day, and after it. -->
+      <section class="bcn-psu__section" data-psu-section="reminders" data-psu-plan-only aria-labelledby="psu-reminders" hidden>
+        <h3 class="bcn-psu__heading" id="psu-reminders">Reminders</h3>
+        <p class="bcn-psu__hint typography-body-sm">Each night Beacon emails an item’s owners as its end date nears, on the day, and after it while it isn’t complete. An organization’s people on this plan hear for the items it owns. Receipt reminders follow Days to Confirm Receipt, in Lists.</p>
+        <div class="bcn-psu__rem">
+          <EsaCard title="Coming Up" padding="compact">
+            <esa-switch-toggle data-psu-rem="comingUp.on" label="Send Before the Due Date" label-position="after" size="sm"></esa-switch-toggle>
+            <div class="bcn-psu__rem-fields">
+              <esa-text-field data-psu-rem="comingUp.leadDays" type="number" size="sm" label="Lead Days" suffix="days" inputmode="numeric" help-text="Default: 7 days."></esa-text-field>
+              <esa-text-field data-psu-rem="comingUp.repeatDays" type="number" size="sm" label="Repeat Every" suffix="days" inputmode="numeric" help-text="Blank sends it once."></esa-text-field>
+            </div>
+          </EsaCard>
+          <EsaCard title="Due" padding="compact">
+            <esa-switch-toggle data-psu-rem="due.on" label="Send on the Due Date" label-position="after" size="sm"></esa-switch-toggle>
+          </EsaCard>
+          <EsaCard title="Past Due" padding="compact">
+            <esa-switch-toggle data-psu-rem="pastDue.on" label="Send After the Due Date" label-position="after" size="sm"></esa-switch-toggle>
+            <div class="bcn-psu__rem-fields">
+              <esa-text-field data-psu-rem="pastDue.afterDays" type="number" size="sm" label="First Reminder After" suffix="days" inputmode="numeric" help-text="Default: 1 day."></esa-text-field>
+              <esa-text-field data-psu-rem="pastDue.repeatDays" type="number" size="sm" label="Repeat Every" suffix="days" inputmode="numeric" help-text="Blank sends it once."></esa-text-field>
+              <esa-text-field data-psu-rem="pastDue.max" type="number" size="sm" label="Maximum Reminders" inputmode="numeric" help-text="Default: 4."></esa-text-field>
+            </div>
+          </EsaCard>
+          <esa-select data-psu-rem-extra multiple size="sm" label="Additional Recipients" help-text="They hear about every item, beside its owners."></esa-select>
+        </div>
       </section>
 
       <section class="bcn-psu__section" data-psu-section="template" data-psu-plan-only aria-labelledby="psu-template" hidden>
@@ -326,4 +356,7 @@ const LISTS = [
     .bcn-psu__nav { border-inline-end: 0; padding-inline-end: 0; }
   }
   .bcn-psu__window { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-psu__rem { display: flex; flex-direction: column; gap: var(--spacing-400); max-inline-size: 44rem; }
+  .bcn-psu__rem-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--spacing-300); margin-block-start: var(--spacing-300); }
+  .bcn-psu__rem-fields[hidden] { display: none; }
 </style>

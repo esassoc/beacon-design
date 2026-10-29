@@ -9,6 +9,7 @@ import type { FieldDef } from '../../lib/planning/plan-config';
 import { ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
+import { DEFAULT_REMINDERS, reminderState } from '../../lib/planning/plan-reminders';
 import { planAvatar } from './plan-people';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
 import { day, money, type ElementModuleSetup } from './element-module';
@@ -117,6 +118,15 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
         people.append(p);
       }
       ownersDd.append(people);
+    }
+
+    // Reminders (2026-10-28, prod's action notifications): the owners' last email about this item and the next one,
+    // on a task or milestone that isn't complete. Plan Settings, Reminders sets when they go.
+    const due = ctx.element.EndDate ?? ctx.element.StartDate;
+    if (!ctx.children.length && due && statusOf(ctx.records, ctx.live, ctx.element.PlanElementID ?? '') !== 'Complete' && owners.length) {
+      const { last, next } = reminderState(due, ctx.config.reminders ?? DEFAULT_REMINDERS);
+      const parts = [last ? `Sent ${day(last.date)} (${last.kind})` : '', next ? `Next ${day(next.date)} (${next.kind})` : ''].filter(Boolean);
+      row('Reminders', parts.length ? parts.join('. ') : 'Off for this plan');
     }
 
     // Which plan you're reading: the plan page's dot (orange Live, green yours, gray someone else's).

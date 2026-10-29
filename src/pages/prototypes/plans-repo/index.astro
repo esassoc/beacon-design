@@ -9,6 +9,7 @@ import BcnPlanRepoIndex from '../../../components/bcn/BcnPlanRepoIndex.astro';
 import BcnPlanPeople from '../../../components/bcn/BcnPlanPeople.astro';
 import BcnPlanSetupDialog from '../../../components/bcn/BcnPlanSetupDialog.astro';
 import BcnTransmittalInbox from '../../../components/bcn/BcnTransmittalInbox.astro';
+import BcnReminders from '../../../components/bcn/BcnReminders.astro';
 import BcnBadgeBank from '../../../components/bcn/BcnBadgeBank.astro';
 import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
 ---
@@ -32,6 +33,8 @@ import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
     </span>
     <!-- What's been sent to you (2026-10-28, decision 2): an agency reviewer's way in; hidden when nothing was. -->
     <BcnTransmittalInbox />
+    <!-- Reminders (2026-10-28): what Beacon emailed the signed-in person as due dates near; hidden when none. -->
+    <BcnReminders />
     <BcnPlanRepoIndex />
     <BcnPlanSetupDialog />
     <esa-confirm-dialog data-pri-confirm variant="danger"></esa-confirm-dialog>

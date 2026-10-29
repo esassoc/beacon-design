@@ -6,6 +6,7 @@ import AppShell from '../../../../layouts/AppShell.astro';
 import PageLayout from '../../../../layouts/PageLayout.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnTransmittalInbox from '../../../../components/bcn/BcnTransmittalInbox.astro';
+import BcnReminders from '../../../../components/bcn/BcnReminders.astro';
 import BcnPlanPeople from '../../../../components/bcn/BcnPlanPeople.astro';
 import BcnBadgeBank from '../../../../components/bcn/BcnBadgeBank.astro';
 import { PLAN_ICON_PATHS } from '../../../../lib/planning/icons';
@@ -23,6 +24,8 @@ import { withBase } from '../../../../lib/base';
 <AppShell title="Sent to You" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
   <PageLayout title="Sent to You" icon="inbox" iconColor="var(--color-content-brand)" iconPaths={PLAN_ICON_PATHS.inbox} breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans-repo/') }, { label: 'Sent to You' }]}>
     <BcnTransmittalInbox />
+    <!-- Reminders (2026-10-28): what Beacon emailed the signed-in person as due dates near; hidden when none. -->
+    <BcnReminders />
     <div data-inbox-empty hidden>
       <EsaEmptyState title="Nothing Sent to You" description="Open this page with ?user=Rowan Hale to read it as a reviewer." />
     </div>

@@ -69,7 +69,10 @@ export function receiptState(t: Transmittal, name: string): ReceiptState {
   if (r.confirmedAt) return { label: 'Confirmed', variant: 'success', detail: dayTime(r.confirmedAt), confirmed: true };
   if (!isTo) return r.openedAt ? { label: 'Opened', variant: 'neutral', detail: dayTime(r.openedAt), confirmed: false } : { label: 'Not Opened', variant: 'neutral', detail: '', confirmed: false };
   const opened = r.openedAt ? `Opened ${dayTime(r.openedAt)}` : '';
-  if (receiptOverdue(t, name)) return { label: 'Overdue', variant: 'warning', detail: [`Was due ${day(t.ackDue)}`, reminded, opened].filter(Boolean).join('. '), confirmed: false };
+  // Days to Confirm Receipt's promise (2026-10-28, the SOW review): the night after it passes, Beacon emails the
+  // recipient and the sender on its own; Send Reminder is the sender's extra nudge.
+  const auto = t.ackDue ? `Beacon reminded them ${day(new Date(Date.parse(`${t.ackDue.slice(0, 10)}T12:00:00Z`) + 86_400_000).toISOString())}` : '';
+  if (receiptOverdue(t, name)) return { label: 'Overdue', variant: 'warning', detail: [`Was due ${day(t.ackDue)}`, auto, reminded, opened].filter(Boolean).join('. '), confirmed: false };
   if (r.openedAt) return { label: 'Opened', variant: 'neutral', detail: [`${dayTime(r.openedAt)}, not confirmed`, reminded].filter(Boolean).join('. '), confirmed: false };
   return { label: 'Not Yet', variant: 'neutral', detail: [t.ackDue ? `Due ${day(t.ackDue)}` : '', reminded].filter(Boolean).join('. '), confirmed: false };
 }

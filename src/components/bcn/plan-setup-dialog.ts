@@ -24,6 +24,7 @@ import { planAvatar } from './plan-people';
 import { fillIcons } from '../../lib/planning/icons';
 import { saveTemplate, templateChoices, templateNameTaken } from '../../lib/planning/plan-templates';
 import { clonePlanConfig, type PlanConfig } from '../../lib/planning/plan-config';
+import { DEFAULT_REMINDERS, type ReminderConfig } from '../../lib/planning/plan-reminders';
 import { pushAlert } from '../../lib/planning/plan-page';
 import { listEditor, setEsaButtonDisabled, type ListChange, type ListEditor } from './plan-list-editor';
 
@@ -79,7 +80,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   const personTpl = q<HTMLTemplateElement>('template[data-psu-tpl="person"]');
 
   // ── The section nav (2026-10-28, Andy: "x-large (x-wide) modal with the left sidebar nav"): one section at a time ──
-  const SECTIONS = ['general', 'tracks', 'levels', 'people', 'lists', 'template', 'danger'] as const;
+  const SECTIONS = ['general', 'tracks', 'levels', 'people', 'lists', 'reminders', 'template', 'danger'] as const;
   type Section = (typeof SECTIONS)[number];
   const navLinks = new Map<Section, HTMLElement>(SECTIONS.map((id) => [id, q<HTMLElement>(`[data-psu-link="${id}"]`)]));
   const panes = new Map<Section, HTMLElement>(SECTIONS.map((id) => [id, q<HTMLElement>(`[data-psu-section="${id}"]`)]));
@@ -120,7 +121,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     drawLevels();
   });
 
-  const state = () => JSON.stringify({ s: snapshot(), lists: config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays] });
+  const state = () => JSON.stringify({ s: snapshot(), lists: config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays], reminders: config?.reminders ?? null });
   const snapshot = (): PlanSettings => ({ name: (name.value ?? '').trim(), description: (description.value ?? '').trim(), window: { start: String(startField.value ?? '') || null, end: String(endField.value ?? '') || null }, views: (['schedule', 'budget'] as const).filter((v) => views.has(v)), levels: levels.map((l) => ({ ...l })), members: members.map((m) => ({ ...m })) });
 
   // ── What it tracks ──
@@ -279,6 +280,52 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     if (!ackDays.errorText && config) config.ackDays = n;
   });
 
+  // ── Reminders (2026-10-28): prod's three kinds, on the plan's working config; Save keeps them ──
+  type Toggle = HTMLElement & { checked: boolean };
+  const remFields = [...root.querySelectorAll<HTMLElement>('[data-psu-rem]')];
+  const remExtra = q<HTMLElement & { value: string[]; options: { value: string; label: string }[] }>('[data-psu-rem-extra]');
+  const remGet = (r: ReminderConfig, path: string) => path.split('.').reduce<unknown>((o, k) => (o as Record<string, unknown>)[k], r);
+  function drawReminders(): void {
+    const r = config?.reminders ?? DEFAULT_REMINDERS;
+    for (const f of remFields) {
+      const path = f.dataset.psuRem!;
+      const v = remGet(r, path);
+      if (path.endsWith('.on')) (f as Toggle).checked = !!v;
+      else (f as FieldEl).value = v === null || v === undefined ? '' : String(v);
+      if (!path.endsWith('.on')) (f as FieldEl).errorText = '';
+    }
+    // A kind switched off folds its numbers away.
+    for (const kind of ['comingUp', 'pastDue'] as const) root.querySelector<HTMLElement>(`[data-psu-rem="${kind}.on"]`)!.parentElement!.querySelector<HTMLElement>('.bcn-psu__rem-fields')!.hidden = !r[kind].on;
+    void customElements.whenDefined('esa-select').then(() => {
+      remExtra.options = members.map((m) => ({ value: m.name, label: m.name }));
+      remExtra.value = [...r.extra];
+    });
+  }
+  function readReminders(): void {
+    if (!config) return;
+    const r: ReminderConfig = JSON.parse(JSON.stringify(config.reminders ?? DEFAULT_REMINDERS));
+    for (const f of remFields) {
+      const path = f.dataset.psuRem!;
+      const [kind, key] = path.split('.') as [keyof ReminderConfig, string];
+      const box = r[kind] as unknown as Record<string, unknown>;
+      if (key === 'on') box.on = (f as Toggle).checked;
+      else {
+        const raw = String((f as FieldEl).value ?? '').trim();
+        const n = Number(raw);
+        const optional = key === 'repeatDays';
+        const ok = (optional && !raw) || (Number.isInteger(n) && n >= (key === 'afterDays' ? 0 : 1) && n <= 90);
+        (f as FieldEl).errorText = ok ? '' : 'A whole number of days, up to 90.';
+        if (ok) box[key] = optional && !raw ? null : n;
+      }
+    }
+    r.extra = Array.isArray(remExtra.value) ? remExtra.value : [];
+    config.reminders = r;
+    drawReminders();
+    markSections();
+  }
+  for (const f of remFields) f.addEventListener('change', readReminders);
+  remExtra.addEventListener('change', readReminders);
+
   // ── Template: the plan's levels, fields, page layouts and lists under a name New Plan can start from ──
   const templateName = q<FieldEl>('[data-psu="templateName"]');
   templateName.addEventListener('input', () => (templateName.errorText = ''));
@@ -352,6 +399,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
       levels: JSON.stringify(s.levels),
       people: JSON.stringify(s.members),
       lists: JSON.stringify(config && [config.documentTypes, config.results, config.purposes, config.agencies, config.ackDays]),
+      reminders: JSON.stringify(config?.reminders ?? null),
       template: '',
       danger: '',
     };
@@ -390,6 +438,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     if (!s.views.length) failing.add('tracks');
     if (!checkOwners()) failing.add('people');
     if (config && ackDays.errorText) failing.add('lists');
+    if (config && remFields.some((f) => (f as FieldEl).errorText)) failing.add('reminders');
     drawViews();
     markSections();
     // Off to the first section that won't save, in the nav's order.
@@ -448,6 +497,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         for (const key of LIST_KEYS) lists.get(key)!.set(config[key]);
         countLists();
         ackDays.value = String(config.ackDays ?? 2);
+        drawReminders();
         ackDays.errorText = '';
         templateName.value = plan.PlanName ?? '';
         templateName.errorText = '';
