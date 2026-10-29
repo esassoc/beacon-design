@@ -105,8 +105,12 @@ export function initTooltipLayer(): void {
     if (layer.matches(':popover-open')) layer.hidePopover();
   }
 
+  // A tip whose trigger's menu is open steps aside (2026-10-29: the branch menu's tip sat over its first row): the
+  // trigger says it's expanded, or it sits in an open popover.
+  const menuOpen = (tip: Element) => !!tip.querySelector('[aria-expanded="true"]') || !!(tip.closest('esa-popover') as (HTMLElement & { open?: boolean }) | null)?.open;
   const sync = () => {
-    const open = document.querySelector<Tip>('esa-tooltip[open]');
+    const found = document.querySelector<Tip>('esa-tooltip[open]');
+    const open = found && !menuOpen(found) ? found : null;
     if (open) {
       if (open !== current || !layer.matches(':popover-open')) show(open);
     } else if (current) hide();
