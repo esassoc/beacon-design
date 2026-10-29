@@ -73,11 +73,11 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
     <esa-text-field class="bcn-prvd__name" data-prvd-ask-note size="sm" placeholder="Note for the Reviewer (Optional)" aria-label="Note for the Reviewer" hidden></esa-text-field>
     <esa-text-field class="bcn-prvd__name" data-prvd-back-note size="sm" placeholder="What to Change" aria-label="What to Change" hidden></esa-text-field>
     <p class="bcn-prvd__note typography-body-sm" data-prvd-note hidden></p>
-    <span data-prvd-close><EsaButton variant="ghost" appearance="outline" size="sm"><span data-prvd-close-label>Close</span></EsaButton></span>
-    <span data-prvd-back hidden><EsaButton variant="secondary" size="sm" icon="undo-2" data-fill-icon="undo-2"><span data-prvd-back-label>Send Back</span></EsaButton></span>
-    <span data-prvd-ask hidden><EsaButton variant="primary" size="sm" icon="git-pull-request" data-fill-icon="git-pull-request"><span data-prvd-ask-label>Ask to Publish</span></EsaButton></span>
-    <span data-prvd-restore hidden><EsaButton variant="primary" size="sm" icon="rotate-ccw" data-fill-icon="rotate-ccw"><span data-prvd-act-label>Restore</span></EsaButton></span>
-    <span data-prvd-publish hidden><EsaButton variant="primary" size="sm" icon="git-merge" data-fill-icon="git-merge"><span data-prvd-act-label>Publish</span></EsaButton></span>
+    <span data-prvd-close><EsaButton variant="ghost" appearance="outline"><span data-prvd-close-label>Close</span></EsaButton></span>
+    <span data-prvd-back hidden><EsaButton variant="primary" appearance="outline"><span data-prvd-back-label>Send Back</span></EsaButton></span>
+    <span data-prvd-ask hidden><EsaButton variant="primary"><span data-prvd-ask-label>Ask to Publish</span></EsaButton></span>
+    <span data-prvd-restore hidden><EsaButton variant="primary"><span data-prvd-act-label>Restore</span></EsaButton></span>
+    <span data-prvd-publish hidden><EsaButton variant="primary"><span data-prvd-act-label>Publish</span></EsaButton></span>
   </div>
 </esa-dialog>
 
@@ -168,10 +168,12 @@ import BcnPlanGantt from './BcnPlanGantt.astro';
   /* A section's heading, when the comparison holds both schedule and budget changes (2026-10-28). */
   .bcn-prvd__rows :global(.bcn-prvd__section) { padding: var(--spacing-200) var(--spacing-400); background: var(--color-background-elevation-sunken); color: var(--color-content-default-secondary); border-block-start: 1px solid var(--color-border-default-subtle); }
   .bcn-prvd__rows :global(.bcn-prvd__section:first-child) { border-block-start: 0; }
-  /* Money in the sheet's figures. */
+  /* Dates, deltas and money in the UI font's tabular figures (design QA, 2026-10-29: mono is for identifiers only, and
+     the same "+10 days" read in two faces). */
+  .bcn-prvd__rows :global(:is(del, ins)),
   .bcn-prvd__rows :global(.bcn-prvd__money :is(del, ins, span)),
-  .bcn-prvd__rows :global(.bcn-prvd__shift.bcn-prvd__money) { font-family: var(--bcn-font-figures); font-size: 13px; }
-  .bcn-prvd__rows :global(.bcn-prvd__shift .bcn-prvd__followed) { font-family: var(--typography-font-family-sans, inherit); font-size: var(--font-size-100); }
+  .bcn-prvd__rows :global(.bcn-prvd__shift) { font-family: inherit; font-variant-numeric: tabular-nums; }
+  .bcn-prvd__rows :global(.bcn-prvd__shift .bcn-prvd__followed) { font-size: var(--font-size-100); }
   .bcn-prvd__rows :global(.bcn-prvd__none) { margin: 0; padding: var(--spacing-400); color: var(--color-content-default-secondary); }
 
   .bcn-prvd__chart { display: flex; flex-direction: column; gap: var(--spacing-200); }

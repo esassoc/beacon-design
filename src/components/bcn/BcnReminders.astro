@@ -7,15 +7,18 @@
 //
 // bcn-lego-checked: the shell IS esa-card (muted header, as the item page's cards), the glyph IS esa-icon, the count and
 // kinds ARE esa-badge (BcnBadgeBank). No esa- lego is a register with columns; checked Beacon (prod lists are ag-grid,
-// too heavy for a short list). Its grid follows BcnTransmittalInbox, its sibling on the same page.
+// too heavy for a short list). The register IS bcn-rtable (bcn-record-table.css, design QA 2026-10-29: one read-list
+// table, not a grid of divs), as BcnTransmittalInbox, its sibling on the same page.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import '../../styles/bcn-record-table.css';
+import '../../styles/bcn-section-card.css';
 ---
 
-<section class="bcn-rem" data-bcn-reminders aria-labelledby="rem-title" hidden>
-  <EsaCard padding="compact" headerVariant="muted">
+<section class="bcn-rem bcn-section-card" data-bcn-reminders aria-labelledby="rem-title" hidden>
+  <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-rem__head">
       <span class="bcn-rem__glyph"><EsaIcon name="clock" paths={PLAN_ICON_PATHS.clock} size="sm" /></span>
       <span class="bcn-rem__titles">
@@ -26,14 +29,18 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <span class="bcn-rem__note typography-body-sm" data-rem-note></span>
       </span>
     </div>
-    <div class="bcn-rem__grid" role="table" aria-labelledby="rem-title">
-      <div class="bcn-rem__row bcn-rem__row--head typography-label-xs" role="row">
-        <span role="columnheader">Item</span>
-        <span role="columnheader">Due</span>
-        <span role="columnheader">Reminder</span>
-        <span role="columnheader">You Are</span>
-      </div>
-      <div role="rowgroup" data-rem-rows></div>
+    <div class="bcn-rem__scroll">
+      <table class="bcn-rem__table bcn-rtable" aria-labelledby="rem-title">
+        <thead>
+          <tr>
+            <th scope="col" class="bcn-rem__col-item">Item</th>
+            <th scope="col">Due</th>
+            <th scope="col">Reminder</th>
+            <th scope="col">You Are</th>
+          </tr>
+        </thead>
+        <tbody data-rem-rows></tbody>
+      </table>
     </div>
   </EsaCard>
 </section>
@@ -54,27 +61,18 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-rem__note { grid-row: 2; grid-column: 2; }
   .bcn-rem__title-row h2 { margin: 0; color: var(--color-content-default); }
   .bcn-rem__note { color: var(--color-content-default-secondary); }
-  /* The rows are drawn by the script, so their grid is global under the register (scoped, it never reached them and
-     each row stacked). Columns aligned down the list, a hairline between, as Sent to You's. */
-  .bcn-rem__grid :global(.bcn-rem__row) {
-    display: grid;
-    grid-template-columns: minmax(0, 2.4fr) minmax(7rem, 0.9fr) minmax(12rem, 1.3fr) minmax(7rem, 0.6fr);
-    gap: var(--spacing-300);
-    align-items: center;
-    padding: var(--spacing-200);
-    border-top: 1px solid var(--color-border-default);
-  }
-  .bcn-rem__grid :global(.bcn-rem__row--head) { padding-block: 0 var(--spacing-200); border-top: 0; border-bottom: 1px solid var(--color-border-default); color: var(--color-content-default-secondary); }
-  .bcn-rem__grid :global(.bcn-rem__row--head + [data-rem-rows] > .bcn-rem__row:first-child) { border-top: 0; }
-  .bcn-rem__grid :global(.bcn-rem__item) { display: flex; flex-direction: column; min-width: 0; }
-  .bcn-rem__grid :global(.bcn-rem__item a) { color: var(--color-content-brand); font-weight: var(--typography-font-weight-semibold); text-decoration: none; }
-  .bcn-rem__grid :global(.bcn-rem__item a:hover) { text-decoration: underline; }
-  .bcn-rem__grid :global(.bcn-rem__muted) { color: var(--color-content-default-secondary); font-size: var(--typography-body-sm-font-size); }
-  .bcn-rem__grid :global(.bcn-rem__sent) { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  @media (max-width: 760px) {
-    .bcn-rem__grid :global(.bcn-rem__row) { grid-template-columns: minmax(0, 1fr) auto; }
-    .bcn-rem__grid :global(.bcn-rem__row--head) { display: none; }
-  }
+  /* The register is bcn-rtable (rows, head, hover, focus); flush to the card's edges, so its inset is the table's own.
+     What's here is its columns and cells. The rows are drawn by the script, so their cells are global under it. */
+  .bcn-rem :global(.esa-card__body:has(.bcn-rem__scroll)) { padding: 0; }
+  .bcn-rem__scroll { overflow-x: auto; }
+  .bcn-rem__col-item { inline-size: 45%; }
+  .bcn-rem__table :global(td) { white-space: nowrap; }
+  .bcn-rem__table :global(td.bcn-rem__item) { white-space: normal; }
+  .bcn-rem__table :global(.bcn-rem__item a) { color: var(--color-content-link); font-weight: var(--typography-font-weight-semibold); text-decoration: none; }
+  .bcn-rem__table :global(.bcn-rem__item a:hover) { text-decoration: underline; }
+  .bcn-rem__table :global(.bcn-rem__date) { font-variant-numeric: tabular-nums; }
+  .bcn-rem__table :global(.bcn-rem__muted) { color: var(--color-content-default-secondary); }
+  .bcn-rem__table :global(.bcn-rem__sent) { display: flex; align-items: center; gap: var(--spacing-200); }
 </style>
 
 <script>
@@ -90,21 +88,19 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   const days = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000);
 
   function row(r: ReminderEntry, today: string): HTMLElement {
-    const el = Object.assign(document.createElement('div'), { className: 'bcn-rem__row' });
-    el.setAttribute('role', 'row');
-    const item = Object.assign(document.createElement('span'), { className: 'bcn-rem__item' });
-    item.setAttribute('role', 'cell');
-    item.append(Object.assign(document.createElement('a'), { href: ELEMENT_HREF(r.planID, r.itemId), textContent: r.itemName }), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: r.planName }));
-    const due = Object.assign(document.createElement('span'), { className: 'typography-body-sm' });
-    due.setAttribute('role', 'cell');
+    const el = document.createElement('tr');
+    const td = (className = '') => Object.assign(document.createElement('td'), { className });
+    const item = td('bcn-rem__item');
+    item.append(Object.assign(document.createElement('a'), { href: ELEMENT_HREF(r.planID, r.itemId), textContent: r.itemName }), Object.assign(document.createElement('span'), { className: 'bcn-rtable__sub', textContent: r.planName }));
+    const due = td('bcn-rem__date');
     const left = days(today, r.due);
     due.append(day(r.due), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: left > 0 ? ` (in ${left} ${left === 1 ? 'day' : 'days'})` : left === 0 ? ' (today)' : ` (${-left} ${left === -1 ? 'day' : 'days'} late)` }));
+    const cell = td();
     const sent = Object.assign(document.createElement('span'), { className: 'bcn-rem__sent' });
-    sent.setAttribute('role', 'cell');
     sent.append(badge(r.last.kind, TONE[r.last.kind], 'sm'), Object.assign(document.createElement('span'), { className: 'bcn-rem__muted', textContent: `Emailed ${day(r.last.date)}` }));
-    const as = Object.assign(document.createElement('span'), { className: 'typography-body-sm', textContent: r.as === 'Organization' ? 'Your Organization' : r.as });
-    as.setAttribute('role', 'cell');
-    el.append(item, due, sent, as);
+    cell.append(sent);
+    const as = Object.assign(td(), { textContent: r.as === 'Organization' ? 'Your Organization' : r.as });
+    el.append(item, due, cell, as);
     return el;
   }
 

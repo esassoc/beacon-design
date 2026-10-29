@@ -9,29 +9,32 @@
 // The preview is a semantic table on bcn-record-table.css, as the plan's record views. No esa- lego is a column mapper;
 // checked Beacon (its imports are server-side wizards with their own pages). The CSS is the layout.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import '../../styles/bcn-record-table.css';
+import '../../styles/bcn-dialog-heading.css';
 ---
 
 <div class="bcn-pid" data-bcn-plan-import>
   <esa-dialog heading="Import Items" size="lg" show-close-button data-pid-dialog>
     <div class="bcn-pid__body">
       <section class="bcn-pid__step" aria-labelledby="pid-source">
-        <h3 class="bcn-pid__heading typography-label-md-strong" id="pid-source">1. The File</h3>
+        <h3 class="bcn-pid__heading bcn-dialog-heading" id="pid-source"><EsaIcon name="upload" paths={PLAN_ICON_PATHS.upload} size="sm" />1. The File</h3>
         <p class="bcn-pid__hint typography-body-sm">A CSV with a header row, or rows copied from a spreadsheet. A Level column (Study, Task, Milestone) builds the outline: each row goes under the last row of a level above it.</p>
         <div class="bcn-pid__source">
           <esa-file-upload accept=".csv,text/csv,.tsv,.txt" label="Choose a CSV" data-pid-file></esa-file-upload>
           <esa-textarea size="sm" rows="4" label="Or Paste Rows" placeholder="Copy rows from Excel, header included, and paste them here" data-pid-paste></esa-textarea>
-          <span data-pid-example><EsaButton variant="ghost" appearance="outline" size="xs" icon="file-text">Use the Example</EsaButton></span>
+          <span data-pid-example><EsaButton variant="ghost" appearance="outline" size="sm" icon="file-text">Use the Example</EsaButton></span>
         </div>
       </section>
       <section class="bcn-pid__step" data-pid-map-step hidden aria-labelledby="pid-map">
-        <h3 class="bcn-pid__heading typography-label-md-strong" id="pid-map">2. Match the Columns</h3>
+        <h3 class="bcn-pid__heading bcn-dialog-heading" id="pid-map"><EsaIcon name="move-horizontal" paths={PLAN_ICON_PATHS["move-horizontal"]} size="sm" />2. Match the Columns</h3>
         <p class="bcn-pid__hint typography-body-sm" data-pid-file-note></p>
         <div class="bcn-pid__map" data-pid-map></div>
         <esa-select size="sm" label="Put Rows Under" help-text="Where a row goes when the file doesn’t say (no Level or Parent)." data-pid-under></esa-select>
       </section>
       <section class="bcn-pid__step" data-pid-preview-step hidden aria-labelledby="pid-preview">
-        <h3 class="bcn-pid__heading typography-label-md-strong" id="pid-preview">3. Check the Rows <span class="bcn-pid__count typography-body-sm" data-pid-count></span></h3>
+        <h3 class="bcn-pid__heading bcn-dialog-heading" id="pid-preview"><EsaIcon name="check-check" paths={PLAN_ICON_PATHS["check-check"]} size="sm" />3. Check the Rows <span class="bcn-pid__count typography-body-sm" data-pid-count></span></h3>
         <div class="bcn-pid__table">
           <table class="bcn-rtable">
             <thead><tr><th>Row</th><th>Level</th><th>Name</th><th>Start</th><th>End</th><th>Owners</th><th>Problems</th></tr></thead>
@@ -42,8 +45,8 @@ import '../../styles/bcn-record-table.css';
     </div>
     <div slot="footer" class="bcn-pid__footer">
       <span class="bcn-pid__where typography-body-sm" data-pid-where>They go to your draft; Review and Publish takes them to Live.</span>
-      <span data-pid-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-pid-add><EsaButton variant="primary" size="sm" icon="git-branch" data-fill-icon="git-branch"><span data-pid-add-label>Add to My Draft</span></EsaButton></span>
+      <span data-pid-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-pid-add><EsaButton variant="primary"><span data-pid-add-label>Add to My Draft</span></EsaButton></span>
     </div>
   </esa-dialog>
   <template data-pid-tpl="map"><esa-select size="sm"></esa-select></template>
@@ -54,7 +57,7 @@ import '../../styles/bcn-record-table.css';
   .bcn-pid__body { display: flex; flex-direction: column; gap: var(--spacing-600); }
   .bcn-pid__step { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-pid__step[hidden] { display: none; }
-  .bcn-pid__heading { margin: 0; display: flex; align-items: baseline; gap: var(--spacing-300); }
+  .bcn-pid__heading { flex-wrap: wrap; }
   .bcn-pid__hint, .bcn-pid__count, .bcn-pid__where { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-pid__source { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--spacing-400); align-items: start; }
   .bcn-pid__source [data-pid-example] { grid-column: 1 / -1; }

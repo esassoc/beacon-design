@@ -172,7 +172,7 @@ export function setupElementCustomize(root: HTMLElement, host: CustomizeHost): C
     custom.hidden = false;
     const tag = custom.querySelector<HTMLElement>('[data-elc-tag]')!;
     const tagText = kind === 'core' || kind === 'shared' ? 'Always On' : kind === 'deliverable' ? 'Deliverables Only' : kind === 'parents' ? 'Items With Children Only' : '';
-    tag.replaceChildren(...(tagText ? [badge(tagText, 'neutral', 'xs')] : []));
+    tag.replaceChildren(...(tagText ? [badge(tagText, 'neutral', 'sm')] : []));
     const on = custom.querySelector<SwitchEl>('[data-elc-on]')!;
     on.hidden = kind === 'core' || kind === 'shared';
     on.checked = p.on;

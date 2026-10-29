@@ -1,0 +1,38 @@
+/* bcn-section-card — the one page-section card recipe (design QA, 2026-10-29).
+ *
+ * The plans pages had five card treatments: the item page's modules (esa-card, muted header, 8px radius, a 52px band
+ * with 8/16 padding), compact cards at a 4px radius with 16/12 header padding (Due for You, the transmittal's
+ * sections), a compact card with no band (Sent to You), a filled card with no border (What the Recipient Got), and the
+ * plan workspace's own band. Prod's ui-card has one: $radius-lg (8px), a light header, one padding step.
+ *
+ * So a page-level card is esa-card with headerVariant="muted" at default padding, wearing BcnElementModule's chrome:
+ * 8px corners, a 16px gutter, a 52px header band padded 8px on the block and at its end (actions sit tight to the
+ * edge), the default hairline under it. Compact is for a card nested in a card, a dialog or a drawer (Plan Settings'
+ * reminder cards), never for a page section. Filled is for a nested preview only (the email the recipient got), and it
+ * keeps the border every page card has.
+ *
+ * Put the class on the element that holds the page's cards (a section, or the page root):
+ *   <section class="bcn-section-card"><EsaCard headerVariant="muted">...</EsaCard></section>
+ *
+ * esa-card takes no class and exposes no public knobs for these, so this re-points the same private hooks
+ * BcnElementModule and BcnDashboardWidget do (a hub-ask: public radius, gutter and band-height knobs).
+ *
+ * bcn-lego-checked: the card IS esa-card; this is its spoke recipe, not a new card. Checked Beacon (ui-card: $radius-lg,
+ * one padding step). bcn-section-card is the home BcnElementModule's chrome can move to.
+ */
+
+.bcn-section-card .esa-card.esa-card {
+  --_card-radius: var(--radius-200);
+  --_card-padding: var(--spacing-400);
+  --_card-header-border: var(--color-border-default);
+}
+.bcn-section-card .esa-card .esa-card__header.esa-card__header {
+  min-height: 3.25rem;
+  box-sizing: border-box;
+  padding-block: var(--spacing-200);
+  padding-inline-end: var(--spacing-200);
+}
+/* A nested preview: filled, and still bordered. */
+.bcn-section-card .esa-card.esa-card--filled {
+  --_card-border: var(--color-border-default);
+}

@@ -48,6 +48,7 @@ import type {
   UiVizGanttWindow,
 } from '../../lib/planning/gantt-geometry';
 import { fillIcons } from '../../lib/planning/icons';
+import '@esa/ecology/esa-tooltip';
 import type { GanttDragEvent, GanttDragTarget, GanttDropState, UiVizGanttNote } from '../../lib/planning/gantt-types';
 
 /* ── Layout constants (verbatim). ─────────────────────────────────────────────────────────────────────────────── */
@@ -1537,10 +1538,16 @@ export class PlanGanttChart {
         const caret = this.templates.caret.content.firstElementChild!.cloneNode(true) as HTMLElement;
         caret.classList.add(`${P}__caret`);
         caret.setAttribute('aria-label', view.caretLabel);
-        caret.setAttribute('title', view.caretLabel);
         caret.setAttribute('aria-expanded', String(view.expanded));
         caret.dataset.caret = view.row.id;
-        slot.replaceWith(caret);
+        // Every icon-only button names itself in an esa-tooltip, not a native title (design QA, 2026-10-29).
+        const tip = document.createElement('esa-tooltip');
+        tip.setAttribute('text', view.caretLabel);
+        tip.setAttribute('position', 'below');
+        tip.setAttribute('align', 'start');
+        tip.className = `${P}__caret-tip`;
+        tip.append(caret);
+        slot.replaceWith(tip);
       }
       const badgeSlot = item.querySelector('[data-badge-slot]');
       if (badgeSlot && this.templates.badge) {
@@ -1651,9 +1658,11 @@ export class PlanGanttChart {
       apply.dataset.dropApply = '';
       const revert = this.templates.revert.content.firstElementChild!.cloneNode(true) as HTMLElement;
       revert.dataset.dropRevert = '';
+      // Each named by its esa-tooltip (the template's wrapper) and its button's accessible name.
       for (const [el, label] of [[apply, DROP_APPLY], [revert, DROP_REVERT]] as const) {
-        el.setAttribute('aria-label', label);
-        el.setAttribute('title', label);
+        el.setAttribute('text', label);
+        el.querySelector('button')?.setAttribute('aria-label', label);
+        el.querySelector('button')?.removeAttribute('title');
       }
       actions.append(apply, revert);
       fillIcons(actions);

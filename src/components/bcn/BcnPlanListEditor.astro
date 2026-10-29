@@ -141,6 +141,9 @@ const { noun, placeholder = '', id } = Astro.props;
   .bcn-ple__new {
     flex: 1;
     min-inline-size: 0;
+    /* The field at its Add button's height, so the pair reads as one control (design QA, 2026-10-29: a 40px field beside
+       a 34px button). The sm button's height: two paddings, its 12px label line, two borders. */
+    --_field-padding-y: calc((2 * var(--spacing-250) + var(--typography-microcopy-xs-font-size) + 2px - 1.3em) / 2 - var(--form-border-width, 1px));
   }
   /* Read-only: the list alone. */
   .bcn-ple[data-readonly] .bcn-ple__grip,

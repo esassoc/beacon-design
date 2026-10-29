@@ -1,0 +1,28 @@
+/* bcn-dialog-heading — the one section heading inside a dialog or a drawer (design QA, 2026-10-29).
+ *
+ * Four styles had grown: the drawer's 15px/600 with a glyph, Edit's 15px/550 with a glyph, Plan Settings' 18px/600 with
+ * none, Import's 15px/550 numbered. One now: the label-md-strong step (15px at 1440, the system's semibold, 550: the
+ * title weight of the two-weight scale; 650 is the page title's), its 16px glyph first in the quiet ink so the words
+ * lead.
+ *
+ *   <h3 class="bcn-dialog-heading"><EsaIcon name="file-text" size="sm" />General</h3>
+ *
+ * bcn-lego-checked: no esa- lego is a section heading; the type is the hub's label-md-strong composite, the glyph is
+ * esa-icon. Checked Beacon (ui-dialog section titles: one size, one weight).
+ */
+
+.bcn-dialog-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-family: var(--typography-label-md-strong-font-family, inherit);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height, 1.3);
+  color: var(--color-content-default);
+}
+.bcn-dialog-heading .esa-icon {
+  flex: none;
+  color: var(--color-content-default-secondary);
+}

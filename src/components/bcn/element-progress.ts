@@ -74,7 +74,7 @@ export const setupProgressModule: ElementModuleSetup = (root) => {
           a.href = ctx.hrefOf(e.PlanElementID ?? '');
           const when = el('span', 'bcn-eprog__when');
           const h = healthOf(ctx.records, ctx.live, e.PlanElementID ?? '', ctx.isDeliverable, today);
-          when.append(badge(h.health, HEALTH_VARIANT[h.health], 'xs'), day(endOf(e)));
+          when.append(badge(h.health, HEALTH_VARIANT[h.health], 'sm'), day(endOf(e)));
           li.append(a, when);
           return li;
         }),

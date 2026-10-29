@@ -48,9 +48,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <esa-tooltip text="Card Options" position="above" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Card Options" /></esa-tooltip>
         <div slot="content" class="bcn-elc__pop">
           <div class="bcn-elc__moves" role="group" aria-label="Move">
-            <span data-elc-move="up"><EsaButton variant="ghost" size="xs" icon="arrow-up">Move Up</EsaButton></span>
-            <span data-elc-move="down"><EsaButton variant="ghost" size="xs" icon="arrow-down">Move Down</EsaButton></span>
-            <span data-elc-move="column"><EsaButton variant="ghost" size="xs" icon="arrow-right"><span data-elc-move-label>Move to Side Column</span></EsaButton></span>
+            <span data-elc-move="up"><EsaButton variant="ghost" size="sm" icon="arrow-up">Move Up</EsaButton></span>
+            <span data-elc-move="down"><EsaButton variant="ghost" size="sm" icon="arrow-down">Move Down</EsaButton></span>
+            <span data-elc-move="column"><EsaButton variant="ghost" size="sm" icon="arrow-right"><span data-elc-move-label>Move to Side Column</span></EsaButton></span>
           </div>
           <div class="bcn-elc__opt" data-elc-opt="budget" hidden>
             <esa-button-toggle size="sm" label="Who Sees It" data-elc-visible></esa-button-toggle>
@@ -69,7 +69,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   <template data-elc-tpl="fields-foot">
     <span class="bcn-elc__foot">
       <span class="bcn-elc__foot-text typography-body-sm" data-elc-fields-text></span>
-      <span data-elc-fields><EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-fill-icon="pencil"><span data-elc-fields-label>Edit Fields</span></EsaButton></span>
+      <span data-elc-fields><EsaButton variant="ghost" size="sm" icon="pencil" data-fill-icon="pencil"><span data-elc-fields-label>Edit Fields</span></EsaButton></span>
     </span>
   </template>
 
@@ -103,7 +103,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     border: 1px solid var(--color-border-brand, var(--color-border-default));
     border-radius: var(--radius-200);
     background: color-mix(in srgb, var(--color-background-brand) 6%, var(--color-background-elevation-raised));
-    box-shadow: var(--shadow-sm, 0 1px 2px rgb(0 0 0 / 0.06));
+    box-shadow: var(--elevation-1);
   }
   .bcn-elc__glyph {
     display: inline-flex;
@@ -127,6 +127,11 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
+  }
+  /* The card's rule, one badge form (design QA, 2026-10-29: a 27px line box round a 20px badge read as a second chip
+     style): the wrapper hugs the badge. */
+  .bcn-elc__tag {
+    display: inline-flex;
   }
   .bcn-elc__tag:empty {
     display: none;

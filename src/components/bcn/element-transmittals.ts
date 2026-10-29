@@ -97,6 +97,7 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
   const list = q('[data-tm-list]');
   const empty = q('[data-tm-empty]');
   const newBtn = q('[data-tm-new]');
+  const emptyNew = q('[data-tm-empty-new]');
   const rowTpl = q<HTMLTemplateElement>('template[data-tm-tpl="row"]');
   // The dialog lives on the body: the module's card moves between columns and the page's bank.
   const dialogRoot = q('[data-bcn-transmittal-dialog]');
@@ -112,11 +113,13 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     else host.toast(`${t ? transmittalNumber(t) : 'The transmittal'} saved as a draft.`);
   }
 
-  newBtn.addEventListener('click', async () => {
+  const startNew = async () => {
     const ctx = host.ctx();
     if (!ctx.canRecord) return;
     after(await dialog.open({ planID: ctx.planID, elementId: ctx.element.PlanElementID ?? '' }));
-  });
+  };
+  newBtn.addEventListener('click', startNew);
+  emptyNew.addEventListener('click', startNew);
 
   /** Revise and Resubmit: a new transmittal from this one, or the resubmittal already started from it. */
   async function resubmit(t: Transmittal): Promise<void> {
@@ -188,7 +191,8 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     draw(ctx) {
       const id = ctx.element.PlanElementID ?? '';
       const all = ctx.inLive ? transmittalsFor(ctx.records, id) : [];
-      newBtn.hidden = !ctx.canRecord;
+      newBtn.hidden = !ctx.canRecord || all.length === 0;
+      emptyNew.hidden = !ctx.canRecord;
       setModuleCount(root, all.length || null);
       // Why it won't send, said once and quietly (the page's own note says the rest).
       setModuleNote(root, ctx.mode === 'customize' || ctx.myRole === 'Guest' ? null : !ctx.inLive ? 'New in this draft. It can be sent once it is on Live.' : ctx.mode !== 'live' ? 'Read-only in a draft. Sends are made on Live.' : null);

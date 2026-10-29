@@ -140,7 +140,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     row.querySelector('[data-file-version]')!.textContent = version;
     const dl = row.querySelector<HTMLElement>('[data-file-download]')!;
     dl.querySelector('button')?.setAttribute('aria-label', `Download ${name}`);
-    dl.querySelector('button')?.setAttribute('title', `Download ${name}`);
+    dl.querySelector('button')?.removeAttribute('title');
+    dl.querySelector('esa-tooltip')?.setAttribute('text', `Download ${name}`);
     dl.addEventListener('click', () => download(name));
     dl.hidden = !f;
     return row;

@@ -9,15 +9,18 @@
 // bcn-lego-checked: the shell IS esa-card, the glyph IS esa-icon, the count IS esa-badge, badges ARE esa-badge
 // (BcnBadgeBank, which the page includes), avatars ARE esa-avatar (BcnPlanPeople, which the page includes). No esa-
 // lego is a register with columns (esa-link-column is a nav list; there is no esa-table); checked Beacon (prod lists are
-// ag-grid, too heavy for a short inbox). bcn-transmittal-inbox is the reusable home; the CSS is the grid.
+// ag-grid, too heavy for a short inbox). The register IS bcn-rtable (bcn-record-table.css, design QA 2026-10-29: one
+// read-list table, not a grid of divs). bcn-transmittal-inbox is the reusable home; the CSS is its columns.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import '../../styles/bcn-record-table.css';
+import '../../styles/bcn-section-card.css';
 ---
 
-<section class="bcn-tib" data-bcn-transmittal-inbox aria-labelledby="tib-title" hidden>
-  <EsaCard padding="compact">
+<section class="bcn-tib bcn-section-card" data-bcn-transmittal-inbox aria-labelledby="tib-title" hidden>
+  <EsaCard headerVariant="muted">
     <div slot="header" class="bcn-tib__head">
       <span class="bcn-tib__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
       <span class="bcn-tib__titles">
@@ -28,31 +31,35 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
         <span class="bcn-tib__note typography-body-sm" data-tib-note></span>
       </span>
     </div>
-    <div class="bcn-tib__grid" role="table" aria-labelledby="tib-title">
-      <div class="bcn-tib__row bcn-tib__row--head typography-label-xs" role="row">
-        <span role="columnheader">Number</span>
-        <span role="columnheader">Subject</span>
-        <span role="columnheader">From</span>
-        <span role="columnheader">Sent</span>
-        <span role="columnheader">Your Receipt</span>
-        <span role="columnheader">Response Due</span>
-      </div>
-      <div class="bcn-tib__rows" role="rowgroup" data-tib-rows></div>
+    <div class="bcn-tib__scroll">
+      <table class="bcn-tib__table bcn-rtable" aria-labelledby="tib-title">
+        <thead>
+          <tr>
+            <th scope="col" class="bcn-tib__col-num">Number</th>
+            <th scope="col" class="bcn-tib__col-subject">Subject</th>
+            <th scope="col">From</th>
+            <th scope="col">Sent</th>
+            <th scope="col">Your Receipt</th>
+            <th scope="col">Response Due</th>
+          </tr>
+        </thead>
+        <tbody class="bcn-tib__rows" data-tib-rows></tbody>
+      </table>
     </div>
   </EsaCard>
 
   <template data-tib-tpl="row">
-    <div class="bcn-tib__row" role="row" data-tib-row>
-      <span class="bcn-tib__num" role="cell" data-tib-num></span>
-      <span class="bcn-tib__subject" role="cell">
-        <a class="typography-label-sm-strong" data-tib-subject></a>
-        <span class="bcn-tib__muted typography-body-sm" data-tib-plan></span>
-      </span>
-      <span class="bcn-tib__from typography-body-sm" role="cell" data-tib-from></span>
-      <span class="bcn-tib__date typography-body-sm" role="cell" data-tib-sent></span>
-      <span class="bcn-tib__state" role="cell" data-tib-state></span>
-      <span class="bcn-tib__date typography-body-sm" role="cell" data-tib-due></span>
-    </div>
+    <tr class="bcn-tib__row" data-tib-row data-rtable-link>
+      <td class="bcn-tib__num" data-tib-num></td>
+      <td class="bcn-tib__subject">
+        <a class="bcn-rtable__primary" data-tib-subject></a>
+        <span class="bcn-rtable__sub" data-tib-plan></span>
+      </td>
+      <td><span class="bcn-tib__from" data-tib-from></span></td>
+      <td class="bcn-tib__date" data-tib-sent></td>
+      <td><span class="bcn-tib__state" data-tib-state></span></td>
+      <td class="bcn-tib__date" data-tib-due></td>
+    </tr>
   </template>
 </section>
 
@@ -101,43 +108,34 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     color: var(--color-content-default-secondary);
   }
 
-  /* The register: one row per transmittal, its columns aligned down the list; a hairline between. The whole row opens it. */
-  .bcn-tib__row {
-    display: grid;
-    grid-template-columns: 3.5rem minmax(14rem, 2.4fr) minmax(10rem, 1.2fr) 7rem minmax(9rem, 1fr) 7.5rem;
-    align-items: center;
-    gap: var(--spacing-300);
-    padding: var(--spacing-200);
+  /* The register is bcn-rtable (rows, head, hover, focus, the pointer on a whole-row link); flush to the card's edges.
+     What's here is its columns and cells. */
+  .bcn-tib :global(.esa-card__body:has(.bcn-tib__scroll)) {
+    padding: 0;
   }
-  .bcn-tib__row--head {
-    padding-block: 0 var(--spacing-200);
-    color: var(--color-content-default-secondary);
-    border-block-end: 1px solid var(--color-border-default);
+  .bcn-tib__scroll {
+    overflow-x: auto;
   }
-  .bcn-tib__rows .bcn-tib__row {
-    border-radius: var(--radius-200);
-    cursor: pointer;
+  .bcn-tib__col-num {
+    inline-size: 4.5rem;
   }
-  .bcn-tib__rows .bcn-tib__row + .bcn-tib__row {
-    border-block-start: 1px solid var(--color-border-default-subtle);
+  .bcn-tib__col-subject {
+    inline-size: 38%;
   }
-  .bcn-tib__rows .bcn-tib__row:hover {
-    background: var(--color-background-default-hover);
+  .bcn-tib__table td {
+    white-space: nowrap;
   }
+  .bcn-tib__table td.bcn-tib__subject {
+    white-space: normal;
+  }
+  /* A transmittal number is an identifier: the one place mono reads (design QA, 2026-10-29). */
   .bcn-tib__num {
     font-family: var(--bcn-font-figures);
-    font-size: var(--typography-label-sm-font-size);
+    font-size: var(--typography-body-xs-font-size);
     font-weight: 600;
     color: var(--color-content-default-secondary);
   }
-  /* The subject, and the plan it's from under it. */
-  .bcn-tib__subject {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
   .bcn-tib__subject a {
-    color: var(--color-content-default);
     text-decoration: none;
     overflow-wrap: anywhere;
   }
@@ -148,8 +146,9 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
+    max-inline-size: 14rem;
     min-width: 0;
-    color: var(--color-content-default);
+    vertical-align: middle;
   }
   .bcn-tib__from :global(small) {
     color: var(--color-content-default-secondary);
@@ -164,8 +163,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   }
   .bcn-tib__date {
     font-variant-numeric: tabular-nums;
-    color: var(--color-content-default);
-    white-space: nowrap;
   }
   .bcn-tib__date[data-tone='danger'] {
     color: var(--color-content-utility-danger);
@@ -179,17 +176,10 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-100);
+    vertical-align: middle;
   }
   @media (max-width: 960px) {
-    .bcn-tib__row {
-      grid-template-columns: 3.5rem minmax(0, 1fr) auto;
-    }
-    .bcn-tib__row--head {
-      display: none;
-    }
-    .bcn-tib__row > :nth-child(3),
-    .bcn-tib__row > :nth-child(4),
-    .bcn-tib__row > :nth-child(6) {
+    .bcn-tib__table :is(th, td):is(:nth-child(3), :nth-child(4), :nth-child(6)) {
       display: none;
     }
   }

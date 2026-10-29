@@ -238,7 +238,7 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
         });
         // Each Remove names its person, for a screen reader's list of buttons.
         row.querySelector('[data-person-remove] button')?.setAttribute('aria-label', `Remove ${member.name}`);
-        row.querySelector('[data-person-remove] esa-tooltip, [data-person-remove]')?.setAttribute('title', `Remove ${member.name}`);
+        row.querySelector('[data-person-remove] esa-tooltip')?.setAttribute('text', `Remove ${member.name}`);
         row.querySelector('[data-person-remove]')!.addEventListener('click', () => {
           members = members.filter((m) => m !== member);
           drawPeople();

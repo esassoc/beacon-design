@@ -8,6 +8,23 @@ let pass = 0, fail = 0;
 const check = (n, ok, x = '') => { ok ? pass++ : fail++; console.log(`${ok ? 'PASS' : 'FAIL'} ${n}${x ? ' :: ' + x : ''}`); };
 const TOL = 1;
 
+/** In the page: every [hidden] element that still lays out a box (design QA, 2026-10-29: a scoped display rule beat
+ *  [hidden] and every item card showed a stray "0"). */
+const hiddenBoxes = () => page.evaluate(() => [...document.querySelectorAll('[hidden]')]
+  .filter((e) => !e.closest('template') && getComputedStyle(e).display !== 'none')
+  .map((e) => `${e.tagName.toLowerCase()}${[...e.attributes].filter((a) => a.name.startsWith('data-')).slice(0, 1).map((a) => `[${a.name}]`).join('')}`)
+  .slice(0, 6));
+/** In the page: each read-list row (bcn-rtable) sets its cells on one centre line (middle-aligned, design QA). */
+const rowCentres = () => page.evaluate((TOL) => {
+  const out = [];
+  for (const tr of document.querySelectorAll('.bcn-rtable tbody tr:not([data-rtable-group])')) {
+    const tds = [...tr.children].filter((td) => td.getBoundingClientRect().height && td.textContent.trim());
+    const mids = tds.map((td) => { const r = document.createRange(); r.selectNodeContents(td); const b = r.getBoundingClientRect(); return b.top + b.height / 2; });
+    if (mids.length > 1 && Math.max(...mids) - Math.min(...mids) > 12) out.push(`${tr.textContent.trim().slice(0, 30)} spread ${(Math.max(...mids) - Math.min(...mids)).toFixed(1)}px`);
+  }
+  return out.slice(0, 4);
+}, TOL);
+
 /** In the page: every element laying out an icon beside text (and maybe a badge) on one line. */
 const scan = () => page.evaluate((TOL) => {
   const center = (r) => r.top + r.height / 2;
@@ -42,11 +59,17 @@ const pages = [
   ['Sent to You', `/prototypes/plans-repo/inbox/?user=Rowan%20Hale`],
   ['Plan', `/prototypes/plans-repo/plan/?id=${planID}${DEFAULTS}&user=Andy%20Lovseth`],
   ['Plan, Deliverables', `/prototypes/plans-repo/plan/?id=${planID}${DEFAULTS}&view=deliverables&user=Andy%20Lovseth`],
+  ['Plan, Documents', `/prototypes/plans-repo/plan/?id=${planID}${DEFAULTS}&view=documents&user=Andy%20Lovseth`],
+  ['Plans index, Due for You (Priya)', `/prototypes/plans-repo/?user=Priya%20Natarajan`],
 ];
 for (const [name, path] of pages) {
   await page.goto(BASE + path); await page.addStyleTag({ content: HIDE }); await page.waitForTimeout(3000);
   const bad = await scan();
   check(`${name}: icon, title and count share a centre line`, !bad.length, bad.map((b) => `${b.title} / ${b.mark} ${b.delta > 0 ? '+' : ''}${b.delta}px (${b.where})`).join('; '));
+  const boxes = await hiddenBoxes();
+  check(`${name}: no [hidden] element has a box`, !boxes.length, boxes.join(', '));
+  const rows = await rowCentres();
+  check(`${name}: read-list rows are middle-aligned`, !rows.length, rows.join('; '));
 }
 // An item page and a transmittal, from the plan.
 const el = await page.evaluate(() => document.querySelector('.bcn-plan-gantt__item[data-row-id]')?.dataset.rowId);
@@ -55,6 +78,8 @@ for (const [name, path] of [['Item', `/prototypes/plans-repo/element/?plan=${pla
   await page.goto(BASE + path); await page.addStyleTag({ content: HIDE }); await page.waitForTimeout(3000);
   const bad = await scan();
   check(`${name}: icon, title and count share a centre line`, !bad.length, bad.map((b) => `${b.title} / ${b.mark} ${b.delta > 0 ? '+' : ''}${b.delta}px (${b.where})`).join('; '));
+  const boxes = await hiddenBoxes();
+  check(`${name}: no [hidden] element has a box`, !boxes.length, boxes.join(', '));
 }
 console.log(`${pass} PASS, ${fail} FAIL`);
 await browser.close();

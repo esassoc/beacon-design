@@ -9,7 +9,7 @@
 
 import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 import type { CellClassParams, ColDef, GridApi, ValueFormatterParams } from 'ag-grid-community';
-import { settingsEsaTheme } from '../../lib/beacon-grid';
+import { beaconDenseTheme } from '../../lib/beacon-grid';
 import { flattenPlan, isOrganization, PLAN_DIRECTORY, PLAN_ORGANIZATIONS } from '../../lib/planning/plan-repo';
 import { PlanDateTypeEnum, type PlanDetailDto } from '../../lib/planning/model';
 import { STATUSES } from '../../lib/planning/plan-records';
@@ -163,11 +163,11 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
   };
 
   const api: GridApi<TableRow> = createGrid(host, {
-    theme: settingsEsaTheme,
+    // Beacon's grid, its dense variant, shared with the budget sheet (design QA, 2026-10-29): one header, one row
+    // height, one zebra, one hover, one resize handle; sorting on, as prod's grids (a third click returns the outline).
+    theme: beaconDenseTheme,
     columnDefs: columns,
-    defaultColDef: { resizable: true, sortable: false, suppressMovable: true },
-    rowHeight: 32,
-    headerHeight: 40,
+    defaultColDef: { resizable: true, sortable: true, suppressMovable: true },
     domLayout: 'autoHeight',
     getRowId: (p) => p.data.id,
     singleClickEdit: false,

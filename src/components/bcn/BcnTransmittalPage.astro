@@ -34,15 +34,16 @@ import BcnBadgeBank from './BcnBadgeBank.astro';
 import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
+import '../../styles/bcn-section-card.css';
 ---
 
-<div class="bcn-trp" data-bcn-transmittal-page>
+<div class="bcn-trp bcn-section-card" data-bcn-transmittal-page>
   <p class="bcn-trp__line typography-body-md" data-trp-line hidden></p>
 
   <!-- ── The sender's view ── -->
   <div class="bcn-trp__cols" data-trp-sender hidden>
     <div class="bcn-trp__col">
-      <EsaCard padding="compact" headerVariant="muted">
+      <EsaCard headerVariant="muted">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="paperclip" paths={PLAN_ICON_PATHS.paperclip} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -53,7 +54,7 @@ import { withBase } from '../../lib/base';
         <ul class="bcn-trp__files" data-trp-files></ul>
       </EsaCard>
 
-      <EsaCard padding="compact" headerVariant="muted">
+      <EsaCard headerVariant="muted">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="check-check" paths={PLAN_ICON_PATHS['check-check']} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -65,7 +66,7 @@ import { withBase } from '../../lib/base';
       </EsaCard>
 
       <div data-trp-response-card>
-        <EsaCard padding="compact" headerVariant="muted">
+        <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
             <span class="bcn-trp__glyph"><EsaIcon name="mail" paths={PLAN_ICON_PATHS.mail} size="sm" /></span>
             <span class="bcn-trp__titles">
@@ -73,10 +74,10 @@ import { withBase } from '../../lib/base';
               <span class="bcn-trp__note typography-body-sm" data-trp-response-note></span>
             </span>
             <span class="bcn-trp__actions">
-              <span data-trp-act="resubmit" hidden><EsaButton variant="primary" size="xs" icon="rotate-ccw" data-fill-icon="rotate-ccw">Revise and Resubmit</EsaButton></span>
-              <span data-trp-act="complete" hidden><a data-trp-complete-link><EsaButton variant="primary" size="xs" icon="circle-check" data-fill-icon="circle-check">Record Completion</EsaButton></a></span>
-              <span data-trp-act="respond" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="plus">Record Response</EsaButton></span>
-              <span data-trp-act="close" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Close Transmittal</EsaButton></span>
+              <span data-trp-act="resubmit" hidden><EsaButton variant="primary" size="sm" icon="rotate-ccw" data-fill-icon="rotate-ccw">Revise and Resubmit</EsaButton></span>
+              <span data-trp-act="complete" hidden><a data-trp-complete-link><EsaButton variant="primary" size="sm" icon="circle-check" data-fill-icon="circle-check">Record Completion</EsaButton></a></span>
+              <span data-trp-act="respond" hidden><EsaButton variant="ghost" size="sm" icon="plus">Record Response</EsaButton></span>
+              <span data-trp-act="close" hidden><EsaButton variant="ghost" size="sm" icon="check">Close Transmittal</EsaButton></span>
             </span>
           </div>
           <div class="bcn-trp__response">
@@ -91,7 +92,7 @@ import { withBase } from '../../lib/base';
 
     <div class="bcn-trp__col">
       <div data-trp-rounds-card hidden>
-        <EsaCard padding="compact" headerVariant="muted">
+        <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
             <span class="bcn-trp__glyph"><EsaIcon name="history" paths={PLAN_ICON_PATHS.history} size="sm" /></span>
             <span class="bcn-trp__titles">
@@ -103,7 +104,7 @@ import { withBase } from '../../lib/base';
         </EsaCard>
       </div>
 
-      <EsaCard padding="compact" variant="filled">
+      <EsaCard variant="filled">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
           <span class="bcn-trp__titles">
@@ -116,13 +117,13 @@ import { withBase } from '../../lib/base';
             <span class="bcn-trp__mail-subject typography-label-sm-strong" data-trp-mail-subject></span>
           </div>
           <p class="bcn-trp__mail-body typography-body-sm" data-trp-mail-body></p>
-          <span class="bcn-trp__mail-open" data-trp-mail-open><a target="_blank" rel="noopener"><EsaButton variant="ghost" appearance="outline" size="xs" icon="external-link">Open in Beacon</EsaButton></a></span>
+          <span class="bcn-trp__mail-open" data-trp-mail-open><a target="_blank" rel="noopener"><EsaButton variant="ghost" size="sm" icon="external-link">Open in Beacon</EsaButton></a></span>
         </div>
         <p class="bcn-trp__hint typography-body-sm" data-trp-mail-hint></p>
       </EsaCard>
 
       <div data-trp-notes-card hidden>
-        <EsaCard padding="compact" headerVariant="muted">
+        <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
             <span class="bcn-trp__glyph"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" /></span>
             <span class="bcn-trp__titles"><h2 class="bcn-trp__title typography-label-md-strong">Notes</h2></span>
@@ -196,8 +197,8 @@ import { withBase } from '../../lib/base';
       <esa-file-upload data-trp-receipt-upload label="Upload Their Reply" max-size-mb="25" hidden></esa-file-upload>
     </div>
     <div slot="footer" class="bcn-trp__footer">
-      <span data-trp-receipt-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-trp-receipt-save><EsaButton variant="primary" size="sm" icon="check">Record Receipt</EsaButton></span>
+      <span data-trp-receipt-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-trp-receipt-save><EsaButton variant="primary">Record Receipt</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -214,8 +215,8 @@ import { withBase } from '../../lib/base';
       <esa-file-upload data-trp-response-upload label="Upload the Response" max-size-mb="25" hidden></esa-file-upload>
     </div>
     <div slot="footer" class="bcn-trp__footer">
-      <span data-trp-response-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span data-trp-response-save><EsaButton variant="primary" size="sm">Record Response</EsaButton></span>
+      <span data-trp-response-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-trp-response-save><EsaButton variant="primary">Record Response</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -230,7 +231,7 @@ import { withBase } from '../../lib/base';
         <span class="bcn-trp__muted typography-body-sm" data-file-sub></span>
       </span>
       <span class="bcn-trp__file-version typography-body-sm" data-file-version></span>
-      <span data-file-download><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></span>
+      <span data-file-download><esa-tooltip text="Download" position="above" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></esa-tooltip></span>
     </li>
   </template>
   <template data-trp-tpl="round">
@@ -257,9 +258,9 @@ import { withBase } from '../../lib/base';
           <span class="bcn-trp__muted typography-body-sm" data-person-detail></span>
         </span>
         <span class="bcn-trp__person-acts" data-person-acts>
-          <span data-person-act="remind" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="bell">Send Reminder</EsaButton></span>
-          <span data-person-act="record" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Record Receipt</EsaButton></span>
-          <span data-person-act="confirm" hidden><EsaButton variant="primary" size="xs" icon="check">Confirm Receipt</EsaButton></span>
+          <span data-person-act="remind" hidden><EsaButton variant="ghost" size="sm" icon="bell">Send Reminder</EsaButton></span>
+          <span data-person-act="record" hidden><EsaButton variant="ghost" size="sm" icon="check">Record Receipt</EsaButton></span>
+          <span data-person-act="confirm" hidden><EsaButton variant="primary" size="sm" icon="check">Confirm Receipt</EsaButton></span>
         </span>
       </span>
     </li>
@@ -270,6 +271,7 @@ import { withBase } from '../../lib/base';
 
 <script>
   import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-date-picker';
@@ -277,6 +279,7 @@ import { withBase } from '../../lib/base';
 </script>
 
 <style>
+
   .bcn-trp {
     display: flex;
     flex-direction: column;

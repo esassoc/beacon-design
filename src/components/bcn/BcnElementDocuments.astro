@@ -25,10 +25,10 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
 
 <BcnElementModule key="documents">
   <div slot="actions" class="bcn-edocs__actions">
-    <span data-edocs-filter-wrap hidden><esa-filter-dropdown size="xs" label="Type" name="type" data-edocs-filter></esa-filter-dropdown></span>
+    <span data-edocs-filter-wrap hidden><esa-filter-dropdown size="sm" label="Type" name="type" data-edocs-filter></esa-filter-dropdown></span>
     <span data-edocs-add-wrap hidden>
       <esa-dropdown-menu position="below-end" data-edocs-add>
-        <EsaButton variant="ghost" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">Add</EsaButton>
+        <EsaButton variant="ghost" size="sm" icon="plus" iconRight="chevron-down">Add</EsaButton>
       </esa-dropdown-menu>
     </span>
   </div>
@@ -39,7 +39,7 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
       <EsaEmptyState size="sm" title="No Documents Yet" description="Add a file or a link, with its date and why it matters.">
         <span data-edocs-empty-add hidden>
           <esa-dropdown-menu position="below-start" data-edocs-add>
-            <EsaButton variant="ghost" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">Add Document</EsaButton>
+            <EsaButton variant="ghost" size="sm" icon="plus" iconRight="chevron-down">Add Document</EsaButton>
           </esa-dropdown-menu>
         </span>
       </EsaEmptyState>
@@ -62,7 +62,7 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
             ><span class="bcn-edocs__corr" data-row-corr hidden></span> <span class="bcn-edocs__note" data-row-note></span>
             <span class="bcn-edocs__also" data-row-also hidden>
               <esa-popover position="bottom" trigger="click" label="Also On" data-row-also-pop>
-                <EsaButton variant="ghost" size="xs"><span data-row-also-label>Also on 2 Items</span></EsaButton>
+                <EsaButton variant="ghost" size="sm"><span data-row-also-label>Also on 2 Items</span></EsaButton>
                 <div slot="content" class="bcn-edocs__also-pop typography-body-sm">
                   <p class="bcn-edocs__also-head typography-label-sm-strong">Also On</p>
                   <ul class="bcn-edocs__also-list" data-row-also-list></ul>
@@ -75,9 +75,11 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
       </div>
       <span class="bcn-edocs__date typography-body-sm" data-row-date></span>
       <span class="bcn-edocs__menu" data-row-menu-wrap>
-        <esa-dropdown-menu position="below-end" data-row-menu>
-          <EsaButton variant="ghost" size="xs" iconOnly icon="ellipsis-vertical" label="Document Actions" data-fill-icon="ellipsis-vertical" />
-        </esa-dropdown-menu>
+        <esa-tooltip text="Document Actions" position="above" align="end">
+          <esa-dropdown-menu position="below-end" data-row-menu>
+            <EsaButton variant="ghost" size="xs" iconOnly icon="ellipsis-vertical" label="Document Actions" data-fill-icon="ellipsis-vertical" />
+          </esa-dropdown-menu>
+        </esa-tooltip>
       </span>
     </li>
   </template>
@@ -93,6 +95,7 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
 
 <script>
   import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-filter-dropdown';
   import '@esa/ecology/esa-popover';
 </script>

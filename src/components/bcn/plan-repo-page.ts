@@ -627,11 +627,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       });
       frag.append(add);
     }
-    const menu = rowTpl('menu').content.firstElementChild!.cloneNode(true) as HTMLElement & { items: EsaMenuItem[] };
+    const menuTip = rowTpl('menu').content.firstElementChild!.cloneNode(true) as HTMLElement & { open: boolean };
+    const menu = menuTip.querySelector('esa-dropdown-menu') as HTMLElement & { items: EsaMenuItem[] };
     menu.querySelector('button')?.setAttribute('aria-label', `Actions for ${element.PlanElementName}`);
+    // The tip steps aside once the menu opens (captured: the menu stops its own clicks).
+    menuTip.addEventListener('click', () => (menuTip.open = false), true);
     const items: EsaMenuItem[] = [
-      { label: 'Move Up', action: 'up', disabled: v.isFirst },
-      { label: 'Move Down', action: 'down', disabled: v.isLast },
+      // A disabled item says why (design QA, 2026-10-29: a gray Move Up explained nothing).
+      { label: v.isFirst ? 'Move Up (Already First)' : 'Move Up', action: 'up', disabled: v.isFirst },
+      { label: v.isLast ? 'Move Down (Already Last)' : 'Move Down', action: 'down', disabled: v.isLast },
       { label: 'Move To…', action: 'move', disabled: !v.canMove },
       { label: '', divider: true },
       { label: 'Delete', action: 'delete', variant: 'danger' },
@@ -645,7 +649,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       else if (action === 'delete') void remove(id);
     });
     fillIcons(menu);
-    frag.append(menu);
+    frag.append(menuTip);
     return frag;
   }
 
@@ -1313,6 +1317,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     Object.assign(pop.style, { pointerEvents: 'none', marginInlineEnd: `calc(${button.getBoundingClientRect().width}px - ${PANEL_REM}rem)` });
     q<HTMLElement>('[data-prp-branches]').style.pointerEvents = 'auto';
   }
+
+  // The trigger's tip steps aside once the menu opens (design QA, 2026-10-29: it hung over the menu's first row); it
+  // comes back on the next hover.
+  const branchTip = q<HTMLElement>('[data-prp-branch-trigger]').querySelector<HTMLElement & { open: boolean }>('esa-tooltip');
+  branchTip?.addEventListener('click', () => (branchTip.open = false), true);
 
   function drawBranches(): void {
     requestAnimationFrame(alignBranchMenu);
