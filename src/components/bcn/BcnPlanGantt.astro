@@ -372,6 +372,12 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark-hit) { fill: transparent; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__today-line) { fill: var(--_warn); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__bar) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
+  /* Health on the chart (2026-10-28, the SOW review): the status ramp's colors on task bars and milestones, set as the
+     mark's own bar color so the solid and tactile fills both take it. Complete is a mid green, apart from the brand. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--health-late) { --_bar: var(--bcn-status-overdue); --_brand: var(--bcn-status-overdue); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--health-risk) { --_bar: var(--bcn-status-in-progress); --_brand: var(--bcn-status-in-progress); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--health-done) { --_bar: var(--color-border-utility-success); --_brand: var(--color-border-utility-success); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--health-blocked) { --_bar: var(--bcn-status-on-hold); --_brand: var(--bcn-status-on-hold); }
   /* EXPERIMENT (2026-10-20): a parent's roll-up bracket is the children's teal, lightening one step per level outward
      — the deepest parent (nearest its bars) strongest, the program lightest — in place of her greys. */
   /* EXPERIMENT (2026-10-21): no edge on any parent bracket (hers carried a grey one on the top two tiers, for weight

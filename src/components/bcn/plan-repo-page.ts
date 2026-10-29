@@ -5,7 +5,8 @@
 // The chart is Jamie's PlanGanttChart at the tactile density, the range is her setupPlanGanttRange; the draft
 // arithmetic (edits from a drag, overrides, the cascade) is hers too (plan-draft.ts, the mock's previewDraft).
 
-import { PlanGanttChart, type GanttDraftOverlay } from './plan-gantt-chart';
+import { PlanGanttChart, type GanttDraftOverlay, type GanttRowHealth } from './plan-gantt-chart';
+import { healthOf, recordsFor } from '../../lib/planning/plan-records';
 import { setupPlanGanttRange } from './plan-gantt-range';
 import { setupPlanRevisionsDialog, budgetDiff, signedDollars } from './plan-revisions-dialog';
 import { openPlanElementDrawer, type PlanElementDrawerHandle } from './plan-element-drawer';
@@ -161,6 +162,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   let shown: PlanDetailDto = draft ? (await draftState(draft)).Plan : live;
   const redo: PlanRevision[] = [];
   let busy = false;
+  /** The Schedule's Health filter (set below): kept here so every redraw can reapply it. */
+  let healthPick: string[] = [];
   /** The element drawer open over the chart, if any (2026-10-28: Jamie's drawer, in its draft mode). */
   let elementDrawer: PlanElementDrawerHandle | null = null;
   /** The open drawer's subscription: it re-reads the plan on every draw. */
@@ -876,6 +879,20 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   // ── Draw ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  /** Each task bar's and milestone's health, as the chart colors it (Late, At Risk, Blocked, Complete). */
+  function rowHealth(): Map<string, GanttRowHealth> {
+    const rec = recordsFor(planID!);
+    const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
+    const tone: Partial<Record<string, GanttRowHealth>> = { Late: 'late', 'At Risk': 'risk', Blocked: 'blocked', Complete: 'done' };
+    const out = new Map<string, GanttRowHealth>();
+    for (const { element } of flattenPlan(shown.Elements)) {
+      if (element.Children?.length) continue;
+      const id = element.PlanElementID ?? '';
+      const t = tone[healthOf(rec, shown, id, (x) => !!attrs[x]?.deliverable).health];
+      if (t) out.set(id, t);
+    }
+    return out;
+  }
   function draw(): void {
     const name = live.PlanName ?? 'Plan';
     const h1 = document.querySelector('.page-layout__title h1');
@@ -902,9 +919,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       // No title block (2026-10-28, Andy: "Issued, Revision 7" said again what the badge and the strip say).
       titleBlock: null,
       stamp: issued && study.stamp && mode !== 'live' ? 'Draft, not issued' : null,
+      rowHealth: rowHealth(),
     });
     range.refresh();
     chart.setData({ rows: view.rows, links: view.links, landmarks: view.landmarks, today, outlineHeading: view.outlineHeading });
+    if (healthPick.length) applyHealth();
     drawerListeners.forEach((listener) => listener());
     // Adding (2026-10-28): the header's Add names the top level; an empty plan says where its first item comes from.
     const top = topLevelName();
@@ -912,6 +931,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     q<HTMLElement>('[data-prp-add]').hidden = mode === 'view' || empty;
     q<HTMLElement>('[data-prp-add-label]').textContent = `Add ${top}`;
     q<HTMLElement>('[data-prp-empty]').hidden = !empty;
+    q<HTMLElement>('[data-prp-legend]').hidden = empty;
     q<HTMLElement>('[data-prp-empty-add]').hidden = mode === 'view';
     q<HTMLElement>('[data-prp-empty-add-label]').textContent = `Add ${top}`;
     q<HTMLElement>('[data-prp-empty] .esa-empty-state__description').textContent =
@@ -1467,6 +1487,47 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   });
 
 
+  // ── Health (2026-10-28, the SOW review): the whole plan's late, at-risk, blocked and due-soon work, on the chart ──
+  type FacetEl = HTMLElement & { options: { value: string; label: string }[]; _selected: string[] };
+  const healthFacet = q<FacetEl>('[data-prp-health]');
+  const DUE_SOON = 'Due in 30 Days';
+  void customElements.whenDefined('esa-filter-dropdown').then(() => {
+    healthFacet.options = ['Late', 'At Risk', DUE_SOON, 'Blocked', 'Complete'].map((h) => ({ value: h, label: h }));
+  });
+  /** The tasks and milestones the Health filter keeps, or null for every row. */
+  function healthRows(): Set<string> | null {
+    if (!healthPick.length) return null;
+    const rec = recordsFor(planID!);
+    const attrs = draft && mode !== 'live' ? draftAttributes(repo, draft) : attributesAt(repo);
+    const todayIso = toLocalIsoDate(new Date());
+    const soon = toLocalIsoDate(new Date(Date.now() + 30 * 86_400_000));
+    const out = new Set<string>();
+    for (const { element } of flattenPlan(shown.Elements)) {
+      if (element.Children?.length) continue;
+      const id = element.PlanElementID ?? '';
+      const h = healthOf(rec, shown, id, (x) => !!attrs[x]?.deliverable);
+      const end = element.EndDate ?? element.StartDate ?? null;
+      const dueSoon = h.health !== 'Complete' && !!end && end >= todayIso && end <= soon;
+      if (healthPick.includes(h.health) || (healthPick.includes(DUE_SOON) && dueSoon)) out.add(id);
+    }
+    return out;
+  }
+  function applyHealth(): void {
+    const rows = healthRows();
+    chart.setRowFilter(rows && rows.size ? rows : rows ? new Set(['\u0000']) : null);
+    const none = q<HTMLElement>('[data-prp-no-match]');
+    none.hidden = !rows || rows.size > 0;
+    if (rows && !rows.size) {
+      none.querySelector('.esa-empty-state__title')!.textContent = `Nothing ${healthPick.join(' or ')}`;
+      none.querySelector('.esa-empty-state__description')!.textContent = 'Clear the Health filter to see every item.';
+    }
+  }
+  healthFacet.addEventListener('selection-change', (e) => {
+    const v = (e as CustomEvent<{ value?: string | string[] }>).detail?.value;
+    healthPick = Array.isArray(v) ? v : v ? [v] : [];
+    applyHealth();
+  });
+
   // ── Search (2026-10-27): narrows the rows to the matches, their parents and contents; the names mark the hits ──
   const search = q<HTMLElement & { value: string }>('[data-prp-search]');
   const noMatch = q<HTMLElement>('[data-prp-no-match]');
@@ -1475,7 +1536,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const text = (search.value ?? '').trim();
     const found = chart.setFilter(text);
     noMatch.hidden = !text || found > 0;
-    if (text && !found) noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing Matches “${text}”`;
+    if (text && !found) {
+      noMatch.querySelector('.esa-empty-state__title')!.textContent = `Nothing Matches “${text}”`;
+      noMatch.querySelector('.esa-empty-state__description')!.textContent = 'Try another word.';
+    }
     drawSheet();
   };
   search.addEventListener('change', () => {

@@ -152,10 +152,23 @@ import { withBase } from '../../lib/base';
         <section class="bcn-prp__scope" aria-label="What the chart shows">
           <BcnPlanGanttRange stacked>
             <esa-text-field slot="lead" class="bcn-prp__search" size="sm" placeholder="Search the Plan" aria-label="Search the Plan" autocomplete="off" data-prp-search></esa-text-field>
+            <!-- What needs attention across the whole plan (2026-10-28, the SOW review: the overdue view covered only
+                 deliverables): every task and milestone by health, or due within 30 days. -->
+            <esa-filter-dropdown slot="lead" size="sm" label="Health" name="health" multiple data-prp-health></esa-filter-dropdown>
           </BcnPlanGanttRange>
         </section>
         <div class="bcn-prp__view" data-prp-pane="schedule">
         <BcnPlanGantt label="Plan schedule" />
+        <!-- What the bars' colors and outlines mean (2026-10-28): health fills, a conflict's outline, Scheduled's square ends. -->
+        <div class="bcn-prp__legend typography-body-sm" data-prp-legend aria-label="Chart key">
+          <span><i data-key="late"></i>Late</span>
+          <span><i data-key="risk"></i>At Risk</span>
+          <span><i data-key="blocked"></i>Blocked</span>
+          <span><i data-key="done"></i>Complete</span>
+          <span><i data-key="track"></i>On Track or Upcoming</span>
+          <span><i data-key="conflict"></i>Conflict</span>
+          <span><i data-key="scheduled"></i>Scheduled (Fixed)</span>
+        </div>
         <!-- A plan with no items yet (2026-10-28, the build-from-scratch review): where its first one comes from. -->
         <div class="bcn-prp__no-match" data-prp-empty hidden>
           <EsaEmptyState size="sm" title="No Items Yet" description="Start the outline with its first item. It goes to your draft; Review and Publish takes it to Live.">
@@ -267,6 +280,7 @@ import { withBase } from '../../lib/base';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-filter-dropdown';
 </script>
 
 <style>
@@ -509,6 +523,17 @@ import { withBase } from '../../lib/base';
   /* The sheet runs flush in the panel, as the chart does; past the viewport it scrolls inside, header and total pinned. */
   .bcn-prp__view--budget { display: block; --bcn-pbs-max-height: calc(100vh - 10rem); }
   .bcn-prp__view .bcn-prp__no-match { border: 0; border-radius: 0; }
+  /* The chart's key, quiet under the chart. Swatches read the same tokens the bars do. */
+  .bcn-prp__legend { display: flex; flex-wrap: wrap; gap: var(--spacing-100) var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); color: var(--color-content-default-secondary); border-top: 1px solid var(--color-border-default); }
+  .bcn-prp__legend span { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  .bcn-prp__legend i { inline-size: 1rem; block-size: 0.625rem; border-radius: 3px; background: var(--color-background-brand); }
+  .bcn-prp__legend i[data-key='late'] { background: var(--bcn-status-overdue); }
+  .bcn-prp__legend i[data-key='risk'] { background: var(--bcn-status-in-progress); }
+  .bcn-prp__legend i[data-key='blocked'] { background: var(--bcn-status-on-hold); }
+  .bcn-prp__legend i[data-key='done'] { background: var(--color-border-utility-success); }
+  .bcn-prp__legend i[data-key='conflict'] { background: transparent; outline: 2px solid var(--color-border-utility-danger); outline-offset: -2px; }
+  .bcn-prp__legend i[data-key='scheduled'] { border-radius: 0; }
+  .bcn-prp__legend[hidden] { display: none; }
   /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
   /* The record views carry their own search and filters: no chart scope, and no draft actions (records are Live's). */
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__scope,

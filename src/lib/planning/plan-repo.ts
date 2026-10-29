@@ -197,7 +197,7 @@ interface RepoStore {
 /** Bumped when the seed's shape changes (2: the fixed grammar; 3: change notes as data; 4: budget by fiscal year;
  *  5: views and people, which a format-4 store takes on without starting over; 6: element attributes, records and two
  *  early deliverables, a full start over; 7: the Lineage module in the layouts and units on number fields). */
-const SEED_FORMAT = 8;
+const SEED_FORMAT = 9;
 
 /** What the Plans index shows for one plan. */
 export interface PlanSummary {
@@ -604,6 +604,14 @@ const EARLY_TASKS = [
   { under: 'Far-field through-Delta', name: 'Tag technology feasibility memo', start: '2026-07-15', end: '2026-09-30', budget: 36_000 },
 ];
 
+/** Two deliverables dated from the day the sample is seeded (2026-10-28, the SOW review: "Late or Due in 30 Days"
+ *  was empty in every demo): one past its end and still in progress, one due in 18 days. */
+const isoFromToday = (days: number) => new Date(Date.now() + days * 86_400_000).toISOString().slice(0, 10);
+const RELATIVE_TASKS = () => [
+  { under: 'Predator density', name: 'Predator survey collection permit', start: isoFromToday(-75), end: isoFromToday(-9), budget: 12_000 },
+  { under: 'Near-field intake behavior', name: 'Quarterly agency coordination memo', start: isoFromToday(-20), end: isoFromToday(18), budget: 9_000 },
+];
+
 /** The sample's attributes: owners on every element, the deliverables flagged, the Study Program's fields filled. */
 function seedAttributes(plan: PlanDetailDto): PlanAttributes {
   const out: PlanAttributes = {};
@@ -628,6 +636,8 @@ function seedAttributes(plan: PlanDetailDto): PlanAttributes {
   deliverable('Through-Delta survival model fit', ['Sam Okafor'], 'Data Report', 'Rowan Hale', 45, 'NMFS');
   deliverable('Predation study plan', ['Priya Natarajan'], 'Science Plan', 'Casey Lin');
   deliverable('Predation exposure model build', ['Priya Natarajan'], 'Data Report', 'Casey Lin', 45);
+  deliverable('Predator survey collection permit', ['Priya Natarajan'], 'Permit Application', 'Casey Lin', 30);
+  deliverable('Quarterly agency coordination memo', ['Alex Rivera'], 'Technical Memo', 'Jordan Reyes', 30);
   for (const name of ['Acoustic tag & receiver procurement', 'Fabricate & install', 'Winter-freshet', 'Receiver retrieval', 'Regional receiver network', 'Multi-year tag release', 'Baseline predator hydroacoustic', 'Predation hotspot', 'Diet & eDNA']) {
     set(name, { owners: [name.startsWith('Regional') || name.startsWith('Multi-year') ? 'Sam Okafor' : name.startsWith('Baseline predator') || name.startsWith('Predation hotspot') || name.startsWith('Diet') ? 'Priya Natarajan' : 'Alex Rivera'], values: { 'lead-agency': 'CDFW' } });
   }
@@ -723,7 +733,7 @@ async function seedFisheries(store: RepoStore): Promise<void> {
   }
   // Two early deliverables, finished this summer (2026-10-28), so the sample has done work to show: sends, receipts,
   // completions. They lead their sub-studies.
-  for (const t of EARLY_TASKS) {
+  for (const t of [...EARLY_TASKS, ...RELATIVE_TASKS()]) {
     const parent = elementByName(live, t.under);
     if (!parent?.PlanElementID) continue;
     await as('Jamie Quishenberry', () =>

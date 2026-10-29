@@ -578,6 +578,9 @@ export interface PlanGanttTemplates {
   revert: HTMLTemplateElement;
 }
 
+/** A bar's health on the chart: Late, At Risk, Blocked and Complete are colored; anything else keeps the brand. */
+export type GanttRowHealth = 'late' | 'risk' | 'blocked' | 'done';
+
 export class PlanGanttChart {
   // ── Inputs ──
   private rows: readonly UiVizGanttRow[] = [];
@@ -597,6 +600,7 @@ export class PlanGanttChart {
   private stamp: string | null = null;
   private conflicts: readonly GanttConflict[] = [];
   private rowNotes: ReadonlyMap<string, readonly PlanGanttTipRow[]> = new Map();
+  private rowHealth: ReadonlyMap<string, GanttRowHealth> = new Map();
   /** Row markers by row id; one inside a collapsed parent shows on the nearest visible row. */
   private rowBadges: ReadonlyMap<string, string> = new Map();
   private rowDeltas: ReadonlyMap<string, GanttRowDelta> | null = null;
@@ -746,7 +750,10 @@ export class PlanGanttChart {
     titleBlock?: GanttTitleBlock | null;
     /** A faint stamp repeated across the plot, so a screenshot of any part of a draft still says what it is. */
     stamp?: string | null;
+    /** Each task bar's and milestone's health (2026-10-28, the SOW review: status color coding on the chart). */
+    rowHealth?: ReadonlyMap<string, GanttRowHealth>;
   }): void {
+    this.rowHealth = annotations.rowHealth ?? new Map();
     this.paper = annotations.paper ?? false;
     this.titleBlock = annotations.titleBlock ?? null;
     this.stamp = annotations.stamp ?? null;
@@ -1422,6 +1429,8 @@ export class PlanGanttChart {
       if (draftMark) classes.push(`${P}__mark--draft-${draftMark}`);
       if (v.conflictIds.has(view.row.id)) classes.push(`${P}__mark--conflict`);
       if (view.scheduled) classes.push(`${P}__mark--scheduled`);
+      const health = this.rowHealth.get(view.row.id);
+      if (health) classes.push(`${P}__mark--health-${health}`);
       if (v.chainIds.has(view.row.id)) classes.push(`${P}__mark--chain`);
       const overrunClass = `${P}__overrun${view.scheduled ? ` ${P}__overrun--scheduled` : ''}${mark.kind === 'summary' ? ` ${P}__overrun--borderless` : ''}`;
       const o = mark.overrunRect;

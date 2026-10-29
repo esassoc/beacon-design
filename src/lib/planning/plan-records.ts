@@ -656,6 +656,10 @@ export function seedPlanRecords(planID: string, plan: PlanDetailDto): void {
   status(feasibility, 'Complete', 'Sam Okafor', '2026-10-21');
   status(baseline, 'In Progress', 'Alex Rivera', '2026-09-28');
   status(permits, 'In Progress', 'Sam Okafor', '2026-10-01');
+  // The two dated from today (plan-repo's RELATIVE_TASKS): both under way, one already past its end.
+  const today = new Date().toISOString().slice(0, 10);
+  status(byName('Predator survey collection permit'), 'In Progress', 'Priya Natarajan', today);
+  status(byName('Quarterly agency coordination memo'), 'In Progress', 'Alex Rivera', today);
   if (permits) rec.health[permits] = { health: 'At Risk', note: 'USACE pre-application meeting slipped to December; two sites may need individual permits.', by: 'Sam Okafor', at: at('2026-10-22') };
 
   // Obligations (the DCP registry): the fish studies serve covered-fish monitoring and the survival criteria.
