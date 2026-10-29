@@ -9,7 +9,7 @@
 // bcn-lego-checked: every avatar IS esa-avatar; the bank is only a carrier for runtime clones, as BcnTeamAvatars'.
 // Checked Beacon (people are ui-avatar, the same lego). bcn-plan-people is the home for the planning module's people.
 import EsaAvatar from '@esa/ecology/esa-avatar.astro';
-import { PLAN_DIRECTORY } from '../../lib/planning/plan-repo';
+import { PLAN_DIRECTORY, PLAN_ORGANIZATIONS } from '../../lib/planning/plan-repo';
 
 const SIZES = ['xs', 'sm', 'md'] as const;
 // Everyone a plan can name: the planners, and the project's people a plan's settings can add (2026-10-28).
@@ -21,4 +21,9 @@ const PEOPLE = PLAN_DIRECTORY;
     <template data-plan-person={name} data-size={size}><EsaAvatar name={name} size={size} /></template>
   )))}
   {SIZES.map((size) => <template data-plan-person="" data-size={size}><EsaAvatar icon="user" size={size} /></template>)}
+  {/* Organizations as owners (2026-10-28): a square avatar with the short name's letters, so a firm or agency never
+      reads as a person. */}
+  {Object.keys(PLAN_ORGANIZATIONS).flatMap((org) => SIZES.map((size) => (
+    <template data-plan-person={org} data-size={size}><EsaAvatar name={org} initials={org.slice(0, 2)} shape="square" size={size} /></template>
+  )))}
 </div>

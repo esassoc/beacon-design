@@ -314,6 +314,25 @@ export const PERSON_ORG: Record<string, string> = {
 };
 export const orgOf = (name: string) => PERSON_ORG[name] ?? '';
 
+/**
+ * The organizations a plan can name as owners in their own right (2026-10-28, the SOW review: "one or more owners or
+ * leads (individuals and organizations)"): the firms and agencies the project works with, by short name.
+ */
+export const PLAN_ORGANIZATIONS: Record<string, string> = {
+  ESA: 'Environmental Science Associates',
+  DWR: 'California Department of Water Resources',
+  CDFW: 'California Department of Fish and Wildlife',
+  NMFS: 'NOAA Fisheries',
+  USFWS: 'U.S. Fish and Wildlife Service',
+  USACE: 'U.S. Army Corps of Engineers',
+  CSLC: 'California State Lands Commission',
+};
+export const isOrganization = (name: string) => name in PLAN_ORGANIZATIONS;
+/** An owner as a picker or a card names them: "Alex Rivera (ESA)", or "CDFW (Organization)". */
+export const ownerLabel = (name: string) => (isOrganization(name) ? `${name} (Organization)` : orgOf(name) ? `${name} (${orgOf(name)})` : name);
+/** An owner's muted aside: a person's organization, or an organization's full name. */
+export const ownerAside = (name: string) => (isOrganization(name) ? PLAN_ORGANIZATIONS[name] : orgOf(name));
+
 // ── Plan helpers ───────────────────────────────────────────────────────────────────────────────────────────────────
 
 export function flattenPlan(elements: readonly PlanElementDto[] | null | undefined, path: string[] = [], out: { element: PlanElementDto; path: string[] }[] = []) {

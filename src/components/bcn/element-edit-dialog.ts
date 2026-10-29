@@ -12,7 +12,7 @@ import '@esa/ecology/esa-switch-toggle';
 import '@esa/ecology/esa-button-toggle';
 import type { ElementContext } from '../../lib/planning/element-context';
 import type { FieldDef } from '../../lib/planning/plan-config';
-import { PLAN_DIRECTORY, orgOf, type ElementAttributes, type FieldValue, type PlanFieldEdit } from '../../lib/planning/plan-repo';
+import { PLAN_DIRECTORY, PLAN_ORGANIZATIONS, orgOf, ownerAside, ownerLabel, type ElementAttributes, type FieldValue, type PlanFieldEdit } from '../../lib/planning/plan-repo';
 import { PLAN_DATE_TYPE_HINTS, planElementDateErrors } from '../../lib/planning/plan-element';
 import type { PlanDraftEdit } from '../../lib/planning/plan-draft';
 import type { PlanDateTypeEnum } from '../../lib/planning/model';
@@ -48,6 +48,8 @@ export interface EditResult {
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => Object.assign(document.createElement(tag), { className, textContent: text });
 const opts = (list: readonly string[]) => list.map((o) => ({ value: o, label: o }));
 const people = () => PLAN_DIRECTORY.map((n) => ({ value: n, label: orgOf(n) ? `${n} (${orgOf(n)})` : n }));
+/** Owners: the project's people, then the organizations (an agency or firm can own an item in its own right). */
+const ownerOptions = () => [...people(), ...Object.keys(PLAN_ORGANIZATIONS).map((o) => ({ value: o, label: ownerLabel(o) }))];
 
 /** One control per field type; set once it has upgraded. */
 function control(def: FieldDef, value: FieldValue | undefined, required: boolean): Lit {
@@ -147,7 +149,7 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
       ...owners.map((n) => {
         const li = el('li');
         const label = el('span', '', n);
-        if (orgOf(n)) label.append(' ', el('span', 'bcn-eed__org', `(${orgOf(n)})`));
+        if (ownerAside(n)) label.append(' ', el('span', 'bcn-eed__org', `(${ownerAside(n)})`));
         const remove = q<HTMLTemplateElement>('template[data-eed-tpl="remove"]').content.firstElementChild!.cloneNode(true) as HTMLElement;
         remove.querySelector('button')?.setAttribute('aria-label', `Remove ${n}`);
         remove.addEventListener('click', () => {
@@ -158,7 +160,7 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
         return li;
       })
     );
-    void customElements.whenDefined('esa-combobox').then(() => (addOwner.options = people().filter((p) => !owners.includes(p.value))));
+    void customElements.whenDefined('esa-combobox').then(() => (addOwner.options = ownerOptions().filter((p) => !owners.includes(p.value))));
   }
   addOwner.addEventListener('change', () => {
     const picked = String(addOwner.value ?? '');

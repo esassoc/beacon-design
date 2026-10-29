@@ -6,7 +6,7 @@ import '@esa/ecology/esa-tooltip';
 import type { ElementContext } from '../../lib/planning/element-context';
 import { PLAN_VIEW_HREF, datesText } from '../../lib/planning/element-context';
 import type { FieldDef } from '../../lib/planning/plan-config';
-import { orgOf, type FieldValue } from '../../lib/planning/plan-repo';
+import { ownerAside, orgOf, type FieldValue } from '../../lib/planning/plan-repo';
 import { healthOf, setStatus, statusOf, STATUSES, type ElementStatus } from '../../lib/planning/plan-records';
 import { fillIcons } from '../../lib/planning/icons';
 import { planAvatar } from './plan-people';
@@ -112,8 +112,8 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
       for (const name of owners) {
         const p = el('span', 'bcn-det__owner');
         p.append(planAvatar(name, 'xs'), name);
-        const org = orgOf(name);
-        if (org) p.append(el('span', 'bcn-det__muted', `(${org})`));
+        const aside = ownerAside(name);
+        if (aside) p.append(el('span', 'bcn-det__muted', `(${aside})`));
         people.append(p);
       }
       ownersDd.append(people);
