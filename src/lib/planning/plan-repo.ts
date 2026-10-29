@@ -92,7 +92,13 @@ export interface PlanRevision {
   budget?: PlanBudget;
   /** Attributes the draft changed, cumulative, over Live's (2026-10-28, the element page). */
   attributes?: PlanAttributes;
+  /** Dependencies the draft changed, cumulative, by id: the new lag in days, or null when unlinked (2026-10-28, draft
+   *  first: a link's edit is drafted like a date's). */
+  links?: PlanLinkEdits;
 }
+
+/** A draft's dependency edits: id to new lag, or null for removed. */
+export type PlanLinkEdits = Record<string, number | null>;
 
 /** An element's own fields as a draft changes them, beyond its dates. */
 export interface PlanFieldEdit {
@@ -1009,7 +1015,7 @@ export async function listPlanSummaries(): Promise<PlanSummary[]> {
 /** A draft as it stood after revision `index` (0 = nothing yet: the live plan). */
 export async function draftState(draft: PlanRepoDraft, index: number = draft.revisions.length): Promise<PlanDraftViewDto> {
   const overrides = index <= 0 ? [] : draft.revisions[index - 1].overrides;
-  const view = await planApi.previewDraft(draft.planID, overrides);
+  const view = await planApi.previewDraft(draft.planID, overrides, [], index <= 0 ? undefined : draft.revisions[index - 1].links);
   // The draft's edits to elements' own fields, laid over what the server previews (it knows dates only).
   const fields = index <= 0 ? undefined : draft.revisions[index - 1].fields;
   if (fields) {
@@ -1031,25 +1037,50 @@ export function myDraft(planID: string): PlanRepoDraft | null {
   return getRepo(planID).drafts.find((d) => d.owner === me && !d.transient) ?? null;
 }
 
+/** Every item a draft changes: its dates (by hand or moved by another edit), fields, budget, attributes, or a link to
+ *  it. Empty for a draft with no edits. */
+export async function draftFootprint(draft: PlanRepoDraft, live: PlanDetailDto): Promise<Set<string>> {
+  const rev = draft.revisions.at(-1);
+  const ids = new Set<string>();
+  if (!rev) return ids;
+  rev.overrides.forEach((o) => ids.add(o.PlanElementID));
+  for (const part of [rev.fields, rev.budget, rev.attributes]) Object.keys(part ?? {}).forEach((id) => ids.add(id));
+  for (const id of Object.keys(rev.links ?? {})) {
+    const dep = (live.Dependencies ?? []).find((x) => x.PlanElementDependencyID === id);
+    if (dep) ids.add(dep.PredecessorPlanElementID ?? '').add(dep.SuccessorPlanElementID ?? '');
+  }
+  if (rev.overrides.length) {
+    const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
+    for (const { element: e } of flattenPlan((await draftState(draft)).Plan.Elements)) {
+      const w = was.get(e.PlanElementID);
+      if (w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate)) ids.add(e.PlanElementID ?? '');
+    }
+  }
+  return ids;
+}
+
 /**
- * The open drafts (anyone's, the short-lived ones aside) that change this item: its dates, its fields, its budget or
- * its attributes, or its dates moved by another of the draft's edits (2026-10-28, the draft-first edit model: Publish
- * Now is offered only when none does, so publishing one later can't quietly put Live's edit back).
+ * The open drafts (anyone's, the short-lived ones aside) that change this item (2026-10-28, the draft-first edit model:
+ * Publish Now is offered only when none does, so publishing one later can't quietly put Live's edit back).
  */
 export async function draftsTouching(planID: string, elementId: string, live: PlanDetailDto): Promise<PlanRepoDraft[]> {
-  const was = flattenPlan(live.Elements).find((x) => x.element.PlanElementID === elementId)?.element;
   const out: PlanRepoDraft[] = [];
-  for (const d of getRepo(planID).drafts) {
-    const rev = d.revisions.at(-1);
-    if (d.transient || !rev) continue;
-    const direct = rev.overrides.some((o) => o.PlanElementID === elementId) || !!rev.fields?.[elementId] || !!rev.budget?.[elementId] || !!rev.attributes?.[elementId];
-    if (direct) {
-      out.push(d);
-      continue;
-    }
-    if (!rev.overrides.length || !was) continue;
-    const now = flattenPlan((await draftState(d)).Plan.Elements).find((x) => x.element.PlanElementID === elementId)?.element;
-    if (now && (now.StartDate !== was.StartDate || now.EndDate !== was.EndDate)) out.push(d);
+  for (const d of getRepo(planID).drafts) if (!d.transient && (await draftFootprint(d, live)).has(elementId)) out.push(d);
+  return out;
+}
+
+/** The other open drafts that change items this one changes, with those items' ids (2026-10-28: Review and Publish
+ *  says so, since whichever publishes second replaces the other's version of them). */
+export async function draftOverlaps(planID: string, draftID: string, live: PlanDetailDto): Promise<{ draft: PlanRepoDraft; ids: string[] }[]> {
+  const drafts = getRepo(planID).drafts;
+  const self = drafts.find((d) => d.id === draftID);
+  if (!self) return [];
+  const mine = await draftFootprint(self, live);
+  const out: { draft: PlanRepoDraft; ids: string[] }[] = [];
+  for (const d of drafts) {
+    if (d.id === draftID || d.transient) continue;
+    const ids = [...(await draftFootprint(d, live))].filter((id) => mine.has(id));
+    if (ids.length) out.push({ draft: d, ids });
   }
   return out;
 }
@@ -1094,7 +1125,7 @@ export function startDraft(planID: string, from?: PlanRepoDraft, kind: 'Draft' |
     createdAt: stamp.toISOString(),
     baseVersion: latestVersion(repo).number,
     revisions: from
-      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget), attributes: clone(from.revisions.at(-1)?.attributes) }]
+      ? [{ id: uid(), author: me, at: stamp.toISOString(), ...noted({ action: 'Copied', subject: from.name }), overrides: clone(from.revisions.at(-1)?.overrides ?? []), fields: clone(from.revisions.at(-1)?.fields), budget: clone(from.revisions.at(-1)?.budget), attributes: clone(from.revisions.at(-1)?.attributes), links: clone(from.revisions.at(-1)?.links) }]
       : [],
   };
   repo.drafts = [...repo.drafts.filter((d) => d.owner !== me || d.transient), draft];
@@ -1134,7 +1165,7 @@ export function renameDraft(planID: string, draftID: string, name: string): void
 }
 
 /** One drop in a draft: the draft's new overrides, as its next revision. */
-export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote, extras: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; attributes?: PlanAttributes } = {}): PlanRevision {
+export function addRevision(planID: string, draftID: string, overrides: PlanDraftOverrideDto[], note: PlanChangeNote, extras: { fields?: Record<string, PlanFieldEdit>; budget?: PlanBudget; attributes?: PlanAttributes; links?: PlanLinkEdits } = {}): PlanRevision {
   const store = load();
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) throw new Error('That draft is gone.');
@@ -1149,6 +1180,7 @@ export function addRevision(planID: string, draftID: string, overrides: PlanDraf
     fields: clone(extras.fields ?? prior?.fields),
     budget: clone(extras.budget ?? prior?.budget),
     attributes: clone(extras.attributes ?? prior?.attributes),
+    links: clone(extras.links ?? prior?.links),
   };
   draft.revisions.push(revision);
   save(store);
@@ -1184,6 +1216,15 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
   const index = revisionIndex ?? draft.revisions.length;
   const overrides = index > 0 ? draft.revisions[index - 1].overrides : [];
   const live = latestVersion(repo).plan;
+  // The draft's link edits land first, so the dates replay against the links as the draft has them.
+  const links = index > 0 ? draft.revisions[index - 1].links : undefined;
+  for (const [id, lag] of Object.entries(links ?? {})) {
+    const now = await planApi.getPlan(planID);
+    const dep = (now.Dependencies ?? []).find((d) => d.PlanElementDependencyID === id);
+    if (!dep) continue;
+    if (lag === null) await planApi.deleteDependency(planID, id, now.VersionToken);
+    else if (lag !== dep.LagDays) await planApi.updateDependency(planID, id, lag, now.VersionToken);
+  }
   let next = await publishOverrides(planID, overrides, currentUserName());
   const changes = planCompare(live, next);
   const ownIDs = new Set(overrides.map((o) => o.PlanElementID));
@@ -1234,8 +1275,10 @@ export async function publishDraft(planID: string, draftID: string, revisionInde
   const rest = kept ? kept.revisions.slice(index) : [];
   if (kept && rest.length) {
     const now = new Map(flattenPlan(next.Elements).map((x) => [x.element.PlanElementID, x.element]));
+    const landed = links ?? {};
     kept.revisions = rest.map((rev) => ({
       ...rev,
+      links: rev.links ? Object.fromEntries(Object.entries(rev.links).filter(([id, lag]) => landed[id] !== lag)) : undefined,
       overrides: rev.overrides
         .map((o) => {
           const el = now.get(o.PlanElementID);

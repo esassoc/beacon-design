@@ -581,6 +581,14 @@ function replayDraft(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[
   return { work, movedBy, stale, flags: [...flags.values()] };
 }
 
+/** The plan with a draft's link edits laid over its dependencies (new lags; null removes one). The prototype's own
+ *  extension: Beacon's draft API carries date overrides only. */
+function withLinks(plan: StoredPlan, links?: Record<string, number | null>): StoredPlan {
+  if (!links || !Object.keys(links).length) return plan;
+  const deps = plan.Dependencies.filter((d) => links[d.PlanElementDependencyID] !== null).map((d) => (d.PlanElementDependencyID in links ? { ...d, LagDays: links[d.PlanElementDependencyID] as number } : d));
+  return { ...plan, Dependencies: deps };
+}
+
 function draftView(plan: StoredPlan, overrides: readonly PlanDraftOverrideDto[], keepLive: ReadonlySet<string> = new Set()): PlanDraftViewDto {
   const { work, movedBy, stale, flags } = replayDraft(plan, overrides, keepLive);
   const detail = buildDetail(work);
@@ -1058,8 +1066,8 @@ export const planApi = {
    * The draft as the chart draws it, recomputed against the live plan as it is now. Writes nothing. Publish's summary
    * passes the stale elements the planner set to keep their live dates, so it shows what publishing would really do.
    */
-  previewDraft: (planID: string, overrides: PlanDraftOverrideDto[], keepLivePlanElementIDs: string[] = []): Promise<PlanDraftViewDto> =>
-    delay(() => draftView(findPlan(load(), planID), overrides, new Set(keepLivePlanElementIDs))),
+  previewDraft: (planID: string, overrides: PlanDraftOverrideDto[], keepLivePlanElementIDs: string[] = [], links?: Record<string, number | null>): Promise<PlanDraftViewDto> =>
+    delay(() => draftView(withLinks(findPlan(load(), planID), links), overrides, new Set(keepLivePlanElementIDs))),
 
   /**
    * Publish: replays the draft on the live plan once more (keeping the live dates where the planner chose them), saves

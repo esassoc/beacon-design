@@ -113,6 +113,10 @@ export interface PlanElementDrawerDraft {
   onOpenBudget?: () => void;
   /** The element's own page ("Open Task Page"), when it has one. */
   detail?: () => { href: string; label: string } | null;
+  /** The footer's Save, named for where it goes ("Save to My Draft" from Live, 2026-10-28 draft first). */
+  saveLabel?: string;
+  /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. */
+  publishNow?: (edit: Parameters<PlanElementDrawerDraft['save']>[0]) => void;
   /** The plan as the draft has it. */
   plan(): PlanDetailDto;
   subscribe(listener: () => void): () => void;
@@ -391,6 +395,7 @@ export function openPlanElementDrawer(args: {
   const predAddButton = q('pred-add');
   const predCancelButton = q('pred-cancel');
   const saveButton = q('save');
+  const publishButton = q('publish');
   const cancelButton = q('cancel');
   const closeButton = q('close');
 
@@ -527,6 +532,10 @@ export function openPlanElementDrawer(args: {
 
     // Footer
     show(saveButton.closest('.esa-button')!, canSave);
+    show(publishButton.closest('.esa-button')!, canSave && !!draft?.publishNow);
+    const saveLabel = saveButton.querySelector('.esa-button__label');
+    if (saveLabel) saveLabel.textContent = draft?.saveLabel ?? 'Save';
+    setButtonDisabled(publishButton, isSaving || isLinkBusy());
     show(cancelButton.closest('.esa-button')!, canSave);
     show(closeButton.closest('.esa-button')!, !canSave);
     // Held while a link action is out: closing would drop the plan it returns (see canClose).
@@ -707,7 +716,7 @@ export function openPlanElementDrawer(args: {
   const close = () => forceClose(dialog);
 
   /** The footer's Save: creates or updates, hands the returned plan to the page and closes. An untouched edit just closes. */
-  const save = () => {
+  const save = (publish = false) => {
     // Save closes the drawer; held while a link action is out, for the reason canClose gives.
     if (isLinkBusy()) return;
     if (!isCreate && !form.dirty) {
@@ -724,7 +733,7 @@ export function openPlanElementDrawer(args: {
     const value = form.getRawValue();
     if (draft && target.kind === 'edit') {
       isSaving = false;
-      draft.save({
+      (publish && draft.publishNow ? draft.publishNow : draft.save)({
         PlanElementID: target.planElementID,
         StartDate: value.StartDate || null,
         EndDate: (value.IsMilestone ? value.StartDate : value.EndDate) || null,
@@ -1225,6 +1234,7 @@ export function openPlanElementDrawer(args: {
   on(q('kept-resume'), 'click', () => resumeKept());
   on(q('kept-discard'), 'click', () => discardKept());
   on(saveButton, 'click', () => save());
+  on(publishButton, 'click', () => save(true));
   on(cancelButton, 'click', () => cancel());
   on(closeButton, 'click', () => cancel());
 

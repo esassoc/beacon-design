@@ -109,14 +109,19 @@ git add -A preview && git commit -m "Preview: ..." && git push origin HEAD:gh-pa
    changes the item, Edit opens it there. Publish Now shows only for Owners and Editors when no open draft changes the
    item (`draftsTouching` in `plan-repo.ts`) and goes through only when nothing else moves; otherwise the form says
    why. Check: `editmodal.mjs` (26).
+   Dependencies are drafted too (Andy, 2026-10-28): a link's lag or Unlink goes to your draft (`PlanRevision.links`,
+   `withLinks` in the mock's `previewDraft`, applied first in `publishDraft`); Review and Publish lists them under
+   Dependencies and warns when another open draft changes the same items (`draftOverlaps`). A lag change doesn't
+   move successors, as it didn't on Live; worth a look. Check: `links.mjs` (16).
 2. **Effects in the review.** Review and Publish should list conflicts created or worsened, overruns, budget left in
    fiscal years an item no longer covers, and deliverable due dates that moved. In single mode drop the slider and
    the Compare toggle; the From column shouldn't show the previous revision's own note.
 3. **Gantt legend and draft emphasis.** A compact legend in the Gantt header (end caps, conflict outlines, Scheduled
    windows, planned windows); conflicts stay full strength in a draft instead of fading; done items get a status mark;
    the tooltip names the conflict ("Starts 14 days before its predecessor ends").
-4. **The Live drawer is a dead end.** It's a disabled form saying "Edit in a Draft" with no button. Make it a read
-   view (BcnKeyValue) with Edit in a Draft and Open Task Page in the footer; one close control.
+4. ~~The Live drawer is a dead end~~ **Done, draft first:** on Live the drawer edits; Save to My Draft opens your draft
+   with the edit; Publish Now on the same terms as the item page (a cascading one goes to your draft instead, with a
+   warning toast). Check: `drawer.mjs` (14).
 5. **Revisions: one UI.** Keep the modal, retire `/revisions/`, point the index's count at the modal.
 6. **1024 and 1280.** Content overflows at 1024 and the About rail is pushed off. Below 1280, About becomes an
    esa-side-dialog; the bands wrap inside the panel.

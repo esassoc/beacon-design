@@ -15,12 +15,15 @@ import { planGanttView } from '../../lib/planning/plan-gantt-rows';
 import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
-import { planStore, toLocalIsoDate } from '../../lib/planning/plan-page';
+import { planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
 import { planApi } from '../../lib/planning/plan-server';
 import type { PlanDetailDto } from '../../lib/planning/model';
 import type { GanttDragEvent } from '../../lib/planning/gantt-types';
 import {
   addRevision,
+  draftsTouching,
+  startEditDraft,
+  publishDraft,
   currentUserName,
   discardDraft,
   dismissNotice,
@@ -30,7 +33,6 @@ import {
   flattenPlan,
   getRepo,
   latestVersion,
-  recordLiveEdit,
   requestPublish,
   listPlanSummaries,
   myDraft,
@@ -303,10 +305,12 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     refresh();
   }
 
-  /** The drawer's Save in your draft: its dates as an edit, and whatever of its own fields changed. */
-  function saveFromDrawer(edit: PlanDraftEdit & { fields?: { PlanElementName: string; LevelDepth?: number; IsMilestone: boolean; Notes: string | null } }): void {
-    const el = flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element;
-    if (!el) return;
+  type DrawerEdit = PlanDraftEdit & { fields?: { PlanElementName: string; LevelDepth?: number; IsMilestone: boolean; Notes: string | null } };
+  /** What a drawer's Save changes against `base`: its dates as an edit, whatever of its own fields changed, and the
+   *  note that says so. Null when nothing did. */
+  function drawerChange(edit: DrawerEdit, base: PlanDetailDto): { dates: PlanDraftEdit | null; fields?: Record<string, PlanFieldEdit>; note: PlanChangeNote } | null {
+    const el = flattenPlan(base.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element;
+    if (!el) return null;
     const datesMoved = el.StartDate !== edit.StartDate || el.EndDate !== edit.EndDate || el.PlanDateType !== edit.PlanDateType;
     const changed: PlanFieldEdit = {};
     const f = edit.fields;
@@ -315,29 +319,85 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (f && f.IsMilestone !== !!el.IsMilestone) changed.IsMilestone = f.IsMilestone;
     if (f && (f.Notes ?? null) !== (el.Notes ?? null)) changed.Notes = f.Notes;
     const keys = Object.keys(changed) as (keyof PlanFieldEdit)[];
-    if (!datesMoved && !keys.length) return;
+    if (!datesMoved && !keys.length) return null;
     const words: Record<keyof PlanFieldEdit, string> = { PlanElementName: 'Name', LevelDepth: 'Level', IsMilestone: 'Milestone', Notes: 'Notes' };
     // A rename names both; any other field change names the item and what changed.
     const note: PlanChangeNote =
       keys.length === 1 && changed.PlanElementName !== undefined
         ? { action: 'Renamed', subject: el.PlanElementName ?? '', object: changed.PlanElementName }
         : { action: 'Edited', subject: el.PlanElementName ?? '', shift: keys.map((k) => words[k]).join(', ') };
-    void applyEdits(datesMoved ? [edit] : [], keys.length ? { fields: { [edit.PlanElementID]: changed }, note } : undefined);
+    const dates: PlanDraftEdit = { PlanElementID: edit.PlanElementID, StartDate: edit.StartDate, EndDate: edit.EndDate, PlanDateType: edit.PlanDateType };
+    return { dates: datesMoved ? dates : null, fields: keys.length ? { [edit.PlanElementID]: changed } : undefined, note };
+  }
+
+  /** The drawer's Save in your draft: its dates as an edit, and whatever of its own fields changed. */
+  function saveFromDrawer(edit: DrawerEdit): void {
+    const change = drawerChange(edit, shown);
+    if (!change) return;
+    void applyEdits(change.dates ? [change.dates] : [], change.fields ? { fields: change.fields, note: change.note } : undefined);
+  }
+
+  /** From Live (draft first, 2026-10-28): your draft opens, started if need be, and takes the edit. */
+  async function saveToMyDraft(edit: DrawerEdit, said?: string): Promise<void> {
+    if (!drawerChange(edit, live)) return;
+    // The drawer has closed itself; the switch shouldn't ask it again.
+    elementDrawer = null;
+    await Promise.resolve();
+    const mine = myDraft(planID!) ?? startDraft(planID!, undefined, kind);
+    await switchTo(mine, { rise: !mine.revisions.length });
+    saveFromDrawer(edit);
+    pushAlert(said ?? (canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.'), said ? 'warning' : 'success', 7000);
+  }
+
+  /** Publish Now from Live's drawer: straight to Live when nothing else moves; otherwise it goes to your draft. */
+  async function publishFromDrawer(edit: DrawerEdit): Promise<void> {
+    const change = drawerChange(edit, live);
+    if (!change) return;
+    if (change.dates) {
+      const view = await planApi.previewDraft(planID!, planDraftWithEdits([], [change.dates], live, true));
+      const was = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID, element]));
+      const n = flattenPlan(view.Plan.Elements).filter(({ element: e }) => {
+        const w = was.get(e.PlanElementID);
+        return e.PlanElementID !== edit.PlanElementID && !e.Children?.length && w && (w.StartDate !== e.StartDate || w.EndDate !== e.EndDate);
+      }).length;
+      if (n) return saveToMyDraft(edit, `It moves ${n} other ${n === 1 ? 'item' : 'items'}, so it went to your draft for review.`);
+    }
+    const name = flattenPlan(live.Elements).find((x) => x.element.PlanElementID === edit.PlanElementID)?.element.PlanElementName ?? 'Item';
+    const temp = startEditDraft(planID!, name);
+    addRevision(planID!, temp.id, change.dates ? planDraftWithEdits([], [change.dates], live, true) : [], change.note, { fields: change.fields });
+    const version = await publishDraft(planID!, temp.id);
+    await landOnLive();
+    pushAlert(`Published as Revision ${version.number}.`, 'success');
   }
 
   /**
    * An element's drawer (2026-10-28, Andy: "does this prototype not have side panels when you click a work element?"):
-   * Jamie's BcnPlanElementDrawer in its draft mode. Live and other people's drafts open it read-only; your draft opens
-   * it editable for dates and the date type, and Save is the draft's next edit, as a drag is.
+   * Jamie's BcnPlanElementDrawer in its draft mode. Other people's drafts open it read-only; your draft opens it
+   * editable, and Save is the draft's next edit, as a drag is. Live opens it editable too, its Save going to your draft.
    */
   async function openElement(id: string): Promise<void> {
     if (elementDrawer && !(await elementDrawer.requestClose())) return;
-    const note =
-      mode === 'live'
-        ? 'Live is read-only. Edit in a Draft to change it.'
-        : mode === 'view'
-          ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.`
-          : undefined;
+    // Live, draft first (2026-10-28, Andy): the drawer edits, and Save goes to your draft (Publish Now when it's safe).
+    // Your draft already changing the item: it opens there instead, on the draft's version.
+    let liveNote: string | undefined;
+    let offerPublish = false;
+    if (mode === 'live') {
+      const touching = await draftsTouching(planID!, id, live);
+      const mine = myDraft(planID!);
+      if (mine && touching.some((d) => d.id === mine.id)) {
+        await switchTo(mine);
+        pushAlert('Your draft already changes this item, so it opens there.', 'info');
+        return openElement(id);
+      }
+      const others = touching.map((d) => firstName(d.owner));
+      offerPublish = canPublish && !others.length;
+      liveNote = !canPublish
+        ? 'Changes save to your draft; someone who can publish takes it to Live.'
+        : others.length
+          ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so changes save to your draft.`
+          : 'Changes save to your draft, to review and publish with it. Publish Now when nothing else moves.';
+    }
+    const note = mode === 'live' ? liveNote : mode === 'view' ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Draft to change it.` : undefined;
     const handle = openPlanElementDrawer({
       target: { kind: 'edit', planElementID: id },
       onOpenElement: (other) => void openElement(other),
@@ -345,16 +405,18 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         label: mode === 'live' ? 'Live Plan' : draft!.name,
         // The page's own badge in the drawer's header (2026-10-28): Live Plan in orange, the draft's name in green.
         badge: { text: mode === 'live' ? 'Live Plan' : draft!.name, state: mode === 'live' ? 'live' : 'draft' },
-        readOnly: mode !== 'own',
+        readOnly: mode === 'view',
         // Your draft edits every field, not only the dates (2026-10-28, Andy: "those shouldn't be disabled").
-        editsFields: mode === 'own',
+        editsFields: mode !== 'view',
         note,
+        saveLabel: mode === 'live' ? 'Save to My Draft' : 'Save',
+        publishNow: offerPublish ? (edit) => void publishFromDrawer(edit) : undefined,
         plan: () => shown,
         subscribe: (listener) => {
           drawerListeners.add(listener);
           return () => drawerListeners.delete(listener);
         },
-        save: (edit) => saveFromDrawer(edit),
+        save: (edit) => (mode === 'live' ? void saveToMyDraft(edit) : saveFromDrawer(edit)),
         budget: () => budgetSummary(id),
         onOpenBudget: () => {
           void handle.requestClose().then((closed) => closed && setView('budget', id));
@@ -529,18 +591,23 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     void applyEdits([], { budget: patch, note });
   }
 
-  // ── A dependency as an object, on Live: change its lag or unlink it; either is the next revision ──
+  // ── A dependency as an object: change its lag or unlink it. Draft first (2026-10-28, Andy): from Live the edit goes
+  // to your draft, which opens, as a drag does; in your draft it's the next revision. Reviewed and published with the
+  // rest of the draft. ──
   const linkPop = q<HTMLElement & { open: boolean }>('[data-prp-link-pop]');
   const lagField = q<HTMLElement & { value: string }>('[data-prp-link-lag]');
   let openDep: { id: string; from: string; to: string; lag: number } | null = null;
-  const nameOf = (id: string) => flattenPlan(live.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
+  const nameOf = (id: string) => flattenPlan(shown.Elements).find((x) => x.element.PlanElementID === id)?.element.PlanElementName ?? '';
   function openLink(link: { fromId: string; toId: string }, at: { x: number; y: number }): void {
-    if (mode !== 'live') return;
-    const dep = (live.Dependencies ?? []).find((d) => d.PredecessorPlanElementID === link.fromId && d.SuccessorPlanElementID === link.toId);
+    // A click is deliberate (unlike a drag), so even an issued Live takes it: it goes to your draft.
+    if (mode === 'view' || busy) return;
+    const dep = (shown.Dependencies ?? []).find((d) => d.PredecessorPlanElementID === link.fromId && d.SuccessorPlanElementID === link.toId);
     if (!dep?.PlanElementDependencyID) return;
     openDep = { id: dep.PlanElementDependencyID, from: nameOf(link.fromId), to: nameOf(link.toId), lag: dep.LagDays ?? 0 };
     q<HTMLElement>('[data-prp-link-from]').textContent = openDep.from;
     q<HTMLElement>('[data-prp-link-to]').textContent = openDep.to;
+    q<HTMLElement>('[data-prp-link-where]').textContent = mode === 'live' ? 'Saved to your draft, to review and publish with it.' : 'Saved as your draft’s next edit.';
+    q<HTMLElement>('[data-prp-link-save] .esa-button__label').textContent = mode === 'live' ? 'Save to My Draft' : 'Save';
     lagField.value = String(openDep.lag);
     const box = q<HTMLElement>('.bcn-prp__main').getBoundingClientRect();
     linkPop.style.left = `${at.x - box.left}px`;
@@ -548,26 +615,29 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     // Opened on the next frame, so the click that opened it isn't read as a click outside.
     requestAnimationFrame(() => (linkPop.open = true));
   }
-  async function afterLinkEdit(note: PlanChangeNote): Promise<void> {
-    linkPop.open = false;
-    live = await planApi.getPlan(planID!);
-    planStore.set(live);
-    await recordLiveEdit(planID!, note);
-    shown = live;
-    refresh();
-  }
-  q<HTMLElement>('[data-prp-link-unlink]').addEventListener('click', async () => {
+  /** A link's edit as your draft's next revision; from Live, your draft (started if need be) opens first. */
+  async function linkEdit(lag: number | null, note: PlanChangeNote): Promise<void> {
     if (!openDep) return;
-    await planApi.deleteDependency(planID!, openDep.id, live.VersionToken);
-    await afterLinkEdit({ action: 'Unlinked', subject: openDep.from, object: openDep.to });
+    linkPop.open = false;
+    if (mode === 'live') {
+      const mine = myDraft(planID!) ?? startDraft(planID!, undefined, kind);
+      await switchTo(mine, { rise: !mine.revisions.length });
+    }
+    if (mode !== 'own' || !draft) return;
+    const prior = draft.revisions.at(-1);
+    addRevision(planID!, draft.id, prior?.overrides ?? [], note, { links: { ...(prior?.links ?? {}), [openDep.id]: lag } });
+    redo.length = 0;
+    await reload();
+  }
+  q<HTMLElement>('[data-prp-link-unlink]').addEventListener('click', () => {
+    if (openDep) void linkEdit(null, { action: 'Unlinked', subject: openDep.from, object: openDep.to });
   });
-  q<HTMLElement>('[data-prp-link-save]').addEventListener('click', async () => {
+  q<HTMLElement>('[data-prp-link-save]').addEventListener('click', () => {
     if (!openDep) return;
     const lag = Math.round(Number(lagField.value));
     if (!Number.isFinite(lag) || lag === openDep.lag) return void (linkPop.open = false);
-    await planApi.updateDependency(planID!, openDep.id, lag, live.VersionToken);
     // Lag as a signed count of days: + waits after the predecessor ends, \u2212 overlaps its end.
-    await afterLinkEdit({ action: 'Lag Set', subject: openDep.from, object: openDep.to, shift: `${lag < 0 ? '\u2212' : lag > 0 ? '+' : ''}${Math.abs(lag)} ${Math.abs(lag) === 1 ? 'day' : 'days'}` });
+    void linkEdit(lag, { action: 'Lag Set', subject: openDep.from, object: openDep.to, shift: `${lag < 0 ? '\u2212' : lag > 0 ? '+' : ''}${Math.abs(lag)} ${Math.abs(lag) === 1 ? 'day' : 'days'}` });
   });
 
   async function undo(): Promise<void> {

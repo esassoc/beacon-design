@@ -151,6 +151,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     <div slot="footer" class="plan-element__actions">
       <!-- The element's own page (2026-10-28): its full record, read-only as you land, by its level ("Open Task Page"). -->
       <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" size="sm" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
+      <!-- Draft first (2026-10-28): Publish Now beside Save to My Draft on Live, only when it's safe. -->
+      <EsaButton variant="secondary" data-ped="publish">Publish Now</EsaButton>
       <EsaButton variant="primary" data-ped="save">Save</EsaButton>
       <EsaButton variant="secondary" appearance="outline" data-ped="cancel">Cancel</EsaButton>
       <EsaButton variant="secondary" appearance="outline" data-ped="close">Close</EsaButton>
@@ -491,8 +493,11 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
   .plan-element__actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: var(--spacing-200);
     width: 100%;
   }
+  /* With Publish Now beside Save, the page link takes its own line rather than being squeezed. */
+  .plan-element__actions:has([data-ped="publish"]:not([hidden])) .plan-element__detail { flex-basis: 100%; }
 </style>

@@ -165,12 +165,13 @@ import { withBase } from '../../lib/base';
         <div class="bcn-prp__view bcn-prp__view--records" data-prp-pane="documents" hidden><BcnPlanDocuments /></div>
         <div class="bcn-prp__view bcn-prp__view--records" data-prp-pane="deliverables" hidden><BcnPlanDeliverables /></div>
       </section>
-      <!-- A dependency, opened from its line on Live: the two items, the lag, Unlink. Anchored where it was clicked. -->
+      <!-- A dependency, opened from its line: the two items, the lag, Unlink; saved to your draft. Anchored where it was clicked. -->
       <esa-popover position="bottom" trigger="click" class="bcn-prp__link-pop" data-prp-link-pop>
         <span class="bcn-prp__link-anchor" data-prp-link-anchor></span>
         <div slot="content" class="bcn-prp__link typography-body-sm">
           <div class="bcn-prp__link-names"><b data-prp-link-from></b><span data-glyph="arrow-right"></span><b data-prp-link-to></b></div>
-          <esa-text-field data-prp-link-lag label="Lag (days)" type="number" size="sm"></esa-text-field>
+          <esa-text-field data-prp-link-lag label="Lag (Days)" type="number" size="sm"></esa-text-field>
+          <p class="bcn-prp__link-where" data-prp-link-where></p>
           <div class="bcn-prp__link-actions">
             <span data-prp-link-unlink><EsaButton variant="danger" appearance="soft" size="sm" icon="x">Unlink</EsaButton></span>
             <span data-prp-link-save><EsaButton variant="primary" size="sm">Save</EsaButton></span>
@@ -507,6 +508,7 @@ import { withBase } from '../../lib/base';
   .bcn-prp__link { display: flex; flex-direction: column; gap: var(--spacing-300); inline-size: 20rem; }
   .bcn-prp__link-names { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
   .bcn-prp__link-actions { display: flex; justify-content: flex-end; gap: var(--spacing-200); }
+  .bcn-prp__link-where { margin: 0; color: var(--color-content-default-secondary); }
 
   .bcn-prp__about {
     display: flex;
