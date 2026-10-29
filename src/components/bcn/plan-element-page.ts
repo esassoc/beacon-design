@@ -5,7 +5,9 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { ensureSeeded, getRepo, draftState, draftsTouching, myDraft, startDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, membersOf, stamp, type PlanRepo, type PlanRepoDraft } from '../../lib/planning/plan-repo';
+import { alsoChange, goesInto, quoted, savedTo } from '../../lib/planning/plan-copy';
+import { NEW_DRAFT, draftChoiceLabel } from './draft-chooser';
+import { ensureSeeded, getRepo, draftState, draftsTouching, currentDraft, myDrafts, nextDraftName, chosenDraft, setCurrentDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, membersOf, stamp, type PlanRepo, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
 import { setupElementEditDialog, type ElementEdit } from './element-edit-dialog';
 import { setupPlanRevisionsDialog, type PlanRevisionsDialog } from './plan-revisions-dialog';
@@ -248,6 +250,8 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
       return missing(false);
     }
     draft = repo.drafts.find((d) => d.id === new URLSearchParams(location.search).get('draft')) ?? null;
+    // One of yours, opened: where an edit begun on Live goes from now on (several drafts, 2026-10-29).
+    if (draft && !draft.transient && draft.owner === currentUserName()) setCurrentDraft(planID, draft.id);
     const shown = draft ? (await draftState(draft)).Plan : live;
     ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
     if (!ctx) return missing(true, repo);
@@ -332,7 +336,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         await refresh();
       },
       onAsked: () => {
-        pushAlert('Asked the plan’s Owners and Editors to publish your draft. A new edit withdraws the request.', 'success', 7000);
+        pushAlert(`Asked the plan’s Owners and Editors to publish your draft${draft ? ` ${quoted(draft.name)}` : ''}. A new edit withdraws the request.`, 'success', 7000);
         void refresh();
       },
     }));
@@ -356,35 +360,39 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   async function edit(): Promise<void> {
     if (!ctx) return;
     const canPublish = ctx.myRole === 'Owner' || ctx.myRole === 'Editor';
+    const me = currentUserName();
     if (ctx.mode === 'live') {
       const touching = await draftsTouching(planID, elementId, ctx.live);
-      const mine = myDraft(planID);
-      // Your draft already changes it: edit it there, on the draft's version.
+      const mine = currentDraft(planID);
+      // Your current draft already changes it: edit it there, on the draft's version.
       if (mine && touching.some((d) => d.id === mine.id)) {
         await show(mine.id);
-        pushAlert('Your draft already changes this item, so it opens there.', 'info');
+        pushAlert(`Your draft ${quoted(mine.name)} already changes this item, so it opens there.`, 'info');
         return edit();
       }
-      const others = touching.map((d) => firstName(d.owner));
-      // Which draft it lands in, said (2026-10-29, the traps audit: a weekly edit vanished into a what-if draft).
-      const into = mine
-        ? `Goes into ${mine.name} (${mine.revisions.length} other ${mine.revisions.length === 1 ? 'edit' : 'edits'}${mine.publishRequestedAt ? ', publish requested: this withdraws the request' : ''}).`
-        : 'Starts your draft.';
+      // Which draft it lands in, said and chosen (2026-10-29, the traps audit: a weekly edit vanished into a what-if
+      // draft; then several drafts per person): Saves To picks among yours, the current one first, or a new one.
+      const yours = myDrafts(planID);
+      const next = nextDraftName(planID);
+      const target = {
+        options: [...yours.map((d) => ({ label: draftChoiceLabel(d), value: d.id })), { label: `A New Draft (${next})`, value: NEW_DRAFT }],
+        value: mine?.id ?? NEW_DRAFT,
+        describe: (value: string) => goesInto(yours.find((d) => d.id === value) ?? null, next),
+      };
       let where = !canPublish
-        ? 'Saved to your draft; someone who can publish takes it to Live.'
-        : others.length
-          ? `${others.length === 1 ? `${others[0]}’s draft also changes` : `${others.length} open drafts also change`} this item, so this edit goes to your draft.`
-          : `${into} Or Review and Publish this edit now, with whatever it moves.`;
-      if (!canPublish) where = `${into} Ask to Publish when it’s ready.`;
-      let publishNow = canPublish && !others.length;
+        ? 'Ask to Publish when it’s ready.'
+        : touching.length
+          ? `${alsoChange(touching, me)} this item, so this edit goes to a draft.`
+          : 'Or Review and Publish this edit now, with whatever it moves.';
+      let publishNow = canPublish && !touching.length;
       let keep = false;
       for (;;) {
-        const result = await editDialog.open(ctx, { label: 'Save to My Draft', where, publishNow }, keep);
+        const result = await editDialog.open(ctx, { label: 'Save to My Draft', where, publishNow, target }, keep);
         if (!result) return;
         if (result.publishNow) {
-          const now = (await draftsTouching(planID, elementId, ctx.live)).map((d) => firstName(d.owner));
+          const now = await draftsTouching(planID, elementId, ctx.live);
           if (now.length) {
-            where = `${now.length === 1 ? `${now[0]}’s draft` : `${now.length} drafts`} started changing this item while you edited, so it goes to your draft.`;
+            where = `${now.length === 1 ? (now[0].owner === me ? `Your draft ${quoted(now[0].name)}` : `${firstName(now[0].owner)}’s draft`) : `${now.length} drafts`} started changing this item while you edited, so it goes to a draft.`;
             publishNow = false;
             keep = true;
             continue;
@@ -399,18 +407,18 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
           keep = true;
           continue;
         }
-        const target = startDraft(planID, undefined, 'Draft');
-        applyEdit(target.id, result.edit);
-        await show(target.id);
-        pushAlert(canPublish ? 'Saved to your draft. Review and Publish when it’s ready.' : 'Saved to your draft. Ask to Publish when it’s ready.', 'success', 7000);
+        const into = chosenDraft(planID, result.target ?? target.value);
+        applyEdit(into.id, result.edit);
+        await show(into.id);
+        pushAlert(savedTo(into.name, canPublish), 'success', 7000);
         return;
       }
     }
     if (ctx.mode !== 'own' || !draft) return;
-    const result = await editDialog.open(ctx, { label: 'Save to Draft', where: 'Saved as your draft’s next edit. Live changes when it’s published.', publishNow: false });
+    const result = await editDialog.open(ctx, { label: 'Save to Draft', where: `Saved as the next edit of your draft ${quoted(draft.name)}. Live changes when it’s published.`, publishNow: false });
     if (!result) return;
     applyEdit(draft.id, result.edit);
-    pushAlert('Saved to your draft.', 'success');
+    pushAlert(`Saved to your draft ${quoted(draft.name)}.`, 'success');
     await refresh();
   }
   window.addEventListener('popstate', () => void refresh());

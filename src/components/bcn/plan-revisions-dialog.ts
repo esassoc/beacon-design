@@ -48,6 +48,7 @@ import {
 import { planAvatar, setButtonDisabled } from './plan-people';
 import { changeNote } from './plan-change-note';
 import { confirm, pushAlert } from '../../lib/planning/plan-page';
+import { quoted } from '../../lib/planning/plan-copy';
 
 type DialogEl = HTMLElement & { open: boolean; heading: string };
 type CheckEl = HTMLElement & { checked: boolean };
@@ -567,7 +568,7 @@ export function setupPlanRevisionsDialog(opts: {
     const n = stops.length - 1;
     if (sel.to > 0 && !last) {
       partial.hidden = false;
-      q<HTMLElement>('[data-prvd-partial-text]').textContent = `Publishing up to edit ${sel.to} keeps ${editsFrom(sel.to + 1, n)} in ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`}, on top of the new Live.`;
+      q<HTMLElement>('[data-prvd-partial-text]').textContent = `Publishing up to edit ${sel.to} keeps ${editsFrom(sel.to + 1, n)} in ${draft.owner === me ? 'your draft' : `${firstName(draft.owner)}'s draft`} ${quoted(draft.name)}, on top of the new Live.`;
     }
   }
 
@@ -627,7 +628,7 @@ export function setupPlanRevisionsDialog(opts: {
     setBacking(false);
     dialog.open = false;
     await opts.onLanded();
-    pushAlert(`Sent back to ${firstName(d.owner)}. They see your note when they open their draft.`, 'success', 7000);
+    pushAlert(`Sent ${quoted(d.name)} back to ${firstName(d.owner)}. They see your note when they open that draft.`, 'success', 7000);
   });
   q<HTMLElement>('[data-prvd-publish]').addEventListener('click', async () => {
     const btn = q<HTMLElement>('[data-prvd-publish] button') as HTMLButtonElement;
@@ -720,7 +721,7 @@ export function setupPlanRevisionsDialog(opts: {
           const nameOf = new Map(flattenPlan(live.Elements).map(({ element }) => [element.PlanElementID ?? '', element.PlanElementName ?? '']));
           const said = overlaps.map(({ draft: o, ids }) => {
             const items = ids.length === 1 ? nameOf.get(ids[0]) ?? '1 item' : `${ids.length} of these items`;
-            return `${o.owner === me ? 'Your other draft' : `${firstName(o.owner)}’s draft`} also changes ${items}`;
+            return `${o.owner === me ? `Your other draft, ${quoted(o.name)},` : `${firstName(o.owner)}’s draft`} also changes ${items}`;
           });
           q<HTMLElement>('[data-prvd-overlap-text]').textContent = `${said.join('; ')}. Whichever is published second replaces the other’s version of ${overlaps.some((o) => o.ids.length > 1) ? 'them' : 'it'}.`;
           overlapBox.hidden = false;
@@ -742,7 +743,8 @@ export function setupPlanRevisionsDialog(opts: {
       dialog.toggleAttribute('data-single', !!d?.transient);
       q<HTMLElement>('[data-prvd-close-label]').textContent = d?.transient ? 'Back to Edit' : 'Close';
       const asking = !!d && !opts.canPublish && d.owner === me && !d.transient && !d.publishRequestedAt;
-      dialog.heading = asking ? `Ask to Publish Your Draft: ${name}` : d?.transient ? `Review Your Edit: ${d.name.replace(/^Edit to /, '')}` : d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`}: ${name}` : `Revisions: ${name}`;
+      // The draft named (2026-10-29: a person may have several).
+      dialog.heading = asking ? `Ask to Publish Your Draft ${quoted(d!.name)}: ${name}` : d?.transient ? `Review Your Edit: ${d.name.replace(/^Edit to /, '')}` : d ? `Review ${d.owner === me ? 'Your Draft' : `${firstName(d.owner)}'s Draft`} ${quoted(d.name)}: ${name}` : `Revisions: ${name}`;
 
       // A fresh slider for these stops (its listeners belong to this open).
       const slot = q<HTMLElement>('[data-prvd-slider-slot]');
