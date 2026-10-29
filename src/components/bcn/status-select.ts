@@ -21,6 +21,8 @@ const LABELS: Record<string, string> = {
   'not-started': 'Not Started',
   'in-progress': 'In Progress',
   completed: 'Completed',
+  blocked: 'Blocked',
+  'on-hold': 'On Hold',
 };
 
 /** Wire one rendered <BcnStatusSelect> root into a live listbox. */
@@ -54,7 +56,7 @@ export function setupStatusSelect(root: HTMLElement): StatusSelectController {
 
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    openMenu(menu.hidden);
+    openMenu(Boolean(menu.hidden));
   });
 
   opts.forEach((opt) =>

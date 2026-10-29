@@ -30,21 +30,26 @@ interface Props {
   value?: string;
   /** Custom status set; omit for the default Not Started / In Progress / Completed. */
   options?: Option[];
+  /** Token-driven states beyond the default three, in order (2026-10-29, the study plan's items add Blocked). */
+  states?: ('not-started' | 'in-progress' | 'blocked' | 'on-hold' | 'completed')[];
+  /** sm: a 32px trigger, for a status inside a details list rather than a form. */
+  size?: 'sm' | 'md';
 }
-const { id, label = 'Status', value, options } = Astro.props;
+const { id, label = 'Status', value, options, states, size = 'md' } = Astro.props;
+const STATE_LABELS: Record<string, string> = { 'not-started': 'Not Started', 'in-progress': 'In Progress', blocked: 'Blocked', 'on-hold': 'On Hold', completed: 'Completed' };
 
 const DEFAULT_OPTIONS: Option[] = [
   { value: 'not-started', label: 'Not Started' },
   { value: 'in-progress', label: 'In Progress' },
   { value: 'completed', label: 'Completed' },
 ];
-const opts = options ?? DEFAULT_OPTIONS;
+const opts = options ?? (states ? states.map((s) => ({ value: s, label: STATE_LABELS[s] })) : DEFAULT_OPTIONS);
 const tokenMode = !options; // default set → dot color from CSS tokens, no inline hex
 const current = value ?? opts[0].value;
 const selected = opts.find((o) => o.value === current) ?? opts[0];
 ---
 
-<div class="bcn-status-select" id={id} data-value={current}>
+<div class="bcn-status-select" id={id} data-value={current} data-size={size}>
   {label && <span class="bcn-status-select__label">{label}</span>}
   <div class="bcn-status-select__dd">
     <button type="button" class="bcn-status-select__trigger" aria-haspopup="listbox" aria-expanded="false">
@@ -100,6 +105,11 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
   .bcn-status-select__dot--not-started { background: var(--bcn-status-not-started); }
   .bcn-status-select__dot--in-progress { background: var(--bcn-status-in-progress); }
   .bcn-status-select__dot--completed { background: var(--bcn-status-completed); }
+  .bcn-status-select__dot--blocked { background: var(--bcn-status-blocked); }
+  .bcn-status-select__dot--on-hold { background: var(--bcn-status-on-hold); }
+  .bcn-status-select[data-value='blocked'] .bcn-status-select__dot--trigger { background: var(--bcn-status-blocked); }
+  .bcn-status-select[data-value='on-hold'] .bcn-status-select__dot--trigger { background: var(--bcn-status-on-hold); }
+  .bcn-status-select[data-size='sm'] .bcn-status-select__trigger { height: 32px; padding: 0 var(--spacing-200); }
   .bcn-status-select[data-value='not-started'] .bcn-status-select__dot--trigger { background: var(--bcn-status-not-started); }
   .bcn-status-select[data-value='in-progress'] .bcn-status-select__dot--trigger { background: var(--bcn-status-in-progress); }
   .bcn-status-select[data-value='completed'] .bcn-status-select__dot--trigger { background: var(--bcn-status-completed); }

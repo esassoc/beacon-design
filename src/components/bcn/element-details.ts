@@ -13,6 +13,7 @@ import { DRAFT_FIRST_ASK } from '../../lib/planning/plan-copy';
 import { DEFAULT_REMINDERS, reminderState } from '../../lib/planning/plan-reminders';
 import { planAvatar } from './plan-people';
 import { badge, HEALTH_VARIANT, STATUS_VARIANT } from './badge-bank';
+import { setupStatusSelect, type StatusSelectController } from './status-select';
 import { day, money, type ElementModuleSetup } from './element-module';
 
 type Lit = HTMLElement & { value: unknown; options?: { value: string; label: string }[]; checked?: boolean; errorText?: string };
@@ -56,6 +57,14 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     return dd;
   };
 
+  let statusCtl: StatusSelectController | null = null;
+  let statusOnChange: (value: string) => void = () => {};
+  function makeStatusSelect(): StatusSelectController {
+    const node = root.querySelector<HTMLTemplateElement>('[data-det-tpl="status"]')!.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    node.addEventListener('change', (e) => statusOnChange((e as CustomEvent<{ value: string }>).detail.value));
+    return setupStatusSelect(node);
+  }
+
   // ── The card ──
   function draw(ctx: ElementContext): void {
     list.replaceChildren();
@@ -67,22 +76,21 @@ export const setupDetailsModule: ElementModuleSetup = (root, host) => {
     const statusDd = row('Status');
     const completed = !!ctx.records.completions[id];
     if (leaf && ctx.canRecord && !completed) {
-      const select = document.createElement('esa-select') as Lit;
-      select.setAttribute('size', 'sm');
-      select.setAttribute('aria-label', 'Status');
-      const choices = STATUSES.filter((s) => !(ctx.attrs.deliverable && s === 'Completed'));
-      void customElements.whenDefined('esa-select').then(() => {
-        select.options = choices.map((s) => ({ value: s, label: s }));
-        select.value = status;
-      });
-      select.addEventListener('change', () => {
-        const next = String(select.value) as ElementStatus;
+      // The tracker's status select (2026-10-29, the consistency audit), made once and kept across draws.
+      const ctl = (statusCtl ??= makeStatusSelect());
+      const wire = (v: string) => v.toLowerCase().replace(/ /g, '-');
+      ctl.setValue(wire(status));
+      // A deliverable completes through Record Completion, not here.
+      ctl.element.querySelector<HTMLElement>('[data-value="completed"]')!.hidden = !!ctx.attrs.deliverable;
+      ctl.element.querySelector('button')?.setAttribute('aria-label', `Status: ${status}`);
+      statusOnChange = (v) => {
+        const next = STATUSES.find((s) => wire(s) === v);
         if (next && next !== status) {
           setStatus(ctx.planID, id, next);
           host.toast(`Status set to ${next}.`);
         }
-      });
-      statusDd.append(select);
+      };
+      statusDd.append(ctl.element);
       if (ctx.attrs.deliverable) statusDd.append(el('span', 'bcn-det__muted', 'Record Completion to complete it.'));
     } else {
       statusDd.append(badge(status, STATUS_VARIANT[status], 'sm'));

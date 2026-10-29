@@ -336,7 +336,7 @@ export function setupPlanWorkspace(root: HTMLElement): void {
       rowNotes: planDraftRowNotes(s ? p : null, s?.view ?? null, conflicts, s?.pending ?? new Set()),
       countsDependents: !s,
       // Unsaved changes are the author's alone, and belong to the live plan's drawers: not shown inside a draft.
-      rowBadges: s ? new Map() : new Map([...planUnsavedChanges(planID()).keys()].map((id) => [id, 'Unsaved changes'])),
+      rowBadges: s ? new Map() : new Map([...planUnsavedChanges(planID()).keys()].map((id) => [id, 'Unsaved Changes'])),
     });
     drawPresence();
     // The range control follows the plan's extent (Whole plan's dates, a preset's anchor); it redraws only when that moves.

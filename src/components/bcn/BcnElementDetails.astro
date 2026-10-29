@@ -9,17 +9,19 @@
 // (BcnElementEditDialog), reviewed and published from Live, or saved in your own draft. The runtime is
 // ./element-details.ts.
 //
-// bcn-lego-checked: the card IS BcnElementModule (esa-card); Edit and Change ARE esa-button; Status IS esa-select;
+// bcn-lego-checked: the card IS BcnElementModule (esa-card); Edit and Change ARE esa-button; Status IS BcnStatusSelect (the tracker's, its dot in the status color);
 // badges ARE esa-badge (BcnBadgeBank); avatars ARE esa-avatar (BcnPlanPeople). No esa- lego is a record's label and value list
 // (BcnKeyValue stacks one pair; this is a dense two-column list); checked Beacon (prod detail panes are fixed
 // templates). The CSS is the list's grid and the owner rows.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnElementModule from './BcnElementModule.astro';
+import BcnStatusSelect from './BcnStatusSelect.astro';
 ---
 
 <BcnElementModule key="details">
   <dl class="bcn-det" data-det-list></dl>
   <p class="bcn-det__note" data-det-note hidden></p>
+  <template data-det-tpl="status"><BcnStatusSelect label="" size="sm" states={['not-started', 'in-progress', 'blocked', 'completed']} /></template>
   <template data-det-tpl="change"><EsaButton variant="ghost" size="xs">Change</EsaButton></template>
 </BcnElementModule>
 

@@ -241,6 +241,9 @@
      with the component index, which is the first surface to render all four
      lifecycle states beside each other. */
   --bcn-status-on-hold:     var(--bcn-gray-600);
+  /* Blocked (the study plan's items, 2026-10-29): waiting on something outside the work, the danger tone its badge
+     already carries. */
+  --bcn-status-blocked:     var(--color-background-utility-danger);
 
   /* Progress-report fill/background pairs. */
   --bcn-progress-not-started:    #444e86;
