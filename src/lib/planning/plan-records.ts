@@ -112,7 +112,9 @@ export interface Transmittal {
   sentAt?: string;
   closedAt?: string;
   receipts: Record<string, Receipt>;
-  response?: { at: string; by: string; note: string; fileId?: string };
+  /** `at` is when it was recorded; `receivedOn` (yyyy-MM-dd) the day it came back, when someone records a letter or an
+   *  email after the fact (2026-10-29, the agency-side pass: a response emailed last week read as answered today). */
+  response?: { at: string; by: string; note: string; fileId?: string; receivedOn?: string };
 }
 
 export interface Completion {
@@ -302,6 +304,14 @@ export function receiptCount(t: Transmittal): { confirmed: number; of: number } 
 /** A To recipient past the acknowledgment due date without confirming. */
 export const receiptOverdue = (t: Transmittal, name: string, today = todayIso()) => !!t.sentAt && !!t.ackDue && !t.receipts[name]?.confirmedAt && t.to.includes(name) && t.ackDue.slice(0, 10) < today;
 export const responseOverdue = (t: Transmittal, today = todayIso()) => !!t.sentAt && !t.response && !t.closedAt && !!t.responseDue && t.responseDue < today;
+/** The day a response came back (yyyy-MM-dd): the day given, else the day it was recorded, on the local calendar. */
+export const respondedOn = (t: Transmittal): string | null => (t.response ? (t.response.receivedOn ?? todayIso(new Date(t.response.at))) : null);
+/** How many days past its due date the response came back; 0 when on time or nothing was due. */
+export function responseDaysLate(t: Transmittal): number {
+  const on = respondedOn(t);
+  if (!on || !t.responseDue) return 0;
+  return Math.max(0, Math.round((Date.parse(`${on}T00:00:00Z`) - Date.parse(`${t.responseDue.slice(0, 10)}T00:00:00Z`)) / 86_400_000));
+}
 
 export function transmittalsFor(rec: PlanRecords, elementId: string): Transmittal[] {
   return rec.transmittals.filter((t) => t.elementId === elementId).sort((a, b) => b.number - a.number);
@@ -378,10 +388,10 @@ export function remindRecipient(planID: string, id: string, name: string): void 
     if (t?.receipts[name]) t.receipts[name].remindedAt = nowIso();
   });
 }
-export function recordResponse(planID: string, id: string, note: string, fileId?: string): void {
+export function recordResponse(planID: string, id: string, note: string, fileId?: string, receivedOn?: string): void {
   updateRecords(planID, (r) => {
     const t = r.transmittals.find((x) => x.id === id);
-    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId };
+    if (t?.sentAt) t.response = { at: nowIso(), by: currentUserName(), note, fileId, ...(receivedOn && receivedOn !== todayIso() ? { receivedOn } : {}) };
   });
 }
 export function closeTransmittal(planID: string, id: string): void {
