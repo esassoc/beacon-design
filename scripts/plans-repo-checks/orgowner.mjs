@@ -14,6 +14,8 @@ const opts = await page.locator('[data-eed-add-owner]').evaluate((c) => (c.optio
 check('the owner picker offers organizations', opts.includes('CDFW (Organization)') && opts.some((o) => o.includes('(ESA)')), opts.slice(-4).join(' | '));
 await page.locator('[data-eed-add-owner]').click(); await page.keyboard.type('CDFW (Org'); await page.waitForTimeout(400); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter'); await page.waitForTimeout(300);
 await page.click('[data-eed-publish] button'); await page.waitForTimeout(2500);
+// Publish Now shows the review first (2026-10-29); its Publish lands the edit.
+await page.click('[data-prvd-publish] button'); await page.waitForTimeout(2500);
 const det = await page.locator('[data-element-module="details"]').innerText();
 check('Details names the agency as an owner', det.includes('CDFW') && det.includes('California Department of Fish and Wildlife'), det.replace(/\n/g, ' | ').slice(0, 240));
 check('its avatar is square', await page.evaluate(() => [...document.querySelectorAll('[data-element-module="details"] .esa-avatar')].some((a) => /square/.test(a.className))));

@@ -1,5 +1,5 @@
 // An item's Edit, draft first (2026-10-28, Andy's call): the form saves to your draft (Review and Publish from there),
-// Publish Now only when no open draft changes the item and nothing else moves; your own draft touching it opens it there.
+// Publish Now (the review on just this edit) only when no open draft changes the item and nothing else moves; your own draft touching it opens it there.
 import { open, BASE, HIDE } from './lib.mjs';
 const { OUT } = await import('./lib.mjs');
 const { browser, page, planID } = await open({ scale: 1 });
@@ -58,13 +58,16 @@ check('a cascading edit: back to the form, Publish Now gone', /^It moves \d+ oth
   check('Live shows Priya', det.includes('Priya'), det.replace(/\n/g, ' | ').slice(0, 260));
 }
 
-// 2. A notes-only edit, nothing else moves and no draft touches it: Publish Now goes straight to Live.
+// 2. A notes-only edit, nothing else moves and no draft touches it: Publish Now opens the review on just this edit
+// (2026-10-29, every Publish Now shows the diff first); Live holds until the review's Publish.
 await page.goto(url); await ready();
 const before2 = await repo();
 await openEdit();
 check('Publish Now offered again', await shown('[data-eed-publish]'));
 await setNotes('Published straight from the item page.');
 await page.click('[data-eed-publish] button'); await page.waitForTimeout(2500);
+check('Publish Now: the review first, Live unchanged', (await page.locator('[data-bcn-plan-revisions-dialog]').evaluate((d) => d.hasAttribute('open'))) && (await repo()).versions === before2.versions);
+await page.click('[data-prvd-publish] button'); await page.waitForTimeout(2500);
 const after2 = await repo();
 check('Publish Now: one revision, no draft left', after2.versions === before2.versions + 1 && !after2.drafts.some((d) => d.transient), JSON.stringify(after2));
 check('still on Live', !new URL(page.url()).searchParams.has('draft'));
@@ -98,7 +101,7 @@ check('contributor: Save to My Draft, no Publish Now', (await page.locator('[dat
 await page.locator('[data-eed="name"]').evaluate((f) => (f.value = f.value + ' (rev)'));
 await page.click('[data-eed-submit] button'); await page.waitForTimeout(1200);
 check('contributor saved', (await repo()).drafts.some((d) => d.owner === 'Morgan Ellis' && d.edits === 1));
-check('contributor has no Review and Publish', !(await shown('[data-pep-action="review"]')));
+check('contributor gets Ask to Publish, not Review and Publish', (await shown('[data-pep-action="review"]')) && (await page.locator('[data-pep-action="review"]').innerText()).trim() === 'Ask to Publish');
 console.log('errors', errs.length, errs.slice(0, 2));
 console.log(`${pass} PASS, ${fail} FAIL`);
 await browser.close();

@@ -1,5 +1,5 @@
 // The plan page's drawer on Live, draft first (2026-10-28, Andy): it edits, Save to My Draft opens your draft with the
-// edit in it, Publish Now goes straight to Live only when nothing else moves and no open draft changes the item.
+// edit in it, Publish Now reviews just that edit, then lands it, only when nothing else moves and no open draft changes it.
 import { open, gotoPlan } from './lib.mjs';
 const { OUT } = await import('./lib.mjs');
 const { browser, page, planID } = await open({ scale: 1 });
@@ -21,7 +21,7 @@ const memo = await idOf('Draft near-field survival memo');
 const proc = await idOf('Acoustic tag & receiver procurement');
 const start = await repo();
 
-// 1. Notes only on Live: Publish Now, straight to Live.
+// 1. Notes only on Live: Publish Now opens the review on just this edit (2026-10-29); its Publish lands it.
 await openRow(memo);
 check('drawer opens on Live', await isOpen());
 check('Live drawer edits: Save to My Draft', (await label('[data-ped="save"]')) === 'Save to My Draft');
@@ -30,6 +30,8 @@ check('notes field enabled', await page.locator('[data-ped="notes"]').evaluate((
 await page.screenshot({ path: OUT + 'drawer-live.png' });
 await setNotes('From the drawer, straight to Live.');
 await page.click('[data-ped="publish"]'); await page.waitForTimeout(2500);
+check('Publish Now: the review first, Live unchanged', (await page.locator('[data-bcn-plan-revisions-dialog]').evaluate((d) => d.hasAttribute('open'))) && (await repo()).versions === start.versions);
+await page.click('[data-prvd-publish] button'); await page.waitForTimeout(2500);
 const a1 = await repo();
 check('Publish Now: one revision, nothing left behind', a1.versions === start.versions + 1 && !a1.drafts.some((d) => d.transient), JSON.stringify(a1));
 check('still on Live', !new URL(page.url()).searchParams.has('draft'));
