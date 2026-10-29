@@ -95,6 +95,10 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
   }
   .bcn-pri__settings { align-self: start; }
   .bcn-pri__row + .bcn-pri__row { border-block-start: 1px solid var(--color-border-default); }
+  /* A plan's row is interactive (its name, its miniature and its counts all open it): it answers the pointer with the
+     one row-hover token (design QA, 2026-10-29). Not one link, so no pointer of its own. */
+  .bcn-pri__row { transition: background-color 120ms ease; }
+  .bcn-pri__row:hover { background: var(--color-background-default-hover); }
   .bcn-pri__main { display: flex; flex-direction: column; gap: var(--spacing-200); min-inline-size: 0; }
 
   .bcn-pri :global([data-glyph]) { display: inline-flex; color: var(--color-content-default-tertiary); }
@@ -145,7 +149,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
   }
   .bcn-pri__row:hover .bcn-pri__mini { border-color: var(--color-border-default); box-shadow: var(--shadow-100); }
   .bcn-pri__mini :global(svg) { display: block; inline-size: 100%; block-size: auto; }
-  .bcn-pri__mini :global(.mini-axis) { fill: var(--color-content-default-tertiary); font-size: 9px; }
+  .bcn-pri__mini :global(.mini-axis) { fill: var(--color-content-default-tertiary); font-size: var(--font-size-050); }
   .bcn-pri__mini :global(.mini-grid) { stroke: var(--color-border-default-subtle); stroke-width: 1; }
   .bcn-pri__mini :global(.mini-bar) { fill: var(--color-background-brand); }
   .bcn-pri__mini :global(.mini-bar--0) { opacity: 0.35; }

@@ -202,7 +202,7 @@ import { withBase } from '../../lib/base';
         <span class="bcn-trp__muted typography-body-sm" data-file-sub></span>
       </span>
       <span class="bcn-trp__file-version typography-body-sm" data-file-version></span>
-      <span data-file-download><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></span>
+      <span data-file-download><esa-tooltip text="Download" position="above" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></esa-tooltip></span>
     </li>
   </template>
   <template data-trp-tpl="person">
@@ -232,6 +232,7 @@ import { withBase } from '../../lib/base';
 
 <script>
   import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-date-picker';

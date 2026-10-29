@@ -141,6 +141,14 @@
   --radius-sm: var(--radius-100);
   --radius-md: var(--radius-100);
 
+  /* ===== FOCUS — Beacon's one ring (design QA, 2026-10-29) =====
+     Prod (_form-inputs.scss): $focus-ring-color is brand-solid at 30% over a 2px surface gap, and a focused field's
+     border is brand-solid. The theme never set the tier-3 hook, so every esa- lego fell back to the hub's green
+     #3e9b4f, and table links fell back to the browser's black. The ring is the 30% teal at the hub's 2px width and 2px
+     offset (the offset is prod's surface gap); the field border re-points with --color-border-default-focus. */
+  --focus-ring-color: color-mix(in srgb, var(--color-background-brand) 30%, transparent);
+  --color-border-default-focus: var(--color-background-brand);
+
   /* Beacon's warning fill (#f2770e) is dark enough for white text — its ui-button
      uses white fg on warning. The hub default is dark text (for its lighter amber);
      flip it here. */
@@ -486,6 +494,15 @@
   --bcn-print-desk: var(--bcn-gray-200);
 }
 
+/* ===== One focus ring on every focusable element (design QA, 2026-10-29) =====
+   A floor, at the lowest specificity a rule can have here: a link, a reset button or any tabbable element that draws no
+   ring of its own takes the theme's, never the browser's default. Components that draw their own (the outline row's
+   inset ring, esa- legos) still win. */
+[data-theme="beacon"] :where(a[href], button, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+
 /* ===== esa-button: two spoke overrides, both hub requests (design QA, 2026-10-29) =====
    esa-button's light-DOM styles are Astro-scoped (one attribute), so these win with one more class; neither touches
    the hub source. Ledgered as hub requests: height-lock esa-button per size, and draw disabled from the disabled role
@@ -548,9 +565,9 @@ html,
 /* ===== Plan drafts, the night concept (2026-10-27): a scheme scope, not a theme =====
    Set data-scheme="night" on one element (the plan's chart, while it shows a draft) and everything inside it, the
    esa-* legos included, reads the dark semantic layer: custom properties inherit into shadow roots, so nothing inside
-   is restyled by hand. The values are the --bcn-night-* re-point material above. The focus ring is the one role the
-   theme never sets; a dark island is the standing tier-3 exception (design-principles), so it is re-pointed here, on
-   the island only, to the lifted teal text step. */
+   is restyled by hand. The values are the --bcn-night-* re-point material above. The focus ring (the theme's 30% teal)
+   would vanish on the dark ground; a dark island is the standing tier-3 exception (design-principles), so it is
+   re-pointed here, on the island only, to the lifted teal text step. */
 [data-theme="beacon"] [data-scheme="night"] {
   color-scheme: dark;
   --color-background-default: var(--bcn-night-surface);

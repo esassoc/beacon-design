@@ -233,7 +233,7 @@ import { withBase } from '../../lib/base';
           <!-- The plan's setup (2026-10-28, Andy: "an edit link to the about panel to edit the basic details/scope"): its
                Owners open BcnPlanSetupDialog here ("the basics of the plan config should be in a modal"). -->
           <span data-prp-settings hidden><esa-tooltip text="Name, Levels, People and Lists" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="settings" data-fill-icon="settings">Settings</EsaButton></esa-tooltip></span>
-          <EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse About" size="sm" data-prp-about-close />
+          <esa-tooltip text="Collapse About" position="below" align="end"><EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse About" size="sm" data-prp-about-close /></esa-tooltip>
         </span>
       </header>
       <div class="bcn-prp__about-body typography-body-sm">
@@ -289,10 +289,13 @@ import { withBase } from '../../lib/base';
   <BcnPlanImportDialog />
   <!-- An outline row's actions (2026-10-28): + Add (named for the level it adds) and its menu. -->
   <template data-prp-row-tpl="add"><span><esa-tooltip text="Add" position="below"><EsaButton variant="ghost" iconOnly icon="plus" label="Add" size="xs" /></esa-tooltip></span></template>
+  <!-- The menu's trigger names itself in an esa-tooltip, above it so it never sits on the menu (design QA, 2026-10-29). -->
   <template data-prp-row-tpl="menu">
-    <esa-dropdown-menu position="below-end">
-      <EsaButton variant="ghost" iconOnly icon="ellipsis-vertical" label="Actions" size="xs" data-fill-icon="ellipsis-vertical" />
-    </esa-dropdown-menu>
+    <esa-tooltip text="Actions" position="above" align="end">
+      <esa-dropdown-menu position="below-end">
+        <EsaButton variant="ghost" iconOnly icon="ellipsis-vertical" label="Actions" size="xs" data-fill-icon="ellipsis-vertical" />
+      </esa-dropdown-menu>
+    </esa-tooltip>
   </template>
   <BcnChangeNote />
 </div>
@@ -378,8 +381,10 @@ import { withBase } from '../../lib/base';
     grid-template-columns: 0.5rem minmax(0, 1fr) 1rem;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-150, 6px) var(--spacing-200);
-    border-radius: var(--radius-100, 4px);
+    /* esa-dropdown-menu's item: its padding, radius and hover (design QA, 2026-10-29: the plan menu is a popover, so
+       it borrows the menu item's tokens rather than a size of its own). */
+    padding: var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-sm);
     color: var(--color-content-default);
     text-decoration: none;
   }
@@ -649,7 +654,7 @@ import { withBase } from '../../lib/base';
     overflow-wrap: anywhere;
   }
   .bcn-prp__change-list :global(.bcn-prp__change-name:hover) { text-decoration: underline; }
-  .bcn-prp__change-list :global(.bcn-prp__change-name:focus-visible) { outline: 2px solid var(--color-border-focus, var(--color-content-brand)); outline-offset: 2px; border-radius: var(--radius-sm); }
+  .bcn-prp__change-list :global(.bcn-prp__change-name:focus-visible) { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: 2px; border-radius: var(--radius-sm); }
   .bcn-prp__change-list :global(dl) { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--spacing-300); }
   .bcn-prp__change-list :global(dt) { color: var(--color-content-default-secondary); }
   .bcn-prp__change-list :global(dd) { margin: 0; display: flex; flex-wrap: wrap; column-gap: var(--spacing-200); color: var(--color-content-default); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }

@@ -75,9 +75,11 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
       </div>
       <span class="bcn-edocs__date typography-body-sm" data-row-date></span>
       <span class="bcn-edocs__menu" data-row-menu-wrap>
-        <esa-dropdown-menu position="below-end" data-row-menu>
-          <EsaButton variant="ghost" size="xs" iconOnly icon="ellipsis-vertical" label="Document Actions" data-fill-icon="ellipsis-vertical" />
-        </esa-dropdown-menu>
+        <esa-tooltip text="Document Actions" position="above" align="end">
+          <esa-dropdown-menu position="below-end" data-row-menu>
+            <EsaButton variant="ghost" size="xs" iconOnly icon="ellipsis-vertical" label="Document Actions" data-fill-icon="ellipsis-vertical" />
+          </esa-dropdown-menu>
+        </esa-tooltip>
       </span>
     </li>
   </template>
@@ -93,6 +95,7 @@ import BcnDocumentDialog from './BcnDocumentDialog.astro';
 
 <script>
   import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-filter-dropdown';
   import '@esa/ecology/esa-popover';
 </script>

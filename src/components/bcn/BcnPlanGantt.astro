@@ -40,8 +40,8 @@ const { label, id } = Astro.props;
   <!-- A quiet row marker (new design: "Scheduled", and "Unsaved changes" visible only to its author); the runtime sets its text. -->
   <template data-gantt-tpl="badge"><EsaBadge value="Unsaved Changes" variant="secondary" size="sm" /></template>
   <template data-gantt-tpl="caret"><EsaButton variant="ghost" iconOnly icon="chevron-down" label="Collapse" size="xs" /></template>
-  <template data-gantt-tpl="apply"><EsaButton variant="primary" iconOnly icon="check" label="Apply Change" size="sm" /></template>
-  <template data-gantt-tpl="revert"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert Change" size="sm" data-fill-icon="undo-2" /></template>
+  <template data-gantt-tpl="apply"><esa-tooltip text="Apply Change" position="above"><EsaButton variant="primary" iconOnly icon="check" label="Apply Change" size="sm" /></esa-tooltip></template>
+  <template data-gantt-tpl="revert"><esa-tooltip text="Revert Change" position="above"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert Change" size="sm" data-fill-icon="undo-2" /></esa-tooltip></template>
 </div>
 
 <style>
@@ -238,6 +238,7 @@ const { label, id } = Astro.props;
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret svg) { transition: transform 120ms ease; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret[aria-expanded='false'] svg) { transform: rotate(-90deg); }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret) { inline-size: var(--_caret); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-tip) { display: inline-flex; flex-shrink: 0; }
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-spacer) { flex-shrink: 0; inline-size: var(--_caret); }
 
   .bcn-plan-gantt-host :global(.bcn-plan-gantt__schedule-summary) {
