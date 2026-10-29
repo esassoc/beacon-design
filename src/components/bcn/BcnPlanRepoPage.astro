@@ -490,18 +490,18 @@ import { withBase } from '../../lib/base';
   .bcn-prp[data-drafthead='full'] .bcn-prp__views-head {
     background: var(--prp-draft);
     border-block-end-color: var(--prp-draft);
-    color: #fff;
+    color: var(--color-content-default-knockout);
   }
-  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :is(.bcn-prp__views-title, .bcn-prp__state, .bcn-prp__state-note) { color: #fff; }
-  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-title :global(.esa-icon) { color: #fff; }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :is(.bcn-prp__views-title, .bcn-prp__state, .bcn-prp__state-note) { color: var(--color-content-default-knockout); }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-title :global(.esa-icon) { color: var(--color-content-default-knockout); }
   .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native) {
-    color: #fff;
+    color: var(--color-content-default-knockout);
     background: transparent;
-    border-color: rgb(255 255 255 / 0.55);
+    border-color: color-mix(in srgb, var(--color-content-default-knockout) 55%, transparent);
   }
-  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native:hover:not(:disabled)) { background: rgb(255 255 255 / 0.14); }
-  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native svg) { color: #fff; }
-  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 2px rgb(255 255 255 / 0.85); }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native:hover:not(:disabled)) { background: color-mix(in srgb, var(--color-content-default-knockout) 14%, transparent); }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__views-head :global(.esa-button__native svg) { color: var(--color-content-default-knockout); }
+  .bcn-prp:is([data-drafthead='fill'], [data-drafthead='full']) .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-content-default-knockout) 85%, transparent); }
 
   /* 2. tint: a wash of their color, the title and the draft's name in their ink, their avatar beside it. */
   .bcn-prp[data-drafthead='tint'] .bcn-prp__views-head {
@@ -521,9 +521,9 @@ import { withBase } from '../../lib/base';
     padding: 2px var(--spacing-200) 2px 2px;
     border-radius: 999px;
     background: var(--prp-draft);
-    color: #fff;
+    color: var(--color-content-default-knockout);
   }
-  .bcn-prp[data-drafthead='frame'] .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.85); }
+  .bcn-prp[data-drafthead='frame'] .bcn-prp__state-avatar :global(.esa-avatar) { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-content-default-knockout) 85%, transparent); }
 
   /* 4. ribbon: a strip of their color across the panel's top, saying so in words; the header stays as it is. */
   .bcn-prp[data-drafthead='ribbon'] .bcn-prp__ribbon:not([hidden]) {
@@ -532,9 +532,9 @@ import { withBase } from '../../lib/base';
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-400);
     background: var(--prp-draft);
-    color: #fff;
+    color: var(--color-content-default-knockout);
   }
-  .bcn-prp__ribbon :global(.esa-avatar) { box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.85); }
+  .bcn-prp__ribbon :global(.esa-avatar) { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-content-default-knockout) 85%, transparent); }
   .bcn-prp__ribbon b { font-weight: 700; }
 
   /* 5. full: fill and frame together, the loudest. */
