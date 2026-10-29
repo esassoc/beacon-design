@@ -42,6 +42,9 @@ export interface PlanBudgetSheet {
   set(data: { plan: PlanDetailDto; budget: PlanBudget; base: PlanBudget | null; editable: boolean; query: string; heading: string }): void;
   /** Scroll to an element's row and mark it, as the drawer's Open in Budget View does. */
   focus(id: string): void;
+  /** The sheet as a CSV file, as prod's grids' Download as CSV (2026-10-29, the traps audit: the PM had no way to take
+   *  the budget out). The rows and years shown, figures unformatted, the Plan Total last. */
+  download(fileName: string): void;
 }
 
 let registered = false;
@@ -443,6 +446,12 @@ export function setupPlanBudgetSheet(
   }
 
   return {
+    download(fileName) {
+      api.exportDataAsCsv({
+        fileName,
+        processCellCallback: (p) => (p.column.getColId() === 'name' ? `${'  '.repeat(p.node?.data?.depth ?? 0)}${p.node?.data?.name ?? ''}` : String(p.value ?? '')),
+      });
+    },
     set(data) {
       editable = data.editable;
       root.dataset.editable = String(editable);

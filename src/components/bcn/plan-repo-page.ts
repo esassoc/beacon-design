@@ -1518,6 +1518,10 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   // ── The plan's setup (2026-10-28): its Owners edit it from About; saved, the page takes it in; deleted, the index;
   //    a level's Customize Page, that item's page ──
   const setup = setupPlanSetupDialog(document.querySelector<HTMLElement>('[data-bcn-plan-setup]')!);
+  q<HTMLElement>('[data-prp-download]').addEventListener('click', () => {
+    const where = mode === 'live' ? 'Live' : draft ? draft.name : 'Draft';
+    sheet.download(`${(shown.PlanName ?? 'Plan').replace(/[\\/:*?"<>|]/g, '')} Budget, ${where}, ${toLocalIsoDate(new Date())}.csv`);
+  });
   q<HTMLElement>('[data-prp-settings-head]').addEventListener('click', () => q<HTMLElement>('[data-prp-settings] button').click());
   q<HTMLElement>('[data-prp-settings]').addEventListener('click', async () => {
     const result = await setup.open(planID!);

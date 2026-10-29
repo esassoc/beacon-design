@@ -145,6 +145,7 @@ import { withBase } from '../../lib/base';
           <!-- Add the plan's top-level item (2026-10-28, the build-from-scratch review), named for its level; from Live it
                goes to your draft. Rows add their own children from the outline. -->
           <span data-prp-settings-head hidden><esa-tooltip text="Plan Settings" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="settings" label="Plan Settings" data-fill-icon="settings" /></esa-tooltip></span>
+          <span data-prp-download><esa-tooltip text="The budget by fiscal year, as a CSV file" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="download" data-fill-icon="download">Download</EsaButton></esa-tooltip></span>
           <span data-prp-import hidden><esa-tooltip text="Add items from a CSV or a spreadsheet" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="upload">Import</EsaButton></esa-tooltip></span>
           <span data-prp-add hidden><esa-tooltip text="Add an item at the top of the outline" position="below" align="end"><EsaButton variant="ghost" size="xs" icon="plus"><span data-prp-add-label>Add</span></EsaButton></esa-tooltip></span>
           <!-- Live's one action, with an edit pencil; ghost and small in the panel's header (2026-10-28, Andy). -->
@@ -567,6 +568,8 @@ import { withBase } from '../../lib/base';
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__actions { display: none; }
   /* Flush, as the chart and the sheet: the band runs edge to edge under the header, the table under it. */
   .bcn-prp__view--records { padding: 0; }
+  /* Download is the budget's (the records views have their own). */
+  .bcn-prp:not([data-view='budget']) [data-prp-download] { display: none; }
   .bcn-prp[data-view='budget'] .bcn-prp__scope :global(:is(.bcn-plan-range__group, .bcn-plan-range__overview, .bcn-plan-range__label)) { display: none; }
   .bcn-prp__no-match {
     padding: var(--spacing-800) var(--spacing-400);
