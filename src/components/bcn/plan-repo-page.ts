@@ -349,8 +349,15 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     if (edits.length) {
       const view = await planApi.previewDraft(planID!, next);
       const changes = planCompare(before, view.Plan);
+      // What was grabbed, not what came along: an edited item under another edited item (a parent moved with its
+      // items) counts as followed, so the note names the parent.
       const ids = new Set(edits.map((e) => e.PlanElementID));
-      const own = changes.filter((c) => ids.has(c.id));
+      const carried = new Set<string>();
+      for (const id of ids) {
+        const el = findPlanElement(before.Elements, id)?.element;
+        if (el?.Children?.length) for (const { element } of flattenPlan(el.Children)) carried.add(element.PlanElementID ?? '');
+      }
+      const own = changes.filter((c) => ids.has(c.id) && !carried.has(c.id));
       if (changes.length || !note) note = revisionNote(own, changes.length - own.length);
     }
     addRevision(planID!, draft!.id, next, note!, {

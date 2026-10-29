@@ -47,14 +47,34 @@ export function planDraftEditsForDrag(shown: PlanDetailDto, drag: GanttDragEvent
     const request = planGanttDragRequest(shown, drag);
     if (!request || request.kind !== 'element') return [];
     const element = findPlanElement(shown.Elements, request.planElementID)?.element;
-    return [
-      {
-        PlanElementID: request.planElementID,
-        StartDate: request.change.StartDate ?? null,
-        EndDate: request.change.EndDate ?? null,
-        PlanDateType: element?.PlanDateType ?? PlanDateTypeEnum.Estimated,
-      },
-    ];
+    const own: PlanDraftEdit = {
+      PlanElementID: request.planElementID,
+      StartDate: request.change.StartDate ?? null,
+      EndDate: request.change.EndDate ?? null,
+      PlanDateType: element?.PlanDateType ?? PlanDateTypeEnum.Estimated,
+    };
+    // Moving a parent moves its items with it (2026-10-29, Andy: "moving a parent should move its tasks too"): the same
+    // days for everything under it, as a multi-drag carries a subtree. A Scheduled item (a fixed date) holds, as it does
+    // in a multi-drag. Stretching an end changes the window alone.
+    if (element?.Children?.length && drag.mode === 'move' && drag.startDeltaDays === drag.endDeltaDays && drag.startDeltaDays) {
+      const under: PlanDraftEdit[] = [];
+      const walk = (items: readonly PlanElementDto[] | null | undefined) => {
+        for (const child of items ?? []) {
+          if (child.StartDate && child.PlanDateType !== PlanDateTypeEnum.Scheduled) {
+            under.push({
+              PlanElementID: child.PlanElementID ?? '',
+              StartDate: shiftIso(child.StartDate, drag.startDeltaDays),
+              EndDate: child.EndDate ? shiftIso(child.EndDate, drag.startDeltaDays) : null,
+              PlanDateType: child.PlanDateType ?? PlanDateTypeEnum.Estimated,
+            });
+          }
+          walk(child.Children);
+        }
+      };
+      walk(element.Children);
+      return [own, ...under];
+    }
+    return [own];
   }
   const picked = new Set(drag.pickedIds);
   const edits: PlanDraftEdit[] = [];
