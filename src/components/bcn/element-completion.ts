@@ -9,7 +9,7 @@
 
 import type { ElementContext } from '../../lib/planning/element-context';
 import { orgOf } from '../../lib/planning/plan-repo';
-import { clearCompletion, fileById, statusOf, type Completion } from '../../lib/planning/plan-records';
+import { clearCompletion, fileById, sentBack, statusOf, transmittalNumber, type Completion } from '../../lib/planning/plan-records';
 import { planIcon } from '../../lib/planning/icons';
 import { badge, type BadgeVariant } from './badge-bank';
 import { planAvatar } from './plan-people';
@@ -33,6 +33,9 @@ export const setupCompletionModule: ElementModuleSetup = (root, host) => {
   const v = (k: string) => q(`[data-elc-v="${k}"]`);
   const row = (k: string) => v(k).closest<HTMLElement>('[data-elc-row]')!;
 
+  // Arrived from an accepted response's Record Completion (the transmittal page links here with &complete=1): open the
+  // dialog once, on the first draw that can record it.
+  let askedToComplete = new URLSearchParams(location.search).get('complete') === '1';
   const record = async () => {
     const ctx = host.ctx();
     const editing = !!ctx.records.completions[ctx.element.PlanElementID ?? ''];
@@ -126,7 +129,11 @@ export const setupCompletionModule: ElementModuleSetup = (root, host) => {
         const missing = missingToComplete(ctx);
         const markedDone = ctx.inLive && statusOf(ctx.records, ctx.live, id) === 'Completed';
         // What it needs is said to whoever can record it; anyone else reads where it stands.
-        q('[data-elc-needs]').textContent = !ctx.inLive || !keeps
+        // Sent back by the agency: the next step is a resubmittal, not a completion (2026-10-29).
+        const back = ctx.inLive ? sentBack(ctx.records, id) : undefined;
+        q('[data-elc-needs]').textContent = back
+          ? `${transmittalNumber(back)} came back ${back.response?.outcome}. Revise and Resubmit from Transmittals; record completion once a resubmittal is accepted.`
+          : !ctx.inLive || !keeps
           ? 'Not complete yet.'
           : markedDone
             ? 'Marked Complete, but nothing says where it lives. Record the result, the date and where it lives.'
@@ -135,6 +142,13 @@ export const setupCompletionModule: ElementModuleSetup = (root, host) => {
         also.textContent = missing.length ? `Also needs ${listPhrase(missing.map((f) => f.label))}, from Details.` : '';
         also.hidden = !missing.length || !ctx.inLive;
         q('[data-elc-record]').hidden = !keeps;
+        if (askedToComplete && keeps) {
+          askedToComplete = false;
+          const params = new URLSearchParams(location.search);
+          params.delete('complete');
+          history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
+          queueMicrotask(() => void record());
+        }
       }
 
       why.textContent = !ctx.inLive

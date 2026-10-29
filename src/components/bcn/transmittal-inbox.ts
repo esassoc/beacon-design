@@ -8,7 +8,7 @@
 import { listPlanSummaries, orgOf } from '../../lib/planning/plan-repo';
 import { currentUserName } from '../../lib/planning/plan-server';
 import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
-import { receiptOverdue, recordsFor, todayIso, transmittalNumber, transmittalsTo, type Transmittal } from '../../lib/planning/plan-records';
+import { receiptOverdue, recordsFor, reviewRound, todayIso, transmittalNumber, transmittalsTo, type PlanRecords, type Transmittal } from '../../lib/planning/plan-records';
 import { planAvatar } from './plan-people';
 import { badge } from './badge-bank';
 import { day } from './element-module';
@@ -17,6 +17,7 @@ interface InboxRow {
   planID: string;
   planName: string;
   t: Transmittal;
+  rec: PlanRecords;
   /** A To recipient who hasn't confirmed: it waits on them. */
   waiting: boolean;
 }
@@ -26,7 +27,7 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
   const tpl = root.querySelector<HTMLTemplateElement>('template[data-tib-tpl="row"]')!;
   const note = root.querySelector<HTMLElement>('[data-tib-note]')!;
 
-  function row({ planID, planName, t, waiting }: InboxRow, me: string): HTMLElement {
+  function row({ planID, planName, t, rec, waiting }: InboxRow, me: string): HTMLElement {
     const el = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
     const href = TRANSMITTAL_HREF(planID, t.id);
     const mine = t.receipts[me] ?? {};
@@ -36,7 +37,11 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
     subject.textContent = t.subject;
     subject.href = href;
     const plan = el.querySelector<HTMLElement>('[data-tib-plan]')!;
-    plan.textContent = planName;
+    // Its place in a review chain (2026-10-29): a resubmittal says which round and what it replaces; a replaced one, by
+    // what, so a reviewer reads the new version and not the old.
+    const next = t.supersededBy ? rec.transmittals.find((x) => x.id === t.supersededBy) : undefined;
+    const prev = t.supersedes ? rec.transmittals.find((x) => x.id === t.supersedes) : undefined;
+    plan.textContent = [planName, next ? `Superseded by ${transmittalNumber(next)}` : prev ? `Round ${reviewRound(rec, t)}, replaces ${transmittalNumber(prev)}` : ''].filter(Boolean).join('. ');
     const from = el.querySelector<HTMLElement>('[data-tib-from]')!;
     const name = document.createElement('span');
     name.className = 'bcn-tib__who';
@@ -48,13 +53,15 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
 
     // Their own receipt: what they still owe, or that it's done.
     const state = el.querySelector<HTMLElement>('[data-tib-state]')!;
-    if (waiting) state.replaceChildren(badge('Confirm Receipt', receiptOverdue(t, me) ? 'danger' : 'warning', 'sm'));
+    if (t.supersededBy) state.replaceChildren(badge('Superseded', 'neutral', 'sm'));
+    else if (waiting) state.replaceChildren(badge('Confirm Receipt', receiptOverdue(t, me) ? 'danger' : 'warning', 'sm'));
     else if (mine.confirmedAt && mine.recordedBy) state.replaceChildren(badge(`Recorded by ${mine.recordedBy}`, 'info', 'sm'));
     else if (mine.confirmedAt) state.replaceChildren(badge('Confirmed', 'success', 'sm'));
     else state.replaceChildren(badge('Copied', 'neutral', 'sm'));
 
     const due = el.querySelector<HTMLElement>('[data-tib-due]')!;
-    if (t.closedAt) Object.assign(due, { textContent: 'Closed' }).dataset.tone = 'quiet';
+    if (t.supersededBy) Object.assign(due, { textContent: 'None Owed' }).dataset.tone = 'quiet';
+    else if (t.closedAt) Object.assign(due, { textContent: 'Closed' }).dataset.tone = 'quiet';
     else if (t.response) Object.assign(due, { textContent: 'Responded' }).dataset.tone = 'quiet';
     else if (t.responseDue && isTo) {
       due.textContent = day(t.responseDue);
@@ -75,7 +82,7 @@ export function setupTransmittalInbox(root: HTMLElement): { draw(): void } {
     const plans = await listPlanSummaries();
     if (ticket !== drawing) return;
     const rows: InboxRow[] = plans.flatMap((p) =>
-      transmittalsTo(recordsFor(p.repo.planID), me).map((t) => ({ planID: p.repo.planID, planName: p.name, t, waiting: t.to.includes(me) && !t.receipts[me]?.confirmedAt && !t.closedAt }))
+      transmittalsTo(recordsFor(p.repo.planID), me).map((t) => ({ planID: p.repo.planID, planName: p.name, t, rec: recordsFor(p.repo.planID), waiting: t.to.includes(me) && !t.receipts[me]?.confirmedAt && !t.closedAt }))
     );
     rows.sort((a, b) => Number(b.waiting) - Number(a.waiting) || (b.t.sentAt ?? '').localeCompare(a.t.sentAt ?? ''));
     root.hidden = rows.length === 0;

@@ -5,11 +5,15 @@
 //   (the memo and the enclosures, each at the version and revision it went out at), Receipt (a row per recipient: To or
 //   Cc, and where they stand: Confirmed, Recorded by someone on their behalf, Opened, Not Yet, Reminded, Overdue; with
 //   Send Reminder and Record Receipt on a To row still outstanding), Response (none yet, or what came back; Record
-//   Response, then Close Transmittal). Beside it, What the Recipient Got: the email, as a quiet card.
+//   Response, with its Outcome, then Close Transmittal). Beside it, What the Recipient Got: the email, as a quiet card.
+//   A response short of acceptance offers Revise and Resubmit; an accepted one, Record Completion on the deliverable.
+//   Once a deliverable has been resubmitted, Review Rounds lists its sends in order (Round 1, Round 2), each linked,
+//   and the line under the title says "Supersedes T-006" or "Superseded by T-007" (2026-10-29, the resubmittal pass).
 //
 //   A recipient (a Guest, or anyone outside the plan it was sent to): one calm column. Who sent what and why, the memo
 //   and enclosures to download, the dates, and one button, Confirm Receipt (decision 3: a button, not an open; opening
-//   the page is logged as Opened only). Cc recipients see it too; for them it's optional.
+//   the page is logged as Opened only). Cc recipients see it too; for them it's optional. A superseded one says so in an
+//   esa-alert-box and points to its replacement; a resubmittal says which send it replaces.
 //
 // Sent is final: nothing here edits a sent transmittal. A draft reads the same, with Edit, Send and Delete in the
 // page's actions. The runtime is ./transmittal-page.ts.
@@ -25,6 +29,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnBadgeBank from './BcnBadgeBank.astro';
 import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
@@ -68,11 +73,14 @@ import { withBase } from '../../lib/base';
               <span class="bcn-trp__note typography-body-sm" data-trp-response-note></span>
             </span>
             <span class="bcn-trp__actions">
+              <span data-trp-act="resubmit" hidden><EsaButton variant="primary" size="xs" icon="rotate-ccw" data-fill-icon="rotate-ccw">Revise and Resubmit</EsaButton></span>
+              <span data-trp-act="complete" hidden><a data-trp-complete-link><EsaButton variant="primary" size="xs" icon="circle-check" data-fill-icon="circle-check">Record Completion</EsaButton></a></span>
               <span data-trp-act="respond" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="plus">Record Response</EsaButton></span>
               <span data-trp-act="close" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="check">Close Transmittal</EsaButton></span>
             </span>
           </div>
           <div class="bcn-trp__response">
+            <span class="bcn-trp__outcome" data-trp-response-outcome></span>
             <p class="bcn-trp__said typography-body-md" data-trp-response-said></p>
             <ul class="bcn-trp__files" data-trp-response-files></ul>
             <p class="bcn-trp__by typography-body-sm" data-trp-response-by></p>
@@ -82,6 +90,19 @@ import { withBase } from '../../lib/base';
     </div>
 
     <div class="bcn-trp__col">
+      <div data-trp-rounds-card hidden>
+        <EsaCard padding="compact" headerVariant="muted">
+          <div slot="header" class="bcn-trp__head">
+            <span class="bcn-trp__glyph"><EsaIcon name="history" paths={PLAN_ICON_PATHS.history} size="sm" /></span>
+            <span class="bcn-trp__titles">
+              <h2 class="bcn-trp__title typography-label-md-strong">Review Rounds</h2>
+              <span class="bcn-trp__note typography-body-sm" data-trp-rounds-note></span>
+            </span>
+          </div>
+          <ol class="bcn-trp__rounds" data-trp-rounds></ol>
+        </EsaCard>
+      </div>
+
       <EsaCard padding="compact" variant="filled">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="inbox" paths={PLAN_ICON_PATHS.inbox} size="sm" /></span>
@@ -124,6 +145,12 @@ import { withBase } from '../../lib/base';
           </span>
         </div>
         <p class="bcn-trp__lede typography-body-md" data-trp-lede></p>
+        <div data-trp-mine-superseded hidden>
+          <EsaAlertBox variant="warning" title="Superseded"><span data-trp-mine-superseded-text></span></EsaAlertBox>
+        </div>
+        <div data-trp-mine-replaces hidden>
+          <EsaAlertBox variant="info" title="Resubmittal"><span data-trp-mine-replaces-text></span></EsaAlertBox>
+        </div>
 
         <section class="bcn-trp__mine-section" aria-labelledby="trp-mine-files">
           <h2 class="bcn-trp__mine-heading typography-label-sm-strong" id="trp-mine-files" data-trp-mine-files-title>What Was Sent</h2>
@@ -178,6 +205,7 @@ import { withBase } from '../../lib/base';
   <esa-dialog class="bcn-trp__dialog" heading="Record Response" show-close-button data-trp-response-dialog>
     <div class="bcn-trp__form">
       <p class="bcn-trp__muted typography-body-sm" data-trp-response-lede></p>
+      <esa-select data-trp-outcome-select label="Outcome" size="sm" required placeholder="Choose an Outcome" help-text="Revisions Requested and Rejected keep the deliverable open, with Revise and Resubmit."></esa-select>
       <esa-textarea data-trp-response-text label="What Came Back" size="sm" rows="3" required placeholder="e.g. Eleven comments; two on receiver spacing"></esa-textarea>
       <esa-date-picker data-trp-response-on label="Received On" size="sm" required help-text="The day it came back, if that wasn’t today."></esa-date-picker>
       <EsaFormField label="Response Letter or Comments" size="sm" helpText="Optional. An upload is filed on the deliverable as Correspondence.">
@@ -203,6 +231,16 @@ import { withBase } from '../../lib/base';
       </span>
       <span class="bcn-trp__file-version typography-body-sm" data-file-version></span>
       <span data-file-download><EsaButton variant="ghost" size="xs" iconOnly icon="download" label="Download" /></span>
+    </li>
+  </template>
+  <template data-trp-tpl="round">
+    <li class="bcn-trp__round">
+      <span class="bcn-trp__round-n typography-body-sm" data-round-n></span>
+      <span class="bcn-trp__round-text">
+        <a class="bcn-trp__round-num typography-label-sm-strong" data-round-link></a>
+        <span class="bcn-trp__muted typography-body-sm" data-round-detail></span>
+      </span>
+      <span data-round-badge></span>
     </li>
   </template>
   <template data-trp-tpl="person">
@@ -440,6 +478,61 @@ import { withBase } from '../../lib/base';
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
+  }
+  .bcn-trp__outcome:empty {
+    display: none;
+  }
+  .bcn-trp__outcome {
+    display: inline-flex;
+  }
+  /* Review Rounds: the round, the send (linked) over what came of it, its status. */
+  .bcn-trp__rounds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* The round and its outcome on one line; the send, then what came of it, under them. */
+  .bcn-trp__round {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'n badge'
+      'text text';
+    align-items: center;
+    column-gap: var(--spacing-300);
+    row-gap: var(--spacing-100);
+    padding-block: var(--spacing-200);
+  }
+  .bcn-trp__round > :global(:last-child) {
+    grid-area: badge;
+  }
+  .bcn-trp__round-text {
+    grid-area: text;
+  }
+  .bcn-trp__round + .bcn-trp__round {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-trp__round[aria-current] .bcn-trp__round-num {
+    color: var(--color-content-default);
+  }
+  .bcn-trp__round-n {
+    grid-area: n;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-trp__round-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .bcn-trp__round-num {
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+  a.bcn-trp__round-num:hover {
+    text-decoration: underline;
+  }
+  .bcn-trp__line :global(a) {
+    color: var(--color-content-link);
   }
   .bcn-trp__said {
     margin: 0;

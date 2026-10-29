@@ -7,7 +7,11 @@ import { receiptBadge } from './badge-bank';
 import { addGuests } from '../../lib/planning/plan-repo';
 import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 import {
+  canResubmit,
   receiptCount,
+  resubmittalDraftOf,
+  reviewRound,
+  SENDS_BACK,
   receiptOverdue,
   recordsFor,
   respondedOn,
@@ -18,6 +22,7 @@ import {
   transmittalNumber,
   transmittalsFor,
   transmittalStatus,
+  type PlanRecords,
   type Transmittal,
   type TransmittalStatus,
 } from '../../lib/planning/plan-records';
@@ -33,6 +38,16 @@ export const TRANSMITTAL_STATUS_VARIANT: Record<TransmittalStatus, BadgeVariant>
   Received: 'primary',
   Responded: 'success',
   Closed: 'neutral',
+  Superseded: 'neutral',
+};
+
+/** A response's outcome, in the completion results' colors: accepted reads as done, sent back as a warning. */
+export const OUTCOME_VARIANT: Record<string, BadgeVariant> = {
+  Accepted: 'success',
+  'Accepted With Comments': 'info',
+  'Revisions Requested': 'warning',
+  Rejected: 'danger',
+  'Comments Only': 'neutral',
 };
 
 /** The transmittal's page; `sent` says it just went, for the page's toast. */
@@ -47,7 +62,7 @@ function fact(text: string, tone?: 'warning' | 'danger' | 'success'): HTMLElemen
 }
 
 /** A sent transmittal's facts: when it went, receipt, response. A draft's: not sent, and to whom. */
-export function transmittalFacts(t: Transmittal): HTMLElement[] {
+export function transmittalFacts(t: Transmittal, rec?: PlanRecords): HTMLElement[] {
   const status = transmittalStatus(t);
   if (status === 'Draft') return [fact('Not Sent'), fact(t.to.length ? `To ${names(t.to)}` : 'No recipients yet')];
   const out = [fact(`Sent ${day(t.sentAt)}`)];
@@ -61,12 +76,19 @@ export function transmittalFacts(t: Transmittal): HTMLElement[] {
       receipt.title = `Waiting on ${names(waiting.map((n) => [n, [receiptOverdue(t, n) ? 'overdue' : '', t.receipts[n]?.remindedAt ? `reminded ${day(t.receipts[n]!.remindedAt)}` : ''].filter(Boolean).join(', ')]).map(([n, why]) => (why ? `${n} (${why})` : n)))}`;
     out.push(receipt);
   }
-  if (t.closedAt) out.push(fact(`Closed ${day(t.closedAt)}`));
-  else if (t.response) {
+  // The response, by what it decided: "Revisions Requested Oct 10, 2026" (warning), "Accepted Oct 9, 2026".
+  if (t.response) {
     const late = responseDaysLate(t);
-    out.push(fact(`Responded ${day(respondedOn(t))}${late ? `, ${late} ${late === 1 ? 'day' : 'days'} late` : ''}`, late ? 'warning' : undefined));
+    const outcome = t.response.outcome;
+    out.push(fact(`${outcome && outcome !== 'Comments Only' ? outcome : 'Responded'} ${day(respondedOn(t))}${late ? `, ${late} ${late === 1 ? 'day' : 'days'} late` : ''}`, late || SENDS_BACK.has(outcome ?? '') ? 'warning' : undefined));
   }
-  else if (t.responseDue) out.push(fact(`Response due ${day(t.responseDue)}`, responseOverdue(t) ? 'danger' : undefined));
+  if (t.supersededBy) {
+    const next = rec?.transmittals.find((x) => x.id === t.supersededBy);
+    out.push(fact(next ? `Superseded by ${transmittalNumber(next)}` : 'Superseded'));
+  } else if (t.closedAt) out.push(fact(`Closed ${day(t.closedAt)}`));
+  else if (!t.response && t.responseDue) out.push(fact(`Response due ${day(t.responseDue)}`, responseOverdue(t) ? 'danger' : undefined));
+  // Its round, once there has been more than one.
+  if (rec && t.supersedes) out.push(fact(`Round ${reviewRound(rec, t)} of Review`));
   return out;
 }
 
@@ -96,6 +118,12 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     after(await dialog.open({ planID: ctx.planID, elementId: ctx.element.PlanElementID ?? '' }));
   });
 
+  /** Revise and Resubmit: a new transmittal from this one, or the resubmittal already started from it. */
+  async function resubmit(t: Transmittal): Promise<void> {
+    const ctx = host.ctx();
+    const started = resubmittalDraftOf(recordsFor(ctx.planID), t);
+    after(await dialog.open(started ? { planID: ctx.planID, elementId: t.elementId, transmittalId: started.id } : { planID: ctx.planID, elementId: t.elementId, resubmitOf: t.id }));
+  }
   async function edit(t: Transmittal, check = false): Promise<void> {
     const ctx = host.ctx();
     after(await dialog.open({ planID: ctx.planID, elementId: t.elementId, transmittalId: t.id, check }));
@@ -118,7 +146,7 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     host.toast(`${transmittalNumber(t)} deleted.`);
   }
 
-  function row(t: Transmittal, canRecord: boolean, planID: string): HTMLElement {
+  function row(t: Transmittal, canRecord: boolean, planID: string, rec: PlanRecords): HTMLElement {
     const el = rowTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
     const status = transmittalStatus(t);
     const href = transmittalPage(planID, t.id);
@@ -130,13 +158,23 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
     if (t.purpose) purpose.replaceWith(badge(t.purpose, 'neutral', 'xs'));
     else purpose.remove();
     el.querySelector('[data-tm-status]')!.replaceChildren(badge(status, TRANSMITTAL_STATUS_VARIANT[status], 'sm'));
-    el.querySelector('[data-tm-facts]')!.replaceChildren(...transmittalFacts(t));
+    el.querySelector('[data-tm-facts]')!.replaceChildren(...transmittalFacts(t, rec));
     const acts = el.querySelector<HTMLElement>('[data-tm-acts]')!;
-    acts.hidden = !(status === 'Draft' && canRecord);
+    // A draft edits, sends and deletes; a send that came back short of acceptance resubmits.
+    const resubmits = canRecord && canResubmit(t);
+    acts.hidden = !((status === 'Draft' || resubmits) && canRecord);
+    for (const n of ['edit', 'send', 'delete']) el.querySelector<HTMLElement>(`[data-tm-act="${n}"]`)!.hidden = status !== 'Draft';
+    const resubmitAct = el.querySelector<HTMLElement>('[data-tm-act="resubmit"]')!;
+    resubmitAct.hidden = !resubmits;
+    if (resubmits && resubmittalDraftOf(rec, t)) {
+      const label = resubmitAct.querySelector('.esa-button__label');
+      if (label) label.textContent = `Open ${transmittalNumber(resubmittalDraftOf(rec, t)!)} Draft`;
+    }
     const on = (name: string, run: () => void) => el.querySelector(`[data-tm-act="${name}"]`)!.addEventListener('click', (e) => (e.stopPropagation(), run()));
     on('edit', () => void edit(t));
     on('send', () => void send(t));
     on('delete', () => void remove(t));
+    on('resubmit', () => void resubmit(t));
     // The whole row opens it; its link and buttons do their own thing.
     el.addEventListener('click', (e) => {
       if ((e.target as Element).closest('a, button')) return;
@@ -154,7 +192,12 @@ export const setupTransmittalsModule: ElementModuleSetup = (root, host) => {
       setModuleCount(root, all.length || null);
       // Why it won't send, said once and quietly (the page's own note says the rest).
       setModuleNote(root, ctx.mode === 'customize' || ctx.myRole === 'Guest' ? null : !ctx.inLive ? 'New in this draft. It can be sent once it is on Live.' : ctx.mode !== 'live' ? 'Read-only in a draft. Sends are made on Live.' : null);
-      list.replaceChildren(...all.map((t) => row(t, ctx.canRecord, ctx.planID)));
+      list.replaceChildren(...all.map((t) => row(t, ctx.canRecord, ctx.planID, ctx.records)));
+      // The rounds, once a deliverable has been sent back: "Round 2 of Review" on the newest send, said in the head.
+      const newest = all.find((t) => t.sentAt);
+      const round = newest ? reviewRound(ctx.records, newest) : 1;
+      const draftNote = ctx.mode === 'customize' || ctx.myRole === 'Guest' ? null : !ctx.inLive ? 'New in this draft. It can be sent once it is on Live.' : ctx.mode !== 'live' ? 'Read-only in a draft. Sends are made on Live.' : null;
+      if (!draftNote && round > 1 && ctx.mode !== 'customize') setModuleNote(root, `Round ${round} of Review${newest!.response?.outcome ? `: ${newest!.response.outcome}` : newest!.closedAt ? '' : ', Under Review'}`);
       list.hidden = all.length === 0;
       empty.hidden = all.length > 0;
       const description = empty.querySelector('.esa-empty-state__description');

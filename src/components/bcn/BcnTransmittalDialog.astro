@@ -11,15 +11,20 @@
 // tick IS esa-checkbox, the labels ARE esa-form-field, every action IS esa-button, Send asks through
 // esa-confirm-dialog. No esa- lego is a file checklist with a revision and version per row (esa-checkbox-group takes a
 // bare label; esa-file-list lists uploads, not a pick from a record's documents); checked Beacon (prod's document pickers
-// are single selects). The CSS is that list, the two-up row and the sections.
+// are single selects). The CSS is that list, the two-up row and the sections. Revise and Resubmit opens the same dialog
+// prefilled from the send it replaces, with an esa-alert-box saying so.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 ---
 
 <div class="bcn-tmd" data-bcn-transmittal-dialog>
   <esa-dialog class="bcn-tmd__dialog" heading="New Transmittal" show-close-button data-tmd-dialog>
     <form class="bcn-tmd__form" novalidate data-tmd-form>
       <p class="bcn-tmd__lede typography-body-sm" data-tmd-lede></p>
+      <div data-tmd-resubmit hidden>
+        <EsaAlertBox variant="info" title="Resubmittal"><span data-tmd-resubmit-text></span></EsaAlertBox>
+      </div>
 
       <esa-text-field data-tmd="subject" label="Subject" size="sm" required maxlength="200"></esa-text-field>
       <div class="bcn-tmd__pair">

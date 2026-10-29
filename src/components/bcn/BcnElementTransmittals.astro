@@ -4,7 +4,9 @@
 // when it went, how many of its To recipients have confirmed receipt ("2 of 3 Received", in the warning color once
 // someone is past the acknowledgment date) and when a response is due (danger once overdue). A row opens the
 // transmittal's own page. Drafts carry Edit, Send and Delete; New Transmittal opens the dialog, prefilled from the
-// element (its name, its Agency Reviewer, its Review Period, its newest document).
+// element (its name, its Agency Reviewer, its Review Period, its newest document). A send that came back Revisions
+// Requested, Rejected or Comments Only carries Revise and Resubmit (2026-10-29): the dialog again, prefilled from that
+// send and marked as superseding it; a resubmittal reads "Round 2 of Review", and the one it replaced "Superseded by".
 //
 // Records attach to Live (decision 5): in a draft the list reads the same and nothing edits. The runtime is
 // ./element-transmittals.ts, on the contract in ./element-module.ts; the dialog is BcnTransmittalDialog.
@@ -40,6 +42,7 @@ import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
         <span class="bcn-tm__acts" data-tm-acts hidden>
           <span data-tm-act="edit"><EsaButton variant="ghost" size="xs" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></span>
           <span data-tm-act="send"><EsaButton variant="ghost" appearance="outline" size="xs" icon="send" data-fill-icon="send">Send</EsaButton></span>
+          <span data-tm-act="resubmit" hidden><EsaButton variant="ghost" appearance="outline" size="xs" icon="rotate-ccw" data-fill-icon="rotate-ccw">Revise and Resubmit</EsaButton></span>
           <span data-tm-act="delete"><esa-tooltip text="Delete Transmittal" position="below" align="end"><EsaButton variant="ghost" size="xs" iconOnly icon="trash-2" label="Delete Transmittal" /></esa-tooltip></span>
         </span>
       </li>

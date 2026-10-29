@@ -12,7 +12,16 @@ import { addGuests, ensureSeeded, getRepo, latestVersion, flattenPlan, membersOf
 import { currentUserName } from '../../lib/planning/plan-server';
 import { ELEMENT_HREF, PLAN_VIEW_HREF, TRANSMITTAL_HREF } from '../../lib/planning/element-context';
 import {
+  ACCEPTS,
+  canResubmit,
   closeTransmittal,
+  RESPONSE_OUTCOMES,
+  resubmittalDraftOf,
+  reviewChain,
+  reviewRound,
+  supersededByOf,
+  supersedesOf,
+  type ResponseOutcome,
   confirmCcReceipt,
   confirmReceipt,
   deleteDraftTransmittal,
@@ -41,7 +50,7 @@ import { fillIcons } from '../../lib/planning/icons';
 import { planAvatar } from './plan-people';
 import { badge, type BadgeVariant } from './badge-bank';
 import { day, dayTime, esc } from './element-module';
-import { TRANSMITTAL_STATUS_VARIANT } from './element-transmittals';
+import { OUTCOME_VARIANT, TRANSMITTAL_STATUS_VARIANT } from './element-transmittals';
 import { agencyFor, docPicker, fileUpload, names, purposePhrase, revisionText, sendMessage, sendProblems, setupTransmittalDialog, withOrg } from './transmittal-dialog';
 
 type DialogEl = HTMLElement & { open: boolean; heading: string };
@@ -105,6 +114,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
   const me = currentUserName();
   const fileTpl = q<HTMLTemplateElement>('template[data-trp-tpl="file"]');
   const personTpl = q<HTMLTemplateElement>('template[data-trp-tpl="person"]');
+  const roundTpl = q<HTMLTemplateElement>('template[data-trp-tpl="round"]');
   const pageAct = (name: string) => document.querySelector<HTMLElement>(`[data-trp-page-act="${name}"]`);
   const h1 = document.querySelector('.page-layout__title h1');
   const titleText = h1 && [...h1.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
@@ -213,9 +223,18 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
             ? ` <span data-tone="danger">Response was due ${day(x.responseDue)}.</span>`
             : ` Response due ${day(x.responseDue)}.`
           : '';
+    // Its place in the review chain, linked both ways.
+    const link = (y: Transmittal) => `<a href="${esc(TRANSMITTAL_HREF(planID, y.id))}">${esc(transmittalNumber(y))}</a>`;
+    const prev = supersedesOf(r, x);
+    const next = supersededByOf(r, x);
+    const started = resubmittalDraftOf(r, x);
+    const chain = [
+      prev ? ` Supersedes ${link(prev)}; round ${reviewRound(r, x)} of review.` : '',
+      next ? ` Superseded by ${link(next)}, sent ${day(next.sentAt)}.` : started ? ` Its resubmittal, ${link(started)}, is not sent yet.` : '',
+    ].join('');
     line.innerHTML = draft
-      ? `Draft by ${from}, started ${day(x.createdAt)}, for ${esc(elementName)}. Nothing has gone out yet.`
-      : `From ${from}, sent ${dayTime(x.sentAt)}.${response}`;
+      ? `Draft by ${from}, started ${day(x.createdAt)}, for ${esc(elementName)}. Nothing has gone out yet.${chain}`
+      : `From ${from}, sent ${dayTime(x.sentAt)}.${next ? '' : response}${chain}`;
     line.hidden = false;
 
     // What was sent.
@@ -241,6 +260,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     const by = q('[data-trp-response-by]');
     const respFiles = q('[data-trp-response-files]');
     const respNote = q('[data-trp-response-note]');
+    const outcomeSlot = q('[data-trp-response-outcome]');
+    outcomeSlot.replaceChildren(...(x.response?.outcome ? [badge(x.response.outcome, OUTCOME_VARIANT[x.response.outcome] ?? 'neutral', 'sm')] : []));
     if (x.response) {
       said.textContent = x.response.note;
       const f = fileById(r, x.response.fileId);
@@ -250,7 +271,7 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
         : `Recorded by ${x.response.by}, ${dayTime(x.response.at)}.`;
       const late = responseDaysLate(x);
       const dueWords = x.responseDue ? (late ? `<span data-tone="warning">Was due ${day(x.responseDue)}; it came back ${late} ${late === 1 ? 'day' : 'days'} late.</span>` : `Due ${day(x.responseDue)}.`) : '';
-      respNote.innerHTML = x.closedAt ? `Closed ${day(x.closedAt)}.${dueWords && late ? ` ${dueWords}` : ''}` : dueWords;
+      respNote.innerHTML = x.supersededBy ? `Superseded ${day(x.closedAt)}.` : x.closedAt ? `Closed ${day(x.closedAt)}.${dueWords && late ? ` ${dueWords}` : ''}` : dueWords;
     } else {
       said.textContent = '';
       respFiles.replaceChildren();
@@ -259,6 +280,14 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     }
     const live = !draft && !x.closedAt && canRecord;
     q('[data-trp-act="respond"]').hidden = !(live && !x.response);
+    // Short of acceptance: Revise and Resubmit (or back to the resubmittal already started). Accepted: complete it.
+    const resubmitAct = q('[data-trp-act="resubmit"]');
+    resubmitAct.hidden = !(canRecord && canResubmit(x));
+    const resubLabel = resubmitAct.querySelector('.esa-button__label');
+    if (resubLabel) resubLabel.textContent = started ? `Open ${transmittalNumber(started)} Draft` : 'Revise and Resubmit';
+    const completeAct = q('[data-trp-act="complete"]');
+    completeAct.hidden = !(canRecord && !draft && ACCEPTS.has(x.response?.outcome ?? '') && !r.completions[x.elementId] && !x.supersededBy);
+    completeAct.querySelector('a')!.href = `${ELEMENT_HREF(planID, x.elementId)}&complete=1`;
     // Closing ends it: once it's answered, or when nothing is owed back and everyone has it.
     q('[data-trp-act="close"]').hidden = !(live && (!!x.response || (!x.responseDue && status === 'Received')));
 
@@ -279,11 +308,46 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     q('[data-trp-mail-hint]').textContent = draft
       ? 'Each recipient gets this email when it is sent.'
       : 'Each recipient got this email. Receipt counts only when a To recipient signs in and presses Confirm Receipt; opening it doesn’t.';
+    drawRounds(x, r);
     const notesCard = q('[data-trp-notes-card]');
     notesCard.hidden = !x.notes;
     q('[data-trp-notes]').textContent = x.notes ?? '';
 
     q('[data-trp-sender]').hidden = false;
+  }
+
+  /** Review Rounds: every send in the chain, once there is more than one (or a resubmittal is started). */
+  function drawRounds(x: Transmittal, r: PlanRecords): void {
+    const chain = reviewChain(r, x);
+    const started = resubmittalDraftOf(r, chain.at(-1)!);
+    const all = started ? [...chain, started] : chain;
+    q('[data-trp-rounds-card]').hidden = all.length < 2;
+    if (all.length < 2) return;
+    const settled = chain.at(-1)!.response?.outcome;
+    q('[data-trp-rounds-note]').textContent = `${chain.length} ${chain.length === 1 ? 'Round' : 'Rounds'} So Far${ACCEPTS.has(settled ?? '') ? `, ${settled}` : ''}`;
+    q('[data-trp-rounds]').replaceChildren(
+      ...all.map((y, i) => {
+        const li = roundTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        li.querySelector('[data-round-n]')!.textContent = y.sentAt ? `Round ${i + 1}` : 'Next';
+        const a = li.querySelector<HTMLAnchorElement>('[data-round-link]')!;
+        a.textContent = `${transmittalNumber(y)} ${y.subject}`;
+        if (y.id === x.id) {
+          li.setAttribute('aria-current', 'true');
+          a.removeAttribute('href');
+        } else a.href = TRANSMITTAL_HREF(planID, y.id);
+        const o = y.response?.outcome;
+        li.querySelector('[data-round-detail]')!.textContent = !y.sentAt
+          ? 'Not sent yet'
+          : y.response
+            ? `Sent ${day(y.sentAt)}. ${o && o !== 'Comments Only' ? o : 'Responded'} ${day(respondedOn(y))}`
+            : `Sent ${day(y.sentAt)}. ${y.responseDue ? `Response due ${day(y.responseDue)}` : 'No response date'}`;
+        const status = transmittalStatus(y);
+        li.querySelector('[data-round-badge]')!.replaceWith(
+          o ? badge(o, OUTCOME_VARIANT[o] ?? 'neutral', 'sm') : badge(status === 'Draft' ? 'Not Sent' : status === 'Sent' || status === 'Received' ? 'Under Review' : status, status === 'Draft' ? 'neutral' : TRANSMITTAL_STATUS_VARIANT[status], 'sm')
+        );
+        return li;
+      })
+    );
   }
 
   function drawRecipient(x: Transmittal, r: PlanRecords, planName: string): void {
@@ -293,6 +357,34 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     q('[data-trp-from-name]').textContent = x.from;
     q('[data-trp-from-org]').textContent = [orgOf(x.from), planName].filter(Boolean).join(', ');
     q('[data-trp-lede]').textContent = `${x.from} sent you “${x.subject}” ${purposePhrase(x.purpose) || 'for review'} on ${day(x.sentAt)}.`;
+    // Replaced by a resubmittal: say so first, and point to the one to review (when it was sent to them too).
+    const next = supersededByOf(r, x);
+    const nextMine = !!next && (next.to.includes(me) || next.cc.includes(me));
+    q('[data-trp-mine-superseded]').hidden = !next;
+    if (next) {
+      const text = q('[data-trp-mine-superseded-text]');
+      text.textContent = `${x.from} sent a revised version on ${day(next.sentAt)}, ${transmittalNumber(next)}, which replaces this one. `;
+      if (nextMine) {
+        const a = document.createElement('a');
+        a.href = TRANSMITTAL_HREF(planID, next.id);
+        a.textContent = `Open ${transmittalNumber(next)}`;
+        text.append(a);
+      } else text.append('Nothing more is owed on this one.');
+    }
+    const prev = supersedesOf(r, x);
+    q('[data-trp-mine-replaces]').hidden = !prev;
+    if (prev) {
+      const prevMine = prev.to.includes(me) || prev.cc.includes(me);
+      const text = q('[data-trp-mine-replaces-text]');
+      const outcome = prev.response?.outcome;
+      text.textContent = `This revised version replaces ${transmittalNumber(prev)}${outcome && outcome !== 'Comments Only' ? `, which came back ${outcome}` : ''}${prev.response ? ` on ${day(respondedOn(prev))}` : ''}. Round ${reviewRound(r, x)} of review. `;
+      if (prevMine) {
+        const a = document.createElement('a');
+        a.href = TRANSMITTAL_HREF(planID, prev.id);
+        a.textContent = `Open ${transmittalNumber(prev)}`;
+        text.append(a);
+      }
+    }
     const files = fileRows(x, r);
     const encl = x.enclosures.length;
     q('[data-trp-mine-files-title]').textContent = [x.memoFileId ? 'Memo' : '', encl ? plural(encl, 'Enclosure') : ''].filter(Boolean).join(' and ') || 'What Was Sent';
@@ -310,13 +402,14 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     };
     // Receipt, until they've confirmed (or someone recorded it for them); then only what's still ahead.
     if (isTo && x.ackDue && !mine.confirmedAt) li(receiptOverdue(x, me) ? `Receipt was due ${day(x.ackDue)}; please confirm now` : `Confirm receipt by ${day(x.ackDue)}`, receiptOverdue(x, me) ? 'warning' : undefined);
-    if (isTo) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
+    if (isTo && !next) li(x.responseDue ? `Response due ${day(x.responseDue)}` : 'No response date was set');
     // How to answer it (a reviewer asked): to the sender, who records it here.
     // With the sender's address as text, to copy (2026-10-29, the second traps audit: no way to reach them was given).
     if (isTo && !x.response && !x.closedAt) li(`To respond, reply to the transmittal email or write to ${x.from}${orgOf(x.from) ? ` (${orgOf(x.from)})` : ''} at ${emailOf(x.from)}; they record it on this transmittal`);
     else if (isTo && x.response) li('Your response is recorded on this transmittal');
     else if (!isTo) li('You’re copied: no receipt or response is owed');
-    if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
+    if (next) li(`Superseded by ${transmittalNumber(next)} ${day(next.sentAt)}`);
+    else if (x.closedAt) li(`Closed by the sender ${day(x.closedAt)}`);
     q('[data-trp-dates]').replaceChildren(...dates);
 
     // One button. Recorded on their behalf still offers it: their own confirmation replaces the sender's note.
@@ -466,6 +559,8 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
   // ── Record Response ──
   const responseDialog = q<DialogEl>('[data-trp-response-dialog]');
   const responseText = q<FieldEl>('[data-trp-response-text]');
+  const responseOutcome = q<SelectEl>('[data-trp-outcome-select]');
+  responseOutcome.addEventListener('change', () => (responseOutcome.errorText = ''));
   const responsePick = docPicker(q<SelectEl>('[data-trp-response-pick]'), q('[data-trp-response-upload]'), 'None');
   // The day it came back (2026-10-29, the agency-side pass): a letter or an email recorded days later keeps its own
   // date, so a response that arrived on time doesn't read late, and one that arrived late says so.
@@ -481,6 +576,10 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     q('[data-trp-response-lede]').textContent = `What came back from ${names([...new Set(t.to.map((n) => orgOf(n) || n))])}: comments, a letter, an acceptance. Receipt is separate and stays as it is.`;
     responseText.value = '';
     responseText.errorText = '';
+    responseOutcome.options = RESPONSE_OUTCOMES.map((o) => ({ value: o, label: o }));
+    // A draft out for comment usually comes back with comments; anything else asks.
+    responseOutcome.value = /comment|information/i.test(t.purpose) ? 'Comments Only' : '';
+    responseOutcome.errorText = '';
     responsePick.fill(elementFiles());
     responseDialog.open = true;
     requestAnimationFrame(() => responseText.focus());
@@ -490,14 +589,28 @@ export async function setupTransmittalPage(root: HTMLElement): Promise<void> {
     if (!t) return;
     const text = (responseText.value ?? '').trim();
     responseText.errorText = text ? '' : 'Say what came back, in a line.';
+    const outcome = String(responseOutcome.value ?? '') as ResponseOutcome | '';
+    responseOutcome.errorText = outcome ? '' : 'Choose what they decided.';
     const on = responseOn.value ?? '';
     responseOn.errorText = !on ? 'Give the day it came back.' : on > todayIso() ? 'It can’t come back after today.' : responseOn.min && on < responseOn.min ? `It went out ${day(responseOn.min)}; it can’t come back before that.` : '';
-    if (!text || responseOn.errorText) return;
+    if (!text || !outcome || responseOn.errorText) return;
     const pick = responsePick.value();
     const fileId = pick.upload ? fileUpload(planID, t.elementId, pick.upload, { note: `Response to ${num()}`, direction: 'Received', agency: agencyFor(planID, t.elementId, t.to) }) : pick.fileId;
-    recordResponse(planID, t.id, text, fileId, on);
+    recordResponse(planID, t.id, text, fileId, on, outcome);
     responseDialog.open = false;
-    pushAlert(`Response to ${num()} recorded.`, 'success');
+    const next = outcome === 'Revisions Requested' || outcome === 'Rejected' ? ' The deliverable stays open; Revise and Resubmit sends the revised version.' : ACCEPTS.has(outcome) ? ' Record Completion closes out the deliverable.' : '';
+    pushAlert(`Response to ${num()} recorded: ${outcome}.${next}`, 'success', 6000);
+  });
+
+  // ── Revise and Resubmit: a new transmittal superseding this one (or the one already started) ──
+  q('[data-trp-act="resubmit"]').addEventListener('click', async () => {
+    if (!t) return;
+    const started = resubmittalDraftOf(recordsFor(planID), t);
+    const result = await editDialog.open(started ? { planID, elementId: t.elementId, transmittalId: started.id } : { planID, elementId: t.elementId, resubmitOf: t.id });
+    if (!result) return;
+    const made = recordsFor(planID).transmittals.find((y) => y.id === result.id);
+    if (result.kind === 'sent') location.assign(`${TRANSMITTAL_HREF(planID, result.id)}&sent=1`);
+    else pushAlert(`${made ? transmittalNumber(made) : 'The resubmittal'} saved as a draft.`, 'success');
   });
 
   // ── Close ──
