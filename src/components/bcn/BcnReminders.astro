@@ -40,29 +40,35 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 
 <style>
   .bcn-rem[hidden] { display: none; }
-  .bcn-rem__head { display: flex; align-items: center; gap: var(--spacing-300); }
-  .bcn-rem__glyph { display: inline-flex; color: var(--color-content-brand); }
-  .bcn-rem__titles { display: flex; flex-direction: column; gap: var(--spacing-050); }
-  .bcn-rem__title-row { display: inline-flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-rem__title-row h2 { margin: 0; }
+  /* The header is Sent to You's (BcnTransmittalInbox), its sibling on the page (2026-10-29, Andy: the title and count
+     sat off-line, the note too far below, the clock floating between them): the glyph on the title's line, the title
+     and count on one centered row, the note tight under it. */
+  .bcn-rem__head { display: flex; align-items: flex-start; gap: var(--spacing-200); min-width: 0; }
+  .bcn-rem__glyph { display: inline-flex; padding-block-start: 2px; color: var(--color-content-default-secondary); }
+  .bcn-rem__titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .bcn-rem__title-row { display: flex; align-items: center; gap: var(--spacing-150); }
+  .bcn-rem__title-row h2 { margin: 0; color: var(--color-content-default); }
   .bcn-rem__note { color: var(--color-content-default-secondary); }
-  .bcn-rem__row {
+  /* The rows are drawn by the script, so their grid is global under the register (scoped, it never reached them and
+     each row stacked). Columns aligned down the list, a hairline between, as Sent to You's. */
+  .bcn-rem__grid :global(.bcn-rem__row) {
     display: grid;
-    grid-template-columns: minmax(0, 2.4fr) minmax(7rem, 0.8fr) minmax(12rem, 1.2fr) minmax(7rem, 0.6fr);
+    grid-template-columns: minmax(0, 2.4fr) minmax(7rem, 0.9fr) minmax(12rem, 1.3fr) minmax(7rem, 0.6fr);
     gap: var(--spacing-300);
     align-items: center;
-    padding: var(--spacing-200) 0;
+    padding: var(--spacing-200);
     border-top: 1px solid var(--color-border-default);
   }
-  .bcn-rem__row--head { border-top: 0; color: var(--color-content-default-secondary); }
+  .bcn-rem__grid :global(.bcn-rem__row--head) { padding-block: 0 var(--spacing-200); border-top: 0; border-bottom: 1px solid var(--color-border-default); color: var(--color-content-default-secondary); }
+  .bcn-rem__grid :global(.bcn-rem__row--head + [data-rem-rows] > .bcn-rem__row:first-child) { border-top: 0; }
   .bcn-rem__grid :global(.bcn-rem__item) { display: flex; flex-direction: column; min-width: 0; }
   .bcn-rem__grid :global(.bcn-rem__item a) { color: var(--color-content-brand); font-weight: var(--typography-font-weight-semibold); text-decoration: none; }
   .bcn-rem__grid :global(.bcn-rem__item a:hover) { text-decoration: underline; }
   .bcn-rem__grid :global(.bcn-rem__muted) { color: var(--color-content-default-secondary); font-size: var(--typography-body-sm-font-size); }
   .bcn-rem__grid :global(.bcn-rem__sent) { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
   @media (max-width: 760px) {
-    .bcn-rem__row { grid-template-columns: minmax(0, 1fr) auto; }
-    .bcn-rem__row--head { display: none; }
+    .bcn-rem__grid :global(.bcn-rem__row) { grid-template-columns: minmax(0, 1fr) auto; }
+    .bcn-rem__grid :global(.bcn-rem__row--head) { display: none; }
   }
 </style>
 
