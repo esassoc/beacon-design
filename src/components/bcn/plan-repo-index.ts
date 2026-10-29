@@ -16,7 +16,19 @@ type FieldEl = HTMLElement & { value: string };
 const FILTERS = [
   { label: 'All', value: 'all' },
   { label: 'Has Drafts', value: 'drafts' },
+  { label: 'Needs You', value: 'you' },
 ];
+
+/** What a plan waits on you for (2026-10-29, the traps audit: Ask to Publish had no loop): drafts asked to publish,
+ *  if you can publish; your own draft, sent back. Each opens that draft. */
+function waitingOn(repo: PlanSummary['repo'], me: string): { asked: PlanSummary['repo']['drafts']; back: PlanSummary['repo']['drafts'] } {
+  const role = membersOf(repo).find((m) => m.name === me)?.role;
+  const publishes = role === 'Owner' || role === 'Editor';
+  return {
+    asked: publishes ? repo.drafts.filter((d) => d.publishRequestedAt && d.owner !== me && !d.transient) : [],
+    back: repo.drafts.filter((d) => d.owner === me && d.sentBack),
+  };
+}
 
 export const PLAN_HREF = (planID: string, extra = '') => withBase(`/prototypes/plans-repo/plan/?id=${encodeURIComponent(planID)}${extra}`);
 /** A plan's revisions: its page with the Revisions modal open (2026-10-29: the old /revisions/ page is retired). */
@@ -127,6 +139,10 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
     const shown = summaries.filter((s) => {
       if (text && !`${s.name} ${s.description}`.toLowerCase().includes(text)) return false;
       if (mode === 'drafts' && !s.repo.drafts.length) return false;
+      if (mode === 'you') {
+        const w = waitingOn(s.repo, me);
+        if (!w.asked.length && !w.back.length) return false;
+      }
       return true;
     });
     countEl.textContent = count(shown.length, 'Plan', 'Plans');
@@ -180,6 +196,15 @@ export async function setupPlanRepoIndex(root: HTMLElement): Promise<{ newPlan()
       drafts.hidden = false;
       drafts.href = href;
       r<HTMLElement>('[data-pri-drafts-text]').textContent = count(s.repo.drafts.length, 'Draft', 'Drafts');
+    }
+    const wait = waitingOn(s.repo, me);
+    const first = wait.asked[0] ?? wait.back[0];
+    if (first) {
+      const link = r<HTMLAnchorElement>('[data-pri-waiting]');
+      link.hidden = false;
+      link.href = PLAN_HREF(s.repo.planID, `&draft=${first.id}`);
+      const parts = [wait.asked.length ? count(wait.asked.length, 'Publish Request', 'Publish Requests') : '', wait.back.length ? 'Your Draft Sent Back' : ''].filter(Boolean);
+      r<HTMLElement>('[data-pri-waiting-text]').textContent = parts.join(', ');
     }
     const history = r<HTMLAnchorElement>('[data-pri-history]');
     history.href = REVISIONS_HREF(s.repo.planID);

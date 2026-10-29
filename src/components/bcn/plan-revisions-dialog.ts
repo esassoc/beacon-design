@@ -33,6 +33,7 @@ import {
   planCompare,
   planSpan,
   publishDraft,
+  sendBack,
   restoreVersion,
   shiftText,
   shortDate,
@@ -499,6 +500,13 @@ export function setupPlanRevisionsDialog(opts: {
     }
     restore.hidden = true;
     const may = opts.canPublish && (draft.owner === me || !!draft.publishRequestedAt);
+    // Someone else asked: Publish, or Send Back with a note.
+    q<HTMLElement>('[data-prvd-back]').hidden = !(opts.canPublish && draft.owner !== me && !!draft.publishRequestedAt && !draft.transient);
+    if (backing) {
+      publish.hidden = true;
+      q<HTMLElement>('[data-prvd-back-note]').hidden = false;
+      return;
+    }
     publish.hidden = !may;
     if (!may) {
       note.hidden = false;
@@ -519,7 +527,10 @@ export function setupPlanRevisionsDialog(opts: {
   }
 
   // ── Footer actions ──
-  q<HTMLElement>('[data-prvd-close]').addEventListener('click', () => (dialog.open = false));
+  q<HTMLElement>('[data-prvd-close]').addEventListener('click', () => {
+    if (backing) return void (setBacking(false), compute());
+    dialog.open = false;
+  });
   q<HTMLElement>('[data-prvd-restore]').addEventListener('click', async () => {
     const btn = q<HTMLElement>('[data-prvd-restore] button') as HTMLButtonElement;
     if (btn.disabled || draft || !opts.canPublish) return;
@@ -540,6 +551,31 @@ export function setupPlanRevisionsDialog(opts: {
     setButtonDisabled(btn, false);
     dialog.open = false;
     await opts.onLanded();
+  });
+  // Send Back: the first click asks what to change (Publish steps aside); the second sends it.
+  let backing = false;
+  const setBacking = (on: boolean) => {
+    backing = on;
+    q<HTMLElement>('[data-prvd-back-label]').textContent = on && draft ? `Send Back to ${firstName(draft.owner)}` : 'Send Back';
+    q<HTMLElement>('[data-prvd-back-note]').hidden = !on;
+    q<HTMLElement>('[data-prvd-close-label]').textContent = on ? 'Cancel' : draft?.transient ? 'Back to Edit' : 'Close';
+  };
+  q<HTMLElement>('[data-prvd-back]').addEventListener('click', async () => {
+    if (!draft) return;
+    const field = q<HTMLElement & { value: string; focus(): void }>('[data-prvd-back-note]');
+    if (!backing) {
+      setBacking(true);
+      void compute();
+      requestAnimationFrame(() => field.focus());
+      return;
+    }
+    const note = (field.value ?? '').trim();
+    const d = draft;
+    sendBack(opts.planID, d.id, me, note);
+    setBacking(false);
+    dialog.open = false;
+    await opts.onLanded();
+    pushAlert(`Sent back to ${firstName(d.owner)}. They see your note when they open their draft.`, 'success', 7000);
   });
   q<HTMLElement>('[data-prvd-publish]').addEventListener('click', async () => {
     const btn = q<HTMLElement>('[data-prvd-publish] button') as HTMLButtonElement;
@@ -626,6 +662,8 @@ export function setupPlanRevisionsDialog(opts: {
       }
       const nameField = q<HTMLElement & { value: string }>('[data-prvd-name]');
       nameField.value = '';
+      q<HTMLElement & { value: string }>('[data-prvd-back-note]').value = '';
+      setBacking(false);
       const name = live.PlanName ?? 'Plan';
       // One edit under review (the element page's Edit): no revisions to step through, so no slider.
       dialog.toggleAttribute('data-single', !!d?.transient);

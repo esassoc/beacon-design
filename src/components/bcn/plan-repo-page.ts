@@ -1171,6 +1171,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const reviewBtn = q<HTMLElement>('[data-prp-review] button');
     setButtonDisabled(reviewBtn as HTMLButtonElement | null, !draft?.revisions.length);
     setButtonDisabled(q<HTMLElement>('[data-prp-ask] button') as HTMLButtonElement | null, !draft?.revisions.length);
+    // Sent back: whose word, and what to change, on the owner's draft until they ask again.
+    const back = mode === 'own' ? draft?.sentBack : undefined;
+    q<HTMLElement>('[data-prp-sentback]').hidden = !back;
+    if (back) {
+      const when = new Date(back.at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      q<HTMLElement>('[data-prp-sentback-text]').textContent = `${back.by} sent this draft back on ${when}${back.note ? `: “${back.note}”` : '.'} ${canPublish ? 'Make the changes, then Review and Publish.' : 'Make the changes, then Ask to Publish again.'}`;
+    }
     drawBranches();
     if (editStyle === 'tabs') q<HTMLElement>('[data-prp-edit]').hidden = true;
   }

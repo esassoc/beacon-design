@@ -125,6 +125,9 @@ export interface PlanRepoDraft {
   revisions: PlanRevision[];
   /** When its owner, who can't publish, asked someone who can (the draft study, 2026-10-27: "Ask to publish"). */
   publishRequestedAt?: string;
+  /** Sent back by someone who can publish, with what to change (2026-10-29, the traps audit: Ask to Publish had no way
+   *  back). Cleared by the next Ask to Publish. */
+  sentBack?: { by: string; at: string; note: string };
   /** An element page's Edit, under review (2026-10-28, Andy: "a form modal ... and then a republish review"): one
    *  edit to one item, published or thrown away when its review closes. Not the person's draft. */
   transient?: boolean;
@@ -1281,6 +1284,17 @@ export function requestPublish(planID: string, draftID: string): void {
   const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
   if (!draft) return;
   draft.publishRequestedAt = new Date().toISOString();
+  delete draft.sentBack;
+  save(store);
+}
+
+/** The other answer to Ask to Publish: not yet, with a note. The request closes; the draft stays its owner's. */
+export function sendBack(planID: string, draftID: string, by: string, note: string): void {
+  const store = load();
+  const draft = findRepo(store, planID).drafts.find((d) => d.id === draftID);
+  if (!draft) return;
+  delete draft.publishRequestedAt;
+  draft.sentBack = { by, at: new Date().toISOString(), note };
   save(store);
 }
 
