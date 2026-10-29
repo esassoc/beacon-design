@@ -200,7 +200,7 @@ function shapeDiff(a: PlanDetailDto, b: PlanDetailDto): ShapeDiff[] {
 }
 
 const day = (iso: string | null) =>
-  iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Unscheduled';
+  iso ? new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Not Scheduled';
 
 export function setupPlanRevisionsDialog(opts: {
   planID: string;

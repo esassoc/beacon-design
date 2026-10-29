@@ -422,13 +422,13 @@ function validateElement(plan: StoredPlan, dto: PlanElementUpdateDto, parent: St
   const depth = dto.LevelDepth ?? 0;
   if (!plan.Levels.some((l) => l.Depth === depth)) badRequest('LevelDepth', `This plan has no level at depth ${depth}.`);
   if (parent?.IsMilestone) badRequest('ParentPlanElementID', 'A milestone cannot have child elements.');
-  if (parent && depth <= parent.LevelDepth) badRequest('LevelDepth', `Level ${depth} is not below this parent's level; an element sits at a deeper level than its parent.`);
+  if (parent && depth <= parent.LevelDepth) badRequest('LevelDepth', `Level ${depth} is not below this parent's level; an item sits at a deeper level than its parent.`);
   const children = element ? plan.Elements.filter((e) => e.ParentPlanElementID === element.PlanElementID) : [];
   if (children.length) {
     const minChild = Math.min(...children.map((c) => c.LevelDepth));
     if (depth >= minChild)
-      badRequest('LevelDepth', `Level ${depth} is not above this element's children; it must be shallower than every child's level (the shallowest child is at level ${minChild}).`);
-    if (dto.IsMilestone) badRequest('IsMilestone', 'An element with child elements cannot be a milestone.');
+      badRequest('LevelDepth', `Level ${depth} is not above this item's children; it must be shallower than every child's level (the shallowest child is at level ${minChild}).`);
+    if (dto.IsMilestone) badRequest('IsMilestone', 'An item with items under it can’t be a milestone.');
   }
   if (!!dto.StartDate !== !!dto.EndDate) badRequest('', dto.IsMilestone ? 'A milestone needs a start and end date on the same day.' : 'Give both a start and an end date, or neither.');
   if (dto.IsMilestone && (!dto.StartDate || dto.StartDate !== dto.EndDate)) badRequest('', 'A milestone needs a start and end date on the same day.');
@@ -913,9 +913,9 @@ export const planApi = {
       write(planID, token, programsOf(dto.PredecessorPlanElementID!, dto.SuccessorPlanElementID!), (plan) => {
         const result = toSchedule(plan).ValidateNewLink(dto.PredecessorPlanElementID!, dto.SuccessorPlanElementID!);
         const messages: Record<string, string> = {
-          [PlanLinkValidationResult.SelfLink]: 'An element cannot depend on itself.',
-          [PlanLinkValidationResult.Duplicate]: 'These two elements are already linked in this direction.',
-          [PlanLinkValidationResult.AncestorDescendantLink]: 'An element cannot be linked to its own parent, child, or any element above or below it in the same branch.',
+          [PlanLinkValidationResult.SelfLink]: 'An item can’t depend on itself.',
+          [PlanLinkValidationResult.Duplicate]: 'These two items are already linked this way.',
+          [PlanLinkValidationResult.AncestorDescendantLink]: 'An item can’t be linked to its own parent or children, or anything above or below it in the same branch.',
           [PlanLinkValidationResult.CreatesCycle]: 'This dependency would create a cycle: the predecessor already depends, directly or indirectly, on the successor.',
           [PlanLinkValidationResult.CreatesCycleThroughParent]:
             "This dependency would make an impossible schedule through a parent: something in the successor's branch already waits on the predecessor.",
@@ -1040,7 +1040,7 @@ export const planApi = {
         const deepest = Math.max(...plan.Levels.map((l) => l.Depth));
         if (plan.Levels.length <= 1) badRequest('', 'A plan needs at least one level.');
         if (depth !== deepest) badRequest('', 'Only the deepest level can be removed.');
-        if (plan.Elements.some((e) => e.LevelDepth === depth)) badRequest('', 'Elements use this level. Delete or move them first.');
+        if (plan.Elements.some((e) => e.LevelDepth === depth)) badRequest('', 'Items use this level. Delete or move them first.');
         plan.Levels = plan.Levels.filter((l) => l.Depth !== depth);
       })
     ),

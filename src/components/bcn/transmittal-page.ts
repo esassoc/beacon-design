@@ -64,7 +64,8 @@ export interface ReceiptState {
 export function receiptState(t: Transmittal, name: string): ReceiptState {
   const r = t.receipts[name] ?? {};
   const isTo = t.to.includes(name);
-  const reminded = r.remindedAt ? `Reminded ${day(r.remindedAt)}` : '';
+  // Whose reminder, said once each: Beacon's automatic one, then the sender's own.
+  const reminded = r.remindedAt ? `${t.from.split(" ")[0]} reminded them ${day(r.remindedAt)}` : '';
   if (!t.sentAt) return { label: 'Not Sent', variant: 'neutral', detail: '', confirmed: false };
   if (r.confirmedAt && r.recordedBy) return { label: `Recorded by ${r.recordedBy}`, variant: 'info', detail: dayTime(r.confirmedAt), confirmed: true };
   if (r.confirmedAt) return { label: 'Confirmed', variant: 'success', detail: dayTime(r.confirmedAt), confirmed: true };

@@ -69,11 +69,23 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   // A year in a new plan's name ("Delta Smelt Monitoring 2027") fills an untouched window with that year.
   let windowTouched = false;
   for (const f of [startField, endField]) f.addEventListener('change', () => (windowTouched = true));
+  // A range reads as one too (2026-10-29): "2027–2031" or "2027-31" spans those years; "FY 2027–28" is California's
+  // fiscal year, July to June.
   name.addEventListener('input', () => {
-    const year = /\b(20\d{2})\b/.exec(String(name.value ?? ''))?.[1];
-    if (windowTouched || !year) return;
-    startField.value = `${year}-01-01`;
-    endField.value = `${year}-12-31`;
+    if (windowTouched) return;
+    const text = String(name.value ?? '');
+    const m = /\b(FY\s*)?(20\d{2})(?:\s*[-–]\s*(20\d{2}|\d{2}))?\b/i.exec(text);
+    if (!m) return;
+    const from = Number(m[2]);
+    const to = m[3] ? (m[3].length === 2 ? Math.floor(from / 100) * 100 + Number(m[3]) : Number(m[3])) : from;
+    if (to < from) return;
+    if (m[1]) {
+      startField.value = `${from}-07-01`;
+      endField.value = `${m[3] ? to : from + 1}-06-30`;
+    } else {
+      startField.value = `${from}-01-01`;
+      endField.value = `${to}-12-31`;
+    }
   });
   const levelRows = q<HTMLElement>('[data-psu-levels]');
   const peopleList = q<HTMLElement>('[data-psu-people]');

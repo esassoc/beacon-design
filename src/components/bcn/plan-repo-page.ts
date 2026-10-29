@@ -174,6 +174,11 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   let repo: PlanRepo = getRepo(planID);
   let live: PlanDetailDto = await planApi.getPlan(planID);
   let draft: PlanRepoDraft | null = repo.drafts.find((d) => d.id === params.get('draft')) ?? null;
+  // A link to a draft that's gone (published or discarded since; 2026-10-29, the traps audit): say so, then show Live.
+  if (params.get('draft') && !draft) {
+    history.replaceState(null, '', keep(PLAN_HREF(planID)));
+    queueMicrotask(() => pushAlert('That draft is closed: it was published or discarded. This is the Live plan.', 'info', 7000));
+  }
   let mode: Mode = !draft ? 'live' : draft.owner === me ? 'own' : 'view';
   let shown: PlanDetailDto = draft ? (await draftState(draft)).Plan : live;
   const redo: PlanRevision[] = [];
