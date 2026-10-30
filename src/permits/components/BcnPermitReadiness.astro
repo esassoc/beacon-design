@@ -1,19 +1,19 @@
 ---
-// <BcnPermitReadiness> — "Ready to break ground?", the top section of a Permit
-// Tracker project page. Answers one question: can construction start on the
-// project's target date?
+// <BcnPermitReadiness> — "Ready to break ground?", the top section of a Permits
+// project page. Answers one question: can construction start on the project's target
+// date? (ESA design pass of the Permit Tracker's component of the same name.)
 //
-//   • state badge: All issued / On track / Unconfirmed / At risk
-//   • three figures: permits issued of total (+ esa-progress-bar), expected
-//     all-issued date, construction start
-//   • under the expected date, where it falls against construction start: a warning
-//     icon and danger ink when it's after (issuance lags the planned start), a check
-//     and success ink when it's before
-//   • counts by backbone category (CATEGORY_META labels + tones) and the derived
-//     flags (waiting on another permit, expiring soon, expired)
-//   • risk lines: permits past their typical review time, permits that can't be
-//     forecast yet, and permits whose expiry falls before construction start
-//     (listed by name, linked to the permit)
+// VERDICT FIRST. The card opens on the answer, not on figures:
+//   • a toned band (state badge + one sentence from readinessView().verdict) that names
+//     the dates the state is judged on, so the badge is never the only carrier of why
+//   • three figures under it: the permit mix (BcnPermitMix: issued / in agency review /
+//     preparing / not started, replacing the single issued meter and the separate
+//     category count line), expected all-issued with its distance from construction
+//     start, and construction start
+//   • Sites: the same per-site table (Project-wide row, then each site), unchanged
+//   • "Keep an eye on": every risk and derived flag as one list with a mark per line
+//     (past typical review time, not yet submitted, can't be forecast, waiting on
+//     another permit, expiring, expiring before construction start, by name)
 //
 // FORECAST + STATE: scheduleOf() in the data module (forecastIssue walks the dependency
 // chain; at risk = expected all-issued after construction start, or a permit expiring
@@ -21,41 +21,29 @@
 // behind TODAY.
 //
 // LIVE CONSTRUCTION START: the build renders with the fixture's construction start; the
-// client re-runs scheduleOf() with the one saved in src/lib/project-store.ts and again on
-// PROJECT_EVENT, so editing the project re-dates the figures, the badge, the
-// before/after line, the expiring-before-start list and the site schedule. Badges and
-// the before/after marks are cloned from SSR'd templates so they stay legos.
+// client re-runs readinessView() with the one saved in src/permits/lib/project-store.ts
+// and again on PROJECT_EVENT, so editing the project re-dates the verdict, the figures,
+// the badge, the expiring-before-start list and the site schedule. Badges and the
+// before/after marks are cloned from SSR'd templates so they stay legos.
 //
-// SITES: the project's one list of sites, a table under the figures. A Project-wide row
-// (the project-wide permits alone), then each site with its location, its own permits
-// plus the project-wide ones (they gate every site): issued of total, the expected
-// all-issued date and its distance from construction start, and the same state rule as
-// the project. Rows follow the saved sites (renamed, added; a new site carries only the
-// project-wide permits). With `editable`, "Add site" heads the table and each site row
-// has an edit button, both opening BcnSiteEditor's drawer.
+// STATUS: the build counts the fixture statusId; the client re-counts the mix through
+// resolveStatus() (the status store the List and Board use) on load and on
+// CHANGE_EVENT, so a card moved on the Board shows here.
 //
-// STATUS: the build counts the fixture statusId (statusColumn()); the client re-counts
-// issued-of-total and the category counts through resolveStatus() (the status store the
-// List and Board use) on load and on CHANGE_EVENT, so a card moved on the Board shows
-// here. The dates (expected all issued, per site) stay the fixture's forecast.
-//
-// bcn-lego-checked: frame is esa-card, figures are esa-stat, the meter is
-// esa-progress-bar, the state is esa-badge, the marks are esa-icon. No esa-* renders a
-// multi-category count line with tone dots (esa-badge/esa-pill are fixed-variant; same
-// gap BcnRollupSummary documents); checked Beacon (no readiness summary in prod).
-// bcn-permit-readiness is the reusable home; only the count line, the before/after line
-// and the risk list are composition here.
+// bcn-lego-checked: frame is esa-card, figures are esa-stat, the state is esa-badge,
+// the marks are esa-icon, the mix is bcn-permit-mix. No esa-* renders a toned verdict
+// band (esa-alert-box is a dismissible notice with its own icon and role, wrong for a
+// standing answer); checked Beacon (no readiness summary in prod). Only the band, the
+// before/after line and the watch list are composition here.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import BcnPermitMix from './BcnPermitMix.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnSiteEditor from './BcnSiteEditor.astro';
 import '@esa/tokens/a11y.css';
 import {
-  CATEGORIES,
-  CATEGORY_META,
   READINESS_BADGE,
   ROUTES,
   TODAY,
@@ -70,36 +58,24 @@ import {
   sitesOf,
   statusColumn,
   type ReadinessState,
-  type StatusCategory,
 } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
-import { readinessView, siteScheduleRows } from './permit-readiness';
+import { readinessView, siteScheduleRows, mixCounts, mixStage } from './permit-readiness';
 
 interface Props {
   projectId: string;
   /** Add site and per-site edit buttons (BcnSiteEditor). */
   editable?: boolean;
+  /** The shared (client) page: permit names are plain text, not links into the app. */
+  readOnly?: boolean;
 }
-const { projectId, editable = false } = Astro.props;
+const { projectId, editable = false, readOnly = false } = Astro.props;
 
 const project = getProject(projectId);
 const permits = permitsOfProject(projectId);
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 // ── counts (independent of construction start) ────────────────────────────────
-const byCategory = new Map<StatusCategory, number>(CATEGORIES.map((c) => [c, 0]));
-for (const p of permits) {
-  const cat = statusColumn(p.statusId, p.typeId).category;
-  byCategory.set(cat, (byCategory.get(cat) ?? 0) + 1);
-}
-const total = permits.length;
-const issued = byCategory.get('Completed') ?? 0;
-const flags = [
-  { n: permits.filter((p) => blockers(p).length > 0).length, text: 'waiting on another permit' },
-  { n: permits.filter((p) => expiryFlag(p) === 'expiring').length, text: 'expires soon', many: 'expire soon' },
-  { n: permits.filter((p) => expiryFlag(p) === 'expired').length, text: 'expired' },
-].filter((f) => f.n > 0);
-
 const outstanding = permits.filter((p) => !p.issued);
 const pastTypical = outstanding.filter((p) => {
   const e = expectedIssue(p);
@@ -108,10 +84,19 @@ const pastTypical = outstanding.filter((p) => {
 const notSubmitted = outstanding.filter((p) => !p.submitted).length;
 const schedule = scheduleOf(permits, project.constructionStart);
 
-const risks: string[] = [];
-if (pastTypical > 0) risks.push(`${plural(pastTypical, 'permit')} past ${pastTypical === 1 ? 'its' : 'their'} typical review time`);
-if (notSubmitted > 0) risks.push(`${plural(notSubmitted, 'permit')} not yet submitted, forecast from past timelines`);
-if (schedule.unforecast > 0) risks.push(`${plural(schedule.unforecast, 'permit')} with no past timeline to forecast from`);
+const waiting = permits.filter((p) => blockers(p).length > 0).length;
+const expiringSoon = permits.filter((p) => expiryFlag(p) === 'expiring').length;
+const expired = permits.filter((p) => expiryFlag(p) === 'expired').length;
+const mix = mixCounts(permits.map((p) => mixStage(statusColumn(p.statusId, p.typeId).category, !!p.submitted)));
+
+/** One line per risk or flag that applies: a mark (late = warning, info = clock), then words. */
+const watch: { tone: 'late' | 'info'; text: string }[] = [];
+if (pastTypical > 0) watch.push({ tone: 'late', text: `${plural(pastTypical, 'permit')} past ${pastTypical === 1 ? 'its' : 'their'} typical review time` });
+if (expired > 0) watch.push({ tone: 'late', text: `${plural(expired, 'permit')} expired` });
+if (expiringSoon > 0) watch.push({ tone: 'late', text: `${plural(expiringSoon, 'permit')} ${expiringSoon === 1 ? 'expires' : 'expire'} within 90 days` });
+if (waiting > 0) watch.push({ tone: 'info', text: `${plural(waiting, 'permit')} waiting on another permit before ${waiting === 1 ? 'it' : 'they'} can be submitted` });
+if (notSubmitted > 0) watch.push({ tone: 'info', text: `${plural(notSubmitted, 'permit')} not yet submitted, dated from past timelines` });
+if (schedule.unforecast > 0) watch.push({ tone: 'info', text: `${plural(schedule.unforecast, 'permit')} with no past timeline to forecast from` });
 
 // ── start-dependent (SSR with the fixture start; the client re-runs these) ────
 const view = readinessView(projectId, project.constructionStart);
@@ -121,26 +106,23 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
 ---
 
 <EsaCard>
-  <div slot="header" class="bcn-pr__head">
-    <h2 class="bcn-pr__title typography-title-sm-strong">Ready to break ground?</h2>
-    <span data-pr-state>
-      <EsaBadge value={READINESS_BADGE[view.state].label} variant={READINESS_BADGE[view.state].variant} size="md" />
-    </span>
-  </div>
-
-  <div class="bcn-pr stack" data-gap="md" data-bcn-pr data-project-id={projectId}>
-    <div class="bcn-pr__figures grid" data-gap="md">
-      <div class="stack" data-gap="xs" data-pr-issued>
-        <EsaStat value={`${issued} of ${total}`} label="Permits issued" />
-        <EsaProgressBar
-          value={total ? Math.round((issued / total) * 100) : 0}
-          size="sm"
-          variant={schedule.allIssued ? 'success' : 'primary'}
-          label="Permits issued"
-          showValue={false}
-        />
+  <div class="bcn-pr stack" data-gap="lg" data-bcn-pr data-project-id={projectId}>
+    <div class="bcn-pr__verdict" data-pr-tone={view.state}>
+      <div class="bcn-pr__ask cluster" data-gap="sm">
+        <h2 class="bcn-pr__title typography-label-md-strong">Ready to break ground?</h2>
+        <span data-pr-state>
+          <EsaBadge value={READINESS_BADGE[view.state].label} variant={READINESS_BADGE[view.state].variant} size="md" />
+        </span>
       </div>
-      <div class="stack" data-gap="2xs" data-pr-expected>
+      <p class="bcn-pr__sentence typography-title" data-pr-verdict>{view.verdict}</p>
+    </div>
+
+    <div class="bcn-pr__figures">
+      <div class="bcn-pr__figure" data-pr-issued>
+        <EsaStat value={`${mix.issued} of ${permits.length}`} label="Permits issued" />
+        <BcnPermitMix counts={mix} lead={false} />
+      </div>
+      <div class="bcn-pr__figure stack" data-gap="2xs" data-pr-expected>
         <EsaStat value={view.expectedValue} label={view.expectedLabel} />
         <span class="bcn-pr__vs typography-body-sm" data-pr-vs data-tone={view.vs.tone} hidden={!view.vs.text}>
           <span class="bcn-pr__vs-icon" data-icon="late"><EsaIcon name="triangle-alert" size="sm" /></span>
@@ -148,7 +130,7 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
           <span data-pr-vs-text>{view.vs.text}</span>
         </span>
       </div>
-      <div data-pr-start>
+      <div class="bcn-pr__figure" data-pr-start>
         <EsaStat value={view.startValue} label="Construction start" sub={view.startSub} />
       </div>
     </div>
@@ -205,57 +187,33 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
     </table>
     </section>
 
-    <div class="bcn-pr__counts cluster" data-gap="md">
-      <ul class="cluster" data-gap="md">
+    <section class="bcn-pr__watch stack" data-gap="xs" data-pr-risks aria-labelledby={`bcn-pr-watch-${projectId}`} hidden={watch.length === 0 && view.expiresBeforeStart.length === 0}>
+      <h3 id={`bcn-pr-watch-${projectId}`} class="bcn-pr__subhead typography-label-lg-strong">Keep an eye on</h3>
+      <ul class="bcn-pr__watch-list typography-body-sm">
         {
-          CATEGORIES.map((c) => (
-            <li class="bcn-pr__count typography-body-sm">
-              <span class="bcn-pr__dot" style={`--_c: ${CATEGORY_META[c].tone};`} aria-hidden="true" />
-              <span class="bcn-pr__n" data-pr-count={c}>{byCategory.get(c) ?? 0}</span> {CATEGORY_META[c].label}
+          watch.map((w) => (
+            <li data-tone={w.tone}>
+              <span class="bcn-pr__watch-icon">{w.tone === 'late' ? <EsaIcon name="triangle-alert" size="sm" /> : <EsaIcon name="history" size="sm" />}</span>
+              <span>{w.text}</span>
+            </li>
+          ))
+        }
+        {
+          expiring.map((p) => (
+            <li data-tone="late" data-expires={p.expires} hidden={!view.expiresBeforeStart.includes(p.id)}>
+              <span class="bcn-pr__watch-icon"><EsaIcon name="calendar" size="sm" /></span>
+              <span>
+                {readOnly ? <strong>{p.name}</strong> : <a href={withBase(ROUTES.permit(p.id))}>{p.name}</a>}
+                <span class="bcn-pr__meta">
+                  {' '}
+                  ({scopeLabel(p)}) expires {fmtDate(p.expires!)}, before construction start
+                </span>
+              </span>
             </li>
           ))
         }
       </ul>
-      {
-        flags.length > 0 && (
-          <ul class="bcn-pr__flags cluster" data-gap="md">
-            {flags.map((f) => (
-              <li class="bcn-pr__count typography-body-sm">
-                <span class="bcn-pr__n">{f.n}</span> {f.n === 1 ? f.text : (f.many ?? f.text)}
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </div>
-
-    <div class="bcn-pr__risks stack" data-gap="xs" data-pr-risks hidden={risks.length === 0 && view.expiresBeforeStart.length === 0}>
-      {
-        risks.length > 0 && (
-          <ul class="bcn-pr__list typography-body-sm" data-pr-risk-lines>
-            {risks.map((r) => (
-              <li>{r}</li>
-            ))}
-          </ul>
-        )
-      }
-      <div class="stack" data-gap="2xs" data-pr-expiring hidden={view.expiresBeforeStart.length === 0}>
-        <h3 class="bcn-pr__subhead typography-label-md-strong">Expires before construction start</h3>
-        <ul class="bcn-pr__list typography-body-sm">
-          {
-            expiring.map((p) => (
-              <li data-expires={p.expires} hidden={!view.expiresBeforeStart.includes(p.id)}>
-                <a href={withBase(ROUTES.permit(p.id))}>{p.name}</a>
-                <span class="bcn-pr__meta">
-                  {' '}
-                  {scopeLabel(p)}, expires {fmtDate(p.expires!)}
-                </span>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </div>
+    </section>
   </div>
 
   <!-- Cloned by the client: one badge per state, at both sizes, and a site row. -->
@@ -309,10 +267,10 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
 
 <script>
   import { PROJECT_EVENT, loadProject } from '../lib/project-store';
-  import { readinessView, siteScheduleRows } from './permit-readiness';
+  import { readinessView, siteScheduleRows, mixCounts, mixStage, renderMix } from './permit-readiness';
   import { ensureAddedPermits } from '../lib/added-permits-store';
   import { applyPermitEdits } from '../lib/permit-edits-store';
-  import { CATEGORIES, permitsOfProject } from '../data/permit-tracker';
+  import { milestoneOf, permitsOfProject } from '../data/permit-tracker';
   import { CHANGE_EVENT, resolveStatus } from '../lib/permit-status-store';
 
   document.querySelectorAll<HTMLElement>('[data-bcn-pr]').forEach((root) => {
@@ -330,23 +288,22 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
       ensureAddedPermits(projectId);
       // Totals follow added permits and live statuses (the Board, Change status).
       const permits = permitsOfProject(projectId);
-      const cats = permits.map((p) => resolveStatus(projectId, p).category);
-      const nIssued = cats.filter((c) => c === 'Completed').length;
-      const issuedEl = root.querySelector<HTMLElement>('[data-pr-issued]');
-      if (issuedEl) {
-        issuedEl.querySelector('.esa-stat__value')!.textContent = `${nIssued} of ${permits.length}`;
-        const pct = permits.length ? Math.round((nIssued / permits.length) * 100) : 0;
-        issuedEl.querySelector('[role="progressbar"]')?.setAttribute('aria-valuenow', String(pct));
-        issuedEl.querySelector<HTMLElement>('.esa-progress-bar__fill')?.style.setProperty('width', `${pct}%`);
-      }
-      for (const c of CATEGORIES) {
-        const n = root.querySelector(`[data-pr-count="${c}"]`);
-        if (n) n.textContent = String(cats.filter((x) => x === c).length);
-      }
+      const stages = permits.map((p) => {
+        const col = resolveStatus(projectId, p);
+        const m = milestoneOf(col);
+        return mixStage(col.category, !!p.submitted || m === 'submitted' || m === 'review');
+      });
+      const counts = mixCounts(stages);
+      const mix = root.querySelector('[data-bcn-mix]');
+      if (mix) renderMix(mix, counts);
+      const issuedValue = root.querySelector('[data-pr-issued] .esa-stat__value');
+      if (issuedValue) issuedValue.textContent = `${counts.issued} of ${permits.length}`;
       const record = loadProject(projectId);
       const view = readinessView(projectId, record.constructionStart);
 
       card.querySelector('[data-pr-state]')?.replaceChildren(clone(`[data-pr-badge="${view.state}"]`));
+      root.querySelector<HTMLElement>('[data-pr-verdict]')!.textContent = view.verdict;
+      root.querySelector<HTMLElement>('.bcn-pr__verdict')!.dataset.prTone = view.state;
 
       const expected = root.querySelector<HTMLElement>('[data-pr-expected]')!;
       expected.querySelector('.esa-stat__value')!.textContent = view.expectedValue;
@@ -382,10 +339,9 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
         }),
       );
 
-      const expiring = root.querySelector<HTMLElement>('[data-pr-expiring]')!;
-      expiring.querySelectorAll<HTMLElement>('[data-expires]').forEach((li) => (li.hidden = !(li.dataset.expires! < record.constructionStart)));
-      expiring.hidden = view.expiresBeforeStart.length === 0;
-      root.querySelector<HTMLElement>('[data-pr-risks]')!.hidden = !root.querySelector('[data-pr-risk-lines]') && expiring.hidden;
+      const watch = root.querySelector<HTMLElement>('[data-pr-risks]')!;
+      watch.querySelectorAll<HTMLElement>('[data-expires]').forEach((li) => (li.hidden = !(li.dataset.expires! < record.constructionStart)));
+      watch.hidden = ![...watch.querySelectorAll<HTMLElement>('li')].some((li) => !li.hidden);
     };
 
     document.addEventListener(PROJECT_EVENT, (e) => {
@@ -397,48 +353,57 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
 </script>
 
 <style>
-  .bcn-pr__head {
+  /* ── the verdict band ─────────────────────────────────────────────────────────
+     A rule in the state's tone down the left edge, a tint of it behind. The badge
+     and the sentence carry the meaning; the tone only reinforces it. */
+  .bcn-pr__verdict {
+    --_tone: var(--color-background-utility-success);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-300, 0.75rem);
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+    padding: var(--spacing-400, 1rem) var(--spacing-500, 1.25rem);
+    border-inline-start: 4px solid var(--_tone);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: color-mix(in srgb, var(--_tone) 7%, var(--color-background-elevation-raised, #fff));
+  }
+  .bcn-pr__verdict[data-pr-tone='unconfirmed'] {
+    --_tone: var(--color-background-utility-warning);
+  }
+  .bcn-pr__verdict[data-pr-tone='at-risk'] {
+    --_tone: var(--color-background-utility-danger);
   }
   .bcn-pr__title {
     margin: 0;
+    color: var(--color-content-default-secondary);
   }
-  .bcn-pr__figures {
-    --grid-min: 12rem;
-  }
-
-  .bcn-pr__counts {
-    padding-top: var(--spacing-300, 0.75rem);
-    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
-  }
-  .bcn-pr__counts ul {
-    list-style: none;
+  .bcn-pr__sentence {
     margin: 0;
-    padding: 0;
-  }
-  .bcn-pr__count {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-150, 0.375rem);
-    color: var(--color-content-default-secondary, #646464);
-  }
-  .bcn-pr__n {
-    font-weight: var(--typography-font-weight-semibold, 600);
-    color: var(--color-content-default, #202020);
-    font-variant-numeric: tabular-nums;
-  }
-  .bcn-pr__dot {
-    width: 9px;
-    height: 9px;
-    border-radius: var(--radius-full, 9999px);
-    background: var(--_c);
-    flex-shrink: 0;
+    max-inline-size: 68ch;
+    color: var(--color-content-default);
+    text-wrap: balance;
   }
 
+  /* ── figures ── the mix gets the wider track; dates sit beside it. */
+  .bcn-pr__figures {
+    display: grid;
+    grid-template-columns: minmax(18rem, 1.6fr) repeat(2, minmax(11rem, 1fr));
+    gap: var(--spacing-600, 1.5rem);
+    align-items: start;
+  }
+  @media (max-width: 64rem) {
+    .bcn-pr__figures {
+      grid-template-columns: 1fr 1fr;
+    }
+    .bcn-pr__figure[data-pr-issued] {
+      grid-column: 1 / -1;
+    }
+  }
+  .bcn-pr__figure[data-pr-issued] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200, 0.5rem);
+  }
+  
   /* Schedule by site: a plain data table — four short columns, no sorting or
      filtering, so AG Grid's chrome would outweigh it. Includes project-wide permits. */
   .bcn-pr__sites {
@@ -447,7 +412,7 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
     color: var(--color-content-default);
   }
   .bcn-pr__sites-block {
-    padding-top: var(--spacing-300, 0.75rem);
+    padding-top: var(--spacing-400, 1rem);
     border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
   }
   .bcn-pr__state-cell {
@@ -461,9 +426,12 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
   .bcn-pr__sites th,
   .bcn-pr__sites td {
     text-align: start;
-    padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem) var(--spacing-150, 0.375rem) 0;
+    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem) 0;
     border-bottom: 1px solid var(--color-border-default-subtle, #e8e8e8);
     vertical-align: middle;
+  }
+  .bcn-pr__sites tbody tr:last-child > * {
+    border-bottom: 0;
   }
   .bcn-pr__sites thead th {
     font-weight: var(--typography-font-weight-regular, 400);
@@ -506,21 +474,41 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
     display: none;
   }
 
-  .bcn-pr__risks {
-    padding-top: var(--spacing-300, 0.75rem);
+  /* ── keep an eye on ── one line per risk, a mark in its tone ahead of the words. */
+  .bcn-pr__watch {
+    padding-top: var(--spacing-400, 1rem);
     border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
   }
   .bcn-pr__subhead {
     margin: 0;
     color: var(--color-content-default, #202020);
   }
-  .bcn-pr__list {
+  .bcn-pr__watch-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    gap: var(--spacing-150, 0.375rem) var(--spacing-600, 1.5rem);
     margin: 0;
-    padding-left: var(--spacing-500, 1.25rem);
+    padding: 0;
+    list-style: none;
     color: var(--color-content-default, #202020);
   }
-  .bcn-pr__list a {
-    color: var(--color-content-link, #0d74ce);
+  .bcn-pr__watch-list li {
+    display: flex;
+    gap: var(--spacing-200, 0.5rem);
+    align-items: start;
+  }
+  .bcn-pr__watch-icon {
+    display: inline-flex;
+    padding-block-start: 2px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pr__watch-list li[data-tone='late'] .bcn-pr__watch-icon {
+    color: var(--color-content-utility-warning, #b05000);
+  }
+  .bcn-pr__watch-list a {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .bcn-pr__meta {
     color: var(--color-content-default-secondary, #646464);

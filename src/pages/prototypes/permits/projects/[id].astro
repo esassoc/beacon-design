@@ -1,9 +1,15 @@
 ---
-// Permit Tracker — one project. Answers "can we break ground on time?" first, then the
-// permits themselves as a List (AG Grid), a Board whose columns are this project's own
-// statuses (the Actions board model: user columns over the Not Started / In Progress /
-// Completed backbone, edited in Configure statuses), or a Schedule of bars on a calendar
-// with dependents under what gates them. One static route per project.
+// Permits — one project. Answers "can we break ground on time?" first, then the permits
+// themselves as a List (AG Grid), a Board whose columns are this project's own statuses
+// (the Actions board model: user columns over the Not Started / In Progress / Completed
+// backbone, edited in Configure statuses, which lives on the Board where it applies), or
+// a Schedule of bars on a calendar with dependents under what gates them. One static
+// route per project.
+//
+// HEADER ACTIONS (ESA design pass): the team as faces (BcnTeamButton) instead of an icon,
+// Edit and Share as labelled buttons, Add permit as the one primary. Configure statuses
+// left the header: the Board's own toolbar already carries it, next to the columns it
+// changes.
 import PermitsLayout from '../../../../permits/layouts/PermitsLayout.astro';
 import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
 import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
@@ -16,6 +22,8 @@ import BcnPermitStatusConfig from '../../../../permits/components/BcnPermitStatu
 import BcnProjectTeam from '../../../../permits/components/BcnProjectTeam.astro';
 import BcnAddPermit from '../../../../permits/components/BcnAddPermit.astro';
 import BcnProjectEditor from '../../../../permits/components/BcnProjectEditor.astro';
+import BcnTeamButton from '../../../../permits/components/BcnTeamButton.astro';
+import BcnShareProject from '../../../../permits/components/BcnShareProject.astro';
 import { PROJECTS, fmtDate, ROUTES, type Project } from '../../../../permits/data/permit-tracker';
 import { withBase } from '../../../../lib/base';
 
@@ -33,9 +41,9 @@ const VIEWS = [{ label: 'List' }, { label: 'Board' }, { label: 'Schedule' }];
 <!-- manifest:
   layout: PermitsLayout > stack(xl)        # SPINE
   sections:
-    - page header -> esa-page-header              # breadcrumbs, project name, client / no. / PM / construction start; Edit project, Team, Configure statuses, Add permit
+    - page header -> esa-page-header              # breadcrumbs, project name, client / no. / PM / construction start; Team (faces), Edit, Share, Add permit
     - readiness   -> bcn-permit-readiness         # issued of total, forecast all-issued date vs construction start, Sites table (Add site / edit via bcn-site-editor), risks
-    - permits     -> esa-tab-layout               # List | Board | Schedule
+    - permits     -> esa-tab-layout(underline)    # List | Board | Schedule
         # panel 0 -> bcn-permit-table             #   AG Grid of every permit, store-resolved status + flags
         # panel 1 -> bcn-permit-board             #   workflow columns; drag or Move to change status
         # panel 2 -> bcn-permit-schedule          #   bar per permit on a calendar; dependents under what gates them; site filter
@@ -43,6 +51,7 @@ const VIEWS = [{ label: 'List' }, { label: 'Board' }, { label: 'Schedule' }];
     - team        -> bcn-project-team             # drawer: add / remove people; drives My projects
     - add permit  -> bcn-add-permit               # drawer: type, applies to, agency, assignee, trigger, waits on
     - edit        -> bcn-project-editor           # drawer: client, no., PM, construction start; re-runs readiness
+    - share       -> bcn-share-project            # dialog: read-only status link for the client; what it shows and never shows
 -->
 
 <PermitsLayout title={project.name} active="projects">
@@ -59,9 +68,9 @@ const VIEWS = [{ label: 'List' }, { label: 'Board' }, { label: 'Schedule' }];
       <EsaBreadcrumbs slot="breadcrumbs" items={[{ label: 'Projects', href: withBase(ROUTES.projects) }, { label: project.name }]} />
       <Fragment slot="actions">
         <div class="cluster" data-gap="sm">
-          <EsaButton variant="ghost" appearance="outline" icon="pencil" iconOnly label="Edit project" data-project-edit />
-          <EsaButton variant="ghost" appearance="outline" icon="users" iconOnly label="Project team" data-project-team />
-          <EsaButton variant="ghost" appearance="outline" icon="settings" iconOnly label="Configure statuses" data-permit-configure data-project-id={project.id} />
+          <BcnTeamButton projectId={project.id} />
+          <EsaButton variant="ghost" appearance="outline" icon="pencil" data-project-edit>Edit</EsaButton>
+          <EsaButton variant="ghost" appearance="outline" icon="external-link" data-project-share>Share</EsaButton>
           <EsaButton variant="primary" icon="plus" data-add-permit>Add permit</EsaButton>
         </div>
       </Fragment>
@@ -69,7 +78,7 @@ const VIEWS = [{ label: 'List' }, { label: 'Board' }, { label: 'Schedule' }];
 
     <BcnPermitReadiness projectId={project.id} editable />
 
-    <esa-tab-layout tabs={JSON.stringify(VIEWS)} appearance="segmented" size="md" active-index="0">
+    <esa-tab-layout tabs={JSON.stringify(VIEWS)} appearance="underline" size="md" active-index="0">
       <div slot="panel-0"><BcnPermitTable projectId={project.id} /></div>
       <div slot="panel-1"><BcnPermitBoard projectId={project.id} /></div>
       <div slot="panel-2"><BcnPermitSchedule projectId={project.id} /></div>
@@ -80,6 +89,7 @@ const VIEWS = [{ label: 'List' }, { label: 'Board' }, { label: 'Schedule' }];
   <BcnProjectTeam projectId={project.id} />
   <BcnAddPermit projectId={project.id} />
   <BcnProjectEditor projectId={project.id} />
+  <BcnShareProject projectId={project.id} />
 </PermitsLayout>
 
 <script>

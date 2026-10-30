@@ -8,10 +8,14 @@
 // from historyOf() — fixture plus the browser's changes — on load and on every store
 // change, through the same historyDays() → BcnChangeLog markup.
 //
+// COLLAPSED (ESA design pass): the Agency timeline above already reads the milestones out
+// of this log, so the log is the audit trail behind it and opens on demand. It sits in an
+// esa-collapsible, closed, titled with its count so the length is known before it opens.
+//
 // bcn-lego-checked: no esa-* lego is a dated activity log; BcnChangeLog is the spoke's
 // approved one (date-grouped rail, runtime renderer in change-log.ts) and this is it
-// inside an esa-card. bcn-permit-history is the permit-specific wiring.
-import EsaCard from '@esa/ecology/esa-card.astro';
+// inside an esa-collapsible. bcn-permit-history is the permit-specific wiring.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnChangeLog from '../../components/bcn/BcnChangeLog.astro';
 import { getPermit, seedHistory, statusColumn } from '../data/permit-tracker';
 import { historyDays } from './permit-history';
@@ -25,11 +29,11 @@ const days = p ? historyDays(seedHistory(p), (id) => statusColumn(id, p.typeId))
 ---
 
 {p && (
-  <EsaCard title="Status history">
+  <EsaCollapsible title={`Status history (${days.reduce((n, d) => n + d.events.length, 0)} changes)`} icon="history">
     <p class="typography-body-md" data-phist-empty hidden={days.length > 0}>No status changes yet</p>
     {/* Always rendered, even empty, so BcnChangeLog's global styles are on the page for the runtime log. */}
     <div data-phist={p.id}><BcnChangeLog days={days} /></div>
-  </EsaCard>
+  </EsaCollapsible>
 )}
 
 <script>

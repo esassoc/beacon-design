@@ -5,13 +5,16 @@
 // stretches over the whole card, so a click anywhere opens the project while
 // keyboard focus and the accessible name stay on that single <a>.
 //
-// A card answers "where does this project stand on permits?":
+// A card answers "where does this project stand on permits?" in the order a project
+// manager asks it (ESA design pass):
 //   name + client (header) with the project's state badge (On track / At risk /
 //   Unconfirmed / All issued: the same scheduleOf() rule as the project page's "Ready to
-//   break ground?"), project number, manager, sites, construction start,
-//   permits issued of total (esa-progress-bar), and — active only — the counts that
-//   need attention: in agency review, waiting on another permit, expiring/expired.
-// Zero counts are omitted. Closed cards drop the bar and the attention counts.
+//   break ground?"); then the two dates that badge is judged on, expected all issued
+//   (with its distance from start) beside construction start; then the permit mix
+//   (BcnPermitMix: issued / with the agency / preparing / not started); then a footer of
+//   who and where (project number, manager, sites) and, active only, the flags that need
+//   attention: waiting on another permit, expiring/expired. Zero counts are omitted.
+//   Closed cards drop the dates, the mix and the flags.
 //
 // MEMBERSHIP: with `member`, only the projects whose team includes that person show.
 // The build hides cards by the fixture team (teamOf); the client re-checks every card
@@ -33,7 +36,8 @@
 // bcn-permit-project-list is the reusable home; only the stretched link and the fact
 // rows are composition here.
 import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnPermitMix from './BcnPermitMix.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import {
@@ -50,7 +54,7 @@ import {
   type Project,
 } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
-import { projectState } from './permit-readiness';
+import { readinessView, mixCounts, mixStage } from './permit-readiness';
 
 interface Props {
   projects: Project[];
@@ -69,7 +73,6 @@ const cards = projects.map((project) => {
   const active = project.status === 'active';
   const attention = active
     ? [
-        { n: permits.filter((p) => p.submitted && !p.issued).length, text: 'in agency review' },
         { n: permits.filter((p) => blockers(p).length > 0).length, text: 'waiting on another permit' },
         { n: permits.filter((p) => expiryFlag(p) === 'expiring').length, text: 'expiring soon' },
         { n: permits.filter((p) => expiryFlag(p) === 'expired').length, text: 'expired' },
@@ -84,7 +87,8 @@ const cards = projects.map((project) => {
     sites: sitesOf(project.id).length,
     attention,
     hidden: !!member && !teamOf(project.id).includes(member),
-    state: active ? projectState(project.id, project.constructionStart) : undefined,
+    view: active ? readinessView(project.id, project.constructionStart) : undefined,
+    mix: mixCounts(permits.map((p) => mixStage(statusColumn(p.statusId, p.typeId).category, !!p.submitted))),
   };
 });
 const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
@@ -112,54 +116,53 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
                 </h3>
                 <p class="bcn-ppl__client typography-body-sm" data-fact="client">{c.project.client}</p>
               </div>
-              {c.state && (
+              {c.view && (
                 <span class="bcn-ppl__state" data-ppl-state>
-                  <EsaBadge value={READINESS_BADGE[c.state].label} variant={READINESS_BADGE[c.state].variant} />
+                  <EsaBadge value={READINESS_BADGE[c.view.state].label} variant={READINESS_BADGE[c.view.state].variant} />
                 </span>
               )}
             </div>
 
-            <div class="stack" data-gap="sm">
-              <dl class="bcn-ppl__facts typography-body-sm">
-                <div class="bcn-ppl__fact">
-                  <dt>Project</dt>
-                  <dd data-fact="number">{c.project.number}</dd>
-                </div>
-                <div class="bcn-ppl__fact">
-                  <dt>Manager</dt>
-                  <dd data-fact="manager">{c.project.manager}</dd>
-                </div>
-                <div class="bcn-ppl__fact">
-                  <dt>Sites</dt>
-                  <dd>{c.sites}</dd>
-                </div>
-                <div class="bcn-ppl__fact">
-                  <dt>Construction start</dt>
-                  <dd data-fact="start">{fmtDate(c.project.constructionStart)}</dd>
-                </div>
-              </dl>
-
-              {c.active ? (
-                <EsaProgressBar
-                  value={c.total ? Math.round((c.issued / c.total) * 100) : 0}
-                  size="sm"
-                  variant={c.issued === c.total ? 'success' : 'primary'}
-                  label={`${c.issued} of ${c.total} issued`}
-                  showValue={false}
-                />
-              ) : (
-                <p class="bcn-ppl__issued typography-body-sm">{plural(c.issued, 'permit')} issued</p>
+            <div class="stack" data-gap="md">
+              {c.view && (
+                <dl class="bcn-ppl__dates">
+                  <div class="bcn-ppl__date">
+                    <dt class="typography-label-sm">{c.view.expectedLabel}</dt>
+                    <dd class="typography-title-sm-strong" data-fact="expected">{c.view.expectedValue}</dd>
+                    <dd class="bcn-ppl__vs typography-body-sm" data-fact="vs" data-tone={c.view.vs.tone} hidden={!c.view.vs.text}>
+                      <span class="bcn-ppl__vs-icon" data-icon="late"><EsaIcon name="triangle-alert" size="sm" /></span>
+                      <span class="bcn-ppl__vs-icon" data-icon="early"><EsaIcon name="circle-check" size="sm" /></span>
+                      <span data-fact="vs-text">{c.view.vs.text}</span>
+                    </dd>
+                  </div>
+                  <div class="bcn-ppl__date">
+                    <dt class="typography-label-sm">Construction start</dt>
+                    <dd class="typography-title-sm-strong" data-fact="start">{fmtDate(c.project.constructionStart)}</dd>
+                    <dd class="bcn-ppl__muted typography-body-sm" data-fact="start-sub">{c.view.startSub}</dd>
+                  </div>
+                </dl>
               )}
 
-              {c.attention.length > 0 && (
-                <ul class="bcn-ppl__attention cluster typography-body-sm" data-gap="xs">
-                  {c.attention.map((a) => (
-                    <li>
-                      <span class="bcn-ppl__n">{a.n}</span> {a.text}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {c.active ? <BcnPermitMix counts={c.mix} /> : <p class="bcn-ppl__issued typography-body-sm">{plural(c.issued, 'permit')} issued</p>}
+
+              <div class="bcn-ppl__foot typography-body-sm">
+                <span class="bcn-ppl__who">
+                  <span data-fact="number">{c.project.number}</span>
+                  <span aria-hidden="true">·</span>
+                  <span data-fact="manager">{c.project.manager}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{plural(c.sites, 'site')}</span>
+                </span>
+                {c.attention.length > 0 && (
+                  <ul class="bcn-ppl__attention cluster" data-gap="sm">
+                    {c.attention.map((a) => (
+                      <li>
+                        <span class="bcn-ppl__n">{a.n}</span> {a.text}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </EsaCard>
         </li>
@@ -179,7 +182,7 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
   import { TEAM_EVENT, isOnTeam } from '../lib/project-team-store';
   import { PROJECT_EVENT, loadProject } from '../lib/project-store';
   import { fmtDate } from '../data/permit-tracker';
-  import { projectState } from './permit-readiness';
+  import { readinessView } from './permit-readiness';
 
   // Every card: its facts and state badge follow the saved project record.
   document.querySelectorAll<HTMLElement>('[data-bcn-ppl]').forEach((section) => {
@@ -197,7 +200,17 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
         set('number', r.number);
         set('manager', r.manager);
         set('start', fmtDate(r.constructionStart));
-        li.querySelector('[data-ppl-state]')?.replaceChildren(badge(projectState(id, r.constructionStart)));
+        if (li.dataset.closed !== undefined) return;
+        const view = readinessView(id, r.constructionStart);
+        set('expected', view.expectedValue);
+        set('start-sub', view.startSub);
+        set('vs-text', view.vs.text);
+        const vs = li.querySelector<HTMLElement>('[data-fact="vs"]');
+        if (vs) {
+          vs.dataset.tone = view.vs.tone;
+          vs.hidden = !view.vs.text;
+        }
+        li.querySelector('[data-ppl-state]')?.replaceChildren(badge(view.state));
       });
     document.addEventListener(PROJECT_EVENT, sync);
     sync();
@@ -284,23 +297,63 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
     color: var(--color-content-default-secondary, #646464);
   }
 
-  /* Facts: a two-column label/value list. 14px floor, values darkened. */
-  .bcn-ppl__facts {
-    margin: 0;
+  /* The two dates the badge is judged on, side by side. */
+  .bcn-ppl__dates {
     display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: var(--spacing-100, 0.25rem) var(--spacing-300, 0.75rem);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-400, 1rem);
+    margin: 0;
   }
-  .bcn-ppl__fact {
-    display: contents;
+  .bcn-ppl__date {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 0.125rem);
   }
-  .bcn-ppl__fact dt {
+  .bcn-ppl__date dt {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ppl__date dd {
+    margin: 0;
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-ppl__muted,
+  .bcn-ppl__date dd.bcn-ppl__muted {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ppl__vs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.25rem);
+  }
+  .bcn-ppl__date dd.bcn-ppl__vs[data-tone='late'] {
+    color: var(--color-content-utility-danger);
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+  .bcn-ppl__date dd.bcn-ppl__vs[data-tone='early'] {
+    color: var(--color-content-utility-success);
+  }
+  .bcn-ppl__vs-icon {
+    display: none;
+  }
+  .bcn-ppl__vs[data-tone='late'] [data-icon='late'],
+  .bcn-ppl__vs[data-tone='early'] [data-icon='early'] {
+    display: inline-flex;
+  }
+
+  .bcn-ppl__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-100, 0.25rem) var(--spacing-400, 1rem);
+    padding-top: var(--spacing-300, 0.75rem);
+    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
     color: var(--color-content-default-secondary, #646464);
   }
-  .bcn-ppl__fact dd {
-    margin: 0;
-    color: var(--color-content-default, #202020);
-    font-variant-numeric: tabular-nums;
+  .bcn-ppl__who {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-150, 0.375rem);
   }
 
   .bcn-ppl__issued {
@@ -311,9 +364,7 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
   .bcn-ppl__attention {
     list-style: none;
     margin: 0;
-    padding: var(--spacing-200, 0.5rem) 0 0;
-    border-top: 1px solid var(--color-border-default-subtle, #e8e8e8);
-    color: var(--color-content-default-secondary, #646464);
+    padding: 0;
   }
   .bcn-ppl__n {
     font-weight: var(--typography-font-weight-semibold, 600);

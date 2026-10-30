@@ -1,0 +1,55 @@
+---
+// Permits base layout. BaseLayout's wiring (hub tokens, the Beacon theme, DM Sans +
+// Roboto Mono, the Handoff inspector) with the ESA brand layer on top: data-brand="esa"
+// on <html> switches src/permits/styles/theme-esa.css on over theme-beacon.css, so the
+// app keeps every Beacon refinement and leads with ESA's teal.
+//
+// A copy rather than a prop on BaseLayout so the shared layout every other prototype
+// renders in stays untouched.
+import '@esa/tokens/tokens.css';
+import '@esa/tokens/component-tokens.css';
+import '@esa/tokens/layouts.css';
+import '@esa/tokens/type-roles.css';
+import '../../styles/theme-beacon.css';
+import '../styles/theme-esa.css';
+import HandoffInspector from '@esa/handoff/HandoffInspector.astro';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Permits · ESA' } = Astro.props;
+---
+<!doctype html>
+<html lang="en" data-theme="beacon" data-brand="esa">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/brand/esa-logo.svg')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+        font-weight: var(--typography-font-weight-regular, 400);
+        color: var(--color-content-default, #3d3d3d);
+        background: var(--color-background-elevation-raised, #fff);
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--color-content-link, #00756e); text-decoration: none; }
+      img { display: block; max-width: 100%; }
+      button { font-family: inherit; cursor: pointer; background: none; border: 0; }
+    </style>
+  </head>
+  <body>
+    <slot />
+    <HandoffInspector />
+  </body>
+</html>

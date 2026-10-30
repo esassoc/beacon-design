@@ -1164,4 +1164,6 @@ export const ROUTES = {
   permitType: (typeId: string) => `/prototypes/permits/permit-types/${typeId}`,
   /** One permit type at one agency: its timeline and, for critical areas, its ordinance. */
   permitAgency: (typeId: string, jurisdictionId: string) => `/prototypes/permits/permit-types/${typeId}/${jurisdictionId}`,
+  /** The read-only status page a project shares outside ESA (BcnShareProject). */
+  shared: (projectId: string) => `/prototypes/permits/shared/${projectId}`,
 };

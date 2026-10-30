@@ -181,7 +181,8 @@ const firstCol = statusColumn(rows[0]?.statusId ?? '', rows[0]?.typeId ?? 'sepa'
 
 <script>
   import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { mountBeaconGrid } from '../../lib/beacon-grid';
+  import { permitsGridTheme } from '../lib/grid-theme';
   import { resolveStatus, categoryTone, CHANGE_EVENT } from '../lib/permit-status-store';
   import { fmtDate, blockers, getPermit, getProject, jurisdiction, scopeLabel, PERMIT_SHORT, PROJECTS, ROUTES, type Permit, type PermitTypeId } from '../data/permit-tracker';
   import { withBase } from '../../lib/base';
@@ -320,7 +321,7 @@ const firstCol = statusColumn(rows[0]?.statusId ?? '', rows[0]?.typeId ?? 'sepa'
     ];
 
     const gridOptions: GridOptions<Row> = {
-      theme: beaconTheme,
+      theme: permitsGridTheme,
       rowData: rows,
       columnDefs,
       getRowId: (p) => p.data.id,

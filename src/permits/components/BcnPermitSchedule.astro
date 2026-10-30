@@ -27,6 +27,7 @@
 // The construction-start line follows the date saved in src/lib/project-store.ts (moved
 // on load and on PROJECT_EVENT), held to the chart's ends.
 // Each row's link carries a visually hidden summary; the bars are aria-hidden.
+// `readOnly` (the shared client page) renders names as text, so nothing links inward.
 //
 // bcn-lego-checked: no esa-* lego draws a schedule — esa-chart is a data-series canvas
 // with no per-row ranges or row links, esa-progress-bar is a single 0→value fill;
@@ -53,8 +54,10 @@ import { withBase } from '../../lib/base';
 
 interface Props {
   projectId: string;
+  /** The shared (client) view: permit names are plain text, not links into the app. */
+  readOnly?: boolean;
 }
-const { projectId } = Astro.props;
+const { projectId, readOnly = false } = Astro.props;
 
 const project = getProject(projectId);
 const start = project.constructionStart;
@@ -139,7 +142,7 @@ const geom = (from: string, to: string) =>
   `--_from:${pct(from)};--_len:max(0.375rem, calc(${pct(to)} - ${pct(from)}));`;
 ---
 
-<section class="bcn-psched" data-psched data-project-id={projectId} data-axis-from={axisFrom} data-axis-span={span} aria-label="Permit schedule">
+<section class="bcn-psched" data-psched data-read-only={readOnly ? '' : undefined} data-project-id={projectId} data-axis-from={axisFrom} data-axis-span={span} aria-label="Permit schedule">
   <EsaCard title="Permit schedule" padding="compact">
     {
       views.length > 1 && (
@@ -166,9 +169,13 @@ const geom = (from: string, to: string) =>
                 {v.rows.map((r) => (
                   <li class="bcn-psched__row">
                     <span class="bcn-psched__label" style={`--_depth:${r.depth};`}>
-                      <a class="typography-label-md-strong bcn-psched__name" href={withBase(ROUTES.permit(r.p.id))}>
-                        {r.p.name}
-                      </a>
+                      {readOnly ? (
+                        <span class="typography-label-md-strong bcn-psched__name">{r.p.name}</span>
+                      ) : (
+                        <a class="typography-label-md-strong bcn-psched__name" href={withBase(ROUTES.permit(r.p.id))}>
+                          {r.p.name}
+                        </a>
+                      )}
                       <span class="typography-body-sm bcn-psched__scope">{r.scope}</span>
                       <span class="visually-hidden">{r.sr}</span>
                     </span>
@@ -243,7 +250,7 @@ const geom = (from: string, to: string) =>
       const issue = forecastIssue(p);
       const name = li.querySelector<HTMLAnchorElement>('[data-psched-name]')!;
       name.textContent = p.name;
-      name.href = withBase(ROUTES.addedPermit(p.id));
+      if (section.dataset.readOnly === undefined) name.href = withBase(ROUTES.addedPermit(p.id));
       li.querySelector('[data-psched-scope]')!.textContent = site?.name ?? scopeLabel(p);
       li.querySelector<HTMLElement>('.bcn-psched__label')!.style.setProperty('--_depth', p.dependsOn.length ? '1' : '0');
       li.querySelector('[data-psched-sr]')!.textContent = `${submit ? `Forecast submittal ${fmtDate(submit)}` : 'Not submitted'}, ${issue ? `expected ${fmtDate(issue)}` : 'no past timeline to forecast from'}.`;

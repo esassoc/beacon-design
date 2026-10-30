@@ -203,7 +203,8 @@ const facets: { key: string; label: string; field: string; options: { value: str
 
 <script>
   import type { ColDef, IRowNode, ICellRendererParams } from 'ag-grid-community';
-  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { mountBeaconGrid } from '../../lib/beacon-grid';
+  import { permitsGridTheme } from '../lib/grid-theme';
   import { CAO_EVENT, loadOrdinance, loadRules } from '../lib/cao-store';
   import { changedSinceReview, fmtAmended } from '../data/permit-rules';
   import '@esa/ecology/esa-filter-dropdown';
@@ -387,7 +388,7 @@ const facets: { key: string; label: string; field: string; options: { value: str
       csvName: oneType ? `permit-timelines-${root.dataset.typeId}.csv` : 'permit-timelines.csv',
       totalRows: () => rows.length,
       gridOptions: {
-        theme: beaconTheme,
+        theme: permitsGridTheme,
         rowData: rows,
         columnDefs,
         getRowId: (p) => p.data.key,

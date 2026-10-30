@@ -1,0 +1,136 @@
+---
+// <BcnPermitMix> — where every permit on a project (or a site) is in its life, as one
+// proportional bar with a counted legend: Issued, In agency review, Preparing, Not
+// started. It replaces a single "4 of 10 issued" meter, which hid the difference
+// between six permits with the agency and six nobody has started.
+//
+// Stages come from mixStage() (permit-readiness.ts): the backbone category, split by
+// whether the application has gone in. Tones follow Beacon's status-color standard:
+// issued reads the completed green, the two in-progress stages read amber (preparing as
+// a lighter tint of it), not started reads gray. Every segment is also counted in words
+// in the legend, so color is never the only carrier.
+//
+// LIVE: the build renders the fixture; a page script re-counts through renderMix()
+// (permit-readiness.ts) when statuses change in the browser.
+//
+// bcn-lego-checked: no esa-* lego draws a multi-segment meter (esa-progress-bar is one
+// value, one variant); BcnRollupSummary draws a health bar for fish studies with its own
+// status set, not this one. Checked Beacon (no permit pipeline bar). bcn-permit-mix is
+// the reusable home.
+import { MIX_STAGES, type MixStage } from './permit-readiness';
+
+interface Props {
+  counts: Record<MixStage, number>;
+  /** Visible lead, e.g. "4 of 10 issued". Defaults to issued of total. */
+  label?: string;
+  /** Hide the legend (a card footer that counts elsewhere). */
+  compact?: boolean;
+  /** Drop the visible lead when the host already states issued of total (an esa-stat). */
+  lead?: boolean;
+}
+const { counts, compact = false, lead = true } = Astro.props;
+const total = MIX_STAGES.reduce((n, s) => n + counts[s.id], 0);
+const label = Astro.props.label ?? `${counts.issued} of ${total} issued`;
+const summary = MIX_STAGES.filter((s) => counts[s.id] > 0)
+  .map((s) => `${counts[s.id]} ${s.label.toLowerCase()}`)
+  .join(', ');
+---
+
+<div class="bcn-mix" data-bcn-mix data-compact={compact ? '' : undefined}>
+  {
+    lead && (
+      <div class="bcn-mix__lead typography-label-md">
+        <span data-mix-label>{label}</span>
+      </div>
+    )
+  }
+  <div class="bcn-mix__bar" role="img" aria-label={summary} data-mix-bar>
+    {
+      MIX_STAGES.map((s) => (
+        <span class="bcn-mix__seg" data-stage={s.id} style={`flex-grow: ${counts[s.id]};`} hidden={counts[s.id] === 0} />
+      ))
+    }
+  </div>
+  {
+    !compact && (
+      <ul class="bcn-mix__legend typography-body-sm" aria-hidden="true">
+        {MIX_STAGES.map((s) => (
+          <li data-stage={s.id} hidden={counts[s.id] === 0}>
+            <span class="bcn-mix__dot" />
+            <span class="bcn-mix__n" data-mix-count>
+              {counts[s.id]}
+            </span>
+            {s.label}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .bcn-mix {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+  }
+  .bcn-mix__lead {
+    color: var(--color-content-default);
+  }
+  .bcn-mix__bar {
+    display: flex;
+    gap: 2px;
+    block-size: 8px;
+    border-radius: var(--radius-full, 9999px);
+    overflow: hidden;
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-mix__seg {
+    flex-basis: 0;
+    min-inline-size: 4px;
+  }
+  .bcn-mix [hidden] {
+    display: none;
+  }
+  [data-stage='issued'] {
+    --_c: var(--bcn-status-completed);
+  }
+  [data-stage='review'] {
+    --_c: var(--bcn-status-in-progress);
+  }
+  [data-stage='preparing'] {
+    --_c: color-mix(in srgb, var(--bcn-status-in-progress) 40%, var(--color-background-elevation-raised, #fff));
+  }
+  [data-stage='not-started'] {
+    --_c: var(--bcn-status-not-started);
+  }
+  .bcn-mix__seg {
+    background: var(--_c);
+  }
+  .bcn-mix__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100, 0.25rem) var(--spacing-400, 1rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-mix__legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+  }
+  .bcn-mix__dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--radius-full, 9999px);
+    background: var(--_c);
+    flex: none;
+  }
+  .bcn-mix__n {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

@@ -73,7 +73,8 @@ const STATUS_OPTIONS = [
 
 <script>
   import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { mountBeaconGrid } from '../../lib/beacon-grid';
+  import { permitsGridTheme } from '../lib/grid-theme';
   import { fmtDate } from '../data/permit-tracker';
   import { loadProject } from '../lib/project-store';
   import '@esa/ecology/esa-text-field';
@@ -135,7 +136,7 @@ const STATUS_OPTIONS = [
     ];
 
     const gridOptions: GridOptions<Row> = {
-      theme: beaconTheme,
+      theme: permitsGridTheme,
       rowData: rows,
       columnDefs,
       getRowId: (p) => p.data.id,

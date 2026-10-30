@@ -1,0 +1,299 @@
+---
+// Permits — the shared status page: what a client, partner agency or contractor sees
+// when a project manager sends them the link from Share (BcnShareProject). Read-only,
+// outside the app shell, ESA-branded, and written for someone who has never opened
+// ESA Permits.
+//
+// It answers the same first question as the project page, from the same components:
+// BcnPermitReadiness (readOnly: the verdict, figures, sites, what could move the dates)
+// and BcnPermitSchedule (readOnly: no links inward). Then one plain table of permits,
+// staged in words a client uses (Issued / With the agency / Preparing the application /
+// Not started) with the dates that matter to them.
+//
+// NEVER HERE: who at ESA owns each permit, application checklists, internal notes,
+// permit files, workflow configuration. The project manager is named once, as the
+// contact. The Share dialog's two choices (agency reference numbers; forecast dates for
+// permits not yet submitted) are read from src/permits/lib/share-store.ts on load.
+//
+// bcn-lego-checked: the frame is PermitsBaseLayout without esa-app-shell (an outside
+// reader has no nav to use); sections are esa-card, stages are esa-badge. Checked
+// Ecology (no public report shell) and Beacon (no external status page). The CSS is the
+// page masthead, the column, and the permit table.
+import PermitsBaseLayout from '../../../../permits/layouts/PermitsBaseLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPermitReadiness from '../../../../permits/components/BcnPermitReadiness.astro';
+import BcnPermitSchedule from '../../../../permits/components/BcnPermitSchedule.astro';
+import { mixStage, type MixStage } from '../../../../permits/components/permit-readiness';
+import {
+  PROJECTS,
+  PERMIT_SHORT,
+  TODAY,
+  blockers,
+  fmtDate,
+  forecastIssue,
+  jurisdiction,
+  permitsOfProject,
+  scopeLabel,
+  statusColumn,
+  type Project,
+} from '../../../../permits/data/permit-tracker';
+import { withBase } from '../../../../lib/base';
+
+export function getStaticPaths() {
+  return PROJECTS.filter((p) => p.status === 'active').map((p) => ({ params: { id: p.id }, props: { project: p } }));
+}
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+const STAGE: Record<MixStage, { label: string; variant: 'success' | 'warning' | 'neutral' | 'info' }> = {
+  issued: { label: 'Issued', variant: 'success' },
+  review: { label: 'With the agency', variant: 'warning' },
+  preparing: { label: 'Preparing the application', variant: 'info' },
+  'not-started': { label: 'Not started', variant: 'neutral' },
+};
+
+const rows = permitsOfProject(project.id).map((p) => {
+  const col = statusColumn(p.statusId, p.typeId);
+  const stage = mixStage(col.category, !!p.submitted);
+  const waits = blockers(p);
+  const forecast = forecastIssue(p);
+  return {
+    p,
+    stage,
+    status: col.name,
+    agency: jurisdiction(p.jurisdictionId).name,
+    scope: scopeLabel(p),
+    submitted: p.submitted ? fmtDate(p.submitted) : undefined,
+    rounds: p.reviews.length,
+    when: p.issued
+      ? { kind: 'issued', text: `Issued ${fmtDate(p.issued)}`, sub: p.expires ? `Valid to ${fmtDate(p.expires)}` : undefined }
+      : forecast
+        ? { kind: p.submitted ? 'expected' : 'forecast', text: `Expected ${fmtDate(forecast)}`, sub: waits.length ? `After the ${waits.map((w) => PERMIT_SHORT[w.typeId]).join(' and ')} permit` : undefined }
+        : { kind: 'none', text: 'Not yet known', sub: undefined },
+  };
+});
+---
+
+<PermitsBaseLayout title={`${project.name} permit status · ESA`}>
+  <div class="sh">
+    <header class="sh__mast">
+      <div class="sh__mast-inner">
+        <img class="sh__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="80" height="48" />
+        <span class="sh__mast-label typography-label-md">Permit status, shared by ESA</span>
+      </div>
+    </header>
+
+    <main class="sh__page stack" data-gap="xl" data-sh data-project-id={project.id}>
+      <div class="sh__intro stack" data-gap="xs">
+        <p class="sh__eyebrow typography-eyebrow">Prepared for {project.client}</p>
+        <h1 class="sh__title typography-heading-lg">{project.name}</h1>
+        <p class="sh__meta typography-body-md">Project {project.number} · Status as of {fmtDate(TODAY)}</p>
+      </div>
+
+      <BcnPermitReadiness projectId={project.id} readOnly />
+
+      <BcnPermitSchedule projectId={project.id} readOnly />
+
+      <EsaCard>
+        <h2 slot="header" class="sh__h2 typography-title-sm-strong">Every permit</h2>
+        <div class="sh__table-wrap">
+          <table class="sh__table typography-body-sm">
+            <thead>
+              <tr>
+                <th scope="col">Permit</th>
+                <th scope="col">Agency</th>
+                <th scope="col">Where it stands</th>
+                <th scope="col">Submitted</th>
+                <th scope="col">Issued or expected</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rows.map((r) => (
+                  <tr data-permit-id={r.p.id} data-when={r.when.kind}>
+                    <th scope="row">
+                      <span class="sh__cell">
+                        <span class="sh__name">{r.p.name}</span>
+                        <span class="sh__sub">{r.scope}</span>
+                      </span>
+                    </th>
+                    <td>
+                      <span class="sh__cell">
+                        <span>{r.agency}</span>
+                        {r.p.agencyRef && (
+                          <span class="sh__sub" data-sh-ref>
+                            Ref. {r.p.agencyRef}
+                          </span>
+                        )}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="sh__cell">
+                        <EsaBadge value={STAGE[r.stage].label} variant={STAGE[r.stage].variant} size="sm" />
+                        {r.stage === 'review' && (
+                          <span class="sh__sub">
+                            {r.status}
+                            {r.rounds > 0 && `, ${r.rounds} round${r.rounds === 1 ? '' : 's'} of agency comments`}
+                          </span>
+                        )}
+                      </span>
+                    </td>
+                    <td class="sh__num">{r.submitted ?? <span class="sh__muted">Not yet</span>}</td>
+                    <td>
+                      <span class="sh__cell" data-sh-when>
+                        <span class="sh__num">{r.when.text}</span>
+                        {r.when.sub && <span class="sh__sub">{r.when.sub}</span>}
+                      </span>
+                      {r.when.kind === 'forecast' && (
+                        <span class="sh__muted" data-sh-when-off hidden>
+                          After the application is submitted
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="sh__note typography-body-sm">
+          Expected dates come from how long the same permit has taken at the same agency on past ESA projects. A permit that waits on another can't be submitted until that one is issued.
+        </p>
+      </EsaCard>
+
+      <footer class="sh__foot typography-body-sm">
+        <p>Questions about these permits? Contact <strong>{project.manager}</strong>, ESA project manager.</p>
+        <p class="sh__muted">This page is read-only and updates as the project does.</p>
+      </footer>
+    </main>
+  </div>
+</PermitsBaseLayout>
+
+<script>
+  import { loadShare } from '../../../../permits/lib/share-store';
+
+  // Apply the project's share choices: hide reference numbers, and swap forecast dates
+  // for "After the application is submitted" on permits not yet submitted.
+  document.querySelectorAll<HTMLElement>('[data-sh]').forEach((page) => {
+    const s = loadShare(page.dataset.projectId!);
+    page.querySelectorAll<HTMLElement>('[data-sh-ref]').forEach((el) => (el.hidden = !s.refs));
+    page.querySelectorAll<HTMLElement>('tr[data-when="forecast"]').forEach((tr) => {
+      tr.querySelector<HTMLElement>('[data-sh-when]')!.hidden = !s.forecast;
+      tr.querySelector<HTMLElement>('[data-sh-when-off]')!.hidden = s.forecast;
+    });
+  });
+</script>
+
+<style>
+  .sh {
+    min-block-size: 100dvh;
+    background: var(--color-background-default);
+  }
+  .sh [hidden] {
+    display: none !important;
+  }
+
+  /* Masthead: white, the logo, a hairline. The one place ESA's orange shows. */
+  .sh__mast {
+    border-block-end: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised, #fff);
+  }
+  .sh__mast-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400, 1rem);
+    max-inline-size: 72rem;
+    margin-inline: auto;
+    padding: var(--spacing-300, 0.75rem) var(--spacing-600, 1.5rem);
+  }
+  .sh__logo {
+    inline-size: 80px;
+    block-size: auto;
+  }
+  .sh__mast-label {
+    color: var(--color-content-default-secondary);
+  }
+
+  .sh__page {
+    max-inline-size: 72rem;
+    margin-inline: auto;
+    padding: var(--spacing-800, 2.5rem) var(--spacing-600, 1.5rem) var(--spacing-1000, 4rem);
+  }
+  .sh__intro > * {
+    margin: 0;
+  }
+  .sh__eyebrow {
+    color: var(--color-content-brand);
+  }
+  .sh__meta {
+    color: var(--color-content-default-secondary);
+  }
+  .sh__h2 {
+    margin: 0;
+  }
+
+  .sh__table-wrap {
+    overflow-x: auto;
+  }
+  .sh__table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    color: var(--color-content-default);
+  }
+  .sh__table th,
+  .sh__table td {
+    padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem) var(--spacing-300, 0.75rem) 0;
+    border-block-end: 1px solid var(--color-border-default-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+  .sh__table thead th {
+    padding-block-start: 0;
+    font-weight: var(--typography-font-weight-regular, 400);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .sh__table tbody tr:last-child > * {
+    border-block-end: 0;
+  }
+  .sh__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--spacing-100, 0.25rem);
+  }
+  .sh__name {
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+  .sh__sub,
+  .sh__muted {
+    color: var(--color-content-default-secondary);
+  }
+  .sh__num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .sh__note {
+    margin: var(--spacing-400, 1rem) 0 0;
+    padding-block-start: var(--spacing-300, 0.75rem);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default-secondary);
+  }
+  .sh__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-200, 0.5rem);
+    padding-block-start: var(--spacing-400, 1rem);
+    border-block-start: 1px solid var(--color-border-default);
+    color: var(--color-content-default);
+  }
+  .sh__foot p {
+    margin: 0;
+  }
+</style>

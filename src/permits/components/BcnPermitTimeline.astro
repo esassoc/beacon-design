@@ -9,10 +9,12 @@
 // review) → Issued → Expires, each reached step with its date and "+N days" since the
 // one before. The pending Issued step reads "Expected <date>" from this agency's median.
 //
-// HEADER: the current status (a live chip), the summary ("N days from application to
-// issue" once issued, "Day N in agency review" before), and Change status — the
-// section's one edit, which opens BcnPermitEditor's status drawer. The timeline itself
-// is read-only.
+// HEADER: the card title and Change status, the section's one edit (it opens
+// BcnPermitEditor's status drawer). STATUS LINE (ESA design pass: moved out of the
+// header, where it wrapped under the title at every width): the current status (a live
+// chip), the summary ("N days from application to issue" once issued, "Day N in agency
+// review" before) and the pace badge, as the first line of the body. The timeline
+// itself is read-only.
 //
 // PACE: a badge in the header and one sentence above the steps compare the permit with
 // the typical timeline for its type at this agency (paceOf in ./permit-timeline.ts):
@@ -59,8 +61,11 @@ const col = p ? statusColumn(p.statusId, p.typeId) : undefined;
 
 {p && t && col && (
   <section class="bcn-ptl-root" data-ptl-root aria-label="Timeline">
-  <EsaCard title="Timeline">
-    <div slot="actions" class="cluster" data-gap="md">
+  <EsaCard title="Agency timeline">
+    <div slot="actions">
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="status">Change status</EsaButton>
+    </div>
+    <div class="bcn-ptl__status cluster" data-gap="sm">
       <span
         data-permit-status
         data-project-id={p.projectId}
@@ -72,7 +77,6 @@ const col = p ? statusColumn(p.statusId, p.typeId) : undefined;
       </span>
       <span class="bcn-ptl__summary typography-body-md" data-ptl-summary hidden={!t.summary}>{t.summary}</span>
       <span data-ptl-pace-badge>{t.pace && <EsaBadge value={t.pace.label} variant={PACE_VARIANT[t.pace.level]} />}</span>
-      <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="status">Change status</EsaButton>
     </div>
     <p class="bcn-ptl__pace typography-body-md" data-ptl-pace data-level={t.pace?.level} hidden={!t.pace}>{t.pace?.detail}</p>
     <ol class="bcn-ptl" data-ptl={p.id} data-project-id={p.projectId} set:html={renderTimeline(t.steps, (label) => `<span data-ptl-badge>${label}</span>`)} />
@@ -118,6 +122,11 @@ const col = p ? statusColumn(p.statusId, p.typeId) : undefined;
 </script>
 
 <style is:global>
+  .bcn-ptl__status {
+    padding-block-end: var(--spacing-300, 0.75rem);
+    margin-block-end: var(--spacing-300, 0.75rem);
+    border-block-end: 1px solid var(--color-border-default-subtle, #e8e8e8);
+  }
   /* The pace sentence under the header: how this permit compares with its typical timeline. */
   .bcn-ptl__pace {
     margin: 0 0 var(--spacing-400);

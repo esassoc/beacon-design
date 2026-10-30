@@ -90,6 +90,63 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'permits',
+    tenant: 'esa',
+    title: 'Permits (ESA design pass)',
+    description:
+      'A fork of the Permit Tracker below, re-shelled as an ESA-branded micro-app for permits: ESA logo and palette over the same Beacon refinements, verdict-first readiness, consolidated page actions, and a client-facing share view. The Permit Tracker itself is untouched.',
+    pages: [
+      {
+        slug: 'permits-projects',
+        title: 'Projects',
+        description: 'My projects as readiness cards (the verdict, the expected all-issued date against construction start, the permit mix), over All projects.',
+        route: '/prototypes/permits',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permits-project',
+        title: 'Project',
+        description: 'One project, verdict first: will every permit be issued by construction start, site by site, then the permits as List, Board or Schedule. Share opens a client-facing status link.',
+        route: '/prototypes/permits/projects/coal-creek-fish-passage',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permits-share',
+        title: 'Shared status (client view)',
+        description: 'The read-only page a client or agency partner opens from a share link: readiness, the schedule and every permit’s status, with internal notes, owners and files left out.',
+        route: '/prototypes/permits/shared/coal-creek-fish-passage',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permits-permits',
+        title: 'Permits',
+        description: 'Every permit on every project in one grid.',
+        route: '/prototypes/permits/permits',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permits-permit',
+        title: 'Permit',
+        description: 'One permit: its status and days in review in the header, then the agency timeline, what the application needs, the file, and how long it usually takes here.',
+        route: '/prototypes/permits/permits/cc1-cao',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permits-permit-types',
+        title: 'Permit types',
+        description: 'The permit-type library: governing law, agencies, time to issue, and critical areas ordinances with AI-suggested, human-validated rules.',
+        route: '/prototypes/permits/permit-types',
+        createdAt: '2026-10-30',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'permit-tracker',
     tenant: 'esa',
     title: 'Permit Tracker',

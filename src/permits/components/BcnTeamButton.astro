@@ -1,0 +1,120 @@
+---
+// <BcnTeamButton> — the project page's "Team" control: who is on this project, shown
+// as overlapping avatars, and the button that opens BcnProjectTeam's drawer (it carries
+// [data-project-team], the hook that drawer already listens for).
+//
+// Replaces an icon-only "users" button. The people were the information; the icon hid
+// them behind a click.
+//
+// LIVE: the build renders one avatar per person who could be on a team (PEOPLE), each
+// hidden unless the fixture team has them; the client re-shows them from
+// src/permits/lib/project-team-store.ts on load and on TEAM_EVENT, so adding someone in
+// the drawer adds their face here. Up to MAX faces show, then a "+N".
+//
+// bcn-lego-checked: every face IS esa-avatar, the control IS a native button styled as
+// esa-button's outline ghost. Checked Ecology (esa-avatar is one avatar; no group/stack
+// lego) and Beacon (no avatar stack in ui-*). bcn-team-button is the reusable home; the
+// CSS is the overlap and the button frame.
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import { PEOPLE, teamOf } from '../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+const MAX = 4;
+const team = teamOf(projectId);
+const shown = team.slice(0, MAX);
+const people = [...new Set([...team, ...PEOPLE])];
+---
+
+<button type="button" class="bcn-team-btn" data-project-team data-bcn-team-btn data-project-id={projectId} data-max={MAX} aria-label={`Project team, ${team.length} people`}>
+  <span class="bcn-team-btn__faces" aria-hidden="true">
+    {
+      people.map((name) => (
+        <span class="bcn-team-btn__face" data-person={name} hidden={!shown.includes(name)} style={`order: ${shown.includes(name) ? shown.indexOf(name) : 99};`}>
+          <EsaAvatar name={name} size="sm" />
+        </span>
+      ))
+    }
+    <span class="bcn-team-btn__more typography-label-xs-strong" data-team-more hidden={team.length <= MAX}>+{team.length - MAX}</span>
+  </span>
+  <span class="bcn-team-btn__label typography-label-md">Team</span>
+</button>
+
+<script>
+  import { TEAM_EVENT, loadTeam } from '../lib/project-team-store';
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-team-btn]').forEach((btn) => {
+    const projectId = btn.dataset.projectId!;
+    const max = Number(btn.dataset.max);
+    const sync = () => {
+      const team = loadTeam(projectId);
+      const shown = team.slice(0, max);
+      btn.querySelectorAll<HTMLElement>('[data-person]').forEach((face) => {
+        const i = shown.indexOf(face.dataset.person!);
+        face.hidden = i < 0;
+        face.style.order = String(i < 0 ? 99 : i);
+      });
+      const more = btn.querySelector<HTMLElement>('[data-team-more]')!;
+      more.hidden = team.length <= max;
+      more.textContent = `+${team.length - max}`;
+      btn.setAttribute('aria-label', `Project team, ${team.length} ${team.length === 1 ? 'person' : 'people'}`);
+    };
+    document.addEventListener(TEAM_EVENT, sync);
+    sync();
+  });
+</script>
+
+<style>
+  .bcn-team-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    block-size: 40px;
+    padding: 0 var(--spacing-400, 1rem) 0 var(--spacing-200, 0.5rem);
+    border: 1px solid var(--color-border-default, #dcdcdc);
+    border-radius: var(--radius-full, 9999px);
+    background: var(--color-background-elevation-raised, #fff);
+    color: var(--color-content-default);
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .bcn-team-btn:hover {
+    border-color: var(--color-border-default-strong);
+    background: var(--color-background-brand-subtle);
+  }
+  .bcn-team-btn:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #00756e);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  /* Every face pulls 4px left; the row's padding gives the first one its 4px back.
+     (A sibling selector would miscount: hidden faces are still siblings.) */
+  .bcn-team-btn__faces {
+    display: inline-flex;
+    align-items: center;
+    padding-inline-start: 4px;
+  }
+  .bcn-team-btn__face,
+  .bcn-team-btn__more {
+    display: inline-flex;
+    border-radius: var(--radius-full, 9999px);
+    box-shadow: 0 0 0 2px var(--color-background-elevation-raised, #fff);
+  }
+  .bcn-team-btn__face,
+  .bcn-team-btn__more {
+    margin-inline-start: -4px;
+  }
+  .bcn-team-btn__more {
+    order: 100;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 28px;
+    block-size: 28px;
+    padding-inline: 4px;
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-team-btn [hidden] {
+    display: none;
+  }
+</style>

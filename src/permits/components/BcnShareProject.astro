@@ -1,0 +1,175 @@
+---
+// <BcnShareProject> — the project page's Share dialog: a read-only status link for the
+// people outside ESA who ask "will we have our permits in time?" (the client, a
+// partner agency, the contractor). Opened by any [data-project-share].
+//
+// WHAT THE LINK SHOWS is fixed, and the dialog says so before anything is chosen:
+// the readiness verdict, the schedule, and every permit's status and dates
+// (/prototypes/permits/shared/<project>). WHAT IT NEVER SHOWS is fixed too: who at ESA
+// owns each permit, application checklists, internal notes and files. The two choices
+// left are the ones a project manager actually weighs: whether agency reference numbers
+// go out, and whether permits not yet issued show a forecast date or only "Expected"
+// once an agency has the application.
+//
+// PROTOTYPE: the link is the shared page's real route; nothing is minted or stored.
+// Choices are saved per project in this browser so the preview matches them.
+//
+// bcn-lego-checked: the shell IS esa-dialog, choices ARE esa-radio-group / esa-checkbox
+// / esa-select, actions ARE esa-button, the copied cue IS the snackbar. Checked Ecology
+// (no share-link lego) and Beacon (no external sharing in prod). The CSS is the link
+// row and the never-shared note.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { getProject, ROUTES } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+const project = getProject(projectId);
+const path = withBase(ROUTES.shared(projectId));
+const AUDIENCE = [
+  { value: 'link', label: 'Anyone with the link' },
+  { value: 'invited', label: 'Only people I invite by email' },
+];
+const EXPIRY = [
+  { value: '30', label: 'In 30 days' },
+  { value: '90', label: 'In 90 days' },
+  { value: 'close', label: 'When the project closes' },
+];
+---
+
+<esa-dialog class="bcn-share" heading="Share project status" size="lg" data-bcn-share data-project-id={projectId} data-path={path}>
+  <div class="stack" data-gap="lg">
+    <p class="bcn-share__lead typography-body-md">
+      A read-only page for {project.client} and anyone else outside ESA who needs to know whether permits will be in place by construction start. It shows the readiness verdict, the schedule and each permit's status. It updates as the project does.
+    </p>
+
+    <div class="stack" data-gap="xs">
+      <span class="typography-label-md-strong">Link</span>
+      <div class="bcn-share__link">
+        <code class="bcn-share__url typography-code-sm" data-share-url>{path}</code>
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="copy" data-share-copy>Copy link</EsaButton>
+      </div>
+    </div>
+
+    <esa-radio-group label="Who can open it" name="share-audience" value="link" data-share="audience" data-options={JSON.stringify(AUDIENCE)}></esa-radio-group>
+
+    <div class="stack" data-gap="xs">
+      <span class="typography-label-md-strong">Include</span>
+      <esa-checkbox label="Agency reference numbers" checked data-share="refs"></esa-checkbox>
+      <esa-checkbox label="Forecast dates for permits not yet submitted" checked data-share="forecast"></esa-checkbox>
+    </div>
+
+    <esa-select label="Link stops working" size="md" value="close" data-share="expiry" data-options={JSON.stringify(EXPIRY)}></esa-select>
+
+    <div class="bcn-share__never typography-body-sm">
+      <EsaIcon name="eye" size="sm" />
+      <span>Never shared: who at ESA owns each permit, application checklists, internal notes and permit files.</span>
+    </div>
+  </div>
+
+  <div slot="footer" class="repel" data-gap="md">
+    <a class="bcn-share__preview typography-label-md" href={path} target="_blank" rel="noopener" data-share-preview>
+      Preview what they see <EsaIcon name="external-link" size="sm" />
+    </a>
+    <EsaButton variant="primary" data-share-done>Done</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-radio-group';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-select';
+  import { toast } from '../../lib/snackbar';
+  import { loadShare, saveShare } from '../lib/share-store';
+
+  type Dialog = HTMLElement & { show(): void; close(): void };
+  type Field = HTMLElement & { value?: string; checked?: boolean; options?: unknown };
+
+  document.querySelectorAll<Dialog>('[data-bcn-share]').forEach((dialog) => {
+    const projectId = dialog.dataset.projectId!;
+    const url = new URL(dialog.dataset.path!, location.origin).href;
+    dialog.querySelector('[data-share-url]')!.textContent = url;
+    const field = (name: string) => dialog.querySelector<Field>(`[data-share="${name}"]`)!;
+    for (const el of dialog.querySelectorAll<Field>('[data-options]')) el.options = JSON.parse(el.dataset.options!);
+
+    const restore = () => {
+      const s = loadShare(projectId);
+      field('audience').value = s.audience;
+      field('refs').checked = s.refs;
+      field('forecast').checked = s.forecast;
+      field('expiry').value = s.expiry;
+    };
+    const persist = () =>
+      saveShare(projectId, {
+        audience: field('audience').value ?? 'link',
+        refs: !!field('refs').checked,
+        forecast: !!field('forecast').checked,
+        expiry: field('expiry').value ?? 'close',
+      });
+
+    dialog.addEventListener('change', persist);
+
+    document.addEventListener('click', (e) => {
+      const t = e.target as Element | null;
+      if (t?.closest?.('[data-project-share]')) {
+        restore();
+        dialog.show();
+      }
+    });
+    dialog.querySelector('[data-share-copy]')!.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        toast('Link copied', 'success');
+      } catch {
+        toast('Copy the link from the box above', 'info');
+      }
+    });
+    dialog.querySelector('[data-share-done]')!.addEventListener('click', () => {
+      persist();
+      dialog.close();
+    });
+  });
+</script>
+
+<style>
+  .bcn-share__lead {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-share__link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    padding: var(--spacing-150, 0.375rem) var(--spacing-150, 0.375rem) var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: var(--color-background-default);
+  }
+  .bcn-share__url {
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+  }
+  .bcn-share__never {
+    display: flex;
+    gap: var(--spacing-200, 0.5rem);
+    align-items: start;
+    padding: var(--spacing-300, 0.75rem);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-share__preview {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.25rem);
+    color: var(--color-content-link);
+  }
+</style>

@@ -75,11 +75,34 @@ const cards = PERMIT_TYPES.map((t) => {
     align-items: start;
     flex-wrap: nowrap;
   }
-  .bcn-ptc__link {
-    color: var(--color-content-link);
-    text-decoration: underline;
+  /* ESA design pass: the whole card is the link (the name's ::after stretches over it),
+     the name reads in body ink, and hover underlines it and darkens the border, the same
+     treatment as the project cards. Focus stays on the one <a>. */
+  .bcn-ptc > li {
+    position: relative;
   }
-  .bcn-ptc__link:hover {
-    color: var(--color-content-link-hover, var(--color-content-link));
+  .bcn-ptc > li:hover {
+    --card-border-color: var(--color-border-default-strong);
+  }
+  .bcn-ptc__link {
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-ptc__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md, 0.25rem);
+  }
+  .bcn-ptc > li:hover .bcn-ptc__link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bcn-ptc__link:focus-visible {
+    outline: none;
+  }
+  .bcn-ptc__link:focus-visible::after {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #00756e);
+    outline-offset: var(--focus-ring-offset, 2px);
   }
 </style>

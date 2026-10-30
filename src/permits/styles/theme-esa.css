@@ -1,0 +1,55 @@
+/*
+ * ESA brand layer for the Permits micro-app.
+ *
+ * Permits is an ESA-internal tool, so it leads with ESA's own brand instead of
+ * Beacon's. It still renders on top of the Beacon theme (data-theme="beacon" stays on
+ * <html>): every Beacon refinement carries over untouched, including the status-color
+ * standard, the warm neutral chain, regular weight 400, the 4px radius and Roboto Mono.
+ * This file re-points only the BRAND tier. The selector carries [data-brand="esa"] on
+ * top of [data-theme="beacon"], so it outranks theme-beacon.css whatever order the
+ * sheets load in.
+ *
+ * Source: esassoc.com (the logo SVG and the site stylesheet).
+ *   ESA teal   #00a69c  the site's primary. 2.9:1 on white, so it is a fill and accent
+ *                       color only. Buttons, links and active nav use the 700 step.
+ *   ESA orange #f9a134  the logo's wordmark. Beacon's rule stays: orange is a brand
+ *                       accent and never a severity. Amber (#f59e0b) still means
+ *                       "in progress" and "attention", so orange stays in the logo.
+ *
+ * Token tiers follow theme-beacon.css: --esa-* is raw material that lives only here;
+ * components read the semantic --color-* tier, never --esa-*.
+ */
+
+[data-theme="beacon"][data-brand="esa"] {
+  /* ===== ESA teal ramp (raw material) =====
+     500 is the website's teal. The darker steps are mixed toward the site's own deep
+     teal-blue (#00728f) so they keep the hue instead of going muddy. 700 is 5.6:1 on
+     white (AA for text and for white text on it). */
+  --esa-teal-50:  #effaf9;
+  --esa-teal-100: #ddf3f1;
+  --esa-teal-200: #b2e3de;
+  --esa-teal-300: #72ccd2;
+  --esa-teal-500: #00a69c;
+  --esa-teal-600: #008b83;
+  --esa-teal-700: #00756e;
+  --esa-teal-800: #005e59;
+  --esa-teal-900: #004743;
+  --esa-orange:   #f9a134;
+  --esa-gray:     #aeafb2;
+
+  /* ===== BRAND tier ===== */
+  --color-background-brand:             var(--esa-teal-700);
+  --color-background-brand-hover:       var(--esa-teal-800);
+  --color-background-brand-active:      var(--esa-teal-900);
+  --color-background-brand-subtle:      var(--esa-teal-50);
+  --color-background-brand-muted:       var(--esa-teal-100);
+  --color-background-brand-muted-hover: var(--esa-teal-200);
+  --color-border-brand:                 var(--esa-teal-200);
+  --color-content-brand:                var(--esa-teal-700);
+  --color-content-link:                 var(--esa-teal-700);
+  --color-content-link-hover:           var(--esa-teal-900);
+
+  /* The app canvas: a hair of ESA teal in the off-white, the site's own #f4fbfb
+     pulled back toward neutral so cards (white) still lift off it. */
+  --color-background-default: #f7f9f9;
+}

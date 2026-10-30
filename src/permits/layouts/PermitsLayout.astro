@@ -1,14 +1,23 @@
 ---
-// PermitTrackerLayout — the frame every Permit Tracker page renders inside. The Permit
-// Tracker is a SATELLITE of Beacon, not a Beacon module, so it deliberately does NOT use
-// AppShell (Beacon's side nav, tenant/project switcher). It is BaseLayout (Beacon theme +
-// tokens) around the hub's canonical esa-app-shell with the tracker's own two-item nav and
-// an omnibox over every project and active permit.
+// PermitsLayout — the frame every Permits page renders inside. Permits is an ESA
+// micro-app for permits, not a Beacon module, so it does NOT use AppShell (Beacon's
+// side nav, tenant/project switcher). It is PermitsBaseLayout (Beacon theme + the ESA
+// brand layer) around the hub's canonical esa-app-shell, with the app's own nav and an
+// omnibox over every project and active permit.
+//
+// THE LOCKUP: the ESA logo, a hairline, then the product name. The logo is the real
+// asset from esassoc.com (public/brand/esa-logo.svg), sized so its serif "ESA" reads at
+// about cap height of the product name. When the rail collapses, only the logo stays.
+//
+// THE PAGE COLUMN: the shell's main region is full-bleed. Pages sit in a centred column
+// capped at 88rem, so the grids and the readiness figures don't stretch into a line too
+// long to read on a wide monitor.
 //
 // bcn-lego-checked: esa-app-shell IS the chrome (bar + sidenav + omnibox + profile menu);
-// this layout only feeds it data. The one rule below is the fixed-height parent the shell's
-// header asks for ("render it inside a parent with a fixed height").
-import BaseLayout from '../../layouts/BaseLayout.astro';
+// this layout feeds it data and fills its `logo` slot. The rules below are the
+// fixed-height parent the shell asks for, the lockup inside the logo slot, and the page
+// column.
+import PermitsBaseLayout from './PermitsBaseLayout.astro';
 import EsaAppShell from '@esa/ecology/esa-app-shell.astro';
 import { PROJECTS, PERMITS, ROUTES, getProject, scopeLabel } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
@@ -20,15 +29,12 @@ interface Props {
 }
 const { title, active } = Astro.props;
 
-// Lucide glyphs (inner SVG markup) — folder, file-text, scale.
+// Lucide glyphs (inner SVG markup): folder, file-text, scale.
 const FOLDER = '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>';
 const FILE_TEXT =
   '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>';
 const SCALE =
   '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>';
-// Temporary mark: Lucide's stamp, in the shell's brand ink (currentColor).
-const MARK =
-  '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13"/></svg>';
 
 const items = [
   { key: 'projects', label: 'Projects', href: withBase(ROUTES.projects), icon: FOLDER },
@@ -48,12 +54,11 @@ const searchIndex = [
 ];
 ---
 
-<BaseLayout title={`${title} · Permit Tracker`}>
-  <div class="permit-tracker-frame">
+<PermitsBaseLayout title={`${title} · ESA Permits`}>
+  <div class="pm-frame">
     <EsaAppShell
-      id="permit-tracker"
-      title="Permit Tracker"
-      mark={MARK}
+      id="esa-permits"
+      title="Permits"
       brandHref={withBase(ROUTES.projects)}
       active={active}
       items={items}
@@ -61,13 +66,50 @@ const searchIndex = [
       searchIndex={searchIndex}
       searchPlaceholder="Search projects and permits"
     >
-      <slot />
+      <span slot="logo" class="pm-lockup">
+        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="88" height="52" />
+        <span class="pm-lockup__product">Permits</span>
+      </span>
+      <div class="pm-page"><slot /></div>
     </EsaAppShell>
   </div>
-</BaseLayout>
+</PermitsBaseLayout>
 
 <style>
-  .permit-tracker-frame {
+  .pm-frame {
     height: 100dvh;
+  }
+  .pm-page {
+    max-inline-size: 88rem;
+    margin-inline: auto;
+    padding-block: var(--spacing-200, 0.5rem) var(--spacing-1000, 4rem);
+  }
+
+  /* Slotted into the shell's brand link, so these must be global to reach it. */
+  :global(.pm-lockup) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300, 0.75rem);
+    padding: var(--spacing-100, 0.25rem) var(--spacing-100, 0.25rem);
+  }
+  :global(.pm-lockup__logo) {
+    inline-size: 88px;
+    block-size: auto;
+    flex: none;
+  }
+  :global(.pm-lockup__product) {
+    padding-inline-start: var(--spacing-300, 0.75rem);
+    border-inline-start: 1px solid var(--color-border-default, #dcdcdc);
+    color: var(--color-content-default);
+    font-size: var(--font-size-300, 1.125rem);
+    font-weight: var(--typography-font-weight-semibold, 600);
+    letter-spacing: -0.01em;
+    line-height: 1.75rem;
+  }
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__product) {
+    display: none;
+  }
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
+    inline-size: 40px;
   }
 </style>
