@@ -974,6 +974,8 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       plan: shown,
       owners: Object.fromEntries(Object.entries(attrs).map(([id, a]) => [id, a.owners ?? []])),
       editable: mode !== 'view',
+      // From Live an edit opens your draft first (tableEdit); the value bar says which.
+      inDraft: mode === 'own' && !!draft,
       query: q<HTMLElement & { value: string }>('[data-prp-search]').value ?? '',
       // Status is Live's record: set on items Live has, by anyone working on the plan.
       statuses: Object.fromEntries(flattenPlan(live.Elements).filter(({ element }) => !element.Children?.length).map(({ element }) => [element.PlanElementID ?? '', statusOf(recordsFor(planID!), live, element.PlanElementID ?? '')])),

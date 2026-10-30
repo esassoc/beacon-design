@@ -7,11 +7,11 @@
 // the cursor's column header and row name lit, a name box and value bar above, type to replace, Enter or F2 to edit,
 // Enter again commits and moves down, Tab across, Escape cancels, Delete clears, copy and paste (a block from Excel
 // pastes across the cells it covers), and "250k" or "$1.2m" read as money. A committed change flashes its cell, the
-// parents it rolls up into and the plan's total.
+// parents it rolls up into and the plan's total. The spreadsheet itself is ./plan-sheet.ts (2026-10-30), shared with
+// the Schedule Table; this file is the budget's columns and rules.
 
-import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-import type { CellClassParams, CellPosition, Column, ColDef, GridApi, ICellRendererParams, IHeaderComp, IHeaderParams, IRowNode, ValueFormatterParams } from 'ag-grid-community';
-import { beaconDenseTheme } from '../../lib/beacon-grid';
+import type { CellClassParams, Column, ColDef, IHeaderComp, IHeaderParams, ValueFormatterParams } from 'ag-grid-community';
+import { createSheet, nameRenderer, SHEET_HEAD_PX, SHEET_ROW_PX, tierClass, type SheetAt } from './plan-sheet';
 import { todayIso } from '../../lib/planning/plan-records';
 import { fiscalYearLabel, fiscalYearOf, fiscalYearSpan, flattenPlan, type PlanBudget } from '../../lib/planning/plan-repo';
 import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
@@ -48,10 +48,9 @@ export interface PlanBudgetSheet {
   download(fileName: string): void;
 }
 
-let registered = false;
 const dollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-const ROW_PX = 32;
-const HEAD_PX = 48;
+const ROW_PX = SHEET_ROW_PX;
+const HEAD_PX = SHEET_HEAD_PX;
 
 /**
  * Money as people type it: "250000", "250,000", "$250,000", "250k", "1.2m", "1.5 M". Blank, "-" or "—" is nothing.
@@ -102,39 +101,16 @@ class YearHeader implements IHeaderComp {
   }
 }
 
-// The sheet's grid: Beacon's grid in its dense variant, the one the Schedule Table shares (design QA, 2026-10-29: the
-// teal header, its zebra and hover, its resize handle; 32px rows and a 48px header, which the two-line year header
-// fits). A spreadsheet's only additions: a hairline between columns as well as rows, and the cursor's colors.
-// Literal hex, as beacon-grid's are.
-const sheetTheme = beaconDenseTheme.withParams({
-  rowHeight: ROW_PX,
-  headerHeight: HEAD_PX,
-  columnBorder: { color: '#efefef' }, // gray-100
-  rangeSelectionBorderColor: '#005862', // teal-900 / --color-background-brand
-  valueChangeValueHighlightBackgroundColor: 'rgba(0, 88, 98, 0.18)', // teal-900 at 18%
-  cellHorizontalPadding: 10,
-});
-
 export function setupPlanBudgetSheet(
   root: HTMLElement,
   opts: { onEdit: (changes: BudgetChange[]) => void; onOpen: (id: string) => void }
 ): PlanBudgetSheet {
-  if (!registered) {
-    ModuleRegistry.registerModules([AllCommunityModule]);
-    registered = true;
-  }
   const host = root.querySelector<HTMLElement>('[data-pbs-grid]')!;
-  const refEl = root.querySelector<HTMLElement>('[data-pbs-ref]')!;
-  const valueEl = root.querySelector<HTMLElement>('[data-pbs-value]')!;
-  // The cursor's header and row-name highlight, rewritten as it moves (made here: Astro would hoist a <style> in markup).
-  const focusStyle = root.appendChild(document.createElement('style'));
   let editable = false;
   let query = '';
   let keep: ReadonlySet<string> = new Set();
   let years: number[] = [];
   let parentOf = new Map<string, string | null>();
-  /** The cells a commit touched, flashed once the page has redrawn with it. */
-  let flash: { ids: Set<string>; cols: Set<string> } | null = null;
 
   const fyKey = (fy: number) => `fy${fy}` as const;
   const fyOfCol = (colId: string) => (colId.startsWith('fy') ? Number(colId.slice(2)) : null);
@@ -144,11 +120,12 @@ export function setupPlanBudgetSheet(
   // its dates. Sums never; a year outside the dates only to clear money already sitting there.
   const canEdit = (row: SheetRow | undefined, colId: string) => {
     const fy = fyOfCol(colId);
-    return editable && !!row && row.kind === 'task' && fy !== null && (inDates(row, fy) || !!row[fyKey(fy)]);
+    return editable && !!row && row.id !== 'total' && row.kind === 'task' && fy !== null && (inDates(row, fy) || !!row[fyKey(fy)]);
   };
   const yearsOf = (row: SheetRow) => (row.startFy === null ? 'it has no dates' : row.endFy !== null && row.endFy !== row.startFy ? `${fiscalYearLabel(row.startFy)} to ${fiscalYearLabel(row.endFy)}` : fiscalYearLabel(row.startFy));
   /** Why the cursor's cell won't take a figure, in a draft. */
   function whyNot(row: SheetRow, colId: string): string {
+    if (!editable) return '';
     const fy = fyOfCol(colId);
     if (row.id === 'total' || colId === 'total' || row.kind === 'parent') return `A sum. Edit the tasks under it.`;
     if (fy !== null && !inDates(row, fy)) return `Outside its dates (${yearsOf(row)}). Change its dates to budget this year.`;
@@ -164,25 +141,13 @@ export function setupPlanBudgetSheet(
     // showed "$1" before the total); a long name ends in an ellipsis, whole in its tooltip.
     width: 240,
     tooltipField: 'name',
-    cellClass: (p: CellClassParams<SheetRow>) => (p.data?.kind === 'parent' ? 'bcn-pbs__parent' : ''),
-    cellRenderer: (p: ICellRendererParams<SheetRow>) => {
-      const span = document.createElement('span');
-      span.className = 'bcn-pbs__name';
-      span.style.paddingInlineStart = `${(p.data?.depth ?? 0) * 16}px`;
-      // The search's hits in yellow, as the Gantt marks them (2026-10-28, Andy: "we also lost the yellow hit
-      // highlighting"; the sheet narrowed to the matches without marking them).
-      const label: string = p.value ?? '';
-      const at = query && !p.node.isRowPinned() ? label.toLowerCase().indexOf(query) : -1;
-      if (at < 0) span.textContent = label;
-      else {
-        const mark = Object.assign(document.createElement('mark'), { className: 'bcn-pbs__match', textContent: label.slice(at, at + query.length) });
-        span.append(label.slice(0, at), mark, label.slice(at + query.length));
-      }
-      return span;
-    },
+    cellClass: (p: CellClassParams<SheetRow>) => (p.data?.kind === 'parent' ? 'bcn-sheet__parent' : ''),
+    // The search's hits in yellow, as the Gantt marks them (2026-10-28, Andy: "we also lost the yellow hit
+    // highlighting").
+    cellRenderer: nameRenderer<SheetRow>({ depth: (r) => r.depth, query: () => query, link: true }),
     onCellClicked: (e) => {
       // The name opens the element, as the Gantt's does; the cell around it just takes the cursor.
-      if (e.data && !e.node.isRowPinned() && (e.event?.target as HTMLElement | null)?.closest('.bcn-pbs__name')) opts.onOpen(e.data.id);
+      if (e.data && !e.node.isRowPinned() && (e.event?.target as HTMLElement | null)?.closest('.bcn-sheet__name')) opts.onOpen(e.data.id);
     },
   });
   // Nothing in a cell reads as a quiet en dash (a milestone's stay empty: it carries no money).
@@ -217,8 +182,8 @@ export function setupPlanBudgetSheet(
       if (off) classes.push('bcn-pbs__off');
       if (off && row[fyKey(fy)]) classes.push('bcn-pbs__stray');
       if (row.changed.has(fy)) classes.push('bcn-pbs__changed');
-      if (canEdit(row, fyKey(fy))) classes.push('bcn-pbs__editable');
-      if (row.kind === 'parent') classes.push('bcn-pbs__parent', 'bcn-pbs__sum');
+      if (canEdit(row, fyKey(fy))) classes.push('bcn-pbs__editable', 'bcn-sheet__edit');
+      if (row.kind === 'parent') classes.push('bcn-sheet__parent', 'bcn-sheet__sum');
       return classes.join(' ');
     },
   });
@@ -230,43 +195,11 @@ export function setupPlanBudgetSheet(
     width: 124,
     type: 'numericColumn',
     valueFormatter: money,
-    cellClass: 'ag-right-aligned-cell bcn-pbs__money bcn-pbs__parent bcn-pbs__sum bcn-pbs__total',
+    cellClass: 'ag-right-aligned-cell bcn-pbs__money bcn-sheet__parent bcn-sheet__sum bcn-pbs__total',
   };
 
-  const api: GridApi<SheetRow> = createGrid(host, {
-    theme: sheetTheme,
-    columnDefs: [nameColumn('Item')],
-    rowData: [],
-    getRowId: (p) => p.data.id,
-    getRowClass: (p) => (p.data?.kind === 'parent' && !p.node.isRowPinned() ? `bcn-pbs__tier-${Math.min(p.data.depth, 2)}` : undefined),
-    singleClickEdit: false,
-    stopEditingWhenCellsLoseFocus: true,
-    // Sheets and Excel: Enter commits and moves down a row.
-    enterNavigatesVerticallyAfterEdit: true,
-    defaultColDef: {
-      // Sorting on, as prod's grids (design QA, 2026-10-29); a third click returns the outline's order.
-      sortable: true,
-      resizable: true,
-      suppressMovable: true,
-      // Delete and Backspace clear the cell outright (below), rather than opening an empty editor.
-      suppressKeyboardEvent: (p) => !p.editing && (p.event.key === 'Delete' || p.event.key === 'Backspace'),
-    },
-    tooltipShowDelay: 300,
-    isExternalFilterPresent: () => !!query,
-    doesExternalFilterPass: (node) => !!node.data && keep.has(node.data.id),
-    onCellValueChanged: (e) => {
-      const fy = fyOfCol(String(e.colDef.colId ?? e.colDef.field ?? ''));
-      if (fy === null || !e.data) return;
-      const value = parseMoney(e.newValue);
-      if (value === null) return;
-      commit([{ id: e.data.id, fy, value }]);
-    },
-    onCellFocused: () => showCursor(),
-    onModelUpdated: () => fit(),
-    onGridSizeChanged: () => fit(),
-  });
-
-  /** Hands changes to the page, and remembers what to flash when it redraws. */
+  /** Hands changes to the page, and remembers what to flash when it redraws: the cell, the parents it rolls up into
+   *  and the plan's total. */
   function commit(changes: BudgetChange[]): void {
     if (!changes.length) return;
     const ids = new Set<string>();
@@ -275,136 +208,90 @@ export function setupPlanBudgetSheet(
       for (let at: string | null | undefined = c.id; at; at = parentOf.get(at)) ids.add(at);
       cols.add(fyKey(c.fy));
     }
-    flash = { ids, cols };
+    sheet.flashNext(ids, cols);
     opts.onEdit(changes);
   }
 
-  /** The focused cell as its row and column, the pinned total included. */
-  function cursor(): { cell: CellPosition; node: IRowNode<SheetRow> | undefined; colId: string } | null {
-    const cell = api.getFocusedCell();
-    if (!cell) return null;
-    const node = cell.rowPinned === 'bottom' ? api.getPinnedBottomRow(cell.rowIndex) : cell.rowPinned ? undefined : api.getDisplayedRowAtIndex(cell.rowIndex);
-    return { cell, node, colId: cell.column.getColId() };
-  }
-
-  /** The name box, the value bar, and the cursor's column header and row name lit, as Sheets lights its A and 1. */
-  function showCursor(): void {
-    const at = cursor();
-    const row = at?.node?.data;
-    if (!at || !row) {
-      refEl.replaceChildren(document.createTextNode('Select a Cell'));
-      refEl.dataset.empty = '';
-      valueEl.replaceChildren();
-      focusStyle.textContent = '';
-      return;
+  let ready = false;
+  const sheet = createSheet<SheetRow>(
+    {
+      root,
+      canEdit: (row, colId) => canEdit(row, colId),
+      whyNot,
+      where: (at) => {
+        const fy = fyOfCol(at.colId);
+        return { col: at.colId === 'total' ? 'Total' : fy !== null ? fiscalYearLabel(fy) : '', name: at.row.name };
+      },
+      describe: (at: SheetAt<SheetRow>) => {
+        const row = at.row;
+        const fy = fyOfCol(at.colId);
+        if (at.colId === 'name') return { value: row.name, notes: [] };
+        const amount = at.colId === 'total' ? row.total : fy !== null ? row[fyKey(fy)] : 0;
+        const notes: string[] = [];
+        if (row.id === 'total') notes.push('Sum of the Plan');
+        else if (row.kind === 'parent' || at.colId === 'total') notes.push(row.kind === 'parent' ? `Sum of ${row.leaves} ${row.leaves === 1 ? 'Task' : 'Tasks'}` : 'Sum of Its Years');
+        if (fy !== null && row.changed.has(fy)) notes.push(`Live ${dollars.format(row.changed.get(fy)!)}`);
+        if (fy !== null && row.kind === 'task' && !inDates(row, fy)) notes.push(`Outside its dates (${yearsOf(row)})`);
+        if (editable && !canEdit(row, at.colId)) notes.push('Read-Only');
+        return { value: row.kind === 'milestone' ? '' : dollars.format(amount ?? 0), notes };
+      },
+      clear: (at) => {
+        if (at.row[at.colId as `fy${number}`]) commit([{ id: at.row.id, fy: fyOfCol(at.colId)!, value: 0 }]);
+      },
+      onKey: (e, at) => {
+        // Enter on a name opens the element.
+        if (e.key === 'Enter' && at.colId === 'name') {
+          opts.onOpen(at.row.id);
+          return true;
+        }
+        return false;
+      },
+      copy: (at) => (at.colId === 'name' ? at.row.name : String(at.row[at.colId as `fy${number}`] ?? '')),
+      // Paste: figures across the cells the block covers; cells that don't edit, and text that isn't money, skipped.
+      paste: (cells) => {
+        if (!editable) return;
+        const changes: BudgetChange[] = [];
+        for (const { row, colId, raw } of cells) {
+          const value = parseMoney(raw);
+          if (value === null || !canEdit(row, colId)) continue;
+          if (row[colId as `fy${number}`] !== value) changes.push({ id: row.id, fy: fyOfCol(colId)!, value });
+        }
+        commit(changes);
+      },
+    },
+    {
+      columnDefs: [nameColumn('Item')],
+      rowData: [],
+      getRowId: (p) => p.data.id,
+      getRowClass: (p) => (p.data && !p.node.isRowPinned() ? tierClass(p.data.depth, p.data.kind === 'parent') : undefined),
+      isExternalFilterPresent: () => !!query,
+      doesExternalFilterPass: (node) => !!node.data && keep.has(node.data.id),
+      onCellValueChanged: (e) => {
+        const fy = fyOfCol(String(e.colDef.colId ?? e.colDef.field ?? ''));
+        if (fy === null || !e.data) return;
+        const value = parseMoney(e.newValue);
+        if (value === null) return;
+        commit([{ id: e.data.id, fy, value }]);
+      },
+      onModelUpdated: () => fit(),
+      onGridSizeChanged: () => fit(),
     }
-    delete refEl.dataset.empty;
-    const fy = fyOfCol(at.colId);
-    const where = at.colId === 'total' ? 'Total' : fy !== null ? fiscalYearLabel(fy) : '';
-    const ref: Node[] = [];
-    if (where) ref.push(Object.assign(document.createElement('strong'), { textContent: where }));
-    ref.push(Object.assign(document.createElement('span'), { textContent: row.name }));
-    refEl.replaceChildren(...ref);
-
-    const parts: Node[] = [];
-    const small = (text: string) => Object.assign(document.createElement('small'), { textContent: text });
-    if (at.colId === 'name') {
-      parts.push(document.createTextNode(row.name));
-    } else {
-      const amount = at.colId === 'total' ? row.total : fy !== null ? row[fyKey(fy)] : 0;
-      parts.push(document.createTextNode(row.kind === 'milestone' ? '' : dollars.format(amount ?? 0)));
-      if (row.id === 'total') parts.push(small('Sum of the Plan'));
-      else if (row.kind === 'parent' || at.colId === 'total') parts.push(small(row.kind === 'parent' ? `Sum of ${row.leaves} ${row.leaves === 1 ? 'Task' : 'Tasks'}` : 'Sum of Its Years'));
-      if (fy !== null && row.changed.has(fy)) parts.push(small(`Live ${dollars.format(row.changed.get(fy)!)}`));
-      if (fy !== null && row.kind === 'task' && !inDates(row, fy)) parts.push(small(`Outside its dates (${yearsOf(row)})`));
-      if (editable && !canEdit(row, at.colId)) parts.push(small('Read-Only'));
-    }
-    valueEl.replaceChildren(...parts);
-
-    const rowSel = at.node && !at.node.isRowPinned() ? `.ag-row[row-id=${JSON.stringify(at.node.id)}] .ag-cell[col-id="name"]` : '';
-    focusStyle.textContent = [
-      `[data-pbs-grid] .ag-header-cell[col-id=${JSON.stringify(at.colId)}] { background: var(--_pbs-lit-head); }`,
-      rowSel ? `[data-pbs-grid] ${rowSel} { background: var(--_pbs-lit); }` : '',
-      rowSel ? `[data-pbs-grid] ${rowSel} .bcn-pbs__name { color: var(--color-content-brand); }` : '',
-    ].join('\n');
-  }
+  );
+  const api = sheet.api;
+  ready = true;
 
   /** The grid's height: its rows, up to the page's cap (the consumer's --bcn-pbs-max-height), where it scrolls with
    *  the header and the plan's total pinned. When the years run wider than the panel it also stops at the window's
    *  bottom (2026-10-28, the review: the sideways scrollbar sat under the 25th row, off-screen), so the scrollbar that
    *  reaches the later years is always in view. */
   function fit(): void {
+    if (!ready) return;
     const rows = api.getDisplayedRowCount() + 1;
     const wide = api.getAllDisplayedColumns().reduce((sum, c: Column) => sum + c.getActualWidth(), 0) > host.clientWidth + 1;
     const px = HEAD_PX + rows * ROW_PX + (wide ? 16 : 0) + 2;
     const room = Math.max(320, Math.floor(window.innerHeight - host.getBoundingClientRect().top - 24));
     host.style.blockSize = wide ? `min(${px}px, ${room}px)` : `min(${px}px, var(--bcn-pbs-max-height, ${px}px))`;
   }
-
-  // The value bar follows the editor as you type, as a formula bar does.
-  host.addEventListener('input', (e) => {
-    const input = e.target as HTMLInputElement;
-    if (input.closest('.ag-cell-inline-editing')) valueEl.replaceChildren(document.createTextNode(input.value));
-  });
-
-  // ── The keys a spreadsheet has that the grid doesn't ──
-  host.addEventListener('keydown', (e) => {
-    if (api.getEditingCells().length || e.metaKey || e.ctrlKey || e.altKey) return;
-    const at = cursor();
-    if (!at?.node?.data) return;
-    // In a draft, a try at a cell that won't take a figure says why, in the value bar, instead of doing nothing.
-    const attempt = e.key.length === 1 || e.key === 'Enter' || e.key === 'F2' || e.key === 'Delete' || e.key === 'Backspace';
-    if (editable && attempt && at.colId !== 'name' && !canEdit(at.node.data, at.colId)) {
-      const why = whyNot(at.node.data, at.colId);
-      if (why) {
-        e.preventDefault();
-        const note = Object.assign(document.createElement('span'), { className: 'bcn-pbs__why', textContent: why });
-        valueEl.replaceChildren(note);
-        root.querySelector('.bcn-pbs__bar')?.animate([{ backgroundColor: 'var(--_pbs-why)' }, { backgroundColor: 'transparent' }], { duration: 900, easing: 'ease-out' });
-      }
-      return;
-    }
-    if ((e.key === 'Delete' || e.key === 'Backspace') && canEdit(at.node.data, at.colId) && !at.node.isRowPinned()) {
-      e.preventDefault();
-      if (at.node.data[at.colId as `fy${number}`]) commit([{ id: at.node.data.id, fy: fyOfCol(at.colId)!, value: 0 }]);
-    } else if (e.key === 'Enter' && at.colId === 'name' && !at.node.isRowPinned()) {
-      e.preventDefault();
-      opts.onOpen(at.node.data.id);
-    }
-  });
-  const inSheet = () => host.contains(document.activeElement) && !api.getEditingCells().length;
-  document.addEventListener('copy', (e) => {
-    if (!inSheet()) return;
-    const at = cursor();
-    const row = at?.node?.data;
-    if (!at || !row) return;
-    const value = at.colId === 'name' ? row.name : String(row[at.colId as `fy${number}`] ?? '');
-    e.clipboardData?.setData('text/plain', value);
-    e.preventDefault();
-  });
-  // Paste: one figure into the cursor's cell, or a block (tab-separated rows, as Excel and Sheets copy them) across
-  // the cells it covers from there. Cells that don't edit, and text that isn't money, are skipped.
-  document.addEventListener('paste', (e) => {
-    if (!inSheet() || !editable) return;
-    const at = cursor();
-    if (!at || at.node?.isRowPinned()) return;
-    const text = e.clipboardData?.getData('text/plain') ?? '';
-    if (!text) return;
-    e.preventDefault();
-    const columns = api.getAllDisplayedColumns();
-    const startCol = columns.findIndex((c) => c.getColId() === at.colId);
-    const changes: BudgetChange[] = [];
-    text.replace(/\r?\n$/, '').split(/\r?\n/).forEach((line, r) => {
-      const node = api.getDisplayedRowAtIndex(at.cell.rowIndex + r);
-      line.split('\t').forEach((raw, c) => {
-        const colId = columns[startCol + c]?.getColId() ?? '';
-        const value = parseMoney(raw);
-        if (!node?.data || value === null || !canEdit(node.data, colId)) return;
-        if (node.data[colId as `fy${number}`] !== value) changes.push({ id: node.data.id, fy: fyOfCol(colId)!, value });
-      });
-    });
-    commit(changes);
-  });
 
   function rowsOf(plan: PlanDetailDto, budget: PlanBudget, base: PlanBudget | null): { rows: SheetRow[]; years: number[] } {
     const flat: { element: PlanElementDto; depth: number }[] = [];
@@ -487,15 +374,9 @@ export function setupPlanBudgetSheet(
       api.onFilterChanged();
       api.refreshCells({ force: true });
       fit();
-      showCursor();
-      if (flash) {
-        const { ids, cols } = flash;
-        flash = null;
-        const rowNodes = [...ids].map((id) => api.getRowNode(id)).filter((n): n is IRowNode<SheetRow> => !!n);
-        const total = api.getPinnedBottomRow(0);
-        if (total) rowNodes.push(total);
-        api.flashCells({ rowNodes, columns: [...cols], flashDuration: 250, fadeDuration: 650 });
-      }
+      sheet.showCursor();
+      const total = api.getPinnedBottomRow(0);
+      sheet.flush(total ? [total] : []);
     },
     focus(id) {
       const node = api.getRowNode(id);

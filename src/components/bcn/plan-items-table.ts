@@ -1,18 +1,26 @@
 // <BcnPlanItemsTable>'s runtime (2026-10-28, the SOW review: "edit records in a table view rather than row by row"):
-// the plan's items in AG Grid, one row each in outline order: Name, Level, Start, End, Date Type, Milestone, Owners and
-// Notes. Live reads; your draft edits, each committed cell (or pasted block) one edit of the draft, as the budget sheet's
-// cells are. The page hands it the plan, each item's owners, whether it edits and the search; it hands back the changes.
+// the plan's items in a sheet, one row each in outline order: Name, Level, Start, End, Date Type, Milestone, Owners,
+// Status (Live) and Notes. Live reads; your draft edits, each committed cell (or pasted block) one edit of the draft.
+// The page hands it the plan, each item's owners, whether it edits and the search; it hands back the changes.
 //
-// It keeps the budget sheet's keys: type to replace, Enter or F2 to edit, Enter commits and moves down, Tab across,
-// Escape cancels, and a block copied from Excel pastes across the cells it covers (names, dates as 2027-03-17 or
-// 3/17/2027, Estimated or Scheduled, Yes or No, owners separated by commas or semicolons).
+// It is the budget sheet's spreadsheet (2026-10-30, Andy: "The Budget table and Schedule Table seem like two different
+// implementations... I really like the budget table"): ./plan-sheet.ts, the same name box and value bar, cursor, keys,
+// flash and parent shading. What's its own is the columns:
+// - Name and Notes type: type to replace, Enter or F2 to edit, Enter commits and moves down, Escape cancels.
+// - Start and End open a date entry on one click (type 3/17/2027 or 2027-03-17, or pick from the calendar).
+// - Date Type, Owners and Status pick on one click (Andy: "hate how the Schedule table makes me click into a status
+//   cell, and then it transforms into a dropdown"): the list opens under the cell and a pick commits. Owners takes
+//   several, saved when the list closes.
+// - Milestone toggles on one click, or Space.
+// - Delete clears a date, the owners or the notes.
+// A block copied from Excel pastes across the cells it covers (names, dates, Estimated or Scheduled, Yes or No, owners
+// separated by commas or semicolons). A parent's dates come from its items, and say so.
 
-import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-import type { CellClassParams, ColDef, GridApi, ValueFormatterParams } from 'ag-grid-community';
-import { beaconDenseTheme } from '../../lib/beacon-grid';
+import type { CellClassParams, ColDef, ValueFormatterParams } from 'ag-grid-community';
 import { flattenPlan, isOrganization, PLAN_DIRECTORY, PLAN_ORGANIZATIONS } from '../../lib/planning/plan-repo';
 import { PlanDateTypeEnum, type PlanDetailDto } from '../../lib/planning/model';
 import { STATUSES } from '../../lib/planning/plan-records';
+import { checkRenderer, choiceRenderer, createSheet, nameRenderer, SheetChoiceEditor, SheetDateEditor, tierClass, type Choice, type Sheet, type SheetAt } from './plan-sheet';
 
 export type ItemField = 'name' | 'start' | 'end' | 'type' | 'milestone' | 'owners' | 'notes';
 export interface ItemChange {
@@ -37,13 +45,28 @@ interface TableRow {
 }
 export interface PlanItemsTable {
   /** statuses and canRecord (2026-10-29, the second traps audit: a Contributor opened each task to set its status):
-   *  the Status column, which saves to Live whatever the rest of the table edits. */
-  set(data: { plan: PlanDetailDto; owners: Record<string, string[]>; editable: boolean; query: string; statuses?: Record<string, string>; canRecord?: boolean; deliverables?: Set<string>; keep?: ReadonlySet<string> | null }): void;
+   *  the Status column, which saves to Live whatever the rest of the table edits. inDraft: the person is in their own
+   *  draft (an edit from Live opens it first, and the value bar says so). */
+  set(data: { plan: PlanDetailDto; owners: Record<string, string[]>; editable: boolean; query: string; statuses?: Record<string, string>; canRecord?: boolean; deliverables?: Set<string>; keep?: ReadonlySet<string> | null; inDraft?: boolean }): void;
 }
 
-let registered = false;
 const EDITABLE: ItemField[] = ['name', 'start', 'end', 'type', 'milestone', 'owners', 'notes'];
-const KNOWN = new Map([...PLAN_DIRECTORY, ...Object.keys(PLAN_ORGANIZATIONS)].map((n) => [n.toLowerCase(), n]));
+const DIRECTORY = [...PLAN_DIRECTORY, ...Object.keys(PLAN_ORGANIZATIONS)];
+const KNOWN = new Map(DIRECTORY.map((n) => [n.toLowerCase(), n]));
+/** A status's dot: the item page's (BcnStatusSelect's) colors. */
+const STATUS_TONE: Record<string, string> = {
+  'Not Started': 'var(--bcn-status-not-started)',
+  'In Progress': 'var(--bcn-status-in-progress)',
+  Blocked: 'var(--bcn-status-blocked)',
+  Completed: 'var(--bcn-status-completed)',
+};
+const DATE_TYPES: Choice[] = [
+  { value: 'Estimated', label: 'Estimated' },
+  { value: 'Scheduled', label: 'Scheduled' },
+];
+const OWNER_CHOICES: Choice[] = DIRECTORY.map((n) => ({ value: n, label: n }));
+/** The columns that open on one click. */
+const CLICK_TO_EDIT = new Set(['start', 'end', 'type', 'owners', 'status']);
 
 /** A date as people type or paste it: 2027-03-17, 3/17/2027, 3/17/27. Blank is none; anything else, null (kept). */
 export function parseDate(input: unknown): string | null | undefined {
@@ -69,17 +92,46 @@ const yes = (v: unknown) => (typeof v === 'boolean' ? v : /^(y|yes|true|1|x)$/i.
 const day = (iso: string | null) => (iso ? new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
 
 export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemChange[]) => void, onStatus: (id: string, status: string) => void = () => {}): PlanItemsTable {
-  let canRecord = false;
-  let deliverableIds: ReadonlySet<string> = new Set();
-  if (!registered) {
-    ModuleRegistry.registerModules([AllCommunityModule]);
-    registered = true;
-  }
-  const host = root.querySelector<HTMLElement>('[data-pit-grid]')!;
   let editable = false;
-  // A cell is editable on a task or milestone; a parent's dates come from its items, its name and notes still edit.
-  const canEdit = (row: TableRow | undefined, field: ItemField) => editable && !!row && (!row.parent || field === 'name' || field === 'notes' || field === 'owners');
-  const cellClass = (field: ItemField) => (p: CellClassParams<TableRow>) => [canEdit(p.data, field) ? 'bcn-pit__edit' : 'bcn-pit__read', p.data?.parent ? 'bcn-pit__parent' : ''].filter(Boolean);
+  let canRecord = false;
+  let inDraft = false;
+  let query = '';
+  let deliverableIds: ReadonlySet<string> = new Set();
+  let parentOf = new Map<string, string | null>();
+
+  /** Whether a cell takes a change now. A task's or milestone's fields edit in a draft (a milestone's End is its
+   *  Start); a parent's dates and kind come from its items, its name, owners and notes still edit. Status is Live's,
+   *  set by anyone on the plan, on an item Live has. */
+  const canEdit = (row: TableRow | undefined, col: string): boolean => {
+    if (!row) return false;
+    if (col === 'status') return canRecord && row.status !== null;
+    if (!editable || !EDITABLE.includes(col as ItemField)) return false;
+    if (row.parent) return col === 'name' || col === 'notes' || col === 'owners';
+    if (col === 'end' && row.milestone) return false;
+    return true;
+  };
+  /** Why a cell won't take a change (quiet in a read-only table, but for Status). */
+  const whyNot = (row: TableRow, col: string): string => {
+    if (col === 'status') {
+      if (row.parent) return 'From its items. Set the status of the items under it.';
+      if (row.status === null) return 'A new item takes a status once its draft is published.';
+      if (!canRecord) return 'Only people on the plan set a status.';
+      return '';
+    }
+    if (!editable) return '';
+    if (col === 'level') return 'From the outline. Move or indent the item in the chart to change it.';
+    if (row.parent && (col === 'start' || col === 'end' || col === 'type')) return 'From its items. Change the dates of the items under it.';
+    if (row.parent && col === 'milestone') return 'It has items under it. Only a task can be a milestone.';
+    if (col === 'end' && row.milestone) return 'A milestone is one day. Change its start.';
+    return '';
+  };
+  const cellClass = (col: string) => (p: CellClassParams<TableRow>) => {
+    const row = p.data;
+    const classes = [canEdit(row, col) ? (col === 'status' ? 'bcn-sheet__live' : 'bcn-sheet__edit') : 'bcn-sheet__read'];
+    if (CLICK_TO_EDIT.has(col)) classes.push('bcn-sheet__pick');
+    if (row?.parent) classes.push('bcn-sheet__parent');
+    return classes;
+  };
 
   const columns: ColDef<TableRow>[] = [
     {
@@ -89,21 +141,54 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
       flex: 2,
       editable: (p) => canEdit(p.data, 'name'),
       cellClass: cellClass('name'),
-      cellStyle: (p) => ({ paddingInlineStart: `${12 + (p.data?.depth ?? 0) * 16}px` }),
+      tooltipField: 'name',
+      // Indented by depth; the search's hits in yellow, as the budget sheet's names (plain text otherwise, so the cell
+      // reads as its name).
+      cellStyle: (p) => ({ paddingInlineStart: `${10 + (p.data?.depth ?? 0) * 16}px` }),
+      cellRendererSelector: (p) => (query && String(p.value ?? '').toLowerCase().includes(query) ? { component: nameRenderer<TableRow>({ depth: () => 0, query: () => query }) } : undefined),
     },
-    { field: 'level', headerName: 'Level', width: 110, cellClass: 'bcn-pit__read' },
-    { field: 'start', headerName: 'Start', width: 130, editable: (p) => canEdit(p.data, 'start'), cellClass: cellClass('start'), valueFormatter: (p: ValueFormatterParams<TableRow>) => day(p.value) },
-    { field: 'end', headerName: 'End', width: 130, editable: (p) => canEdit(p.data, 'end'), cellClass: cellClass('end'), valueFormatter: (p: ValueFormatterParams<TableRow>) => (p.data?.milestone ? '' : day(p.value)) },
+    { field: 'level', headerName: 'Level', width: 110, cellClass: cellClass('level') },
+    {
+      field: 'start',
+      headerName: 'Start',
+      width: 132,
+      editable: (p) => canEdit(p.data, 'start'),
+      cellClass: cellClass('start'),
+      cellEditor: SheetDateEditor,
+      valueFormatter: (p: ValueFormatterParams<TableRow>) => day(p.value),
+      valueParser: (p) => readDate(p.newValue, p.oldValue),
+    },
+    {
+      field: 'end',
+      headerName: 'End',
+      width: 132,
+      editable: (p) => canEdit(p.data, 'end'),
+      cellClass: cellClass('end'),
+      cellEditor: SheetDateEditor,
+      valueFormatter: (p: ValueFormatterParams<TableRow>) => (p.data?.milestone ? '' : day(p.value)),
+      valueParser: (p) => readDate(p.newValue, p.oldValue),
+    },
     {
       field: 'type',
       headerName: 'Date Type',
-      width: 130,
+      width: 132,
       editable: (p) => canEdit(p.data, 'type'),
       cellClass: cellClass('type'),
-      cellEditor: 'agSelectCellEditor',
-      cellEditorParams: { values: ['Estimated', 'Scheduled'] },
+      cellEditor: SheetChoiceEditor,
+      cellEditorPopup: true,
+      cellEditorParams: { choices: DATE_TYPES },
+      cellRenderer: choiceRenderer<TableRow>({ label: (p) => p.value ?? '', pickable: (p) => canEdit(p.data, 'type') }),
     },
-    { field: 'milestone', headerName: 'Milestone', width: 110, editable: (p) => canEdit(p.data, 'milestone'), cellClass: cellClass('milestone'), cellEditor: 'agCheckboxCellEditor', cellRenderer: 'agCheckboxCellRenderer' },
+    {
+      field: 'milestone',
+      headerName: 'Milestone',
+      width: 104,
+      // Toggled by the sheet (one click, or Space), not through an editor.
+      editable: false,
+      cellClass: cellClass('milestone'),
+      cellRenderer: checkRenderer<TableRow>({ show: (p) => !p.data?.parent }),
+      valueFormatter: (p: ValueFormatterParams<TableRow>) => (p.value ? 'Yes' : 'No'),
+    },
     {
       field: 'owners',
       headerName: 'Owners',
@@ -111,24 +196,43 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
       flex: 1.2,
       editable: (p) => canEdit(p.data, 'owners'),
       cellClass: cellClass('owners'),
+      cellEditor: SheetChoiceEditor,
+      cellEditorPopup: true,
+      cellEditorParams: { choices: OWNER_CHOICES, multi: true },
       valueFormatter: (p: ValueFormatterParams<TableRow>) => (p.value as string[] | undefined)?.join(', ') ?? '',
       valueParser: (p) => parseOwners(p.newValue) ?? p.oldValue,
-      tooltipValueGetter: () => (editable ? 'Names or organizations, separated by commas' : ''),
+      cellRenderer: choiceRenderer<TableRow>({ label: (p) => (p.value as string[] | undefined)?.join(', ') ?? '', pickable: (p) => canEdit(p.data, 'owners') }),
+      tooltipValueGetter: (p) => (p.value as string[] | undefined)?.join(', ') ?? '',
     },
     {
       field: 'status',
       headerName: 'Status (Live)',
-      width: 150,
+      width: 152,
       headerTooltip: 'Saves to Live, not to a draft',
-      editable: (p) => canRecord && !!p.data && p.data.status !== null,
-      cellClass: (p: CellClassParams<TableRow>) => [canRecord && p.data?.status !== null ? 'bcn-pit__edit' : 'bcn-pit__read', p.data?.parent ? 'bcn-pit__parent' : ''].filter(Boolean),
-      cellEditor: 'agSelectCellEditor',
+      editable: (p) => canEdit(p.data, 'status'),
+      cellClass: cellClass('status'),
+      cellEditor: SheetChoiceEditor,
+      cellEditorPopup: true,
       // A deliverable completes through Record Completion, on its page.
-      cellEditorParams: (p: { data?: TableRow }) => ({ values: STATUSES.filter((s) => !(s === 'Completed' && p.data && deliverableIds.has(p.data.id))) }),
+      cellEditorParams: (p: { data?: TableRow }) => ({
+        choices: STATUSES.filter((s) => !(s === 'Completed' && p.data && deliverableIds.has(p.data.id))).map((s) => ({ value: s, label: s, tone: STATUS_TONE[s] })),
+      }),
       valueFormatter: (p: ValueFormatterParams<TableRow>) => p.value ?? '',
+      // At rest, as the item page shows it: a dot in the status's color and its label.
+      cellRenderer: choiceRenderer<TableRow>({ label: (p) => p.value ?? '', tone: (p) => STATUS_TONE[p.value as string] ?? null, pickable: (p) => canEdit(p.data, 'status') }),
     },
-    { field: 'notes', headerName: 'Notes', minWidth: 220, flex: 1.6, editable: (p) => canEdit(p.data, 'notes'), cellClass: cellClass('notes') },
+    { field: 'notes', headerName: 'Notes', minWidth: 220, flex: 1.6, editable: (p) => canEdit(p.data, 'notes'), cellClass: cellClass('notes'), tooltipField: 'notes' },
   ];
+
+  /** A typed date, or the old one kept (and the value bar says why) when it doesn't read. */
+  function readDate(raw: unknown, old: unknown): string | null {
+    const v = parseDate(raw);
+    if (v === undefined) {
+      queueMicrotask(() => sheet.say(`Not a date: ${String(raw)}. Type it as 3/17/2027.`));
+      return (old as string | null) ?? null;
+    }
+    return v;
+  }
 
   /** A change as the draft takes it, or null when it isn't one (a date that doesn't read, a name left blank). */
   const asChange = (row: TableRow, field: ItemField, raw: unknown): ItemChange | null => {
@@ -162,65 +266,145 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
     }
   };
 
-  const api: GridApi<TableRow> = createGrid(host, {
-    // Beacon's grid, its dense variant, shared with the budget sheet (design QA, 2026-10-29): one header, one row
-    // height, one zebra, one hover, one resize handle; sorting on, as prod's grids (a third click returns the outline).
-    theme: beaconDenseTheme,
-    columnDefs: columns,
-    defaultColDef: { resizable: true, sortable: true, suppressMovable: true },
-    domLayout: 'autoHeight',
-    getRowId: (p) => p.data.id,
-    singleClickEdit: false,
-    stopEditingWhenCellsLoseFocus: true,
-    enterNavigatesVerticallyAfterEdit: true,
-    onCellValueChanged: (e) => {
-      if (e.colDef.field === 'status') {
-        if (e.data && e.newValue && e.newValue !== e.oldValue) onStatus(e.data.id, String(e.newValue));
-        return;
-      }
-      const field = e.colDef.field as ItemField;
-      const row = { ...e.data, [field]: e.oldValue } as TableRow;
-      const change = asChange(row, field, e.newValue);
-      if (change) onEdit([change]);
-      else e.node.setDataValue(field, e.oldValue);
-    },
-  });
+  /** Hands changes to the page (your draft; from Live it opens first), and remembers what to flash when it redraws:
+   *  the cells, and a date's parents, whose dates roll up from it. */
+  function commit(changes: ItemChange[]): void {
+    if (!changes.length) return;
+    const ids = new Set<string>();
+    const cols = new Set<string>();
+    for (const c of changes) {
+      ids.add(c.id);
+      cols.add(c.field);
+      if (c.field === 'start' || c.field === 'end') for (let at = parentOf.get(c.id); at; at = parentOf.get(at)) ids.add(at);
+    }
+    sheet.flashNext(ids, cols);
+    onEdit(changes);
+  }
+  const toggle = (row: TableRow) => {
+    const change = asChange(row, 'milestone', !row.milestone);
+    if (change) commit([change]);
+  };
+  const headerOf = (col: string): string => sheet.api.getColumn(col)?.getColDef().headerName ?? '';
+  const shown = (row: TableRow, col: string): string => {
+    switch (col) {
+      case 'start':
+        return day(row.start);
+      case 'end':
+        return row.milestone ? day(row.start) : day(row.end);
+      case 'milestone':
+        return row.parent ? '' : row.milestone ? 'Yes' : 'No';
+      case 'owners':
+        return row.owners.join(', ');
+      default:
+        return String(row[col as keyof TableRow] ?? '');
+    }
+  };
 
-  // Paste a block from a spreadsheet across the cells it covers, from the focused cell (AG Grid community has no
-  // clipboard of its own). Each pasted cell is read as its column reads typing; the whole block is one edit.
-  document.addEventListener('paste', (e) => {
-    if (!root.isConnected || root.closest('[hidden]') || !editable) return;
-    const focused = api.getFocusedCell();
-    if (!focused || api.getEditingCells().length) return;
-    const text = e.clipboardData?.getData('text/plain') ?? '';
-    if (!text) return;
-    e.preventDefault();
-    const grid = text.replace(/\r/g, '').replace(/\n$/, '').split('\n').map((line) => line.split('\t'));
-    const cols = api.getAllDisplayedColumns();
-    const first = cols.indexOf(focused.column);
-    const changes: ItemChange[] = [];
-    grid.forEach((cells, r) => {
-      const node = api.getDisplayedRowAtIndex(focused.rowIndex + r);
-      if (!node?.data) return;
-      cells.forEach((cell, c) => {
-        const field = cols[first + c]?.getColDef().field as ItemField | undefined;
-        if (!field || !EDITABLE.includes(field)) return;
-        const change = asChange(node.data!, field, cell);
-        if (change) changes.push(change);
-      });
-    });
-    if (changes.length) onEdit(changes);
-  });
+  const sheet: Sheet<TableRow> = createSheet<TableRow>(
+    {
+      root,
+      canEdit: (row, col) => canEdit(row, col),
+      whyNot,
+      where: (at) => ({ col: headerOf(at.colId), name: at.row.name }),
+      describe: (at: SheetAt<TableRow>) => {
+        const { row, colId: col } = at;
+        const notes: string[] = [];
+        if (col === 'status') {
+          if (row.status !== null) notes.push('Saves to Live');
+          if (row.parent) notes.push('From its items');
+          if (deliverableIds.has(row.id)) notes.push('A deliverable completes on its page');
+        } else if (row.parent && (col === 'start' || col === 'end' || col === 'type')) notes.push('From its items');
+        else if (col === 'level') notes.push('From the outline');
+        else if (col === 'end' && row.milestone) notes.push('A milestone is one day');
+        else if (canEdit(row, col)) {
+          if (CLICK_TO_EDIT.has(col)) notes.push(col === 'owners' ? 'Click to pick one or more' : col === 'start' || col === 'end' ? 'Click to change' : 'Click to pick');
+          if (col === 'milestone') notes.push('Click or press Space');
+          notes.push(inDraft ? 'Saves to your draft' : 'Opens your draft');
+        }
+        if (editable && !canEdit(row, col) && col !== 'status' && !notes.length && col !== 'name') notes.push('Read-Only');
+        return { value: shown(row, col), notes };
+      },
+      clear: (at) => {
+        const { row, colId: col } = at;
+        if (col === 'start' || col === 'end' || col === 'owners' || col === 'notes') {
+          const change = asChange(row, col, col === 'owners' ? [] : '');
+          if (change) commit([change]);
+          return;
+        }
+        if (col === 'name') return "A name can't be blank. Type a new one.";
+        if (col === 'status') return 'A status is always set. Pick another one.';
+        if (col === 'type') return 'A date is Estimated or Scheduled. Pick one.';
+        if (col === 'milestone' && row.milestone) toggle(row);
+      },
+      onKey: (e, at) => {
+        if (e.key === ' ' && at.colId === 'milestone' && canEdit(at.row, 'milestone')) {
+          toggle(at.row);
+          return true;
+        }
+        return false;
+      },
+      onClick: (at) => {
+        if (at.colId !== 'milestone' || !canEdit(at.row, 'milestone')) return false;
+        toggle(at.row);
+        return true;
+      },
+      clickToEdit: CLICK_TO_EDIT,
+      copy: (at) => {
+        const { row, colId: col } = at;
+        if (col === 'owners') return row.owners.join('; ');
+        if (col === 'milestone') return row.milestone ? 'Yes' : 'No';
+        return String(row[col as keyof TableRow] ?? '');
+      },
+      // Paste a block from a spreadsheet across the cells it covers, from the cursor. Each pasted cell is read as its
+      // column reads typing; the whole block is one edit.
+      paste: (cells) => {
+        if (!editable) return;
+        const changes: ItemChange[] = [];
+        for (const { row, colId, raw } of cells) {
+          if (!EDITABLE.includes(colId as ItemField)) continue;
+          const change = asChange(row, colId as ItemField, raw);
+          if (change) changes.push(change);
+        }
+        commit(changes);
+      },
+    },
+    {
+      columnDefs: columns,
+      domLayout: 'autoHeight',
+      getRowId: (p) => p.data.id,
+      getRowClass: (p) => (p.data ? tierClass(p.data.depth, p.data.parent) : undefined),
+      onCellValueChanged: (e) => {
+        if (!e.data) return;
+        if (e.colDef.field === 'status') {
+          if (e.newValue && e.newValue !== e.oldValue) {
+            sheet.flashNext([e.data.id], ['status']);
+            onStatus(e.data.id, String(e.newValue));
+          }
+          return;
+        }
+        const field = e.colDef.field as ItemField;
+        const row = { ...e.data, [field]: e.oldValue } as TableRow;
+        const change = asChange(row, field, e.newValue);
+        if (change) commit([change]);
+        else e.node.setDataValue(field, e.oldValue);
+      },
+    }
+  );
+  const api = sheet.api;
 
   return {
-    set({ plan, owners, editable: canEditNow, query, statuses = {}, canRecord: records = false, deliverables = new Set(), keep = null }) {
+    set({ plan, owners, editable: canEditNow, query: q, statuses = {}, canRecord: records = false, deliverables = new Set(), keep = null, inDraft: drafting = false }) {
       deliverableIds = deliverables;
       editable = canEditNow;
       canRecord = records;
-      root.toggleAttribute('data-editable', editable);
-      const q = query.trim().toLowerCase();
-      const rows: TableRow[] = flattenPlan(plan.Elements)
-        .filter(({ element, path }) => !q || (element.PlanElementName ?? '').toLowerCase().includes(q) || path.some((p) => p.toLowerCase().includes(q)))
+      inDraft = drafting;
+      root.dataset.editable = String(editable);
+      root.dataset.records = String(canRecord);
+      query = q.trim().toLowerCase();
+      const flat = flattenPlan(plan.Elements);
+      parentOf = new Map(flat.map(({ element }) => [element.PlanElementID ?? '', element.ParentPlanElementID ?? null]));
+      const rows: TableRow[] = flat
+        .filter(({ element, path }) => !query || (element.PlanElementName ?? '').toLowerCase().includes(query) || path.some((p) => p.toLowerCase().includes(query)))
         // The chart's Health and Owner filters hold here too: the rows they keep, with the parents above them.
         .filter(({ element }) => !keep || keep.has(element.PlanElementID ?? ''))
         .map(({ element, path }) => ({
@@ -239,6 +423,8 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
         }));
       api.setGridOption('rowData', rows);
       api.refreshCells({ force: true });
+      sheet.showCursor();
+      sheet.flush();
     },
   };
 }
