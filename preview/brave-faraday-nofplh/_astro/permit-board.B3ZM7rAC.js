@@ -1,0 +1,1 @@
+var e=(e,t)=>e.columns.find(e=>e.id===t.id)??e.columns.find(e=>e.category===t.category)??e.columns[0],t=`permit-status:configure`,n=(e,n)=>document.dispatchEvent(new CustomEvent(t,{detail:{projectId:e,workflowId:n}}));export{n,e as r,t};

@@ -1,0 +1,1 @@
+import{t as e}from"./share-store.BrQi4aaP.js";document.querySelectorAll(`[data-sh]`).forEach(t=>{let n=e(t.dataset.projectId);t.querySelectorAll(`[data-sh-ref]`).forEach(e=>e.hidden=!n.refs),t.querySelectorAll(`tr[data-when="forecast"]`).forEach(e=>{e.querySelector(`[data-sh-when]`).hidden=!n.forecast,e.querySelector(`[data-sh-when-off]`).hidden=n.forecast})});

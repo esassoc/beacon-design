@@ -1,0 +1,1 @@
+var e={audience:`link`,refs:!0,forecast:!0,expiry:`close`},t=e=>`esa-permits:share:${e}`,n=new Map;function r(r){let i=n.get(r);if(i)return i;let a=e;try{let n=localStorage.getItem(t(r));n&&(a={...e,...JSON.parse(n)})}catch{}return n.set(r,a),a}function i(e,r){n.set(e,r);try{localStorage.setItem(t(e),JSON.stringify(r))}catch{}}export{i as n,r as t};

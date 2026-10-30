@@ -1,0 +1,1 @@
+var e=new Set([`false`,`0`,`off`,`no`]),t={fromAttribute:t=>t!==null&&!e.has(t.trim().toLowerCase()),toAttribute:e=>e?``:null};export{t};
