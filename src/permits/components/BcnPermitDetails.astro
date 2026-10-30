@@ -78,15 +78,14 @@ const facts = p
       if (!header) return;
       const h1 = header.querySelector('h1');
       if (h1) h1.textContent = p.name;
-      document.title = `${p.name} · Permit Tracker`;
+      document.title = `${p.name} · ESA Permits`;
+      // ESA design pass: the site is a header fact ("Applies To"), not the last crumb;
+      // the crumb trail ends on the project's Permits page and is never rewritten.
       header.querySelectorAll('.esa-page-header__meta-pair').forEach((pair) => {
-        const v = { Agency: agency, 'Reference no.': p.agencyRef ?? 'Not yet assigned' }[pair.querySelector('dt')?.textContent?.trim() ?? ''];
+        const v = { 'Applies To': scope, Agency: agency, 'Reference No.': p.agencyRef ?? 'Not yet assigned' }[pair.querySelector('dt')?.textContent?.trim() ?? ''];
         const dd = pair.querySelector('dd');
         if (v !== undefined && dd) dd.textContent = v;
       });
-      const crumbs = header.querySelectorAll('nav li');
-      const last = crumbs[crumbs.length - 1]?.querySelector('[aria-current], span:last-child');
-      if (last) last.textContent = scope;
     };
     document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
       if ((e as CustomEvent).detail?.permitId === id) render();
