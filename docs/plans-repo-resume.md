@@ -29,7 +29,7 @@ hatch, Title Case labels, semantic tokens only). Then read this file to the end 
 |---|---|
 | `plans-repo/` | Plans index: Sent to You (transmittal inbox) on top, then the plans. New Plan, gear opens Plan Settings. |
 | `plans-repo/plan/?id=` | A plan: four tabs on the divider (Schedule Gantt, Budget sheet, Documents, Deliverables), About panel, drafts (plan menu), Review and Publish modal. |
-| `plans-repo/element/?plan=&el=` | An item's page: two columns of cards per its level's layout. `&draft=` shows a draft; `&customize=1` opens Customize Page. |
+| `plans-repo/element/?plan=&el=` | An item's page: two columns of cards per its level's layout. `&draft=` shows a draft; `&configure=1` opens Configure Page; `&customize=1` the in-place mode. |
 | `plans-repo/transmittal/?plan=&id=` | One transmittal (sender's record or recipient's Confirm Receipt). |
 | `plans-repo/inbox/` | Sent to You for whoever is signed in (`?user=` switches persona). |
 | `plans-repo/revisions/` | Older revisions page (the review says retire it for the modal). |
@@ -49,8 +49,10 @@ Personas: default user is Andy (Owner everywhere). `?user=Alex%20Rivera` (Editor
 - **Element page:** `element-context.ts` (`ElementContext`, `moduleShows`, hrefs incl. `CUSTOMIZE_HREF`),
   `src/components/bcn/element-module.ts` (module contract), `BcnElementModule.astro` (card shell), `plan-element-page.ts`
   (placement, Edit flow), one `BcnElement<Name>.astro` + `element-<name>.ts` per module.
-- **Customize Page:** `BcnElementCustomize.astro` / `element-customize.ts` (scope bar, grips, switches, ghost cards, card
-  options), `BcnLevelFieldsDialog.astro` / `level-fields-dialog.ts` (a level's fields), `BcnFieldDefDialog`.
+- **Configure Page:** `BcnPageConfigDialog.astro` / `page-config-dialog.ts` (the modal) over `BcnPageOutline.astro` /
+  `page-outline.ts` (the miniature). The in-place mode stays: `BcnElementCustomize.astro` / `element-customize.ts`
+  (scope bar, grips, switches, ghost cards, card options), `BcnLevelFieldsDialog.astro` / `level-fields-dialog.ts` (a
+  level's fields), `BcnFieldDefDialog`.
 - **Edit:** `BcnElementEditDialog` / `element-edit-dialog.ts` (the form), then the plan's `BcnPlanRevisionsDialog`
   in single mode on a transient draft (`startEditDraft`).
 - **Plan Settings:** `BcnPlanSetupDialog.astro` / `plan-setup-dialog.ts`: extra-wide modal, left section nav (General,
@@ -226,6 +228,55 @@ two-round chain is visible too. Existing responses carry outcomes (T-002 Accepte
 **Open for Andy:** Accepted vs Approved (agencies say both; For Approval is a purpose); whether Rejected should offer
 Withdraw beside Revise and Resubmit; whether a resubmittal may go to different people (it can today, the chain holds);
 whether the round count belongs on the Gantt bar's tooltip too.
+
+## Design note: Configure Page (2026-10-30)
+
+Andy: "Customizing a level detail page feels unintuitive. I feel like we might want/need an outline/miniaturized view of
+the arrangement and composition of the page in a configure modal for the whole page." Check: `pageconfig.mjs` (47).
+
+**Why a modal over the in-place mode.** In place, you edit one item's real page: eleven full-size cards, so the
+arrangement (what's where, what's off) is only visible by scrolling, ghost cards for what's off take a card's height
+each, and every option hides in a per-card popover. The modal shows the whole page at once, small, so the arrangement
+is the thing you look at; one selection drives one settings column; and every level is a picker away.
+
+**The modal** (`BcnPageConfigDialog`, esa-dialog lg at 1180px):
+- **Bar:** Level (esa-select, every level of the plan; switching keeps each level's changes until Save or Cancel), Can
+  Be a Deliverable (the level's), **Start From** (esa-dropdown-menu: Parent Level Default, Lowest Level Default, As
+  Last Saved; `defaultModules()` in `plan-config.ts`).
+- **Left, Outline** (`BcnPageOutline`, a `bcn-` component): the page header as a wireframe, then the main and side
+  columns at 712:360 (the real 1440 proportions), each card a tile in the card's chrome (muted band, glyph, title)
+  over a sketch of its content (key-value lines for Details, a bar timeline for Schedule, staggered bars when the
+  children's timeline is on, a meter for Progress, cells for Budget, rows for lists). A tile that shows on some items
+  only says so ("Deliverables Only", "With Children Only", "Owners and Editors"); a tile that's on but can never show
+  at the level is a dashed ghost with its reason ("Shows on deliverables. Turn on Can Be a Deliverable for Tasks.",
+  "Tasks are the lowest level, so none have any"). **Not on This Page**, a tray below, holds the cards that are off.
+  Drag a tile (plan-sortable, its ghost and line inside the dialog) within or across columns, or into or out of the
+  tray. Keyboard: arrows walk the tiles, Alt with an arrow moves the selected one (Up, Down, Left to Main, Right to
+  Side), each move announced in a live region; focus follows the tile.
+- **Left, Preview:** the same toggle shows an item of that level (Preview On picks which; the item you came from
+  first) drawn by its real page in a scaled iframe (`&preview=1`: the page reads `window.parent.bcnPageConfigPreview()`
+  through `elementContext({ config })`, hides the app chrome and its actions, and redraws on a `postMessage`).
+- **Right:** the selected card: its glyph, title and tag; Show on Every {Level} (or "Always on. It can move, not go.");
+  a notice when it's on but won't show here; Place (Main Column or Side Column, Move Up, Move Down); and its own
+  options: Budget's Who Sees It, Documents' Document Types, the Schedule's Children's Timeline (parent levels),
+  Details' {Level} Fields with On Page and Required to Complete checks per field and Edit {Level} Fields
+  (BcnLevelFieldsDialog for the rest).
+- **Footer:** "Saved to the plan's settings, not a draft: every item at a level you changed shows it right away.",
+  Cancel (ghost outline; asks when there are changes), Save (primary). Saved through `savePlanConfig`, as before.
+
+**Where it's reached from.** The item page's header (**Configure Page**, Owners on Live; it replaced the header's
+Customize Page), `&configure=1` (`CONFIGURE_HREF`), and **Plan Settings, Levels**: every saved level has Configure Page
+(items or not; it used to need an item to customize on), opening over Plan Settings. Plan Settings takes the saved
+layouts into its own working copy, so its Save (lists, reminders) doesn't put the old layouts back.
+
+**The in-place mode stays**, one step back: Configure Page on an item page offers **Arrange on This Page**, which closes
+the modal and starts the in-place bar with the modal's working layout (dirty, so Cancel asks). `&customize=1` still
+opens it. `custom.mjs` now reaches it through the modal; `setup.mjs` checks the levels' Configure Page opens over Plan
+Settings.
+
+**Open for Andy:** whether the in-place mode earns its keep now (retire it if nobody reaches for Arrange on This Page);
+whether Preview should be the default view once a level has items; whether field order and Shown In (Gantt, Sheet,
+Exports) belong in the right column instead of the fields dialog; a Copy From Another Level in Start From.
 
 ## Done on 2026-10-28 (don't redo)
 

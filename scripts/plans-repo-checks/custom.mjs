@@ -9,8 +9,11 @@ await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}`); await page.
 const id = await page.evaluate(() => [...document.querySelectorAll('.bcn-plan-gantt__item')].find((li) => li.querySelector('.bcn-plan-gantt__name')?.textContent.trim().startsWith('Draft near-field survival memo'))?.dataset.rowId);
 const url = `${BASE}/prototypes/plans-repo/element/?plan=${planID}&el=${id}`;
 await page.goto(url); await page.addStyleTag({ content: HIDE }); await page.waitForSelector('[data-pep-cols]:not([hidden])'); await page.waitForTimeout(800);
-check('Customize Page shown for Owner', await page.locator('[data-pep-action="customize"]').isVisible());
-await page.click('[data-pep-action="customize"] button'); await page.waitForTimeout(1200);
+// The in-place mode is reached through Configure Page's Arrange on This Page (2026-10-30; the header's button opens the
+// modal now) or `&customize=1`.
+check('Configure Page shown for Owner', await page.locator('[data-pep-action="configure"]').isVisible());
+await page.click('[data-pep-action="configure"] button'); await page.waitForTimeout(1200);
+await page.click('[data-pcd-arrange] button'); await page.waitForTimeout(1200);
 check('bar shown', await page.locator('[data-elc-bar]').isVisible());
 const title = await page.locator('[data-elc-title]').textContent();
 const scope = await page.locator('[data-elc-scope]').textContent();
