@@ -293,8 +293,9 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
     const body = {
       subject: f.subject,
       purpose: f.purpose,
-      to: f.to,
-      cc: f.cc,
+      // A resubmittal goes to the same people as the send it replaces (2026-10-30, Andy: "same recipients").
+      to: replaces ? [...replaces.to] : f.to,
+      cc: replaces ? [...replaces.cc] : f.cc,
       memoFileId: f.memo.fileId,
       enclosures: f.enclosures.map((fileId) => {
         const file = fileById(rec, fileId);
@@ -461,7 +462,17 @@ export function setupTransmittalDialog(root: HTMLElement): TransmittalDialog {
         selected = new Set(newest ? [newest.file.id] : []);
         memo.fill(files, '');
       }
-      // What it replaces, said once above the form.
+      // What it replaces, said once above the form. Its recipients are the replaced send's, fixed (Andy, 2026-10-30):
+      // the reviewers who asked for the revision are the ones who see it.
+      if (replaces) {
+        to.value = [...replaces.to];
+        cc.value = [...replaces.cc];
+      }
+      for (const field of [to, cc]) {
+        (field as ComboEl & { disabled?: boolean }).disabled = !!replaces;
+        field.toggleAttribute('disabled', !!replaces);
+      }
+      to.setAttribute('help-text', replaces ? `The same as ${transmittalNumber(replaces)}: a resubmittal goes to whoever reviewed it` : 'Each confirms receipt in Beacon');
       resubmitBox.hidden = !replaces;
       if (replaces) {
         const outcome = replaces.response?.outcome;

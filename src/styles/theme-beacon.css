@@ -160,8 +160,10 @@
      Prod (_form-inputs.scss): $focus-ring-color is brand-solid at 30% over a 2px surface gap, and a focused field's
      border is brand-solid. The theme never set the tier-3 hook, so every esa- lego fell back to the hub's green
      #3e9b4f, and table links fell back to the browser's black. The ring is the 30% teal at the hub's 2px width and 2px
-     offset (the offset is prod's surface gap); the field border re-points with --color-border-default-focus. */
-  --focus-ring-color: color-mix(in srgb, var(--color-background-brand) 30%, transparent);
+     offset (the offset is prod's surface gap); the field border re-points with --color-border-default-focus.
+     Strengthened (2026-10-30, Andy): prod's 30% teal measured about 1.6:1 against the page, under WCAG's 3:1 for a
+     focus indicator. The ring is now solid brand teal, still 2px over a 2px gap. */
+  --focus-ring-color: var(--color-background-brand);
   --color-border-default-focus: var(--color-background-brand);
 
   /* Beacon's warning fill (#f2770e) is dark enough for white text — its ui-button

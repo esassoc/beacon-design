@@ -234,3 +234,13 @@ deterministic ids; Plan Not Found and Guest stops; Guest plans off the index; Sc
 (240px names, years flex with a 100px floor, months on every year, height stops at the window when it scrolls
 sideways); receipts after sends; Added and Letter Date columns; breadcrumbs keep the item's case; singular counts;
 middots gone; one Edit and one Open in Plan on item pages; draft header fill; Last Update right-aligned.
+
+## Decisions, 2026-10-30 (Andy)
+
+- Response outcomes say **Accepted** (matching Record Completion), not Approved.
+- A Rejected response offers **Revise and Resubmit only**; no Withdraw.
+- A resubmittal goes to the **same recipients** as the send it replaces: To and Cc are prefilled and fixed
+  (`transmittal-dialog.ts`; `resubmit.mjs` checks it).
+- The **focus ring is solid brand teal** (2px over a 2px gap), not prod's 30% tint: that measured about 1.6:1, under
+  WCAG's 3:1 for focus indicators; solid measures 7.96:1 (`--focus-ring-color` in `theme-beacon.css`). Worth carrying
+  back to prod.

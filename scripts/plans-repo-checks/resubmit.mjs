@@ -57,6 +57,9 @@ const dlg = await page.evaluate(() => {
   return { heading: d.heading, alert: document.querySelector('[data-tmd-resubmit-text]')?.textContent ?? '', alertShown: !document.querySelector('[data-tmd-resubmit]').hidden, to: [].concat(document.querySelector('[data-tmd="to"]').value), purpose: document.querySelector('[data-tmd="purpose"]').value, checked: [...document.querySelectorAll('[data-tmd-enclosures] [data-file-check]')].filter((c) => c.checked).length };
 });
 check('the dialog is Revise and Resubmit, saying it supersedes T-004', dlg.heading === 'Revise and Resubmit' && dlg.alertShown && /Supersedes T-004/.test(dlg.alert), JSON.stringify(dlg));
+// Same recipients (2026-10-30, Andy): a resubmittal goes to whoever reviewed it; To and Cc are fixed.
+const locked = await page.evaluate(() => ['to', 'cc'].map((k) => document.querySelector(`[data-tmd="${k}"]`).disabled));
+check('To and Cc are the replaced send’s, fixed', locked.every(Boolean), JSON.stringify(locked));
 check('prefilled: same recipients, purpose and an enclosure', dlg.to.length === 3 && dlg.purpose === 'For Comment' && dlg.checked >= 1, JSON.stringify(dlg));
 await page.locator('[data-tmd-send] button').click(); await page.waitForTimeout(600);
 await page.locator('[data-tmd-confirm]').getByRole('button', { name: 'Send' }).click(); await page.waitForTimeout(3000);
