@@ -32,7 +32,12 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
       <!-- Which plan it's read from (2026-10-28): the page's badge, Live Plan in orange or the draft's name in green. -->
       <!-- Which plan this edit lands in, as the plan header says it: the dot and the label, never a pill (design QA,
            2026-10-29: "Live Plan" had three forms). The runtime writes the label into .esa-badge__text. -->
-      <span class="bcn-ped__badge bcn-ped__state typography-label-sm-strong" data-ped="badge" hidden><span class="bcn-ped__state-dot" aria-hidden="true"></span><span class="esa-badge__text"></span></span>
+      <!-- The plan it's read from, then the item's own page (2026-10-30, Andy: the page link stacked over the footer's
+           buttons at every level): the link lives up here, so the footer holds only the edit's actions. -->
+      <div class="bcn-ped__meta">
+        <span class="bcn-ped__badge bcn-ped__state typography-label-sm-strong" data-ped="badge" hidden><span class="bcn-ped__state-dot" aria-hidden="true"></span><span class="esa-badge__text"></span></span>
+        <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" size="sm" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
+      </div>
       <p class="bcn-ped__subtitle typography-body-sm" data-ped="subtitle" hidden></p>
     </div>
 
@@ -153,8 +158,6 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     </div>
 
     <div slot="footer" class="plan-element__actions">
-      <!-- The element's own page (2026-10-28): its full record, read-only as you land, by its level ("Open Task Page"). -->
-      <span class="plan-element__detail" data-ped="detail" hidden><EsaButton variant="ghost" icon="external-link" href="#" data-ped="detail-link"><span data-ped="detail-label">Open Page</span></EsaButton></span>
       <!-- Draft first (2026-10-28): Publish Now beside Save to My Draft on Live, only when it's safe. -->
       <EsaButton variant="ghost" appearance="outline" data-ped="cancel">Cancel</EsaButton>
       <EsaButton variant="ghost" appearance="outline" data-ped="close">Close</EsaButton>
@@ -305,7 +308,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-ped__fy-list :global(dd) { margin: 0; font-variant-numeric: tabular-nums; }
   .bcn-ped__fy-list :global(div[data-total]) { padding-block-start: var(--spacing-100); border-block-start: 1px solid var(--color-border-default-subtle); font-weight: 600; }
   .bcn-ped__fy-list :global(div[data-total] dt) { color: var(--color-content-default); }
-  .plan-element__detail { margin-inline-end: auto; }
+  .bcn-ped__meta { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); min-inline-size: 0; }
+  .plan-element__detail:not([hidden]) { display: inline-flex; margin-inline-start: auto; }
   .plan-element__heading-row {
     display: flex;
     align-items: center;
@@ -491,5 +495,5 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
     width: 100%;
   }
   /* With Publish Now beside Save, the page link takes its own line rather than being squeezed. */
-  .plan-element__actions:has([data-ped="publish"]:not([hidden])) .plan-element__detail { flex-basis: 100%; }
+
 </style>
