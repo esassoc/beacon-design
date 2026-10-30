@@ -35,14 +35,14 @@ import BcnTransmittalDialog from './BcnTransmittalDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
 import '../../styles/bcn-section-card.css';
+import '../../styles/bcn-detail-columns.css';
 ---
 
 <div class="bcn-trp bcn-section-card" data-bcn-transmittal-page>
-  <p class="bcn-trp__line typography-body-md" data-trp-line hidden></p>
-
   <!-- ── The sender's view ── -->
-  <div class="bcn-trp__cols" data-trp-sender hidden>
-    <div class="bcn-trp__col">
+  <!-- The item page's columns (2026-10-30, Andy: the same widths and alignment): one recipe, bcn-detail-columns.css. -->
+  <div class="bcn-trp__cols bcn-detail-cols" data-trp-sender hidden>
+    <div class="bcn-trp__col bcn-detail-cols__col">
       <EsaCard headerVariant="muted">
         <div slot="header" class="bcn-trp__head">
           <span class="bcn-trp__glyph"><EsaIcon name="paperclip" paths={PLAN_ICON_PATHS.paperclip} size="sm" /></span>
@@ -90,7 +90,17 @@ import '../../styles/bcn-section-card.css';
       </div>
     </div>
 
-    <div class="bcn-trp__col">
+    <div class="bcn-trp__col bcn-detail-cols__col">
+      <!-- From whom, when, what's due and its place in the review chain (2026-10-30): the side column's Details card, as
+           the item page leads its rail, in place of a line over the columns that pushed the first card down. -->
+      <EsaCard headerVariant="muted">
+        <div slot="header" class="bcn-trp__head">
+          <span class="bcn-trp__glyph"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" /></span>
+          <span class="bcn-trp__titles"><h2 class="bcn-trp__title typography-label-md-strong">Details</h2></span>
+        </div>
+        <p class="bcn-trp__line typography-body-md" data-trp-line hidden></p>
+      </EsaCard>
+
       <div data-trp-rounds-card hidden>
         <EsaCard headerVariant="muted">
           <div slot="header" class="bcn-trp__head">
@@ -290,9 +300,9 @@ import '../../styles/bcn-section-card.css';
   .bcn-trp :global([hidden]) {
     display: none !important;
   }
-  /* The header line: plain text under the title, as a record page's byline. */
+  /* The Details card's text: who sent it, when, what's due, its review chain. */
   .bcn-trp__line {
-    margin: calc(-1 * var(--spacing-300)) 0 0;
+    margin: 0;
     color: var(--color-content-default-secondary);
   }
   .bcn-trp__line :global(b) {
@@ -311,23 +321,7 @@ import '../../styles/bcn-section-card.css';
     color: var(--color-content-default-secondary);
   }
 
-  .bcn-trp__cols {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(18rem, 3fr);
-    gap: var(--spacing-400);
-    align-items: start;
-  }
-  .bcn-trp__col {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-400);
-    min-width: 0;
-  }
-  @media (max-width: 1080px) {
-    .bcn-trp__cols {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
+  /* The two columns are bcn-detail-columns.css, the item page's. */
 
   /* A section's head: the module card's (BcnElementModule), with its actions at the right. */
   /* Glyph and title on one centre line (2026-10-29, align.mjs: the glyph sat 2px high on a hand-set offset): a grid, the

@@ -19,7 +19,7 @@ import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, withItemsCarried, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
-import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW, alsoChange, goesInto, quoted, savedTo, saveToLabel } from '../../lib/planning/plan-copy';
+import { DRAFT_FIRST, DRAFT_FIRST_ASK, goesInto, liveEditNext, quoted, savedTo, saveToLabel } from '../../lib/planning/plan-copy';
 import { NEW_DRAFT, draftChoiceLabel, openDraftChooser } from './draft-chooser';
 import { findPlanElement, planLevelBounds, validPlanLevels } from '../../lib/planning/plan-element';
 import {
@@ -463,13 +463,13 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     pushAlert(savedTo(mine.name, canPublish), 'success', 7000);
   }
 
-  /** The drawer's and the link editor's Saves To on Live (2026-10-29): your drafts, the current one picked, or a new one. */
-  function draftTarget(): { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel: (value: string) => string } {
+  /** Where the drawer's Save goes on Live (2026-10-29; Save's chevron menu since 2026-10-30): your drafts, the current
+   *  one picked, or a new one. */
+  function draftTarget(): { options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel: (value: string) => string } {
     const mine = myDrafts(planID!);
     const current = currentDraft(planID!);
     const next = nextDraftName(planID!);
     return {
-      label: 'Saves To',
       options: [...mine.map((d) => ({ label: draftChoiceLabel(d), value: d.id })), { label: `A New Draft (${next})`, value: NEW_DRAFT }],
       value: current?.id ?? NEW_DRAFT,
       describe: (value) => goesInto(mine.find((d) => d.id === value) ?? null, next),
@@ -731,7 +731,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
         return openElement(id);
       }
       offerPublish = canPublish && !touching.length;
-      liveNote = !canPublish ? DRAFT_FIRST_ASK : touching.length ? `${alsoChange(touching, me)} this item, so changes save to a draft.` : DRAFT_FIRST_NOW;
+      liveNote = liveEditNext(canPublish, touching, me);
       target = draftTarget();
     }
     const note = mode === 'live' ? liveNote : mode === 'view' ? `${firstName(draft!.owner)}'s draft is read-only. Copy to My Drafts to change it.` : undefined;

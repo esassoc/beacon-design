@@ -33,12 +33,14 @@ import BcnElementEditDialog from './BcnElementEditDialog.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnElementCustomize from './BcnElementCustomize.astro';
 import BcnPageConfigDialog from './BcnPageConfigDialog.astro';
+import '../../styles/bcn-detail-columns.css';
 ---
 
 <div class="bcn-pep" data-bcn-plan-element-page>
-  <div class="bcn-pep__cols" data-pep-cols hidden>
-    <div class="bcn-pep__col" data-pep-col="main"></div>
-    <div class="bcn-pep__col" data-pep-col="side"></div>
+  <!-- The columns are the detail pages' one recipe (bcn-detail-columns.css), shared with the transmittal page. -->
+  <div class="bcn-pep__cols bcn-detail-cols" data-pep-cols hidden>
+    <div class="bcn-pep__col bcn-detail-cols__col" data-pep-col="main"></div>
+    <div class="bcn-pep__col bcn-detail-cols__col" data-pep-col="side"></div>
   </div>
 
   <!-- Every module, banked; the runtime moves the ones that show into their column, in the level's order. -->
@@ -91,20 +93,7 @@ import BcnPageConfigDialog from './BcnPageConfigDialog.astro';
   .bcn-pep__missing[hidden] {
     display: none;
   }
-  /* The data catalog detail pages' proportions (2026-10-28, Andy: "match data catalog pages"): the main column takes
-     the room, the side column is a fixed 360px rail. */
-  .bcn-pep__cols {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: var(--spacing-600);
-    align-items: start;
-  }
-  .bcn-pep__col {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-500);
-    min-width: 0;
-  }
+  /* The columns' proportions are bcn-detail-columns.css (the main column takes the room, a 360px rail beside it). */
   .bcn-pep__col:empty {
     display: none;
   }
@@ -116,10 +105,5 @@ import BcnPageConfigDialog from './BcnPageConfigDialog.astro';
     display: flex;
     border: 1px dashed var(--color-border-default);
     border-radius: var(--radius-200);
-  }
-  @media (max-width: 1024px) {
-    .bcn-pep__cols {
-      grid-template-columns: minmax(0, 1fr);
-    }
   }
 </style>
