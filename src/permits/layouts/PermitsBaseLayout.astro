@@ -1,15 +1,14 @@
 ---
-// Permits base layout. BaseLayout's wiring (hub tokens, the Beacon theme, DM Sans +
-// Roboto Mono, the Handoff inspector) with the ESA brand layer on top: data-brand="esa"
+// Permits base layout. BaseLayout's wiring (hub tokens, the Beacon theme, the Handoff
+// inspector) with the ESA brand layer on top: data-brand="esa"
 // on <html> switches src/permits/styles/theme-esa.css on over theme-beacon.css, so the
 // app keeps every Beacon refinement and leads with ESA's teal.
 //
 // A copy rather than a prop on BaseLayout so the shared layout every other prototype
 // renders in stays untouched.
 //
-// FACES: DM Sans (UI and body), Roboto Mono (ids), Public Sans (page and section titles
-// and the wordmark; theme-esa.css, "THE CIVIC VOICE"), Barlow Condensed Bold (the
-// stamp's ring lettering only).
+// FACES: Public Sans (everything; theme-esa.css, "THE CIVIC VOICE"), Roboto Mono (ids),
+// Barlow Condensed Bold (the stamp's ring lettering only).
 import '@esa/tokens/tokens.css';
 import '@esa/tokens/component-tokens.css';
 import '@esa/tokens/layouts.css';
@@ -33,7 +32,7 @@ const { title = 'Permits · ESA' } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Mono:wght@400;500&family=Public+Sans:wght@400..800&family=Barlow+Condensed:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:wght@400;500&family=Barlow+Condensed:wght@700&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>

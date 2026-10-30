@@ -81,20 +81,22 @@
   --color-background-default: var(--pm-chrome-canvas);
 }
 
-/* ===== THE CIVIC VOICE — page titles, section titles and the wordmark =====
-   DM Sans stays the UI and body face. Public Sans, the U.S. Web Design System's
-   typeface (the one federal sites are set in), carries the places the app speaks in
-   its own voice: the h1 (heading-lg), the section h2 (heading-md) and the "Permits"
-   wordmark. Government typography, as if from a civic design shop. (The stamp's ring
-   lettering is its own face, Barlow Condensed Bold: see BcnPermitsStamp.)
+/* ===== THE CIVIC VOICE — one face, Public Sans =====
+   Public Sans, the U.S. Web Design System's typeface (the one federal sites are set
+   in), is the app's only text face: body, UI, stats, page titles, section titles and
+   the "Permits" wordmark. Government typography, as if from a civic design shop.
+   It replaces DM Sans at the body token, so every esa-* composite (and every shadow
+   root reading the token) follows; the display role already defaults to the body face.
+   (The stamp's ring lettering is its own face, Barlow Condensed Bold: BcnPermitsStamp.
+   Roboto Mono stays the id face.)
 
    Chosen 2026-10-30 from six civic candidates: Public Sans, Overpass (Highway Gothic),
    Barlow Semi Condensed (California highway / BART signage), Big Shoulders (City of
    Chicago), National Park (NPS routed-wood signs), Libre Caslon (founding documents).
-   Bold at a slightly tightened track: a grotesque title reads civic at 700, and the
-   sizes sit a step under the condensed faces' because Public Sans is wide. */
+   Titles are bold at a slightly tightened track: a grotesque title reads civic at 700. */
 [data-theme="beacon"][data-brand="esa"] {
-  --pm-font-display: 'Public Sans', 'DM Sans', sans-serif;
+  --typography-font-family-sans: 'Public Sans', system-ui, sans-serif;
+  --pm-font-display: var(--typography-font-family-sans);
   --pm-h1-size: 2rem;
   --pm-h1-weight: 700;
   --pm-h2-size: 1.3125rem;
