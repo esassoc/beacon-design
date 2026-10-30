@@ -1,66 +1,62 @@
 ---
 // PermitsLayout — the frame every Permits page renders inside. Permits is an ESA
 // micro-app for permits, not a Beacon module, so it does NOT use AppShell (Beacon's
-// side nav, tenant/project switcher). It is PermitsBaseLayout (Beacon theme + the ESA
-// brand layer) around the hub's canonical esa-app-shell, with the app's own nav and an
-// omnibox over every project and active permit.
+// tenant chrome). It is PermitsBaseLayout (Beacon theme + the ESA brand layer) around
+// the app's own shell.
 //
-// THE LOCKUP at the top of the rail is the product, and it is the key mark (Andy,
-// 2026-10-30): the round rubber stamp (BcnPermitsStamp, the ESA logo's orange pressed a
-// step deeper, a few degrees off true) at 44px and the word "Permits" at 24px. The word
-// carries the name; at 44px the ring lettering is still texture. When the rail
-// collapses, only the stamp stays.
+// THE SHELL is composed here from the same four legos esa-app-shell composes
+// (esa-app-bar, esa-sidebar-nav, esa-entity-search, esa-dropdown-menu), because the rail
+// needs two things esa-app-shell has no slot for: a project switcher under the brand
+// (Beacon's model) and a footer. esa-sidebar-nav's one slot, `header`, clips its
+// overflow, so a switcher there would cut off its own menu; and there is no footer slot
+// at all. So the RAIL is this layout's own column, in normal flow:
 //
-// THE RAIL FOOTER carries the maker: the ESA logo (the real asset from esassoc.com,
-// public/brand/esa-logo.svg) over "Proudly built by ESA in California". esa-sidebar-nav
-// has a header slot and no footer slot, so the footer is pinned to the bottom of the
-// rail from here, sized by the rail's own --sidenav-width token, and follows the
-// collapsed rail with :has() (logo only). Logged as a hub gap.
+//   brand        the Permits mark leads: the round rubber stamp (BcnPermitsStamp) at
+//                44px and "Permits" at 24px, linking to Projects
+//   switcher     BcnProjectSwitcher, the active project and the way to change it
+//   Project nav  an esa-sidebar-nav: Project ▸ Overview / Permits / Schedule
+//   divider
+//   Library nav  an esa-sidebar-nav: Library ▸ All Permits / Permit Types
+//   footer       the maker: the ESA logo over "Proudly built by ESA in the Pacific
+//                Northwest", at the foot of the rail
 //
-// THE TOP BAR is compact (48px: 7px above and below the 34px omnibox, down from the
-// bar's 16px) and its bottom edge is the same quiet hairline as the sidenav's.
+// Both hub gaps (no rail footer, no rail header controls) are in the ledger.
+//
+// RAIL GEOMETRY, measured off Beacon (Andy's screenshot, 2026-10-30, at 2x): 280px rail,
+// content inset 16px each side (8px rail padding + the nav's own 8px), item icons at 26px
+// and labels at 52px (so items pad 10px), child rows indented 40px so their labels sit
+// at 66px and their highlight starts at 56px, dividers inset like the switcher.
+// esa-sidebar-nav takes these through its --_sidenav-* properties: the public hooks for
+// them were demoted, and they are spoke geometry, not a theme.
+//
+// THE NAV is project-scoped, like Beacon's. The ACTIVE PROJECT is this page's project
+// (remembered in localStorage), or on a cross-project page (Projects, the Library) the
+// remembered one, else the user's first project. An inline script settles it before
+// first paint and stamps it on the rail; the nav and the switcher read it from there.
+// Both parents open on load: esa-sidebar-nav keeps open parents in a private Set with no
+// prop to start one open (ledgered), so the script below sets it.
 //
 // THE CHROME follows the surface recipe (ecology design-layer surface-recipe.md, values
-// in theme-esa.css): top bar 4.3 points darker than the canvas, sidenav level with the
-// canvas behind a hairline, one hue and saturation across all three. esa-app-shell's
-// defaults paint the bar with the card token (raised) and the rail with sunken, the
-// reverse of the recipe, so this layout re-points both on the shell's own elements.
-// The sidenav's item hover reads the same token as its background, so the rail's
-// colors are set through esa-sidebar-nav's --_sidenav-* properties (logged as a hub
-// gap in docs/system-improvement-ledger.md).
+// in theme-esa.css): top bar 4.3 points under the canvas and 48px tall (7px above and
+// below the 34px omnibox) over a quiet hairline; the rail level with the canvas behind
+// a hairline. The accent (the stamp's ink) marks the active nav item.
 //
-// THE PAGE COLUMN: the shell's main region is full-bleed. Pages sit in a centred column
-// capped at 88rem, so the grids and the readiness figures don't stretch into a line too
-// long to read on a wide monitor.
+// THE PAGE COLUMN: pages sit in a centred column capped at 88rem.
 //
-// THE NAV is project-scoped, like Beacon's: the app always has an ACTIVE PROJECT, shown as
-// a top-level item with the project's own pages under it (Overview, Permits, Schedule).
-// Below that, LIBRARY is the same shape: a top-level item over the cross-project data
-// sets (every permit; the permit types with their agencies and rules). Projects heads the
-// rail as the way to pick another project. Library is an item, not a group heading,
-// because the rail's group heading is an uppercase micro-label (design-principles,
-// banned pattern 2).
-//   • On a project or permit page, the active project is that page's project, and it is
-//     remembered (localStorage) as the current one.
-//   • Anywhere else (All Projects, the Library), the active project is the remembered one,
-//     or the user's first project if none is remembered yet. The page renders the default
-//     and an inline script swaps the remembered project into the shell's nav data before
-//     the shell boots, so there is no flash of the wrong project.
-//   • esa-sidebar-nav opens a parent's children only on click, and has no prop to render
-//     one open. Both parents are opened after the nav renders (see the script below);
-//     logged as a hub gap in docs/system-improvement-ledger.md.
-//
-// bcn-lego-checked: esa-app-shell IS the chrome (bar + sidenav + omnibox + profile menu);
-// this layout feeds it data and fills its `logo` slot. The rules below are the
-// fixed-height parent the shell asks for, the lockup inside the logo slot, and the page
-// column.
+// bcn-lego-checked: every control is a lego (esa-app-bar, esa-sidebar-nav ×2,
+// esa-entity-search, esa-dropdown-menu, esa-button, esa-icon) or a documented bcn-*
+// (BcnPermitsStamp, BcnProjectSwitcher). The CSS is the shell's frame, which mirrors
+// esa-app-shell's own (toggle, omnibox trigger, body, scrolling main), and the rail.
 import PermitsBaseLayout from './PermitsBaseLayout.astro';
-import EsaAppShell from '@esa/ecology/esa-app-shell.astro';
+import EsaAppBar from '@esa/ecology/esa-app-bar.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnPermitsStamp from '../components/BcnPermitsStamp.astro';
+import BcnProjectSwitcher from '../components/BcnProjectSwitcher.astro';
 import { CURRENT_USER, PROJECTS, PERMITS, ROUTES, getProject, scopeLabel, teamOf } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
 
-/** Nav keys: the top-level items, the active project's pages, the Library's two sets. */
+/** Nav keys: the active project's pages and the Library's two sets ('projects' marks
+ *  the Projects page, which has no rail item: the switcher's menu reaches it). */
 export type PermitsNavKey = 'projects' | 'overview' | 'project-permits' | 'schedule' | 'library-permits' | 'types';
 
 interface Props {
@@ -72,128 +68,276 @@ interface Props {
 }
 const { title, active, projectId } = Astro.props;
 
-// Lucide glyphs (inner SVG markup): folders, folder-open, library.
-const FOLDERS =
-  '<path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z"/><path d="M2 8v11a2 2 0 0 0 2 2h14"/>';
-const FOLDER_OPEN =
-  '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>';
+// Lucide library (not in esa-icon's registry, so passed as a whole <svg>).
 const LIBRARY =
-  '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>';
+  '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>';
 
-// The active project: this page's, else the user's first active project (the inline
-// script below swaps in the remembered one on cross-project pages).
 const activeProjects = PROJECTS.filter((p) => p.status === 'active');
 const fallbackId = (activeProjects.find((p) => teamOf(p.id).includes(CURRENT_USER)) ?? activeProjects[0]).id;
 const project = getProject(projectId ?? fallbackId);
 
-/** The active project's nav item; one shape, built here and (for a swap) in the browser. */
-const projectNav = (p: { id: string; name: string }) => ({
-  key: 'project',
-  label: p.name,
-  icon: FOLDER_OPEN,
-  children: [
-    { key: 'overview', label: 'Overview', href: withBase(ROUTES.project(p.id)) },
-    { key: 'project-permits', label: 'Permits', href: withBase(ROUTES.projectPermits(p.id)) },
-    { key: 'schedule', label: 'Schedule', href: withBase(ROUTES.projectSchedule(p.id)) },
-  ],
-});
-
-const items = [
-  { key: 'projects', label: 'Projects', href: withBase(ROUTES.projects), icon: FOLDERS },
-  projectNav(project),
+const mark = (key: string) => (key === active ? { active: true } : {});
+/** The Project nav for one project; built for every active project so the browser can
+ *  use the remembered one on a cross-project page. */
+const projectItems = (id: string) => [
+  {
+    key: 'project',
+    label: 'Project',
+    icon: 'layout-dashboard',
+    children: [
+      { key: 'overview', label: 'Overview', href: withBase(ROUTES.project(id)), ...mark('overview') },
+      { key: 'project-permits', label: 'Permits', href: withBase(ROUTES.projectPermits(id)), ...mark('project-permits') },
+      { key: 'schedule', label: 'Schedule', href: withBase(ROUTES.projectSchedule(id)), ...mark('schedule') },
+    ],
+  },
+];
+const libraryItems = [
   {
     key: 'library',
     label: 'Library',
     icon: LIBRARY,
     children: [
-      { key: 'library-permits', label: 'All Permits', href: withBase(ROUTES.permits) },
-      { key: 'types', label: 'Permit Types', href: withBase(ROUTES.permitTypes) },
+      { key: 'library-permits', label: 'All Permits', href: withBase(ROUTES.permits), ...mark('library-permits') },
+      { key: 'types', label: 'Permit Types', href: withBase(ROUTES.permitTypes), ...mark('types') },
     ],
   },
 ];
-// Every active project's nav item, for the browser-side swap on cross-project pages.
-const swapTable = Object.fromEntries(activeProjects.map((p) => [p.id, projectNav(p)]));
 
-const activeIds = new Set(PROJECTS.filter((p) => p.status === 'active').map((p) => p.id));
-const searchIndex = [
-  ...PROJECTS.map((p) => ({ id: withBase(ROUTES.project(p.id)), title: p.name, subtitle: p.client, category: 'Projects' })),
+const activeIds = new Set(activeProjects.map((p) => p.id));
+const entities = [
+  ...PROJECTS.map((p) => ({ id: `p-${p.id}`, title: p.name, subtitle: p.client, scope: 'Projects', url: withBase(ROUTES.project(p.id)) })),
   ...PERMITS.filter((p) => activeIds.has(p.projectId)).map((p) => ({
-    id: withBase(ROUTES.permit(p.id)),
+    id: `x-${p.id}`,
     title: p.name,
     subtitle: `${getProject(p.projectId).name} · ${scopeLabel(p)}`,
-    category: 'Permits',
+    scope: 'Permits',
+    url: withBase(ROUTES.permit(p.id)),
   })),
 ];
+const payload = JSON.stringify({
+  projectNavs: Object.fromEntries(activeProjects.map((p) => [p.id, projectItems(p.id)])),
+  libraryItems,
+  entities,
+  scopes: [
+    { id: 'Projects', label: 'Projects' },
+    { id: 'Permits', label: 'Permits' },
+  ],
+  menu: [
+    { label: 'Profile', action: 'profile' },
+    { label: 'Settings', action: 'settings' },
+    { divider: true, label: '' },
+    { label: 'Sign out', action: 'sign-out', variant: 'danger' },
+  ],
+});
+const projectNames = Object.fromEntries(activeProjects.map((p) => [p.id, p.name]));
 ---
 
 <PermitsBaseLayout title={`${title} · ESA Permits`}>
-  <div class="pm-frame">
-    <EsaAppShell
-      id="esa-permits"
-      title="Permits"
-      brandHref={withBase(ROUTES.projects)}
-      active={active}
-      items={items}
-      userName="Maya Okafor"
-      searchIndex={searchIndex}
-      searchPlaceholder="Search projects and permits"
-    >
-      <span slot="logo" class="pm-lockup">
-        <BcnPermitsStamp size={44} class="pm-lockup__stamp" />
-        <span class="pm-lockup__name">Permits</span>
-      </span>
-      <div class="pm-page"><slot /></div>
-    </EsaAppShell>
-    <!-- verbal-restraint-allow: Proudly built by ESA in California -->
-    <footer class="pm-rail-foot">
-      <img class="pm-rail-foot__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="48" height="29" />
-      <p class="pm-rail-foot__credit typography-body-sm">Proudly built by ESA in California</p>
-    </footer>
+  <div class="pm-shell">
+    <EsaAppBar tone="surface" as="header" class="pm-shell__bar">
+      <button slot="start" class="pm-shell__toggle" type="button" aria-label="Toggle sidebar" aria-controls="pm-rail" aria-expanded="true" data-pm-toggle>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /></svg>
+      </button>
+
+      <button class="pm-shell__search typography-microcopy-sm-subtle" type="button" aria-label="Search" data-pm-search>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+        <span class="pm-shell__search-label">Search projects and permits</span>
+        <kbd class="pm-shell__search-kbd typography-microcopy-xs">/</kbd>
+      </button>
+
+      <esa-dropdown-menu slot="end" position="below-end" data-pm-user>
+        <EsaButton variant="chrome" icon="circle-user" iconRight="chevron-down" size="sm">Maya Okafor</EsaButton>
+      </esa-dropdown-menu>
+    </EsaAppBar>
+
+    <div class="pm-shell__body">
+      <aside class="pm-rail" id="pm-rail" aria-label="Permits" data-current={project.id}>
+        <a class="pm-rail__brand" href={withBase(ROUTES.projects)}>
+          <BcnPermitsStamp size={44} class="pm-rail__stamp" />
+          <span class="pm-rail__name">Permits</span>
+        </a>
+
+        <div class="pm-rail__switcher">
+          <BcnProjectSwitcher projectId={project.id} />
+        </div>
+
+        <esa-sidebar-nav class="pm-rail__nav" label="Project" collapsible="false" data-pm-nav="project"></esa-sidebar-nav>
+        <hr class="pm-rail__divider" />
+        <esa-sidebar-nav class="pm-rail__nav" label="Library" collapsible="false" data-pm-nav="library"></esa-sidebar-nav>
+
+        <!-- verbal-restraint-allow: Proudly built by ESA in the Pacific Northwest -->
+        <footer class="pm-rail__foot">
+          <img class="pm-rail__esa" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="48" height="29" />
+          <p class="pm-rail__credit typography-body-sm">Proudly built by ESA in the Pacific Northwest</p>
+        </footer>
+      </aside>
+
+      {/* tabindex="0": this pane is the scroll container, so it must take focus to be
+          scrollable by keyboard (esa-app-shell's own note: WCAG 2.1.1). */}
+      <main class="pm-shell__content typography-body-md" tabindex="0">
+        <div class="pm-page"><slot /></div>
+      </main>
+    </div>
+
+    <esa-entity-search placeholder="Search projects and permits" hotkey="slash" data-pm-omnibox></esa-entity-search>
+    <script is:inline type="application/json" data-pm-shell set:html={payload}></script>
   </div>
-  {/* Before the shell's module script boots: remember this page's project, or swap the
-      remembered one into the nav data on a cross-project page. */}
-  <script is:inline define:vars={{ pageProject: projectId ?? null, swapTable, uid: 'esa-permits' }}>
+
+  {/* Before first paint: settle the active project (this page's, else the remembered
+      one, else the default), remember it, and put its name on the switcher. */}
+  <script is:inline define:vars={{ pageProject: projectId ?? null, projectNames }}>
     (function () {
       var key = 'esa-permits:current-project';
+      var rail = document.getElementById('pm-rail');
+      var id = pageProject;
       try {
-        if (pageProject) {
-          localStorage.setItem(key, pageProject);
-          return;
+        if (id) localStorage.setItem(key, id);
+        else {
+          var saved = localStorage.getItem(key);
+          if (saved && projectNames[saved]) id = saved;
         }
-        var id = localStorage.getItem(key);
-        var item = id && swapTable[id];
-        var island = document.querySelector('[data-shell-data="' + uid + '"]');
-        if (!item || !island) return;
-        var cfg = JSON.parse(island.textContent || '{}');
-        cfg.nav = cfg.nav.map(function (n) { return n.key === 'project' ? item : n; });
-        island.textContent = JSON.stringify(cfg);
       } catch (e) {}
+      if (!id || !rail) return;
+      rail.dataset.current = id;
+      var sw = rail.querySelector('[data-bcn-psw]');
+      var label = rail.querySelector('[data-psw-name]');
+      var trigger = rail.querySelector('[data-psw-trigger]');
+      if (sw) sw.dataset.current = id;
+      if (label) label.textContent = projectNames[id];
+      if (trigger) trigger.setAttribute('aria-label', 'Project: ' + projectNames[id] + '. Switch project');
     })();
   </script>
 </PermitsBaseLayout>
 
 <script>
-  // Open the active project and the Library once the nav has its items. esa-sidebar-nav
-  // keeps which parents are open in a private Set keyed by label, with no prop to start
-  // one open, so this sets it directly (hub gap, ledgered). A parent the user closes
-  // stays closed until the next page.
-  type Nav = HTMLElement & { items?: { key?: string; label: string }[]; _expanded?: Set<string> };
+  import '@esa/ecology/esa-sidebar-nav';
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-entity-search';
+
+  type AnyEl = HTMLElement & Record<string, unknown>;
+  type Nav = HTMLElement & { items?: unknown[]; collapsed?: boolean; collapsible?: boolean; _expanded?: Set<string> };
+
+  const cfg = JSON.parse(document.querySelector('[data-pm-shell]')?.textContent || '{}');
+  const rail = document.getElementById('pm-rail')!;
+  const current = rail.dataset.current!;
+  const navs = [...document.querySelectorAll<Nav>('[data-pm-nav]')];
+
   customElements.whenDefined('esa-sidebar-nav').then(() => {
-    const nav = document.querySelector<Nav>('#esa-permits-nav');
-    if (!nav) return;
-    let tries = 0;
-    const open = () => {
-      const parents = (nav.items ?? []).filter((i) => i.key === 'project' || i.key === 'library');
-      if (parents.length) nav._expanded = new Set(parents.map((i) => i.label));
-      else if (tries++ < 20) requestAnimationFrame(open);
-    };
-    open();
+    for (const nav of navs) {
+      nav.collapsible = false;
+      nav.items = nav.dataset.pmNav === 'project' ? cfg.projectNavs[current] : cfg.libraryItems;
+      // Open the one parent each nav holds (private Set; no prop for it, ledgered).
+      nav._expanded = new Set([nav.dataset.pmNav === 'project' ? 'Project' : 'Library']);
+    }
   });
+
+  const toggle = document.querySelector<HTMLButtonElement>('[data-pm-toggle]')!;
+  toggle.addEventListener('click', () => {
+    const collapsed = !rail.hasAttribute('data-collapsed');
+    rail.toggleAttribute('data-collapsed', collapsed);
+    navs.forEach((nav) => (nav.collapsed = collapsed));
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+  });
+
+  const user = document.querySelector<AnyEl>('[data-pm-user]');
+  if (user) user.items = cfg.menu;
+
+  const omnibox = document.querySelector<AnyEl & { show?: () => void }>('[data-pm-omnibox]');
+  if (omnibox) {
+    omnibox.entities = cfg.entities;
+    omnibox.scopes = cfg.scopes;
+    omnibox.addEventListener('select', (ev) => {
+      const url = (ev as CustomEvent<{ entity?: { url?: string } }>).detail?.entity?.url;
+      if (url) location.href = url;
+    });
+    document.querySelector('[data-pm-search]')?.addEventListener('click', () => omnibox.show?.());
+  }
 </script>
 
 <style>
-  .pm-frame {
-    height: 100dvh;
+  /* ── the shell frame (mirrors esa-app-shell's) ── */
+  .pm-shell {
+    display: flex;
+    flex-direction: column;
+    block-size: 100dvh;
+    overflow: hidden;
+    background: var(--color-background-default);
+  }
+  /* esa-app-bar pads its inner row from --_bar-pad-y / --_bar-pad-x (the public
+     --app-bar-pad-* hooks were demoted). */
+  :global(.pm-shell .pm-shell__bar.esa-app-bar) {
+    --_bar-pad-y: 7px;
+    --_bar-pad-x: var(--spacing-400, 1rem);
+    flex: none;
+    background: var(--pm-chrome-bar);
+    border-block-end: 1px solid var(--pm-chrome-rail-border);
+  }
+  .pm-shell__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 32px;
+    block-size: 32px;
+    padding: 0;
+    border-radius: var(--radius-sm, 0.25rem);
+    color: var(--color-content-default-secondary);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .pm-shell__toggle:hover {
+    background: var(--pm-chrome-hover);
+    color: var(--color-content-default);
+  }
+  .pm-shell__toggle:focus-visible,
+  .pm-shell__search:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #265956);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .pm-shell__search {
+    margin-inline: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    inline-size: clamp(180px, 30vw, 340px);
+    block-size: 34px;
+    padding: 0 var(--spacing-300, 0.75rem);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md, 0.25rem);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default-secondary);
+    transition: border-color 150ms ease;
+  }
+  .pm-shell__search:hover {
+    border-color: var(--color-border-default-strong);
+  }
+  .pm-shell__search-label {
+    flex: 1;
+    text-align: start;
+    overflow-x: clip;
+    overflow-y: visible;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pm-shell__search-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 18px;
+    block-size: 18px;
+    padding: 0 5px;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: var(--color-background-elevation-sunken);
+  }
+  .pm-shell__body {
+    display: flex;
+    flex: 1;
+    min-block-size: 0;
+  }
+  .pm-shell__content {
+    flex: 1;
+    min-inline-size: 0;
+    overflow-y: auto;
+    padding: var(--spacing-500, 1.5rem);
   }
   .pm-page {
     max-inline-size: 88rem;
@@ -201,82 +345,121 @@ const searchIndex = [
     padding-block: var(--spacing-200, 0.5rem) var(--spacing-1000, 4rem);
   }
 
-  /* ── chrome: the surface recipe on the shell's own elements ── */
-  /* esa-app-bar pads its inner row from --_bar-pad-y / --_bar-pad-x (the public
-     --app-bar-pad-* hooks were demoted); the shell's own bottom-border rule is scoped to
-     the shell and never reaches the bar element, so the border is set here. */
-  :global(.pm-frame .esa-app-shell .esa-app-shell__bar) {
-    --_bar-pad-y: 7px;
-    --_bar-pad-x: var(--spacing-400, 1rem);
-    background: var(--pm-chrome-bar);
-    border-block-end: 1px solid var(--pm-chrome-rail-border);
+  /* ── the rail ── */
+  .pm-rail {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    inline-size: var(--sidenav-width, 280px);
+    padding: var(--spacing-200, 0.5rem);
+    overflow-y: auto;
+    border-inline-end: 1px solid var(--pm-chrome-rail-border);
+    background: var(--pm-chrome-rail);
+    transition: inline-size 200ms ease;
   }
-  :global(.pm-frame esa-sidebar-nav) {
-    --_sidenav-bg: var(--pm-chrome-rail);
-    --_sidenav-border: var(--pm-chrome-rail-border);
-    --_sidenav-item-bg-hover: var(--pm-chrome-hover);
-    /* The accent marks where you are: the active item's label in the stamp's ink, on
-       its faint tint. Re-pointed on the rail only, so nothing else turns orange. */
-    --color-content-brand: var(--pm-accent-text);
-    --color-background-brand-subtle: var(--pm-accent-muted);
+  .pm-rail[data-collapsed] {
+    inline-size: var(--sidenav-width-collapsed, 72px);
   }
-
-  /* ── the lockup (slotted into the shell's brand link, so global) ── */
-  :global(.pm-lockup) {
-    display: inline-flex;
+  .pm-rail__brand {
+    display: flex;
     align-items: center;
     gap: var(--spacing-300, 0.75rem);
-    padding: var(--spacing-200, 0.5rem) var(--spacing-100, 0.25rem);
-  }
-  :global(.pm-lockup__name) {
+    padding: var(--spacing-400, 1rem) var(--spacing-200, 0.5rem);
+    border-radius: var(--radius-sm, 0.25rem);
     color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .pm-rail__brand:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #265956);
+    outline-offset: calc(-1 * var(--focus-ring-width, 2px));
+  }
+  .pm-rail__name {
     font-family: var(--pm-font-display);
     font-size: 1.5rem;
     font-weight: var(--pm-h2-weight, 700);
     letter-spacing: var(--pm-display-tracking, 0);
     line-height: 1;
   }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__name) {
-    display: none;
-  }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
-    inline-size: 36px;
-    block-size: 36px;
-  }
-
-  /* ── the rail footer: pinned to the foot of the rail, the rail's width less its
-     right hairline, on the rail's own surface ── */
-  .pm-frame {
+  .pm-rail__switcher {
     position: relative;
+    z-index: 2;
+    padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
   }
-  .pm-rail-foot {
-    position: absolute;
-    inset-block-end: 0;
-    inset-inline-start: 0;
-    z-index: 1;
-    inline-size: calc(var(--sidenav-width, 280px) - 1px);
+  /* The nav fills the rail's width; the rail draws the surface and the edge. */
+  .pm-rail__nav {
+    --_sidenav-width: 100%;
+    --_sidenav-collapsed-width: 100%;
+    --_sidenav-bg: transparent;
+    --_sidenav-border: transparent;
+    --_sidenav-item-padding: 10px;
+    --_sidenav-nested-indent: 40px;
+    --_sidenav-item-color: var(--color-content-default);
+    --_sidenav-item-color-hover: var(--color-content-default);
+    --_sidenav-item-bg-hover: var(--pm-chrome-hover);
+    /* The accent marks where you are: the active item's label in the stamp's ink, on
+       its faint tint. Re-pointed on the rail only, so nothing else turns orange. */
+    --color-content-brand: var(--pm-accent-text);
+    --color-background-brand-subtle: var(--pm-accent-muted);
+    flex: none;
+    block-size: auto;
+    border-inline-end: 0;
+  }
+  .pm-rail__divider {
+    margin: var(--spacing-200, 0.5rem) var(--spacing-200, 0.5rem);
+    border: 0;
+    border-block-start: 1px solid var(--pm-chrome-rail-border);
+  }
+  .pm-rail__foot {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-200, 0.5rem);
-    padding: var(--spacing-400, 1rem) var(--spacing-500, 1.25rem) var(--spacing-500, 1.25rem);
-    border-block-start: 1px solid var(--pm-chrome-rail-border, #dcdcdc);
-    background: var(--pm-chrome-rail, #fafafa);
+    margin-block-start: auto;
+    padding: var(--spacing-400, 1rem) var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    border-block-start: 1px solid var(--pm-chrome-rail-border);
   }
-  .pm-rail-foot__logo {
+  .pm-rail__esa {
     inline-size: 48px;
     block-size: auto;
   }
-  .pm-rail-foot__credit {
+  .pm-rail__credit {
     margin: 0;
     color: var(--color-content-default-secondary);
   }
-  .pm-frame:has(esa-sidebar-nav[collapsed]) .pm-rail-foot {
-    inline-size: calc(var(--sidenav-width-collapsed, 72px) - 1px);
+
+  /* Collapsed: the stamp, the switcher's hammer, the nav icons, the ESA logo. */
+  .pm-rail[data-collapsed] .pm-rail__brand {
+    justify-content: center;
+    padding-inline: 0;
+  }
+  .pm-rail[data-collapsed] :global(.pm-rail__stamp) {
+    inline-size: 36px;
+    block-size: 36px;
+  }
+  .pm-rail[data-collapsed] .pm-rail__name,
+  .pm-rail[data-collapsed] .pm-rail__credit {
+    display: none;
+  }
+  .pm-rail[data-collapsed] .pm-rail__switcher,
+  .pm-rail[data-collapsed] .pm-rail__foot {
+    display: flex;
+    justify-content: center;
     align-items: center;
     padding-inline: 0;
   }
-  .pm-frame:has(esa-sidebar-nav[collapsed]) .pm-rail-foot__credit {
-    display: none;
+  .pm-rail[data-collapsed] .pm-rail__esa {
+    inline-size: 40px;
+  }
+
+  @media (max-width: 720px) {
+    .pm-shell__search-label,
+    .pm-shell__search-kbd {
+      display: none;
+    }
+    .pm-shell__search {
+      inline-size: 34px;
+      padding: 0;
+      justify-content: center;
+    }
   }
 </style>

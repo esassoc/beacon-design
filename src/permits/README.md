@@ -47,8 +47,7 @@ rationed: the only saturated color on a page is status meaning.
 - **Lockup**: the Permits mark leads the rail: `BcnPermitsStamp` (a classic round rubber
   stamp: perforated edge, PERMITS in Barlow Condensed Bold centred on the ring, a civic
   building in the middle, worn ink) at 44px beside "Permits" at 24px. The ESA logo lives
-  in a rail footer over "Proudly built by ESA in California" (pinned from the layout:
-  `esa-sidebar-nav` has no footer slot, ledgered).
+  in the rail footer over "Proudly built by ESA in the Pacific Northwest".
 - **Page-header actions**: `esa-button size="sm"` (38px); the Team faces button matches
   them in height and label role.
 - **Top bar**: 48px, a quiet `#dcdcdc` hairline under it.
@@ -58,17 +57,25 @@ rationed: the only saturated color on a page is status meaning.
 
 ## Navigation
 
-Project-scoped, like Beacon. The rail always has an **active project**:
+Project-scoped, like Beacon. The rail, top to bottom:
 
-- **Projects**: every project (My Projects cards over the All Projects grid).
-- **<the active project>**: Overview (readiness), Permits (List / Board), Schedule. A permit
-  page sits under its project's Permits.
-- **Library**: All Permits, Permit Types (the cross-project data sets).
+- **The Permits mark** (stamp + "Permits"), linking to Projects.
+- **Project switcher** (`BcnProjectSwitcher`, a port of Beacon's): the active project with
+  a hammer and a chevron; its menu lists the active projects and All Projects.
+- **Project** ▸ Overview (readiness), Permits (List / Board), Schedule. A permit page sits
+  under its project's Permits.
+- a divider, then **Library** ▸ All Permits, Permit Types (the cross-project data sets).
+- **Footer**: the ESA logo over "Proudly built by ESA in the Pacific Northwest".
 
-On a project or permit page the active project is that page's, and it is remembered; on
-Projects and Library pages it is the remembered one (or your first project). Both
-parents are opened after the rail renders, because `esa-sidebar-nav` has no prop to start
-one open (ledgered as a hub gap).
+Geometry is measured off Beacon (280px rail, 16px content inset, icons at 26px, labels
+at 52px, child labels at 66px). On a project or permit page the active project is that
+page's, and it is remembered; on Projects and Library pages it is the remembered one (or
+your first project).
+
+The shell is composed in `PermitsLayout` from the same legos `esa-app-shell` uses
+(`esa-app-bar`, `esa-sidebar-nav`, `esa-entity-search`, `esa-dropdown-menu`), because the
+hub shell has no place for a switcher under the brand (its header slot clips a menu) or
+a rail footer. Both gaps, and the nav's lack of an "open" prop, are in the ledger.
 
 ## What changed, page by page
 

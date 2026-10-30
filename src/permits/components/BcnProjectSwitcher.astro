@@ -1,0 +1,126 @@
+---
+// <BcnProjectSwitcher> — the rail's project switcher: which project the app is in, and
+// the way to change it. A port of Beacon's project-switcher.component (the bordered
+// single-row control under the logo: hammer, project name with an ellipsis, chevron),
+// which this spoke already ports statically in src/layouts/AppShell.astro; here it opens.
+//
+// The menu lists the active projects (the current one marked: esa-dropdown-menu draws an
+// item's icon as a bullet, by design) and, after a
+// divider, All Projects. Choosing a project goes to its Overview; All Projects goes to
+// the Projects page. On a cross-project page PermitsLayout swaps the remembered project
+// into the trigger before first paint (data-switcher-*), so the label never flashes.
+//
+// GEOMETRY, measured off Beacon (Andy's screenshot, 2026-10-30): 36px tall, inset 16px
+// each side of the 280px rail, icon at 14px in, the name at 36px in, 14px medium ink.
+// esa-dropdown-menu shrink-wraps its trigger, so the trigger takes its width from the
+// rail's own --sidenav-width token rather than from 100%. Collapsed, it is the hammer
+// alone in a 40px square.
+//
+// bcn-lego-checked: the menu IS esa-dropdown-menu (width="trigger"), the glyphs ARE
+// esa-icon. The trigger is the Beacon port's bordered row on semantic tokens (the port
+// reads the raw --bcn-gray-* ramp); no esa-* control is a full-width menu trigger with a
+// truncating label. bcn-project-switcher is its reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { PROJECTS, ROUTES } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** The active project's id. */
+  projectId: string;
+}
+const { projectId } = Astro.props;
+const active = PROJECTS.filter((p) => p.status === 'active');
+const current = active.find((p) => p.id === projectId) ?? PROJECTS.find((p) => p.id === projectId)!;
+const hrefs = Object.fromEntries([...active.map((p) => [p.id, withBase(ROUTES.project(p.id))]), ['all', withBase(ROUTES.projects)]]);
+const names = Object.fromEntries(active.map((p) => [p.id, p.name]));
+// Lucide hammer, as Beacon's port carries it (src/layouts/AppShell.astro): not in
+// esa-icon's registry, so it rides in through `paths`.
+const HAMMER =
+  '<path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>';
+---
+
+<esa-dropdown-menu class="bcn-psw" position="below-start" width="trigger" data-bcn-psw data-current={current.id} data-hrefs={JSON.stringify(hrefs)} data-names={JSON.stringify(names)}>
+  <button type="button" class="bcn-psw__trigger typography-label-md" aria-label={`Project: ${current.name}. Switch project`} data-psw-trigger>
+    <span class="bcn-psw__icon"><EsaIcon name="hammer" size="sm" paths={HAMMER} /></span>
+    <span class="bcn-psw__name" data-psw-name>{current.name}</span>
+    <span class="bcn-psw__chevron"><EsaIcon name="chevron-down" size="sm" /></span>
+  </button>
+</esa-dropdown-menu>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+
+  type Menu = HTMLElement & { items?: { label: string; action?: string; icon?: string; divider?: boolean }[] };
+
+  document.querySelectorAll<Menu>('[data-bcn-psw]').forEach((menu) => {
+    const hrefs = JSON.parse(menu.dataset.hrefs!) as Record<string, string>;
+    const names = JSON.parse(menu.dataset.names!) as Record<string, string>;
+    const current = menu.dataset.current!;
+    menu.items = [
+      ...Object.entries(names).map(([id, name]) => ({ label: name, action: id, ...(id === current ? { icon: 'check' } : {}) })),
+      { label: '', divider: true },
+      { label: 'All Projects', action: 'all' },
+    ];
+    menu.addEventListener('menu-action', (e) => {
+      const href = hrefs[(e as CustomEvent<string>).detail];
+      if (href) location.href = href;
+    });
+  });
+</script>
+
+<style>
+  .bcn-psw {
+    display: block;
+  }
+  .bcn-psw__trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    inline-size: calc(var(--sidenav-width, 280px) - 2 * var(--spacing-400, 1rem));
+    block-size: 36px;
+    padding: 0 var(--spacing-300, 0.75rem);
+    border: 1px solid var(--color-border-default, #dcdcdc);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: var(--color-background-elevation-raised, #fcfcfc);
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-medium, 500);
+    text-align: start;
+    cursor: pointer;
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .bcn-psw__trigger:hover {
+    border-color: var(--color-border-default-strong, #bdbdbd);
+  }
+  .bcn-psw__trigger:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #265956);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-psw__icon {
+    display: inline-flex;
+    flex: none;
+    color: var(--color-content-default-tertiary, #656565);
+  }
+  .bcn-psw__name {
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-psw__chevron {
+    display: inline-flex;
+    flex: none;
+    color: var(--color-content-default-secondary);
+  }
+  /* The collapsed rail: the hammer alone, a 40px square. */
+  :global(.pm-rail[data-collapsed]) .bcn-psw__trigger {
+    inline-size: 40px;
+    block-size: 40px;
+    justify-content: center;
+    padding: 0;
+  }
+  :global(.pm-rail[data-collapsed]) .bcn-psw__name,
+  :global(.pm-rail[data-collapsed]) .bcn-psw__chevron {
+    display: none;
+  }
+</style>
