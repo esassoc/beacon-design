@@ -442,7 +442,10 @@ import '../../styles/bcn-filter-band.css';
   .bcn-prp__status-text strong:not(:empty) + [data-prp-status-message] { padding-inline-start: var(--spacing-200); border-inline-start: 1px solid var(--color-border-default); }
   .bcn-prp__notice-body [data-prp-notice-text] { display: inline-flex; align-items: center; gap: var(--spacing-300); min-inline-size: 0; }
   .bcn-prp__notice-body :global(.bcn-prp__notice-meta) { color: var(--color-content-default-secondary); white-space: nowrap; }
-  .bcn-prp__status-meta { display: inline-flex; gap: var(--spacing-300); margin-inline-start: auto; color: var(--color-content-default-secondary); white-space: nowrap; }
+  /* No auto margin (2026-10-30, Andy: "move this status line to be aligned right"): it took the line's free space and
+     left the change itself on the left; the line now sits at the bar's right end. Empty, it takes no room. */
+  .bcn-prp__status-meta { display: inline-flex; gap: var(--spacing-300); color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-prp__status-meta:empty { display: none; }
   .bcn-prp__status-actions { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* ── Body: the chart beside About (the wizard's Library pane, on the right) ── */
