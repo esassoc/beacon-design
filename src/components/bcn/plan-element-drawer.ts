@@ -171,7 +171,7 @@ type ValueEl = HTMLElement & { value: string; errorText: string; disabled: boole
 type OptionsEl = ValueEl & { options: { label: string; value: string }[]; helpText: string; loading?: boolean };
 type SwitchEl = HTMLElement & { checked: boolean; disabled: boolean };
 
-const MILESTONE_BLOCKED_REASON = "An element with child elements can't be a milestone.";
+const MILESTONE_BLOCKED_REASON = "An item with items under it can't be a milestone.";
 
 // ── The shell ───────────────────────────────────────────────────────────────────────────────────────────────────────
 

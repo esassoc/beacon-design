@@ -26,7 +26,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 ---
 
 <div class="bcn-ped" data-bcn-plan-element-drawer>
-  <esa-side-dialog class="bcn-ped__dialog" size="md">
+  <esa-side-dialog class="bcn-ped__dialog" size="lg">
     <div slot="header" class="bcn-ped__head">
       <h2 class="bcn-ped__title typography-title-strong" id="plan-element-drawer-title" data-ped="title"></h2>
       <!-- Which plan it's read from (2026-10-28): the page's badge, Live Plan in orange or the draft's name in green. -->
@@ -80,7 +80,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
                reason it can't be shows as the toggle's hint, so touch and screen readers get it too. -->
           <div class="plan-element__milestone">
             <esa-switch-toggle data-ped="milestone" label="Milestone" size="sm"></esa-switch-toggle>
-            <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
+            <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An item with items under it can't be a milestone.</p>
           </div>
           <!-- Each picker carries its own label; the group keeps the pair's name for assistive tech. -->
           <div class="plan-element__dates" role="group" aria-label="Date Range" data-ped="dates">
@@ -92,7 +92,7 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
               <span class="plan-element__span-label">Span</span>
               <span data-ped="span-value"></span>
             </p>
-            <p class="plan-element__hint">Drawn from its child elements. The dates above are its planned window.</p>
+            <p class="plan-element__hint">Drawn from the items under it. The dates above are its planned window.</p>
           </div>
           <div class="plan-element__field">
             <esa-button-toggle data-ped="date-type" label="Date Type" aria-describedby="plan-element-drawer-date-type-hint"></esa-button-toggle>
