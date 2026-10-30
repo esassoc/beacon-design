@@ -120,7 +120,7 @@ const rowId = (page, name) => page.evaluate((n) => [...document.querySelectorAll
   await page.locator('.bcn-psu__person, [data-psu-people] > *', { hasText: 'Alex Rivera' }).first().locator('[data-person-remove] button').click(); await page.waitForTimeout(300);
   await page.locator('[data-psu-save] button').click(); await page.waitForTimeout(800);
   const said = await page.locator('esa-confirm-dialog[open]').evaluate((d) => d.message).catch(() => '');
-  check('removing Alex says the items he owns stay his, without reminders', /Alex Rivera owns \d+ items\. They keep Alex as owner, with no reminders/.test(said), said);
+  check('removing Alex says the items they own stay theirs, reminders going up', /Alex Rivera owns \d+ items\. They keep Alex as owner, their reminders going to the parent's owners or the plan's Owners/.test(said), said);
   await page.locator('esa-confirm-dialog[open]').getByRole('button', { name: 'Save' }).click(); await page.waitForTimeout(1500);
   const rem = await page.evaluate(async () => (await (await import('/src/lib/planning/plan-reminders.ts')).remindersFor('Alex Rivera')).filter((r) => r.planName === 'Fisheries Evaluation Studies').length);
   check('and no Due for You rows reach him for that plan', rem === 0, String(rem));
