@@ -99,16 +99,16 @@ const rows = permitsOfProject(project.id).map((p) => {
       <BcnPermitSchedule projectId={project.id} readOnly />
 
       <EsaCard>
-        <h2 slot="header" class="sh__h2 typography-title-sm-strong">Every permit</h2>
+        <h2 slot="header" class="sh__h2 typography-title-sm-strong">Every Permit</h2>
         <div class="sh__table-wrap">
           <table class="sh__table typography-body-sm">
             <thead>
               <tr>
                 <th scope="col">Permit</th>
                 <th scope="col">Agency</th>
-                <th scope="col">Where it stands</th>
+                <th scope="col">Where It Stands</th>
                 <th scope="col">Submitted</th>
-                <th scope="col">Issued or expected</th>
+                <th scope="col">Issued or Expected</th>
               </tr>
             </thead>
             <tbody>
@@ -160,14 +160,10 @@ const rows = permitsOfProject(project.id).map((p) => {
             </tbody>
           </table>
         </div>
-        <p class="sh__note typography-body-sm">
-          Expected dates come from how long the same permit has taken at the same agency on past ESA projects. A permit that waits on another can't be submitted until that one is issued.
-        </p>
       </EsaCard>
 
       <footer class="sh__foot typography-body-sm">
         <p>Questions about these permits? Contact <strong>{project.manager}</strong>, ESA project manager.</p>
-        <p class="sh__muted">This page is read-only and updates as the project does.</p>
       </footer>
     </main>
   </div>
@@ -277,12 +273,6 @@ const rows = permitsOfProject(project.id).map((p) => {
   .sh__num {
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-  }
-  .sh__note {
-    margin: var(--spacing-400, 1rem) 0 0;
-    padding-block-start: var(--spacing-300, 0.75rem);
-    border-block-start: 1px solid var(--color-border-default-subtle);
-    color: var(--color-content-default-secondary);
   }
   .sh__foot {
     display: flex;

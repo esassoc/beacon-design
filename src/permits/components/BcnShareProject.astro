@@ -40,7 +40,7 @@ const EXPIRY = [
 ];
 ---
 
-<esa-dialog class="bcn-share" heading="Share project status" size="lg" data-bcn-share data-project-id={projectId} data-path={path}>
+<esa-dialog class="bcn-share" heading="Share Project Status" size="lg" data-bcn-share data-project-id={projectId} data-path={path}>
   <div class="stack" data-gap="lg">
     <p class="bcn-share__lead typography-body-md">
       A read-only page for {project.client} and anyone else outside ESA who needs to know whether permits will be in place by construction start. It shows the readiness verdict, the schedule and each permit's status. It updates as the project does.
@@ -50,11 +50,11 @@ const EXPIRY = [
       <span class="typography-label-md-strong">Link</span>
       <div class="bcn-share__link">
         <code class="bcn-share__url typography-code-sm" data-share-url>{path}</code>
-        <EsaButton variant="ghost" appearance="outline" size="sm" icon="copy" data-share-copy>Copy link</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="copy" data-share-copy>Copy Link</EsaButton>
       </div>
     </div>
 
-    <esa-radio-group label="Who can open it" name="share-audience" value="link" data-share="audience" data-options={JSON.stringify(AUDIENCE)}></esa-radio-group>
+    <esa-radio-group label="Who Can Open It" name="share-audience" value="link" data-share="audience" data-options={JSON.stringify(AUDIENCE)}></esa-radio-group>
 
     <div class="stack" data-gap="xs">
       <span class="typography-label-md-strong">Include</span>
@@ -62,7 +62,7 @@ const EXPIRY = [
       <esa-checkbox label="Forecast dates for permits not yet submitted" checked data-share="forecast"></esa-checkbox>
     </div>
 
-    <esa-select label="Link stops working" size="md" value="close" data-share="expiry" data-options={JSON.stringify(EXPIRY)}></esa-select>
+    <esa-select label="Link Stops Working" size="md" value="close" data-share="expiry" data-options={JSON.stringify(EXPIRY)}></esa-select>
 
     <div class="bcn-share__never typography-body-sm">
       <EsaIcon name="eye" size="sm" />
@@ -72,7 +72,7 @@ const EXPIRY = [
 
   <div slot="footer" class="repel" data-gap="md">
     <a class="bcn-share__preview typography-label-md" href={path} target="_blank" rel="noopener" data-share-preview>
-      Preview what they see <EsaIcon name="external-link" size="sm" />
+      Preview What They See <EsaIcon name="external-link" size="sm" />
     </a>
     <EsaButton variant="primary" data-share-done>Done</EsaButton>
   </div>

@@ -36,15 +36,39 @@ rationed: the only saturated color on a page is status meaning.
   (ledgered as a hub gap).
 - **Grids** drop Beacon's filled teal header band for a quiet neutral header
   (`grid-theme.ts`): every grid here sits in a card that already names it.
-- **Type**: Newsreader for page titles (h1) and section titles (h2); DM Sans for UI, body
-  and stats.
-- **Lockup**: a small ESA logo, then the Permits mark (`BcnPermitsStamp`): a classic round
-  rubber stamp (perforated edge, PERMITS on the ring, a civic building in the middle, worn
-  ink) in the logo's orange pressed a step deeper. The one decorative mark in the app.
+- **Accent**: the stamp's ink, `#c9682a` (text step `#a15321`, tint `#fcf2eb`). It marks
+  identity and where you are: the stamp, the sidenav's active item, the grid's checkboxes.
+  Not a button color, not a status.
+- **Type**: DM Sans for UI, body and stats. One civic display face for page titles (h1),
+  section titles (h2) and the wordmark. Six candidates load and `?face=` switches them,
+  saved per browser: `barlow` (Barlow Semi Condensed, California highway / BART signage;
+  default), `public-sans` (USWDS), `overpass` (Highway Gothic), `big-shoulders` (City of
+  Chicago), `national-park` (NPS routed-wood signs), `caslon` (founding documents).
+- **Lockup**: a small ESA logo | the Permits mark (`BcnPermitsStamp`, a classic round
+  rubber stamp: perforated edge, PERMITS in Barlow Condensed Bold centred on the ring, a
+  civic building in the middle, worn ink) and the word "Permits" in the display face.
+- **Top bar**: 48px, a quiet `#dcdcdc` hairline under it.
+- **Rules followed** (ecology `design-principles`): no colored left borders for status,
+  status is a dot or an icon (never red text), icons mark structure not items, Title Case
+  labels, no text about the page.
+
+## Navigation
+
+Project-scoped, like Beacon. The rail always has an **active project**:
+
+- **Projects**: every project (My Projects cards over the All Projects grid).
+- **<the active project>**: Overview (readiness), Permits (List / Board), Schedule. A permit
+  page sits under its project's Permits.
+- **Library**: All Permits, Permit Types (the cross-project data sets).
+
+On a project or permit page the active project is that page's, and it is remembered; on
+Projects and Library pages it is the remembered one (or your first project). Both
+parents are opened after the rail renders, because `esa-sidebar-nav` has no prop to start
+one open (ledgered as a hub gap).
 
 ## What changed, page by page
 
-- **Shell**: the ESA logo + the Permits stamp in the sidenav; pages sit in an 88rem column.
+- **Shell**: the lockup in the sidenav; pages sit in an 88rem column.
 - **Grid toolbars**: search first and left-aligned, Clear Filters at the far end. In the
   card's actions slot they floated right of an empty header wherever the card had no title.
 - **Projects**: each card leads with the two dates its badge is judged on (expected all

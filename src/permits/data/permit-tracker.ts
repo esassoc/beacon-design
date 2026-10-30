@@ -1156,6 +1156,9 @@ export function datesFromHistory(history: HistoryEntry[], columnOf: (statusId: s
 export const ROUTES = {
   projects: '/prototypes/permits',
   project: (id: string) => `/prototypes/permits/projects/${id}`,
+  /** The project's permits as List or Board. */
+  projectPermits: (id: string) => `/prototypes/permits/projects/${id}/permits`,
+  projectSchedule: (id: string) => `/prototypes/permits/projects/${id}/schedule`,
   permits: '/prototypes/permits/permits',
   permit: (id: string) => `/prototypes/permits/permits/${id}`,
   /** A permit added in the browser: one page that reads the id from the query. */

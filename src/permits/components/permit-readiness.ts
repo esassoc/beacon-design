@@ -74,7 +74,7 @@ export function readinessView(projectId: string, start: string): ReadinessView {
     state: s.state,
     verdict: verdictOf(s, start),
     expectedValue: s.expectedAll ? fmtDate(s.expectedAll) : 'Not yet known',
-    expectedLabel: s.allIssued ? 'All issued' : 'Expected all issued',
+    expectedLabel: s.allIssued ? 'All Issued' : 'Expected All Issued',
     vs: vsStart(s.gap),
     startValue: fmtDate(start),
     startSub: startDays > 0 ? `In ${plural(startDays, 'day')}` : startDays === 0 ? 'Today' : `${plural(-startDays, 'day')} ago`,
@@ -88,9 +88,9 @@ export type MixStage = 'issued' | 'review' | 'preparing' | 'not-started';
 
 export const MIX_STAGES: { id: MixStage; label: string }[] = [
   { id: 'issued', label: 'Issued' },
-  { id: 'review', label: 'In agency review' },
+  { id: 'review', label: 'In Agency Review' },
   { id: 'preparing', label: 'Preparing' },
-  { id: 'not-started', label: 'Not started' },
+  { id: 'not-started', label: 'Not Started' },
 ];
 
 /**

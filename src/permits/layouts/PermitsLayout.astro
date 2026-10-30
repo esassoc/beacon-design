@@ -5,10 +5,15 @@
 // brand layer) around the hub's canonical esa-app-shell, with the app's own nav and an
 // omnibox over every project and active permit.
 //
-// THE LOCKUP: the ESA logo (the real asset from esassoc.com, public/brand/esa-logo.svg),
-// small, then the Permits mark: a classic round rubber stamp (BcnPermitsStamp) in the
-// logo's orange pressed a step deeper, set a few degrees off true the way a
-// hand-pressed stamp lands. When the rail collapses, only the stamp stays.
+// THE LOCKUP: an endorsed-brand lockup, parent | product. The ESA logo (the real asset
+// from esassoc.com, public/brand/esa-logo.svg), a hairline, then the product: a small
+// round rubber stamp (BcnPermitsStamp, the logo's orange pressed a step deeper, a few
+// degrees off true) and the word "Permits" in the civic display face. The stamp is an
+// icon at this size; the word carries the name. When the rail collapses, only the
+// stamp stays.
+//
+// THE TOP BAR is compact (48px: 7px above and below the 34px omnibox, down from the
+// bar's 16px) and its bottom edge is the same quiet hairline as the sidenav's.
 //
 // THE CHROME follows the surface recipe (ecology design-layer surface-recipe.md, values
 // in theme-esa.css): top bar 4.3 points darker than the canvas, sidenav level with the
@@ -23,6 +28,23 @@
 // capped at 88rem, so the grids and the readiness figures don't stretch into a line too
 // long to read on a wide monitor.
 //
+// THE NAV is project-scoped, like Beacon's: the app always has an ACTIVE PROJECT, shown as
+// a top-level item with the project's own pages under it (Overview, Permits, Schedule).
+// Below that, LIBRARY is the same shape: a top-level item over the cross-project data
+// sets (every permit; the permit types with their agencies and rules). Projects heads the
+// rail as the way to pick another project. Library is an item, not a group heading,
+// because the rail's group heading is an uppercase micro-label (design-principles,
+// banned pattern 2).
+//   • On a project or permit page, the active project is that page's project, and it is
+//     remembered (localStorage) as the current one.
+//   • Anywhere else (All Projects, the Library), the active project is the remembered one,
+//     or the user's first project if none is remembered yet. The page renders the default
+//     and an inline script swaps the remembered project into the shell's nav data before
+//     the shell boots, so there is no flash of the wrong project.
+//   • esa-sidebar-nav opens a parent's children only on click, and has no prop to render
+//     one open. Both parents are opened after the nav renders (see the script below);
+//     logged as a hub gap in docs/system-improvement-ledger.md.
+//
 // bcn-lego-checked: esa-app-shell IS the chrome (bar + sidenav + omnibox + profile menu);
 // this layout feeds it data and fills its `logo` slot. The rules below are the
 // fixed-height parent the shell asks for, the lockup inside the logo slot, and the page
@@ -30,28 +52,62 @@
 import PermitsBaseLayout from './PermitsBaseLayout.astro';
 import EsaAppShell from '@esa/ecology/esa-app-shell.astro';
 import BcnPermitsStamp from '../components/BcnPermitsStamp.astro';
-import { PROJECTS, PERMITS, ROUTES, getProject, scopeLabel } from '../data/permit-tracker';
+import { CURRENT_USER, PROJECTS, PERMITS, ROUTES, getProject, scopeLabel, teamOf } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
+
+/** Nav keys: the top-level items, the active project's pages, the Library's two sets. */
+export type PermitsNavKey = 'projects' | 'overview' | 'project-permits' | 'schedule' | 'library-permits' | 'types';
 
 interface Props {
   title: string;
   /** Nav key that reads as current. */
-  active: 'projects' | 'permits' | 'types';
+  active: PermitsNavKey;
+  /** The project this page belongs to. Absent on cross-project pages. */
+  projectId?: string;
 }
-const { title, active } = Astro.props;
+const { title, active, projectId } = Astro.props;
 
-// Lucide glyphs (inner SVG markup): folder, file-text, scale.
-const FOLDER = '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>';
-const FILE_TEXT =
-  '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>';
-const SCALE =
-  '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>';
+// Lucide glyphs (inner SVG markup): folders, folder-open, library.
+const FOLDERS =
+  '<path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z"/><path d="M2 8v11a2 2 0 0 0 2 2h14"/>';
+const FOLDER_OPEN =
+  '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>';
+const LIBRARY =
+  '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>';
+
+// The active project: this page's, else the user's first active project (the inline
+// script below swaps in the remembered one on cross-project pages).
+const activeProjects = PROJECTS.filter((p) => p.status === 'active');
+const fallbackId = (activeProjects.find((p) => teamOf(p.id).includes(CURRENT_USER)) ?? activeProjects[0]).id;
+const project = getProject(projectId ?? fallbackId);
+
+/** The active project's nav item; one shape, built here and (for a swap) in the browser. */
+const projectNav = (p: { id: string; name: string }) => ({
+  key: 'project',
+  label: p.name,
+  icon: FOLDER_OPEN,
+  children: [
+    { key: 'overview', label: 'Overview', href: withBase(ROUTES.project(p.id)) },
+    { key: 'project-permits', label: 'Permits', href: withBase(ROUTES.projectPermits(p.id)) },
+    { key: 'schedule', label: 'Schedule', href: withBase(ROUTES.projectSchedule(p.id)) },
+  ],
+});
 
 const items = [
-  { key: 'projects', label: 'Projects', href: withBase(ROUTES.projects), icon: FOLDER },
-  { key: 'permits', label: 'Permits', href: withBase(ROUTES.permits), icon: FILE_TEXT },
-  { key: 'types', label: 'Permit types', href: withBase(ROUTES.permitTypes), icon: SCALE },
+  { key: 'projects', label: 'Projects', href: withBase(ROUTES.projects), icon: FOLDERS },
+  projectNav(project),
+  {
+    key: 'library',
+    label: 'Library',
+    icon: LIBRARY,
+    children: [
+      { key: 'library-permits', label: 'All Permits', href: withBase(ROUTES.permits) },
+      { key: 'types', label: 'Permit Types', href: withBase(ROUTES.permitTypes) },
+    ],
+  },
 ];
+// Every active project's nav item, for the browser-side swap on cross-project pages.
+const swapTable = Object.fromEntries(activeProjects.map((p) => [p.id, projectNav(p)]));
 
 const activeIds = new Set(PROJECTS.filter((p) => p.status === 'active').map((p) => p.id));
 const searchIndex = [
@@ -78,13 +134,55 @@ const searchIndex = [
       searchPlaceholder="Search projects and permits"
     >
       <span slot="logo" class="pm-lockup">
-        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="48" height="29" />
-        <BcnPermitsStamp size={72} class="pm-lockup__stamp" />
+        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="44" height="26" />
+        <span class="pm-lockup__product">
+          <BcnPermitsStamp size={30} class="pm-lockup__stamp" />
+          <span class="pm-lockup__name">Permits</span>
+        </span>
       </span>
       <div class="pm-page"><slot /></div>
     </EsaAppShell>
   </div>
+  {/* Before the shell's module script boots: remember this page's project, or swap the
+      remembered one into the nav data on a cross-project page. */}
+  <script is:inline define:vars={{ pageProject: projectId ?? null, swapTable, uid: 'esa-permits' }}>
+    (function () {
+      var key = 'esa-permits:current-project';
+      try {
+        if (pageProject) {
+          localStorage.setItem(key, pageProject);
+          return;
+        }
+        var id = localStorage.getItem(key);
+        var item = id && swapTable[id];
+        var island = document.querySelector('[data-shell-data="' + uid + '"]');
+        if (!item || !island) return;
+        var cfg = JSON.parse(island.textContent || '{}');
+        cfg.nav = cfg.nav.map(function (n) { return n.key === 'project' ? item : n; });
+        island.textContent = JSON.stringify(cfg);
+      } catch (e) {}
+    })();
+  </script>
 </PermitsBaseLayout>
+
+<script>
+  // Open the active project and the Library once the nav has its items. esa-sidebar-nav
+  // keeps which parents are open in a private Set keyed by label, with no prop to start
+  // one open, so this sets it directly (hub gap, ledgered). A parent the user closes
+  // stays closed until the next page.
+  type Nav = HTMLElement & { items?: { key?: string; label: string }[]; _expanded?: Set<string> };
+  customElements.whenDefined('esa-sidebar-nav').then(() => {
+    const nav = document.querySelector<Nav>('#esa-permits-nav');
+    if (!nav) return;
+    let tries = 0;
+    const open = () => {
+      const parents = (nav.items ?? []).filter((i) => i.key === 'project' || i.key === 'library');
+      if (parents.length) nav._expanded = new Set(parents.map((i) => i.label));
+      else if (tries++ < 20) requestAnimationFrame(open);
+    };
+    open();
+  });
+</script>
 
 <style>
   .pm-frame {
@@ -97,14 +195,23 @@ const searchIndex = [
   }
 
   /* ── chrome: the surface recipe on the shell's own elements ── */
+  /* esa-app-bar pads its inner row from --_bar-pad-y / --_bar-pad-x (the public
+     --app-bar-pad-* hooks were demoted); the shell's own bottom-border rule is scoped to
+     the shell and never reaches the bar element, so the border is set here. */
   :global(.pm-frame .esa-app-shell .esa-app-shell__bar) {
+    --_bar-pad-y: 7px;
+    --_bar-pad-x: var(--spacing-400, 1rem);
     background: var(--pm-chrome-bar);
-    border-block-end-color: var(--pm-chrome-bar-border);
+    border-block-end: 1px solid var(--pm-chrome-rail-border);
   }
   :global(.pm-frame esa-sidebar-nav) {
     --_sidenav-bg: var(--pm-chrome-rail);
     --_sidenav-border: var(--pm-chrome-rail-border);
     --_sidenav-item-bg-hover: var(--pm-chrome-hover);
+    /* The accent marks where you are: the active item's label in the stamp's ink, on
+       its faint tint. Re-pointed on the rail only, so nothing else turns orange. */
+    --color-content-brand: var(--pm-accent-text);
+    --color-background-brand-subtle: var(--pm-accent-muted);
   }
 
   /* ── the lockup (slotted into the shell's brand link, so global) ── */
@@ -115,15 +222,33 @@ const searchIndex = [
     padding: var(--spacing-100, 0.25rem) var(--spacing-100, 0.25rem);
   }
   :global(.pm-lockup__logo) {
-    inline-size: 48px;
+    inline-size: 44px;
     block-size: auto;
     flex: none;
+  }
+  :global(.pm-lockup__product) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    padding-inline-start: var(--spacing-300, 0.75rem);
+    border-inline-start: 1px solid var(--pm-chrome-rail-border, #dcdcdc);
+  }
+  :global(.pm-lockup__name) {
+    color: var(--color-content-default);
+    font-family: var(--pm-font-display);
+    font-size: 1.25rem;
+    font-weight: var(--pm-h2-weight, 600);
+    letter-spacing: var(--pm-display-tracking, 0);
+    line-height: 1;
   }
   :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
     display: none;
   }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
-    inline-size: 44px;
-    block-size: 44px;
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__name) {
+    display: none;
+  }
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__product) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
   }
 </style>

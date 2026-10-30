@@ -5,8 +5,11 @@
 //
 //   • a serrated (perforated) outer band, solid ink
 //   • a thin ring, then a lettered band: PERMITS over the top, three stars under the
-//     bottom (Newsreader caps, the app's serif voice). No "ESA" on the ring: the logo
-//     sits beside the stamp and says it.
+//     bottom. The lettering is Barlow Condensed Bold, the condensed grotesque caps a
+//     rubber-stamp maker cuts, fixed whatever the app's heading face is. Its baseline
+//     radius is computed so the cap height sits centred in the band (below). No "ESA"
+//     on the ring: the logo sits beside the stamp and says it. At sidenav size the ring
+//     lettering is texture, the way it is on a real seal; the wordmark carries the name.
 //   • a thin ring, then a civic building in the middle (pediment, four columns, steps)
 //     drawn as a single monoline, the way a rubber stamp cuts it
 //   • ink grain: an feTurbulence mask takes a few fine specks out of the ink, so it
@@ -32,7 +35,7 @@ interface Props {
   tilt?: number;
   class?: string;
 }
-const { size = 72, tilt = -6, class: className } = Astro.props;
+const { size = 36, tilt = -6, class: className } = Astro.props;
 
 const C = 60;
 const TEETH = 36;
@@ -45,13 +48,28 @@ const serrated =
 const R_BAND = 50;
 const hole = `M${C - R_BAND} ${C} a${R_BAND} ${R_BAND} 0 1 0 ${R_BAND * 2} 0 a${R_BAND} ${R_BAND} 0 1 0 ${-R_BAND * 2} 0 Z`;
 
-// Lettering paths. Top: baseline r 34.5, clockwise over the top (letters stand
-// outward). Bottom: baseline r 43.5, counter-clockwise under the bottom (letters stand
-// inward).
-const R_TOP = 34.5;
-const R_BOT = 43.5;
+// The lettered band runs between the two thin rings: r 46.5 and r 30, each stroked 2,
+// so its clear space is r 31 to r 45.5, centred on r 38.25. The top lettering stands
+// outward from its baseline, so the baseline sits half a cap height INSIDE the centre:
+// Barlow's cap height is 0.70 em, so at 16 units that is 38.25 − 5.6.
+const RING_OUT = 46.5;
+const RING_IN = 30;
+const BAND = (RING_OUT - 1 + (RING_IN + 1)) / 2;
+const TEXT_SIZE = 16;
+const R_TOP = BAND - (0.7 * TEXT_SIZE) / 2;
 const top = `M${C - R_TOP} ${C} A${R_TOP} ${R_TOP} 0 0 1 ${C + R_TOP} ${C}`;
-const bottom = `M${C - R_BOT} ${C} A${R_BOT} ${R_BOT} 0 0 0 ${C + R_BOT} ${C}`;
+// Three five-point stars across the bottom of the band, drawn (a font's ★ glyph sits on
+// that font's own metrics, and the fallback face varies by machine).
+const star = (cx: number, cy: number, r: number) =>
+  Array.from({ length: 10 }, (_, i) => {
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    const rr = i % 2 ? r * 0.42 : r;
+    return `${i ? 'L' : 'M'}${(cx + rr * Math.cos(a)).toFixed(2)} ${(cy + rr * Math.sin(a)).toFixed(2)}`;
+  }).join(' ') + ' Z';
+const stars = [-24, 0, 24].map((deg) => {
+  const a = Math.PI / 2 + (deg * Math.PI) / 180;
+  return star(C + BAND * Math.cos(a), C + BAND * Math.sin(a), 3.6);
+});
 const uid = 'pm-stamp';
 ---
 
@@ -66,7 +84,6 @@ const uid = 'pm-stamp';
 >
   <defs>
     <path id={`${uid}-top`} d={top} />
-    <path id={`${uid}-bottom`} d={bottom} />
     <filter id={`${uid}-ink`} x="-5%" y="-5%" width="110%" height="110%">
       <feTurbulence type="fractalNoise" baseFrequency="0.42" numOctaves="3" seed="4" result="noise" />
       <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -9 0 0 0 6.7" result="grain" />
@@ -76,17 +93,15 @@ const uid = 'pm-stamp';
 
   <g filter={`url(#${uid}-ink)`} fill="currentColor" stroke="currentColor">
     <path d={`${serrated} ${hole}`} fill-rule="evenodd" stroke="none" />
-    <circle cx={C} cy={C} r="46.5" fill="none" stroke-width="2" />
-    <circle cx={C} cy={C} r="30" fill="none" stroke-width="2" />
+    <circle cx={C} cy={C} r={RING_OUT} fill="none" stroke-width="2" />
+    <circle cx={C} cy={C} r={RING_IN} fill="none" stroke-width="2" />
 
-    <text class="bcn-stamp__ring" font-size="15" letter-spacing="1.6" stroke="none">
+    <text class="bcn-stamp__ring" font-size={TEXT_SIZE} letter-spacing="2.2" stroke="none">
       <textPath href={`#${uid}-top`} startOffset="50%" text-anchor="middle">PERMITS</textPath>
     </text>
-    <text class="bcn-stamp__ring" font-size="9" letter-spacing="7" stroke="none">
-      <textPath href={`#${uid}-bottom`} startOffset="50%" text-anchor="middle">★★★</textPath>
-    </text>
-    <circle cx={C - 38.5} cy={C + 1} r="2" stroke="none" />
-    <circle cx={C + 38.5} cy={C + 1} r="2" stroke="none" />
+    {stars.map((d) => <path d={d} stroke="none" />)}
+    <circle cx={C - BAND} cy={C} r="2" stroke="none" />
+    <circle cx={C + BAND} cy={C} r="2" stroke="none" />
 
     <g fill="none" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter">
       <path d="M44 52 L60 41.5 L76 52 Z" />
@@ -106,7 +121,7 @@ const uid = 'pm-stamp';
     overflow: visible;
   }
   .bcn-stamp__ring {
-    font-family: var(--pm-font-serif, Georgia, serif);
+    font-family: 'Barlow Condensed', var(--pm-font-display, sans-serif);
     font-weight: 700;
   }
 </style>

@@ -107,7 +107,7 @@ export const prototypeGroups: PrototypeGroup[] = [
       {
         slug: 'permits-project',
         title: 'Project',
-        description: 'One project, verdict first: will every permit be issued by construction start, site by site, then the permits as List, Board or Schedule. Share opens a client-facing status link.',
+        description: 'One project in a project-scoped rail (Overview, Permits, Schedule): the Overview answers whether every permit will be issued by construction start, site by site. Share opens a client-facing status link.',
         route: '/prototypes/permits/projects/coal-creek-fish-passage',
         createdAt: '2026-10-30',
         status: 'in-progress',
@@ -122,7 +122,7 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
       {
         slug: 'permits-permits',
-        title: 'Permits',
+        title: 'All Permits (Library)',
         description: 'Every permit on every project in one grid.',
         route: '/prototypes/permits/permits',
         createdAt: '2026-10-30',

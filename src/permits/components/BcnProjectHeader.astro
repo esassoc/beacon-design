@@ -1,0 +1,91 @@
+---
+// <BcnProjectHeader> — the page header every page of one project shares (Overview,
+// Permits, Schedule), plus the drawers its actions open.
+//
+//   • Overview: the project name is the h1, with client / number / manager /
+//     construction start as its facts.
+//   • A project page (Permits, Schedule): the page's own name is the h1 and the project
+//     sits in the breadcrumb, so each page in the rail's project group has its own h1.
+//
+// Actions are chosen per page (`actions`), and each one brings its own drawer, so a page
+// never carries an editor it has no button for: Team (faces, BcnTeamButton →
+// BcnProjectTeam), Edit (BcnProjectEditor), Share (BcnShareProject), Add Permit
+// (BcnAddPermit, the page's one primary).
+//
+// One root element, so the closed drawers ride inside it and never take a page-stack gap
+// of their own.
+//
+// bcn-lego-checked: the header IS esa-page-header with esa-breadcrumbs, the actions ARE
+// esa-button / bcn-team-button, the drawers are the project's own bcn-* editors. No CSS.
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnTeamButton from './BcnTeamButton.astro';
+import BcnProjectTeam from './BcnProjectTeam.astro';
+import BcnProjectEditor from './BcnProjectEditor.astro';
+import BcnShareProject from './BcnShareProject.astro';
+import BcnAddPermit from './BcnAddPermit.astro';
+import { fmtDate, getProject, ROUTES } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+type Action = 'team' | 'edit' | 'share' | 'add';
+
+interface Props {
+  projectId: string;
+  /** The page's own name ("Permits", "Schedule"). Absent on the Overview. */
+  page?: string;
+  actions?: Action[];
+}
+const { projectId, page, actions = [] } = Astro.props;
+const project = getProject(projectId);
+const has = (a: Action) => actions.includes(a);
+
+const crumbs = [
+  { label: 'Projects', href: withBase(ROUTES.projects) },
+  page ? { label: project.name, href: withBase(ROUTES.project(project.id)) } : { label: project.name },
+  ...(page ? [{ label: page }] : []),
+];
+const meta = page
+  ? undefined
+  : [
+      { label: 'Client', value: project.client },
+      { label: 'Project No.', value: project.number },
+      { label: 'Project Manager', value: project.manager },
+      { label: 'Construction Start', value: fmtDate(project.constructionStart) },
+    ];
+---
+
+<div class="bcn-ph">
+<EsaPageHeader title={page ?? project.name} meta={meta}>
+  <EsaBreadcrumbs slot="breadcrumbs" items={crumbs} />
+  {
+    actions.length > 0 && (
+      <Fragment slot="actions">
+        <div class="cluster" data-gap="sm">
+          {has('team') && <BcnTeamButton projectId={project.id} />}
+          {has('edit') && (
+            <EsaButton variant="ghost" appearance="outline" icon="pencil" data-project-edit>
+              Edit
+            </EsaButton>
+          )}
+          {has('share') && (
+            <EsaButton variant="ghost" appearance="outline" icon="external-link" data-project-share>
+              Share
+            </EsaButton>
+          )}
+          {has('add') && (
+            <EsaButton variant="primary" icon="plus" data-add-permit>
+              Add Permit
+            </EsaButton>
+          )}
+        </div>
+      </Fragment>
+    )
+  }
+</EsaPageHeader>
+
+{has('team') && <BcnProjectTeam projectId={project.id} />}
+{has('edit') && <BcnProjectEditor projectId={project.id} />}
+{has('share') && <BcnShareProject projectId={project.id} />}
+{has('add') && <BcnAddPermit projectId={project.id} />}
+</div>

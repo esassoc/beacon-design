@@ -132,7 +132,7 @@ const firstCol = statusColumn(rows[0]?.statusId ?? '', rows[0]?.typeId ?? 'sepa'
 ---
 
 <section class="bcn-ptl" data-ptl data-project-id={projectId} data-all-projects={allProjects ? '' : undefined} aria-label="Permits">
-  <EsaCard title={allProjects ? undefined : 'Permits'} padding="compact">
+  <EsaCard padding="compact">
     {/* ESA design pass: the controls sit in a left-aligned toolbar in the body, search
         first, Clear Filters at the far end. In the card's actions slot they floated right
         whenever the card had no title (the all-permits page), with nothing to their left. */}

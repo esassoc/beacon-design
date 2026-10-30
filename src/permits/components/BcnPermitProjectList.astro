@@ -136,7 +136,7 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
                     </dd>
                   </div>
                   <div class="bcn-ppl__date">
-                    <dt class="typography-label-sm">Construction start</dt>
+                    <dt class="typography-label-sm">Construction Start</dt>
                     <dd class="typography-title-sm-strong" data-fact="start">{fmtDate(c.project.constructionStart)}</dd>
                     <dd class="bcn-ppl__muted typography-body-sm" data-fact="start-sub">{c.view.startSub}</dd>
                   </div>
@@ -326,11 +326,14 @@ const headingId = `bcn-ppl-${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
     align-items: center;
     gap: var(--spacing-100, 0.25rem);
   }
+  /* Status is the icon, in its tone; the words stay in ink. */
   .bcn-ppl__date dd.bcn-ppl__vs[data-tone='late'] {
-    color: var(--color-content-utility-danger);
-    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
   }
-  .bcn-ppl__date dd.bcn-ppl__vs[data-tone='early'] {
+  .bcn-ppl__vs[data-tone='late'] .bcn-ppl__vs-icon {
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-ppl__vs[data-tone='early'] .bcn-ppl__vs-icon {
     color: var(--color-content-utility-success);
   }
   .bcn-ppl__vs-icon {

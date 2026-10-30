@@ -1,0 +1,46 @@
+---
+// Permits — a project's permits, as a List (AG Grid) or a Board whose columns are this
+// project's own statuses (the Actions board model: user columns over the Not Started /
+// In Progress / Completed backbone, edited in Configure Statuses on the Board).
+import PermitsLayout from '../../../../../permits/layouts/PermitsLayout.astro';
+import BcnProjectHeader from '../../../../../permits/components/BcnProjectHeader.astro';
+import BcnPermitTable from '../../../../../permits/components/BcnPermitTable.astro';
+import BcnPermitBoard from '../../../../../permits/components/BcnPermitBoard.astro';
+import BcnPermitStatusConfig from '../../../../../permits/components/BcnPermitStatusConfig.astro';
+import { PROJECTS, type Project } from '../../../../../permits/data/permit-tracker';
+
+export function getStaticPaths() {
+  return PROJECTS.map((p) => ({ params: { id: p.id }, props: { project: p } }));
+}
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const VIEWS = [{ label: 'List' }, { label: 'Board' }];
+---
+
+<!-- manifest:
+  layout: PermitsLayout(project, project-permits) > stack(lg)
+  sections:
+    - page header -> bcn-project-header      # "Permits" h1, project in the breadcrumb; Add Permit
+    - views       -> esa-tab-layout          # List | Board
+        # panel 0 -> bcn-permit-table        #   AG Grid of every permit, store-resolved status + flags
+        # panel 1 -> bcn-permit-board        #   workflow columns; drag or Move to change status; Configure Statuses
+    - configure   -> bcn-permit-status-config
+-->
+
+<PermitsLayout title={`Permits · ${project.name}`} active="project-permits" projectId={project.id}>
+  <div class="stack" data-gap="lg">
+    <BcnProjectHeader projectId={project.id} page="Permits" actions={['add']} />
+    <esa-tab-layout tabs={JSON.stringify(VIEWS)} appearance="underline" size="md" active-index="0">
+      <div slot="panel-0"><BcnPermitTable projectId={project.id} /></div>
+      <div slot="panel-1"><BcnPermitBoard projectId={project.id} /></div>
+    </esa-tab-layout>
+  </div>
+  <BcnPermitStatusConfig projectId={project.id} />
+</PermitsLayout>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+</script>

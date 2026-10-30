@@ -7,8 +7,10 @@
 // A copy rather than a prop on BaseLayout so the shared layout every other prototype
 // renders in stays untouched.
 //
-// FACES: DM Sans (UI and body), Roboto Mono (ids), Newsreader (page and section titles,
-// and the stamp's lettering; see theme-esa.css).
+// FACES: DM Sans (UI and body), Roboto Mono (ids), and one civic display face for page
+// and section titles, the wordmark and the stamp (theme-esa.css, "THE CIVIC VOICE").
+// Six candidates load while one is chosen; data-face on <html> picks it, and ?face=<id>
+// sets it and saves it in this browser so a link can show any of them.
 import '@esa/tokens/tokens.css';
 import '@esa/tokens/component-tokens.css';
 import '@esa/tokens/layouts.css';
@@ -32,9 +34,22 @@ const { title = 'Permits · ESA' } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Mono:wght@400;500&family=Public+Sans:wght@400..800&family=Overpass:wght@400..800&family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow+Condensed:wght@700&family=Big+Shoulders+Display:wght@600..800&family=National+Park:wght@400..800&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      // Before first paint, so the page never flashes the default face.
+      (function () {
+        var ok = ['public-sans', 'overpass', 'barlow', 'big-shoulders', 'national-park', 'caslon'];
+        var key = 'esa-permits:face';
+        var pick = new URLSearchParams(location.search).get('face');
+        try {
+          if (ok.indexOf(pick) >= 0) localStorage.setItem(key, pick);
+          else pick = localStorage.getItem(key);
+        } catch (e) {}
+        if (ok.indexOf(pick) >= 0) document.documentElement.dataset.face = pick;
+      })();
+    </script>
     <title>{title}</title>
     <style is:global>
       *, *::before, *::after { box-sizing: border-box; }

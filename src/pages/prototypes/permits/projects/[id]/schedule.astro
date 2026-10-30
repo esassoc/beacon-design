@@ -1,0 +1,32 @@
+---
+// Permits — a project's Schedule: one bar per permit on a calendar, from submittal to
+// issuance (or forecast), with today and construction start drawn across every row and
+// each permit indented under the one it waits on.
+import PermitsLayout from '../../../../../permits/layouts/PermitsLayout.astro';
+import BcnProjectHeader from '../../../../../permits/components/BcnProjectHeader.astro';
+import BcnPermitSchedule from '../../../../../permits/components/BcnPermitSchedule.astro';
+import { PROJECTS, type Project } from '../../../../../permits/data/permit-tracker';
+
+export function getStaticPaths() {
+  return PROJECTS.map((p) => ({ params: { id: p.id }, props: { project: p } }));
+}
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<!-- manifest:
+  layout: PermitsLayout(project, schedule) > stack(lg)
+  sections:
+    - page header -> bcn-project-header      # "Schedule" h1, project in the breadcrumb; Share
+    - schedule    -> bcn-permit-schedule     # bars on a calendar, site filter, today + construction start
+-->
+
+<PermitsLayout title={`Schedule · ${project.name}`} active="schedule" projectId={project.id}>
+  <div class="stack" data-gap="lg">
+    <BcnProjectHeader projectId={project.id} page="Schedule" actions={['share']} />
+    <BcnPermitSchedule projectId={project.id} />
+  </div>
+</PermitsLayout>

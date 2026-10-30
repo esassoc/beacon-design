@@ -52,13 +52,14 @@ const project = getProject(p.projectId);
     - editors       -> bcn-permit-editor         # one side drawer per editable section
 -->
 
-<PermitsLayout title={p.name} active="projects">
+<PermitsLayout title={p.name} active="project-permits" projectId={p.projectId}>
   <div class="stack" data-gap="xl">
     <EsaPageHeader
       title={p.name}
       meta={[
+        { label: 'Applies To', value: scopeLabel(p) },
         { label: 'Agency', value: jurisdiction(p.jurisdictionId).name },
-        { label: 'Reference no.', value: p.agencyRef ?? 'Not yet assigned' },
+        { label: 'Reference No.', value: p.agencyRef ?? 'Not yet assigned' },
       ]}
     >
       <EsaBreadcrumbs
@@ -66,7 +67,7 @@ const project = getProject(p.projectId);
         items={[
           { label: 'Projects', href: withBase(ROUTES.projects) },
           { label: project.name, href: withBase(ROUTES.project(project.id)) },
-          { label: scopeLabel(p) },
+          { label: 'Permits', href: withBase(ROUTES.projectPermits(project.id)) },
         ]}
       />
     </EsaPageHeader>

@@ -16,4 +16,6 @@ export const permitsGridTheme = beaconTheme.withParams({
   headerHeight: 44,
   rowHoverColor: '#f6f7f7', // --esa-teal-50, effectively neutral
   selectedRowBackgroundColor: '#ebeded', // --esa-teal-100
+  accentColor: '#c9682a', // --pm-accent, the stamp's ink
+  checkboxCheckedBackgroundColor: '#c9682a', // --pm-accent
 });
