@@ -49,7 +49,8 @@ await page.locator('[data-psu-list="documentTypes"] [data-ple-new]').click(); aw
 check('count follows the list', Number(await page.locator('[data-psu-list="documentTypes"] [data-psu-list-count] .esa-badge__text').textContent()) === countBefore + 1);
 await page.locator('[data-psu="ackDays"]').evaluate((f) => { f.value = '5'; f.dispatchEvent(new Event('input', { bubbles: true })); });
 await page.locator('[data-psu-link="levels"]').click(); await page.waitForTimeout(250);
-check('customize links disabled with no items', await page.locator('[data-level-page] button').first().isDisabled());
+// Configure Page (2026-10-30) works on a level with no items yet: every saved level has it.
+check('Configure Page on every saved level, items or not', !(await page.locator('[data-level-page] button').first().isDisabled()));
 await page.screenshot({ path: OUT + 'setup-plan.png' });
 await page.locator('[data-psu-dialog]').evaluate((d) => d.shadowRoot?.querySelector('.esa-dialog__body, [part="body"]')?.scrollTo(0, 99999));
 await page.waitForTimeout(300);
@@ -74,13 +75,13 @@ await page.waitForTimeout(2500);
 check('back on index after delete', /plans-repo\/(\?|$)/.test(page.url()), page.url());
 await page.waitForSelector('[data-pri-name]'); await page.waitForTimeout(600);
 check('3 plans again', (await page.locator('.bcn-pri__row').count()) === 3, String(await page.locator('.bcn-pri__row').count()));
-// The index gear: a sample plan's modal, Customize Page to an item's page
+// The index gear: a sample plan's modal, a level's Configure Page over it
 await page.locator('[data-pri-settings] button').first().click(); await page.waitForTimeout(1200);
 check('index gear opens the modal', await page.locator('[data-psu-dialog][open]').count() === 1);
 await page.locator('[data-psu-link="levels"]').click(); await page.waitForTimeout(250);
 const enabled = await page.locator('[data-level-page] button:not([disabled])').count();
-check('customize links enabled on a plan with items', enabled >= 3, String(enabled));
-await page.locator('[data-level-page] button').nth(2).click(); await page.waitForTimeout(2500);
-check('Customize Page lands on an element page', page.url().includes('/element/') && page.url().includes('customize=1'), page.url());
+check('Configure Page enabled on a plan with items', enabled >= 3, String(enabled));
+await page.locator('[data-level-page] button').nth(2).click(); await page.waitForTimeout(1500);
+check('Configure Page opens over Plan Settings', (await page.locator('[data-pcd-dialog][open]').count()) === 1 && (await page.locator('[data-psu-dialog][open]').count()) === 1);
 console.log(`\n${pass} PASS, ${fail} FAIL`);
 await browser.close();

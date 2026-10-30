@@ -6,9 +6,8 @@
 //   General          name and description; New Plan picks a template to start from
 //   What It Tracks   Schedule, Budget, or both ("some plans may or may not need schedule AND budget")
 //   Levels           the plan's levels top down, singular and plural; add and remove at the bottom, as Beacon's rules.
-//                    On a plan, each level links to Customize Page: a level's page is set up on one of its items' pages
-//                    (2026-10-28, Andy: "the template for a level should just be configured on any of those detail
-//                    pages... not in a config")
+//                    On a plan, each level has Configure Page (2026-10-30): the level's whole page in a modal over this
+//                    one, a miniature of it to arrange (BcnPageConfigDialog), saved straight to the plan
 //   People           who works on it and their role (Owner, Editor, Contributor, Guest); add from the project's people
 //   Lists            (a plan) what its cards offer: document types, completion results, transmittal purposes,
 //                    agencies, and the days a recipient has to confirm receipt
@@ -36,6 +35,7 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnDangerZone from './BcnDangerZone.astro';
 import BcnPlanListEditor from './BcnPlanListEditor.astro';
+import BcnPageConfigDialog from './BcnPageConfigDialog.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
 
@@ -206,6 +206,7 @@ import '../../styles/bcn-dialog-heading.css';
     </div>
   </esa-dialog>
   <esa-confirm-dialog data-psu-confirm variant="danger"></esa-confirm-dialog>
+  <BcnPageConfigDialog />
 
   <template data-psu-tpl="level">
     <div class="bcn-psu__level">
@@ -213,7 +214,7 @@ import '../../styles/bcn-dialog-heading.css';
       <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="singular"></esa-text-field>
       <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} data-level="plural"></esa-text-field>
       <span class="bcn-psu__level-page" data-psu-plan-only>
-        <esa-tooltip data-level-page-tip position="above"><span data-level-page><EsaButton variant="ghost" size="sm" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></span></esa-tooltip>
+        <esa-tooltip data-level-page-tip position="above"><span data-level-page><EsaButton variant="ghost" size="sm" icon="layout-template" data-fill-icon="layout-template">Configure Page</EsaButton></span></esa-tooltip>
       </span>
       <span class="bcn-psu__level-remove" data-level-remove-wrap>
         <esa-tooltip text="Remove Level" data-level-remove-tip><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove Level" data-level-remove /></esa-tooltip>

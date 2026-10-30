@@ -37,8 +37,10 @@ const q = (params: Record<string, string | null | undefined>) =>
 export const ELEMENT_HREF = (planID: string, elementId: string, draftId?: string | null) => withBase(`/prototypes/plans-repo/element/?${q({ plan: planID, el: elementId, draft: draftId })}`);
 /** One transmittal: the sender's record, or (for a recipient) the page with Confirm Receipt. */
 export const TRANSMITTAL_HREF = (planID: string, transmittalId: string) => withBase(`/prototypes/plans-repo/transmittal/?${q({ plan: planID, id: transmittalId })}`);
-/** An element's page with its level's page open to customize (Owners; the plan's settings link each level here). */
+/** An element's page with its level's page open to customize in place (Owners; Configure Page's Arrange on This Page). */
 export const CUSTOMIZE_HREF = (planID: string, elementId: string) => `${ELEMENT_HREF(planID, elementId)}&customize=1`;
+/** An element's page with Configure Page open on its level (Owners). */
+export const CONFIGURE_HREF = (planID: string, elementId: string) => `${ELEMENT_HREF(planID, elementId)}&configure=1`;
 /** The plan page, on a view. */
 export const PLAN_VIEW_HREF = (planID: string, view?: string, draftId?: string | null) => withBase(`/prototypes/plans-repo/plan/?${q({ id: planID, draft: draftId, view })}`);
 /** An obligation's page in the data catalog. */
@@ -128,10 +130,19 @@ export const settingsOf = (ctx: ElementContext, key: ModuleKey): ModuleSettings 
 
 /** Builds the context for one element. `shown` is the plan as the page shows it (the caller resolves a draft's state,
  *  which is async). Returns null when the element isn't in that plan. */
-export function elementContext(opts: { planID: string; elementId: string; live: PlanDetailDto; shown: PlanDetailDto; draft: PlanRepoDraft | null; customize?: PlanConfig | null }): ElementContext | null {
+export function elementContext(opts: {
+  planID: string;
+  elementId: string;
+  live: PlanDetailDto;
+  shown: PlanDetailDto;
+  draft: PlanRepoDraft | null;
+  customize?: PlanConfig | null;
+  /** Configure Page's preview: drawn on Live with a working configuration, not the saved one. */
+  config?: PlanConfig | null;
+}): ElementContext | null {
   const { planID, elementId, live, shown, draft } = opts;
   const repo = getRepo(planID);
-  const config = opts.customize ?? configOf(repo);
+  const config = opts.customize ?? opts.config ?? configOf(repo);
   const flat = flattenPlan(shown.Elements);
   const byId = new Map(flat.map(({ element }) => [element.PlanElementID ?? '', element]));
   const element = byId.get(elementId);

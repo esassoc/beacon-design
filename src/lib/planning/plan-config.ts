@@ -164,6 +164,11 @@ function taskLayout(): ModulePlacement[] {
   ];
 }
 
+/** A level type's default layout (Configure Page's Start From, 2026-10-30): a parent's or the lowest level's. */
+export function defaultModules(kind: 'parent' | 'task'): ModulePlacement[] {
+  return kind === 'parent' ? parentLayout() : taskLayout();
+}
+
 /** Templates: a saved plan configuration. "Study Program" is Aaron's, from the proposal's walkthrough. */
 export const TEMPLATES: Record<string, () => PlanConfig> = {
   'Study Program': () => ({

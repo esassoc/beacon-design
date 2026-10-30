@@ -1,0 +1,345 @@
+---
+// <BcnPageConfigDialog> — Configure Page: a level's whole item page in one modal (2026-10-30, Andy: "Customizing a level
+// detail page feels unintuitive. I feel like we might want/need an outline/miniaturized view of the arrangement and
+// composition of the page in a configure modal for the whole page").
+//
+//   the bar      which level (switch without closing; every level's changes are kept until Save or Cancel), Can Be a
+//                Deliverable (the level's), Start From (the parent or lowest level's default, or as last saved)
+//   left         the page in miniature (BcnPageOutline): header, main and side columns at their real proportions, a
+//                tile per card in order, the tray of cards that are off. Or Preview: an item at that level, drawn by
+//                its real page with the working layout, small (pick which item)
+//   right        the selected card's settings: on or off (or Always On), its column and order, the reason it won't
+//                show here, and its own options (Budget's audience, Documents' types, the children's timeline, the
+//                level's fields on Details: on the page, required to complete, Edit Fields)
+//   the footer   one line on what Save does (plan settings, straight to the plan, not a draft), Cancel, Save
+//
+// Reached from an item page's header (Configure Page) and from Plan Settings, Levels (each level's Configure Page). On
+// an item page it also hands the working layout to the in-place mode (Arrange on This Page), for anyone who'd rather
+// drag the real cards. The runtime is ./page-config-dialog.ts.
+//
+// bcn-lego-checked: the shell IS esa-dialog, the level IS esa-select, the switches ARE esa-switch-toggle, Outline or
+// Preview and Main or Side ARE esa-button-toggle, Start From IS esa-dropdown-menu, the types ARE esa-checkbox-group,
+// the field checks ARE esa-checkbox, badges ARE esa-badge, every action IS esa-button (under esa-tooltip when it's an
+// icon), the discard question IS esa-confirm-dialog, the fields ARE BcnLevelFieldsDialog. The miniature IS
+// BcnPageOutline. No esa- lego is a two-pane configure layout or a scaled live preview; checked Beacon (the monitoring
+// portal's Configure screen is the prior art: a list on the left, the widget's settings on the right). The CSS is the
+// panes, the settings column's rows and the preview's frame.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPageOutline from './BcnPageOutline.astro';
+import BcnLevelFieldsDialog from './BcnLevelFieldsDialog.astro';
+import BcnFieldDefDialog from './BcnFieldDefDialog.astro';
+import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
+import '../../styles/bcn-dialog-heading.css';
+
+interface Props {
+  /** Include the level's fields dialogs. Off where the page already has them (the item page's in-place mode). */
+  fieldDialogs?: boolean;
+}
+const { fieldDialogs = true } = Astro.props;
+---
+
+<div class="bcn-pcd" data-bcn-page-config>
+  <esa-dialog class="bcn-pcd__dialog" heading="Configure Page" size="lg" show-close-button data-pcd-dialog>
+    <div class="bcn-pcd__layout">
+      <div class="bcn-pcd__bar">
+        <esa-select class="bcn-pcd__level" size="sm" label="Level" data-pcd-level></esa-select>
+        <esa-switch-toggle class="bcn-pcd__deliver" size="sm" label="Can Be a Deliverable" label-position="after" data-pcd-deliver></esa-switch-toggle>
+        <span class="bcn-pcd__spacer"></span>
+        <esa-dropdown-menu position="below-end" data-pcd-start>
+          <EsaButton variant="ghost" appearance="outline" size="sm" icon="layout-template" iconRight="chevron-down" data-fill-icon="layout-template">Start From</EsaButton>
+        </esa-dropdown-menu>
+      </div>
+
+      <div class="bcn-pcd__panes">
+        <section class="bcn-pcd__left" aria-label="Page">
+          <div class="bcn-pcd__left-head">
+            <esa-button-toggle size="sm" aria-label="Show" data-pcd-view></esa-button-toggle>
+            <span class="bcn-pcd__scope typography-body-sm" data-pcd-scope></span>
+          </div>
+          <div class="bcn-pcd__outline" data-pcd-outline>
+            <BcnPageOutline />
+          </div>
+          <div class="bcn-pcd__preview" data-pcd-preview hidden>
+            <esa-select class="bcn-pcd__item" size="sm" label="Preview On" data-pcd-item></esa-select>
+            <div class="bcn-pcd__frame" data-pcd-frame>
+              <iframe title="Preview of the item page" tabindex="-1" data-pcd-iframe></iframe>
+            </div>
+            <p class="bcn-pcd__muted typography-body-sm" data-pcd-preview-note></p>
+          </div>
+          <span class="bcn-pcd__arrange" data-pcd-arrange hidden>
+            <esa-tooltip text="Drag the real cards on this item’s page instead, with what you’ve changed here" position="above" align="start">
+              <EsaButton variant="ghost" size="sm" icon="move-horizontal" data-fill-icon="move-horizontal">Arrange on This Page</EsaButton>
+            </esa-tooltip>
+          </span>
+        </section>
+
+        <aside class="bcn-pcd__right" aria-label="Card Settings" data-pcd-panel>
+          <div class="bcn-pcd__panel-head">
+            <h3 class="bcn-dialog-heading"><span class="bcn-pcd__panel-icon" data-pcd-panel-icon></span><span data-pcd-panel-title>Card</span></h3>
+            <span class="bcn-pcd__tag" data-pcd-panel-tag></span>
+          </div>
+          <p class="bcn-pcd__muted typography-body-sm" data-pcd-panel-blurb></p>
+
+          <div class="bcn-pcd__row">
+            <esa-switch-toggle size="sm" label-position="after" data-pcd-on></esa-switch-toggle>
+            <p class="bcn-pcd__muted typography-body-sm" data-pcd-locked hidden>Always on. It can move, not go.</p>
+          </div>
+          <p class="bcn-pcd__notice typography-body-sm" data-pcd-notice hidden></p>
+
+          <div class="bcn-pcd__group" role="group" aria-labelledby="pcd-place">
+            <span class="bcn-pcd__label typography-label-sm" id="pcd-place">Place</span>
+            <esa-button-toggle size="sm" aria-label="Column" data-pcd-column></esa-button-toggle>
+            <span class="bcn-pcd__moves">
+              <span data-pcd-move="up"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-up">Move Up</EsaButton></span>
+              <span data-pcd-move="down"><EsaButton variant="ghost" appearance="outline" size="sm" icon="arrow-down">Move Down</EsaButton></span>
+            </span>
+          </div>
+
+          <div class="bcn-pcd__group" data-pcd-opt="budget" hidden>
+            <esa-button-toggle size="sm" label="Who Sees It" data-pcd-visible></esa-button-toggle>
+          </div>
+          <div class="bcn-pcd__group" data-pcd-opt="documents" hidden>
+            <esa-checkbox-group size="sm" label="Document Types" help-text="None checked offers every type the plan has." data-pcd-types></esa-checkbox-group>
+          </div>
+          <div class="bcn-pcd__group" data-pcd-opt="schedule" hidden>
+            <esa-switch-toggle size="sm" label="Children’s Timeline" label-position="after" data-pcd-timeline></esa-switch-toggle>
+            <p class="bcn-pcd__muted typography-body-sm">A bar for each of its items under the dates.</p>
+          </div>
+          <div class="bcn-pcd__group" data-pcd-opt="details" hidden>
+            <span class="bcn-pcd__label typography-label-sm" data-pcd-fields-title>Fields</span>
+            <div class="bcn-pcd__fields" role="table" aria-label="Fields" data-pcd-fields>
+              <div class="bcn-pcd__field bcn-pcd__field--head typography-label-xs" role="row">
+                <span role="columnheader">Field</span><span role="columnheader">On Page</span><span role="columnheader">Required to Complete</span>
+              </div>
+              <div data-pcd-field-rows role="rowgroup"></div>
+            </div>
+            <p class="bcn-pcd__muted typography-body-sm" data-pcd-fields-empty hidden></p>
+            <span data-pcd-edit-fields><EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-fill-icon="pencil"><span data-pcd-edit-fields-label>Edit Fields</span></EsaButton></span>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div slot="footer" class="bcn-pcd__footer">
+      <p class="bcn-pcd__note typography-body-sm" data-pcd-note></p>
+      <span data-pcd-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-pcd-save><EsaButton variant="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+  <esa-confirm-dialog data-pcd-confirm variant="danger"></esa-confirm-dialog>
+
+  <template data-pcd-tpl="badge"><EsaBadge variant="neutral" size="sm">Always On</EsaBadge></template>
+  <template data-pcd-tpl="field">
+    <div class="bcn-pcd__field" role="row">
+      <span class="bcn-pcd__field-name" role="cell"><span class="typography-body-sm" data-f-name></span><span class="bcn-pcd__muted typography-body-xs" data-f-note></span></span>
+      <span role="cell"><esa-checkbox size="sm" data-f="page"></esa-checkbox></span>
+      <span role="cell"><esa-checkbox size="sm" data-f="required"></esa-checkbox></span>
+    </div>
+  </template>
+  <template data-pcd-tpl="icon"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" /></template>
+
+  {fieldDialogs && <BcnLevelFieldsDialog />}
+  {fieldDialogs && <BcnFieldDefDialog />}
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+</script>
+
+<style>
+  /* Wide: the miniature wants the room, the settings column is a fixed rail (the page's own 2:1). */
+  .bcn-pcd__dialog {
+    --dialog-width-lg: min(1180px, calc(100vw - 4rem));
+  }
+  .bcn-pcd :global([hidden]) {
+    display: none !important;
+  }
+  .bcn-pcd__layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    block-size: min(40rem, calc(100vh - 13rem));
+    min-block-size: 0;
+  }
+  .bcn-pcd__bar {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+    padding-block-end: var(--spacing-300);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pcd__level {
+    inline-size: 15rem;
+  }
+  .bcn-pcd__deliver {
+    padding-block-end: 6px;
+  }
+  .bcn-pcd__spacer {
+    flex: 1;
+  }
+  .bcn-pcd__panes {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: var(--spacing-600);
+    flex: 1;
+    min-block-size: 0;
+  }
+  .bcn-pcd__left,
+  .bcn-pcd__right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+  .bcn-pcd__left {
+    padding-inline-end: var(--spacing-100);
+  }
+  .bcn-pcd__right {
+    padding-inline-start: var(--spacing-500);
+    border-inline-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pcd__left-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+  }
+  .bcn-pcd__scope,
+  .bcn-pcd__muted {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pcd__arrange {
+    align-self: flex-start;
+  }
+
+  /* The preview: the item's real page at 1160px, scaled to the pane. */
+  .bcn-pcd__preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-pcd__item {
+    max-inline-size: 24rem;
+  }
+  .bcn-pcd__frame {
+    position: relative;
+    overflow: hidden;
+    block-size: 26rem;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-base, var(--color-background-elevation-sunken));
+  }
+  .bcn-pcd__frame iframe {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 1160px;
+    border: 0;
+    transform-origin: 0 0;
+  }
+
+  /* The settings column. */
+  .bcn-pcd__panel-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-pcd__panel-icon {
+    display: inline-flex;
+  }
+  .bcn-pcd__tag {
+    display: inline-flex;
+  }
+  .bcn-pcd__tag:empty {
+    display: none;
+  }
+  .bcn-pcd__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-pcd__notice {
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
+  }
+  .bcn-pcd__group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    padding-block-start: var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pcd__label {
+    color: var(--color-content-default);
+  }
+  .bcn-pcd__moves {
+    display: flex;
+    gap: var(--spacing-200);
+  }
+  .bcn-pcd__fields {
+    inline-size: 100%;
+  }
+  .bcn-pcd__field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4rem 6.5rem;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding-block: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pcd__field > span:not(.bcn-pcd__field-name) {
+    display: flex;
+    justify-content: center;
+  }
+  .bcn-pcd__field--head {
+    padding-block-start: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pcd__field--head > span:first-child {
+    justify-content: flex-start;
+  }
+  .bcn-pcd__field-name {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+
+  .bcn-pcd__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    inline-size: 100%;
+  }
+  .bcn-pcd__note {
+    flex: 1;
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  @media (max-width: 900px) {
+    .bcn-pcd__panes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .bcn-pcd__right {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+    }
+  }
+</style>
