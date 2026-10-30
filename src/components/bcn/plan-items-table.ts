@@ -137,8 +137,9 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
     {
       field: 'name',
       headerName: 'Name',
-      minWidth: 260,
-      flex: 2,
+      // Pinned, as the Budget sheet's names (2026-10-30, Andy): scrolling across to Status keeps the row's name.
+      pinned: 'left',
+      width: 280,
       editable: (p) => canEdit(p.data, 'name'),
       cellClass: cellClass('name'),
       tooltipField: 'name',
@@ -370,6 +371,8 @@ export function setupPlanItemsTable(root: HTMLElement, onEdit: (changes: ItemCha
     },
     {
       columnDefs: columns,
+      // Eight columns and a pinned name: draw them all, so a cell scrolled off to the right is still there to reach.
+      suppressColumnVirtualisation: true,
       domLayout: 'autoHeight',
       getRowId: (p) => p.data.id,
       getRowClass: (p) => (p.data ? tierClass(p.data.depth, p.data.parent) : undefined),

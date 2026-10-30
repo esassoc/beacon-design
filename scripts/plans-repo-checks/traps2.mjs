@@ -55,7 +55,9 @@ check('an agency person comes in as a Guest', role === 'Guest', role);
 // Sam sets a status from the table, with Owner on Mine.
 await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}&showas=table&owner=mine&user=Sam%20Okafor`); await page.addStyleTag({ content: HIDE }); await page.waitForTimeout(3500);
 const rowsMine = await page.locator('[data-bcn-plan-items-table] .ag-center-cols-container .ag-row').count();
-const cell = page.locator('[data-bcn-plan-items-table] .ag-row:has(.ag-cell[col-id="name"]:text-is("Regional receiver network build-out")) .ag-cell[col-id="status"]').first();
+// Name is pinned (2026-10-30): the row's status cell is found by its row-id.
+const regionalRow = await page.evaluate(() => [...document.querySelectorAll('[data-bcn-plan-items-table] .ag-cell[col-id="name"]')].find((c) => c.textContent.trim() === 'Regional receiver network build-out')?.closest('.ag-row')?.getAttribute('row-id'));
+const cell = page.locator(`[data-bcn-plan-items-table] .ag-row[row-id="${regionalRow}"] .ag-cell[col-id="status"]`).first();
 // One click opens the choices, one more picks (2026-10-30, the sheets unified: no click-in-then-dropdown).
 await cell.click(); await page.waitForTimeout(600);
 await page.locator('[data-bcn-plan-items-table] [data-sheet-choice="In Progress"]').first().click(); await page.waitForTimeout(900);
