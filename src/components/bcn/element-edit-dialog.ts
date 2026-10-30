@@ -41,7 +41,7 @@ export interface EditOffer {
   publishNow: boolean;
   /** From Live (2026-10-29, several drafts per person): which of your drafts it saves to, as a Saves To select; `describe`
    *  is the footer's line for a choice, with `where` after it. */
-  target?: { options: { label: string; value: string }[]; value: string; describe: (value: string) => string };
+  target?: { options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel?: (value: string) => string };
 }
 /** The form's answer: the edit, and whether it's to go to Live now. */
 export interface EditResult {
@@ -273,6 +273,8 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
     const t = offered?.target;
     const choice = String(target.value ?? t?.value ?? '');
     q<HTMLElement>('[data-eed-where]').textContent = t ? `${t.describe(choice)} ${offered!.where}`.trim() : (offered?.where ?? '');
+    // The Save button names the draft picked (2026-10-30).
+    q<HTMLElement>('[data-eed-submit-label]').textContent = t?.saveLabel ? t.saveLabel(choice) : (offered?.label ?? '');
   };
   target.addEventListener('change', drawWhere);
   const submit = (publishNow: boolean) => {

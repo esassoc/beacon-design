@@ -6,7 +6,7 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { alsoChange, goesInto, quoted, savedTo } from '../../lib/planning/plan-copy';
+import { alsoChange, goesInto, saveToLabel, quoted, savedTo } from '../../lib/planning/plan-copy';
 import { NEW_DRAFT, draftChoiceLabel } from './draft-chooser';
 import { ensureSeeded, getRepo, draftState, draftsTouching, currentDraft, myDrafts, nextDraftName, chosenDraft, setCurrentDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, membersOf, stamp, type PlanRepo, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
@@ -406,6 +406,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         options: [...yours.map((d) => ({ label: draftChoiceLabel(d), value: d.id })), { label: `A New Draft (${next})`, value: NEW_DRAFT }],
         value: mine?.id ?? NEW_DRAFT,
         describe: (value: string) => goesInto(yours.find((d) => d.id === value) ?? null, next),
+        saveLabel: (value: string) => saveToLabel(yours.find((d) => d.id === value) ?? null),
       };
       let where = !canPublish
         ? 'Ask to Publish when it’s ready.'

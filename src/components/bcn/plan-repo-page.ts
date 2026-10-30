@@ -19,7 +19,7 @@ import { planConflicts } from '../../lib/planning/plan-conflicts';
 import { planDraftEditsForDrag, planDraftOverlay, planDraftWithEdits, withItemsCarried, type PlanDraftEdit } from '../../lib/planning/plan-draft';
 import { formatPlanDateRange } from '../../lib/planning/plan-schedule-preview';
 import { confirm, planStore, pushAlert, toLocalIsoDate } from '../../lib/planning/plan-page';
-import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW, alsoChange, goesInto, quoted, savedTo } from '../../lib/planning/plan-copy';
+import { DRAFT_FIRST, DRAFT_FIRST_ASK, DRAFT_FIRST_NOW, alsoChange, goesInto, quoted, savedTo, saveToLabel } from '../../lib/planning/plan-copy';
 import { NEW_DRAFT, draftChoiceLabel, openDraftChooser } from './draft-chooser';
 import { findPlanElement, planLevelBounds, validPlanLevels } from '../../lib/planning/plan-element';
 import {
@@ -464,7 +464,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
   }
 
   /** The drawer's and the link editor's Saves To on Live (2026-10-29): your drafts, the current one picked, or a new one. */
-  function draftTarget(): { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string } {
+  function draftTarget(): { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel: (value: string) => string } {
     const mine = myDrafts(planID!);
     const current = currentDraft(planID!);
     const next = nextDraftName(planID!);
@@ -473,6 +473,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
       options: [...mine.map((d) => ({ label: draftChoiceLabel(d), value: d.id })), { label: `A New Draft (${next})`, value: NEW_DRAFT }],
       value: current?.id ?? NEW_DRAFT,
       describe: (value) => goesInto(mine.find((d) => d.id === value) ?? null, next),
+      saveLabel: (value) => saveToLabel(mine.find((d) => d.id === value) ?? null),
     };
   }
 
@@ -1043,7 +1044,7 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     const into = currentDraft(planID!);
     q<HTMLElement>('[data-prp-link-where]').textContent =
       mode === 'live' ? (into ? `Saved to your draft ${quoted(into.name)}, to review and publish with it.` : `Starts a new draft, ${quoted(nextDraftName(planID!))}, to review and publish.`) : 'Saved as your draft’s next edit.';
-    q<HTMLElement>('[data-prp-link-save] .esa-button__label').textContent = mode === 'live' ? 'Save to My Draft' : 'Save';
+    q<HTMLElement>('[data-prp-link-save] .esa-button__label').textContent = mode === 'live' ? saveToLabel(into) : 'Save';
     lagField.value = String(openDep.lag);
     const box = q<HTMLElement>('.bcn-prp__main').getBoundingClientRect();
     linkPop.style.left = `${at.x - box.left}px`;

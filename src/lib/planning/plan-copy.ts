@@ -32,5 +32,13 @@ export function goesInto(draft: { name: string; revisions: readonly unknown[]; p
   return `Goes into ${quoted(draft.name)} (${n} other ${n === 1 ? 'edit' : 'edits'}${draft.publishRequestedAt ? ', publish requested: this withdraws the request' : ''}).`;
 }
 
+/** The Save button on Live names the draft it goes to (2026-10-30, Andy: "When you click Save to My Draft... which
+ *  draft?"): the one picked in Saves To, or a new one. A long name is cut short; Saves To shows it whole. */
+export function saveToLabel(draft: { name: string } | null): string {
+  if (!draft) return 'Save to a New Draft';
+  const name = draft.name.trim();
+  return `Save to ${name.length > 22 ? `${name.slice(0, 21).trimEnd()}…` : name}`;
+}
+
 /** Said once an edit begun on Live is in a draft, naming it. */
 export const savedTo = (name: string, canPublish: boolean) => `Saved to your draft ${quoted(name)}. ${canPublish ? 'Review and Publish' : 'Ask to Publish'} when it’s ready.`;

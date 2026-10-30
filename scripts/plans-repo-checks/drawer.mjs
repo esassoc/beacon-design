@@ -24,7 +24,7 @@ const start = await repo();
 // 1. Notes only on Live: Publish Now opens the review on just this edit (2026-10-29); its Publish lands it.
 await openRow(memo);
 check('drawer opens on Live', await isOpen());
-check('Live drawer edits: Save to My Draft', (await label('[data-ped="save"]')) === 'Save to My Draft');
+check('Live drawer edits: Save to My Draft', (await label('[data-ped="save"]')).startsWith('Save to '));
 check('Publish Now offered', await shown('[data-ped="publish"]'));
 check('notes field enabled', await page.locator('[data-ped="notes"]').evaluate((f) => !f.disabled));
 await page.screenshot({ path: OUT + 'drawer-live.png' });
@@ -62,7 +62,7 @@ await page.keyboard.press('Escape'); await page.waitForTimeout(500);
 // 4. Contributor: Save to My Draft, never Publish Now.
 await gotoPlan(page, planID, '&user=Morgan%20Ellis');
 await openRow(memo);
-check('contributor: Save to My Draft, no Publish Now', (await label('[data-ped="save"]')) === 'Save to My Draft' && !(await shown('[data-ped="publish"]')));
+check('contributor: Save to My Draft, no Publish Now', (await label('[data-ped="save"]')).startsWith('Save to ') && !(await shown('[data-ped="publish"]')));
 await setNotes('Morgan’s note.');
 await page.click('[data-ped="save"]'); await page.waitForTimeout(2500);
 check('contributor saved to their draft', (await repo()).drafts.some((d) => d.owner === 'Morgan Ellis' && d.edits === 1));

@@ -119,7 +119,7 @@ export interface PlanElementDrawerDraft {
   saveLabel?: string;
   /** Which of the person's drafts Save goes to (2026-10-29, several drafts per person): a Saves To select over the
    *  fields, `value` kept up to date as it changes; `describe` is the line under it ("Goes into “Weekly updates” ..."). */
-  target?: { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string };
+  target?: { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel?: (value: string) => string };
   /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. The drawer
    *  stays open under the page's review of the edit (2026-10-29: every Publish Now shows the diff first) and closes
    *  when the promise says so: true published (or sent elsewhere), false Back to Edit, the form as it was left. */
@@ -551,7 +551,7 @@ export function openPlanElementDrawer(args: {
     show(saveButton.closest('.esa-button')!, canSave);
     show(publishButton.closest('.esa-button')!, canSave && !!draft?.publishNow);
     const saveLabel = saveButton.querySelector('.esa-button__label');
-    if (saveLabel) saveLabel.textContent = draft?.saveLabel ?? 'Save';
+    if (saveLabel) saveLabel.textContent = (draft?.target?.saveLabel && !isCreate ? draft.target.saveLabel(draft.target.value) : draft?.saveLabel) ?? 'Save';
     setButtonDisabled(publishButton, isSaving || isLinkBusy());
     show(cancelButton.closest('.esa-button')!, canSave);
     show(closeButton.closest('.esa-button')!, !canSave);
@@ -1213,6 +1213,8 @@ export function openPlanElementDrawer(args: {
     if (!t) return;
     t.value = detailValue(e, targetField) || t.value;
     targetField.helpText = t.describe(t.value);
+    const label = saveButton.querySelector('.esa-button__label');
+    if (label && t.saveLabel) label.textContent = t.saveLabel(t.value);
   });
   drawTarget();
   const detailValue = (e: Event, el: { value: unknown }) => String((e as CustomEvent<{ value: unknown }>).detail?.value ?? el.value ?? '');

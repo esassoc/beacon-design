@@ -26,7 +26,7 @@ const start = await repo();
 // 1. A dated edit that moves other items: Publish Now steps aside; Save to My Draft, then Review and Publish.
 await openEdit();
 check('form opens', await page.locator('[data-eed-dialog][open]').count() === 1);
-check('submit says Save to My Draft', (await page.locator('[data-eed-submit-label]').textContent()) === 'Save to My Draft');
+check('submit says Save to My Draft', (await page.locator('[data-eed-submit-label]').textContent()).startsWith('Save to '));
 check('Publish Now offered', await shown('[data-eed-publish]'), await page.locator('[data-eed-where]').textContent());
 await page.screenshot({ path: OUT + 'edit-form.png' });
 await page.evaluate(() => {
@@ -100,7 +100,7 @@ await page.click('[data-eed-cancel] button'); await page.waitForTimeout(400);
 // 5. A contributor: their draft, never Publish Now.
 await page.goto(url + '&user=Morgan%20Ellis'); await ready();
 await openEdit();
-check('contributor: Save to My Draft, no Publish Now', (await page.locator('[data-eed-submit-label]').textContent()) === 'Save to My Draft' && !(await shown('[data-eed-publish]')));
+check('contributor: Save to My Draft, no Publish Now', (await page.locator('[data-eed-submit-label]').textContent()).startsWith('Save to ') && !(await shown('[data-eed-publish]')));
 await page.locator('[data-eed="name"]').evaluate((f) => (f.value = f.value + ' (rev)'));
 await page.click('[data-eed-submit] button'); await page.waitForTimeout(1200);
 check('contributor saved', (await repo()).drafts.some((d) => d.owner === 'Morgan Ellis' && d.edits === 1));

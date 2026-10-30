@@ -240,6 +240,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   /* A long name wraps tight (2026-10-28, Andy: the title's line-height was too loose). */
   .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; line-height: 1.25; }
   .bcn-ped__badge { align-self: flex-start; margin-block-start: var(--spacing-100); }
+  /* In the meta row beside Open Page, centered on it (2026-10-30). */
+  .bcn-ped__meta .bcn-ped__badge { align-self: center; margin-block-start: 0; }
   /* The plan header's state mark (BcnPlanRepoPage .bcn-prp__state): orange Live, green a draft. */
   .bcn-ped__state:not([hidden]) { display: inline-flex; align-items: center; gap: var(--spacing-150); color: var(--color-content-default); }
   .bcn-ped__state-dot { inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; flex: none; background: var(--bcn-live-badge); }
@@ -308,8 +310,8 @@ import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
   .bcn-ped__fy-list :global(dd) { margin: 0; font-variant-numeric: tabular-nums; }
   .bcn-ped__fy-list :global(div[data-total]) { padding-block-start: var(--spacing-100); border-block-start: 1px solid var(--color-border-default-subtle); font-weight: 600; }
   .bcn-ped__fy-list :global(div[data-total] dt) { color: var(--color-content-default); }
-  .bcn-ped__meta { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); min-inline-size: 0; }
-  .plan-element__detail:not([hidden]) { display: inline-flex; margin-inline-start: auto; }
+  .bcn-ped__meta { display: flex; align-items: center; gap: var(--spacing-300); min-inline-size: 0; }
+  .plan-element__detail:not([hidden]) { display: inline-flex; }
   .plan-element__heading-row {
     display: flex;
     align-items: center;

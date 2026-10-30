@@ -100,6 +100,13 @@ await page.click(`[data-select="${proc}"]`, { position: { x: 12, y: 8 } }); awai
 const target = await page.locator('[data-ped="target"]').evaluate((s) => ({ hidden: s.hidden, value: s.value, n: s.options.length, help: s.helpText }));
 check('drawer on Live: Saves To, the current draft picked', !target.hidden && target.value === weekly.id && target.n === 4, JSON.stringify(target));
 check('drawer says where it goes', /Goes into “Weekly updates”/.test(target.help), target.help);
+const saveSays = async () => (await page.locator('[data-ped="save"] .esa-button__label').first().textContent()).trim();
+check('Save names the draft picked', (await saveSays()) === 'Save to Weekly updates', await saveSays());
+await page.locator('[data-ped="target"]').evaluate((s) => { s.value = 'new'; s.dispatchEvent(new CustomEvent('change', { detail: { value: 'new' }, bubbles: true })); });
+check('picking a new draft renames Save', (await saveSays()) === 'Save to a New Draft', await saveSays());
+await page.locator('[data-ped="target"]').evaluate((s, id) => { s.value = id; s.dispatchEvent(new CustomEvent('change', { detail: { value: id }, bubbles: true })); }, weekly.id);
+const meta = await page.evaluate(() => { const b = document.querySelector('[data-ped="badge"]').getBoundingClientRect(); const l = document.querySelector('[data-ped="detail"]').getBoundingClientRect(); return { gap: Math.round(l.left - b.right), dy: Math.round((l.top + l.height / 2) - (b.top + b.height / 2)) }; });
+check('Open Task Page sits just right of the badge, centered on it', meta.gap > 0 && meta.gap <= 24 && Math.abs(meta.dy) <= 1, JSON.stringify(meta));
 await page.screenshot({ path: OUT + 'drafts-drawer.png' });
 await page.locator('[data-ped="notes"]').evaluate((f) => { f.value = 'Weekly: vendor confirmed.'; f.dispatchEvent(new Event('input', { bubbles: true })); f.dispatchEvent(new Event('change', { bubbles: true })); });
 await page.click('[data-ped="save"]'); await page.waitForTimeout(2500);

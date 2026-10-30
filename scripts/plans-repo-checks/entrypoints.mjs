@@ -133,7 +133,7 @@ check('item: the review’s Publish lands it', r6.versions === r0.versions + 1 &
 await gotoPlan(page, planID, '&user=Sam%20Okafor');
 r0 = await repo();
 await openRow(memo);
-check('contributor drawer: Save to My Draft, no Publish Now', (await label('[data-ped="save"]')) === 'Save to My Draft' && !(await shown('[data-ped="publish"]')));
+check('contributor drawer: Save to My Draft, no Publish Now', (await label('[data-ped="save"]')).startsWith('Save to ') && !(await shown('[data-ped="publish"]')));
 await setNotes('[data-ped="notes"]', 'Sam’s note.');
 await page.click('[data-ped="save"]'); await page.waitForTimeout(2500);
 let r7 = await repo();

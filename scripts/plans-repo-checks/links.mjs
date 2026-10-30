@@ -34,7 +34,7 @@ await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}&user=Andy%20Lo
 const start = await repo();
 check('link line is clickable on Live', await clickLink());
 check('popover open', await page.locator('[data-prp-link-pop]').evaluate((p) => !!p.open));
-check('Live: Save to My Draft', (await page.locator('[data-prp-link-save] .esa-button__label').textContent()).trim() === 'Save to My Draft');
+check('Live: Save to My Draft', (await page.locator('[data-prp-link-save] .esa-button__label').textContent()).trim().startsWith('Save to '));
 await page.screenshot({ path: OUT + 'link-pop.png' });
 await page.locator('[data-prp-link-lag]').evaluate((f) => (f.value = '10'));
 await page.click('[data-prp-link-save] button'); await page.waitForTimeout(2000);
