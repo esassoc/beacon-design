@@ -32,10 +32,23 @@ tier moves:
   severity, and amber still means "in progress".
 - **Grids** drop Beacon's filled teal header band for a quiet light header (`grid-theme.ts`):
   every grid here sits in a card that already names it.
+- **Chrome** follows the design layer's surface recipe
+  (`ecology/packages/design-layer/surface-recipe.md`) at Beacon's measured offsets: top bar
+  4.3 HSL points under the canvas, sidenav level with the canvas behind a hairline, one hue
+  and saturation across all three (H 172, S 18: a faint ESA green-gray, under the tint
+  ceiling). `esa-app-shell` paints these the other way round by default, so the layout
+  re-points them (ledgered as a hub gap).
+- **Serif voice**: page titles (h1), section titles (h2) and the "Permits" stamp use a serif;
+  UI, body and stats stay DM Sans. Five candidates load and `?serif=` switches them
+  (`dm-serif` default, `fraunces`, `newsreader`, `instrument`, `besley`), saved per browser.
+- **Lockup**: a small ESA logo beside "Permits" as a rubber stamp (serif caps in a double
+  rule, tilted −4°, pressed square on hover).
 
 ## What changed, page by page
 
-- **Shell**: the ESA logo + "Permits" lockup in the sidenav; pages sit in an 88rem column.
+- **Shell**: the ESA logo + "Permits" stamp in the sidenav; pages sit in an 88rem column.
+- **Grid toolbars**: search first and left-aligned, Clear Filters at the far end. In the
+  card's actions slot they floated right of an empty header wherever the card had no title.
 - **Projects**: each card leads with the two dates its badge is judged on (expected all
   issued vs construction start) and the permit mix, then number · manager · sites.
 - **Project**

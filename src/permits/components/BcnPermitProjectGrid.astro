@@ -54,12 +54,16 @@ const STATUS_OPTIONS = [
 <section class="bcn-pprg stack" data-gap="sm" data-pprg aria-labelledby="bcn-pprg-heading">
   <h2 id="bcn-pprg-heading" class="bcn-pprg__heading typography-heading-md">All projects</h2>
   <EsaCard padding="compact">
-    <Fragment slot="actions">
+    {/* ESA design pass: a left-aligned toolbar in the body (search first, Clear Filters at
+        the far end), not the card's actions slot, where the controls floated right of an
+        empty header. */}
+    <div class="bcn-pprg__toolbar">
       <div class="cluster" data-gap="xs">
+        <BcnGridChrome prefix="pprg" searchPlaceholder="Search projects…" only="search" />
         <esa-button-toggle size="sm" aria-label="Show projects" data-pprg-status data-options={JSON.stringify(STATUS_OPTIONS)}></esa-button-toggle>
-        <BcnGridChrome prefix="pprg" searchPlaceholder="Search projects…" />
       </div>
-    </Fragment>
+      <BcnGridChrome prefix="pprg" only="clear-filters" />
+    </div>
 
     <div class="bcn-pprg__host" data-pprg-host></div>
 
@@ -185,8 +189,13 @@ const STATUS_OPTIONS = [
 <style>
   /* bcn-lego-checked: grid-host geometry + the injected name link — AG Grid renders
      cells outside Astro's scope. See header. */
-  .bcn-pprg__heading {
-    margin: 0;
+  .bcn-pprg__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200, 0.5rem);
+    margin-block-end: var(--spacing-300, 0.75rem);
   }
   .bcn-pprg__host {
     inline-size: 100%;

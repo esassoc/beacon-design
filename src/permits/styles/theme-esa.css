@@ -48,8 +48,81 @@
   --color-content-brand:                var(--esa-teal-700);
   --color-content-link:                 var(--esa-teal-700);
   --color-content-link-hover:           var(--esa-teal-900);
+}
 
-  /* The app canvas: a hair of ESA teal in the off-white, the site's own #f4fbfb
-     pulled back toward neutral so cards (white) still lift off it. */
-  --color-background-default: #f7f9f9;
+/* ===== CHROME SURFACES — the surface recipe =====
+   ecology/packages/design-layer/surface-recipe.md: the top bar, sidenav and canvas
+   share ONE hue and ONE saturation, and only HSL lightness moves. The offsets are
+   Beacon's, as measured there: canvas L 98.04, sidenav = canvas (a hairline border
+   carries the edge), top bar −4.31, borders at Beacon's L 74 (bar) and L 86 (sidenav).
+   The hue is ESA teal's family (H 172) at S 18, which keeps every surface under the
+   recipe's 0.012 OKLCH-chroma tint ceiling (the bar, the most tinted, is 0.0065):
+   a faint green-gray, not a color. For pure Beacon neutral, set S to 0 (the hexes
+   become #efefef / #fafafa / #bdbdbd / #dcdcdc).
+   Cards stay the hub's raised #fcfcfc, +0.8 over the canvas, as Beacon's do. */
+[data-theme="beacon"][data-brand="esa"] {
+  --pm-chrome-bar:         #ecf2f1; /* hsl(172 18% 93.73%) */
+  --pm-chrome-canvas:      #f9fbfb; /* hsl(172 18% 98.04%) */
+  --pm-chrome-rail:        var(--pm-chrome-canvas);
+  --pm-chrome-hover:       #f1f6f5; /* hsl(172 18% 95.5%), a sidenav item under the pointer */
+  --pm-chrome-bar-border:  #b8c2c1; /* hsl(172 8% 74.12%) */
+  --pm-chrome-rail-border: #d9dfde; /* hsl(172 8% 86.27%) */
+
+  --color-background-default: var(--pm-chrome-canvas);
+}
+
+/* ===== THE SERIF VOICE — page titles, section titles, the wordmark =====
+   DM Sans stays the UI and body face. A serif carries the three places the app
+   speaks in its own voice: the h1 (heading-lg), the section h2 (heading-md) and the
+   "Permits" wordmark. Five candidates are loaded; ?serif=<id> switches them (saved
+   per browser, see PermitsBaseLayout). Each sets its own size and weight, because a
+   display serif at the sans heading's 600 reads black, and condensed faces need
+   more size to hold the same presence. Stats (display-sm) stay DM Sans: numbers
+   read better in the tabular sans. */
+[data-theme="beacon"][data-brand="esa"] {
+  --pm-font-serif: 'DM Serif Display', Georgia, serif;
+  --pm-h1-size: 2.125rem;
+  --pm-h1-weight: 400;
+  --pm-h2-size: 1.3125rem;
+  --pm-h2-weight: 400;
+  --pm-serif-tracking: -0.005em;
+
+  --typography-heading-lg-font-family: var(--pm-font-serif);
+  --typography-heading-lg-font-size: var(--pm-h1-size);
+  --typography-heading-lg-font-weight: var(--pm-h1-weight);
+  --typography-heading-lg-letter-spacing: var(--pm-serif-tracking);
+  --typography-heading-lg-line-height: 1.15;
+  --typography-heading-md-font-family: var(--pm-font-serif);
+  --typography-heading-md-font-size: var(--pm-h2-size);
+  --typography-heading-md-font-weight: var(--pm-h2-weight);
+  --typography-heading-md-letter-spacing: var(--pm-serif-tracking);
+  --typography-heading-md-line-height: 1.2;
+}
+[data-theme="beacon"][data-brand="esa"][data-serif='fraunces'] {
+  --pm-font-serif: 'Fraunces', Georgia, serif;
+  --pm-h1-weight: 500;
+  --pm-h2-weight: 500;
+  --pm-serif-tracking: -0.015em;
+}
+[data-theme="beacon"][data-brand="esa"][data-serif='newsreader'] {
+  --pm-font-serif: 'Newsreader', Georgia, serif;
+  --pm-h1-size: 2.25rem;
+  --pm-h1-weight: 500;
+  --pm-h2-size: 1.375rem;
+  --pm-h2-weight: 500;
+  --pm-serif-tracking: -0.01em;
+}
+[data-theme="beacon"][data-brand="esa"][data-serif='instrument'] {
+  --pm-font-serif: 'Instrument Serif', Georgia, serif;
+  --pm-h1-size: 2.5rem;
+  --pm-h2-size: 1.5rem;
+  --pm-serif-tracking: 0;
+}
+[data-theme="beacon"][data-brand="esa"][data-serif='besley'] {
+  --pm-font-serif: 'Besley', Georgia, serif;
+  --pm-h1-size: 2rem;
+  --pm-h1-weight: 500;
+  --pm-h2-size: 1.25rem;
+  --pm-h2-weight: 500;
+  --pm-serif-tracking: -0.01em;
 }

@@ -5,9 +5,20 @@
 // brand layer) around the hub's canonical esa-app-shell, with the app's own nav and an
 // omnibox over every project and active permit.
 //
-// THE LOCKUP: the ESA logo, a hairline, then the product name. The logo is the real
-// asset from esassoc.com (public/brand/esa-logo.svg), sized so its serif "ESA" reads at
-// about cap height of the product name. When the rail collapses, only the logo stays.
+// THE LOCKUP: the ESA logo (the real asset from esassoc.com, public/brand/esa-logo.svg),
+// small, then the product name as a rubber stamp: the serif voice in caps inside a
+// double rule, in ESA teal ink, set a few degrees off true the way a hand-stamped
+// approval lands. Hovering the brand link presses it square. When the rail collapses,
+// only the logo stays.
+//
+// THE CHROME follows the surface recipe (ecology design-layer surface-recipe.md, values
+// in theme-esa.css): top bar 4.3 points darker than the canvas, sidenav level with the
+// canvas behind a hairline, one hue and saturation across all three. esa-app-shell's
+// defaults paint the bar with the card token (raised) and the rail with sunken, the
+// reverse of the recipe, so this layout re-points both on the shell's own elements.
+// The sidenav's item hover reads the same token as its background, so the rail's
+// colors are set through esa-sidebar-nav's --_sidenav-* properties (logged as a hub
+// gap in docs/system-improvement-ledger.md).
 //
 // THE PAGE COLUMN: the shell's main region is full-bleed. Pages sit in a centred column
 // capped at 88rem, so the grids and the readiness figures don't stretch into a line too
@@ -67,8 +78,8 @@ const searchIndex = [
       searchPlaceholder="Search projects and permits"
     >
       <span slot="logo" class="pm-lockup">
-        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="88" height="52" />
-        <span class="pm-lockup__product">Permits</span>
+        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="52" height="31" />
+        <span class="pm-lockup__stamp">Permits</span>
       </span>
       <div class="pm-page"><slot /></div>
     </EsaAppShell>
@@ -85,28 +96,57 @@ const searchIndex = [
     padding-block: var(--spacing-200, 0.5rem) var(--spacing-1000, 4rem);
   }
 
-  /* Slotted into the shell's brand link, so these must be global to reach it. */
+  /* ── chrome: the surface recipe on the shell's own elements ── */
+  :global(.pm-frame .esa-app-shell .esa-app-shell__bar) {
+    background: var(--pm-chrome-bar);
+    border-block-end-color: var(--pm-chrome-bar-border);
+  }
+  :global(.pm-frame esa-sidebar-nav) {
+    --_sidenav-bg: var(--pm-chrome-rail);
+    --_sidenav-border: var(--pm-chrome-rail-border);
+    --_sidenav-item-bg-hover: var(--pm-chrome-hover);
+  }
+
+  /* ── the lockup (slotted into the shell's brand link, so global) ── */
   :global(.pm-lockup) {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-300, 0.75rem);
-    padding: var(--spacing-100, 0.25rem) var(--spacing-100, 0.25rem);
+    gap: var(--spacing-400, 1rem);
+    padding: var(--spacing-200, 0.5rem) var(--spacing-100, 0.25rem);
   }
   :global(.pm-lockup__logo) {
-    inline-size: 88px;
+    inline-size: 52px;
     block-size: auto;
     flex: none;
   }
-  :global(.pm-lockup__product) {
-    padding-inline-start: var(--spacing-300, 0.75rem);
-    border-inline-start: 1px solid var(--color-border-default, #dcdcdc);
-    color: var(--color-content-default);
-    font-size: var(--font-size-300, 1.125rem);
-    font-weight: var(--typography-font-weight-semibold, 600);
-    letter-spacing: -0.01em;
-    line-height: 1.75rem;
+  /* The stamp. Two rules of ink (a border and an inset ring a hair inside it), the
+     serif in caps, tilted −4°. Ink, not fill: it stays teal on any surface. */
+  :global(.pm-lockup__stamp) {
+    display: inline-block;
+    padding: 0.2em 0.55em 0.15em;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1.5px var(--pm-chrome-rail), inset 0 0 0 2.5px currentColor;
+    color: var(--color-content-brand);
+    font-family: var(--pm-font-serif);
+    font-size: 0.9375rem;
+    font-weight: var(--pm-h2-weight, 400);
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transform: rotate(-4deg);
+    transition: transform 160ms ease;
   }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__product) {
+  :global(.esa-app-shell__brand:hover .pm-lockup__stamp),
+  :global(.esa-app-shell__brand:focus-visible .pm-lockup__stamp) {
+    transform: rotate(0deg) scale(0.97);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.pm-lockup__stamp) {
+      transition: none;
+    }
+  }
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
     display: none;
   }
   :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
