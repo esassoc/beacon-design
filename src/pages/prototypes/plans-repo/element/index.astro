@@ -1,6 +1,6 @@
 ---
 // One work element's page (2026-10-28, decisions 1 to 8). `?plan=` and `&el=` name it; `&draft=` opens it as a draft
-// has it; `&customize=1` opens it with its level's page being customized (Owners). The head is PageLayout's (title,
+// has it; `&configure=1` opens Configure Page on its level, `&customize=1` its level's page customized in place (Owners). The head is PageLayout's (title,
 // crumbs filled at runtime); the body is BcnPlanElementPage, a column of module cards laid out by the element's level.
 import AppShell from '../../../../layouts/AppShell.astro';
 import PageLayout from '../../../../layouts/PageLayout.astro';
@@ -16,8 +16,8 @@ import { withBase } from '../../../../lib/base';
   layout: AppShell > PageLayout                       # SPINE
   sections:
     - title badges -> esa-badge                       # level, Deliverable, Milestone
-    - actions      -> esa-button                      # previous, next, Open in Plan, Customize Page, Edit (form, saved to your draft), Review and Publish (your draft), Back to Live Plan
-    - page         -> bcn-plan-element-page           # two columns of bcn-element-module cards; bcn-element-customize
+    - actions      -> esa-button                      # previous, next, Open in Plan, Configure Page, Edit (form, saved to your draft), Review and Publish (your draft), Back to Live Plan
+    - page         -> bcn-plan-element-page           # two columns of bcn-element-module cards; bcn-page-config-dialog (bcn-page-outline); bcn-element-customize
 -->
 
 <AppShell title="Item" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" planningFirst>
@@ -33,7 +33,7 @@ import { withBase } from '../../../../lib/base';
       <span data-pep-action="prev"><esa-tooltip text="Previous Item" position="below"><EsaButton variant="ghost" size="sm" iconOnly icon="chevron-left" label="Previous Item" /></esa-tooltip></span>
       <span data-pep-action="next"><esa-tooltip text="Next Item" position="below" align="end"><EsaButton variant="ghost" size="sm" iconOnly icon="chevron-right" label="Next Item" /></esa-tooltip></span>
       <span data-pep-action="open-plan"><a><EsaButton variant="ghost" size="sm" icon="square-chart-gantt" data-fill-icon="square-chart-gantt">Open in Plan</EsaButton></a></span>
-      <span data-pep-action="customize" hidden><esa-tooltip text="Arrange the cards and fields every item at this level shows" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="layout-template" data-fill-icon="layout-template">Customize Page</EsaButton></esa-tooltip></span>
+      <span data-pep-action="configure" hidden><esa-tooltip text="Arrange the cards and fields every item at this level shows" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="layout-template" data-fill-icon="layout-template">Configure Page</EsaButton></esa-tooltip></span>
       <span data-pep-action="edit" hidden><esa-tooltip text="Name, dates, owners and fields, saved to your draft" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="pencil" data-fill-icon="pencil">Edit</EsaButton></esa-tooltip></span>
       <span data-pep-action="review" hidden><esa-tooltip text="Compare your draft with Live, then publish" position="below" align="end"><EsaButton variant="ghost" size="sm" icon="git-merge" data-fill-icon="git-merge">Review and Publish</EsaButton></esa-tooltip></span>
       <span data-pep-action="back" hidden><EsaButton variant="ghost" size="sm" icon="arrow-left">Back to Live Plan</EsaButton></span>

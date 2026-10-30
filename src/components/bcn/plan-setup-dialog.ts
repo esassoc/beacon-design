@@ -1,6 +1,6 @@
 // <BcnPlanSetupDialog>'s runtime (2026-10-28): New Plan and a plan's settings in one modal. open() resolves what came of
-// it: a plan created (its id), settings saved, the plan deleted, a level's page to customize (an item of that level),
-// or nothing (cancelled). Saving writes through plan-repo.ts (createPlanRepo, savePlanSettings and savePlanConfig for
+// it: a plan created (its id), settings saved, the plan deleted, or nothing (cancelled). A level's Configure Page opens
+// over it (./page-config-dialog.ts, 2026-10-30) and saves straight to the plan; Plan Settings takes the new layouts in. Saving writes through plan-repo.ts (createPlanRepo, savePlanSettings and savePlanConfig for
 // the lists, deletePlanRepo); the page decides where to go next.
 
 import { planApi, currentUserName } from '../../lib/planning/plan-server';
@@ -30,6 +30,7 @@ import { DEFAULT_REMINDERS, type ReminderConfig } from '../../lib/planning/plan-
 import { pushAlert } from '../../lib/planning/plan-page';
 import { recordsFor } from '../../lib/planning/plan-records';
 import { TRANSMITTAL_HREF } from '../../lib/planning/element-context';
+import { setupPageConfigDialog } from './page-config-dialog';
 
 const firstName = (name: string) => name.split(' ')[0];
 import { listEditor, setEsaButtonDisabled, type ListChange, type ListEditor } from './plan-list-editor';
@@ -95,6 +96,8 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
   const confirm = q<ConfirmEl>('[data-psu-confirm]');
   const errorEl = q<HTMLElement>('[data-psu-error]');
   const levelTpl = q<HTMLTemplateElement>('template[data-psu-tpl="level"]');
+  // A level's page (2026-10-30): Configure Page, over this modal.
+  const pageConfig = setupPageConfigDialog(q<HTMLElement>('[data-bcn-page-config]'));
   const personTpl = q<HTMLTemplateElement>('template[data-psu-tpl="person"]');
 
   // ── The section nav (2026-10-28, Andy: "x-large (x-wide) modal with the left sidebar nav"): one section at a time ──
@@ -197,13 +200,12 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
           levels.pop();
           drawLevels();
         });
-        // A level's page is set up on one of its items' pages: the first in the plan, or none yet.
+        // A level's page: Configure Page, for any level the plan has saved (items or not yet).
         const page = row.querySelector<HTMLElement>('[data-level-page]')!;
-        const elementId = i < saved ? firstAt.get(i) : undefined;
-        const pluralName = level.PluralName || 'items';
-        setEsaButtonDisabled(page.querySelector('button'), !elementId);
-        row.querySelector('[data-level-page-tip]')!.setAttribute('text', elementId ? `Set up the ${level.SingularName || 'level'} page on one of its items` : i < saved ? `No ${pluralName} yet: add one to customize its page` : 'Save first, then add an item');
-        page.addEventListener('click', () => void customize(elementId));
+        page.dataset.levelDepth = String(i + 1);
+        setEsaButtonDisabled(page.querySelector('button'), i >= saved);
+        row.querySelector('[data-level-page-tip]')!.setAttribute('text', i < saved ? `Arrange the cards and fields every ${level.SingularName || 'item'} shows` : 'Save first, then configure its page');
+        page.addEventListener('click', () => void configurePage(i + 1));
         fillIcons(row);
         return row;
       })
@@ -399,11 +401,17 @@ export function setupPlanSetupDialog(root: HTMLElement): { open(planID?: string)
     close(null);
   }
   q<HTMLElement>('[data-psu-cancel]').addEventListener('click', () => void cancel());
-  /** Off to an item's page to customize its level's: unsaved changes here are asked about first. */
-  async function customize(elementId: string | undefined): Promise<void> {
-    if (!elementId || busy) return;
-    if (dirty() && !(await askDiscard())) return;
-    close({ kind: 'customize', elementId });
+  /** A level's Configure Page, over this modal. It saves straight to the plan; the layouts it saved come in here, so
+   *  this modal's own Save (its lists, on the same configuration) doesn't put the old ones back. */
+  async function configurePage(depth: number): Promise<void> {
+    if (!planID || busy) return;
+    const result = await pageConfig.open({ planID, depth });
+    if (result?.kind !== 'saved' || !config) return;
+    const saved = clonePlanConfig(result.config);
+    config.levels = saved.levels;
+    config.fields = saved.fields;
+    config.allLevels = saved.allLevels;
+    pushAlert('Page saved to the plan.', 'success');
   }
   // The dialog's own exits (its X, Escape, the backdrop) close it before anyone can ask: with changes, it comes back
   // and asks; without, it's a cancel.

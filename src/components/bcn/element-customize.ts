@@ -32,7 +32,10 @@ export interface CustomizeHost {
 export interface Customizer {
   /** The working configuration while customizing; null otherwise. */
   working(): PlanConfig | null;
-  start(): void;
+  /** Starts on the plan's saved configuration, or on one handed over (Configure Page's Arrange on This Page). */
+  start(from?: PlanConfig): void;
+  /** The level's fields dialog, shared with Configure Page. */
+  levelFields: ReturnType<typeof setupLevelFieldsDialog>;
   /** A card as the page placed it: its grip, controls and ghost state. */
   decorate(card: HTMLElement, p: ModulePlacement, ctx: ElementContext, shows: boolean): void;
   /** A card back to itself. */
@@ -273,15 +276,21 @@ export function setupElementCustomize(root: HTMLElement, host: CustomizeHost): C
 
   return {
     working: () => working,
-    start() {
+    levelFields,
+    start(from) {
       const ctx = host.ctx();
       if (!ctx || working) return;
       depth = ctx.depth;
-      working = clonePlanConfig(configOf(ctx.repo));
       // This level spelled out: every card, on or off, so each can be switched and moved.
-      const lc = levelConfig(working, depth, ctx.deepest);
-      working.levels[depth] = { ...JSON.parse(JSON.stringify(lc)), modules: JSON.parse(JSON.stringify(modulesFor(working, depth, ctx.deepest))) };
-      initial = JSON.stringify(working);
+      const spelled = (config: PlanConfig) => {
+        const c = clonePlanConfig(config);
+        const lc = levelConfig(c, depth, ctx.deepest);
+        c.levels[depth] = { ...JSON.parse(JSON.stringify(lc)), modules: JSON.parse(JSON.stringify(modulesFor(c, depth, ctx.deepest))) };
+        return c;
+      };
+      // Handed over with changes, it starts dirty: Cancel asks, Save writes them.
+      initial = JSON.stringify(spelled(configOf(ctx.repo)));
+      working = spelled(from ?? configOf(ctx.repo));
       bar.hidden = false;
       host.page.setAttribute('data-customizing', '');
       const url = new URL(location.href);

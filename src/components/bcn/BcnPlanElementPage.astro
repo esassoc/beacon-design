@@ -32,6 +32,7 @@ import BcnHealthDialog from './BcnHealthDialog.astro';
 import BcnElementEditDialog from './BcnElementEditDialog.astro';
 import BcnPlanRevisionsDialog from './BcnPlanRevisionsDialog.astro';
 import BcnElementCustomize from './BcnElementCustomize.astro';
+import BcnPageConfigDialog from './BcnPageConfigDialog.astro';
 ---
 
 <div class="bcn-pep" data-bcn-plan-element-page>
@@ -72,7 +73,10 @@ import BcnElementCustomize from './BcnElementCustomize.astro';
   <!-- Edit (2026-10-28, Andy): the form, then the plan's own Review and Publish for it. -->
   <BcnElementEditDialog />
   <BcnPlanRevisionsDialog />
-  <!-- Customize Page (2026-10-28): the level's page, edited here. -->
+  <!-- Configure Page (2026-10-30): the level's whole page in a modal, with its miniature. The fields dialogs are the
+       in-place mode's. -->
+  <BcnPageConfigDialog fieldDialogs={false} />
+  <!-- Customize Page (2026-10-28): the level's page, arranged here (Configure Page's Arrange on This Page). -->
   <BcnElementCustomize />
 </div>
 

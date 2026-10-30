@@ -1,6 +1,7 @@
 // <BcnPlanElementPage>'s runtime: one element, its head and its modules. From the URL: `plan` and `el`; `draft` opens
-// it as a draft has it (yours to edit, anyone else's read-only); `customize=1` opens it with its level's page being
-// customized (Owners, on Live: ./element-customize.ts), drawn with the working layout.
+// it as a draft has it (yours to edit, anyone else's read-only); `configure=1` opens Configure Page on its level (Owners,
+// on Live: ./page-config-dialog.ts); `customize=1` opens its level's page customized in place (./element-customize.ts),
+// drawn with the working layout; `preview=1`, inside Configure Page's frame, draws it with that dialog's working layout.
 //
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
@@ -16,6 +17,8 @@ import type { PlanDetailDto, PlanElementDto } from '../../lib/planning/model';
 import { elementContext, moduleShows, PLAN_VIEW_HREF, ELEMENT_HREF, type ElementContext } from '../../lib/planning/element-context';
 import type { ModuleKey } from '../../lib/planning/plan-config';
 import { setupElementCustomize } from './element-customize';
+import { setupPageConfigDialog } from './page-config-dialog';
+import type { PlanConfig } from '../../lib/planning/plan-config';
 import { confirm, pushAlert } from '../../lib/planning/plan-page';
 import { fillIcons } from '../../lib/planning/icons';
 import { withBase } from '../../lib/base';
@@ -57,6 +60,18 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   const params = new URLSearchParams(location.search);
   const planID = params.get('plan') ?? '';
   const elementId = params.get('el') ?? '';
+  // Configure Page's preview (2026-10-30): this page in that dialog's frame, drawn with its working layout, the app's
+  // chrome and the page's actions away. It redraws when the dialog says the layout changed.
+  const previewOf: (() => PlanConfig | null) | null = params.get('preview') === '1' && window.parent !== window ? () => window.parent.bcnPageConfigPreview?.() ?? null : null;
+  if (previewOf) {
+    document.documentElement.setAttribute('data-pep-preview', '');
+    const style = document.createElement('style');
+    style.textContent = '.topbar,.side-nav,.bcn-help-bar,[data-pep-actions]{display:none!important}.modern-layout__content{padding-block-start:0}[data-bcn-plan-element-page]{pointer-events:none}';
+    document.head.append(style);
+    window.addEventListener('message', (e) => {
+      if (e.origin === location.origin && (e.data as { type?: string })?.type === 'bcn-page-config') void refresh();
+    });
+  }
 
   // ── Modules ──
   const modules = new Map<ModuleKey, { root: HTMLElement; module: ElementModule }>();
@@ -82,6 +97,18 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     cols: () => ({ main: q('[data-pep-col="main"]'), side: q('[data-pep-col="side"]') }),
     page: root,
   });
+
+  // ── Configure Page (2026-10-30): the level's whole page in a modal, with a miniature of it ──
+  const pageConfig = setupPageConfigDialog(document.querySelector<HTMLElement>('[data-bcn-page-config]')!, { levelFields: custom.levelFields });
+  async function configure(): Promise<void> {
+    const c = ctx;
+    if (!c || c.mode !== 'live' || c.myRole !== 'Owner') return;
+    const result = await pageConfig.open({ planID, depth: c.depth, elementId });
+    if (!result) return;
+    if (result.kind === 'arrange') return custom.start(result.config);
+    await refresh();
+    pushAlert('Saved to the plan’s settings. Every item at the levels you changed shows the new page.', 'success');
+  }
 
   // ── Header pieces outside the component (PageLayout's title row and crumbs, the utilities slot) ──
   const h1 = document.querySelector('.page-layout__title h1');
@@ -155,8 +182,8 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     if (reviewLabel) reviewLabel.textContent = asks ? 'Ask to Publish' : 'Review and Publish';
     util('review')?.querySelector('esa-tooltip')?.setAttribute('text', asks ? 'Compare your draft with Live, then ask to publish' : 'Compare your draft with Live, then publish');
     set('back', c.mode === 'own' || c.mode === 'view');
-    // Customize Page: the level's page, for its Owners, from Live.
-    set('customize', c.mode === 'live' && c.myRole === 'Owner');
+    // Configure Page: the level's page, for its Owners, from Live.
+    set('configure', c.mode === 'live' && c.myRole === 'Owner');
     const open = util('open-plan')?.querySelector<HTMLAnchorElement>('a');
     if (open) open.href = PLAN_VIEW_HREF(planID, undefined, c.draft?.id) + `&el=${encodeURIComponent(elementId)}`;
     // Previous and next, in outline order.
@@ -254,7 +281,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
     // One of yours, opened: where an edit begun on Live goes from now on (several drafts, 2026-10-29).
     if (draft && !draft.transient && draft.owner === currentUserName()) setCurrentDraft(planID, draft.id);
     const shown = draft ? (await draftState(draft)).Plan : live;
-    ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working() });
+    ctx = elementContext({ planID, elementId, live, shown, draft, customize: draft ? null : custom.working(), config: previewOf?.() });
     if (!ctx) return missing(true, repo);
     q('[data-pep-missing]').hidden = true;
     // A guest (an agency reviewer, decision 2) sees only the transmittals sent to them, not the plan's pages.
@@ -428,7 +455,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   });
   util('edit')?.addEventListener('click', () => void edit());
   util('back')?.addEventListener('click', () => location.assign(ELEMENT_HREF(planID, elementId)));
-  util('customize')?.addEventListener('click', () => custom.start());
+  util('configure')?.addEventListener('click', () => void configure());
   for (const name of ['prev', 'next']) {
     util(name)?.addEventListener('click', () => {
       const to = util(name)?.dataset.to;
@@ -440,4 +467,11 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
   // Opened to customize (a level's Customize Page in the plan's settings): an Owner on Live starts right away.
   const opened = ctx as ElementContext | null;
   if (params.get('customize') === '1' && opened?.mode === 'live' && opened.myRole === 'Owner') custom.start();
+  // Opened to configure (a link to Configure Page): the same, in the modal; the URL forgets it, so a reload doesn't reopen it.
+  if (params.get('configure') === '1' && opened?.mode === 'live' && opened.myRole === 'Owner') {
+    const url = new URL(location.href);
+    url.searchParams.delete('configure');
+    history.replaceState(history.state, '', url);
+    void configure();
+  }
 }

@@ -1,0 +1,374 @@
+---
+// <BcnPageOutline> — a miniature of an item page's arrangement (2026-10-30, Andy: "an outline/miniaturized view of the
+// arrangement and composition of the page in a configure modal for the whole page"). A wireframe of the real layout at
+// its real proportions: the page header, then the main column and the 360px side column (712:360 at 1440), each module
+// a small tile wearing the card's chrome (a muted band with its glyph and title) over a sketch of what it holds (lines
+// for a list, a bar for a timeline, a meter for progress). Below, the tray: Not on This Page.
+//
+//   a tile      click or focus selects it (the dialog shows its settings); drag it to reorder or to the other column;
+//               drag it to the tray to take it off the page. Keyboard: the arrows walk the tiles; Alt with an arrow
+//               moves the selected one (Up, Down; Left to Main, Right to Side). Each move is announced.
+//   a tag       a tile that shows on some items only says which ("Deliverables Only")
+//   a ghost     a tile that's on but can never show at this level is dashed and says why ("Turn on Can Be a
+//               Deliverable", "Tasks have no children")
+//   the tray    modules that are off, each with its glyph, title and a switch to put it back
+//
+// The runtime is ./page-outline.ts (setupPageOutline(root, handlers).draw(model)); the drag is ./plan-sortable.ts. It
+// owns no data: the caller (BcnPageConfigDialog) keeps the layout and redraws it.
+//
+// bcn-lego-checked: no esa- lego is a page-layout miniature or a sortable tile board; esa-card is a full card (its
+// header, padding and slots are page scale, a 40px tile can't wear it), esa-chip-group chooses rather than arranges.
+// Checked Beacon (the monitoring portal's dashboard edit mode arranges full-size widgets in place; nothing draws a
+// layout in miniature). The switches ARE esa-switch-toggle, the glyphs are the modules' own icons. bcn-page-outline is
+// the reusable home for "a page's arrangement, small": any two-column card page (data catalog detail pages too) can
+// feed it tiles. The CSS is the frame, the tiles and their content sketches, on semantic tokens.
+---
+
+<div class="bcn-pgo" data-bcn-page-outline>
+  <div class="bcn-pgo__frame" data-pgo-frame>
+    <div class="bcn-pgo__head" aria-hidden="true">
+      <span class="bcn-pgo__crumbs"></span>
+      <span class="bcn-pgo__title-row">
+        <span class="bcn-pgo__glyph"></span>
+        <span class="bcn-pgo__title"></span>
+        <span class="bcn-pgo__badge" data-pgo-level>Item</span>
+        <span class="bcn-pgo__acts"><span></span><span></span><span></span></span>
+      </span>
+    </div>
+    <div class="bcn-pgo__cols">
+      <div class="bcn-pgo__col" role="list" aria-label="Main Column" data-pgo-list="main"></div>
+      <div class="bcn-pgo__col bcn-pgo__col--side" role="list" aria-label="Side Column" data-pgo-list="side"></div>
+    </div>
+  </div>
+  <div class="bcn-pgo__tray-wrap">
+    <span class="bcn-pgo__tray-title typography-label-sm" id="pgo-tray-title">Not on This Page</span>
+    <div class="bcn-pgo__tray" role="list" aria-labelledby="pgo-tray-title" data-pgo-list="tray"></div>
+    <p class="bcn-pgo__tray-empty typography-body-sm" data-pgo-tray-empty hidden>Every card is on this page. Drag one here to take it off.</p>
+  </div>
+  <p class="bcn-pgo__hint typography-body-sm">Drag a card to move it, or select it and press Alt with an arrow key.</p>
+  <span class="bcn-pgo__live" aria-live="polite" data-pgo-live></span>
+  <div class="bcn-pgo__layer" data-pgo-layer></div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+</script>
+
+<style is:global>
+  .bcn-pgo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-inline-size: 0;
+  }
+  .bcn-pgo [hidden] {
+    display: none !important;
+  }
+  /* The page, small: the content area's surface, a hairline round it. */
+  .bcn-pgo__frame {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-base, var(--color-background-elevation-sunken));
+  }
+  .bcn-pgo__head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-block-end: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-pgo__crumbs {
+    inline-size: 40%;
+    block-size: 4px;
+    border-radius: 2px;
+    background: var(--color-border-default);
+  }
+  .bcn-pgo__title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bcn-pgo__glyph {
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 2px;
+    background: var(--color-content-brand);
+  }
+  .bcn-pgo__title {
+    inline-size: 32%;
+    block-size: 8px;
+    border-radius: 2px;
+    background: var(--color-content-default-secondary);
+  }
+  .bcn-pgo__badge {
+    padding: 0 4px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 3px;
+    color: var(--color-content-default-secondary);
+    font-size: 9px;
+    line-height: 12px;
+  }
+  .bcn-pgo__acts {
+    display: flex;
+    gap: 4px;
+    margin-inline-start: auto;
+  }
+  .bcn-pgo__acts span {
+    inline-size: 22px;
+    block-size: 6px;
+    border-radius: 2px;
+    background: var(--color-border-default);
+  }
+  /* The real proportions: the main column takes the room, the side column is the 360px rail beside 712px of main at
+     1440, with the page's 24px gap scaled down. */
+  .bcn-pgo__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 712fr) minmax(0, 360fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  .bcn-pgo__col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-block-size: 3rem;
+    padding: 2px;
+    border-radius: var(--radius-100, 4px);
+  }
+  .bcn-pgo__col:empty {
+    border: 1px dashed var(--color-border-default);
+  }
+
+  /* A tile: the card's chrome, small. */
+  .bcn-pgo__tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100, 4px);
+    background: var(--color-background-elevation-raised);
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-pgo__tile:hover {
+    border-color: var(--color-border-default-strong, var(--color-content-default-tertiary));
+  }
+  .bcn-pgo__tile:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  /* Selected: its border and band take the brand; the focus ring stays the one ring (design QA, 2026-10-29). */
+  .bcn-pgo__tile[aria-current='true'] {
+    border-color: var(--color-background-brand);
+  }
+  .bcn-pgo__tile[aria-current='true'] .bcn-pgo__band {
+    background: color-mix(in srgb, var(--color-background-brand) 12%, var(--color-background-elevation-raised));
+  }
+  .bcn-pgo__tile.is-dragging {
+    opacity: 0.35;
+  }
+  .bcn-pgo__band {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-block-size: 24px;
+    padding: 2px 6px;
+    border-block-end: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-100, 4px) var(--radius-100, 4px) 0 0;
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-pgo__icon {
+    display: inline-flex;
+    flex: none;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pgo__name {
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: var(--color-content-default);
+    font-size: 12px;
+    font-weight: 550;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-pgo__tag {
+    align-self: flex-start;
+    padding: 0 4px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 3px;
+    color: var(--color-content-default-secondary);
+    font-size: 10px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+  .bcn-pgo__body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 5px 6px;
+  }
+  .bcn-pgo__why {
+    margin: 0;
+    padding: 0 6px 6px;
+    color: var(--color-content-default-secondary);
+    font-size: 11px;
+    line-height: 14px;
+  }
+  /* A ghost: on, but it never shows at this level. Dashed, its sketch faded, its reason said. */
+  .bcn-pgo__tile[data-ghost] {
+    border-style: dashed;
+    background: transparent;
+  }
+  .bcn-pgo__tile[data-ghost] .bcn-pgo__band {
+    background: transparent;
+  }
+  .bcn-pgo__tile[data-ghost] .bcn-pgo__body {
+    opacity: 0.4;
+  }
+  .bcn-pgo__tile[data-ghost] .bcn-pgo__name {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The sketches: bars on the hairline ink, the brand for what's planned. */
+  .bcn-pgo__ln {
+    display: block;
+    block-size: 4px;
+    border-radius: 2px;
+    background: var(--color-border-default);
+  }
+  .bcn-pgo__row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .bcn-pgo__row > .bcn-pgo__ln {
+    flex: none;
+  }
+  .bcn-pgo__k {
+    inline-size: 28%;
+  }
+  .bcn-pgo__v {
+    inline-size: 46%;
+    background: color-mix(in srgb, var(--color-content-default-secondary) 40%, transparent);
+  }
+  .bcn-pgo__sq {
+    flex: none;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 2px;
+    background: var(--color-border-default);
+  }
+  .bcn-pgo__dot {
+    flex: none;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--color-border-default);
+  }
+  .bcn-pgo__pill {
+    flex: none;
+    inline-size: 18px;
+    block-size: 6px;
+    margin-inline-start: auto;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--color-background-brand) 35%, transparent);
+  }
+  .bcn-pgo__track {
+    position: relative;
+    display: block;
+    block-size: 6px;
+    border-radius: 3px;
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-pgo__bar {
+    position: absolute;
+    inset-block: 0;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--color-background-brand) 55%, transparent);
+  }
+  .bcn-pgo__cells {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+  }
+  .bcn-pgo__cells .bcn-pgo__ln {
+    block-size: 6px;
+  }
+  .bcn-pgo__chips {
+    display: flex;
+    gap: 4px;
+  }
+  .bcn-pgo__chips .bcn-pgo__ln {
+    inline-size: 22%;
+    block-size: 7px;
+    border-radius: 4px;
+  }
+  .bcn-pgo__indent {
+    padding-inline-start: 10px;
+  }
+
+  /* The tray: the cards that are off, small and in a row. */
+  .bcn-pgo__tray-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-pgo__tray-title {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pgo__tray {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 6px;
+    min-block-size: 2.25rem;
+    padding: 6px;
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-pgo__tray .bcn-pgo__tile {
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-pgo__tray .bcn-pgo__band {
+    border-block-end: 0;
+    border-radius: var(--radius-100, 4px);
+    background: transparent;
+  }
+  .bcn-pgo__tray .bcn-pgo__name {
+    color: var(--color-content-default-secondary);
+    font-weight: 400;
+  }
+  .bcn-pgo__tray-empty,
+  .bcn-pgo__hint {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pgo__live {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* The drag's ghost and drop line live in the dialog (the top layer covers the body). */
+  .bcn-pgo__layer .bcn-sortable-ghost {
+    box-shadow: var(--elevation-2, 0 4px 12px rgb(0 0 0 / 0.15));
+    cursor: grabbing;
+  }
+  .bcn-pgo__layer .bcn-sortable-line {
+    position: fixed;
+    z-index: 2001;
+    block-size: 2px;
+    border-radius: 1px;
+    background: var(--color-background-brand);
+    pointer-events: none;
+  }
+</style>
