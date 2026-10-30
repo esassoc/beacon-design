@@ -11,7 +11,7 @@ export const DEFAULTS = '&density=medium&levels=ladder&outline=280&sched=pin&abo
 export const HIDE = '.bcn-help-bar{display:none!important}';
 export async function open(opts = {}) {
   const browser = await chromium.launch();
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: opts.scale ?? 1 });
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: Number(process.env.SCALE) || (opts.scale ?? 1) });
   const page = await ctx.newPage();
   page.on('console', (m) => { if (m.type() === 'error' && !/404/.test(m.text())) console.log('console:', m.text()); });
   page.on('pageerror', (e) => console.log('pageerror:', e.message));

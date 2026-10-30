@@ -855,8 +855,9 @@ export async function setupPlanRepoPage(root: HTMLElement): Promise<void> {
     drawDraftHead();
     q<HTMLElement>('[data-prp-state] .bcn-prp__state-dot').dataset.dot = mode === 'live' ? 'live' : mode === 'own' ? 'mine' : 'other';
     q<HTMLElement>('[data-prp-state-label]').textContent = mode === 'live' ? 'Live Plan' : draft?.name ?? '';
+    // Records views say nothing here (2026-10-30, Andy: drop "Records are kept on Live").
     q<HTMLElement>('[data-prp-state-note]').textContent = RECORD_VIEWS.includes(view)
-      ? 'Records are kept on Live: they read the same in every draft.'
+      ? ''
       : mode === 'live'
         ? canPublish ? DRAFT_FIRST : DRAFT_FIRST_ASK
         : mode === 'view'

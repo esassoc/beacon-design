@@ -576,7 +576,9 @@ import '../../styles/bcn-filter-band.css';
   /* Budget is about money, not dates: the date cluster and the scrubber step aside. */
   /* The record views carry their own search and filters: no chart scope, and no draft actions (records are Live's). */
   .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__scope,
-  .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__actions { display: none; }
+  /* Records views (2026-10-30, Andy: "When I open a draft on the documents and deliverables tabs... I don't see the
+     tools"): the plan-editing tools step aside, the draft's own (Rename, Discard, Review and Publish, Ask) stay. */
+  .bcn-prp:is([data-view='deliverables'], [data-view='documents']) .bcn-prp__actions :is([data-prp-undo], [data-prp-redo], [data-prp-download], [data-prp-import], [data-prp-add], [data-prp-edit]) { display: none; }
   /* Flush, as the chart and the sheet: the band runs edge to edge under the header, the table under it. */
   .bcn-prp__view--records { padding: 0; }
   /* Download is the budget's (the records views have their own). */
