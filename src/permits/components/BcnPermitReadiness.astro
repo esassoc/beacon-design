@@ -354,8 +354,9 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
 
 <style>
   /* ── the verdict band ─────────────────────────────────────────────────────────
-     A rule in the state's tone down the left edge, a tint of it behind. The badge
-     and the sentence carry the meaning; the tone only reinforces it. */
+     A rule in the state's tone down the left edge on a neutral ground. The badge and
+     the sentence carry the meaning; the rule only reinforces it. (A tinted ground was
+     tried and read as a colored slab: too much color for a standing answer.) */
   .bcn-pr__verdict {
     --_tone: var(--color-background-utility-success);
     display: flex;
@@ -364,7 +365,7 @@ const STATES = Object.keys(READINESS_BADGE) as ReadinessState[];
     padding: var(--spacing-400, 1rem) var(--spacing-500, 1.25rem);
     border-inline-start: 4px solid var(--_tone);
     border-radius: var(--radius-sm, 0.25rem);
-    background: color-mix(in srgb, var(--_tone) 7%, var(--color-background-elevation-raised, #fff));
+    background: var(--color-background-default);
   }
   .bcn-pr__verdict[data-pr-tone='unconfirmed'] {
     --_tone: var(--color-background-utility-warning);

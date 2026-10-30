@@ -5,37 +5,40 @@
  * Beacon's. It still renders on top of the Beacon theme (data-theme="beacon" stays on
  * <html>): every Beacon refinement carries over untouched, including the status-color
  * standard, the warm neutral chain, regular weight 400, the 4px radius and Roboto Mono.
- * This file re-points only the BRAND tier. The selector carries [data-brand="esa"] on
- * top of [data-theme="beacon"], so it outranks theme-beacon.css whatever order the
- * sheets load in.
+ * This file re-points only the BRAND tier, the chrome surfaces and the heading face.
+ * The selector carries [data-brand="esa"] on top of [data-theme="beacon"], so it
+ * outranks theme-beacon.css whatever order the sheets load in.
+ *
+ * RESTRAINT (Andy, 2026-10-30): "far too saturated ... it's looking like an art project,
+ * not something Linear/Vercel would ship." So color is rationed: the chrome is pure
+ * neutral, the brand is a deep, muted ESA teal that reads close to ink, and hover and
+ * selected fills are neutral. Color that carries meaning (the status standard: green
+ * issued / on track, amber in progress, red at risk) is the only saturated color on
+ * the page, which is what lets it read.
  *
  * Source: esassoc.com (the logo SVG and the site stylesheet).
- *   ESA teal   #00a69c  the site's primary. 2.9:1 on white, so it is a fill and accent
- *                       color only. Buttons, links and active nav use the 700 step.
- *   ESA orange #f9a134  the logo's wordmark. Beacon's rule stays: orange is a brand
- *                       accent and never a severity. Amber (#f59e0b) still means
- *                       "in progress" and "attention", so orange stays in the logo.
+ *   ESA teal   #00a69c  the site's primary, H 176. The brand keeps the hue and drops
+ *                       the saturation: 700 is hsl(176 40% 25%), OKLCH chroma 0.055
+ *                       (the site teal is 0.11, Beacon's teal 0.072). 7.9:1 on white.
+ *   ESA orange #f9a134  the logo's wordmark. Beacon's rule holds: orange is a brand
+ *                       accent and never a severity. It appears in the logo and, a step
+ *                       deeper, as the Permits stamp's ink. Nowhere else.
  *
- * Token tiers follow theme-beacon.css: --esa-* is raw material that lives only here;
- * components read the semantic --color-* tier, never --esa-*.
+ * Token tiers follow theme-beacon.css: --esa-* and --pm-* are raw material that lives
+ * only here; components read the semantic --color-* tier.
  */
 
 [data-theme="beacon"][data-brand="esa"] {
-  /* ===== ESA teal ramp (raw material) =====
-     500 is the website's teal. The darker steps are mixed toward the site's own deep
-     teal-blue (#00728f) so they keep the hue instead of going muddy. 700 is 5.6:1 on
-     white (AA for text and for white text on it). */
-  --esa-teal-50:  #effaf9;
-  --esa-teal-100: #ddf3f1;
-  --esa-teal-200: #b2e3de;
-  --esa-teal-300: #72ccd2;
-  --esa-teal-500: #00a69c;
-  --esa-teal-600: #008b83;
-  --esa-teal-700: #00756e;
-  --esa-teal-800: #005e59;
-  --esa-teal-900: #004743;
-  --esa-orange:   #f9a134;
-  --esa-gray:     #aeafb2;
+  /* ===== ESA teal, muted (raw material) ===== */
+  --esa-teal-50:  #f6f7f7; /* hsl(176 6% 96.5%), effectively neutral */
+  --esa-teal-100: #ebeded; /* hsl(176 7% 92.5%) */
+  --esa-teal-200: #cfd8d7; /* hsl(176 10% 83%) */
+  --esa-teal-600: #447470; /* hsl(176 26% 36%) */
+  --esa-teal-700: #265956; /* hsl(176 40% 25%) */
+  --esa-teal-800: #1d4441; /* hsl(176 40% 19%) */
+  --esa-teal-900: #153230; /* hsl(176 40% 14%) */
+  --esa-orange:      #f9a134; /* the logo */
+  --esa-orange-ink:  #c9682a; /* the stamp: the logo's orange pressed a step deeper */
 
   /* ===== BRAND tier ===== */
   --color-background-brand:             var(--esa-teal-700);
@@ -50,79 +53,40 @@
   --color-content-link-hover:           var(--esa-teal-900);
 }
 
-/* ===== CHROME SURFACES — the surface recipe =====
+/* ===== CHROME SURFACES — the surface recipe, pure neutral =====
    ecology/packages/design-layer/surface-recipe.md: the top bar, sidenav and canvas
-   share ONE hue and ONE saturation, and only HSL lightness moves. The offsets are
-   Beacon's, as measured there: canvas L 98.04, sidenav = canvas (a hairline border
-   carries the edge), top bar −4.31, borders at Beacon's L 74 (bar) and L 86 (sidenav).
-   The hue is ESA teal's family (H 172) at S 18, which keeps every surface under the
-   recipe's 0.012 OKLCH-chroma tint ceiling (the bar, the most tinted, is 0.0065):
-   a faint green-gray, not a color. For pure Beacon neutral, set S to 0 (the hexes
-   become #efefef / #fafafa / #bdbdbd / #dcdcdc).
-   Cards stay the hub's raised #fcfcfc, +0.8 over the canvas, as Beacon's do. */
+   share ONE hue and ONE saturation, and only HSL lightness moves. These are Beacon's
+   measured values exactly (S 0): canvas L 98.04, sidenav = canvas behind a hairline,
+   top bar −4.31, borders at L 74 (bar) and L 86 (sidenav). Cards stay the hub's raised
+   #fcfcfc, +0.8 over the canvas. */
 [data-theme="beacon"][data-brand="esa"] {
-  --pm-chrome-bar:         #ecf2f1; /* hsl(172 18% 93.73%) */
-  --pm-chrome-canvas:      #f9fbfb; /* hsl(172 18% 98.04%) */
+  --pm-chrome-bar:         #efefef; /* L 93.73 */
+  --pm-chrome-canvas:      #fafafa; /* L 98.04 */
   --pm-chrome-rail:        var(--pm-chrome-canvas);
-  --pm-chrome-hover:       #f1f6f5; /* hsl(172 18% 95.5%), a sidenav item under the pointer */
-  --pm-chrome-bar-border:  #b8c2c1; /* hsl(172 8% 74.12%) */
-  --pm-chrome-rail-border: #d9dfde; /* hsl(172 8% 86.27%) */
+  --pm-chrome-hover:       #f2f2f2; /* L 95, a sidenav item under the pointer */
+  --pm-chrome-bar-border:  #bdbdbd; /* L 74.12 */
+  --pm-chrome-rail-border: #dcdcdc; /* L 86.27 */
 
   --color-background-default: var(--pm-chrome-canvas);
 }
 
-/* ===== THE SERIF VOICE — page titles, section titles, the wordmark =====
-   DM Sans stays the UI and body face. A serif carries the three places the app
-   speaks in its own voice: the h1 (heading-lg), the section h2 (heading-md) and the
-   "Permits" wordmark. Five candidates are loaded; ?serif=<id> switches them (saved
-   per browser, see PermitsBaseLayout). Each sets its own size and weight, because a
-   display serif at the sans heading's 600 reads black, and condensed faces need
-   more size to hold the same presence. Stats (display-sm) stay DM Sans: numbers
-   read better in the tabular sans. */
+/* ===== THE SERIF VOICE — page titles and section titles =====
+   DM Sans stays the UI and body face. Newsreader (an editorial serif built for
+   reading, with an optical-size axis) carries the h1 (heading-lg) and the section h2
+   (heading-md): classic and civic rather than display-y. Medium weight, because a
+   serif at the sans heading's 600 reads heavy. Stats (display-sm) stay DM Sans:
+   numbers read better in the tabular sans. */
 [data-theme="beacon"][data-brand="esa"] {
-  --pm-font-serif: 'DM Serif Display', Georgia, serif;
-  --pm-h1-size: 2.125rem;
-  --pm-h1-weight: 400;
-  --pm-h2-size: 1.3125rem;
-  --pm-h2-weight: 400;
-  --pm-serif-tracking: -0.005em;
+  --pm-font-serif: 'Newsreader', Georgia, serif;
 
   --typography-heading-lg-font-family: var(--pm-font-serif);
-  --typography-heading-lg-font-size: var(--pm-h1-size);
-  --typography-heading-lg-font-weight: var(--pm-h1-weight);
-  --typography-heading-lg-letter-spacing: var(--pm-serif-tracking);
+  --typography-heading-lg-font-size: 2.25rem;
+  --typography-heading-lg-font-weight: 500;
+  --typography-heading-lg-letter-spacing: -0.01em;
   --typography-heading-lg-line-height: 1.15;
   --typography-heading-md-font-family: var(--pm-font-serif);
-  --typography-heading-md-font-size: var(--pm-h2-size);
-  --typography-heading-md-font-weight: var(--pm-h2-weight);
-  --typography-heading-md-letter-spacing: var(--pm-serif-tracking);
+  --typography-heading-md-font-size: 1.375rem;
+  --typography-heading-md-font-weight: 500;
+  --typography-heading-md-letter-spacing: -0.01em;
   --typography-heading-md-line-height: 1.2;
-}
-[data-theme="beacon"][data-brand="esa"][data-serif='fraunces'] {
-  --pm-font-serif: 'Fraunces', Georgia, serif;
-  --pm-h1-weight: 500;
-  --pm-h2-weight: 500;
-  --pm-serif-tracking: -0.015em;
-}
-[data-theme="beacon"][data-brand="esa"][data-serif='newsreader'] {
-  --pm-font-serif: 'Newsreader', Georgia, serif;
-  --pm-h1-size: 2.25rem;
-  --pm-h1-weight: 500;
-  --pm-h2-size: 1.375rem;
-  --pm-h2-weight: 500;
-  --pm-serif-tracking: -0.01em;
-}
-[data-theme="beacon"][data-brand="esa"][data-serif='instrument'] {
-  --pm-font-serif: 'Instrument Serif', Georgia, serif;
-  --pm-h1-size: 2.5rem;
-  --pm-h2-size: 1.5rem;
-  --pm-serif-tracking: 0;
-}
-[data-theme="beacon"][data-brand="esa"][data-serif='besley'] {
-  --pm-font-serif: 'Besley', Georgia, serif;
-  --pm-h1-size: 2rem;
-  --pm-h1-weight: 500;
-  --pm-h2-size: 1.25rem;
-  --pm-h2-weight: 500;
-  --pm-serif-tracking: -0.01em;
 }

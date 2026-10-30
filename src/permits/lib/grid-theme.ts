@@ -9,11 +9,11 @@
 import { beaconTheme } from '../../lib/beacon-grid';
 
 export const permitsGridTheme = beaconTheme.withParams({
-  headerBackgroundColor: '#f4f7f7', // ESA site's #f4fbfb, pulled toward neutral
+  headerBackgroundColor: '#f7f7f7', // neutral, a step under the card
   headerTextColor: '#3d3d3d', // gray-900, the rows' own ink
   headerRowBorder: '1px solid #dcdcdc', // gray-200
   headerColumnResizeHandleColor: '#dcdcdc',
   headerHeight: 44,
-  rowHoverColor: '#effaf9', // --esa-teal-50
-  selectedRowBackgroundColor: '#ddf3f1', // --esa-teal-100
+  rowHoverColor: '#f6f7f7', // --esa-teal-50, effectively neutral
+  selectedRowBackgroundColor: '#ebeded', // --esa-teal-100
 });

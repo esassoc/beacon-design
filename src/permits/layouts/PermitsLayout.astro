@@ -6,10 +6,9 @@
 // omnibox over every project and active permit.
 //
 // THE LOCKUP: the ESA logo (the real asset from esassoc.com, public/brand/esa-logo.svg),
-// small, then the product name as a rubber stamp: the serif voice in caps inside a
-// double rule, in ESA teal ink, set a few degrees off true the way a hand-stamped
-// approval lands. Hovering the brand link presses it square. When the rail collapses,
-// only the logo stays.
+// small, then the Permits mark: a classic round rubber stamp (BcnPermitsStamp) in the
+// logo's orange pressed a step deeper, set a few degrees off true the way a
+// hand-pressed stamp lands. When the rail collapses, only the stamp stays.
 //
 // THE CHROME follows the surface recipe (ecology design-layer surface-recipe.md, values
 // in theme-esa.css): top bar 4.3 points darker than the canvas, sidenav level with the
@@ -30,6 +29,7 @@
 // column.
 import PermitsBaseLayout from './PermitsBaseLayout.astro';
 import EsaAppShell from '@esa/ecology/esa-app-shell.astro';
+import BcnPermitsStamp from '../components/BcnPermitsStamp.astro';
 import { PROJECTS, PERMITS, ROUTES, getProject, scopeLabel } from '../data/permit-tracker';
 import { withBase } from '../../lib/base';
 
@@ -78,8 +78,8 @@ const searchIndex = [
       searchPlaceholder="Search projects and permits"
     >
       <span slot="logo" class="pm-lockup">
-        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="52" height="31" />
-        <span class="pm-lockup__stamp">Permits</span>
+        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="48" height="29" />
+        <BcnPermitsStamp size={72} class="pm-lockup__stamp" />
       </span>
       <div class="pm-page"><slot /></div>
     </EsaAppShell>
@@ -111,45 +111,19 @@ const searchIndex = [
   :global(.pm-lockup) {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-400, 1rem);
-    padding: var(--spacing-200, 0.5rem) var(--spacing-100, 0.25rem);
+    gap: var(--spacing-300, 0.75rem);
+    padding: var(--spacing-100, 0.25rem) var(--spacing-100, 0.25rem);
   }
   :global(.pm-lockup__logo) {
-    inline-size: 52px;
+    inline-size: 48px;
     block-size: auto;
     flex: none;
   }
-  /* The stamp. Two rules of ink (a border and an inset ring a hair inside it), the
-     serif in caps, tilted −4°. Ink, not fill: it stays teal on any surface. */
-  :global(.pm-lockup__stamp) {
-    display: inline-block;
-    padding: 0.2em 0.55em 0.15em;
-    border: 1.5px solid currentColor;
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 1.5px var(--pm-chrome-rail), inset 0 0 0 2.5px currentColor;
-    color: var(--color-content-brand);
-    font-family: var(--pm-font-serif);
-    font-size: 0.9375rem;
-    font-weight: var(--pm-h2-weight, 400);
-    letter-spacing: 0.12em;
-    line-height: 1.2;
-    text-transform: uppercase;
-    transform: rotate(-4deg);
-    transition: transform 160ms ease;
-  }
-  :global(.esa-app-shell__brand:hover .pm-lockup__stamp),
-  :global(.esa-app-shell__brand:focus-visible .pm-lockup__stamp) {
-    transform: rotate(0deg) scale(0.97);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    :global(.pm-lockup__stamp) {
-      transition: none;
-    }
-  }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
     display: none;
   }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
-    inline-size: 40px;
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
+    inline-size: 44px;
+    block-size: 44px;
   }
 </style>

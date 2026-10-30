@@ -23,36 +23,34 @@ are imported from `src/components/bcn/`, not copied.
 ## Brand: ESA over Beacon
 
 `<html data-theme="beacon" data-brand="esa">`. Every Beacon refinement carries over (the
-status-color standard, warm neutrals, weight 400, 4px radius, Roboto Mono). Only the brand
-tier moves:
+status-color standard, warm neutrals, weight 400, 4px radius, Roboto Mono). Color is
+rationed: the only saturated color on a page is status meaning.
 
-- **ESA teal** `#00a69c` is the website's primary but 2.9:1 on white, so buttons, links and
-  the active nav use its 700 step `#00756e` (5.6:1). The canvas carries a hair of it (`#f7f9f9`).
-- **ESA orange** `#f9a134` stays in the logo. Beacon's rule holds: orange is brand, never
-  severity, and amber still means "in progress".
-- **Grids** drop Beacon's filled teal header band for a quiet light header (`grid-theme.ts`):
-  every grid here sits in a card that already names it.
-- **Chrome** follows the design layer's surface recipe
-  (`ecology/packages/design-layer/surface-recipe.md`) at Beacon's measured offsets: top bar
-  4.3 HSL points under the canvas, sidenav level with the canvas behind a hairline, one hue
-  and saturation across all three (H 172, S 18: a faint ESA green-gray, under the tint
-  ceiling). `esa-app-shell` paints these the other way round by default, so the layout
-  re-points them (ledgered as a hub gap).
-- **Serif voice**: page titles (h1), section titles (h2) and the "Permits" stamp use a serif;
-  UI, body and stats stay DM Sans. Five candidates load and `?serif=` switches them
-  (`dm-serif` default, `fraunces`, `newsreader`, `instrument`, `besley`), saved per browser.
-- **Lockup**: a small ESA logo beside "Permits" as a rubber stamp (serif caps in a double
-  rule, tilted −4°, pressed square on hover).
+- **Brand**: ESA teal's hue (H 176) with the saturation taken out: `#265956`
+  (hsl 176 40% 25%, OKLCH chroma 0.055, 7.9:1 for white text). Buttons, links, the active
+  nav label. Hover and selected fills are effectively neutral.
+- **Chrome**: pure neutral, Beacon's measured values on the design layer's surface recipe
+  (`ecology/packages/design-layer/surface-recipe.md`): top bar `#efefef`, canvas and
+  sidenav `#fafafa` behind a hairline, borders `#bdbdbd` / `#dcdcdc`. `esa-app-shell`
+  paints bar and rail the other way round by default, so the layout re-points them
+  (ledgered as a hub gap).
+- **Grids** drop Beacon's filled teal header band for a quiet neutral header
+  (`grid-theme.ts`): every grid here sits in a card that already names it.
+- **Type**: Newsreader for page titles (h1) and section titles (h2); DM Sans for UI, body
+  and stats.
+- **Lockup**: a small ESA logo, then the Permits mark (`BcnPermitsStamp`): a classic round
+  rubber stamp (perforated edge, PERMITS on the ring, a civic building in the middle, worn
+  ink) in the logo's orange pressed a step deeper. The one decorative mark in the app.
 
 ## What changed, page by page
 
-- **Shell**: the ESA logo + "Permits" stamp in the sidenav; pages sit in an 88rem column.
+- **Shell**: the ESA logo + the Permits stamp in the sidenav; pages sit in an 88rem column.
 - **Grid toolbars**: search first and left-aligned, Clear Filters at the far end. In the
   card's actions slot they floated right of an empty header wherever the card had no title.
 - **Projects**: each card leads with the two dates its badge is judged on (expected all
   issued vs construction start) and the permit mix, then number · manager · sites.
 - **Project**
-  - *Readiness is verdict-first*: a toned band with the state and one sentence that says why
+  - *Readiness is verdict-first*: a band with the state, a rule in its tone, and one sentence that says why
     ("The last permit is expected Mar 2, 2027, 1 day after construction is set to start…").
   - *Permit mix* (`BcnPermitMix`) replaces the single issued meter and the separate
     Not Started / In Progress / Completed count line: issued / in agency review /
