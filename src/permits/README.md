@@ -44,9 +44,13 @@ rationed: the only saturated color on a page is status meaning.
   follows. Titles at 700. Roboto Mono for ids; Barlow Condensed Bold only on the stamp.
   Chosen from six civic candidates (Public Sans, Overpass, Barlow Semi Condensed, Big
   Shoulders, National Park, Libre Caslon).
-- **Lockup**: a small ESA logo | the Permits mark (`BcnPermitsStamp`, a classic round
-  rubber stamp: perforated edge, PERMITS in Barlow Condensed Bold centred on the ring, a
-  civic building in the middle, worn ink) and the word "Permits" in the display face.
+- **Lockup**: the Permits mark leads the rail: `BcnPermitsStamp` (a classic round rubber
+  stamp: perforated edge, PERMITS in Barlow Condensed Bold centred on the ring, a civic
+  building in the middle, worn ink) at 44px beside "Permits" at 24px. The ESA logo lives
+  in a rail footer over "Proudly built by ESA in California" (pinned from the layout:
+  `esa-sidebar-nav` has no footer slot, ledgered).
+- **Page-header actions**: `esa-button size="sm"` (38px); the Team faces button matches
+  them in height and label role.
 - **Top bar**: 48px, a quiet `#dcdcdc` hairline under it.
 - **Rules followed** (ecology `design-principles`): no colored left borders for status,
   status is a dot or an icon (never red text), icons mark structure not items, Title Case

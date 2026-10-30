@@ -5,12 +5,17 @@
 // brand layer) around the hub's canonical esa-app-shell, with the app's own nav and an
 // omnibox over every project and active permit.
 //
-// THE LOCKUP: an endorsed-brand lockup, parent | product. The ESA logo (the real asset
-// from esassoc.com, public/brand/esa-logo.svg), a hairline, then the product: a small
-// round rubber stamp (BcnPermitsStamp, the logo's orange pressed a step deeper, a few
-// degrees off true) and the word "Permits" in the civic display face. The stamp is an
-// icon at this size; the word carries the name. When the rail collapses, only the
-// stamp stays.
+// THE LOCKUP at the top of the rail is the product, and it is the key mark (Andy,
+// 2026-10-30): the round rubber stamp (BcnPermitsStamp, the ESA logo's orange pressed a
+// step deeper, a few degrees off true) at 44px and the word "Permits" at 24px. The word
+// carries the name; at 44px the ring lettering is still texture. When the rail
+// collapses, only the stamp stays.
+//
+// THE RAIL FOOTER carries the maker: the ESA logo (the real asset from esassoc.com,
+// public/brand/esa-logo.svg) over "Proudly built by ESA in California". esa-sidebar-nav
+// has a header slot and no footer slot, so the footer is pinned to the bottom of the
+// rail from here, sized by the rail's own --sidenav-width token, and follows the
+// collapsed rail with :has() (logo only). Logged as a hub gap.
 //
 // THE TOP BAR is compact (48px: 7px above and below the 34px omnibox, down from the
 // bar's 16px) and its bottom edge is the same quiet hairline as the sidenav's.
@@ -134,14 +139,16 @@ const searchIndex = [
       searchPlaceholder="Search projects and permits"
     >
       <span slot="logo" class="pm-lockup">
-        <img class="pm-lockup__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="44" height="26" />
-        <span class="pm-lockup__product">
-          <BcnPermitsStamp size={30} class="pm-lockup__stamp" />
-          <span class="pm-lockup__name">Permits</span>
-        </span>
+        <BcnPermitsStamp size={44} class="pm-lockup__stamp" />
+        <span class="pm-lockup__name">Permits</span>
       </span>
       <div class="pm-page"><slot /></div>
     </EsaAppShell>
+    <!-- verbal-restraint-allow: Proudly built by ESA in California -->
+    <footer class="pm-rail-foot">
+      <img class="pm-rail-foot__logo" src={withBase('/brand/esa-logo.svg')} alt="ESA" width="48" height="29" />
+      <p class="pm-rail-foot__credit typography-body-sm">Proudly built by ESA in California</p>
+    </footer>
   </div>
   {/* Before the shell's module script boots: remember this page's project, or swap the
       remembered one into the nav data on a cross-project page. */}
@@ -219,36 +226,57 @@ const searchIndex = [
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-300, 0.75rem);
-    padding: var(--spacing-100, 0.25rem) var(--spacing-100, 0.25rem);
-  }
-  :global(.pm-lockup__logo) {
-    inline-size: 44px;
-    block-size: auto;
-    flex: none;
-  }
-  :global(.pm-lockup__product) {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-200, 0.5rem);
-    padding-inline-start: var(--spacing-300, 0.75rem);
-    border-inline-start: 1px solid var(--pm-chrome-rail-border, #dcdcdc);
+    padding: var(--spacing-200, 0.5rem) var(--spacing-100, 0.25rem);
   }
   :global(.pm-lockup__name) {
     color: var(--color-content-default);
     font-family: var(--pm-font-display);
-    font-size: 1.25rem;
-    font-weight: var(--pm-h2-weight, 600);
+    font-size: 1.5rem;
+    font-weight: var(--pm-h2-weight, 700);
     letter-spacing: var(--pm-display-tracking, 0);
     line-height: 1;
-  }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__logo) {
-    display: none;
   }
   :global(esa-sidebar-nav[collapsed] .pm-lockup__name) {
     display: none;
   }
-  :global(esa-sidebar-nav[collapsed] .pm-lockup__product) {
-    padding-inline-start: 0;
-    border-inline-start: 0;
+  :global(esa-sidebar-nav[collapsed] .pm-lockup__stamp) {
+    inline-size: 36px;
+    block-size: 36px;
+  }
+
+  /* ── the rail footer: pinned to the foot of the rail, the rail's width less its
+     right hairline, on the rail's own surface ── */
+  .pm-frame {
+    position: relative;
+  }
+  .pm-rail-foot {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    z-index: 1;
+    inline-size: calc(var(--sidenav-width, 280px) - 1px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-200, 0.5rem);
+    padding: var(--spacing-400, 1rem) var(--spacing-500, 1.25rem) var(--spacing-500, 1.25rem);
+    border-block-start: 1px solid var(--pm-chrome-rail-border, #dcdcdc);
+    background: var(--pm-chrome-rail, #fafafa);
+  }
+  .pm-rail-foot__logo {
+    inline-size: 48px;
+    block-size: auto;
+  }
+  .pm-rail-foot__credit {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .pm-frame:has(esa-sidebar-nav[collapsed]) .pm-rail-foot {
+    inline-size: calc(var(--sidenav-width-collapsed, 72px) - 1px);
+    align-items: center;
+    padding-inline: 0;
+  }
+  .pm-frame:has(esa-sidebar-nav[collapsed]) .pm-rail-foot__credit {
+    display: none;
   }
 </style>

@@ -33,13 +33,13 @@ const people = [...new Set([...team, ...PEOPLE])];
     {
       people.map((name) => (
         <span class="bcn-team-btn__face" data-person={name} hidden={!shown.includes(name)} style={`order: ${shown.includes(name) ? shown.indexOf(name) : 99};`}>
-          <EsaAvatar name={name} size="sm" />
+          <EsaAvatar name={name} size="xs" />
         </span>
       ))
     }
     <span class="bcn-team-btn__more typography-label-xs-strong" data-team-more hidden={team.length <= MAX}>+{team.length - MAX}</span>
   </span>
-  <span class="bcn-team-btn__label typography-label-md">Team</span>
+  <span class="bcn-team-btn__label typography-microcopy-xs">Team</span>
 </button>
 
 <script>
@@ -71,8 +71,10 @@ const people = [...new Set([...team, ...PEOPLE])];
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-200, 0.5rem);
-    block-size: 40px;
-    padding: 0 var(--spacing-400, 1rem) 0 var(--spacing-200, 0.5rem);
+    /* Matches esa-button size="sm", its siblings in the page header: the same
+       2 × padding + 1rem leading + 2px border, and the same microcopy-xs label. */
+    block-size: calc(2 * var(--spacing-250, 0.625rem) + 1rem + 2px);
+    padding: 0 var(--spacing-300, 0.75rem) 0 var(--spacing-150, 0.375rem);
     border: 1px solid var(--color-border-default, #dcdcdc);
     border-radius: var(--radius-full, 9999px);
     background: var(--color-background-elevation-raised, #fff);
@@ -108,8 +110,8 @@ const people = [...new Set([...team, ...PEOPLE])];
     order: 100;
     align-items: center;
     justify-content: center;
-    min-inline-size: 28px;
-    block-size: 28px;
+    min-inline-size: 24px;
+    block-size: 24px;
     padding-inline: 4px;
     background: var(--color-background-elevation-sunken);
     color: var(--color-content-default-secondary);

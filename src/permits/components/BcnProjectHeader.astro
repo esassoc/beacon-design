@@ -64,17 +64,17 @@ const meta = page
         <div class="cluster" data-gap="sm">
           {has('team') && <BcnTeamButton projectId={project.id} />}
           {has('edit') && (
-            <EsaButton variant="ghost" appearance="outline" icon="pencil" data-project-edit>
+            <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-project-edit>
               Edit
             </EsaButton>
           )}
           {has('share') && (
-            <EsaButton variant="ghost" appearance="outline" icon="external-link" data-project-share>
+            <EsaButton variant="ghost" appearance="outline" size="sm" icon="external-link" data-project-share>
               Share
             </EsaButton>
           )}
           {has('add') && (
-            <EsaButton variant="primary" icon="plus" data-add-permit>
+            <EsaButton variant="primary" size="sm" icon="plus" data-add-permit>
               Add Permit
             </EsaButton>
           )}
