@@ -1,0 +1,34 @@
+/* bcn-detail-columns — a record page's two columns: the main column takes the room, the side column is a fixed 360px
+ * rail (2026-10-28, Andy: "match data catalog pages"). One recipe so every detail page lines up the same way
+ * (2026-10-30, Andy: the transmittal's columns match the item page's widths and alignment exactly).
+ *
+ *   <div class="bcn-detail-cols">
+ *     <div class="bcn-detail-cols__col">...cards...</div>
+ *     <div class="bcn-detail-cols__col">...cards...</div>
+ *   </div>
+ *
+ * Under 1024px the rail drops under the main column.
+ *
+ * bcn-lego-checked: no esa- lego is a two-column page layout (esa-container is a width wrapper, esa-tab-layout tabs);
+ * checked Beacon (prod's detail pages hard-code their card grids per page). Layout only: no colour, no chrome.
+ */
+.bcn-detail-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--spacing-600);
+  align-items: start;
+}
+.bcn-detail-cols[hidden] {
+  display: none;
+}
+.bcn-detail-cols__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  min-width: 0;
+}
+@media (max-width: 1024px) {
+  .bcn-detail-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

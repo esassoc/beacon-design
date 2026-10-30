@@ -5,8 +5,6 @@
 export const DRAFT_FIRST = 'Changes go to your draft; Review and Publish takes them to Live.';
 /** Live, for someone who can't (a Contributor). */
 export const DRAFT_FIRST_ASK = 'Changes go to your draft; someone who can publish takes them to Live.';
-/** Live, with Publish Now on offer (the drawer, the item's Edit). */
-export const DRAFT_FIRST_NOW = 'Save to My Draft keeps it for later; Review and Publish shows this change, and anything it moves, before it goes to Live.';
 /** Someone else's draft. */
 export const DRAFT_READ_ONLY = (owner: string) => `${owner}’s draft is read-only. Copy to My Drafts to change it.`;
 
@@ -32,8 +30,16 @@ export function goesInto(draft: { name: string; revisions: readonly unknown[]; p
   return `Goes into ${quoted(draft.name)} (${n} other ${n === 1 ? 'edit' : 'edits'}${draft.publishRequestedAt ? ', publish requested: this withdraws the request' : ''}).`;
 }
 
+/** What else an edit begun on Live can do, said after where it goes, in the drawer's and the item Edit's info box
+ *  (2026-10-30, one sentence on both): Review and Publish it now, or why not. */
+export function liveEditNext(canPublish: boolean, touching: readonly { owner: string; name: string }[], me: string): string {
+  if (!canPublish) return 'Ask to Publish when it’s ready.';
+  if (touching.length) return `${alsoChange(touching, me)} this item, so this edit goes to a draft.`;
+  return 'Or Review and Publish this edit now, with whatever it moves.';
+}
+
 /** The Save button on Live names the draft it goes to (2026-10-30, Andy: "When you click Save to My Draft... which
- *  draft?"): the one picked in Saves To, or a new one. A long name is cut short; Saves To shows it whole. */
+ *  draft?"): the one picked in Save's menu, or a new one. A long name is cut short; the menu shows it whole. */
 export function saveToLabel(draft: { name: string } | null): string {
   if (!draft) return 'Save to a New Draft';
   const name = draft.name.trim();

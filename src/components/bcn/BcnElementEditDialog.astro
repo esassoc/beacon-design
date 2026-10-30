@@ -7,24 +7,34 @@
 // Save to Draft adds its next edit. Publish Now shows only when nothing else moves and no open draft changes the item,
 // so publishing a draft later can't put the edit back. Records (documents,
 // sends, status, comments) aren't here: they're kept on Live, in their cards. The runtime is ./element-edit-dialog.ts.
+// The header is the title and the item's level as a badge, as the item page's own header has it (2026-10-30, Andy: in
+// place of a "Program. Its documents..." line). On Live, Save's chevron picks the draft (BcnSaveSplit), and the info box
+// at the top says where it goes; the footer is only buttons.
 //
 // bcn-lego-checked: the shell IS esa-dialog (lg, widened through its own --dialog-width-lg hook); fields ARE
 // esa-text-field / esa-textarea / esa-date-picker / esa-select / esa-switch-toggle / esa-button-toggle; Add an Owner
-// IS esa-combobox; avatars ARE esa-avatar (BcnPlanPeople); actions ARE esa-button. Checked Beacon (plan-element-drawer
+// IS esa-combobox; avatars ARE esa-avatar (BcnPlanPeople); actions ARE esa-button; Save's draft menu IS BcnSaveSplit
+// (esa-button-group + esa-dropdown-menu); the where-it-goes note IS esa-alert-box; the level IS esa-badge (BcnBadgeBank). Checked Beacon (plan-element-drawer
 // edits dates and notes in a side drawer, no owners or custom fields). The CSS is the form's sections and grid.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import BcnSaveSplit from './BcnSaveSplit.astro';
 import { PLAN_ICON_PATHS } from '../../lib/planning/icons';
 import '../../styles/bcn-dialog-heading.css';
 ---
 
 <div class="bcn-eed" data-bcn-element-edit>
-  <esa-dialog class="bcn-eed__dialog" heading="Edit" size="lg" show-close-button data-eed-dialog>
+  <esa-dialog class="bcn-eed__dialog" size="lg" show-close-button data-eed-dialog>
+    <div slot="header" class="bcn-eed__head">
+      <h2 class="bcn-eed__title typography-title" data-eed-title>Edit</h2>
+      <span class="bcn-eed__level" data-eed-level></span>
+    </div>
     <form class="bcn-eed__form" novalidate data-eed-form>
-      <p class="bcn-eed__lead" data-eed-lead></p>
-      <!-- From Live (2026-10-29, several drafts per person): which of your drafts it saves to, your current one picked,
-           or a new one. The footer's line says where. -->
-      <esa-select class="bcn-eed__target" data-eed-target label="Saves To" size="sm" hidden></esa-select>
+      <!-- Where the edit goes (on Live, the draft Save's menu picked), and what else it can do (2026-10-30). -->
+      <div data-eed-where-box hidden>
+        <EsaAlertBox variant="info"><span data-eed-where></span></EsaAlertBox>
+      </div>
 
       <section class="bcn-eed__section" aria-labelledby="eed-item">
         <h3 class="bcn-eed__heading bcn-dialog-heading" id="eed-item"><EsaIcon name="file-text" paths={PLAN_ICON_PATHS['file-text']} size="sm" />Item</h3>
@@ -64,10 +74,9 @@ import '../../styles/bcn-dialog-heading.css';
       </section>
     </form>
     <div slot="footer" class="bcn-eed__footer">
-      <span class="bcn-eed__where" data-eed-where></span>
       <span data-eed-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
       <span data-eed-publish hidden><EsaButton variant="primary" appearance="outline">Review and Publish</EsaButton></span>
-      <span data-eed-submit><EsaButton variant="primary"><span data-eed-submit-label>Save to My Draft</span></EsaButton></span>
+      <BcnSaveSplit data-eed-save-menu><span data-eed-submit><EsaButton variant="primary"><span data-eed-submit-label>Save to My Draft</span></EsaButton></span></BcnSaveSplit>
     </div>
   </esa-dialog>
   <template data-eed-tpl="remove"><esa-tooltip text="Remove" position="below"><EsaButton variant="ghost" size="xs" iconOnly icon="x" label="Remove" /></esa-tooltip></template>
@@ -82,20 +91,27 @@ import '../../styles/bcn-dialog-heading.css';
     flex-direction: column;
     gap: var(--spacing-600);
   }
-  .bcn-eed__lead {
+  /* The header: the title, then its level, on one line (the item page header's arrangement). */
+  .bcn-eed__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+  .bcn-eed__title {
     margin: 0;
-    color: var(--color-content-default-secondary);
-    font-size: var(--typography-body-sm-font-size);
+    color: var(--color-content-default);
+    min-width: 0;
+  }
+  .bcn-eed__level {
+    display: inline-flex;
+    flex-shrink: 0;
   }
   .bcn-eed__section {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
   }
-  .bcn-eed__target {
-    max-inline-size: 28rem;
-  }
-  .bcn-eed__target[hidden],
   .bcn-eed__section[hidden],
   .bcn-eed__dates[hidden],
   .bcn-eed__help[hidden] {
@@ -156,13 +172,9 @@ import '../../styles/bcn-dialog-heading.css';
   .bcn-eed__footer {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: var(--spacing-200);
     width: 100%;
-  }
-  .bcn-eed__where {
-    margin-inline-end: auto;
-    color: var(--color-content-default-secondary);
-    font-size: var(--typography-body-sm-font-size);
   }
   @media (max-width: 760px) {
     .bcn-eed__dates,

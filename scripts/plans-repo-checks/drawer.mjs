@@ -70,7 +70,7 @@ check('contributor saved to their draft', (await repo()).drafts.some((d) => d.ow
 // 5. Andy on Live, the memo: Morgan's draft changes it now, so no Publish Now and the note says whose.
 await gotoPlan(page, planID, '&user=Andy%20Lovseth');
 await openRow(memo);
-const note = await page.locator('[data-ped="draft-note"]').textContent();
+const note = await page.locator('[data-ped="where-text"]').textContent();
 check('another draft: no Publish Now, note says whose', !(await shown('[data-ped="publish"]')) && note.includes('Morgan’s draft also changes'), note);
 await page.screenshot({ path: OUT + 'drawer-other-draft.png' });
 console.log('errors', errs.length, errs.slice(0, 2));

@@ -19,6 +19,9 @@ import type { PlanDraftEdit } from '../../lib/planning/plan-draft';
 import type { PlanDateTypeEnum } from '../../lib/planning/model';
 import { fillIcons } from '../../lib/planning/icons';
 import { planAvatar } from './plan-people';
+import { badge } from './badge-bank';
+import { pickedValue, saveSplitOf, setSaveChoices } from './save-split';
+import { NEW_DRAFT } from './draft-chooser';
 
 type Lit = HTMLElement & { value: unknown; options?: unknown[]; checked?: boolean; errorText?: string; heading?: string; open?: boolean };
 
@@ -36,18 +39,19 @@ export interface ElementEdit {
 export interface EditOffer {
   /** The primary action: "Save to My Draft" from Live, "Save to Draft" in your draft. */
   label: string;
-  /** One line beside the actions: where the edit goes, or why Publish Now isn't offered. */
+  /** The info box over the form (2026-10-30, out of the footer): where the edit goes, or why Publish Now isn't offered. */
   where: string;
   publishNow: boolean;
-  /** From Live (2026-10-29, several drafts per person): which of your drafts it saves to, as a Saves To select; `describe`
-   *  is the footer's line for a choice, with `where` after it. */
+  /** From Live (2026-10-29, several drafts per person): which of your drafts it saves to, picked from Save's chevron menu
+   *  (2026-10-30, Andy: in place of a Saves To select); `describe` leads the info box for a choice, with `where` after it,
+   *  and `saveLabel` names the button. */
   target?: { options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel?: (value: string) => string };
 }
 /** The form's answer: the edit, and whether it's to go to Live now. */
 export interface EditResult {
   edit: ElementEdit;
   publishNow: boolean;
-  /** The Saves To choice (a draft's id, or "new"), when the form offered one. */
+  /** The draft picked in Save's menu (a draft's id, or "new"), when the form offered one. */
   target?: string;
 }
 
@@ -229,8 +233,11 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
   function fill(c: ElementContext): void {
     const e = c.element;
     const parent = c.children.length > 0;
-    dialog.heading = `Edit ${e.PlanElementName ?? 'Item'}`;
-    q<HTMLElement>('[data-eed-lead]').textContent = `${c.levelName}${c.ancestors.length ? ` in ${c.ancestors.at(-1)!.PlanElementName}` : ''}. Its documents, sends, status and comments are kept on Live, in their cards.`;
+    // The title and its level as a badge, as the item page's header has it (2026-10-30, Andy).
+    q<HTMLElement>('[data-eed-title]').textContent = `Edit ${e.PlanElementName ?? 'Item'}`;
+    q<HTMLElement>('[data-eed-level]').replaceChildren(badge(c.levelName, 'neutral', 'sm'));
+    // esa-dialog names itself from a slotted header when it renders: render it again for the new title.
+    (dialog as unknown as { requestUpdate?: () => void }).requestUpdate?.();
     name.value = e.PlanElementName ?? '';
     name.errorText = '';
     q<HTMLElement>('[data-eed-dates]').hidden = parent;
@@ -266,21 +273,29 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
     q<HTMLElement>('[data-eed-fields-title]').textContent = `${c.levelName} Fields`;
   }
 
-  // Saves To (2026-10-29): the footer's line follows the choice.
-  const target = q('[data-eed-target]');
+  // Which draft it saves to (2026-10-30, Andy: Save's chevron menu, in place of the Saves To select): the info box at
+  // the top and Save's label follow the pick.
+  const split = saveSplitOf(q('[data-eed-submit]'))!;
   let offered: EditOffer | null = null;
+  let choice = '';
   const drawWhere = () => {
     const t = offered?.target;
-    const choice = String(target.value ?? t?.value ?? '');
-    q<HTMLElement>('[data-eed-where]').textContent = t ? `${t.describe(choice)} ${offered!.where}`.trim() : (offered?.where ?? '');
+    const where = (t ? `${t.describe(choice)} ${offered!.where}` : (offered?.where ?? '')).trim();
+    q<HTMLElement>('[data-eed-where]').textContent = where;
+    q<HTMLElement>('[data-eed-where-box]').hidden = !where;
     // The Save button names the draft picked (2026-10-30).
     q<HTMLElement>('[data-eed-submit-label]').textContent = t?.saveLabel ? t.saveLabel(choice) : (offered?.label ?? '');
   };
-  target.addEventListener('change', drawWhere);
+  split.addEventListener('menu-action', (e) => {
+    const value = pickedValue(e);
+    if (!offered?.target?.options.some((o) => o.value === value)) return;
+    choice = value;
+    drawWhere();
+  });
   const submit = (publishNow: boolean) => {
     const edit = collect();
     if (!edit) return;
-    finish(edit.changed.length ? { edit, publishNow, target: offered?.target ? String(target.value ?? offered.target.value) : undefined } : null);
+    finish(edit.changed.length ? { edit, publishNow, target: offered?.target ? choice : undefined } : null);
   };
   q<HTMLElement>('[data-eed-submit]').addEventListener('click', () => submit(false));
   q<HTMLElement>('[data-eed-publish]').addEventListener('click', () => submit(true));
@@ -321,13 +336,10 @@ export function setupElementEditDialog(root: HTMLElement): { open(ctx: ElementCo
       if (!keep) fill(c);
       q<HTMLElement>('[data-eed-submit-label]').textContent = offer.label;
       // A form kept on a second pass (Back to Edit) keeps the draft picked in it.
-      const picked = keep && offered?.target ? String(target.value ?? '') : '';
+      const picked = keep && offered?.target ? choice : '';
       offered = offer;
-      target.hidden = !offer.target;
-      if (offer.target) {
-        target.options = offer.target.options;
-        target.value = offer.target.options.some((o) => o.value === picked) ? picked : offer.target.value;
-      }
+      choice = offer.target ? (offer.target.options.some((o) => o.value === picked) ? picked : offer.target.value) : '';
+      setSaveChoices(split, offer.target?.options ?? null, { newValue: NEW_DRAFT });
       drawWhere();
       q<HTMLElement>('[data-eed-publish]').hidden = !offer.publishNow;
       done = false;

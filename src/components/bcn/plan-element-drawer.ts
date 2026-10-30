@@ -80,6 +80,8 @@ import {
 } from '../../lib/planning/plan-page';
 import { openPlanSchedulePreview } from './plan-schedule-preview';
 import { openPlanLevelPanel } from './plan-level-panel';
+import { pickedValue, saveSplitOf, setSaveChoices } from './save-split';
+import { NEW_DRAFT } from './draft-chooser';
 import { onPlanPresence, planPresence, planPresenceSentence, startPlanPresence } from '../../lib/planning/plan-presence';
 import {
   discardPlanUnsavedChanges,
@@ -102,7 +104,8 @@ export interface PlanElementDrawerDraft {
   /** The header's subtitle: "Draft · Permits slip 6 mo". */
   label: string;
   readOnly: boolean;
-  /** The hint over the fields, in place of the draft one (the repo page's read-only Live, 2026-10-28). */
+  /** The note over the fields, in place of the draft one (the repo page's read-only Live, 2026-10-28); on Live, said
+   *  after where the edit goes (2026-10-30: one info box, not two notes). */
   note?: string;
   /** Every field editable, not only the dates (the repo page's own draft, 2026-10-28): Save carries them all. */
   editsFields?: boolean;
@@ -117,9 +120,10 @@ export interface PlanElementDrawerDraft {
   detail?: () => { href: string; label: string } | null;
   /** The footer's Save, named for where it goes ("Save to My Draft" from Live, 2026-10-28 draft first). */
   saveLabel?: string;
-  /** Which of the person's drafts Save goes to (2026-10-29, several drafts per person): a Saves To select over the
-   *  fields, `value` kept up to date as it changes; `describe` is the line under it ("Goes into “Weekly updates” ..."). */
-  target?: { label: string; options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel?: (value: string) => string };
+  /** Which of the person's drafts Save goes to (2026-10-29, several drafts per person): picked from Save's chevron menu
+   *  (2026-10-30, Andy: in place of a Saves To select), `value` kept up to date as it changes; `describe` leads the info
+   *  box over the fields ("Goes into “Weekly updates” ..."), and `saveLabel` names the button. */
+  target?: { options: { label: string; value: string }[]; value: string; describe: (value: string) => string; saveLabel?: (value: string) => string };
   /** Publish Now beside Save (draft first: offered only when it's safe); the edit as Save would hand it. The drawer
    *  stays open under the page's review of the edit (2026-10-29: every Publish Now shows the diff first) and closes
    *  when the promise says so: true published (or sent elsewhere), false Back to Edit, the form as it was left. */
@@ -411,6 +415,7 @@ export function openPlanElementDrawer(args: {
   const predAddButton = q('pred-add');
   const predCancelButton = q('pred-cancel');
   const saveButton = q('save');
+  const saveSplit = saveSplitOf(saveButton);
   const publishButton = q('publish');
   const cancelButton = q('cancel');
   const closeButton = q('close');
@@ -484,11 +489,14 @@ export function openPlanElementDrawer(args: {
     if (JSON.stringify(levelField.options) !== JSON.stringify(levelOpts)) levelField.options = levelOpts;
     levelField.errorText = errorOf(form.controls.LevelDepth);
     show(addLevelWrap, canAddLevel() && !draft);
-    show(q('draft-note'), !!draft && (!!draft.note || !draft.editsFields));
-    // The shell is shared, so the markup's draft hint is kept to come back to when the next drawer has no note of its own.
-    const note = q('draft-note');
-    note.dataset.default ??= note.textContent ?? '';
-    note.textContent = draft?.note ?? note.dataset.default;
+    // The info box over the fields (2026-10-30): where Save goes (on Live, the draft picked), then the page's note; in a
+    // draft that edits only dates, what a draft edits. The markup keeps that default, as the shell is shared.
+    const into = draft?.target && !isCreate ? draft.target : null;
+    const whereText = q('where-text');
+    const note = draft ? (draft.note ?? (draft.editsFields ? '' : (whereText.dataset.default ?? ''))) : '';
+    const where = [into ? into.describe(into.value) : '', note].filter(Boolean).join(' ');
+    whereText.textContent = where;
+    show(q('where'), !!where);
 
 
     // Scheduling
@@ -549,6 +557,7 @@ export function openPlanElementDrawer(args: {
 
     // Footer
     show(saveButton.closest('.esa-button')!, canSave);
+    if (saveSplit) setSaveChoices(saveSplit, canSave && into ? into.options : null, { disabled: isSaving || isLinkBusy(), newValue: NEW_DRAFT });
     show(publishButton.closest('.esa-button')!, canSave && !!draft?.publishNow);
     const saveLabel = saveButton.querySelector('.esa-button__label');
     if (saveLabel) saveLabel.textContent = (draft?.target?.saveLabel && !isCreate ? draft.target.saveLabel(draft.target.value) : draft?.saveLabel) ?? 'Save';
@@ -1198,25 +1207,16 @@ export function openPlanElementDrawer(args: {
   const on = (el: EventTarget, type: string, handler: (e: Event) => void) => el.addEventListener(type, handler, { signal: ac.signal });
   // The Budget section's way to the sheet, where the fiscal years are edited.
   on(q('budget-open'), 'click', () => draft?.onOpenBudget?.());
-  // Saves To (2026-10-29): which of the person's drafts Save goes to; its line says where.
-  const targetField = q<OptionsEl>('target');
-  const drawTarget = () => {
-    const t = draft?.target;
-    targetField.hidden = !t || isCreate;
-    if (!t) return;
-    if (JSON.stringify(targetField.options) !== JSON.stringify(t.options)) targetField.options = t.options;
-    targetField.value = t.value;
-    targetField.helpText = t.describe(t.value);
-  };
-  on(targetField, 'change', (e) => {
-    const t = draft?.target;
-    if (!t) return;
-    t.value = detailValue(e, targetField) || t.value;
-    targetField.helpText = t.describe(t.value);
-    const label = saveButton.querySelector('.esa-button__label');
-    if (label && t.saveLabel) label.textContent = t.saveLabel(t.value);
-  });
-  drawTarget();
+  // Which of the person's drafts Save goes to (2026-10-30, Andy: Save's chevron menu, in place of the Saves To select):
+  // the pick renames Save and rewrites the info box; render() draws both from `target.value`.
+  if (saveSplit)
+    on(saveSplit, 'menu-action', (e) => {
+      const t = draft?.target;
+      const value = pickedValue(e);
+      if (!t || !t.options.some((o) => o.value === value)) return;
+      t.value = value;
+      render();
+    });
   const detailValue = (e: Event, el: { value: unknown }) => String((e as CustomEvent<{ value: unknown }>).detail?.value ?? el.value ?? '');
   const touch = (control: AbstractControl) => () => {
     control.markAsTouched();

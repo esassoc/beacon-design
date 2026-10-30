@@ -1,0 +1,66 @@
+---
+// <BcnSaveSplit> — a primary Save with a chevron beside it that picks where it saves (2026-10-30, Andy: on Live the
+// Saves To select goes; the Save button gets a submenu of your drafts and A New Draft, and its label names the pick).
+//
+//   <BcnSaveSplit data-ped="save-menu">
+//     <EsaButton variant="primary" data-ped="save">Save</EsaButton>
+//   </BcnSaveSplit>
+//
+// The slot is the primary button (bare, or in the host's wrapper span), as the host already wires it (its click is Save). The chevron is hidden until
+// ./save-split.ts gives it choices; picking one fires `menu-action` (the choice's value) on the split, and the host
+// renames its button. Attributes on <BcnSaveSplit> land on the menu, so a host can find it by its own data-*.
+// Keyboard: the chevron is its own tab stop after Save; Enter, Space or Down opens the menu, the arrows move in it, Esc
+// closes it and focus returns to the chevron (esa-dropdown-menu's menu-button contract).
+//
+// bcn-lego-checked: the pair IS esa-button-group (selection-mode none, connected corners); the chevron IS esa-button
+// (primary, icon-only) inside esa-dropdown-menu, and the list IS that menu's items. No esa- lego is a split button
+// (checked the catalog: esa-button-group groups, esa-dropdown-menu drops, nothing pairs an action with its menu);
+// checked Beacon (no split button in shared/ui). The CSS is the seam: esa-button-group squares only <esa-button> tags,
+// and esa-button.astro renders a span, so the inner corners are squared here; its overflow is opened so the menu shows.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+const { size = 'md', ...rest } = Astro.props as { size?: 'sm' | 'md'; [attr: string]: unknown };
+---
+
+<span class="bcn-save-split" data-bcn-save-split>
+  <esa-button-group class="bcn-save-split__group" selection-mode="none">
+    <slot />
+    <esa-dropdown-menu class="bcn-save-split__menu" position="above-end" data-save-split-menu hidden {...rest}>
+      <EsaButton variant="primary" size={size} iconOnly icon="chevron-down" label="Choose a Draft" />
+    </esa-dropdown-menu>
+  </esa-button-group>
+</span>
+
+<script>
+  import '@esa/ecology/esa-button-group';
+  import '@esa/ecology/esa-dropdown-menu';
+</script>
+
+<style>
+  .bcn-save-split {
+    display: inline-flex;
+  }
+  /* The group clips to its rounded box; the menu opens out of it. */
+  .bcn-save-split__group {
+    overflow: visible;
+  }
+  .bcn-save-split__menu[hidden] {
+    display: none;
+  }
+  /* The seam, once the chevron shows: Save's end corners and the chevron's start corners square, a hairline gap between. */
+  .bcn-save-split[data-split] .bcn-save-split__group :global(.esa-button__native:not([aria-haspopup])) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .bcn-save-split__menu :global(.esa-button__native) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+  /* The panel is placed off the chevron, so it would shrink to the menu's 160px floor and wrap every draft's name: a
+     draft's line ("Weekly updates (2 Edits, just now)") reads on one line. */
+  .bcn-save-split__menu {
+    margin-inline-start: 1px;
+    --dropdown-menu-min-width: 20rem;
+    --dropdown-menu-max-width: 24rem;
+  }
+</style>

@@ -6,7 +6,7 @@
 // Every change redraws the whole page from storage: a draft edit made here, a record saved by a module, the same plan
 // changed in another tab. Modules are idempotent draws (./element-module.ts).
 
-import { alsoChange, goesInto, saveToLabel, quoted, savedTo } from '../../lib/planning/plan-copy';
+import { goesInto, liveEditNext, saveToLabel, quoted, savedTo } from '../../lib/planning/plan-copy';
 import { NEW_DRAFT, draftChoiceLabel } from './draft-chooser';
 import { ensureSeeded, getRepo, draftState, draftsTouching, currentDraft, myDrafts, nextDraftName, chosenDraft, setCurrentDraft, startEditDraft, discardDraft, dropStaleEditDrafts, addRevision, mergeAttributes, flattenPlan, membersOf, stamp, type PlanRepo, type PlanRepoDraft } from '../../lib/planning/plan-repo';
 import { planDraftWithEdits, withItemsCarried } from '../../lib/planning/plan-draft';
@@ -399,7 +399,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         return edit();
       }
       // Which draft it lands in, said and chosen (2026-10-29, the traps audit: a weekly edit vanished into a what-if
-      // draft; then several drafts per person): Saves To picks among yours, the current one first, or a new one.
+      // draft; then several drafts per person): Save's chevron menu picks among yours, the current one first, or a new one.
       const yours = myDrafts(planID);
       const next = nextDraftName(planID);
       const target = {
@@ -408,11 +408,7 @@ export async function setupPlanElementPage(root: HTMLElement): Promise<void> {
         describe: (value: string) => goesInto(yours.find((d) => d.id === value) ?? null, next),
         saveLabel: (value: string) => saveToLabel(yours.find((d) => d.id === value) ?? null),
       };
-      let where = !canPublish
-        ? 'Ask to Publish when it’s ready.'
-        : touching.length
-          ? `${alsoChange(touching, me)} this item, so this edit goes to a draft.`
-          : 'Or Review and Publish this edit now, with whatever it moves.';
+      let where = liveEditNext(canPublish, touching, me);
       let publishNow = canPublish && !touching.length;
       let keep = false;
       for (;;) {

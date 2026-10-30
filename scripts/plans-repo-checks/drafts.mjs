@@ -93,18 +93,38 @@ check('Survey reschedule holds only its edit', s1.edits === 1 && s1.ids.includes
 check('Weekly updates holds only its edits', w1.edits === 2 && w1.ids.includes(memo) && !w1.ids.includes(baseline), JSON.stringify(w1));
 check('Permit delay scenario untouched', p1.edits === permit.edits && !p1.ids.includes(memo) && !p1.ids.includes(baseline), JSON.stringify(p1));
 
-// ── 5. From Live, the drawer: Saves To picks the current draft (the one you were in last) and says where ──
+// ── 5. From Live, the drawer: Save's chevron menu (2026-10-30, in place of Saves To) picks the current draft (the one
+// you were in last), lists your drafts and A New Draft; a pick renames Save and rewrites the info box at the top ──
 await pick('live');
 const proc = await idOf('Acoustic tag & receiver procurement');
 await page.click(`[data-select="${proc}"]`, { position: { x: 12, y: 8 } }); await page.waitForTimeout(1200);
-const target = await page.locator('[data-ped="target"]').evaluate((s) => ({ hidden: s.hidden, value: s.value, n: s.options.length, help: s.helpText }));
-check('drawer on Live: Saves To, the current draft picked', !target.hidden && target.value === weekly.id && target.n === 4, JSON.stringify(target));
-check('drawer says where it goes', /Goes into “Weekly updates”/.test(target.help), target.help);
+check('drawer on Live: no Saves To select', (await page.locator('[data-ped="target"], .bcn-ped esa-select[label="Saves To"]').count()) === 0);
 const saveSays = async () => (await page.locator('[data-ped="save"] .esa-button__label').first().textContent()).trim();
-check('Save names the draft picked', (await saveSays()) === 'Save to Weekly updates', await saveSays());
-await page.locator('[data-ped="target"]').evaluate((s) => { s.value = 'new'; s.dispatchEvent(new CustomEvent('change', { detail: { value: 'new' }, bubbles: true })); });
-check('picking a new draft renames Save', (await saveSays()) === 'Save to a New Draft', await saveSays());
-await page.locator('[data-ped="target"]').evaluate((s, id) => { s.value = id; s.dispatchEvent(new CustomEvent('change', { detail: { value: id }, bubbles: true })); }, weekly.id);
+const whereSays = async () => ((await page.locator('[data-ped="where"]').evaluate((b) => (b.hidden ? '' : b.textContent))) ?? '').replace(/\s+/g, ' ').trim();
+const saveMenu = '[data-ped="save-menu"]';
+const menuItems = async () => { await page.click(`${saveMenu} button`); await page.waitForTimeout(400); return page.locator(`${saveMenu} [role="menuitem"]`).allTextContents().then((t) => t.map((x) => x.trim())); };
+check('Save names the current draft', (await saveSays()) === 'Save to Weekly updates', await saveSays());
+check('the info box says where it goes', /^Goes into “Weekly updates”/.test(await whereSays()), await whereSays());
+const items = await menuItems();
+const mineNames = (await alexs()).map((d) => d.name);
+check('the menu lists your drafts, then A New Draft', items.length === mineNames.length + 1 && mineNames.every((n) => items.some((i) => i.startsWith(`${n} (`))) && /^A New Draft \(.+\)$/.test(items.at(-1)), items.join(' | '));
+const box = await page.evaluate(() => { const top = document.querySelector('[data-ped="where"]').getBoundingClientRect().top; const first = document.querySelector('.bcn-ped .plan-element__section').getBoundingClientRect().top; return { top, first }; });
+check('the info box sits at the top, over the fields', box.top < box.first, JSON.stringify(box));
+await page.screenshot({ path: OUT + 'drafts-drawer-menu.png' });
+await page.locator(`${saveMenu} [role="menuitem"]`, { hasText: 'A New Draft' }).click(); await page.waitForTimeout(400);
+check('picking A New Draft renames Save', (await saveSays()) === 'Save to a New Draft', await saveSays());
+check('and the info box says a new draft', /^Starts a new draft/.test(await whereSays()), await whereSays());
+// By keyboard: focus the chevron, Enter opens the menu, the arrows walk it, Enter picks.
+await page.locator(`${saveMenu} button`).first().focus();
+await page.keyboard.press('Enter'); await page.waitForTimeout(400);
+const at = items.findIndex((i) => i.startsWith('Survey reschedule ('));
+for (let i = 0; i < at; i++) await page.keyboard.press('ArrowDown');
+await page.keyboard.press('Enter'); await page.waitForTimeout(400);
+check('by keyboard: Survey reschedule picked', (await saveSays()) === 'Save to Survey reschedule' && /^Goes into “Survey reschedule”/.test(await whereSays()), `${await saveSays()} / ${await whereSays()}`);
+check('focus back on the chevron', await page.evaluate(() => !!document.activeElement?.closest('[data-ped="save-menu"]')));
+await menuItems();
+await page.locator(`${saveMenu} [role="menuitem"]`, { hasText: 'Weekly updates' }).click(); await page.waitForTimeout(400);
+check('Weekly updates picked again', (await saveSays()) === 'Save to Weekly updates', await saveSays());
 const meta = await page.evaluate(() => { const b = document.querySelector('[data-ped="badge"]').getBoundingClientRect(); const l = document.querySelector('[data-ped="detail"]').getBoundingClientRect(); return { gap: Math.round(l.left - b.right), dy: Math.round((l.top + l.height / 2) - (b.top + b.height / 2)) }; });
 check('Open Task Page sits just right of the badge, centered on it', meta.gap > 0 && meta.gap <= 24 && Math.abs(meta.dy) <= 1, JSON.stringify(meta));
 await page.screenshot({ path: OUT + 'drafts-drawer.png' });
@@ -148,6 +168,21 @@ await page.goto(`${BASE}/prototypes/plans-repo/?user=Alex%20Rivera`); await page
 const chips = await page.evaluate(() => [...document.querySelectorAll('[data-pri-drafts]:not([hidden])')].map((a) => a.textContent.replace(/\s+/g, ' ').trim()));
 const total = (await repo()).drafts.length;
 check('index: the plan’s drafts, yours counted', chips.some((t) => t === `${total} ${total === 1 ? 'Draft' : 'Drafts'}, 1 Yours`), chips.join(' | '));
+
+// ── 10. A pick other than the current draft is where Save lands (2026-10-30): A New Draft, from Live's drawer ──
+await gotoPlan(page, planID, ALEX);
+await pick('live');
+const before10 = await alexs();
+const memo10 = await idOf('Draft near-field');
+await page.click(`[data-select="${memo10}"]`, { position: { x: 12, y: 8 } }); await page.waitForTimeout(1200);
+check('one draft: the menu still offers A New Draft', !(await page.locator(saveMenu).evaluate((m) => m.hidden)) && (await saveSays()) === 'Save to Permit delay scenario', await saveSays());
+await page.click(`${saveMenu} button`); await page.waitForTimeout(400);
+await page.locator(`${saveMenu} [role="menuitem"]`, { hasText: 'A New Draft' }).click(); await page.waitForTimeout(400);
+await page.locator('[data-ped="notes"]').evaluate((f) => { f.value = 'A new draft, picked.'; f.dispatchEvent(new Event('input', { bubbles: true })); f.dispatchEvent(new Event('change', { bubbles: true })); });
+await page.click('[data-ped="save"]'); await page.waitForTimeout(2500);
+const after10 = await alexs();
+const made = after10.find((d) => !before10.some((b) => b.id === d.id));
+check('Save lands in the picked new draft, the current one untouched', !!made && made.edits === 1 && draftParam() === made.id && (await byName('Permit delay scenario')).edits === permit.edits, JSON.stringify(after10.map((d) => `${d.name}:${d.edits}`)));
 
 console.log('errors', errs.length, errs.slice(0, 2));
 console.log(`${pass} PASS, ${fail} FAIL`);
