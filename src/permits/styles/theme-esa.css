@@ -81,78 +81,34 @@
   --color-background-default: var(--pm-chrome-canvas);
 }
 
-/* ===== THE CIVIC VOICE — page titles, section titles, the wordmark and the stamp =====
-   DM Sans stays the UI and body face. One display face carries the places the app
-   speaks in its own voice: the h1 (heading-lg), the section h2 (heading-md), the
-   "Permits" wordmark and the stamp's lettering. The brief: government typography, as
-   if from a civic design shop: public signage and transit, or legal documents.
+/* ===== THE CIVIC VOICE — page titles, section titles and the wordmark =====
+   DM Sans stays the UI and body face. Public Sans, the U.S. Web Design System's
+   typeface (the one federal sites are set in), carries the places the app speaks in
+   its own voice: the h1 (heading-lg), the section h2 (heading-md) and the "Permits"
+   wordmark. Government typography, as if from a civic design shop. (The stamp's ring
+   lettering is its own face, Barlow Condensed Bold: see BcnPermitsStamp.)
 
-   Six candidates load; ?face=<id> switches them, saved per browser (PermitsBaseLayout):
-     public-sans    Public Sans, the U.S. Web Design System's typeface (federal sites)
-     overpass       Overpass, from Highway Gothic, the U.S. interstate sign alphabet
-     barlow         Barlow Semi Condensed, after California highway signs, license
-                    plates and BART / Caltrain signage (default)
-     big-shoulders  Big Shoulders Display, drawn for the City of Chicago's design system
-     national-park  National Park, from the routed-wood signs of the U.S. National Parks
-     caslon         Libre Caslon Text, Caslon being the face the Declaration was printed in
-   Each sets its own size, weight and tracking: condensed faces need more size for the
-   same presence, and a sign face reads right a touch heavier than a book face. */
+   Chosen 2026-10-30 from six civic candidates: Public Sans, Overpass (Highway Gothic),
+   Barlow Semi Condensed (California highway / BART signage), Big Shoulders (City of
+   Chicago), National Park (NPS routed-wood signs), Libre Caslon (founding documents).
+   Bold at a slightly tightened track: a grotesque title reads civic at 700, and the
+   sizes sit a step under the condensed faces' because Public Sans is wide. */
 [data-theme="beacon"][data-brand="esa"] {
-  --pm-font-display: 'Barlow Semi Condensed', 'DM Sans', sans-serif;
-  --pm-h1-size: 2.25rem;
-  --pm-h1-weight: 600;
-  --pm-h2-size: 1.4375rem;
-  --pm-h2-weight: 600;
-  --pm-display-tracking: 0;
-
-  --typography-heading-lg-font-family: var(--pm-font-display);
-  --typography-heading-lg-font-size: var(--pm-h1-size);
-  --typography-heading-lg-font-weight: var(--pm-h1-weight);
-  --typography-heading-lg-letter-spacing: var(--pm-display-tracking);
-  --typography-heading-lg-line-height: 1.1;
-  --typography-heading-md-font-family: var(--pm-font-display);
-  --typography-heading-md-font-size: var(--pm-h2-size);
-  --typography-heading-md-font-weight: var(--pm-h2-weight);
-  --typography-heading-md-letter-spacing: var(--pm-display-tracking);
-  --typography-heading-md-line-height: 1.2;
-}
-[data-theme="beacon"][data-brand="esa"][data-face='public-sans'] {
   --pm-font-display: 'Public Sans', 'DM Sans', sans-serif;
   --pm-h1-size: 2rem;
   --pm-h1-weight: 700;
   --pm-h2-size: 1.3125rem;
   --pm-h2-weight: 700;
   --pm-display-tracking: -0.015em;
-}
-[data-theme="beacon"][data-brand="esa"][data-face='overpass'] {
-  --pm-font-display: 'Overpass', 'DM Sans', sans-serif;
-  --pm-h1-size: 2.125rem;
-  --pm-h1-weight: 700;
-  --pm-h2-size: 1.375rem;
-  --pm-h2-weight: 700;
-  --pm-display-tracking: -0.01em;
-}
-[data-theme="beacon"][data-brand="esa"][data-face='big-shoulders'] {
-  --pm-font-display: 'Big Shoulders Display', 'DM Sans', sans-serif;
-  --pm-h1-size: 2.75rem;
-  --pm-h1-weight: 800;
-  --pm-h2-size: 1.75rem;
-  --pm-h2-weight: 800;
-  --pm-display-tracking: 0.005em;
-}
-[data-theme="beacon"][data-brand="esa"][data-face='national-park'] {
-  --pm-font-display: 'National Park', 'DM Sans', sans-serif;
-  --pm-h1-size: 2.125rem;
-  --pm-h1-weight: 700;
-  --pm-h2-size: 1.375rem;
-  --pm-h2-weight: 700;
-  --pm-display-tracking: 0;
-}
-[data-theme="beacon"][data-brand="esa"][data-face='caslon'] {
-  --pm-font-display: 'Libre Caslon Text', Georgia, serif;
-  --pm-h1-size: 2.125rem;
-  --pm-h1-weight: 400;
-  --pm-h2-size: 1.375rem;
-  --pm-h2-weight: 400;
-  --pm-display-tracking: -0.01em;
+
+  --typography-heading-lg-font-family: var(--pm-font-display);
+  --typography-heading-lg-font-size: var(--pm-h1-size);
+  --typography-heading-lg-font-weight: var(--pm-h1-weight);
+  --typography-heading-lg-letter-spacing: var(--pm-display-tracking);
+  --typography-heading-lg-line-height: 1.15;
+  --typography-heading-md-font-family: var(--pm-font-display);
+  --typography-heading-md-font-size: var(--pm-h2-size);
+  --typography-heading-md-font-weight: var(--pm-h2-weight);
+  --typography-heading-md-letter-spacing: var(--pm-display-tracking);
+  --typography-heading-md-line-height: 1.2;
 }

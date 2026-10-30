@@ -39,11 +39,10 @@ rationed: the only saturated color on a page is status meaning.
 - **Accent**: the stamp's ink, `#c9682a` (text step `#a15321`, tint `#fcf2eb`). It marks
   identity and where you are: the stamp, the sidenav's active item, the grid's checkboxes.
   Not a button color, not a status.
-- **Type**: DM Sans for UI, body and stats. One civic display face for page titles (h1),
-  section titles (h2) and the wordmark. Six candidates load and `?face=` switches them,
-  saved per browser: `barlow` (Barlow Semi Condensed, California highway / BART signage;
-  default), `public-sans` (USWDS), `overpass` (Highway Gothic), `big-shoulders` (City of
-  Chicago), `national-park` (NPS routed-wood signs), `caslon` (founding documents).
+- **Type**: DM Sans for UI, body and stats. Public Sans (the U.S. Web Design System's
+  typeface) for page titles (h1), section titles (h2) and the wordmark, at 700. Chosen
+  from six civic candidates (Public Sans, Overpass, Barlow Semi Condensed, Big Shoulders,
+  National Park, Libre Caslon).
 - **Lockup**: a small ESA logo | the Permits mark (`BcnPermitsStamp`, a classic round
   rubber stamp: perforated edge, PERMITS in Barlow Condensed Bold centred on the ring, a
   civic building in the middle, worn ink) and the word "Permits" in the display face.
