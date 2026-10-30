@@ -1,0 +1,204 @@
+---
+// <BcnSheet> — the plan's spreadsheet frame (2026-10-30, Andy: "The Budget table and Schedule Table seem like two
+// different implementations... I really like the budget table"). Both sheets render through it, so they read alike: a
+// name box and value bar above the grid (the cursor's column and item; the cell's full value and what it is), the key
+// at the bar's end (the legend slot: one <span data-legend="edit|sum|off|live"><i></i>Label</span> per kind of cell),
+// and the grid under it. Its CSS is the sheet's look in one place: the bar, the 2px cell cursor and its lit header and
+// row name, the editing lift, the field look of an editable cell, the gray of a sum or read cell, parents shaded by
+// tier, the search's hits, and the one-click pickers (a choice list, a date entry, a checkbox). The runtime is
+// ./plan-sheet.ts; each sheet adds its own columns and cell states (<BcnPlanBudgetSheet>, <BcnPlanItemsTable>).
+//
+// `hooks` names the sheet's own data-* hooks on the bar and grid (data-<hooks>-ref, -value, -grid), which the page
+// and its checks read; the runtime reads the shared data-sheet-* ones.
+//
+// bcn-lego-checked: no esa- lego is an editable grid, a formula bar or a grid cell picker (esa-select, esa-date-picker
+// and esa-checkbox are labelled form fields, not cells); checked Beacon (prod's grids are AG Grid with its stock
+// editors; no name box). bcn-sheet is the reusable home both plan sheets share; the grid is AG Grid on the spoke's
+// Beacon theme, as Beacon's grids are.
+
+interface Props {
+  /** The sheet's own hook prefix: data-<hooks>-ref, data-<hooks>-value, data-<hooks>-grid. */
+  hooks: string;
+  class?: string;
+  [attr: string]: unknown;
+}
+const { hooks, class: cls, ...rest } = Astro.props;
+const hook = (name: string) => ({ [`data-${hooks}-${name}`]: '' });
+---
+
+<div class:list={['bcn-sheet', cls]} {...rest}>
+  <!-- A spreadsheet's name box and value bar: where the cursor is, and what the cell holds; at its end, the key. -->
+  <div class="bcn-sheet__bar typography-body-sm" aria-live="polite" data-sheet-bar>
+    <span class="bcn-sheet__ref" data-sheet-ref data-empty {...hook('ref')}>Select a Cell</span>
+    <span class="bcn-sheet__fx" aria-hidden="true">fx</span>
+    <span class="bcn-sheet__value" data-sheet-value {...hook('value')}></span>
+    <span class="bcn-sheet__legend" aria-label="Key"><slot name="legend" /></span>
+  </div>
+  <div class="bcn-sheet__grid" data-sheet-grid {...hook('grid')}></div>
+</div>
+
+<!-- is:global: the runtime builds the grid's cells, its pickers and the cursor's style; Astro's scoped CSS only matches
+     what it rendered. Every selector is under .bcn-sheet. -->
+<style is:global>
+  .bcn-sheet {
+    display: flex;
+    flex-direction: column;
+    /* The cursor's row name; its column header, on the teal band, takes the band's hover step. */
+    --_sheet-lit: color-mix(in srgb, var(--color-background-brand) 9%, var(--color-background-elevation-raised));
+    --_sheet-lit-head: var(--color-background-brand-hover);
+    /* The kinds of cell, one look each, the key drawn from the same values: a value you can change (an input's white
+       with a teal edge), one that saves to Live (the same, its edge in Live's color), a sum or a read cell (gray). */
+    --_sheet-edit: var(--color-background-elevation-raised);
+    --_sheet-edit-edge: color-mix(in srgb, var(--color-background-brand) 40%, transparent);
+    --_sheet-live-edge: color-mix(in srgb, var(--bcn-live-badge) 75%, transparent);
+    --_sheet-sum: color-mix(in srgb, var(--color-content-default) 9%, var(--color-background-elevation-raised));
+    --_sheet-hatch: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--color-content-default) 14%, transparent) 4px 5px);
+    --_sheet-why: color-mix(in srgb, var(--color-background-utility-warning) 22%, transparent);
+  }
+  .bcn-sheet__grid { inline-size: 100%; }
+
+  /* The name box and value bar: a strip flush under the panel's header, as Sheets' sits over its columns. */
+  .bcn-sheet__bar {
+    display: grid;
+    grid-template-columns: 20rem auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    min-block-size: 2.25rem;
+    border-block-end: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sheet__bar > * { display: flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; padding-inline: var(--spacing-300); white-space: nowrap; overflow: hidden; }
+  .bcn-sheet__ref { border-inline-end: 1px solid var(--color-border-default); }
+  .bcn-sheet__ref strong { flex-shrink: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-sheet__ref span { overflow: hidden; text-overflow: ellipsis; color: var(--color-content-default-secondary); }
+  .bcn-sheet__ref[data-empty] { color: var(--color-content-default-tertiary); }
+  .bcn-sheet__fx { font-style: italic; font-family: Georgia, serif; color: var(--color-content-default-tertiary); border-inline-end: 1px solid var(--color-border-default); }
+  .bcn-sheet__value { font-size: var(--bcn-type-size-meta); font-variant-numeric: tabular-nums; text-overflow: ellipsis; }
+  .bcn-sheet__value small {
+    font-family: var(--typography-font-family-sans, inherit);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+    padding-inline-start: var(--spacing-200);
+    border-inline-start: 1px solid var(--color-border-default);
+  }
+  .bcn-sheet__value .bcn-sheet__why { font-family: var(--typography-font-family-sans, inherit); color: var(--color-content-utility-warning); font-weight: 600; }
+  /* The key: a swatch per kind of cell, drawn as the cells are. Editable shows only where something edits. */
+  .bcn-sheet__legend { gap: var(--spacing-300); color: var(--color-content-default-secondary); border-inline-start: 1px solid var(--color-border-default); }
+  .bcn-sheet__legend > span { display: inline-flex; align-items: center; gap: var(--spacing-100); white-space: nowrap; }
+  .bcn-sheet__legend i { display: inline-block; inline-size: 0.875rem; block-size: 0.875rem; border-radius: 2px; border: 1px solid var(--color-border-default); }
+  .bcn-sheet__legend [data-legend='edit'] i { background: var(--_sheet-edit); border-color: var(--_sheet-edit-edge); }
+  .bcn-sheet__legend [data-legend='live'] i { background: var(--_sheet-edit); border-color: var(--_sheet-live-edge); }
+  .bcn-sheet__legend :is([data-legend='sum'], [data-legend='read']) i { background: var(--_sheet-sum); }
+  .bcn-sheet__legend [data-legend='off'] i { background-image: var(--_sheet-hatch); }
+  .bcn-sheet[data-editable='true'] .bcn-sheet__legend [data-legend='off'] i { background-color: var(--_sheet-sum); }
+  .bcn-sheet:not([data-editable='true']) :is([data-legend='edit'], [data-legend='read']) { display: none; }
+  .bcn-sheet:not([data-records='true']) [data-legend='live'] { display: none; }
+
+  /* Parents: bold, and shaded by tier as the Gantt's rows are. */
+  .bcn-sheet .bcn-sheet__parent { font-weight: 600; }
+  .bcn-sheet .ag-row.bcn-sheet__tier-0 { background-color: color-mix(in srgb, var(--color-content-default) 3%, var(--color-background-elevation-raised)); }
+  .bcn-sheet .ag-row.bcn-sheet__tier-1 { background-color: color-mix(in srgb, var(--color-content-default) 1.5%, var(--color-background-elevation-raised)); }
+  .bcn-sheet .ag-row .bcn-sheet__name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-sheet .ag-row .bcn-sheet__name--link { cursor: pointer; }
+  .bcn-sheet .ag-row .bcn-sheet__name--link:hover { text-decoration: underline; }
+  /* The search's hits: the house highlighter yellow, tight to the letters (the Gantt's). */
+  .bcn-sheet .bcn-sheet__match { background: var(--bcn-marker-selection); color: inherit; padding: 0; }
+
+  /* A sum or a value that comes from elsewhere: gray, computed, never typed into. */
+  .bcn-sheet .ag-cell.bcn-sheet__sum { background-color: var(--_sheet-sum); }
+  /* A cell that reads only, in a sheet where others edit: the same gray, its text quieter. */
+  .bcn-sheet[data-editable='true'] .ag-cell.bcn-sheet__read { background-color: var(--_sheet-sum); color: var(--color-content-default-secondary); }
+  .bcn-sheet[data-editable='true'] .ag-cell.bcn-sheet__read.bcn-sheet__parent { color: var(--color-content-default); }
+  /* Where you can change something, a cell reads as an input field: white, a teal edge on every one (stronger on hover),
+     the cell cursor. Everything else in the grid is gray, so the fields stand out. */
+  .bcn-sheet[data-editable='true'] .ag-cell.bcn-sheet__edit,
+  .bcn-sheet .ag-cell.bcn-sheet__live { background-color: var(--_sheet-edit); box-shadow: inset 0 0 0 1px var(--_sheet-edit-edge); cursor: cell; }
+  .bcn-sheet .ag-cell.bcn-sheet__live { box-shadow: inset 0 0 0 1px var(--_sheet-live-edge); cursor: pointer; }
+  .bcn-sheet[data-editable='true'] .ag-cell.bcn-sheet__edit:not(.ag-cell-focus):hover { box-shadow: inset 0 0 0 2px var(--_sheet-edit-edge); }
+  .bcn-sheet .ag-cell.bcn-sheet__live:not(.ag-cell-focus):hover { box-shadow: inset 0 0 0 2px var(--_sheet-live-edge); }
+  .bcn-sheet[data-editable='true'] .ag-cell.bcn-sheet__edit.bcn-sheet__pick { cursor: pointer; }
+  .bcn-sheet[data-editable='true'] .ag-cell:not(.bcn-sheet__edit):not(.bcn-sheet__live):not([col-id='name']) { cursor: default; }
+
+  /* The cursor: a 2px brand ring inside the cell, as Sheets and Excel draw theirs; no layout shift. It wins over a
+     field's edge. */
+  .bcn-sheet .ag-cell.ag-cell-focus,
+  .bcn-sheet[data-editable='true'] .ag-cell.ag-cell-focus:not(.ag-cell-inline-editing) { border-color: transparent !important; box-shadow: inset 0 0 0 2px var(--color-background-brand); }
+  /* Editing lifts the cell: the ring outside, a shadow under, the value typed where it shows. */
+  .bcn-sheet .ag-cell.ag-cell-inline-editing {
+    z-index: 2;
+    border-color: transparent !important;
+    background: var(--color-background-elevation-raised);
+    box-shadow: 0 0 0 2px var(--color-background-brand), var(--elevation-2);
+  }
+  .bcn-sheet .ag-cell-inline-editing input {
+    block-size: 100%;
+    border: 0 !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    outline: 0;
+    padding-inline: 12px;
+    background: transparent;
+    font-size: var(--bcn-type-size-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* A choice at rest: its dot and label; a chevron on hover (and under the cursor) so it reads as a picker. */
+  .bcn-sheet .bcn-sheet__choice-cell { display: flex; align-items: center; gap: var(--spacing-150); inline-size: 100%; min-inline-size: 0; }
+  .bcn-sheet .bcn-sheet__choice-label { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-sheet .bcn-sheet__dot { flex: none; inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; background: var(--_dot); }
+  .bcn-sheet .bcn-sheet__chev { flex: none; color: var(--color-content-default-secondary); opacity: 0; transition: opacity 120ms ease-out; }
+  .bcn-sheet .ag-cell:hover .bcn-sheet__chev,
+  .bcn-sheet .ag-cell.ag-cell-focus .bcn-sheet__chev { opacity: 1; }
+
+  /* A checkbox at rest (a milestone): toggles on one click or Space. */
+  .bcn-sheet .bcn-sheet__check {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1rem;
+    block-size: 1rem;
+    vertical-align: middle;
+    border-radius: 3px;
+    border: 1px solid var(--color-border-default-strong, var(--color-border-default));
+    background: var(--color-background-elevation-raised);
+    color: transparent;
+  }
+  .bcn-sheet .bcn-sheet__check[aria-checked='true'],
+  .bcn-sheet .bcn-sheet__choice[aria-selected='true'] .bcn-sheet__check { background: var(--color-background-brand); border-color: var(--color-background-brand); color: var(--color-content-default-knockout); }
+  .bcn-sheet .ag-cell.bcn-sheet__edit .bcn-sheet__check { cursor: pointer; }
+
+  /* The one-click list: under its cell, the current choice marked, the highlighted one tinted. */
+  .bcn-sheet .bcn-sheet__picker {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 11rem;
+    max-block-size: 16rem;
+    overflow-y: auto;
+    padding-block: var(--spacing-100);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--elevation-2);
+    outline: none;
+  }
+  .bcn-sheet .bcn-sheet__choice { display: flex; align-items: center; gap: var(--spacing-200); padding: var(--spacing-150) var(--spacing-300); cursor: pointer; white-space: nowrap; }
+  .bcn-sheet .bcn-sheet__choice[data-active] { background: var(--color-background-default-hover); }
+  .bcn-sheet .bcn-sheet__picker:not([aria-multiselectable]) .bcn-sheet__choice[aria-selected='true'] { font-weight: 600; color: var(--color-content-brand); }
+
+  /* The date entry: the date to type over, and a calendar button for the browser's picker. */
+  .bcn-sheet .bcn-sheet__date { position: relative; display: flex; align-items: center; block-size: 100%; }
+  .bcn-sheet .bcn-sheet__date-input { flex: 1 1 auto; min-inline-size: 0; }
+  .bcn-sheet .bcn-sheet__date-button {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    margin-inline-end: var(--spacing-100);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-content-default-secondary);
+    cursor: pointer;
+  }
+  .bcn-sheet .bcn-sheet__date-button:hover { background: var(--color-background-default-hover); color: var(--color-content-brand); }
+  .bcn-sheet .bcn-sheet__date-native { position: absolute; inset-inline-end: 0; inset-block-end: 0; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+</style>

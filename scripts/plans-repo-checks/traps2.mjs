@@ -56,8 +56,9 @@ check('an agency person comes in as a Guest', role === 'Guest', role);
 await page.goto(`${BASE}/prototypes/plans-repo/plan/?id=${planID}&showas=table&owner=mine&user=Sam%20Okafor`); await page.addStyleTag({ content: HIDE }); await page.waitForTimeout(3500);
 const rowsMine = await page.locator('[data-bcn-plan-items-table] .ag-center-cols-container .ag-row').count();
 const cell = page.locator('[data-bcn-plan-items-table] .ag-row:has(.ag-cell[col-id="name"]:text-is("Regional receiver network build-out")) .ag-cell[col-id="status"]').first();
-await cell.click(); await page.keyboard.press('Enter'); await page.waitForTimeout(600);
-await page.locator('.ag-list-item', { hasText: 'In Progress' }).first().click(); await page.waitForTimeout(900);
+// One click opens the choices, one more picks (2026-10-30, the sheets unified: no click-in-then-dropdown).
+await cell.click(); await page.waitForTimeout(600);
+await page.locator('[data-bcn-plan-items-table] [data-sheet-choice="In Progress"]').first().click(); await page.waitForTimeout(900);
 check('Owner Mine narrows the table; Status sets from it', rowsMine > 0 && rowsMine < 20 && (await cell.innerText()).includes('In Progress'), `${rowsMine} rows, ${await cell.innerText()}`);
 console.log('errors', errs.length, errs.slice(0, 2));
 console.log(`${pass} PASS, ${fail} FAIL`);

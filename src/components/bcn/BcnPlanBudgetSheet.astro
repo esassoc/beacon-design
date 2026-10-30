@@ -7,158 +7,62 @@
 // Live reads; your draft edits a task's cells, each change one edit of the draft. The schedule shows through: a year
 // outside an element's dates is hatched, and money in one is flagged.
 //
-// It reads and behaves like a spreadsheet (2026-10-28, Andy: "as Excel and Google Sheets like as possible"): flush in
-// its panel, a name box and value bar above the grid (the cursor's year and item; its figure, what it sums, what Live
-// held), a 2px cell cursor with its column header and row name lit, Beacon's grid underneath (teal header, zebra,
-// hairlines between rows and columns, the parents shaded by tier as in the Gantt), year headers in two lines with the
-// current year marked, money right-aligned with its header in the UI font's tabular figures (design QA, 2026-10-29:
-// mono is for identifiers, not money), and the spreadsheet keys. The runtime is ./plan-budget-sheet.ts.
+// It reads and behaves like a spreadsheet (2026-10-28, Andy: "as Excel and Google Sheets like as possible"). The
+// spreadsheet is <BcnSheet> (2026-10-30: the name box and value bar, the cursor, the cell kinds, the parents' shading,
+// the keys), shared with the Schedule Table; this is the budget's key, its year header, and its money cells (right-
+// aligned in the UI font's tabular figures, design QA 2026-10-29: mono is for identifiers, not money; hatched outside
+// the dates; flagged when stray; green where the draft changed them; the total). The runtime is ./plan-budget-sheet.ts.
 //
-// bcn-lego-checked: the sheet IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts, its dense
-// variant, shared with the Schedule Table), as Beacon's grids are; its editor is AG Grid's. No esa- lego is an editable
-// grid or a formula bar. The CSS is the bar, the cell states (parent tier, outside the schedule, changed in the draft),
-// the cursor and editor, and the year header.
+// bcn-lego-checked: the sheet IS <BcnSheet> (AG Grid community on the spoke's Beacon theme, as Beacon's grids are); its
+// editor is AG Grid's. No esa- lego is an editable grid. The CSS is the budget's own cell states and year header.
+import BcnSheet from './BcnSheet.astro';
 ---
 
-<div class="bcn-pbs" data-bcn-plan-budget-sheet>
-  <!-- A spreadsheet's name box and value bar: where the cursor is, and what the cell holds; at its end, the key. -->
-  <div class="bcn-pbs__bar typography-body-sm" aria-live="polite">
-    <span class="bcn-pbs__ref" data-pbs-ref data-empty>Select a Cell</span>
-    <span class="bcn-pbs__fx" aria-hidden="true">fx</span>
-    <span class="bcn-pbs__value" data-pbs-value></span>
-    <!-- What the cells mean (2026-10-28, Andy: "so unclear which cells are editable vs rollups"). Editable shows in your
-         draft only. -->
-    <span class="bcn-pbs__legend" aria-label="Key">
-      <span data-legend="edit"><i></i>Editable</span>
-      <span data-legend="sum"><i></i>Sum</span>
-      <span data-legend="off"><i></i>Outside Its Dates</span>
-    </span>
-  </div>
-  <div class="bcn-pbs__grid" data-pbs-grid></div>
-</div>
+<BcnSheet class="bcn-pbs" hooks="pbs" data-bcn-plan-budget-sheet>
+  <!-- What the cells mean (2026-10-28, Andy: "so unclear which cells are editable vs rollups"). Editable shows in your
+       draft only. -->
+  <Fragment slot="legend">
+    <span data-legend="edit"><i></i>Editable</span>
+    <span data-legend="sum"><i></i>Sum</span>
+    <span data-legend="off"><i></i>Outside Its Dates</span>
+  </Fragment>
+</BcnSheet>
 
-<style>
-  .bcn-pbs {
-    display: flex;
-    flex-direction: column;
-    /* The cursor's row name; its column header, on the teal band, takes the band's hover step. */
-    --_pbs-lit: color-mix(in srgb, var(--color-background-brand) 9%, var(--color-background-elevation-raised));
-    --_pbs-lit-head: var(--color-background-brand-hover);
-    /* The three kinds of cell, one look each, the key drawn from the same values: a figure you can type into (an
-       input's white with a teal wash and edge), a sum (gray, computed), a year outside the task's dates (hatched). */
-    --_pbs-edit: var(--color-background-elevation-raised);
-    --_pbs-edit-edge: color-mix(in srgb, var(--color-background-brand) 40%, transparent);
-    --_pbs-sum: color-mix(in srgb, var(--color-content-default) 9%, var(--color-background-elevation-raised));
-    --_pbs-hatch: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--color-content-default) 14%, transparent) 4px 5px);
-    --_pbs-why: color-mix(in srgb, var(--color-background-utility-warning) 22%, transparent);
-  }
-  .bcn-pbs__grid { inline-size: 100%; }
-
-  /* The name box and value bar: a strip flush under the panel's header, as Sheets' sits over its columns. */
-  .bcn-pbs__bar {
-    display: grid;
-    grid-template-columns: 20rem auto minmax(0, 1fr) auto;
-    align-items: stretch;
-    min-block-size: 2.25rem;
-    border-block-end: 1px solid var(--color-border-default);
-    background: var(--color-background-elevation-raised);
-  }
-  .bcn-pbs__bar > * { display: flex; align-items: center; gap: var(--spacing-200); min-inline-size: 0; padding-inline: var(--spacing-300); white-space: nowrap; overflow: hidden; }
-  .bcn-pbs__ref { border-inline-end: 1px solid var(--color-border-default); }
-  .bcn-pbs__ref :global(strong) { flex-shrink: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .bcn-pbs__ref :global(span) { overflow: hidden; text-overflow: ellipsis; color: var(--color-content-default-secondary); }
-  .bcn-pbs__ref[data-empty] { color: var(--color-content-default-tertiary); }
-  .bcn-pbs__fx { font-style: italic; font-family: Georgia, serif; color: var(--color-content-default-tertiary); border-inline-end: 1px solid var(--color-border-default); }
-  .bcn-pbs__value { font-size: var(--bcn-type-size-meta); font-variant-numeric: tabular-nums; }
-  .bcn-pbs__value :global(small) {
-    font-family: var(--typography-font-family-sans, inherit);
-    font-size: var(--font-size-100);
-    color: var(--color-content-default-secondary);
-    padding-inline-start: var(--spacing-200);
-    border-inline-start: 1px solid var(--color-border-default);
-  }
-  .bcn-pbs__value :global(.bcn-pbs__why) { font-family: var(--typography-font-family-sans, inherit); color: var(--color-content-utility-warning); font-weight: 600; }
-  /* The key: a swatch per kind of cell, drawn as the cells are. */
-  .bcn-pbs__legend { gap: var(--spacing-300); color: var(--color-content-default-secondary); border-inline-start: 1px solid var(--color-border-default); }
-  .bcn-pbs__legend > span { display: inline-flex; align-items: center; gap: var(--spacing-100); white-space: nowrap; }
-  .bcn-pbs__legend i { display: inline-block; inline-size: 0.875rem; block-size: 0.875rem; border-radius: 2px; border: 1px solid var(--color-border-default); }
-  .bcn-pbs__legend [data-legend='edit'] i { background: var(--_pbs-edit); border-color: var(--_pbs-edit-edge); }
-  .bcn-pbs__legend [data-legend='sum'] i { background: var(--_pbs-sum); }
-  .bcn-pbs__legend [data-legend='off'] i { background-image: var(--_pbs-hatch); }
-  .bcn-pbs[data-editable='true'] .bcn-pbs__legend [data-legend='off'] i { background-color: var(--_pbs-sum); }
-  .bcn-pbs:not([data-editable='true']) [data-legend='edit'] { display: none; }
-
+<!-- is:global: the cells are AG Grid's, built at runtime; every selector is under .bcn-pbs. -->
+<style is:global>
   /* The year header: its label over its months, right-aligned over the figures, on Beacon's teal band; the current
      year underlined (brand ink can't read on the band). */
-  .bcn-pbs__grid :global(.bcn-pbs__head) { display: flex; flex-direction: column; align-items: flex-end; inline-size: 100%; line-height: 1.2; cursor: pointer; }
-  .bcn-pbs__grid :global(.bcn-pbs__head-fy) { display: inline-flex; gap: var(--spacing-100); font-weight: 600; }
-  .bcn-pbs__grid :global(.bcn-pbs__head-span) { font-size: var(--typography-body-xs-font-size); font-weight: 400; color: color-mix(in srgb, var(--color-content-default-knockout) 80%, transparent); white-space: nowrap; }
-  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] .bcn-pbs__head-fy) { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-  .bcn-pbs__grid :global(.bcn-pbs__head[data-current] .bcn-pbs__head-span) { font-weight: 600; color: var(--color-content-default-knockout); }
+  .bcn-pbs .bcn-pbs__head { display: flex; flex-direction: column; align-items: flex-end; inline-size: 100%; line-height: 1.2; cursor: pointer; }
+  .bcn-pbs .bcn-pbs__head-fy { display: inline-flex; gap: var(--spacing-100); font-weight: 600; }
+  .bcn-pbs .bcn-pbs__head-span { font-size: var(--typography-body-xs-font-size); font-weight: 400; color: color-mix(in srgb, var(--color-content-default-knockout) 80%, transparent); white-space: nowrap; }
+  .bcn-pbs .bcn-pbs__head[data-current] .bcn-pbs__head-fy { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .bcn-pbs .bcn-pbs__head[data-current] .bcn-pbs__head-span { font-weight: 600; color: var(--color-content-default-knockout); }
   /* A year column too narrow for its months drops them; the header's tooltip keeps them. */
-  .bcn-pbs__grid :global(.ag-header-cell-comp-wrapper) { container-type: inline-size; }
+  .bcn-pbs .ag-header-cell-comp-wrapper { container-type: inline-size; }
   @container (max-width: 104px) {
-    .bcn-pbs__grid :global(.bcn-pbs__head-span) { display: none; }
+    .bcn-pbs .bcn-pbs__head-span { display: none; }
   }
 
   /* Money in the UI font's tabular figures, right-aligned with its header (design QA, 2026-10-29: prod's grids set DM
      Sans 13px; mono is for identifiers only). Sums in the grid's semibold. */
-  .bcn-pbs__grid :global(.bcn-pbs__money) { font-size: var(--bcn-type-size-meta); font-variant-numeric: tabular-nums; }
-  .bcn-pbs__grid :global(.bcn-pbs__money:is(.bcn-pbs__parent, .bcn-pbs__changed, .bcn-pbs__stray)),
-  .bcn-pbs__grid :global(.ag-row-pinned .bcn-pbs__money) { font-weight: 600; }
-  .bcn-pbs__grid :global(.bcn-pbs__money.bcn-pbs__zero) { color: var(--color-content-default-tertiary); font-weight: 400; }
-  /* Parents sum their children: bold, never editable, and shaded by tier as the Gantt's rows are. */
-  .bcn-pbs__grid :global(.bcn-pbs__parent) { font-weight: 600; }
-  .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-0) { background-color: color-mix(in srgb, var(--color-content-default) 3%, var(--color-background-elevation-raised)); }
-  .bcn-pbs__grid :global(.ag-row.bcn-pbs__tier-1) { background-color: color-mix(in srgb, var(--color-content-default) 1.5%, var(--color-background-elevation-raised)); }
-  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
-  .bcn-pbs__grid :global(.ag-row .bcn-pbs__name:hover) { text-decoration: underline; }
-  /* The search's hits: the house highlighter yellow, tight to the letters (the Gantt's). */
-  .bcn-pbs__grid :global(.bcn-pbs__match) { background: var(--bcn-marker-selection); color: inherit; padding: 0; }
+  .bcn-pbs .bcn-pbs__money { font-size: var(--bcn-type-size-meta); font-variant-numeric: tabular-nums; }
+  .bcn-pbs .bcn-pbs__money:is(.bcn-sheet__parent, .bcn-pbs__changed, .bcn-pbs__stray),
+  .bcn-pbs .ag-row-pinned .bcn-pbs__money { font-weight: 600; }
+  .bcn-pbs .bcn-pbs__money.bcn-pbs__zero { color: var(--color-content-default-tertiary); font-weight: 400; }
   /* A year the task doesn't run in: hatched, and quieter. */
-  .bcn-pbs__grid :global(.bcn-pbs__off) { background-image: var(--_pbs-hatch); color: var(--color-content-default-tertiary); }
+  .bcn-pbs .bcn-pbs__off { background-image: var(--_sheet-hatch); color: var(--color-content-default-tertiary); }
   /* Money in a year the element doesn't run in: worth a look. */
-  .bcn-pbs__grid :global(.bcn-pbs__stray) { color: var(--color-content-utility-warning); font-weight: 600; }
-  /* A cell the draft changed from Live: the draft's green, as its badge. */
-  /* A sum: gray, computed, never typed into (parents, the Total column, the plan's row). */
-  .bcn-pbs__grid :global(.ag-cell.bcn-pbs__sum) { background-color: var(--_pbs-sum); }
-  /* In your draft, a figure you can type into reads as an input field: white, a teal edge on every one (stronger on
-     hover), the cell cursor. Everything else in the grid is gray or hatched, so the fields stand out. */
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__editable) { background-color: var(--_pbs-edit); box-shadow: inset 0 0 0 1px var(--_pbs-edit-edge); cursor: cell; }
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__editable:not(.ag-cell-focus):hover) { box-shadow: inset 0 0 0 2px var(--_pbs-edit-edge); }
+  .bcn-pbs .bcn-pbs__stray { color: var(--color-content-utility-warning); font-weight: 600; }
   /* A cell the draft changed from Live: the draft's green, as its badge, over whatever kind of cell it is. */
-  .bcn-pbs .bcn-pbs__grid :global(.ag-cell.bcn-pbs__changed),
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__changed) { background-color: color-mix(in srgb, var(--bcn-mark-green) 16%, var(--color-background-elevation-raised)); font-weight: 600; }
-  /* The cursor's ring wins over a field's edge. */
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.ag-cell-focus:not(.ag-cell-inline-editing)) { box-shadow: inset 0 0 0 2px var(--color-background-brand); }
+  .bcn-pbs .ag-cell.bcn-pbs__changed,
+  .bcn-pbs.bcn-sheet[data-editable='true'] .ag-cell.bcn-pbs__changed { background-color: color-mix(in srgb, var(--bcn-mark-green) 16%, var(--color-background-elevation-raised)); font-weight: 600; }
   /* In your draft the non-editable task years go gray under the hatch, so only the fields stay white. */
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell.bcn-pbs__off:not(.bcn-pbs__editable)) { background-color: var(--_pbs-sum); }
-  .bcn-pbs[data-editable='true'] .bcn-pbs__grid :global(.ag-cell:not(.bcn-pbs__editable):not([col-id='name'])) { cursor: default; }
+  .bcn-pbs[data-editable='true'] .ag-cell.bcn-pbs__off:not(.bcn-sheet__edit) { background-color: var(--_sheet-sum); }
   /* The total: its own column, and the plan's row along the foot. */
-  .bcn-pbs__grid :global(.bcn-pbs__total) { background-color: color-mix(in srgb, var(--color-content-default) 2%, transparent); }
-  .bcn-pbs__grid :global(.ag-floating-bottom) { border-block-start: 1px solid var(--color-border-default-strong, var(--color-border-default)); }
-  .bcn-pbs__grid :global(.ag-row-pinned) { background-color: var(--color-background-elevation-sunken); }
-  .bcn-pbs__grid :global(.ag-row-pinned .ag-cell) { font-weight: 600; }
-
-  /* The cursor: a 2px brand ring inside the cell, as Sheets and Excel draw theirs; no layout shift. */
-  .bcn-pbs__grid :global(.ag-cell.ag-cell-focus) { border-color: transparent !important; box-shadow: inset 0 0 0 2px var(--color-background-brand); }
-  /* Editing lifts the cell: the ring outside, a shadow under, the figure typed where it shows. */
-  .bcn-pbs__grid :global(.ag-cell.ag-cell-inline-editing) {
-    z-index: 2;
-    border-color: transparent !important;
-    background: var(--color-background-elevation-raised);
-    box-shadow: 0 0 0 2px var(--color-background-brand), var(--elevation-2);
-  }
-  .bcn-pbs__grid :global(.ag-cell-inline-editing input) {
-    block-size: 100%;
-    border: 0 !important;
-    border-radius: 0;
-    box-shadow: none !important;
-    outline: 0;
-    padding-inline: 12px;
-    background: transparent;
-    text-align: end;
-    font-size: var(--bcn-type-size-meta);
-    font-variant-numeric: tabular-nums;
-  }
+  .bcn-pbs .bcn-pbs__total { background-color: color-mix(in srgb, var(--color-content-default) 2%, transparent); }
+  .bcn-pbs .ag-floating-bottom { border-block-start: 1px solid var(--color-border-default-strong, var(--color-border-default)); }
+  .bcn-pbs .ag-row-pinned { background-color: var(--color-background-elevation-sunken); }
+  .bcn-pbs .ag-row-pinned .ag-cell { font-weight: 600; }
+  /* A figure is typed where it shows: at the cell's end. */
+  .bcn-pbs .ag-cell-inline-editing input { text-align: end; }
 </style>

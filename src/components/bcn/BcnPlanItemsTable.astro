@@ -1,28 +1,22 @@
 ---
-// <BcnPlanItemsTable> — the plan's items as a table you can edit (2026-10-28, the SOW review: "edit records in a table
-// view rather than row by row"), beside the Gantt on the Schedule tab (Show As: Chart or Table). Name, Level, Start, End,
-// Date Type, Milestone, Owners and Notes, one row per item in outline order. In your draft the editable cells are
-// white with the brand edge, as the budget sheet's; the rest read. The runtime is ./plan-items-table.ts.
+// <BcnPlanItemsTable> — the plan's items as a sheet you can edit (2026-10-28, the SOW review: "edit records in a table
+// view rather than row by row"), beside the Gantt on the Schedule tab (Show As: Chart or Table). Name, Level, Start,
+// End, Date Type, Milestone, Owners, Status (Live) and Notes, one row per item in outline order.
 //
-// bcn-lego-checked: the table IS AG Grid community on the spoke's Beacon theme (src/lib/beacon-grid.ts, its dense variant), as the budget
-// sheet and Beacon's grids are; its editors are AG Grid's. No esa- lego is an editable grid. The CSS is the cell states.
+// It is the budget sheet's spreadsheet (2026-10-30, Andy: "I really like the budget table, and hate how the Schedule
+// table makes me click into a status cell, and then it transforms into a dropdown"): <BcnSheet>'s name box and value
+// bar, cursor, keys and cell kinds. Its key: Editable (your draft's fields), Saves to Live (Status), Read-Only (a
+// parent's dates, the level). The runtime is ./plan-items-table.ts.
+//
+// bcn-lego-checked: the table IS <BcnSheet> (AG Grid community on the spoke's Beacon theme, as the budget sheet and
+// Beacon's grids are), its one-click pickers the sheet's. No esa- lego is an editable grid. No CSS of its own.
+import BcnSheet from './BcnSheet.astro';
 ---
 
-<div class="bcn-pit" data-bcn-plan-items-table>
-  <p class="bcn-pit__hint typography-body-sm" data-pit-hint>Double-click a cell, or type, to change it; paste a block from a spreadsheet across cells. Each change goes to your draft.</p>
-  <div class="bcn-pit__grid" data-pit-grid></div>
-</div>
-
-<style>
-  .bcn-pit { display: flex; flex-direction: column; }
-  .bcn-pit__hint { margin: 0; padding: var(--spacing-200) var(--spacing-400); color: var(--color-content-default-secondary); border-bottom: 1px solid var(--color-border-default); }
-  .bcn-pit:not([data-editable]) .bcn-pit__hint { display: none; }
-  .bcn-pit__grid { inline-size: 100%; }
-  .bcn-pit :global(.bcn-pit__parent) { font-weight: var(--typography-font-weight-semibold); }
-  .bcn-pit[data-editable] :global(.bcn-pit__edit) { background: var(--color-background-elevation-raised); box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--color-background-brand) 40%, transparent); }
-  .bcn-pit[data-editable] :global(.bcn-pit__read) { background: color-mix(in srgb, var(--color-content-default) 5%, var(--color-background-elevation-raised)); color: var(--color-content-default-secondary); }
-  /* The row under the pointer still answers in a draft, where every cell paints its own state: the one row-hover token
-     (the grid's rowHoverColor) on the read cells, half of it on the fields. */
-  .bcn-pit[data-editable] :global(.ag-row-hover .bcn-pit__read) { background: var(--color-background-default-hover); }
-  .bcn-pit[data-editable] :global(.ag-row-hover .bcn-pit__edit) { background: color-mix(in srgb, var(--color-background-default-hover) 50%, var(--color-background-elevation-raised)); }
-</style>
+<BcnSheet class="bcn-pit" hooks="pit" data-bcn-plan-items-table>
+  <Fragment slot="legend">
+    <span data-legend="edit"><i></i>Editable</span>
+    <span data-legend="live"><i></i>Saves to Live</span>
+    <span data-legend="read"><i></i>Read-Only</span>
+  </Fragment>
+</BcnSheet>
