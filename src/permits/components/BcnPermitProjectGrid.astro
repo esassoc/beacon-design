@@ -1,0 +1,208 @@
+---
+// <BcnPermitProjectGrid> — the Projects page's "All projects": every project in the
+// tracker, whoever is on it, as an AG Grid. It is how someone reaches a project they
+// aren't on (or a closed one) to see its permits and files.
+//
+// FILTER: an esa-button-toggle in the card header shows Active (the default), Closed or
+// All projects; it is an external filter, so search and column filters still apply
+// on top of it, and Clear Filters resets it to Active.
+//
+// Columns: project (links to the project page), project no., client, project manager,
+// sites, permits issued of total, construction start, status. The project's own facts
+// are read back from src/lib/project-store.ts (Edit project). Issued counts are SSR
+// (the fixture status resolved to the Completed category), like the My projects cards.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists; this spoke's data tables are AG
+// Grid via src/lib/beacon-grid.ts (same as BcnPermitTable). Shell = esa-card; chrome =
+// bcn-grid-chrome + esa-button-toggle (status filter); footer = bcn-grid-footer.
+// Remaining CSS is grid-host geometry and the injected name link.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
+import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import { ROUTES, permitsOfProject, sitesOf, statusColumn, type Project } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+
+const rows = projects.map((project) => {
+  const permits = permitsOfProject(project.id);
+  const issued = permits.filter((p) => statusColumn(p.statusId, p.typeId).category === 'Completed').length;
+  return {
+    id: project.id,
+    name: project.name,
+    href: withBase(ROUTES.project(project.id)),
+    number: project.number,
+    client: project.client,
+    manager: project.manager,
+    sites: sitesOf(project.id).length,
+    issued,
+    total: permits.length,
+    constructionStart: project.constructionStart,
+    status: project.status === 'active' ? 'Active' : 'Closed',
+  };
+});
+const STATUS_OPTIONS = [
+  { label: 'Active', value: 'Active' },
+  { label: 'Closed', value: 'Closed' },
+  { label: 'All', value: 'all' },
+];
+---
+
+<section class="bcn-pprg stack" data-gap="sm" data-pprg aria-labelledby="bcn-pprg-heading">
+  <h2 id="bcn-pprg-heading" class="bcn-pprg__heading typography-heading-md">All projects</h2>
+  <EsaCard padding="compact">
+    <Fragment slot="actions">
+      <div class="cluster" data-gap="xs">
+        <esa-button-toggle size="sm" aria-label="Show projects" data-pprg-status data-options={JSON.stringify(STATUS_OPTIONS)}></esa-button-toggle>
+        <BcnGridChrome prefix="pprg" searchPlaceholder="Search projects…" />
+      </div>
+    </Fragment>
+
+    <div class="bcn-pprg__host" data-pprg-host></div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="pprg" total={rows.length} downloadLabel="Download as CSV" />
+    </Fragment>
+  </EsaCard>
+
+  <script type="application/json" data-pprg-data set:html={JSON.stringify(rows)}></script>
+</section>
+
+<script>
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { fmtDate } from '../data/permit-tracker';
+  import { loadProject } from '../lib/project-store';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+
+  interface Row {
+    id: string;
+    name: string;
+    href: string;
+    number: string;
+    client: string;
+    manager: string;
+    sites: number;
+    issued: number;
+    total: number;
+    constructionStart: string;
+    status: 'Active' | 'Closed';
+  }
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-pprg]')) {
+    const rows = JSON.parse(mount.querySelector('[data-pprg-data]')?.textContent || '[]') as Row[];
+    // Edited projects: client, number, manager, construction start, site count from the store.
+    for (const r of rows) {
+      const p = loadProject(r.id);
+      Object.assign(r, { client: p.client, number: p.number, manager: p.manager, constructionStart: p.constructionStart, sites: p.sites.length });
+    }
+    let shown = 'Active';
+
+    const nameRenderer = (p: ICellRendererParams<Row>) => {
+      const a = document.createElement('a');
+      a.className = 'bcn-pprg__name';
+      a.href = p.data?.href ?? '#';
+      a.textContent = p.data?.name ?? '';
+      return a;
+    };
+
+    const columnDefs: ColDef<Row>[] = [
+      { field: 'name', headerName: 'Project', flex: 2, minWidth: 200, cellRenderer: nameRenderer },
+      { field: 'number', headerName: 'Project no.', width: 115 },
+      { field: 'client', headerName: 'Client', flex: 1.5, minWidth: 150 },
+      { field: 'manager', headerName: 'Project manager', flex: 1, minWidth: 130 },
+      { field: 'sites', headerName: 'Sites', width: 80 },
+      {
+        colId: 'issued',
+        headerName: 'Permits issued',
+        width: 130,
+        valueGetter: (p) => (p.data ? p.data.issued / Math.max(p.data.total, 1) : 0),
+        valueFormatter: (p) => (p.data ? `${p.data.issued} of ${p.data.total}` : ''),
+        filter: false,
+      },
+      {
+        field: 'constructionStart',
+        headerName: 'Construction start',
+        width: 140,
+        valueFormatter: (p) => (p.value ? fmtDate(p.value) : '—'),
+      },
+      { field: 'status', headerName: 'Status', width: 95 },
+    ];
+
+    const gridOptions: GridOptions<Row> = {
+      theme: beaconTheme,
+      rowData: rows,
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      // At most a few dozen projects: the grid grows to its rows instead of scrolling.
+      domLayout: 'autoHeight',
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        wrapText: true,
+        autoHeight: true,
+      },
+      isExternalFilterPresent: () => shown !== 'all',
+      doesExternalFilterPass: (node) => node.data?.status === shown,
+    };
+
+    const handle = mountBeaconGrid<Row>({
+      mount,
+      prefix: 'pprg',
+      gridOptions,
+      csvName: 'projects.csv',
+      totalRows: () => rows.length,
+    });
+    if (!handle) continue;
+    const { api } = handle;
+
+    const toggle = mount.querySelector<ToggleEl>('[data-pprg-status]');
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      if (!toggle) return;
+      toggle.options = JSON.parse(toggle.dataset.options ?? '[]');
+      toggle.value = shown;
+    });
+    toggle?.addEventListener('change', (e) => {
+      shown = String((e as CustomEvent).detail?.value ?? 'Active');
+      api.onFilterChanged();
+    });
+    mount.querySelector('[data-pprg-clear-filters]')?.addEventListener('click', () => {
+      shown = 'Active';
+      if (toggle) toggle.value = shown;
+      api.onFilterChanged();
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry + the injected name link — AG Grid renders
+     cells outside Astro's scope. See header. */
+  .bcn-pprg__heading {
+    margin: 0;
+  }
+  .bcn-pprg__host {
+    inline-size: 100%;
+  }
+  .bcn-pprg :global(.ag-cell-wrap-text) {
+    line-height: 1.35;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-pprg :global(.bcn-pprg__name) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-pprg :global(.bcn-pprg__name:hover) {
+    color: var(--color-content-link-hover);
+  }
+  /* The 14px dense-data floor (see BcnPermitTable). */
+  .bcn-pprg :global(.ag-cell) {
+    font-size: 0.875rem;
+  }
+</style>

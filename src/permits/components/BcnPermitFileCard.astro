@@ -1,0 +1,62 @@
+---
+// <BcnPermitFileCard> — a permit page's "Permit file" card: the issued permit document
+// (BcnFileRow), or "No permit file yet". Edit opens BcnPermitEditor's file drawer
+// (data-permit-edit="file"). Both states are rendered and toggled on the client, so a
+// saved replacement or removal (src/lib/permit-edits-store.ts) shows without a reload.
+//
+// bcn-lego-checked: shell = esa-card; row = bcn-file-row; empty = esa-empty-state; Edit
+// = esa-button. No CSS beyond the hidden rule.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnFileRow from '../../components/bcn/BcnFileRow.astro';
+import { getPermit } from '../data/permit-tracker';
+
+interface Props {
+  permitId: string;
+}
+const { permitId } = Astro.props;
+const p = getPermit(permitId)!;
+---
+
+<div data-pfc data-permit-id={permitId}>
+  <EsaCard title="Permit file" padding="compact">
+    <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="file">Edit</EsaButton>
+    <div data-pfc-row hidden={!p.file}>
+      <BcnFileRow name={p.file?.name ?? ''} size={p.file?.size ?? ''} />
+    </div>
+    <div data-pfc-empty hidden={!!p.file}>
+      <EsaEmptyState size="xs" title="No permit file yet" />
+    </div>
+  </EsaCard>
+</div>
+
+<script>
+  import { getPermit } from '../data/permit-tracker';
+  import { PERMIT_EDIT_EVENT, applyPermitEdits } from '../lib/permit-edits-store';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-pfc]')) {
+    const id = root.dataset.permitId!;
+    const render = () => {
+      applyPermitEdits();
+      const file = getPermit(id)?.file;
+      root.querySelector<HTMLElement>('[data-pfc-row]')!.hidden = !file;
+      root.querySelector<HTMLElement>('[data-pfc-empty]')!.hidden = !!file;
+      if (!file) return;
+      const name = root.querySelector('.bcn-file-row__name');
+      if (name) name.textContent = file.name;
+      const size = root.querySelector('.bcn-file-row__size');
+      if (size) size.textContent = file.size;
+    };
+    document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.permitId === id) render();
+    });
+    render();
+  }
+</script>
+
+<style>
+  [data-pfc] [hidden] {
+    display: none;
+  }
+</style>

@@ -1,0 +1,494 @@
+---
+// <BcnPermitDurations> — the Permit types page's "Timelines by agency" grid: how long
+// each permit type has taken to issue at each jurisdiction, learned from every issued permit
+// on past and active projects (timelines()). Agencies rarely publish this, so the table is
+// the record.
+//
+// One AG Grid row per permit type × jurisdiction: type, level, jurisdiction, past-permit
+// count, typical (median) / fastest / slowest days, average review rounds, and the shared
+// BcnDurationRange strip. Level / Permit type / Jurisdiction narrow the rows client-side
+// (esa-filter-dropdown → AG Grid external filter); search, Clear Filters, CSV and the
+// record count are the standard grid chrome (BcnGridChrome / BcnGridFooter /
+// mountBeaconGrid, prefix "ptd").
+//
+// Each row opens that permit type's page for that agency (ROUTES.permitAgency): its
+// timeline, past permits and, for critical areas, the ordinance. The permit type cell
+// links to the type's page.
+//
+// With `typeId` it is one permit type's agency list (the type's page): the type column and
+// facet drop out. Critical Areas Review lists EVERY Washington county and city from the
+// statewide index (src/data/permit-rules.ts CAO_INDEX, 320 rows), with its county, its
+// ordinance (a link to the chapter online) and last amendment; the timeline columns fill
+// in only where the tracker has seen the permit issued. A Rules column shows each
+// jurisdiction's rule status (AI suggested / Edited / Validated / Not read) and flags
+// "Ordinance changed" where the code was amended after the rules were last reviewed
+// (src/lib/cao-store.ts; re-read on CAO_EVENT, so edits and update checks show at once).
+// Its facets are Type (county or city), County, Rules and Past permits.
+//
+// THE STRIP IN A GRID CELL. AG Grid renders cells on the client, outside Astro's scope, so
+// a hand-built strip would need a second copy of BcnDurationRange's CSS. Instead every
+// row's strip is SSR-rendered once into a <template> and the cell renderer CLONES it —
+// the clone keeps Astro's scoping attribute, so the strip's own scoped styles apply and
+// there is one source of truth for the markup. Every strip on this surface reads the same axisMax, rounded up from the slowest permit on record.
+//
+// bcn-lego-checked: composed from esa-card (grid card), esa-filter-container +
+// esa-filter-dropdown (facets), BcnDurationRange (strip), and the beacon-grid kit
+// (BcnGridChrome, BcnGridFooter, mountBeaconGrid). Checked Beacon (no duration benchmarks
+// anywhere in Beacon.Web). The only CSS here is grid-host geometry and the global
+// numeric/cell/link rules AG Grid needs (cells live outside Astro's scope).
+import '@esa/tokens/a11y.css';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaFilterContainer from '@esa/ecology/esa-filter-container.astro';
+import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
+import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import BcnDurationRange from './BcnDurationRange.astro';
+import { timelines, timelineAxisMax, ROUTES, type Level, type PermitTypeId } from '../data/permit-tracker';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { CAO_INDEX, caoOf, changedSinceReview, fmtAmended, seedRules } from '../data/permit-rules';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** One permit type's agencies only (the type's page). */
+  typeId?: PermitTypeId;
+  /** The card's title. */
+  title?: string;
+}
+const { typeId, title } = Astro.props;
+const showOrdinance = typeId === 'critical-areas';
+
+const rows = timelines().filter((r) => !typeId || r.typeId === typeId);
+const keyOf = (r: { typeId: string; jurisdictionId: string }) => `${r.typeId}|${r.jurisdictionId}`;
+
+// One shared axis for every strip on this surface: the slowest permit on record, rounded
+// up to the next 30 days.
+const axisMax = timelineAxisMax();
+
+const PAST = { yes: 'With past permits', no: 'None yet' };
+const base = (r: (typeof rows)[number]) => ({
+  key: keyOf(r),
+  typeName: r.typeName,
+  level: r.level,
+  jurisdictionName: r.jurisdictionName,
+  count: r.count as number | null,
+  median: r.median as number | null,
+  min: r.min as number | null,
+  max: r.max as number | null,
+  avgReviews: r.avgReviews as number | null,
+  href: withBase(ROUTES.permitAgency(r.typeId, r.jurisdictionId)),
+  typeHref: withBase(ROUTES.permitType(r.typeId)),
+  kind: '',
+  county: '',
+  counties: [] as string[],
+  past: PAST.yes,
+  ordinance: '',
+  ordinanceUrl: '',
+  note: '',
+  amended: '',
+  amendedLabel: '',
+  rules: '',
+  changed: false,
+  rulesFacet: [] as string[],
+});
+
+const RULES_LABEL: Record<string, string> = { suggested: 'AI suggested', edited: 'Edited', validated: 'Validated', none: 'Not read' };
+const CHANGED = 'Ordinance changed';
+/** The jurisdiction's overall rule status: validated only when every section is. */
+const overall = (statuses: string[]) => (statuses.every((s) => s === 'validated') ? 'validated' : statuses.includes('edited') ? 'edited' : 'suggested');
+
+// Critical areas: every county and city in the statewide index, the timeline where there is one.
+const byJurisdiction = new Map(rows.map((r) => [r.jurisdictionId, r]));
+const gridRows = showOrdinance
+  ? CAO_INDEX.map((e) => {
+      const r = byJurisdiction.get(e.id);
+      const o = caoOf(e.id)!.ordinance;
+      return {
+        ...(r
+          ? base(r)
+          : {
+              ...base({ ...rows[0], typeId: 'critical-areas', jurisdictionId: e.id, jurisdictionName: e.name }),
+              key: `critical-areas|${e.id}`,
+              count: null,
+              median: null,
+              min: null,
+              max: null,
+              avgReviews: null,
+              past: PAST.no,
+            }),
+        jurisdictionName: e.name,
+        kind: e.kind,
+        county: e.county,
+        counties: e.county.split('/').map((c) => c.trim()),
+        ordinance: o.chapter || (o.note ? o.note : 'Not found online'),
+        ordinanceUrl: o.url,
+        note: o.note,
+        amended: o.date,
+        amendedLabel: o.chapter ? fmtAmended(o.date) || 'Not shown' : '',
+        ...(() => {
+          const seed = seedRules(e.id);
+          const rules = seed ? overall([seed.review.status, seed.wetland.status, seed.stream.status]) : 'none';
+          const changed = changedSinceReview(o.date, seed);
+          return { rules, changed, rulesFacet: [RULES_LABEL[rules], ...(changed ? [CHANGED] : [])] };
+        })(),
+      };
+    }).sort((a, b) => a.jurisdictionName.localeCompare(b.jurisdictionName))
+  : rows.map(base);
+
+const uniq = (xs: string[]) => [...new Set(xs)];
+const LEVELS: Level[] = ['Federal', 'State', 'Local'];
+const opts = (xs: string[]) => xs.map((v) => ({ value: v, label: v }));
+/** Each facet filters on one Row field (an array field matches if any element does). */
+const facets: { key: string; label: string; field: string; options: { value: string; label: string }[] }[] = showOrdinance
+  ? [
+      { key: 'kind', label: 'Type', field: 'kind', options: opts(['County', 'City']) },
+      { key: 'county', label: 'County', field: 'counties', options: opts(uniq(gridRows.flatMap((r) => r.counties)).sort()) },
+      { key: 'rules', label: 'Rules', field: 'rulesFacet', options: opts([CHANGED, 'Validated', 'Edited', 'AI suggested', 'Not read']) },
+      { key: 'past', label: 'Past permits', field: 'past', options: opts([PAST.yes, PAST.no]) },
+    ]
+  : [
+      ...(typeId
+        ? []
+        : [
+            { key: 'level', label: 'Level', field: 'level', options: opts(LEVELS.filter((l) => rows.some((r) => r.level === l))) },
+            { key: 'type', label: 'Permit type', field: 'typeName', options: opts(uniq(rows.map((r) => r.typeName)).sort()) },
+          ]),
+      { key: 'jurisdiction', label: 'Jurisdiction', field: 'jurisdictionName', options: opts(uniq(rows.map((r) => r.jurisdictionName)).sort()) },
+    ];
+---
+
+<div class="stack bcn-ptd" data-gap="md" data-ptd data-type-id={typeId} data-ordinance={showOrdinance ? '' : undefined}>
+  <EsaCard padding="compact" title={title}>
+    <div class="stack" data-gap="sm">
+      <div class="repel" data-gap="sm">
+        <EsaFilterContainer>
+          {facets.map((f) => (
+            <esa-filter-dropdown
+              data-ptd-facet={f.key}
+              data-field={f.field}
+              label={f.label}
+              multiple
+              size="sm"
+              data-options={JSON.stringify(f.options)}
+            ></esa-filter-dropdown>
+          ))}
+        </EsaFilterContainer>
+        <div class="cluster" data-gap="sm">
+          <BcnGridChrome prefix="ptd" searchPlaceholder={showOrdinance ? 'Search jurisdictions, counties or chapters…' : 'Search permit types or agencies…'} />
+        </div>
+      </div>
+      <div class="bcn-ptd__grid" data-ptd-host></div>
+    </div>
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="ptd" total={gridRows.length} />
+    </Fragment>
+  </EsaCard>
+
+  <!-- One strip per row, cloned into the Range cells by the client renderer. -->
+  <template data-ptd-strips>
+    {rows.map((r) => (
+      <span data-ptd-strip={keyOf(r)}>
+        <BcnDurationRange min={r.min} median={r.median} max={r.max} axisMax={axisMax} />
+      </span>
+    ))}
+  </template>
+
+  <script type="application/json" data-ptd-data set:html={JSON.stringify(gridRows)}></script>
+
+  <!-- Rules badges, cloned into the Rules cells (they keep esa-badge's scoped styles). -->
+  <template data-ptd-badge="suggested"><EsaBadge value="AI suggested" variant="info" /></template>
+  <template data-ptd-badge="edited"><EsaBadge value="Edited" variant="warning" /></template>
+  <template data-ptd-badge="validated"><EsaBadge value="Validated" variant="success" /></template>
+  <template data-ptd-badge="changed"><EsaBadge value="Ordinance changed" variant="danger" /></template>
+
+</div>
+
+<script>
+  import type { ColDef, IRowNode, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { CAO_EVENT, loadOrdinance, loadRules } from '../lib/cao-store';
+  import { changedSinceReview, fmtAmended } from '../data/permit-rules';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-text-field';
+
+  interface Row {
+    key: string;
+    typeName: string;
+    level: string;
+    jurisdictionName: string;
+    count: number | null;
+    median: number | null;
+    min: number | null;
+    max: number | null;
+    avgReviews: number | null;
+    kind: string;
+    county: string;
+    counties: string[];
+    past: string;
+    /** The statewide index's note on this jurisdiction's code ("No online code listed by MRSC"); shown as the ordinance cell's tooltip. */
+    note: string;
+    jurisdictionId?: string;
+    rules: string;
+    changed: boolean;
+    rulesFacet: string[];
+    href: string;
+    typeHref: string;
+    ordinance: string;
+    ordinanceUrl: string;
+    amended: string;
+    amendedLabel: string;
+  }
+  type Opt = { value: string; label: string };
+  type DropdownEl = HTMLElement & { options: Opt[]; _selected: string[] };
+
+  const root = document.querySelector<HTMLElement>('[data-ptd]');
+  const dataEl = root?.querySelector<HTMLElement>('[data-ptd-data]');
+  if (root && dataEl) {
+    const rows: Row[] = JSON.parse(dataEl.textContent || '[]');
+    const oneType = !!root.dataset.typeId;
+    const showOrdinance = root.hasAttribute('data-ordinance');
+
+    // ── Facets → external filter ─────────────────────────────────────────────
+    const dropdowns = [...root.querySelectorAll<DropdownEl>('[data-ptd-facet]')];
+    const selected: Record<string, string[]> = Object.fromEntries(dropdowns.map((el) => [el.dataset.ptdFacet!, []]));
+    const fieldOf: Record<string, keyof Row> = Object.fromEntries(dropdowns.map((el) => [el.dataset.ptdFacet!, el.dataset.field as keyof Row]));
+    const anyFacet = () => Object.values(selected).some((v) => v.length > 0);
+    const passes = (node: IRowNode<Row>) => {
+      const r = node.data;
+      if (!r) return true;
+      return Object.keys(selected).every((k) => {
+        if (!selected[k].length) return true;
+        const v = r[fieldOf[k]];
+        return Array.isArray(v) ? v.some((x) => selected[k].includes(x)) : selected[k].includes(String(v));
+      });
+    };
+
+    // ── Range cell: clone the row's SSR strip ─────────────────────────────────
+    const strips = root.querySelector<HTMLTemplateElement>('[data-ptd-strips]');
+    const stripRenderer = (p: ICellRendererParams<Row>) => {
+      const src = p.data && strips?.content.querySelector(`[data-ptd-strip="${CSS.escape(p.data.key)}"]`);
+      const strip = src?.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+      if (!strip) return '';
+      const wrap = document.createElement('span');
+      wrap.className = 'bcn-ptd__strip';
+      const figures = document.createElement('span');
+      figures.className = 'bcn-ptd__range-figures';
+      figures.textContent = `${p.data!.min}–${p.data!.max}`;
+      wrap.append(figures, strip);
+      return wrap;
+    };
+
+    // ── Links in cells (rows also navigate; a link click is left to the link) ─
+    const link = (href: string, text: string, external = false) => {
+      const a = document.createElement('a');
+      a.className = 'bcn-ptd__link';
+      a.href = href;
+      a.textContent = text;
+      if (external) {
+        a.target = '_blank';
+        a.rel = 'noopener';
+        const sr = document.createElement('span');
+        sr.className = 'visually-hidden';
+        sr.textContent = ' (opens in a new tab)';
+        a.append(sr);
+      }
+      return a;
+    };
+
+    // ── Rules cell: status badge, plus "Ordinance changed" ───────────────────
+    const badge = (name: string) => root.querySelector<HTMLTemplateElement>(`[data-ptd-badge="${name}"]`)?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+    const rulesRenderer = (p: ICellRendererParams<Row>) => {
+      const r = p.data;
+      if (!r) return '';
+      const wrap = document.createElement('span');
+      wrap.className = 'cluster bcn-ptd__rules';
+      wrap.dataset.gap = '2xs';
+      if (r.rules === 'none') wrap.textContent = 'Not read';
+      else {
+        const b = badge(r.rules);
+        if (b) wrap.append(b);
+      }
+      if (r.changed) {
+        const c = badge('changed');
+        if (c) wrap.append(c);
+      }
+      return wrap;
+    };
+
+    const num = { type: 'numericColumn', cellClass: 'bcn-ptd__num', filter: 'agNumberColumnFilter' } as const;
+    const columnDefs: ColDef<Row>[] = [
+      // Fastest/slowest live in the Range cell ("122–168" + strip) so the grid fits a
+      // laptop width without a horizontal scroll; the CSV's Range column carries them as text.
+      ...(oneType
+        ? []
+        : ([
+            { field: 'typeName', headerName: 'Permit type', flex: 1.6, minWidth: 200, cellRenderer: (p: ICellRendererParams<Row>) => (p.data ? link(p.data.typeHref, p.data.typeName) : '') },
+            { field: 'level', headerName: 'Level', width: 90 },
+          ] as ColDef<Row>[])),
+      { field: 'jurisdictionName', headerName: 'Jurisdiction', flex: 1, minWidth: 150, cellRenderer: (p: ICellRendererParams<Row>) => (p.data ? link(p.data.href, p.data.jurisdictionName) : '') },
+      ...(showOrdinance
+        ? ([
+            { field: 'county', headerName: 'County', width: 140, wrapText: true, autoHeight: true },
+            {
+              field: 'ordinance',
+              headerName: 'Ordinance',
+              flex: 1.6,
+              minWidth: 220,
+              wrapText: true,
+              autoHeight: true,
+              tooltipValueGetter: (p) => p.data?.note || undefined,
+              cellRenderer: (p: ICellRendererParams<Row>) => (p.data?.ordinanceUrl ? link(p.data.ordinanceUrl, p.data.ordinance, true) : p.data?.ordinance ?? ''),
+            },
+            { field: 'amended', headerName: 'Last amended', width: 140, valueFormatter: (p) => p.data?.amendedLabel ?? '' },
+            {
+              field: 'rules',
+              headerName: 'Rules',
+              width: 200,
+              wrapText: true,
+              autoHeight: true,
+              // Sort: changed first, then not yet validated.
+              comparator: (_a, _b, na, nb) => {
+                const rank = (r?: Row) => (r ? (r.changed ? 0 : r.rules === 'validated' ? 3 : r.rules === 'none' ? 4 : 1) : 5);
+                return rank(na.data) - rank(nb.data);
+              },
+              valueGetter: (p) => (p.data ? [p.data.rules === 'none' ? 'Not read' : p.data.rules, p.data.changed ? 'Ordinance changed' : ''].filter(Boolean).join(', ') : ''),
+              cellRenderer: rulesRenderer,
+            },
+          ] as ColDef<Row>[])
+        : []),
+      { field: 'count', headerName: 'Past permits', width: 135, ...num, valueFormatter: (p) => (p.value == null ? '—' : String(p.value)) },
+      { field: 'median', headerName: 'Typical days', width: 135, ...num, valueFormatter: (p) => (p.value == null ? '—' : String(p.value)) },
+      // Critical areas trades review rounds for the county and ordinance columns.
+      ...(showOrdinance
+        ? []
+        : ([
+            {
+              field: 'avgReviews',
+              headerName: 'Review rounds',
+              width: 145,
+              ...num,
+              valueFormatter: (p) => (typeof p.value === 'number' ? p.value.toFixed(1) : ''),
+            },
+          ] as ColDef<Row>[])),
+      {
+        colId: 'range',
+        headerName: 'Range (days)',
+        flex: 1.4,
+        minWidth: 200,
+        sortable: false,
+        filter: false,
+        // The CSV (and search) read the numbers; the cell draws them.
+        valueGetter: (p) => (p.data && p.data.min != null ? `${p.data.min}–${p.data.max} days` : ''),
+        cellRenderer: stripRenderer,
+      },
+    ];
+
+    const grid = mountBeaconGrid<Row>({
+      mount: root,
+      prefix: 'ptd',
+      csvName: oneType ? `permit-timelines-${root.dataset.typeId}.csv` : 'permit-timelines.csv',
+      totalRows: () => rows.length,
+      gridOptions: {
+        theme: beaconTheme,
+        rowData: rows,
+        columnDefs,
+        getRowId: (p) => p.data.key,
+        defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true },
+        rowSelection: { mode: 'singleRow', checkboxes: false, enableClickSelection: true },
+        isExternalFilterPresent: anyFacet,
+        doesExternalFilterPass: passes,
+        onRowClicked: (e) => {
+          if ((e.event?.target as Element | null)?.closest('a')) return;
+          if (e.data) window.location.assign(e.data.href);
+        },
+      },
+    });
+
+    // ── Critical areas: patch ordinances and rule status from the store ──────
+    if (grid && showOrdinance) {
+      const STATUS_LABEL: Record<string, string> = { suggested: 'AI suggested', edited: 'Edited', validated: 'Validated', none: 'Not read' };
+      const patch = () => {
+        for (const r of rows) {
+          const id = r.key.split('|')[1];
+          const o = loadOrdinance(id);
+          if (o) {
+            r.ordinanceUrl = o.url;
+            if (o.chapter) r.ordinance = o.chapter;
+            r.amended = o.date;
+            r.amendedLabel = o.chapter ? fmtAmended(o.date) || 'Not shown' : '';
+          }
+          const rules = loadRules(id);
+          const statuses = rules ? [rules.review.status, rules.wetland.status, rules.stream.status] : [];
+          r.rules = !rules ? 'none' : statuses.every((s) => s === 'validated') ? 'validated' : statuses.includes('edited') ? 'edited' : 'suggested';
+          r.changed = changedSinceReview(o?.date ?? '', rules);
+          r.rulesFacet = [STATUS_LABEL[r.rules], ...(r.changed ? ['Ordinance changed'] : [])];
+        }
+        grid.api.applyTransaction({ update: rows });
+        grid.api.refreshCells({ force: true });
+        grid.api.onFilterChanged();
+      };
+      document.addEventListener(CAO_EVENT, patch);
+      patch();
+    }
+
+    if (grid) {
+      customElements.whenDefined('esa-filter-dropdown').then(() => {
+        for (const el of dropdowns) el.options = JSON.parse(el.dataset.options || '[]');
+      });
+      for (const el of dropdowns) {
+        el.addEventListener('selection-change', (e) => {
+          const key = el.dataset.ptdFacet!;
+          const v = (e as CustomEvent).detail?.value;
+          selected[key] = Array.isArray(v) ? v : v ? [v] : [];
+          grid.api.onFilterChanged();
+        });
+      }
+      // The chrome's Clear Filters resets AG Grid's column filters; the facets are ours.
+      root.querySelector('[data-ptd-clear-filters]')?.addEventListener('click', () => {
+        for (const el of dropdowns) el._selected = [];
+        Object.keys(selected).forEach((k) => (selected[k] = []));
+        grid.api.onFilterChanged();
+      });
+    }
+  }
+</script>
+
+<style>
+  .bcn-ptd__grid {
+    inline-size: 100%;
+    block-size: calc(100vh - 340px);
+    min-block-size: 26rem;
+  }
+
+  /* Cells — global: AG Grid renders them outside Astro's scope. */
+  .bcn-ptd :global(.ag-row) {
+    cursor: pointer;
+  }
+  .bcn-ptd :global(.bcn-ptd__num) {
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-ptd :global(.bcn-ptd__strip) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    block-size: 100%;
+  }
+  .bcn-ptd :global(.bcn-ptd__range-figures) {
+    flex: 0 0 4.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-ptd :global(.bcn-ptd__link) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-ptd :global(.bcn-ptd__link:hover) {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  .bcn-ptd :global(.bcn-ptd__rules) {
+    align-items: center;
+    padding-block: var(--spacing-050);
+  }
+  .bcn-ptd :global(.ag-cell-wrap-text) {
+    line-height: 1.35;
+    padding-block: var(--spacing-200);
+  }
+</style>

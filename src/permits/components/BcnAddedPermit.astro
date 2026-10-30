@@ -1,0 +1,401 @@
+---
+// <BcnAddedPermit> — the whole page for a permit added in the browser (Add permit on a
+// project), which has no build-time route: /permits/added?id=<permit id>. Everything is
+// drawn on the client from src/lib/added-permits-store.ts once the id is known.
+//
+//   header        permit name; agency and reference no.; breadcrumbs Projects › project ›
+//                 applies to (esa-page-header, filled in)
+//   details rail  why it applies, applies to, level, agency, reference no., assigned to.
+//                 Edit: name, agency (local permits), reference no., applies to,
+//                 assigned to, why it applies
+//   status        current status, submitted / issued (read from the status log).
+//                 Change status: a status of this project's workflow, the day, a note
+//   application   the type's checklist, ticked off with esa-checkbox (the same
+//                 requirements store as every permit page)
+//   waits on      the permits it waits on, each linking to its page. Edit: pick them
+//   permit type   BcnPermitTypeInfo: the type in general and at this agency
+//
+// Edits save through src/lib/permit-edits-store.ts and status changes through
+// src/lib/permit-status-store.ts, the same stores the fixture permit pages use, so the
+// project's list, board, schedule and readiness follow.
+//
+// bcn-lego-checked: header = esa-page-header + esa-breadcrumbs; cards = esa-card; empty =
+// esa-empty-state; checklist = esa-checkbox; drawers = esa-side-dialog with esa-text-field,
+// esa-select, esa-textarea, esa-date-picker; actions = esa-button; type section =
+// bcn-permit-type-info. BcnPermitEditor's drawers are built around a build-time permit,
+// so this page carries its own three. The CSS is the facts grid and list rows.
+import '@esa/tokens/a11y.css';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnPermitTypeInfo from './BcnPermitTypeInfo.astro';
+import { JURISDICTIONS, PEOPLE, ROUTES } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+const json = (v: unknown) => JSON.stringify(v);
+const agencyOptions = JURISDICTIONS.filter((j) => j.level === 'Local').map((j) => ({ value: j.id, label: j.name }));
+const peopleOptions = PEOPLE.map((p) => ({ value: p, label: p }));
+---
+
+<div class="bcn-adp stack" data-gap="xl" data-adp>
+  <div data-adp-missing hidden>
+    <EsaEmptyState title="Permit not found" description="It may have been added in another browser." />
+  </div>
+  <div class="stack" data-gap="xl" data-adp-page hidden>
+    <EsaPageHeader
+      title="Permit"
+      meta={[
+        { label: 'Agency', value: '' },
+        { label: 'Reference no.', value: 'Not yet assigned' },
+      ]}
+    >
+      <EsaBreadcrumbs
+        slot="breadcrumbs"
+        items={[
+          { label: 'Projects', href: withBase(ROUTES.projects) },
+          { label: 'Project', href: withBase(ROUTES.projects) },
+          { label: 'Applies to' },
+        ]}
+      />
+    </EsaPageHeader>
+
+    <div class="sidebar" data-side="end" data-gap="xl">
+      <div class="stack" data-gap="lg">
+        <EsaCard title="Details">
+          <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="pencil" data-adp-open="details">Edit</EsaButton>
+          <div data-adp-details></div>
+        </EsaCard>
+      </div>
+      <div class="stack" data-gap="lg">
+        <EsaCard title="Status">
+          <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="pencil" data-adp-open="status">Change status</EsaButton>
+          <div data-adp-status></div>
+        </EsaCard>
+        <EsaCard title="Application needs">
+          <ul class="bcn-adp__list" role="list" data-adp-needs></ul>
+        </EsaCard>
+        <EsaCard title="Waits on">
+          <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="pencil" data-adp-open="waits">Edit</EsaButton>
+          <div data-adp-waits></div>
+        </EsaCard>
+        <BcnPermitTypeInfo />
+      </div>
+    </div>
+  </div>
+
+  <esa-side-dialog class="bcn-adp__dialog" data-adp-drawer="details" heading="Edit details" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-adp-f="name" label="Permit name" size="md" required autocomplete="off"></esa-text-field>
+      <esa-select data-adp-f="agency" label="Agency" size="md" data-options={json(agencyOptions)}></esa-select>
+      <esa-text-field data-adp-f="ref" label="Agency reference no." size="md" autocomplete="off"></esa-text-field>
+      <esa-select data-adp-f="scope" label="Applies to" size="md"></esa-select>
+      <esa-select data-adp-f="assignee" label="Assigned to" size="md" data-options={json(peopleOptions)}></esa-select>
+      <esa-textarea data-adp-f="trigger" label="Why it applies" size="md" rows="3"></esa-textarea>
+    </div>
+    <div slot="footer" class="cluster bcn-adp__footer" data-gap="sm">
+      <EsaButton variant="primary" data-adp-save="details">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-adp-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-adp__dialog" data-adp-drawer="status" heading="Change status" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-select data-adp-f="status" label="Status" size="md" required></esa-select>
+      <esa-date-picker data-adp-f="at" label="Date of change" size="md" required></esa-date-picker>
+      <esa-textarea data-adp-f="note" label="Note" size="md" rows="3"></esa-textarea>
+    </div>
+    <div slot="footer" class="cluster bcn-adp__footer" data-gap="sm">
+      <EsaButton variant="primary" data-adp-save="status">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-adp-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog class="bcn-adp__dialog" data-adp-drawer="waits" heading="Waits on" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-select data-adp-f="depends" label="Waits on" size="md" multiple chip-mode placeholder="No other permit"></esa-select>
+    </div>
+    <div slot="footer" class="cluster bcn-adp__footer" data-gap="sm">
+      <EsaButton variant="primary" data-adp-save="waits">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-adp-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
+  import { ensureAddedPermits, loadAddedPermits, PERMIT_TYPE_INFO_EVENT } from '../lib/added-permits-store';
+  import { loadRequirements, setRequirementDone, REQUIREMENTS_EVENT } from '../lib/permit-requirements-store';
+  import { resolveStatus, setPermitStatus, historyOf, loadWorkflows, CHANGE_EVENT } from '../lib/permit-status-store';
+  import { PERMIT_EDIT_EVENT, saveEdits } from '../lib/permit-edits-store';
+  import { loadProject } from '../lib/project-store';
+  import { toast } from '../../lib/snackbar';
+  import {
+    PROJECTS,
+    ROUTES,
+    TODAY,
+    datesFromHistory,
+    fmtDate,
+    getPermit,
+    getProject,
+    jurisdiction,
+    permitType,
+    permitsOfProject,
+    scopeLabel,
+    statusColumn,
+    workflowOf,
+    type Permit,
+  } from '../data/permit-tracker';
+  import { withBase } from '../../lib/base';
+
+  type CheckEl = HTMLElement & { checked: boolean };
+  type DialogEl = HTMLElement & { show(): void; close(): void };
+  type Opt = { value: string; label: string };
+  type SelectEl = HTMLElement & { options: Opt[]; value: string | string[]; disabled: boolean; helpText: string };
+  type FieldEl = HTMLElement & { value: string };
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const facts = (rows: [string, string][]) =>
+    `<dl class="bcn-adp__facts">${rows.map(([k, v]) => `<div class="bcn-adp__fact"><dt class="typography-label-md-strong">${esc(k)}</dt><dd class="typography-body-md">${v}</dd></div>`).join('')}</dl>`;
+
+  const root = document.querySelector<HTMLElement>('[data-adp]');
+  if (root) {
+    const id = new URLSearchParams(location.search).get('id') ?? '';
+    // The id doesn't say which project; look in each one's saved additions.
+    const found = PROJECTS.find((x) => loadAddedPermits(x.id).some((q) => q.id === id));
+    if (!found) root.querySelector<HTMLElement>('[data-adp-missing]')!.hidden = false;
+    else {
+      ensureAddedPermits(found.id);
+      const p = getPermit(id)!;
+      const projectId = p.projectId;
+      const page = root.querySelector<HTMLElement>('[data-adp-page]')!;
+      page.hidden = false;
+      const project = getProject(projectId);
+      const f = <T extends HTMLElement>(name: string) => root.querySelector<T>(`[data-adp-f="${name}"]`)!;
+      const drawer = (name: string) => root.querySelector<DialogEl>(`[data-adp-drawer="${name}"]`)!;
+      const hrefOf = (q: Permit) => withBase(loadAddedPermits(q.projectId).some((x) => x.id === q.id) ? ROUTES.addedPermit(q.id) : ROUTES.permit(q.id));
+      const scopeOf = (q: Permit) => (q.siteId && loadProject(q.projectId).sites.find((s) => s.id === q.siteId)?.name) || scopeLabel(q);
+
+      // ── header + details + waits on (re-drawn after an edit) ──
+      const renderFacts = () => {
+        const agency = jurisdiction(p.jurisdictionId).name;
+        document.title = `${p.name} · Permit Tracker`;
+        page.querySelector('h1')!.textContent = p.name;
+        page.querySelectorAll('.esa-page-header__meta-pair').forEach((pair) => {
+          const v = { Agency: agency, 'Reference no.': p.agencyRef ?? 'Not yet assigned' }[pair.querySelector('dt')?.textContent?.trim() ?? ''];
+          if (v !== undefined) pair.querySelector('dd')!.textContent = v;
+        });
+        const crumbs = page.querySelectorAll<HTMLElement>('nav li');
+        const projectLink = crumbs[1]?.querySelector<HTMLAnchorElement>('a');
+        if (projectLink) {
+          projectLink.textContent = project.name;
+          projectLink.href = withBase(ROUTES.project(project.id));
+        }
+        const last = crumbs[crumbs.length - 1]?.querySelector('[aria-current], span:last-child');
+        if (last) last.textContent = scopeOf(p);
+
+        root.querySelector('[data-adp-details]')!.innerHTML = facts([
+          ['Why it applies', esc(p.trigger || 'Not recorded')],
+          ['Applies to', esc(scopeOf(p))],
+          ['Level', esc(p.level)],
+          ['Agency', esc(agency)],
+          ['Reference no.', esc(p.agencyRef ?? 'Not yet assigned')],
+          ['Assigned to', esc(p.assignee)],
+        ]);
+
+        const waits = p.dependsOn.map((d) => getPermit(d)).filter((d): d is Permit => !!d);
+        root.querySelector('[data-adp-waits]')!.innerHTML = waits.length
+          ? `<ul class="bcn-adp__list" role="list">${waits
+              .map((w) => `<li class="bcn-adp__item"><a class="bcn-adp__link typography-body-md" href="${esc(hrefOf(w))}">${esc(w.name)}</a><span class="bcn-adp__due typography-body-sm">${esc(scopeOf(w))}${w.issued ? `, issued ${fmtDate(w.issued)}` : ''}</span></li>`)
+              .join('')}</ul>`
+          : `<p class="bcn-adp__none typography-body-md">None</p>`;
+      };
+
+      const columnOf = (statusId: string) => statusColumn(statusId, p.typeId, loadWorkflows(projectId));
+      const renderStatus = () => {
+        const col = resolveStatus(projectId, p);
+        const dates = datesFromHistory(historyOf(projectId, p.id), columnOf);
+        root.querySelector('[data-adp-status]')!.innerHTML = facts([
+          ['Status', esc(col.name)],
+          ['Submitted', dates.submitted ? fmtDate(dates.submitted) : 'Not yet'],
+          ...(dates.issued ? ([['Issued', fmtDate(dates.issued)]] as [string, string][]) : []),
+        ]);
+      };
+
+      const needs = root.querySelector<HTMLElement>('[data-adp-needs]')!;
+      const renderNeeds = () => {
+        needs.replaceChildren(
+          ...loadRequirements(p.id).map((r) => {
+            const li = document.createElement('li');
+            li.className = 'bcn-adp__item';
+            const box = document.createElement('esa-checkbox') as CheckEl;
+            box.setAttribute('label', r.label);
+            customElements.whenDefined('esa-checkbox').then(() => (box.checked = r.done));
+            box.addEventListener('change', () => setRequirementDone(p.id, r.id, box.checked));
+            const due = document.createElement('span');
+            due.className = 'bcn-adp__due typography-body-sm';
+            due.textContent = r.done ? `Done${r.doneAt ? ` ${fmtDate(r.doneAt)}` : ''}` : r.due ? `Due ${fmtDate(r.due)}` : '';
+            li.append(box, due);
+            return li;
+          }),
+        );
+      };
+
+      const info = root.querySelector<HTMLElement>('[data-pti]')!;
+      info.dataset.typeId = p.typeId;
+      info.dataset.permitId = p.id;
+      info.dataset.jurisdictionId = p.jurisdictionId;
+      document.dispatchEvent(new CustomEvent(PERMIT_TYPE_INFO_EVENT));
+
+      // ── editors ──
+      const ready = Promise.all(['esa-select', 'esa-text-field', 'esa-textarea', 'esa-date-picker'].map((t) => customElements.whenDefined(t)));
+      const open: Record<string, () => void> = {
+        details: () => {
+          const fixedOffice = permitType(p.typeId).jurisdictionId;
+          const agency = f<SelectEl>('agency');
+          agency.options = JSON.parse(agency.dataset.options!);
+          f<SelectEl>('assignee').options = JSON.parse(f<SelectEl>('assignee').dataset.options!);
+          f<SelectEl>('scope').options = [{ value: '', label: 'Project-wide' }, ...loadProject(projectId).sites.map((s) => ({ value: s.id, label: s.name }))];
+          f<FieldEl>('name').value = p.name;
+          agency.value = p.jurisdictionId;
+          agency.disabled = !!fixedOffice;
+          agency.helpText = fixedOffice ? `Issued by ${jurisdiction(fixedOffice).name}` : '';
+          f<FieldEl>('ref').value = p.agencyRef ?? '';
+          f<SelectEl>('scope').value = p.siteId ?? '';
+          f<SelectEl>('assignee').value = p.assignee;
+          f<FieldEl>('trigger').value = p.trigger;
+        },
+        status: () => {
+          const wf = workflowOf(p.typeId, loadWorkflows(projectId));
+          const sel = f<SelectEl>('status');
+          sel.options = wf.columns.map((c) => ({ value: c.id, label: c.name }));
+          sel.value = resolveStatus(projectId, p).id;
+          f<FieldEl>('at').value = TODAY;
+          f<FieldEl>('note').value = '';
+        },
+        waits: () => {
+          const sel = f<SelectEl>('depends');
+          sel.options = permitsOfProject(projectId)
+            .filter((q) => q.id !== p.id)
+            .map((q) => ({ value: q.id, label: `${q.name} (${scopeOf(q)})` }));
+          sel.value = [...p.dependsOn];
+        },
+      };
+      root.querySelectorAll<HTMLElement>('[data-adp-open]').forEach((b) =>
+        b.addEventListener('click', () => {
+          const name = b.dataset.adpOpen!;
+          ready.then(() => open[name]());
+          drawer(name).show();
+        }),
+      );
+      root.querySelectorAll<HTMLElement>('[data-adp-cancel]').forEach((b) => b.addEventListener('click', () => b.closest<DialogEl>('esa-side-dialog')!.close()));
+
+      const save: Record<string, () => boolean> = {
+        details: () => {
+          const name = f<FieldEl>('name').value?.trim();
+          if (!name) {
+            toast('A permit needs a name', 'warning');
+            return false;
+          }
+          saveEdits(p.id, {
+            name,
+            jurisdictionId: String(f<SelectEl>('agency').value || p.jurisdictionId),
+            agencyRef: f<FieldEl>('ref').value?.trim() ?? '',
+            siteId: String(f<SelectEl>('scope').value ?? ''),
+            assignee: String(f<SelectEl>('assignee').value || p.assignee),
+            trigger: f<FieldEl>('trigger').value?.trim() ?? '',
+          });
+          toast('Details saved', 'success');
+          return true;
+        },
+        status: () => {
+          const next = String(f<SelectEl>('status').value ?? '');
+          if (!next || next === resolveStatus(projectId, p).id) {
+            toast('Pick a new status to log a change', 'warning');
+            return false;
+          }
+          const note = f<FieldEl>('note').value?.trim();
+          setPermitStatus(projectId, p.id, next, { at: f<FieldEl>('at').value || TODAY, ...(note ? { note } : {}) });
+          toast(`Status set to ${columnOf(next).name}`, 'success');
+          return true;
+        },
+        waits: () => {
+          const v = f<SelectEl>('depends').value;
+          saveEdits(p.id, { dependsOn: Array.isArray(v) ? v : v ? [v] : [] });
+          toast('Waits on saved', 'success');
+          return true;
+        },
+      };
+      root.querySelectorAll<HTMLElement>('[data-adp-save]').forEach((b) =>
+        b.addEventListener('click', () => {
+          if (save[b.dataset.adpSave!]()) drawer(b.dataset.adpSave!).close();
+        }),
+      );
+
+      renderFacts();
+      renderStatus();
+      renderNeeds();
+      document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
+        if ((e as CustomEvent).detail?.permitId === p.id) renderFacts();
+      });
+      document.addEventListener(CHANGE_EVENT, renderStatus);
+      document.addEventListener(REQUIREMENTS_EVENT, renderNeeds);
+    }
+  }
+</script>
+
+<style>
+  [data-adp] [hidden] {
+    display: none;
+  }
+  .bcn-adp__dialog {
+    --side-dialog-width-lg: 32rem;
+  }
+  .bcn-adp__footer {
+    inline-size: 100%;
+    justify-content: end;
+  }
+  .bcn-adp :global(.bcn-adp__facts) {
+    margin: 0;
+  }
+  .bcn-adp :global(.bcn-adp__fact) {
+    display: grid;
+    gap: var(--spacing-050);
+    padding-block: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-adp :global(.bcn-adp__fact:first-child) {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+  .bcn-adp :global(.bcn-adp__fact dd) {
+    margin: 0;
+  }
+  .bcn-adp :global(.bcn-adp__list) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-adp :global(.bcn-adp__item) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-300);
+    padding-block: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-adp :global(.bcn-adp__due),
+  .bcn-adp :global(.bcn-adp__none) {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-adp :global(.bcn-adp__link) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+</style>

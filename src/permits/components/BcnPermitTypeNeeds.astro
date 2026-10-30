@@ -1,0 +1,38 @@
+---
+// <BcnPermitTypeNeeds> — what an application for a permit type needs before it can be
+// submitted (PermitType.prerequisites), and the permits it usually waits on. The same
+// list every new permit of the type starts with (BcnPermitPrerequisites on a permit page).
+//
+// bcn-lego-checked: shell = esa-card; the list is a plain semantic list with the
+// type's prerequisites. No esa-* checklist fits a read-only list. The CSS is the rows.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import { permitType, type PermitTypeId } from '../data/permit-tracker';
+
+interface Props {
+  typeId: PermitTypeId;
+}
+const { typeId } = Astro.props;
+const t = permitType(typeId);
+---
+
+<EsaCard title="Application needs">
+  <ul class="bcn-ptn typography-body-md" role="list">
+    {t.prerequisites.map((p) => <li class="bcn-ptn__item">{p}</li>)}
+  </ul>
+</EsaCard>
+
+<style>
+  .bcn-ptn {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-ptn__item {
+    padding-block: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-ptn__item:first-child {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+</style>

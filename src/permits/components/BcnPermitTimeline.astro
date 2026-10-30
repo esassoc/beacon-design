@@ -1,0 +1,201 @@
+---
+// <BcnPermitTimeline> — the permit detail page's milestone record, read from the
+// permit's STATUS HISTORY rather than typed-in dates: a change into a status marked
+// "submitted" starts the clock, each change into a "review" status (comments back from
+// the agency) is a review round, and a change into an "issued" status ends it, carrying
+// the expiry. See datesFromHistory() in the fixture and ./permit-timeline.ts.
+//
+// A vertical ordered list: Application submitted → each review round → Today (while in
+// review) → Issued → Expires, each reached step with its date and "+N days" since the
+// one before. The pending Issued step reads "Expected <date>" from this agency's median.
+//
+// HEADER: the current status (a live chip), the summary ("N days from application to
+// issue" once issued, "Day N in agency review" before), and Change status — the
+// section's one edit, which opens BcnPermitEditor's status drawer. The timeline itself
+// is read-only.
+//
+// PACE: a badge in the header and one sentence above the steps compare the permit with
+// the typical timeline for its type at this agency (paceOf in ./permit-timeline.ts):
+// "Taking longer than typical" once the days so far pass the typical total; "Likely to
+// take longer" when the review rounds still to come, at the usual pace, would carry it
+// past (e.g. in its first review with most of the time gone where two rounds are
+// usual); otherwise "On pace". Issued permits read "Took longer than typical" or
+// "Within typical time".
+//
+// LIVE: the build renders the fixture history; the client script re-renders steps and
+// summary and pace from historyOf() on load and on every store change.
+//
+// bcn-lego-checked: no esa-* lego is a vertical milestone list (esa-progress-bar is a
+// single ratio, esa-card/esa-stat are static containers). Checked the spoke's
+// timelines: BcnProjectTimeline is a multi-lane date axis with popovers,
+// BcnScheduleTimeline a water-year gantt, BcnActionTimeline a store-driven month
+// gantt; none is a dated step list. The bespoke part is only the rail + step dots on a
+// semantic <ol>; the card is esa-card, the warning is esa-badge, the edit is esa-button,
+// text is typography composites. bcn-permit-timeline is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import {
+  CATEGORY_META,
+  datesFromHistory,
+  getPermit,
+  seedHistory,
+  statusColumn,
+} from '../data/permit-tracker';
+import { permitTimeline, renderTimeline } from './permit-timeline';
+
+interface Props {
+  permitId: string;
+}
+
+const { permitId } = Astro.props;
+const p = getPermit(permitId);
+const BADGE_SLOT = '__BADGE__';
+const PACE_VARIANT = { over: 'danger', 'at-risk': 'warning', 'on-pace': 'success' } as const;
+const t = p ? permitTimeline(p, datesFromHistory(seedHistory(p), (id) => statusColumn(id, p.typeId))) : undefined;
+const col = p ? statusColumn(p.statusId, p.typeId) : undefined;
+---
+
+{p && t && col && (
+  <section class="bcn-ptl-root" data-ptl-root aria-label="Timeline">
+  <EsaCard title="Timeline">
+    <div slot="actions" class="cluster" data-gap="md">
+      <span
+        data-permit-status
+        data-project-id={p.projectId}
+        data-permit-id={p.id}
+        data-type-id={p.typeId}
+        data-status-id={p.statusId}
+      >
+        <BcnStatusChip status="permit" label={col.name} hex={CATEGORY_META[col.category].tone} />
+      </span>
+      <span class="bcn-ptl__summary typography-body-md" data-ptl-summary hidden={!t.summary}>{t.summary}</span>
+      <span data-ptl-pace-badge>{t.pace && <EsaBadge value={t.pace.label} variant={PACE_VARIANT[t.pace.level]} />}</span>
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="status">Change status</EsaButton>
+    </div>
+    <p class="bcn-ptl__pace typography-body-md" data-ptl-pace data-level={t.pace?.level} hidden={!t.pace}>{t.pace?.detail}</p>
+    <ol class="bcn-ptl" data-ptl={p.id} data-project-id={p.projectId} set:html={renderTimeline(t.steps, (label) => `<span data-ptl-badge>${label}</span>`)} />
+    <template data-ptl-badge-tpl><EsaBadge value={BADGE_SLOT} variant="warning" size="sm" /></template>
+    {Object.entries(PACE_VARIANT).map(([level, variant]) => (
+      <template data-ptl-pace-tpl={level}><EsaBadge value={BADGE_SLOT} variant={variant} /></template>
+    ))}
+  </EsaCard>
+  </section>
+)}
+
+<script>
+  import { datesFromHistory, getPermit, statusColumn } from '../data/permit-tracker';
+  import { CHANGE_EVENT, historyOf, loadWorkflows, watchStatusChips } from '../lib/permit-status-store';
+  import { permitTimeline, renderTimeline } from './permit-timeline';
+
+  document.querySelectorAll<HTMLElement>('[data-ptl-root]').forEach((root) => {
+    const ol = root.querySelector<HTMLOListElement>('[data-ptl]');
+    const p = ol && getPermit(ol.dataset.ptl!);
+    if (!ol || !p) return;
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-ptl-badge-tpl]')!;
+    const summary = root.querySelector<HTMLElement>('[data-ptl-summary]')!;
+    const paceBadge = root.querySelector<HTMLElement>('[data-ptl-pace-badge]')!;
+    const pace = root.querySelector<HTMLElement>('[data-ptl-pace]')!;
+    const badge = (label: string) => tpl.innerHTML.replace('__BADGE__', label);
+    watchStatusChips(root);
+
+    const render = () => {
+      const workflows = loadWorkflows(p.projectId);
+      const dates = datesFromHistory(historyOf(p.projectId, p.id), (id) => statusColumn(id, p.typeId, workflows));
+      const t = permitTimeline(p, dates);
+      ol.innerHTML = renderTimeline(t.steps, badge);
+      summary.textContent = t.summary ?? '';
+      summary.hidden = !t.summary;
+      paceBadge.innerHTML = t.pace ? root.querySelector<HTMLTemplateElement>(`[data-ptl-pace-tpl="${t.pace.level}"]`)!.innerHTML.replace('__BADGE__', t.pace.label) : '';
+      pace.textContent = t.pace?.detail ?? '';
+      pace.hidden = !t.pace;
+      if (t.pace) pace.dataset.level = t.pace.level;
+    };
+    render();
+    document.addEventListener(CHANGE_EVENT, render);
+  });
+</script>
+
+<style is:global>
+  /* The pace sentence under the header: how this permit compares with its typical timeline. */
+  .bcn-ptl__pace {
+    margin: 0 0 var(--spacing-400);
+    color: var(--color-content-default);
+  }
+  .bcn-ptl__pace[hidden] {
+    display: none;
+  }
+  /* Global: the steps are re-rendered as an HTML string; every class is bcn-ptl-prefixed. */
+  .bcn-ptl {
+    --_rail: var(--color-border-default, #cecece);
+    --_done: var(--color-background-brand, #0d7377);
+    --_mark: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-ptl__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--_mark) 1fr;
+    column-gap: var(--spacing-300, 0.75rem);
+    padding-block-end: var(--spacing-400, 1rem);
+  }
+  .bcn-ptl__step:last-child {
+    padding-block-end: 0;
+  }
+  /* The rail: from this step's mark down to the next one's. */
+  .bcn-ptl__step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    inset-block: calc(0.375rem + var(--_mark)) 0;
+    inset-inline-start: calc(var(--_mark) / 2 - 1px);
+    width: 2px;
+    background: var(--_rail);
+  }
+  .bcn-ptl__mark {
+    margin-block-start: 0.375rem;
+    width: var(--_mark);
+    height: var(--_mark);
+    border-radius: var(--radius-full, 9999px);
+    background: var(--_done);
+    border: 2px solid var(--_done);
+    box-sizing: border-box;
+  }
+  .bcn-ptl__step[data-state='pending'] .bcn-ptl__mark {
+    background: var(--color-background-elevation-raised, #fcfcfc);
+    border-color: var(--_rail);
+  }
+  .bcn-ptl__step[data-state='today'] .bcn-ptl__mark {
+    background: var(--color-background-elevation-raised, #fcfcfc);
+    border-color: var(--_done);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--_done) 20%, transparent);
+  }
+  .bcn-ptl__body {
+    align-items: flex-start;
+  }
+  .bcn-ptl__label {
+    color: var(--color-content-default);
+  }
+  .bcn-ptl__detail {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ptl__step[data-state='pending'] .bcn-ptl__label {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ptl__note {
+    color: var(--color-content-utility-warning);
+  }
+  .bcn-ptl__delta {
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-ptl__summary {
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+  .bcn-ptl__summary[hidden] {
+    display: none;
+  }
+</style>

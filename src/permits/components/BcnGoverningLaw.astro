@@ -1,0 +1,197 @@
+---
+// <BcnGoverningLaw> — the statutes and rules a permit type is issued under, each linking
+// to the law online. With a `jurisdictionId` on a Critical Areas Review, the agency's own
+// ordinance is listed first.
+//
+// EDIT opens a drawer: each law as citation / name / link (esa-text-field ×3, Remove),
+// Add law; on an agency's critical areas page, the local ordinance's chapter and link
+// first. Laws save per PERMIT TYPE (every agency's page shows the edit); the ordinance
+// saves per agency. State: src/lib/cao-store.ts (loadLaw / loadOrdinance); the build
+// renders the defaults (GOVERNING_LAW, the statewide index), the client re-renders from
+// the store on load and on CAO_EVENT. Markup: lawList() in cao-render.ts.
+//
+// bcn-lego-checked: shell = esa-card; actions = esa-button; drawer = esa-side-dialog with
+// esa-text-field; no esa-* reference list exists. Checked Beacon (requirement references
+// are BcnRequirementReference, one quoted passage, not a list of citations). The CSS is
+// the list rows and the editor's row grid.
+import '@esa/tokens/a11y.css';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { GOVERNING_LAW, caoOf, type Authority } from '../data/permit-rules';
+import type { PermitTypeId } from '../data/permit-tracker';
+import { lawList } from './cao-render';
+
+interface Props {
+  typeId: PermitTypeId;
+  jurisdictionId?: string;
+}
+const { typeId, jurisdictionId } = Astro.props;
+const cao = typeId === 'critical-areas' && jurisdictionId ? caoOf(jurisdictionId) : undefined;
+const items: Authority[] = [
+  ...(cao?.ordinance.chapter ? [{ cite: cao.ordinance.chapter, title: 'Local critical areas ordinance', url: cao.ordinance.url }] : []),
+  ...GOVERNING_LAW[typeId],
+];
+---
+
+<div class="bcn-gl-host" data-gl data-type-id={typeId} data-jurisdiction-id={cao ? jurisdictionId : undefined}>
+  <EsaCard title="Governing law">
+    <Fragment slot="actions">
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-gl-edit>Edit</EsaButton>
+    </Fragment>
+    <div data-gl-body set:html={lawList(items)} />
+  </EsaCard>
+
+  <esa-side-dialog class="bcn-gl__dialog" data-gl-drawer heading="Edit governing law" size="lg">
+    <div class="stack" data-gap="lg">
+      {
+        cao && (
+          <div class="stack" data-gap="sm">
+            <h3 class="bcn-gl__subhead typography-label-lg-strong">Local ordinance</h3>
+            <esa-text-field data-gl-ord="chapter" label="Chapter" size="md" />
+            <esa-text-field data-gl-ord="url" label="Link" size="md" help-text="The chapter's page on the code site." />
+          </div>
+        )
+      }
+      <div class="stack" data-gap="sm">
+        <h3 class="bcn-gl__subhead typography-label-lg-strong">Statutes and rules</h3>
+        <div class="stack" data-gap="md" data-gl-rows></div>
+        <div>
+          <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" data-gl-add>Add law</EsaButton>
+        </div>
+      </div>
+    </div>
+    <div slot="footer" class="cluster bcn-gl__footer" data-gap="sm">
+      <EsaButton variant="primary" data-gl-save>Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-gl-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <template data-gl-remove-tpl>
+    <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Remove this law" />
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { CAO_EVENT, loadLaw, loadOrdinance, saveLaw, saveOrdinance } from '../lib/cao-store';
+  import type { Authority } from '../data/permit-rules';
+  import type { PermitTypeId } from '../data/permit-tracker';
+  import { lawList } from './cao-render';
+  import { toast } from '../../lib/snackbar';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void };
+  type FieldEl = HTMLElement & { value: string };
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-gl]')) {
+    const typeId = root.dataset.typeId as PermitTypeId;
+    const jid = root.dataset.jurisdictionId;
+    const drawer = root.querySelector<DialogEl>('[data-gl-drawer]')!;
+    const rowsEl = root.querySelector<HTMLElement>('[data-gl-rows]')!;
+
+    const items = (): Authority[] => {
+      const o = jid ? loadOrdinance(jid) : undefined;
+      return [...(o?.chapter ? [{ cite: o.chapter, title: 'Local critical areas ordinance', url: o.url }] : []), ...loadLaw(typeId)];
+    };
+    const render = () => (root.querySelector<HTMLElement>('[data-gl-body]')!.innerHTML = lawList(items()));
+
+    const textField = (name: string, label: string, value: string) => {
+      const el = document.createElement('esa-text-field') as FieldEl;
+      el.setAttribute('label', label);
+      el.setAttribute('size', 'md');
+      el.dataset.k = name;
+      customElements.whenDefined('esa-text-field').then(() => (el.value = value));
+      return el;
+    };
+    const addRow = (a: Authority) => {
+      const row = document.createElement('div');
+      row.className = 'bcn-gl__row';
+      row.dataset.glRow = '';
+      const remove = root.querySelector<HTMLTemplateElement>('[data-gl-remove-tpl]')!.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      remove.addEventListener('click', () => row.remove());
+      row.append(textField('cite', 'Citation', a.cite), textField('title', 'Name', a.title), textField('url', 'Link', a.url ?? ''), remove);
+      rowsEl.append(row);
+    };
+
+    root.querySelector('[data-gl-edit]')?.addEventListener('click', () => {
+      rowsEl.replaceChildren();
+      loadLaw(typeId).forEach(addRow);
+      if (jid) {
+        const o = loadOrdinance(jid);
+        customElements.whenDefined('esa-text-field').then(() => {
+          root.querySelector<FieldEl>('[data-gl-ord="chapter"]')!.value = o?.chapter ?? '';
+          root.querySelector<FieldEl>('[data-gl-ord="url"]')!.value = o?.url ?? '';
+        });
+      }
+      drawer.show();
+    });
+    root.querySelector('[data-gl-add]')?.addEventListener('click', () => addRow({ cite: '', title: '', url: '' }));
+    root.querySelector('[data-gl-cancel]')?.addEventListener('click', () => drawer.close());
+    root.querySelector('[data-gl-save]')?.addEventListener('click', () => {
+      const v = (row: Element, k: string) => row.querySelector<FieldEl>(`[data-k="${k}"]`)?.value?.trim() ?? '';
+      const law = [...rowsEl.querySelectorAll('[data-gl-row]')]
+        .map((row) => ({ cite: v(row, 'cite'), title: v(row, 'title'), url: v(row, 'url') || undefined }))
+        .filter((a) => a.cite);
+      saveLaw(typeId, law);
+      if (jid) {
+        const o = loadOrdinance(jid);
+        const chapter = root.querySelector<FieldEl>('[data-gl-ord="chapter"]')!.value.trim();
+        const url = root.querySelector<FieldEl>('[data-gl-ord="url"]')!.value.trim();
+        if (o && (chapter !== o.chapter || url !== o.url)) saveOrdinance(jid, { ...o, chapter, url });
+      }
+      drawer.close();
+      toast('Governing law saved', 'success');
+    });
+
+    document.addEventListener(CAO_EVENT, render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-gl__dialog {
+    --side-dialog-width-lg: min(52rem, 92vw);
+  }
+  .bcn-gl__footer {
+    inline-size: 100%;
+    justify-content: end;
+  }
+  .bcn-gl__subhead {
+    margin: 0;
+  }
+  .bcn-gl-host :global(.bcn-gl__row) {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) minmax(10rem, 1.6fr) minmax(10rem, 1.6fr) auto;
+    gap: var(--spacing-200);
+    align-items: end;
+  }
+  @media (max-width: 40rem) {
+    .bcn-gl-host :global(.bcn-gl__row) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .bcn-gl-host :global(.bcn-gl) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-gl-host :global(.bcn-gl__item) {
+    padding-block: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-gl-host :global(.bcn-gl__item:first-child) {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+  .bcn-gl-host :global(.bcn-gl__cite) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    inline-size: fit-content;
+  }
+  .bcn-gl-host :global(.bcn-gl__cite:hover) {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  .bcn-gl-host :global(.bcn-gl__title) {
+    color: var(--color-content-default-secondary);
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+// <BcnPermitDetails> — the permit page's Details card: the record's facts as a
+// description list, label ABOVE value, after the hub's Record detail pattern
+// (patterns/record-detail: the label a quiet secondary line one step smaller, the value
+// the default ink at body size), so a label never reads as content. The header's Edit
+// opens BcnPermitEditor's details drawer, which also edits the name, agency and
+// reference no. shown in the page header.
+//
+// bcn-lego-checked: no esa-* description-list lego; the hub's Record detail pattern
+// documents its facts grid as composition CSS, and BcnKeyValue's stacked form styles
+// label and value at the same size and near-same ink (the reason this exists).
+// Composed from esa-card, esa-button and typography composites; the only CSS is the
+// <dl> reset, the label / value inks and the value's weight. bcn-permit-details is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { getPermit, jurisdiction, scopeLabel } from '../data/permit-tracker';
+
+interface Props {
+  permitId: string;
+}
+const { permitId } = Astro.props;
+const p = getPermit(permitId);
+const facts = p
+  ? [
+      { term: 'Trigger', value: p.trigger },
+      { term: 'Applies to', value: scopeLabel(p) },
+      { term: 'Level', value: p.level },
+      { term: 'Agency', value: jurisdiction(p.jurisdictionId).name },
+      { term: 'Reference no.', value: p.agencyRef ?? 'Not yet assigned' },
+      { term: 'Assigned to', value: p.assignee },
+      { term: 'Conditions', value: p.hasConditions === undefined ? 'Known when issued' : p.hasConditions ? 'Yes' : 'No' },
+    ]
+  : [];
+---
+
+{p && (
+  <EsaCard title="Details" padding="compact">
+    <EsaButton slot="actions" variant="ghost" appearance="outline" size="sm" icon="pencil" data-permit-edit="details">Edit</EsaButton>
+    <dl class="bcn-pdet stack" data-gap="md" data-pdet data-permit-id={p.id}>
+      {facts.map((f) => (
+        <div class="stack" data-gap="3xs">
+          <dt class="bcn-pdet__term typography-label-sm">{f.term}</dt>
+          <dd class="bcn-pdet__value typography-label-md-strong" data-pdet-term={f.term}>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </EsaCard>
+)}
+
+<script>
+  // Saved edits (src/lib/permit-edits-store.ts): re-draw the facts, and the page header's
+  // name, agency, reference no. and applies-to crumb, which state the same facts.
+  import { getPermit, jurisdiction, scopeLabel } from '../data/permit-tracker';
+  import { PERMIT_EDIT_EVENT, applyPermitEdits } from '../lib/permit-edits-store';
+  import { loadProject } from '../lib/project-store';
+
+  for (const dl of document.querySelectorAll<HTMLElement>('[data-pdet]')) {
+    const id = dl.dataset.permitId!;
+    const render = () => {
+      applyPermitEdits();
+      const p = getPermit(id);
+      if (!p) return;
+      const scope = (p.siteId && loadProject(p.projectId).sites.find((s) => s.id === p.siteId)?.name) || scopeLabel(p);
+      const agency = jurisdiction(p.jurisdictionId).name;
+      const values: Record<string, string> = {
+        Trigger: p.trigger,
+        'Applies to': scope,
+        Agency: agency,
+        'Reference no.': p.agencyRef ?? 'Not yet assigned',
+        'Assigned to': p.assignee,
+        Conditions: p.hasConditions === undefined ? 'Known when issued' : p.hasConditions ? 'Yes' : 'No',
+      };
+      dl.querySelectorAll<HTMLElement>('[data-pdet-term]').forEach((dd) => {
+        const v = values[dd.dataset.pdetTerm!];
+        if (v !== undefined) dd.textContent = v;
+      });
+      const header = document.querySelector('.esa-page-header');
+      if (!header) return;
+      const h1 = header.querySelector('h1');
+      if (h1) h1.textContent = p.name;
+      document.title = `${p.name} · Permit Tracker`;
+      header.querySelectorAll('.esa-page-header__meta-pair').forEach((pair) => {
+        const v = { Agency: agency, 'Reference no.': p.agencyRef ?? 'Not yet assigned' }[pair.querySelector('dt')?.textContent?.trim() ?? ''];
+        const dd = pair.querySelector('dd');
+        if (v !== undefined && dd) dd.textContent = v;
+      });
+      const crumbs = header.querySelectorAll('nav li');
+      const last = crumbs[crumbs.length - 1]?.querySelector('[aria-current], span:last-child');
+      if (last) last.textContent = scope;
+    };
+    document.addEventListener(PERMIT_EDIT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.permitId === id) render();
+    });
+    render();
+  }
+</script>
+
+<style>
+  .bcn-pdet,
+  .bcn-pdet dd {
+    margin: 0;
+  }
+  .bcn-pdet__term {
+    color: var(--color-content-default-secondary);
+  }
+  /* Beacon's secondary ink is only a step lighter than default, so the value also
+     carries weight: the label recedes by size and ink, the value advances by weight —
+     rather than graying the small label further. */
+  .bcn-pdet__value {
+    color: var(--color-content-default);
+  }
+</style>

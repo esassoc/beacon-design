@@ -1,0 +1,131 @@
+---
+// <BcnSiteEditor> — the Sites table's drawer (in BcnPermitReadiness, "Ready to break
+// ground?"): add a site, or edit one. Opened by any
+// `[data-site-edit]` button; with `data-site-id` it edits that site, without it adds one.
+//
+//   Site name (required) and Location. A site has no agency: each permit on it names
+//   its own, set on the permit. Editing a site with no permits offers
+//   Remove site (far left of the footer); a site with permits says how many and can't
+//   be removed.
+//
+// Save writes the project's sites to src/lib/project-store.ts and fires PROJECT_EVENT:
+// the readiness card's Sites table re-renders. Every open refills from the store,
+// so Cancel / Esc / X / click-outside discard.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog; the fields ARE esa-text-field; every
+// action IS esa-button. Checked Beacon (no site editor in the permit
+// context). The CSS is the drawer width and the footer's left/right split.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { permitsOfSite, sitesOf } from '../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+
+// Permits per fixture site: a site with permits can't be removed.
+const permitCounts = Object.fromEntries(sitesOf(projectId).map((s) => [s.id, permitsOfSite(s.id).length]));
+---
+
+<div class="bcn-sed" data-bcn-sed data-project-id={projectId} data-permit-counts={JSON.stringify(permitCounts)}>
+  <esa-side-dialog class="bcn-sed__dialog" data-sed-drawer heading="Site" size="lg">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-sed="name" label="Site name" size="md" required autocomplete="off"></esa-text-field>
+      <esa-text-field data-sed="location" label="Location" size="md" autocomplete="off"></esa-text-field>
+      <p class="bcn-sed__note typography-body-sm" data-sed="permits" hidden></p>
+    </div>
+    <div slot="footer" class="bcn-sed__footer repel" data-gap="sm">
+      <span>
+        <span data-sed="remove-wrap" hidden>
+          <EsaButton variant="ghost" appearance="outline" data-sed-remove>Remove site</EsaButton>
+        </span>
+      </span>
+      <div class="cluster" data-gap="sm">
+        <EsaButton variant="primary" data-sed-save>Save</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" data-sed-cancel>Cancel</EsaButton>
+      </div>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { loadProject, newSiteId, saveProject } from '../lib/project-store';
+  import { toast } from '../../lib/snackbar';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void; heading: string };
+  type FieldEl = HTMLElement & { value: string };
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-sed]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const permitCounts = JSON.parse(root.dataset.permitCounts ?? '{}') as Record<string, number>;
+    const drawer = root.querySelector<DialogEl>('[data-sed-drawer]')!;
+    const field = (name: string) => root.querySelector<FieldEl>(`[data-sed="${name}"]`)!;
+    let editing: string | undefined; // the site id, or undefined when adding
+
+    const open = (siteId?: string) => {
+      const { sites } = loadProject(projectId);
+      const site = siteId ? sites.find((s) => s.id === siteId) : undefined;
+      editing = site?.id;
+      drawer.heading = site ? 'Edit site' : 'Add site';
+      const n = site ? (permitCounts[site.id] ?? 0) : 0;
+      const note = field('permits');
+      note.hidden = !site;
+      note.textContent = n ? `${n} permit${n === 1 ? '' : 's'} apply to this site, so it can't be removed.` : 'No permits apply to this site yet.';
+      field('remove-wrap').hidden = !site || n > 0;
+      customElements.whenDefined('esa-text-field').then(() => {
+        field('name').value = site?.name ?? '';
+        field('location').value = site?.location ?? '';
+      });
+      drawer.show();
+    };
+
+    document.addEventListener('click', (e) => {
+      const trigger = (e.target as Element | null)?.closest?.<HTMLElement>('[data-site-edit]');
+      if (trigger) open(trigger.dataset.siteId);
+    });
+
+    root.querySelector('[data-sed-save]')?.addEventListener('click', () => {
+      const name = field('name').value?.trim();
+      if (!name) {
+        toast('A site needs a name', 'warning');
+        return;
+      }
+      const record = loadProject(projectId);
+      const site = { id: editing ?? newSiteId(projectId), name, location: field('location').value?.trim() ?? '' };
+      record.sites = editing ? record.sites.map((s) => (s.id === editing ? site : s)) : [...record.sites, site];
+      saveProject(projectId, record);
+      drawer.close();
+      toast(editing ? `${name} saved` : `${name} added`, 'success');
+    });
+
+    root.querySelector('[data-sed-remove]')?.addEventListener('click', () => {
+      if (!editing) return;
+      const record = loadProject(projectId);
+      const name = record.sites.find((s) => s.id === editing)?.name ?? 'Site';
+      record.sites = record.sites.filter((s) => s.id !== editing);
+      saveProject(projectId, record);
+      drawer.close();
+      toast(`${name} removed`, 'success');
+    });
+
+    root.querySelector('[data-sed-cancel]')?.addEventListener('click', () => drawer.close());
+  });
+</script>
+
+<style>
+  .bcn-sed__dialog {
+    --side-dialog-width-lg: 32rem;
+  }
+  .bcn-sed__footer {
+    inline-size: 100%;
+  }
+  .bcn-sed__note {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-sed [hidden] {
+    display: none;
+  }
+</style>

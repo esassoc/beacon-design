@@ -1,0 +1,90 @@
+---
+// <BcnPermitAgencyTimeline> — how long one permit type has taken at one agency, from
+// every permit the tracker has seen issued there (timelines()): typical days, past
+// permits and review rounds, the range strip on the shared axis, then the past permits
+// themselves, each linking to its permit page. An agency with none issued yet says so.
+//
+// This is what the Permit timelines page's row drawer showed; it now has the agency's
+// own page under Permit types.
+//
+// bcn-lego-checked: shell = esa-card; figures = esa-stat; strip = bcn-duration-range;
+// empty = esa-empty-state. Checked Beacon (no duration benchmarks). The CSS is the
+// past-permit rows.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnDurationRange from './BcnDurationRange.astro';
+import { timelines, timelineAxisMax, fmtDate, ROUTES, type PermitTypeId } from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  typeId: PermitTypeId;
+  jurisdictionId: string;
+}
+const { typeId, jurisdictionId } = Astro.props;
+const r = timelines().find((t) => t.typeId === typeId && t.jurisdictionId === jurisdictionId);
+const axisMax = timelineAxisMax();
+---
+
+<EsaCard title="Time to issue">
+  {
+    r ? (
+      <div class="stack" data-gap="lg">
+        <div class="cluster" data-gap="xl">
+          <EsaStat value={r.median} label="Typical days" sub={`${r.min}–${r.max} days`} />
+          <EsaStat value={r.count} label="Past permits" />
+          <EsaStat value={r.avgReviews.toFixed(1)} label="Avg. review rounds" />
+        </div>
+        <BcnDurationRange min={r.min} median={r.median} max={r.max} axisMax={axisMax} />
+        <div class="stack" data-gap="xs">
+          <h4 class="bcn-pat__heading typography-label-md-strong">Past permits</h4>
+          <ul class="bcn-pat__samples" role="list">
+            {r.samples.map((s) => (
+              <li class="bcn-pat__sample">
+                <a class="typography-body-md bcn-pat__link" href={withBase(ROUTES.permit(s.permitId))}>
+                  {s.projectName}
+                </a>
+                <span class="typography-body-sm bcn-pat__days">{s.days} days</span>
+                <span class="typography-body-sm bcn-pat__issued">Issued {fmtDate(s.issued)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    ) : (
+      <EsaEmptyState size="sm" title="No permits issued here yet" />
+    )
+  }
+</EsaCard>
+
+<style>
+  .bcn-pat__heading {
+    margin: 0;
+  }
+  .bcn-pat__samples {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-pat__sample {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    column-gap: var(--spacing-400);
+    padding-block: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-pat__link {
+    color: var(--color-content-link);
+    text-decoration: underline;
+  }
+  .bcn-pat__link:hover {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  .bcn-pat__days {
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-pat__issued {
+    color: var(--color-content-default-secondary);
+  }
+</style>

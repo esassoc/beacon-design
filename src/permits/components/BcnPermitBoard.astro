@@ -1,0 +1,575 @@
+---
+// <BcnPermitBoard> — the Board view on a Permit Tracker project page: BcnActionBoard's
+// model applied to permits. One column per WORKFLOW COLUMN of the selected workflow,
+// one card per permit on this project whose type that workflow covers. Columns are
+// user data (src/lib/permit-status-store.ts, per project), every one mapped to the
+// Not Started / In Progress / Completed backbone, so the dot on each column header is
+// the backbone tone and rollups keep one meaning of done.
+//
+// SWITCHER: an esa-button-toggle in the header. The first segment, All permits (the
+// default), shows every permit on three columns, one per backbone category, so every
+// in-progress status shares one In Progress column; each card names its own status.
+// Dropping a card there moves it to the first column of that category in its own
+// workflow. Then one segment per workflow in the store (Local land use · State and
+// federal · Stormwater coverage by default); a permit sits on the board of the
+// workflow covering its type.
+//
+// CONFIGURE: the header renders a "Configure statuses" esa-button (marked
+// data-pboard-configure). Clicking it fires CONFIGURE_EVENT (permit-board.ts) with the
+// project and the workflow in view; BcnPermitStatusConfig listens and opens on it. A
+// Save there writes the store, which fires CHANGE_EVENT, which re-renders this board.
+//
+// CARDS: rendered once at build time per permit (name link, scope, agency, assignee,
+// the derived flags) into a hidden pool; the controller only MOVES them into columns,
+// so every lego inside stays the lego. Flags are derived (blockers / expiryFlag) and
+// never statuses, so they survive any renaming.
+//
+// MOVE: pointer drag as BcnActionBoard (lift past 4px, card follows the pointer, the
+// column under it lights up, release commits via setPermitStatus, Escape flies it
+// home). The keyboard way is each card's "Move" menu (esa-dropdown-menu), which lists
+// the workflow's other columns.
+//
+// bcn-lego-checked: no esa-* lego is a board — esa-card is a content block, esa-tab-layout
+// is page tabs, nothing holds draggable columns. BcnActionBoard is the approved board but
+// is bound to the action store and its card renderer; this ports its geometry and drag to
+// the permit store. Checked Beacon prod: the compliance kanban has fixed columns and no
+// drag. Composed inside: esa-button-toggle, esa-button, esa-dropdown-menu, esa-badge,
+// esa-avatar. bcn-permit-board is the reusable home for the permit board and its card.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import {
+  blockers,
+  expiryFlag,
+  fmtDate,
+  jurisdiction,
+  permitsOfProject,
+  scopeLabel,
+  ROUTES,
+} from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+
+const cards = permitsOfProject(projectId).map((p) => {
+  const waits = blockers(p);
+  const expiry = expiryFlag(p);
+  return {
+    p,
+    href: withBase(ROUTES.permit(p.id)),
+    meta: `${scopeLabel(p)} · ${jurisdiction(p.jurisdictionId).name}`,
+    waiting: waits.length ? (waits.length === 1 ? `Waiting on ${waits[0].name}` : `Waiting on ${waits.length} permits`) : '',
+    waitingTitle: waits.map((w) => w.name).join(', '),
+    expiry,
+    expiryTitle: p.expires ? `Expires ${fmtDate(p.expires)}` : '',
+  };
+});
+---
+
+<section class="bcn-pboard stack" data-gap="md" data-pboard data-project-id={projectId}>
+  <div class="repel" data-gap="md">
+    <esa-button-toggle data-pboard-switch size="md" aria-label="Workflow"></esa-button-toggle>
+    <span data-pboard-configure>
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="settings">Configure statuses</EsaButton>
+    </span>
+  </div>
+
+  <div class="bcn-pboard__cols" data-pboard-cols></div>
+
+  <template data-pboard-col-tpl>
+    <div class="bcn-pboard__col" data-pboard-col>
+      <header class="bcn-pboard__head">
+        <span class="bcn-pboard__dot" data-pboard-dot></span>
+        <span class="bcn-pboard__name typography-label-md-strong" data-pboard-name></span>
+        <span class="bcn-pboard__count typography-body-sm" data-pboard-count></span>
+      </header>
+      <div class="bcn-pboard__list" data-pboard-list></div>
+    </div>
+  </template>
+
+  <!-- A blank card for permits added in the browser (named and linked on the client). -->
+  <template data-pboard-new-tpl>
+    <article class="bcn-pcard" data-pcard>
+      <div class="bcn-pcard__top">
+        <a class="bcn-pcard__name typography-label-md-strong" data-pcard-name draggable="false"></a>
+        <esa-dropdown-menu class="bcn-pcard__menu" data-pcard-menu position="below-end">
+          <span>
+            <EsaButton variant="ghost" size="sm" iconOnly icon="arrow-right" label="Move" />
+          </span>
+        </esa-dropdown-menu>
+      </div>
+      <span class="bcn-pcard__meta typography-body-sm" data-pcard-meta></span>
+      <span class="bcn-pcard__status typography-body-sm" data-pcard-status hidden>
+        <span class="bcn-pboard__dot" data-pcard-status-dot></span>
+        <span data-pcard-status-name></span>
+      </span>
+      <span class="bcn-pcard__who typography-body-sm" data-pcard-who></span>
+    </article>
+  </template>
+
+  <div data-pboard-pool hidden>
+    {cards.map(({ p, href, meta, waiting, waitingTitle, expiry, expiryTitle }) => (
+      <article class="bcn-pcard" data-pcard data-permit-id={p.id} data-type-id={p.typeId} data-status-id={p.statusId}>
+        <div class="bcn-pcard__top">
+          <a class="bcn-pcard__name typography-label-md-strong" href={href} draggable="false">{p.name}</a>
+          <esa-dropdown-menu class="bcn-pcard__menu" data-pcard-menu position="below-end">
+            <span>
+              <EsaButton variant="ghost" size="sm" iconOnly icon="arrow-right" label={`Move ${p.name}`} />
+            </span>
+          </esa-dropdown-menu>
+        </div>
+        <span class="bcn-pcard__meta typography-body-sm">{meta}</span>
+        <span class="bcn-pcard__status typography-body-sm" data-pcard-status hidden>
+          <span class="bcn-pboard__dot" data-pcard-status-dot></span>
+          <span data-pcard-status-name></span>
+        </span>
+        {(waiting || expiry) && (
+          <span class="cluster" data-gap="xs">
+            {waiting && <span title={waitingTitle}><EsaBadge variant="warning" size="sm" value={waiting} /></span>}
+            {expiry === 'expiring' && <span title={expiryTitle}><EsaBadge variant="warning" size="sm" value="Expires soon" /></span>}
+            {expiry === 'expired' && <span title={expiryTitle}><EsaBadge variant="danger" size="sm" value="Expired" /></span>}
+          </span>
+        )}
+        <span class="bcn-pcard__who typography-body-sm">
+          <EsaAvatar name={p.assignee} size="xs" />
+          {p.assignee}
+        </span>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { ADDED_EVENT, ensureAddedPermits } from '../lib/added-permits-store';
+  import { loadProject } from '../lib/project-store';
+  import { ROUTES, getPermit, jurisdiction, scopeLabel, type Permit } from '../data/permit-tracker';
+  import { applyPermitEdits, loadEdits } from '../lib/permit-edits-store';
+  import { withBase } from '../../lib/base';
+  import '@esa/ecology/esa-dropdown-menu';
+  import {
+    CATEGORIES,
+    CATEGORY_META,
+    PERMIT_TYPES,
+    workflowOf,
+    type PermitTypeId,
+    type PermitWorkflow,
+    type StatusColumn,
+  } from '../data/permit-tracker';
+  import { CHANGE_EVENT, loadWorkflows, resolveStatus, setPermitStatus } from '../lib/permit-status-store';
+  import { openPermitStatusConfig, placeIn } from './permit-board';
+
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+  type MenuEl = HTMLElement & { items: { label: string; action?: string; disabled?: boolean }[] };
+
+  document.querySelectorAll<HTMLElement>('[data-pboard]').forEach((root) => {
+    const projectId = root.dataset.projectId!;
+    const switcher = root.querySelector<ToggleEl>('[data-pboard-switch]')!;
+    const colsEl = root.querySelector<HTMLElement>('[data-pboard-cols]')!;
+    const colTpl = root.querySelector<HTMLTemplateElement>('[data-pboard-col-tpl]')!;
+    const pool = root.querySelector<HTMLElement>('[data-pboard-pool]')!;
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-pboard-pool] [data-pcard]')];
+    const cardById = new Map(cards.map((c) => [c.dataset.permitId!, c]));
+
+    // Permits added in the browser: a card from the blank template, the assignee's avatar
+    // borrowed from any SSR card (hue and initials re-set).
+    const newCard = (p: Permit) => {
+      const card = (root.querySelector<HTMLTemplateElement>('[data-pboard-new-tpl]')!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+      Object.assign(card.dataset, { permitId: p.id, typeId: p.typeId, statusId: p.statusId });
+      const nameEl = card.querySelector<HTMLAnchorElement>('[data-pcard-name]')!;
+      nameEl.textContent = p.name;
+      nameEl.href = withBase(ROUTES.addedPermit(p.id));
+      card.querySelector('[data-pcard-meta]')!.textContent = `${scopeLabelOf(p)} · ${jurisdiction(p.jurisdictionId).name}`;
+      card.querySelector('[data-pcard-menu] [aria-label]')?.setAttribute('aria-label', `Move ${p.name}`);
+      const who = card.querySelector<HTMLElement>('[data-pcard-who]')!;
+      const avatar = cards[0]?.querySelector('.esa-avatar')?.cloneNode(true) as HTMLElement | undefined;
+      if (avatar) {
+        const parts = p.assignee.trim().split(/\s+/);
+        avatar.querySelector('.esa-avatar__initials')!.textContent = (parts[0][0] + (parts.length > 1 ? parts.at(-1)![0] : '')).toUpperCase();
+        let h = 0;
+        for (let i = 0; i < p.assignee.length; i++) h = p.assignee.charCodeAt(i) + ((h << 5) - h);
+        avatar.style.setProperty('--_avatar-hue', String(Math.abs(h) % 360));
+        who.append(avatar);
+      }
+      who.append(p.assignee);
+      return card;
+    };
+    const scopeLabelOf = (p: Permit) => (p.siteId ? loadProject(projectId).sites.find((s) => s.id === p.siteId)?.name ?? scopeLabel(p) : 'Project-wide');
+    const adopt = (p: Permit) => {
+      if (cardById.has(p.id)) return;
+      const card = newCard(p);
+      pool.append(card);
+      cards.push(card);
+      cardById.set(p.id, card);
+    };
+    ensureAddedPermits(projectId).forEach(adopt);
+
+    // Saved edits (permit page): a card's name, where-and-who line, and assignee.
+    applyPermitEdits();
+    for (const card of cards) {
+      const id = card.dataset.permitId!;
+      if (!Object.keys(loadEdits(id)).length) continue;
+      const p = getPermit(id);
+      if (!p) continue;
+      const name = card.querySelector('.bcn-pcard__name');
+      if (name) name.textContent = p.name;
+      const meta = card.querySelector('.bcn-pcard__meta');
+      if (meta) meta.textContent = `${scopeLabelOf(p)} · ${jurisdiction(p.jurisdictionId).name}`;
+      const who = card.querySelector('.bcn-pcard__who');
+      const last = who?.lastChild;
+      if (last && last.nodeType === Node.TEXT_NODE) last.textContent = p.assignee;
+    }
+    document.addEventListener(ADDED_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId !== projectId) return;
+      ensureAddedPermits(projectId).forEach(adopt);
+      render();
+    });
+
+    // The All permits board: every type, one column per backbone category.
+    const ALL = 'all-permits';
+    const allBoard: PermitWorkflow = {
+      id: ALL,
+      name: 'All permits',
+      types: PERMIT_TYPES.map((t) => t.id),
+      columns: CATEGORIES.map((c) => ({ id: `${ALL}-${c}`, name: c === 'Completed' ? 'Issued' : CATEGORY_META[c].label, category: c })),
+    };
+
+    let workflows: PermitWorkflow[] = [];
+    let currentId = ALL;
+    const current = () => (currentId === ALL ? allBoard : (workflows.find((w) => w.id === currentId) ?? workflows[0]));
+
+    const statusOf = (card: HTMLElement): StatusColumn =>
+      resolveStatus(projectId, { id: card.dataset.permitId!, statusId: card.dataset.statusId!, typeId: card.dataset.typeId as PermitTypeId });
+    const columnOf = (card: HTMLElement, wf: PermitWorkflow): StatusColumn => placeIn(wf, statusOf(card));
+
+    /** The real status a drop on `colId` means: on All permits, the first column of
+     *  that category in the card's own workflow. */
+    const targetStatus = (card: HTMLElement, colId: string) => {
+      const col = allBoard.columns.find((c) => c.id === colId);
+      if (!col) return colId;
+      const own = workflowOf(card.dataset.typeId as PermitTypeId, workflows);
+      return placeIn(own, { ...col, id: '' }).id;
+    };
+
+    const render = () => {
+      workflows = loadWorkflows(projectId);
+      if (currentId !== ALL && !workflows.some((w) => w.id === currentId)) currentId = ALL;
+      const wf = current();
+      customElements.whenDefined('esa-button-toggle').then(() => {
+        switcher.options = [allBoard, ...workflows].map((w) => ({ value: w.id, label: w.name }));
+        switcher.value = currentId;
+      });
+      // Park every card, then deal the workflow's into its columns.
+      pool.append(...cards);
+      if (!wf) return colsEl.replaceChildren();
+
+      const frag = document.createDocumentFragment();
+      const lists = new Map<string, HTMLElement>();
+      for (const c of wf.columns) {
+        const col = (colTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+        col.dataset.colId = c.id;
+        col.querySelector<HTMLElement>('[data-pboard-dot]')!.style.background = CATEGORY_META[c.category].tone;
+        col.querySelector('[data-pboard-name]')!.textContent = c.name;
+        lists.set(c.id, col.querySelector<HTMLElement>('[data-pboard-list]')!);
+        frag.append(col);
+      }
+      for (const card of cards) {
+        if (!wf.types.includes(card.dataset.typeId as PermitTypeId)) continue;
+        const at = columnOf(card, wf);
+        card.dataset.colId = at.id;
+        const status = card.querySelector<HTMLElement>('[data-pcard-status]');
+        if (status) {
+          const own = statusOf(card);
+          status.hidden = wf !== allBoard;
+          status.querySelector<HTMLElement>('[data-pcard-status-dot]')!.style.background = CATEGORY_META[own.category].tone;
+          status.querySelector('[data-pcard-status-name]')!.textContent = own.name;
+        }
+        lists.get(at.id)?.append(card);
+        const menu = card.querySelector<MenuEl>('[data-pcard-menu]');
+        if (menu) {
+          menu.items = wf.columns.map((c) => ({ label: c.id === at.id ? `${c.name} (current)` : `Move to ${c.name}`, action: c.id, disabled: c.id === at.id }));
+        }
+      }
+      for (const list of lists.values()) {
+        const n = list.children.length;
+        const count = list.closest<HTMLElement>('[data-pboard-col]')!.querySelector<HTMLElement>('[data-pboard-count]')!;
+        count.textContent = String(n);
+        count.title = `${n} ${n === 1 ? 'permit' : 'permits'}`;
+      }
+      colsEl.replaceChildren(frag);
+    };
+
+    switcher.addEventListener('change', (e) => {
+      const id = String((e as CustomEvent).detail?.value ?? '');
+      if (id && id !== currentId) {
+        currentId = id;
+        render();
+      }
+    });
+
+    root.querySelector('[data-pboard-configure]')?.addEventListener('click', () => openPermitStatusConfig(projectId, currentId));
+
+    document.addEventListener(CHANGE_EVENT, (e) => {
+      const pid = (e as CustomEvent).detail?.projectId;
+      if (!pid || pid === projectId) render();
+    });
+
+    // Keyboard / menu move.
+    root.addEventListener('menu-action', (e) => {
+      const card = (e.target as HTMLElement).closest<HTMLElement>('[data-pcard]');
+      const to = String((e as CustomEvent).detail ?? '');
+      if (!card || !to || to === card.dataset.colId) return;
+      setPermitStatus(projectId, card.dataset.permitId!, targetStatus(card, to));
+      // Focus follows the card to its new column.
+      requestAnimationFrame(() => cardById.get(card.dataset.permitId!)?.querySelector<HTMLElement>('.bcn-pcard__name')?.focus());
+    });
+
+    render();
+
+    /* ── Pointer drag (BcnActionBoard's model) ─────────────────────────── */
+    let drag: null | {
+      card: HTMLElement;
+      startX: number;
+      startY: number;
+      lifted: boolean;
+      target: HTMLElement | null;
+      pointerId: number;
+    } = null;
+
+    const colAt = (x: number, y: number) =>
+      (document.elementFromPoint(x, y)?.closest('[data-pboard-col]') as HTMLElement | null) ?? null;
+
+    colsEl.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-pcard-menu]')) return;
+      const card = t.closest<HTMLElement>('[data-pcard]');
+      if (!card) return;
+      drag = { card, startX: e.clientX, startY: e.clientY, lifted: false, target: null, pointerId: e.pointerId };
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      const dx = e.clientX - drag.startX;
+      const dy = e.clientY - drag.startY;
+      if (!drag.lifted) {
+        if (Math.hypot(dx, dy) < 4) return;
+        const r = drag.card.getBoundingClientRect();
+        const hole = document.createElement('div');
+        hole.className = 'bcn-pboard__hole';
+        hole.style.height = `${r.height}px`;
+        drag.card.before(hole);
+        drag.card.dataset.lifted = '';
+        Object.assign(drag.card.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px` });
+        document.body.append(drag.card);
+        document.body.classList.add('is-permit-drag');
+        drag.lifted = true;
+      }
+      drag.card.style.translate = `${dx}px ${dy}px`;
+      const over = colAt(e.clientX, e.clientY);
+      if (over !== drag.target) {
+        drag.target?.removeAttribute('data-drop');
+        if (over && over.dataset.colId !== drag.card.dataset.colId) {
+          over.dataset.drop = '';
+          drag.target = over;
+        } else drag.target = null;
+      }
+    });
+
+    const end = (commit: boolean) => {
+      if (!drag) return;
+      const d = drag;
+      drag = null;
+      document.body.classList.remove('is-permit-drag');
+      if (!d.lifted) return;
+      d.target?.removeAttribute('data-drop');
+      delete d.card.dataset.lifted;
+      d.card.style.removeProperty('left');
+      d.card.style.removeProperty('top');
+      d.card.style.removeProperty('width');
+      d.card.style.removeProperty('translate');
+      colsEl.querySelector('.bcn-pboard__hole')?.remove();
+      // Swallow the click the release would otherwise fire on the link beneath.
+      // Removed after a tick in case the release fires no click (dropped off the card).
+      const swallow = (ev: Event) => {
+        ev.stopPropagation();
+        ev.preventDefault();
+      };
+      window.addEventListener('click', swallow, { capture: true, once: true });
+      setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 0);
+      const to = commit ? d.target?.dataset.colId : undefined;
+      if (to) setPermitStatus(projectId, d.card.dataset.permitId!, targetStatus(d.card, to));
+      else render();
+    };
+    window.addEventListener('pointerup', (e) => drag && e.pointerId === drag.pointerId && end(true));
+    window.addEventListener('pointercancel', () => end(false));
+    window.addEventListener('keydown', (e) => e.key === 'Escape' && drag?.lifted && end(false));
+  });
+</script>
+
+<style>
+  .bcn-pboard {
+    min-inline-size: 0;
+  }
+
+  /* BcnActionBoard's strip: columns pan sideways as one row, each a stable width, each
+     a full-height lane so an empty column is as big a drop target as a full one. */
+  .bcn-pboard__cols {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(272px, 1fr);
+    gap: var(--spacing-300);
+    overflow-x: auto;
+    padding-block-end: var(--spacing-200);
+    align-items: stretch;
+    min-block-size: 420px;
+  }
+  .bcn-pboard__col {
+    --_col-bg: color-mix(in srgb, var(--color-background-elevation-sunken) 55%, var(--color-background-default));
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    background: var(--_col-bg);
+    border: 1px solid color-mix(in srgb, var(--color-border-default) 60%, var(--color-border-default-subtle));
+    border-radius: var(--radius-300, var(--radius-200));
+    transition: background-color 120ms ease, border-color 120ms ease;
+  }
+  .bcn-pboard__col[data-drop] {
+    background: color-mix(in srgb, var(--color-background-brand) 8%, var(--_col-bg));
+    border-color: var(--color-background-brand);
+  }
+  .bcn-pboard__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-200);
+  }
+  .bcn-pboard__dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bcn-pboard__name {
+    color: var(--color-content-default);
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-pboard__count {
+    color: var(--color-content-default-secondary);
+    margin-inline-start: auto;
+  }
+  .bcn-pboard__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-200) var(--spacing-200);
+    flex: 1;
+  }
+
+  /* The card: BcnActionCard's tile — raised surface, hairline border, the name's link
+     stretched over the whole tile so a click anywhere opens the permit. */
+  .bcn-pcard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-pcard:hover {
+    border-color: var(--color-border-default-strong, var(--color-border-default));
+    box-shadow: var(--elevation-1, 0 1px 2px rgb(0 0 0 / 0.06));
+  }
+  .bcn-pcard__top {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+  }
+  .bcn-pcard__name {
+    color: var(--color-content-default);
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: inherit;
+  }
+  .bcn-pcard__name:hover {
+    text-decoration: underline;
+  }
+  .bcn-pcard__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .bcn-pcard__name:focus-visible {
+    outline: none;
+  }
+  .bcn-pcard__name:focus-visible::after {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  /* Above the stretched link so the menu stays its own target. */
+  .bcn-pcard__menu,
+  .bcn-pcard [title] {
+    position: relative;
+    z-index: 1;
+  }
+  .bcn-pcard__menu {
+    flex-shrink: 0;
+    margin: calc(-1 * var(--spacing-100)) calc(-1 * var(--spacing-100)) 0 0;
+    cursor: default;
+  }
+  .bcn-pcard__meta {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pcard__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-content-default);
+  }
+  .bcn-pcard__who {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-content-default-secondary);
+    padding-block-start: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default);
+  }
+
+  .bcn-pcard[data-lifted] {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    box-shadow: var(--elevation-4, 0 12px 28px rgb(0 0 0 / 0.18));
+    rotate: 1.5deg;
+    cursor: grabbing;
+  }
+
+  :global(.bcn-pboard__hole) {
+    border: 1px dashed var(--color-border-default-strong);
+    border-radius: var(--radius-200);
+  }
+  :global(body.is-permit-drag) {
+    cursor: grabbing;
+    user-select: none;
+  }
+  [hidden] {
+    display: none !important;
+  }
+</style>

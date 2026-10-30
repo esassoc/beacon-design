@@ -1,0 +1,17 @@
+---
+// Permit Tracker — a permit added in the browser (the project page's Add permit). It has
+// no build-time route, so this one page reads ?id= and draws the permit on the client
+// (BcnAddedPermit). Fixture permits keep their own pages (permits/[id].astro).
+import PermitsLayout from '../../../../permits/layouts/PermitsLayout.astro';
+import BcnAddedPermit from '../../../../permits/components/BcnAddedPermit.astro';
+---
+
+<!-- manifest:
+  layout: PermitsLayout                    # SPINE
+  sections:
+    - permit -> bcn-added-permit                 # header, details, status, application needs, waits on, permit type
+-->
+
+<PermitsLayout title="Permit" active="projects">
+  <BcnAddedPermit />
+</PermitsLayout>

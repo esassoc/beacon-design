@@ -1,0 +1,57 @@
+---
+// Permit Tracker — one permit type. What it is issued under (governing law, each linking
+// to the law online), what an application needs, and every agency the tracker has seen
+// issue it: how long it took there and, for Critical Areas Review, that agency's
+// ordinance (linked) and its last amendment. An agency row opens the agency's page.
+// One static route per permit type.
+import PermitsLayout from '../../../../../permits/layouts/PermitsLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
+import BcnGoverningLaw from '../../../../../permits/components/BcnGoverningLaw.astro';
+import BcnPermitTypeNeeds from '../../../../../permits/components/BcnPermitTypeNeeds.astro';
+import BcnPermitDurations from '../../../../../permits/components/BcnPermitDurations.astro';
+import BcnOrdinanceCheck from '../../../../../permits/components/BcnOrdinanceCheck.astro';
+import { PERMIT_TYPES, ROUTES, type PermitType } from '../../../../../permits/data/permit-tracker';
+import { withBase } from '../../../../../lib/base';
+
+export function getStaticPaths() {
+  return PERMIT_TYPES.map((t) => ({ params: { typeId: t.id }, props: { type: t } }));
+}
+
+interface Props {
+  type: PermitType;
+}
+const { type: t } = Astro.props;
+const meta = [
+  { label: 'Level', value: t.level },
+  { label: 'Valid for', value: t.validYears ? `${t.validYears} year${t.validYears === 1 ? '' : 's'}` : 'Does not expire' },
+];
+---
+
+<!-- manifest:
+  layout: PermitsLayout > stack(xl)        # SPINE
+  sections:
+    - page header    -> esa-page-header           # type name; level, valid for; breadcrumbs; critical areas: bcn-ordinance-check (Check for updates)
+    - law + needs    -> bcn-governing-law, bcn-permit-type-needs   # side by side (.switcher)
+    - agencies       -> bcn-permit-durations      # this type's agencies; critical areas adds ordinance + last amended
+-->
+
+<PermitsLayout title={t.name} active="types">
+  <div class="stack" data-gap="xl">
+    <EsaPageHeader title={t.name} meta={meta}>
+      <EsaBreadcrumbs slot="breadcrumbs" items={[{ label: 'Permit types', href: withBase(ROUTES.permitTypes) }, { label: t.name }]} />
+      {
+        t.id === 'critical-areas' && (
+          <Fragment slot="actions">
+            <BcnOrdinanceCheck />
+          </Fragment>
+        )
+      }
+    </EsaPageHeader>
+    <div class="switcher" data-gap="xl" style="--switcher-threshold: 48rem">
+      <BcnGoverningLaw typeId={t.id} />
+      <BcnPermitTypeNeeds typeId={t.id} />
+    </div>
+    <BcnPermitDurations typeId={t.id} title="Agencies" />
+  </div>
+</PermitsLayout>

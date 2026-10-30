@@ -1,0 +1,37 @@
+---
+// Permit Tracker — Projects. The landing page of the standalone permit-issuance app:
+// "My projects" (cards for the active projects the current user is on the team of) over
+// "All projects" (a grid of every project, filtered to Active by default, so anyone can
+// still open a project they aren't on, or a closed one, for its permits and files).
+// Fixture: src/data/permit-tracker.ts.
+import PermitsLayout from '../../../permits/layouts/PermitsLayout.astro';
+import EsaPageHeader from '@esa/ecology/esa-page-header.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPermitProjectList from '../../../permits/components/BcnPermitProjectList.astro';
+import BcnPermitProjectGrid from '../../../permits/components/BcnPermitProjectGrid.astro';
+import { CURRENT_USER, PROJECTS } from '../../../permits/data/permit-tracker';
+
+const active = PROJECTS.filter((p) => p.status === 'active');
+const closed = PROJECTS.filter((p) => p.status === 'closed').sort((a, b) => b.constructionStart.localeCompare(a.constructionStart));
+---
+
+<!-- manifest:
+  layout: PermitsLayout > stack(2xl)       # SPINE — esa-app-shell with the tracker's own nav
+  sections:
+    - page header     -> esa-page-header          # "Projects" + New project
+    - my projects     -> bcn-permit-project-list  # cards for active projects the current user is on the team of
+    - all projects    -> bcn-permit-project-grid  # AG Grid of every project; Active / Closed / All filter
+-->
+
+<PermitsLayout title="Projects" active="projects">
+  <div class="stack" data-gap="2xl">
+    <EsaPageHeader title="Projects">
+      <Fragment slot="actions">
+        <EsaButton variant="primary" icon="plus">New project</EsaButton>
+      </Fragment>
+    </EsaPageHeader>
+
+    <BcnPermitProjectList heading="My projects" projects={active} member={CURRENT_USER} />
+    <BcnPermitProjectGrid projects={[...active, ...closed]} />
+  </div>
+</PermitsLayout>

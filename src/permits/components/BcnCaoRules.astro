@@ -1,0 +1,479 @@
+---
+// <BcnCaoRules> — an agency's critical areas rules on its permit-type page, and the people
+// workflow around them: AI reads the ordinance and suggests the sections, a person edits
+// them and marks them validated.
+//
+//   How review works · Wetland buffers · Stream buffers — one esa-card each. The header
+//     carries the section's status badge (AI suggested / Edited, not validated /
+//     Validated), "Example data" when the content is template text, Edit, and Validate
+//     (until validated). The body opens with its history line ("Suggested by AI Oct 23,
+//     2026 · Edited by … · Validated by …") and renders through cao-render.ts.
+//   Not read yet — when there are no rules, an empty state with "Suggest with AI" (or "No
+//     online code found" with the index's note, when there's nothing to read).
+//   Changed since review — an esa-alert-box when the ordinance was amended after the rules
+//     were last suggested, edited or validated, with "Run AI review again".
+//   Editor — one esa-side-dialog for whichever section's Edit was pressed: every text and
+//     citation as esa-textarea / esa-text-field, each code table's values as a grid of
+//     esa-text-fields, notes one per line. Footer: Restore AI suggestion (far left, when
+//     edited) · Save and validate · Save · Cancel.
+//
+// It also keeps the page header's Ordinance / Last amended and the [data-ordinance-link]
+// button in step with ordinance corrections and update checks.
+//
+// State lives in src/lib/cao-store.ts (every user's, in the product; this browser's, in
+// the prototype). The build renders the seed; the client re-renders from the store on
+// load and on CAO_EVENT. The AI run is SIMULATED in the prototype (a pause, then the known
+// detail or the template for the chapter — simulatedSuggestion()).
+//
+// bcn-lego-checked: cards = esa-card; badges = esa-badge; buttons = esa-button; alert =
+// esa-alert-box; empty = esa-empty-state; drawer = esa-side-dialog with esa-textarea /
+// esa-text-field. Checked Beacon (no AI-suggest / validate workflow component). The CSS is
+// the rendered rules (facts grid, code tables, history line) and the editor's cell grid.
+import '@esa/tokens/a11y.css';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import { caoOf, changedSinceReview, fmtAmended, reviewedDay, seedRules, RULE_SECTION_TITLE, type RuleSectionId } from '../data/permit-rules';
+import { fmtDate } from '../data/permit-tracker';
+import { sectionBody } from './cao-render';
+
+interface Props {
+  jurisdictionId: string;
+}
+const { jurisdictionId } = Astro.props;
+const cao = caoOf(jurisdictionId)!;
+const rules = seedRules(jurisdictionId);
+const KEYS: RuleSectionId[] = ['review', 'wetland', 'stream'];
+const changed = changedSinceReview(cao.ordinance.date, rules);
+const STATUS = [
+  { status: 'suggested', label: 'AI suggested', variant: 'info' },
+  { status: 'edited', label: 'Edited, not validated', variant: 'warning' },
+  { status: 'validated', label: 'Validated', variant: 'success' },
+] as const;
+---
+
+<div class="bcn-cs stack" data-gap="xl" data-cs data-jurisdiction-id={jurisdictionId}>
+  <div data-cs-changed hidden={!changed}>
+    <EsaAlertBox variant="warning" title="Ordinance changed since review">
+      <div class="repel" data-gap="sm">
+        <span data-cs-changed-text>
+          {rules && changed && `Amended ${fmtAmended(cao.ordinance.date)}, after these rules were last reviewed on ${fmtDate(reviewedDay(rules))}.`}
+        </span>
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="rotate-ccw" data-cs-run>Run AI review again</EsaButton>
+      </div>
+    </EsaAlertBox>
+  </div>
+
+  <div data-cs-empty hidden={!!rules}>
+    <EsaCard title="How review works">
+      {
+        cao.ordinance.url ? (
+          <EsaEmptyState size="sm" title="Not read from the code yet">
+            <EsaButton variant="primary" data-cs-run>Suggest with AI</EsaButton>
+          </EsaEmptyState>
+        ) : (
+          <EsaEmptyState size="sm" title="No online code found" description={cao.ordinance.note || undefined} />
+        )
+      }
+    </EsaCard>
+  </div>
+
+  {
+    KEYS.map((key) => (
+      <section data-cs-section={key} hidden={!rules} aria-label={RULE_SECTION_TITLE[key]}>
+        <EsaCard title={RULE_SECTION_TITLE[key]}>
+          <Fragment slot="actions">
+            <div class="cluster" data-gap="xs">
+              {STATUS.map((s) => (
+                <span data-cs-status={s.status} hidden={rules?.[key].status !== s.status}>
+                  <EsaBadge value={s.label} variant={s.variant} />
+                </span>
+              ))}
+              <span data-cs-example hidden={!rules?.example}>
+                <EsaBadge value="Example data" variant="secondary" />
+              </span>
+              <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" data-cs-edit={key}>
+                Edit
+              </EsaButton>
+              <span data-cs-validate-wrap hidden={rules?.[key].status === 'validated'}>
+                <EsaButton variant="ghost" appearance="outline" size="sm" icon="check" data-cs-validate={key}>
+                  Validate
+                </EsaButton>
+              </span>
+            </div>
+          </Fragment>
+          <div class="stack" data-gap="lg" data-cs-body set:html={rules ? sectionBody(rules, key) : ''} />
+        </EsaCard>
+      </section>
+    ))
+  }
+
+  <esa-side-dialog class="bcn-cs__dialog" data-cs-drawer heading="Edit" size="lg">
+    <div class="stack" data-gap="lg" data-cs-form></div>
+    <div slot="footer" class="bcn-cs__footer repel" data-gap="sm">
+      <span>
+        <span data-cs-revert-wrap hidden>
+          <EsaButton variant="ghost" appearance="outline" data-cs-revert>Restore AI suggestion</EsaButton>
+        </span>
+      </span>
+      <div class="cluster" data-gap="sm">
+        <EsaButton variant="primary" data-cs-save-validate>Save and validate</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" data-cs-save>Save</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" data-cs-cancel>Cancel</EsaButton>
+      </div>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import {
+    CAO_EVENT,
+    editSection,
+    loadOrdinance,
+    loadRules,
+    revertSection,
+    saveRules,
+    validateSection,
+  } from '../lib/cao-store';
+  import {
+    RULE_SECTION_TITLE,
+    changedSinceReview,
+    fmtAmended,
+    reviewedDay,
+    simulatedSuggestion,
+    type Cell,
+    type JurisdictionRules,
+    type RuleSectionId,
+    type RuleTable,
+  } from '../data/permit-rules';
+  import { TODAY, fmtDate } from '../data/permit-tracker';
+  import { sectionBody } from './cao-render';
+  import { toast } from '../../lib/snackbar';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void; heading: string };
+  type FieldEl = HTMLElement & { value: string };
+  const KEYS: RuleSectionId[] = ['review', 'wetland', 'stream'];
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-cs]')) {
+    const id = root.dataset.jurisdictionId!;
+    const $ = <T extends HTMLElement = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const drawer = $<DialogEl>('[data-cs-drawer]');
+    const form = $('[data-cs-form]');
+    let editing: RuleSectionId | undefined;
+
+    const render = () => {
+      const rules = loadRules(id);
+      const ord = loadOrdinance(id);
+      $('[data-cs-empty]').hidden = !!rules;
+      // The page header states the ordinance: keep it in step with corrections and update checks.
+      if (ord) {
+        document.querySelectorAll('.esa-page-header__meta-pair').forEach((pair) => {
+          const label = pair.querySelector('dt')?.textContent?.trim();
+          const dd = pair.querySelector('dd');
+          if (!dd) return;
+          if (label === 'Ordinance' && ord.chapter) dd.textContent = ord.chapter;
+          if (label === 'Last amended' && ord.chapter) dd.textContent = fmtAmended(ord.date) || 'Not shown in the code';
+          if (label === 'Last amended by') dd.textContent = ord.ord || 'Not found yet';
+        });
+        document.querySelectorAll<HTMLAnchorElement>('[data-ordinance-link]').forEach((a) => ord.url && (a.href = ord.url));
+      }
+      const changed = changedSinceReview(ord?.date ?? '', rules);
+      $('[data-cs-changed]').hidden = !changed;
+      if (rules && changed) {
+        $('[data-cs-changed-text]').textContent = `Amended ${fmtAmended(ord!.date)}, after these rules were last reviewed on ${fmtDate(reviewedDay(rules))}.`;
+      }
+      for (const key of KEYS) {
+        const sec = $(`[data-cs-section="${key}"]`);
+        sec.hidden = !rules;
+        if (!rules) continue;
+        const s = rules[key];
+        sec.querySelectorAll<HTMLElement>('[data-cs-status]').forEach((b) => (b.hidden = b.dataset.csStatus !== s.status));
+        sec.querySelector<HTMLElement>('[data-cs-example]')!.hidden = !rules.example;
+        sec.querySelector<HTMLElement>('[data-cs-validate-wrap]')!.hidden = s.status === 'validated';
+        sec.querySelector<HTMLElement>('[data-cs-body]')!.innerHTML = sectionBody(rules, key);
+      }
+    };
+
+    // ── AI run (simulated) ───────────────────────────────────────────────────
+    const run = (btn: HTMLElement) => {
+      btn.classList.add('esa-button--loading');
+      btn.setAttribute('aria-busy', 'true');
+      btn.setAttribute('disabled', '');
+      toast('Reading the ordinance…', 'info', 1800);
+      setTimeout(() => {
+        const next = simulatedSuggestion(id, TODAY);
+        btn.classList.remove('esa-button--loading');
+        btn.removeAttribute('aria-busy');
+        btn.removeAttribute('disabled');
+        if (!next) return toast('No online code to read', 'warning');
+        saveRules(id, next);
+        toast('Rules suggested by AI', 'success');
+      }, 1800);
+    };
+    root.querySelectorAll<HTMLElement>('[data-cs-run]').forEach((b) => b.addEventListener('click', () => run(b)));
+
+    root.querySelectorAll<HTMLElement>('[data-cs-validate]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const key = b.dataset.csValidate as RuleSectionId;
+        validateSection(id, key);
+        toast(`${RULE_SECTION_TITLE[key]} validated`, 'success');
+      }),
+    );
+
+    // ── editor ───────────────────────────────────────────────────────────────
+    /** `cell`: a table value, named by aria-label (its row and column heads are visible). */
+    const field = (tag: 'esa-text-field' | 'esa-textarea', name: string, label: string, value: string, rows = 3, cell = false) => {
+      const el = document.createElement(tag) as FieldEl;
+      el.setAttribute(cell ? 'aria-label' : 'label', label);
+      el.setAttribute('size', 'md');
+      if (tag === 'esa-textarea') el.setAttribute('rows', String(rows));
+      el.dataset.f = name;
+      customElements.whenDefined(tag).then(() => (el.value = value));
+      return el;
+    };
+    const val = (name: string) => form.querySelector<FieldEl>(`[data-f="${CSS.escape(name)}"]`)?.value?.trim() ?? '';
+    const heading = (text: string) => {
+      const h = document.createElement('h3');
+      h.className = 'typography-label-lg-strong bcn-cs__subhead';
+      h.textContent = text;
+      return h;
+    };
+    const cellText = (c: Cell) => (typeof c === 'string' ? c : 'span' in c ? c.span : c.span2);
+    const withText = (c: Cell, text: string): Cell => (typeof c === 'string' ? text : 'span' in c ? { span: text } : { span2: text });
+
+    /** A code table's values as a grid of fields; row and column heads stay as text. */
+    const tableFields = (t: RuleTable, ti: number) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'stack';
+      wrap.dataset.gap = 'sm';
+      wrap.append(heading(t.title));
+      const table = document.createElement('table');
+      table.className = 'bcn-cs__cells typography-body-sm';
+      const grouped = !!t.groups;
+      const values = grouped ? t.cols.slice(2) : t.cols.slice(1);
+      const head = table.createTHead().insertRow();
+      for (const c of ['', ...values]) {
+        const th = document.createElement('th');
+        th.scope = 'col';
+        th.textContent = c;
+        head.append(th);
+      }
+      const body = table.createTBody();
+      const rows = grouped ? t.groups!.flatMap((g, gi) => g.rows.map((r, ri) => ({ label: `${g.label}, ${cellText(r[0])}`, cells: r.slice(1), key: `${gi}.${ri}` }))) : t.rows!.map((r, ri) => ({ label: cellText(r[0]), cells: r.slice(1), key: `${ri}` }));
+      for (const r of rows) {
+        const tr = body.insertRow();
+        const th = document.createElement('th');
+        th.scope = 'row';
+        th.textContent = r.label;
+        tr.append(th);
+        r.cells.forEach((c, ci) => {
+          const td = tr.insertCell();
+          if (typeof c !== 'string') td.colSpan = 'span' in c ? values.length : 2;
+          const f = field('esa-text-field', `t${ti}.${r.key}.${ci}`, `${r.label}, ${values[ci] ?? ''}`, cellText(c), 3, true);
+          f.setAttribute('size', 'sm');
+          f.classList.add('bcn-cs__cell');
+          td.append(f);
+        });
+      }
+      wrap.append(table, field('esa-textarea', `t${ti}.notes`, 'Notes (one per line)', t.notes.join('\n'), 3));
+      return wrap;
+    };
+    const readTable = (t: RuleTable, ti: number): RuleTable => {
+      const cells = (row: Cell[], key: string) => [row[0], ...row.slice(1).map((c, ci) => withText(c, val(`t${ti}.${key}.${ci}`)))];
+      return {
+        ...t,
+        ...(t.groups ? { groups: t.groups.map((g, gi) => ({ ...g, rows: g.rows.map((r, ri) => cells(r, `${gi}.${ri}`)) })) } : { rows: t.rows!.map((r, ri) => cells(r, `${ri}`)) }),
+        notes: val(`t${ti}.notes`).split('\n').map((n) => n.trim()).filter(Boolean),
+      };
+    };
+
+    const open = (key: RuleSectionId) => {
+      const rules = loadRules(id);
+      if (!rules) return;
+      editing = key;
+      drawer.heading = `Edit ${RULE_SECTION_TITLE[key].toLowerCase()}`;
+      form.replaceChildren();
+      const pair = (name: string, label: string, text: string, ref: string) => {
+        const g = document.createElement('div');
+        g.className = 'stack';
+        g.dataset.gap = 'sm';
+        g.append(field('esa-textarea', name, label, text, 4), field('esa-text-field', `${name}Ref`, `${label} citation`, ref));
+        return g;
+      };
+      if (key === 'review') {
+        const r = rules.review.current;
+        form.append(
+          pair('process', 'Process', r.process, r.processRef),
+          pair('triggers', 'When review applies', r.triggers, r.triggersRef),
+          pair('exemptions', 'Exemptions', r.exemptions, r.exemptionsRef),
+          pair('relief', 'Relief', r.relief, r.reliefRef),
+        );
+      } else if (key === 'wetland') {
+        const w = rules.wetland.current;
+        form.append(pair('rating', 'Rating system', w.rating, w.ratingRef), pair('range', 'Buffer widths', w.range, w.rangeRef), ...w.tables.map(tableFields));
+      } else {
+        const s = rules.stream.current;
+        form.append(pair('typing', 'Water typing', s.typing, s.typingRef), pair('range', 'Buffer widths', s.range, s.rangeRef), ...s.tables.map(tableFields));
+      }
+      $('[data-cs-revert-wrap]').hidden = rules[key].status === 'suggested';
+      drawer.show();
+    };
+    root.querySelectorAll<HTMLElement>('[data-cs-edit]').forEach((b) => b.addEventListener('click', () => open(b.dataset.csEdit as RuleSectionId)));
+
+    const save = (validate: boolean) => {
+      const rules = loadRules(id);
+      if (!rules || !editing) return;
+      const key = editing;
+      if (key === 'review') {
+        const r = rules.review.current;
+        editSection(id, 'review', { ...r, process: val('process'), processRef: val('processRef'), triggers: val('triggers'), triggersRef: val('triggersRef'), exemptions: val('exemptions'), exemptionsRef: val('exemptionsRef'), relief: val('relief'), reliefRef: val('reliefRef') }, validate);
+      } else if (key === 'wetland') {
+        const w = rules.wetland.current;
+        editSection(id, 'wetland', { ...w, rating: val('rating'), ratingRef: val('ratingRef'), range: val('range'), rangeRef: val('rangeRef'), tables: w.tables.map(readTable) }, validate);
+      } else {
+        const s = rules.stream.current;
+        editSection(id, 'stream', { ...s, typing: val('typing'), typingRef: val('typingRef'), range: val('range'), rangeRef: val('rangeRef'), tables: s.tables.map(readTable) }, validate);
+      }
+      drawer.close();
+      toast(`${RULE_SECTION_TITLE[key]} ${validate ? 'saved and validated' : 'saved'}`, 'success');
+    };
+    $('[data-cs-save]').addEventListener('click', () => save(false));
+    $('[data-cs-save-validate]').addEventListener('click', () => save(true));
+    $('[data-cs-cancel]').addEventListener('click', () => drawer.close());
+    $('[data-cs-revert]').addEventListener('click', () => {
+      if (!editing) return;
+      revertSection(id, editing);
+      drawer.close();
+      toast(`${RULE_SECTION_TITLE[editing]} restored to the AI suggestion`, 'success');
+    });
+
+    document.addEventListener(CAO_EVENT, (e) => {
+      const d = (e as CustomEvent).detail ?? {};
+      if (!d.jurisdictionId || d.jurisdictionId === id) render();
+    });
+    render();
+  }
+</script>
+
+<style>
+  [data-cs] [hidden] {
+    display: none;
+  }
+  .bcn-cs__dialog {
+    --side-dialog-width-lg: min(56rem, 92vw);
+  }
+  .bcn-cs__footer {
+    inline-size: 100%;
+  }
+
+  /* Rendered rules (cao-render.ts) — global under the root: the markup arrives as HTML. */
+  .bcn-cs :global(.bcn-cs__history) {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-cs :global(.bcn-cs__subhead) {
+    margin: 0;
+  }
+  .bcn-cs :global(.bcn-cs__sources) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-cs :global(.bcn-cs__sources li + li) {
+    margin-top: var(--spacing-100);
+  }
+  .bcn-cs :global(.bcn-cf) {
+    margin: 0;
+  }
+  .bcn-cs :global(.bcn-cf__row) {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+    column-gap: var(--spacing-400);
+    padding-block: var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+  }
+  .bcn-cs :global(.bcn-cf__row:first-child) {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+  @media (max-width: 40rem) {
+    .bcn-cs :global(.bcn-cf__row) {
+      grid-template-columns: 1fr;
+      row-gap: var(--spacing-100);
+    }
+  }
+  .bcn-cs :global(.bcn-cf dd) {
+    margin: 0;
+  }
+  .bcn-cs :global(.bcn-cf__cite) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    inline-size: fit-content;
+  }
+  .bcn-cs :global(.bcn-cf__cite:hover) {
+    color: var(--color-content-link-hover, var(--color-content-link));
+  }
+  .bcn-cs :global(.bcn-rt) {
+    margin: 0;
+  }
+  .bcn-cs :global(.bcn-rt figcaption) {
+    align-items: baseline;
+  }
+  .bcn-cs :global(.bcn-rt__scroll) {
+    overflow-x: auto;
+  }
+  .bcn-cs :global(.bcn-rt__table),
+  .bcn-cs :global(.bcn-cs__cells) {
+    inline-size: 100%;
+    border-collapse: collapse;
+    color: var(--color-content-default);
+  }
+  .bcn-cs :global(.bcn-rt__table th),
+  .bcn-cs :global(.bcn-rt__table td) {
+    text-align: start;
+    vertical-align: top;
+    padding: var(--spacing-150) var(--spacing-200);
+    border: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-cs :global(.bcn-rt__table thead th) {
+    background: var(--color-background-elevation-sunken);
+    font-weight: var(--typography-font-weight-semibold, 600);
+    vertical-align: bottom;
+  }
+  .bcn-cs :global(.bcn-rt__table tbody th) {
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+  .bcn-cs :global(.bcn-rt__table .bcn-rt__group) {
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+  .bcn-cs :global(.bcn-rt__notes) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-cs :global(.bcn-rt__notes li + li) {
+    margin-top: var(--spacing-100);
+  }
+
+  /* Editor: a code table's values as fields. */
+  .bcn-cs :global(.bcn-cs__cells th),
+  .bcn-cs :global(.bcn-cs__cells td) {
+    text-align: start;
+    vertical-align: middle;
+    padding: var(--spacing-100);
+  }
+  .bcn-cs :global(.bcn-cs__cells tbody th) {
+    font-weight: var(--typography-font-weight-regular, 400);
+    max-inline-size: 18rem;
+  }
+  .bcn-cs :global(.bcn-cs__cell) {
+    min-inline-size: 5rem;
+  }
+</style>

@@ -1,0 +1,322 @@
+---
+// <BcnPermitStatusConfig> — "Configure statuses": where a project defines its own permit
+// statuses per workflow. The permit version of BcnBoardConfigDialog, whose geometry and
+// behaviour are approved canon and inherited whole: a live PREVIEW on the left (the
+// board as it will read, with this project's permits counted in it), the OPTIONS in a
+// 396px rail on the right, one scroller, Windows footer.
+//
+// THE MODEL (src/data/permit-tracker.ts): a WORKFLOW names the permit types it covers
+// and an ordered list of STATUSES (columns); every status belongs to one backbone
+// category (Not Started / In Progress / Completed). The rail groups statuses under their
+// category: rename, reorder inside the group, add, delete. A category keeps at least one
+// status. Deleting a status that holds permits asks where they go (→ `moves`). A permit
+// type belongs to exactly one workflow; ticking it here unticks it where it was.
+//
+// DRAFT: opening copies the project's workflows from the store; nothing touches the
+// store until Save, which calls saveWorkflows(projectId, drafts, moves). Cancel, the X,
+// Escape and a click on the scrim all discard. "Reset to defaults" resets the draft; it
+// is committed (resetWorkflows) only on Save.
+//
+// OPENING: listens for CONFIGURE_EVENT (permit-board.ts; BcnPermitBoard's "Configure
+// statuses" button fires it) for this projectId, and for clicks on any element marked
+// [data-permit-configure] (a page-header button, if a page wants one). Scripts can call
+// openPermitStatusConfig(projectId, workflowId?) from permit-board.ts.
+//
+// DUMB SHELL + CONTROLLER: this file renders the frame, the three category groups and
+// <template>s for every runtime row; permit-status-config.ts owns the draft and fills
+// them. No markup is built from strings.
+//
+// bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg re-pointed
+// (the documented knob, as BcnBoardConfigDialog does); controls are esa-select,
+// esa-text-field, esa-checkbox-group and esa-button. The status bar follows
+// BcnBoardConfigDialog's column bar, which cannot be reused directly: that dialog is
+// bound to the action store and action types. Checked Beacon prod: status is a fixed
+// enum with no configuration surface to port. bcn-permit-status-config is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { CATEGORIES, CATEGORY_META, PERMIT_TYPES } from '../data/permit-tracker';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+
+const types = PERMIT_TYPES.map((t) => ({ value: t.id, label: t.name }));
+const GRIP = '<circle cx="9" cy="5" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="19" r="1"/>';
+---
+
+<esa-dialog
+  data-pscfg
+  data-project-id={projectId}
+  heading="Configure statuses"
+  size="lg"
+  show-close-button
+  data-types={JSON.stringify(types)}
+  data-category-meta={JSON.stringify(CATEGORY_META)}
+  style="--dialog-width-lg: min(1320px, 94vw);"
+>
+  <div class="bcn-pscfg">
+    <div class="bcn-pscfg__preview">
+      <div class="bcn-pscfg__board" data-pscfg-preview></div>
+    </div>
+
+    <div class="bcn-pscfg__options stack" data-gap="lg">
+      <div class="bcn-pscfg__pick">
+        <esa-select data-pscfg-workflow label="Workflow" size="sm"></esa-select>
+        <span data-pscfg-new><EsaButton variant="ghost" appearance="outline" size="sm" icon="plus">New workflow</EsaButton></span>
+      </div>
+
+      <span class="bcn-pscfg__group typography-label-md-strong">Workflow</span>
+      <esa-text-field data-pscfg-name label="Name" size="sm"></esa-text-field>
+      <esa-checkbox-group data-pscfg-types label="Permit types" size="sm"></esa-checkbox-group>
+
+      <span class="bcn-pscfg__group typography-label-md-strong">Statuses</span>
+      {CATEGORIES.map((cat) => (
+        <div class="stack" data-gap="xs" data-pscfg-cat={cat}>
+          <span class="bcn-pscfg__cathead">
+            <span class="bcn-pscfg__dot" style={`background: ${CATEGORY_META[cat].tone}`}></span>
+            <span class="typography-label-sm-strong">{CATEGORY_META[cat].label}</span>
+          </span>
+          <div class="stack" data-gap="xs" data-pscfg-bars></div>
+          <span class="bcn-pscfg__add" data-pscfg-add={cat}>
+            <EsaButton variant="ghost" size="sm" icon="plus">Add status</EsaButton>
+          </span>
+        </div>
+      ))}
+
+      <span class="bcn-pscfg__add" data-pscfg-restore>
+        <EsaButton variant="ghost" size="sm" icon="rotate-ccw">Reset to defaults</EsaButton>
+      </span>
+    </div>
+  </div>
+
+  <div slot="footer" class="repel bcn-pscfg__foot" data-gap="md">
+    <span data-pscfg-delete-wf><EsaButton variant="danger" appearance="soft" size="sm">Delete workflow</EsaButton></span>
+    <span class="cluster" data-gap="sm">
+      <span data-pscfg-save><EsaButton variant="primary" size="sm">Save statuses</EsaButton></span>
+      <span data-pscfg-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+    </span>
+  </div>
+
+  <!-- One status, as a row of the options rail. -->
+  <template data-pscfg-bar-tpl>
+    <div class="bcn-pscfg__bar" data-pscfg-bar>
+      <div class="bcn-pscfg__barrow">
+        <button type="button" class="bcn-pscfg__grip" data-pscfg-grip aria-label="Reorder status">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" set:html={GRIP} />
+        </button>
+        <esa-text-field class="bcn-pscfg__colname" data-pscfg-colname size="sm" aria-label="Status name"></esa-text-field>
+        <span class="bcn-pscfg__n typography-body-sm" data-pscfg-n></span>
+        <span data-pscfg-remove>
+          <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Delete status" />
+        </span>
+      </div>
+      <div class="bcn-pscfg__move stack" data-gap="xs" data-pscfg-move hidden>
+        <esa-select data-pscfg-move-to size="sm" label=""></esa-select>
+        <span class="cluster" data-gap="xs">
+          <span data-pscfg-move-ok><EsaButton variant="danger" appearance="soft" size="sm">Delete and move</EsaButton></span>
+          <span data-pscfg-move-cancel><EsaButton variant="ghost" size="sm">Keep status</EsaButton></span>
+        </span>
+      </div>
+    </div>
+  </template>
+
+  <!-- One column of the preview board, and one permit stub in it. -->
+  <template data-pscfg-pcol-tpl>
+    <div class="bcn-pscfg__pcol">
+      <span class="bcn-pscfg__phead">
+        <span class="bcn-pscfg__dot" data-pscfg-pdot></span>
+        <span class="bcn-pscfg__pname typography-label-sm-strong" data-pscfg-pname></span>
+        <span class="bcn-pscfg__pcount typography-body-sm" data-pscfg-pcount></span>
+      </span>
+      <div class="bcn-pscfg__plist" data-pscfg-plist></div>
+    </div>
+  </template>
+  <template data-pscfg-stub-tpl>
+    <div class="bcn-pscfg__stub typography-body-sm"></div>
+  </template>
+  <template data-pscfg-more-tpl>
+    <div class="bcn-pscfg__more typography-body-sm"></div>
+  </template>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox-group';
+  import { setupPermitStatusConfig } from './permit-status-config';
+
+  document.querySelectorAll<HTMLElement>('[data-pscfg]').forEach((d) => setupPermitStatusConfig(d));
+</script>
+
+<style>
+  /* Composition glue, BcnBoardConfigDialog's geometry: preview 1fr, options 396px, the
+     body bleeding to the dialog's edges so the divider and the preview tint reach them.
+     One scroller (the dialog body) for both columns. */
+  .bcn-pscfg {
+    --_bleed: var(--spacing-500, 1.25rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 396px;
+    align-items: stretch;
+    margin: calc(-1 * var(--_bleed));
+    min-block-size: min(72vh, 760px);
+  }
+  .bcn-pscfg__preview {
+    background: var(--color-background-elevation-sunken);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+  }
+  .bcn-pscfg__options {
+    border-inline-start: 1px solid var(--color-border-default);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+  }
+  @media (max-width: 900px) {
+    .bcn-pscfg {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .bcn-pscfg__options {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--color-border-default);
+    }
+  }
+
+  .bcn-pscfg__group {
+    color: var(--color-content-default);
+    padding-block-end: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-pscfg__pick {
+    display: flex;
+    align-items: end;
+    gap: var(--spacing-200);
+  }
+  .bcn-pscfg__pick esa-select {
+    flex: 1;
+  }
+  .bcn-pscfg__cathead {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pscfg__dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bcn-pscfg__add {
+    align-self: start;
+  }
+
+  /* A status bar: grip · name field · count · delete. */
+  .bcn-pscfg__bar {
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-150) var(--spacing-200);
+  }
+  .bcn-pscfg__bar[data-dragging] {
+    border-color: var(--color-background-brand);
+    box-shadow: var(--elevation-2);
+  }
+  .bcn-pscfg__barrow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-pscfg__grip {
+    all: unset;
+    display: inline-flex;
+    padding: var(--spacing-100);
+    color: var(--color-content-default-tertiary);
+    cursor: grab;
+    touch-action: none;
+    border-radius: var(--radius-100);
+  }
+  .bcn-pscfg__grip:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-pscfg__colname {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .bcn-pscfg__n {
+    color: var(--color-content-default-secondary);
+    min-inline-size: 2ch;
+    text-align: end;
+  }
+  .bcn-pscfg__move {
+    padding-block-start: var(--spacing-200);
+    margin-block-start: var(--spacing-150);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* The preview board: the real board's column rhythm, scaled down. */
+  .bcn-pscfg__board {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(136px, 1fr);
+    gap: var(--spacing-200);
+    overflow-x: auto;
+    align-items: start;
+    padding-block-end: var(--spacing-200);
+  }
+  .bcn-pscfg__pcol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    min-inline-size: 0;
+  }
+  .bcn-pscfg__pcol[data-new] {
+    border-style: dashed;
+    border-color: var(--color-background-brand);
+  }
+  .bcn-pscfg__phead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-pscfg__pname {
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-pscfg__pcount {
+    margin-inline-start: auto;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-pscfg__plist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-pscfg__stub {
+    padding: var(--spacing-150) var(--spacing-200);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-pscfg__more {
+    color: var(--color-content-default-secondary);
+    padding-inline: var(--spacing-200);
+  }
+
+  .bcn-pscfg [hidden] {
+    display: none;
+  }
+  .bcn-pscfg__foot {
+    inline-size: 100%;
+  }
+</style>

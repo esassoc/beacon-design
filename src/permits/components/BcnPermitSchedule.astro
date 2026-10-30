@@ -1,0 +1,456 @@
+---
+// <BcnPermitSchedule> — a project's permits on a calendar: one bar per permit from
+// submittal to issuance, with today and construction start drawn across every row.
+// Replaces the step-by-step dependency chain: most permits depend on nothing, so the
+// dependencies show where they matter — a permit that waits on another sits indented
+// under it, and for a permit not yet submitted whose prerequisite is still open, a dotted lead-in runs from the
+// prerequisite's expected issue date to where its own application can go in.
+//
+//   • Issued        submitted → issued, solid brand
+//   • In review     submitted → today, muted brand
+//   • Forecast      today (or forecast submittal) → forecastIssue(), dashed outline
+//   • No forecast   the permit type has no past timeline; the row says so
+//
+// Forecasts come from the data module (forecastSubmit / forecastIssue: the
+// prerequisites' forecasts, prep time, then the type × jurisdiction median), the same
+// walk BcnPermitReadiness uses, so the last bar ends on its "Expected all issued" date.
+//
+// FILTER: on a multi-site project an esa-button-toggle in the card header switches
+// between the entire project and one site. A site's view includes the project-wide
+// permits, which gate every site.
+//
+// ADDED PERMITS (Add permit, src/lib/added-permits-store.ts) join at the foot of each view
+// they apply to, from a blank row template, with their forecast bar (forecastSubmit /
+// forecastIssue, the same walk) on the build's axis; indented when they wait on another.
+//
+// STATUS IS SSR: bars read the fixture dates; they do not follow status-store changes.
+// The construction-start line follows the date saved in src/lib/project-store.ts (moved
+// on load and on PROJECT_EVENT), held to the chart's ends.
+// Each row's link carries a visually hidden summary; the bars are aria-hidden.
+//
+// bcn-lego-checked: no esa-* lego draws a schedule — esa-chart is a data-series canvas
+// with no per-row ranges or row links, esa-progress-bar is a single 0→value fill;
+// checked Beacon (no Gantt or schedule view in prod). Composed from esa-card,
+// esa-button-toggle, typography composites and .cluster; the remaining CSS is the
+// row grid, bar geometry and markers. bcn-permit-schedule is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import '@esa/tokens/a11y.css';
+import {
+  TODAY,
+  ROUTES,
+  daysBetween,
+  fmtDate,
+  forecastIssue,
+  forecastSubmit,
+  getPermit,
+  getProject,
+  permitsOfProject,
+  scopeLabel,
+  sitesOf,
+  type Permit,
+} from '../data/permit-tracker';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  projectId: string;
+}
+const { projectId } = Astro.props;
+
+const project = getProject(projectId);
+const start = project.constructionStart;
+const sites = sitesOf(projectId);
+const all = permitsOfProject(projectId);
+const scopeOrder = (p: Permit) => (p.siteId ? 1 + sites.findIndex((s) => s.id === p.siteId) : 0);
+
+// ── axis: whole months, from the earliest submittal to past construction start ──
+const monthStart = (iso: string) => `${iso.slice(0, 7)}-01`;
+const nextMonth = (iso: string) => {
+  const [y, m] = iso.split('-').map(Number);
+  return m === 12 ? `${y + 1}-01-01` : `${y}-${String(m + 1).padStart(2, '0')}-01`;
+};
+const dates = all.flatMap((p) => [forecastSubmit(p), forecastIssue(p)]).filter((d): d is string => !!d);
+const axisFrom = monthStart([...dates, TODAY].sort()[0]);
+const axisTo = nextMonth([...dates, start].sort().at(-1)!);
+const span = daysBetween(axisFrom, axisTo);
+const pct = (iso: string) => `${((Math.min(Math.max(daysBetween(axisFrom, iso), 0), span) / span) * 100).toFixed(2)}%`;
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const months: string[] = [];
+for (let m = axisFrom; m < axisTo; m = nextMonth(m)) months.push(m);
+const labelEvery = months.length > 15 ? 3 : 1;
+const ticks = months.map((m, i) => {
+  const mi = Number(m.slice(5, 7)) - 1;
+  const show = labelEvery === 1 || mi % 3 === 0;
+  return { at: pct(m), label: show ? (mi === 0 || i === 0 ? `${MONTHS[mi]} ${m.slice(0, 4)}` : MONTHS[mi]) : '' };
+});
+
+// ── rows: dependency order, each permit under the prerequisite that gates it ────
+const buildRows = (permits: Permit[]) => {
+  const inView = new Map(permits.map((p) => [p.id, p]));
+  const gate = (p: Permit) =>
+    p.dependsOn
+      .map((d) => inView.get(d))
+      .filter((d): d is Permit => !!d)
+      .sort((a, b) => (forecastIssue(b) ?? '').localeCompare(forecastIssue(a) ?? ''))[0];
+  const children = new Map<string, Permit[]>();
+  const roots: Permit[] = [];
+  for (const p of permits) {
+    const g = gate(p);
+    if (g) children.set(g.id, [...(children.get(g.id) ?? []), p]);
+    else roots.push(p);
+  }
+  const order = (list: Permit[]) =>
+    list.sort((a, b) => (forecastSubmit(a) ?? '9').localeCompare(forecastSubmit(b) ?? '9') || scopeOrder(a) - scopeOrder(b));
+  const out: { p: Permit; depth: number; parent?: Permit }[] = [];
+  const visit = (p: Permit, depth: number, parent?: Permit) => {
+    out.push({ p, depth, parent });
+    for (const c of order(children.get(p.id) ?? [])) visit(c, depth + 1, p);
+  };
+  order(roots).forEach((r) => visit(r, 0));
+  return out.map(({ p, depth, parent }) => {
+    const submit = forecastSubmit(p);
+    const issue = forecastIssue(p);
+    const segs: { kind: 'done' | 'review' | 'forecast'; from: string; to: string }[] = [];
+    if (p.issued && p.submitted) segs.push({ kind: 'done', from: p.submitted, to: p.issued });
+    else if (p.submitted && issue) segs.push({ kind: 'review', from: p.submitted, to: TODAY }, { kind: 'forecast', from: TODAY, to: issue });
+    else if (submit && issue) segs.push({ kind: 'forecast', from: submit, to: issue });
+    const parentEnd = parent ? forecastIssue(parent) : undefined;
+    const wait = !p.submitted && parentEnd && parentEnd > TODAY && submit && parentEnd < submit ? { from: parentEnd, to: submit } : undefined;
+    const sr = [
+      p.submitted ? `Submitted ${fmtDate(p.submitted)}` : submit ? `Forecast submittal ${fmtDate(submit)}` : 'Not submitted',
+      p.issued ? `issued ${fmtDate(p.issued)}` : issue ? `expected ${fmtDate(issue)}` : 'no past timeline to forecast from',
+      parent ? `waits on ${parent.name}` : '',
+    ]
+      .filter(Boolean)
+      .join(', ');
+    return { p, depth, scope: scopeLabel(p), segs, wait, sr: `${sr}.`, noForecast: !issue };
+  });
+};
+
+const views = [
+  { key: 'all', label: 'Entire project', rows: buildRows(all) },
+  ...(sites.length > 1
+    ? sites.map((s) => ({ key: s.id, label: s.name, rows: buildRows(all.filter((p) => !p.siteId || p.siteId === s.id)) }))
+    : []),
+];
+const filterOptions = views.map((v) => ({ value: v.key, label: v.label }));
+const markers = { today: pct(TODAY), start: pct(start) };
+const geom = (from: string, to: string) =>
+  `--_from:${pct(from)};--_len:max(0.375rem, calc(${pct(to)} - ${pct(from)}));`;
+---
+
+<section class="bcn-psched" data-psched data-project-id={projectId} data-axis-from={axisFrom} data-axis-span={span} aria-label="Permit schedule">
+  <EsaCard title="Permit schedule" padding="compact">
+    {
+      views.length > 1 && (
+        <esa-button-toggle slot="actions" size="sm" aria-label="Show schedule for" data-psched-filter data-options={JSON.stringify(filterOptions)} />
+      )
+    }
+    <div class="stack" data-gap="sm">
+      {
+        views.map((v) => (
+          <div class="bcn-psched__scroll" data-psched-view={v.key} hidden={v.key !== 'all'}>
+            <div class="bcn-psched__chart" style={`--_today:${markers.today};--_start:${markers.start};`}>
+              <div class="bcn-psched__row bcn-psched__row--axis" aria-hidden="true">
+                <span />
+                <span class="bcn-psched__track">
+                  {ticks.map((t) => (
+                    <span class="bcn-psched__tick typography-body-sm" style={`--_at:${t.at};`}>
+                      {t.label}
+                    </span>
+                  ))}
+                  <span class="bcn-psched__flag bcn-psched__flag--start typography-body-sm">Construction start</span>
+                </span>
+              </div>
+              <ul class="bcn-psched__rows" role="list" data-psched-rows>
+                {v.rows.map((r) => (
+                  <li class="bcn-psched__row">
+                    <span class="bcn-psched__label" style={`--_depth:${r.depth};`}>
+                      <a class="typography-label-md-strong bcn-psched__name" href={withBase(ROUTES.permit(r.p.id))}>
+                        {r.p.name}
+                      </a>
+                      <span class="typography-body-sm bcn-psched__scope">{r.scope}</span>
+                      <span class="visually-hidden">{r.sr}</span>
+                    </span>
+                    <span class="bcn-psched__track" aria-hidden="true">
+                      {r.wait && <span class="bcn-psched__wait" style={geom(r.wait.from, r.wait.to)} />}
+                      {r.segs.map((s) => (
+                        <span class={`bcn-psched__bar bcn-psched__bar--${s.kind}`} style={geom(s.from, s.to)} />
+                      ))}
+                      {r.noForecast && <span class="bcn-psched__none typography-body-sm">No past timeline to forecast from</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+      <template data-psched-row-tpl>
+        <li class="bcn-psched__row" data-psched-added>
+          <span class="bcn-psched__label">
+            <a class="typography-label-md-strong bcn-psched__name" data-psched-name></a>
+            <span class="typography-body-sm bcn-psched__scope" data-psched-scope></span>
+            <span class="visually-hidden" data-psched-sr></span>
+          </span>
+          <span class="bcn-psched__track" aria-hidden="true" data-psched-track>
+            <span class="bcn-psched__bar bcn-psched__bar--forecast" data-psched-bar></span>
+            <span class="bcn-psched__none typography-body-sm" data-psched-none>No past timeline to forecast from</span>
+          </span>
+        </li>
+      </template>
+      <ul class="bcn-psched__legend cluster typography-body-sm" data-gap="md" role="list" aria-hidden="true">
+        <li><span class="bcn-psched__key bcn-psched__bar--done" />Issued</li>
+        <li><span class="bcn-psched__key bcn-psched__bar--review" />In review</li>
+        <li><span class="bcn-psched__key bcn-psched__bar--forecast" />Forecast</li>
+        <li><span class="bcn-psched__key bcn-psched__key--wait" />Waiting on the permit above</li>
+        <li><span class="bcn-psched__key bcn-psched__key--today" />Today</li>
+        <li><span class="bcn-psched__key bcn-psched__key--start" />Construction start</li>
+      </ul>
+    </div>
+  </EsaCard>
+</section>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { ROUTES, daysBetween, fmtDate, forecastIssue, forecastSubmit, scopeLabel, type Permit } from '../data/permit-tracker';
+  import { ADDED_EVENT, ensureAddedPermits } from '../lib/added-permits-store';
+  import { withBase } from '../../lib/base';
+  import { PROJECT_EVENT, loadProject } from '../lib/project-store';
+
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-psched]')) {
+    const projectId = section.dataset.projectId!;
+    const from = section.dataset.axisFrom!;
+    const span = Number(section.dataset.axisSpan);
+    const placeStart = () => {
+      const at = Math.min(Math.max(daysBetween(from, loadProject(projectId).constructionStart), 0), span);
+      section.querySelectorAll<HTMLElement>('.bcn-psched__chart').forEach((c) => c.style.setProperty('--_start', `${((at / span) * 100).toFixed(2)}%`));
+    };
+    document.addEventListener(PROJECT_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) placeStart();
+    });
+    placeStart();
+
+    // ── permits added in the browser ─────────────────────────────────────────
+    const pct = (iso: string) => `${((Math.min(Math.max(daysBetween(from, iso), 0), span) / span) * 100).toFixed(2)}%`;
+    const tpl = section.querySelector<HTMLTemplateElement>('[data-psched-row-tpl]')!;
+    const rowFor = (p: Permit) => {
+      const li = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+      const site = p.siteId ? loadProject(projectId).sites.find((s) => s.id === p.siteId) : undefined;
+      const submit = forecastSubmit(p);
+      const issue = forecastIssue(p);
+      const name = li.querySelector<HTMLAnchorElement>('[data-psched-name]')!;
+      name.textContent = p.name;
+      name.href = withBase(ROUTES.addedPermit(p.id));
+      li.querySelector('[data-psched-scope]')!.textContent = site?.name ?? scopeLabel(p);
+      li.querySelector<HTMLElement>('.bcn-psched__label')!.style.setProperty('--_depth', p.dependsOn.length ? '1' : '0');
+      li.querySelector('[data-psched-sr]')!.textContent = `${submit ? `Forecast submittal ${fmtDate(submit)}` : 'Not submitted'}, ${issue ? `expected ${fmtDate(issue)}` : 'no past timeline to forecast from'}.`;
+      const bar = li.querySelector<HTMLElement>('[data-psched-bar]')!;
+      if (submit && issue) {
+        bar.style.cssText = `--_from:${pct(submit)};--_len:max(0.375rem, calc(${pct(issue)} - ${pct(submit)}));`;
+        li.querySelector('[data-psched-none]')!.remove();
+      } else bar.remove();
+      return li;
+    };
+    const placeAdded = () => {
+      section.querySelectorAll('[data-psched-added]').forEach((li) => li.remove());
+      for (const p of ensureAddedPermits(projectId)) {
+        section.querySelectorAll<HTMLElement>('[data-psched-view]').forEach((view) => {
+          const key = view.dataset.pschedView;
+          if (key === 'all' || !p.siteId || p.siteId === key) view.querySelector('[data-psched-rows]')!.append(rowFor(p));
+        });
+      }
+    };
+    document.addEventListener(ADDED_EVENT, (e) => {
+      if ((e as CustomEvent).detail?.projectId === projectId) placeAdded();
+    });
+    placeAdded();
+
+    const filter = section.querySelector<ToggleEl>('[data-psched-filter]');
+    if (!filter) continue;
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      filter.options = JSON.parse(filter.dataset.options ?? '[]');
+      filter.value = 'all';
+    });
+    filter.addEventListener('change', (e) => {
+      const key = String((e as CustomEvent).detail?.value ?? 'all');
+      section.querySelectorAll<HTMLElement>('[data-psched-view]').forEach((v) => (v.hidden = v.dataset.pschedView !== key));
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: row grid, bar geometry and markers — no esa-* lego draws a
+     schedule. See header for the lookup. */
+  .bcn-psched__scroll {
+    overflow-x: auto;
+  }
+  .bcn-psched__scroll[hidden] {
+    display: none;
+  }
+  .bcn-psched__chart {
+    --_label-w: 17rem;
+    --_row-h: 3rem;
+    min-inline-size: 44rem;
+  }
+  .bcn-psched__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-psched__row {
+    display: grid;
+    grid-template-columns: var(--_label-w) 1fr;
+    align-items: center;
+    min-block-size: var(--_row-h);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-psched__row--axis {
+    min-block-size: 2.5rem;
+    align-items: end;
+  }
+
+  .bcn-psched__label {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    padding-block: var(--spacing-150);
+    padding-inline: calc(var(--_depth) * var(--spacing-500)) var(--spacing-300);
+  }
+  .bcn-psched__name {
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-psched__name:hover {
+    text-decoration: underline;
+  }
+  .bcn-psched__name:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-psched__scope {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The track: month gridlines from the axis ticks are drawn per row as the today and
+     construction-start lines, so they read as continuous verticals down the chart. */
+  .bcn-psched__track {
+    position: relative;
+    align-self: stretch;
+    min-block-size: inherit;
+  }
+  .bcn-psched__track::before,
+  .bcn-psched__track::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inline-size: 0;
+    pointer-events: none;
+  }
+  .bcn-psched__track::before {
+    inset-inline-start: var(--_today);
+    border-inline-start: 1px solid var(--color-border-default-strong);
+  }
+  .bcn-psched__track::after {
+    inset-inline-start: var(--_start);
+    border-inline-start: 2px dashed var(--color-content-default);
+  }
+
+  .bcn-psched__tick {
+    position: absolute;
+    inset-block-end: var(--spacing-100);
+    inset-inline-start: var(--_at);
+    padding-inline-start: var(--spacing-100);
+    border-inline-start: 1px solid var(--color-border-default);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .bcn-psched__flag {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: calc(100% - var(--_start));
+    padding-inline-end: var(--spacing-150);
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold, 600);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .bcn-psched__bar,
+  .bcn-psched__wait {
+    position: absolute;
+    inset-inline-start: var(--_from);
+    inline-size: var(--_len);
+  }
+  .bcn-psched__bar {
+    inset-block: calc(50% - 0.5rem);
+    border-radius: var(--radius-sm);
+  }
+  .bcn-psched__bar--done {
+    background: var(--color-background-brand);
+  }
+  /* brand-muted is too pale to carry a bar on white, so the in-review and forecast
+     fills are steps of the brand fill itself. */
+  .bcn-psched__bar--review {
+    background: color-mix(in srgb, var(--color-background-brand) 45%, var(--color-background-default));
+  }
+  .bcn-psched__bar--forecast {
+    background: color-mix(in srgb, var(--color-background-brand) 8%, var(--color-background-default));
+    border: 1.5px dashed var(--color-background-brand);
+  }
+  /* Lead-in from the prerequisite's issue date: an elbow rising toward the row above. */
+  .bcn-psched__wait {
+    inset-block-start: calc(-1 * var(--_row-h) / 2 + 0.75rem);
+    block-size: calc(var(--_row-h) / 2 - 0.25rem);
+    border-inline-start: 1.5px solid var(--color-border-default-strong);
+    border-block-end: 1.5px dotted var(--color-border-default-strong);
+    border-end-start-radius: var(--radius-sm);
+  }
+  .bcn-psched__none {
+    position: absolute;
+    inset-block-start: 50%;
+    translate: 0 -50%;
+    inset-inline-start: var(--_today);
+    padding-inline-start: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  .bcn-psched__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-psched__legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-psched__key {
+    display: inline-block;
+    inline-size: 1.5rem;
+    block-size: 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+  .bcn-psched__key--wait {
+    block-size: 0;
+    border-block-end: 1.5px dotted var(--color-border-default-strong);
+    border-radius: 0;
+  }
+  .bcn-psched__key--start {
+    inline-size: 0;
+    block-size: 1rem;
+    border-inline-start: 2px dashed var(--color-content-default);
+    border-radius: 0;
+  }
+  .bcn-psched__key--today {
+    inline-size: 0;
+    block-size: 1rem;
+    border-inline-start: 1px solid var(--color-border-default-strong);
+    border-radius: 0;
+  }
+</style>
