@@ -1,0 +1,168 @@
+---
+// <BcnReportTemplateCard> — one report template as a one-line row. Shared by both Report
+// Configuration tabs (BcnReportConfig), in two dresses:
+//   - under a type header (Report types tab): a quiet filled row, the B4 direction from the
+//     hierarchy review, set apart from the type header it sits under.
+//       ▤ Standard DMR  46 reports                          Edited Oct 15  [✎] [⧉] [🗑]
+//   - `standalone` (Templates tab, where the rows are the list): the type card's own dress
+//     (an outlined white card, the glyph on a tinted tile, a label-md name), plus a star and
+//     the template's type as a badge, since no type header sits above it.
+//       ☆ [▤] Standard DMR  [Daily Monitoring Report]  46 reports   Edited Oct 15  [✎] [⧉] [🗑]
+// Beacon's report-templates glyph in the templates' iris (the colour of the type header's
+// template-count pill, so the count and the rows it counts read as one), the name, its
+// reports as meta text, the last edit at the right, then Edit, Clone and Delete as their
+// own buttons. Delete is held (disabled, the reason on hover) while reports use it.
+// report-config.ts wires every hook here. Render it inside a <ul>; it is the <li>.
+//
+// The data-* attributes are the controller's: what it filters and sorts on.
+//
+// bcn-lego-checked: esa-icon (the glyph, with Beacon's paths), esa-badge (type), esa-button
+// (star, Edit, Clone, Delete). Checked Beacon: ui-row-list, the two-line row this replaces.
+// The CSS is the row shell, its one-line layout, the standalone dress and the star's fill.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { REPORT_TEMPLATE_ICON } from './report-icons';
+import { editedOn, templateDeleteHeld, type ReportTemplate, type ReportType } from '../../data/report-configuration';
+
+interface Props {
+  template: ReportTemplate;
+  type: ReportType;
+  /** The row is the list (Templates tab): the card dress, the star and the type badge. */
+  standalone?: boolean;
+}
+const { template: t, type, standalone = false } = Astro.props;
+
+const starred = !!t.starred;
+const held = templateDeleteHeld(t);
+const facts = t.reportCount === 0 ? 'Not used yet' : `${t.reportCount} ${t.reportCount === 1 ? 'report' : 'reports'}`;
+---
+
+<li
+  class:list={['bcn-rtc', standalone && 'bcn-rtc--standalone']}
+  data-rcfg-tpl={t.id}
+  data-name={t.name}
+  data-type={type.id}
+  data-type-name={type.name}
+  data-scope={type.scope}
+  data-reports={t.reportCount}
+  data-edited={t.edited}
+  data-held={held ?? ''}
+  data-starred={starred ? '' : undefined}
+>
+  {
+    standalone && (
+      <span class="bcn-rtc__star">
+        <EsaButton variant="ghost" size="xs" iconOnly icon="star" label={starred ? `Unstar ${t.name}` : `Star ${t.name}`} aria-pressed={String(starred)} data-rcfg-star />
+      </span>
+    )
+  }
+  <span class="bcn-rtc__glyph" aria-hidden="true"><EsaIcon name="report-templates" paths={REPORT_TEMPLATE_ICON} size="sm" /></span>
+  <span class:list={['bcn-rtc__name', standalone ? 'typography-label-md-strong' : 'typography-label-sm-strong']}>{t.name}</span>
+  {standalone && <span class="bcn-rtc__type" data-rcfg-tpl-type><EsaBadge value={type.name} size="sm" variant="secondary" /></span>}
+  <span class="bcn-rtc__facts typography-body-sm">{facts}</span>
+  <span class="bcn-rtc__spacer" aria-hidden="true"></span>
+  <span class="bcn-rtc__edited typography-body-sm">Edited {editedOn(t.edited)}</span>
+  <span class="bcn-rtc__actions">
+    <EsaButton variant="ghost" size="xs" iconOnly icon="pencil" label={`Edit ${t.name}`} data-rcfg-open-tpl={t.id} />
+    <EsaButton variant="ghost" size="xs" iconOnly icon="copy" label={`Clone ${t.name}`} data-rcfg-clone-tpl />
+    {/* A disabled button takes no hover, so the reason rides on its wrapper. */}
+    <span class="bcn-rtc__delete" title={held ?? undefined}>
+      <EsaButton variant="ghost" size="xs" iconOnly icon="trash-2" label={`Delete ${t.name}`} disabled={!!held} data-rcfg-delete-tpl />
+    </span>
+  </span>
+</li>
+
+<style>
+  /* A filled row: the page's default ground and a hairline, on the card's raised white.
+     Hover lifts it to the card's surface with a full border, so the row the actions
+     belong to is unmistakable. */
+  .bcn-rtc {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+    padding: 0 var(--spacing-100) 0 var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    background: var(--color-background-default);
+    color: var(--color-content-default);
+  }
+  .bcn-rtc:hover {
+    border-color: var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-rtc[hidden] {
+    display: none;
+  }
+  /* Standalone: the type card's dress (esa-card outlined, its head's padding), with room
+     to breathe — here the rows are the page's subject, not a sublist. */
+  .bcn-rtc--standalone {
+    padding: var(--spacing-150) var(--spacing-200) var(--spacing-150) var(--spacing-150);
+    border-color: var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-rtc--standalone:hover {
+    border-color: var(--color-border-strong, var(--color-border-default));
+  }
+  .bcn-rtc__star,
+  .bcn-rtc__delete {
+    display: flex;
+    flex-shrink: 0;
+  }
+  /* Starred: the star filled, in amber. */
+  .bcn-rtc__star :global(.esa-button__native) {
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-rtc__star :global(.esa-button__native[aria-pressed='true']) {
+    color: var(--color-amber-10);
+  }
+  .bcn-rtc__star :global(.esa-button__native[aria-pressed='true'] svg) {
+    fill: var(--color-amber-9);
+  }
+  /* Iris, step 11: the ink of the type header's template-count pill (BcnReportConfig). */
+  .bcn-rtc__glyph {
+    display: flex;
+    flex-shrink: 0;
+    color: var(--color-iris-11);
+  }
+  /* Standalone, the glyph sits on a tinted tile: the type card's mark, in the templates' iris. */
+  .bcn-rtc--standalone .bcn-rtc__glyph {
+    align-items: center;
+    justify-content: center;
+    inline-size: 24px;
+    block-size: 24px;
+    border-radius: var(--radius-200);
+    background: var(--color-iris-3);
+  }
+  .bcn-rtc__name {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-rtc__type {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .bcn-rtc__facts {
+    flex-shrink: 0;
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-rtc__spacer {
+    flex: 1;
+  }
+  .bcn-rtc__edited {
+    flex-shrink: 0;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-rtc__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-050);
+    flex-shrink: 0;
+  }
+</style>

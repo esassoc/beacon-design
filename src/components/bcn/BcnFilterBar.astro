@@ -24,6 +24,8 @@
 //             its own slot rather than more markup in `lead` because the LABEL is the bar's
 //             to style — a page cannot carry its own CSS in this spoke, so a host stacking
 //             two groups into one slot would have no way to label the second one to match.
+//   group   — optional; a "Group by" control, a labelled group on the FILTERS band just
+//             before sort (label via `groupLabel`). Its own slot for the reason sort is.
 //   search  — optional; the search control, pushed right on the top band — or, with
 //             searchPlacement="filters", leading the filters band, for a bar whose top
 //             band is all pivots (Actions: view + type tabs) and whose search is one more
@@ -46,6 +48,8 @@ interface Props {
   leadLabel?: string;
   /** Label beside the scope slot, e.g. "Type". Omitted renders no label. */
   scopeLabel?: string;
+  /** Label beside the group slot, e.g. "Group by". Omitted renders no label. */
+  groupLabel?: string;
   /** Label beside the sort slot. Omitted renders no label. */
   sortLabel?: string;
   /** Label for the filters band. */
@@ -57,10 +61,11 @@ interface Props {
    *  so the two bands read as one set. Off by default; existing bars keep their sizes. */
   compact?: boolean;
 }
-const { leadLabel, scopeLabel, sortLabel, filtersLabel = 'Filters', searchPlacement = 'top', compact = false } = Astro.props;
+const { leadLabel, scopeLabel, groupLabel, sortLabel, filtersLabel = 'Filters', searchPlacement = 'top', compact = false } = Astro.props;
 
 const hasLead = Astro.slots.has('lead');
 const hasScope = Astro.slots.has('scope');
+const hasGroup = Astro.slots.has('group');
 const hasSort = Astro.slots.has('sort');
 const hasSearch = Astro.slots.has('search');
 const searchOnTop = hasSearch && searchPlacement === 'top';
@@ -108,6 +113,12 @@ const hasActions = Astro.slots.has('actions');
     </FilterContainer>
     {/* Sort rides the filters band rather than the top one: it is the same kind of control
         as a facet — it shapes the list — and it leaves the top band to the search. */}
+    {hasGroup && (
+      <div class="bcn-filterbar__group bcn-filterbar__sort">
+        {groupLabel && <span class="bcn-filterbar__label">{groupLabel}</span>}
+        <slot name="group" />
+      </div>
+    )}
     {hasSort && (
       <div class="bcn-filterbar__group bcn-filterbar__sort">
         {sortLabel && <span class="bcn-filterbar__label">{sortLabel}</span>}

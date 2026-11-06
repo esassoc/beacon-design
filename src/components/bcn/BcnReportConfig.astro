@@ -1,0 +1,377 @@
+---
+// <BcnReportConfig> — Report Configuration (epic BCN-2017) as two TABS, because the two
+// lists are of different things: Report types (types, each holding its templates — where
+// the configuration is shaped) and Templates (every template, flat — where templates are
+// found and tidied). Each tab carries Beacon's icon for its record and a count, and each
+// tab body its own filter bar; nothing carries across a switch.
+//
+// REPORT TYPES (the B5 direction from the hierarchy review, with B2's mark) — every type
+// an outlined card, COLLAPSED by default, whose head reads
+//   ⋮⋮ ›  [▣]  Daily Monitoring Report  [Component] (6 templates) (91 reports filed)
+//                                                        Last edited Oct 30  [✎ Edit]
+// (one line) grip, chevron, the type's mark (Beacon's report-types icon on a brand-muted
+// tile), the name and scope, its facts as pills, the last edit in italics at the right
+// (the B5 direction), then Edit (the type's side panel: name, scope, Delete held while
+// templates use it). Its body is the templates as filled rows (bcn-report-template-card) on
+// the card's own white, indented to the name, closed by "Add template". The head and the
+// list differ in surface, size and indent: that is the whole hierarchy. Filters: search
+// (type and template names), Scope, Usage; Sort: Report order (the hand-set order reports
+// offer the types in; the only sort that shows drag grips), Name, Recently edited, Most
+// used. Expand all / Collapse all / Add report type.
+//
+// TEMPLATES — every template as a card in the type card's own dress, with a star and its
+// type as a badge. Filters: search, Scope, Type, Usage; Sort by Recently edited (the
+// default), Name, Most used, starred templates first in every sort. It opens newest-first
+// so it doesn't restate the Report types tab: one list of what changed lately, each card
+// naming its type. Add template.
+//
+// Density follows the Lists index (bcn-list-card): rows pay their own tight padding, xs
+// actions, facts as quiet meta text. Nothing persists: saves, clones and deletes update
+// both tabs on screen and toast.
+//
+// bcn-lego-checked: esa-tab-layout (the tabs, underline, as BcnListViewTabs, with
+// Beacon's icons), bcn-filter-bar (each tab's bar) with esa-text-field,
+// esa-filter-dropdown, esa-select, esa-filter-clear-button and esa-button inside it;
+// esa-card (each type), bcn-disclosure-toggle (its chevron), esa-icon (the type's mark,
+// Beacon's paths), esa-badge (scope), esa-pill (the type's facts),
+// bcn-report-template-card (each template), esa-empty-state (no matches), esa-side-dialog
+// + esa-text-field + esa-select (the two panels). Checked Beacon: ui-row-list, the
+// two-line row this replaces. The CSS is the panel offset, the card head (mark, title, summary),
+// and the indented template list.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaFilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnDisclosureToggle from './BcnDisclosureToggle.astro';
+import BcnFilterBar from './BcnFilterBar.astro';
+import BcnReportTemplateCard from './BcnReportTemplateCard.astro';
+import { REPORT_TYPE_ICON } from './report-icons';
+import { REPORT_SCOPES, REPORT_TEMPLATES, REPORT_TYPES, editedOn, templatesOf, typeDeleteHeld } from '../../data/report-configuration';
+
+const json = (v: unknown) => JSON.stringify(v);
+const scopeOptions = REPORT_SCOPES.map((s) => ({ value: s, label: s }));
+const usageOptions = [
+  { value: 'used', label: 'In use' },
+  { value: 'unused', label: 'Not used yet' },
+];
+const typeSortOptions = [
+  { value: 'order', label: 'Report order' },
+  { value: 'name', label: 'Name' },
+  { value: 'edited', label: 'Recently edited' },
+  { value: 'used', label: 'Most used' },
+];
+const tplSortOptions = [
+  { value: 'edited', label: 'Recently edited' },
+  { value: 'name', label: 'Name' },
+  { value: 'used', label: 'Most used' },
+];
+const typeOptions = REPORT_TYPES.map((t) => ({ value: t.id, label: t.name }));
+// Each type's summary line: its templates, the reports filed on them, and its newest edit.
+const groups = REPORT_TYPES.map((type, index) => {
+  const templates = templatesOf(type.id);
+  const filed = templates.reduce((n, t) => n + t.reportCount, 0);
+  const latest = templates.reduce((m, t) => (t.edited > m ? t.edited : m), '');
+  return { type, index, templates, filed, latest };
+});
+const typeById = new Map(REPORT_TYPES.map((t) => [t.id, t]));
+const allTemplates = [...REPORT_TEMPLATES].sort((a, b) => a.name.localeCompare(b.name));
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+---
+
+<div class="bcn-rcfg" data-bcn-rcfg data-sort="order">
+  <esa-tab-layout data-rcfg-tabs appearance="underline" size="md">
+    <!-- ── Report types ── -->
+    <section slot="panel-0" class="bcn-rcfg__panel stack" data-gap="md" data-rcfg-panel="types">
+      <BcnFilterBar filtersLabel="" searchPlacement="filters" sortLabel="Sort" compact>
+        <esa-text-field slot="search" data-rcfg-search placeholder="Search types and templates" aria-label="Search report types and templates" size="md"
+        ></esa-text-field>
+        <esa-filter-dropdown data-rcfg-facet="scope" label="Scope" multiple size="sm" options={json(scopeOptions)}></esa-filter-dropdown>
+        <esa-filter-dropdown data-rcfg-facet="usage" label="Usage" multiple size="sm" options={json(usageOptions)}></esa-filter-dropdown>
+        <esa-select slot="sort" data-rcfg-sort size="md" value="order" aria-label="Sort" options={json(typeSortOptions)}></esa-select>
+        <div slot="actions" class="cluster" data-gap="sm">
+          <span data-rcfg-clear><EsaFilterClearButton /></span>
+          <EsaButton variant="ghost" size="sm" data-rcfg-expand-all>Expand all</EsaButton>
+          <EsaButton variant="ghost" size="sm" data-rcfg-collapse-all>Collapse all</EsaButton>
+          <EsaButton variant="primary" appearance="outline" size="sm" icon="plus" data-rcfg-add-type>Add report type</EsaButton>
+        </div>
+      </BcnFilterBar>
+
+      <ul class="bcn-rcfg__types" data-rcfg-list>
+        {
+          groups.map(({ type, index, templates, filed, latest }) => (
+            <li
+              class="bcn-rcfg__type"
+              data-rcfg-type={type.id}
+              data-index={index}
+              data-name={type.name}
+              data-scope={type.scope}
+              data-held={typeDeleteHeld(type.id) ?? ''}
+              data-collapsed
+            >
+              <EsaCard variant="outlined" padding="none">
+                <div class="bcn-rcfg__head">
+                  <span class="bcn-rcfg__grip" aria-hidden="true">
+                    <svg width="8" height="14" viewBox="0 0 10 16" fill="currentColor">
+                      <circle cx="2" cy="3" r="1.5" />
+                      <circle cx="8" cy="3" r="1.5" />
+                      <circle cx="2" cy="8" r="1.5" />
+                      <circle cx="8" cy="8" r="1.5" />
+                      <circle cx="2" cy="13" r="1.5" />
+                      <circle cx="8" cy="13" r="1.5" />
+                    </svg>
+                  </span>
+                  <BcnDisclosureToggle hook="data-rcfg-toggle" value={type.id} label={`Expand ${type.name}`} expanded={false} />
+                  <span class="bcn-rcfg__mark" aria-hidden="true">
+                    <EsaIcon name="report-types" paths={REPORT_TYPE_ICON} size="sm" />
+                  </span>
+                  <span class="bcn-rcfg__type-name typography-label-md-strong" data-rcfg-type-name>{type.name}</span>
+                  <EsaBadge value={type.scope} size="sm" variant="secondary" />
+                  <span class="bcn-rcfg__facts">
+                    <span class="bcn-rcfg__pill" data-rcfg-count>
+                      <EsaPill label={count(templates.length, 'template', 'templates')} size="sm" removable={false} category="report-template" />
+                    </span>
+                    {filed > 0 && <EsaPill label={`${count(filed, 'report', 'reports')} filed`} size="sm" removable={false} />}
+                  </span>
+                  <span class="bcn-rcfg__spacer" aria-hidden="true"></span>
+                  {latest && <span class="bcn-rcfg__latest typography-body-sm">Last edited {editedOn(latest)}</span>}
+                  <EsaButton variant="ghost" appearance="outline" size="xs" icon="pencil" data-rcfg-open-type={type.id} aria-label={`Edit ${type.name}`}>
+                    Edit
+                  </EsaButton>
+                </div>
+
+                <div class="bcn-rcfg__body" data-rcfg-body>
+                  {templates.length > 0 ? (
+                    <ul class="bcn-rcfg__tpls" aria-label={`${type.name} templates`}>
+                      {templates.map((t) => (
+                        <BcnReportTemplateCard template={t} type={type} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="bcn-rcfg__none typography-body-sm">No templates yet.</p>
+                  )}
+                  <span class="bcn-rcfg__add">
+                    <EsaButton variant="ghost" appearance="dashed" size="sm" icon="plus" data-rcfg-add-template={type.id} aria-label={`Add template to ${type.name}`}>
+                      Add template
+                    </EsaButton>
+                  </span>
+                </div>
+              </EsaCard>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div data-rcfg-nomatch hidden>
+        <EsaEmptyState size="sm" title="Nothing matches" description="No report type or template matches these filters." />
+      </div>
+    </section>
+
+    <!-- ── Templates ── -->
+    <section slot="panel-1" class="bcn-rcfg__panel stack" data-gap="md" data-rcfg-panel="templates">
+      <BcnFilterBar filtersLabel="" searchPlacement="filters" sortLabel="Sort" compact>
+        <esa-text-field slot="search" data-rcfg-search placeholder="Search templates and types" aria-label="Search templates and their types" size="md"
+        ></esa-text-field>
+        <esa-filter-dropdown data-rcfg-facet="scope" label="Scope" multiple size="sm" options={json(scopeOptions)}></esa-filter-dropdown>
+        <esa-filter-dropdown data-rcfg-facet="type" label="Type" multiple size="sm" options={json(typeOptions)}></esa-filter-dropdown>
+        <esa-filter-dropdown data-rcfg-facet="usage" label="Usage" multiple size="sm" options={json(usageOptions)}></esa-filter-dropdown>
+        <esa-select slot="sort" data-rcfg-sort size="md" value="edited" aria-label="Sort" options={json(tplSortOptions)}></esa-select>
+        <div slot="actions" class="cluster" data-gap="sm">
+          <span data-rcfg-clear><EsaFilterClearButton /></span>
+          <EsaButton variant="primary" appearance="outline" size="sm" icon="plus" data-rcfg-add-template="">Add template</EsaButton>
+        </div>
+      </BcnFilterBar>
+
+      <div class="bcn-rcfg__flat" data-rcfg-flat>
+        <ul class="bcn-rcfg__tpls" aria-label="Report templates">
+          {allTemplates.map((t) => <BcnReportTemplateCard template={t} type={typeById.get(t.reportTypeId)!} standalone />)}
+        </ul>
+      </div>
+
+      <div data-rcfg-nomatch hidden>
+        <EsaEmptyState size="sm" title="Nothing matches" description="No template matches these filters." />
+      </div>
+    </section>
+  </esa-tab-layout>
+
+  <esa-side-dialog data-rcfg-type-panel heading="Edit report type" size="md">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-rcfg-field="type-name" label="Name" placeholder="Ex. Inspection" required autocomplete="off"></esa-text-field>
+      <esa-select data-rcfg-field="type-scope" label="Scope" required options={json(scopeOptions)} hint="What a report of this type is filed against."
+      ></esa-select>
+      <p class="bcn-rcfg__held typography-body-sm" data-rcfg-type-held hidden></p>
+    </div>
+    <div slot="footer" class="repel" data-gap="sm">
+      <EsaButton variant="danger" appearance="outline" data-rcfg-type-delete>Delete</EsaButton>
+      <div class="cluster" data-gap="sm">
+        <EsaButton variant="primary" data-rcfg-type-save>Save</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" data-rcfg-close>Cancel</EsaButton>
+      </div>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog data-rcfg-tpl-panel heading="Add report template" size="md">
+    <div class="stack" data-gap="lg">
+      <esa-text-field data-rcfg-field="tpl-name" label="Name" required autocomplete="off"></esa-text-field>
+      <esa-select data-rcfg-field="tpl-type" label="Report type" required options={json(typeOptions)}></esa-select>
+    </div>
+    <div slot="footer" class="cluster" data-gap="sm" data-justify="end">
+      <EsaButton variant="primary" data-rcfg-tpl-save>Add template</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-rcfg-close>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import { setupReportConfig } from './report-config';
+
+  setupReportConfig();
+</script>
+
+<style>
+  /* The tab bar's own underline is the rule under the page title; the panel opens below. */
+  .bcn-rcfg__panel {
+    padding-block-start: var(--spacing-400);
+  }
+
+  .bcn-rcfg__types {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-rcfg__type[hidden] {
+    display: none;
+  }
+
+  /* The card's head: the type's identity, one band. The card takes padding="none" and the
+     head pays its own, the Lists rows' (bcn-list-card) technique — the Templates tab's
+     cards' padding (bcn-report-template-card standalone), so the two tabs' cards match. The
+     start is a step wider: the grip has no padding of its own, where the star's button does. */
+  .bcn-rcfg__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+    padding: var(--spacing-150) var(--spacing-200) var(--spacing-150) var(--spacing-250);
+  }
+  .bcn-rcfg__grip {
+    display: flex;
+    color: var(--color-content-default-tertiary);
+    cursor: grab;
+  }
+  /* Drag order only means something in Report order; every other sort hides the grips. */
+  .bcn-rcfg:not([data-sort='order']) .bcn-rcfg__grip {
+    display: none;
+  }
+  /* The type's mark (B2): Beacon's report-types icon on a brand-muted tile. It marks the
+     record, the structure; the template rows under it carry none. */
+  .bcn-rcfg__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: 24px;
+    block-size: 24px;
+    border-radius: var(--radius-200);
+    background: var(--color-background-brand-muted);
+    color: var(--color-content-brand);
+  }
+  /* Every xs action in the list (each head's Edit, each row's Edit and overflow) at 24px,
+     not esa-button xs's 32: those buttons are the floor of the head's and the rows' height.
+     Solved through the lego's own vertical-padding hook, the technique bcn-filter-bar's
+     compact mode uses for its controls. Worth a /request-lego: a denser button step. */
+  .bcn-rcfg :global(.esa-button--xs) {
+    --_btn-pad-y: var(--spacing-100);
+  }
+  .bcn-rcfg__type-name {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+  }
+  /* The type's facts as pills (B5): its template count, and the reports filed on them. */
+  .bcn-rcfg__facts {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    flex-shrink: 0;
+  }
+  .bcn-rcfg__pill {
+    display: inline-flex;
+  }
+  /* Templates have a colour of their own, iris: this pill, and the report-templates glyph on
+     each template row (bcn-report-template-card), so the count and the rows it counts read
+     as one thing. Set through esa-pill's category axis (the spoke declares the ramp; the
+     lego reads steps 2 / 6 / 11), not an intent variant: a count is not a status. */
+  .bcn-rcfg :global(.esa-pill[data-category='report-template']) {
+    --category-2: var(--color-iris-2);
+    --category-6: var(--color-iris-6);
+    --category-11: var(--color-iris-11);
+  }
+  .bcn-rcfg__spacer {
+    flex: 1;
+  }
+  /* The last edit is a time, not a fact to tally: plain italic text, set right. */
+  .bcn-rcfg__latest {
+    flex-shrink: 0;
+    font-style: italic;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+
+  /* The templates sit on the card's own white under the head (no well) as filled rows
+     (bcn-report-template-card), indented to the mark's left edge (grip + chevron + two
+     gaps): in enough to belong to the type, not so far that the rows lose width. */
+  .bcn-rcfg__body {
+    --_rcfg-indent: calc(8px + 20px + 2 * var(--spacing-200));
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-200) var(--spacing-200) calc(var(--spacing-250) + var(--_rcfg-indent));
+  }
+  .bcn-rcfg__add {
+    align-self: flex-start;
+  }
+  .bcn-rcfg__type[data-collapsed] .bcn-rcfg__body {
+    display: none;
+  }
+  .bcn-rcfg:not([data-sort='order']) .bcn-rcfg__body {
+    --_rcfg-indent: calc(20px + var(--spacing-200));
+  }
+
+  /* A template list — bcn-evidence-targets' .bcn-ev-attached stack: each template its own
+     small card (bcn-report-template-card), tightly gapped. The Templates tab's lists are
+     dealt by report-config.ts, so they carry no scope attribute: hence :global. */
+  .bcn-rcfg :global(.bcn-rcfg__tpls) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-rcfg__none {
+    margin: 0;
+    padding-block: var(--spacing-100);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-rcfg__flat :global([hidden]) {
+    display: none;
+  }
+  .bcn-rcfg__held {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+</style>

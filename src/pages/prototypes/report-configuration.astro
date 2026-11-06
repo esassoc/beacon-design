@@ -1,0 +1,37 @@
+---
+// Report Configuration (epic BCN-2017) — the tenant's report types and report templates,
+// moved out of Settings into the project's Reporting nav (BCN-2018). A fresh design, not a
+// port of feature/report-config: two tabs again, but Report types holds each type's
+// templates, and Templates is a flat, starrable list (see BcnReportConfig). The data contract lives in src/data/report-configuration.ts.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnPageNote from '../../components/bcn/BcnPageNote.astro';
+import BcnReportConfig from '../../components/bcn/BcnReportConfig.astro';
+import { PROJECT } from '../../data/project-dashboard';
+
+const CLIPBOARD_LIST =
+  '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>';
+---
+
+<!-- manifest:
+  layout: PageLayout                                    # SPINE
+  sections:
+    - scope badge   -> esa-badge                        # "All projects", in PageLayout's title-badge slot
+    - scope note    -> bcn-page-note                    # "Changes here apply…", right of the title (utilities slot)
+    - configuration -> bcn-report-config                # tabs: Report types (collapsible type cards) / Templates (starrable list)
+-->
+
+<AppShell
+  title="Report Configuration"
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="report-configuration"
+  expandedSections={['reporting']}
+>
+  <PageLayout title="Report Configuration" icon="clipboard-list" iconPaths={CLIPBOARD_LIST} breadcrumbs={[{ label: 'Reporting' }, { label: 'Report Configuration' }]}>
+    <EsaBadge slot="title-badge" value="All projects" variant="secondary" size="sm" />
+    <BcnPageNote slot="utilities">Changes here apply to every project in this tenant.</BcnPageNote>
+    <BcnReportConfig />
+  </PageLayout>
+</AppShell>

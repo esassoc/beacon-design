@@ -728,6 +728,25 @@ export const prototypeGroups: PrototypeGroup[] = [
     ],
   },
   {
+    slug: 'report-configuration',
+    tenant: 'platform',
+    title: 'Report Configuration',
+    description:
+      'Report types and templates move out of Settings into the project’s Reporting nav, open to tenant admins, with a design refresh (epic BCN-2017).',
+    pages: [
+      {
+        slug: 'report-configuration',
+        title: 'Report Configuration',
+        description:
+          'The tenant’s report types and templates in two tabs: Report types (each type a collapsible card holding its templates) and Templates (one starrable list with sort and filters). Each template is a compact row with its reports, last edit, and Edit / Clone / Delete.',
+        route: '/prototypes/report-configuration',
+        createdAt: '2026-11-04',
+        ticket: 'BCN-2018',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'help-guidance',
     tenant: 'platform',
     title: 'Help & Guidance',

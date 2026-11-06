@@ -1,0 +1,32 @@
+---
+// <BcnPageNote> — one quiet line of context for a whole page, sized to ride PageLayout's
+// title row in its `utilities` slot (right of the title): an info icon and secondary
+// text, e.g. Report Configuration's "Changes here apply to every project in this tenant."
+// Not an alert: it says how the page behaves, it doesn't ask for anything.
+//
+// bcn-lego-checked: esa-icon (the glyph). esa-alert-box is a boxed, coloured callout
+// that demands attention; esa-page-header's lede sits under the title, not beside it.
+// Checked Beacon (page-layout has no note slot). The CSS is the icon/text line.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** Icon before the text. */
+  icon?: string;
+}
+const { icon = 'info', ...rest } = Astro.props;
+---
+
+<p class="bcn-page-note typography-body-sm" {...rest}>
+  <EsaIcon name={icon} size="sm" />
+  <slot />
+</p>
+
+<style>
+  .bcn-page-note {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+</style>
