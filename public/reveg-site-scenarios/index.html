@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="../beacon-icon.svg" type="image/svg+xml">
+<title>Reveg Site Scenarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+
+/* Layout: sticky watershed balance strip on top; each watershed is a site list with its own balance panel pinned beside it. */
+:root {
+  --bg: #f5f7f7;
+  --surface: #ffffff;
+  --surface-2: #eef2f2;
+  --line: #d6dfdf;
+  --fg: #17262a;
+  --muted: #5a6c70;
+  --accent: #23628c;
+  --good: #2e7d4f;
+  --good-soft: #e3f2e8;
+  --warn: #7a5a00;
+  --warn-soft: #fff4bf;
+  --warn-line: #e0b400;
+  --bad: #b23a33;
+  --bad-soft: #fae6e4;
+  --drop-row: #f9efee;
+  --font-display: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --strip-h: 74px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1719; --surface: #162125; --surface-2: #1c2a2f; --line: #2c3d42;
+    --fg: #e3ecee; --muted: #93a6ab; --accent: #6fb3e0;
+    --good: #6cc792; --good-soft: #17352a; --warn: #f3d35c; --warn-soft: #3a3210; --warn-line: #c9a414;
+    --bad: #ef8079; --bad-soft: #3d1f1d; --drop-row: #2a1c1c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1719; --surface: #162125; --surface-2: #1c2a2f; --line: #2c3d42;
+  --fg: #e3ecee; --muted: #93a6ab; --accent: #6fb3e0;
+  --good: #6cc792; --good-soft: #17352a; --warn: #f3d35c; --warn-soft: #3a3210; --warn-line: #c9a414;
+  --bad: #ef8079; --bad-soft: #3d1f1d; --drop-row: #2a1c1c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.2rem; font-weight: 600; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+header { padding-top: 24px; }
+header p { margin: 6px 0 0; max-width: 72ch; color: var(--muted); }
+
+/* Sticky balance strip */
+.strip { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 1px solid var(--line); margin: 0 -4px; padding-inline: 4px; }
+.strip-inner { display: flex; gap: 8px; overflow-x: auto; }
+.grp { display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); min-width: 0; }
+.grp-total { flex: 1.15; background: transparent; border-color: transparent; padding: 4px 0; }
+.grp .chip { flex: 1 1 0; min-width: 118px; }
+.chip.total { cursor: default; background: var(--accent); border-color: var(--accent); }
+.chip.total .name, .chip.total .bal, .chip.total .sub { color: var(--surface); }
+.chip.total .sub.short { color: var(--surface); background: var(--bad); border-radius: 4px; padding: 0 4px; margin-top: 2px; white-space: normal; }
+.chip.basin { border-color: var(--accent); border-width: 2px; }
+.chip.basin .name { color: var(--accent); }
+.chip.basin .sub.short { color: var(--bad); white-space: normal; }
+.basin { display: flex; flex-direction: column; gap: 12px; scroll-margin-top: calc(var(--strip-h) + 16px); }
+.basin + .basin { margin-top: 16px; }
+.basin-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 10px 24px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+.basin-name { font-size: 1.45rem; }
+.basin-tot { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 0.9rem; }
+.basin-tot b { font-family: var(--font-display); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 7px 10px; font: inherit; color: inherit; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.chip:hover { border-color: var(--accent); }
+.chip .name { font-size: 0.74rem; font-weight: 600; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chip .bal { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chip .sub { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.chip.neg { border-color: var(--bad); background: var(--bad-soft); }
+.chip.neg .bal, .chip.neg .sub { color: var(--bad); }
+.chip.thin { border-color: var(--warn-line); background: var(--warn-soft); }
+.chip.thin .bal, .chip.thin .sub { color: var(--warn); }
+@media (max-width: 720px) {
+  .grp-total { flex: none; } .grp-total .chip { min-width: 150px; }
+}
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; }
+.ctl { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button { border: 0; background: var(--surface); color: var(--fg); font: inherit; font-size: 0.85rem; padding: 6px 11px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); font-weight: 600; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: inherit; font-size: 0.85rem; padding: 6px 11px; border-radius: 7px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+label.check { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; cursor: pointer; max-width: 44ch; }
+input[type="text"], select { font: inherit; font-size: 0.85rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--fg); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Watershed blocks */
+section.ws { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; scroll-margin-top: calc(var(--strip-h) + 16px); }
+section.ws.neg { border-color: var(--bad); box-shadow: 0 0 0 1px var(--bad); }
+section.ws.thin { border-color: var(--warn-line); box-shadow: 0 0 0 1px var(--warn-line); }
+.ws-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 14px 16px 10px; }
+.ws-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0; border-top: 1px solid var(--line); }
+@media (max-width: 960px) { .ws-body { grid-template-columns: minmax(0, 1fr); } .panel { order: -1; border-left: 0 !important; border-bottom: 1px solid var(--line); } .panel-inner { position: static !important; } }
+.tablebox { overflow-x: auto; min-width: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; min-width: 720px; }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: 0; }
+th { text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; background: var(--surface-2); white-space: nowrap; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+tr.dropped td { background: var(--drop-row); }
+tr.dropped .site-id { text-decoration: line-through; text-decoration-color: var(--bad); }
+tr.dropped td.r { color: var(--muted); }
+tr.dropped td.alloc { color: var(--bad); font-weight: 600; }
+.site-id { font-weight: 600; white-space: nowrap; }
+.site-meta { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
+.crit { display: inline-flex; gap: 6px; flex-wrap: nowrap; }
+.c { font-size: 0.72rem; font-weight: 600; padding: 1px 6px; border-radius: 5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.c.ok { background: var(--good-soft); color: var(--good); }
+.c.no { background: var(--bad-soft); color: var(--bad); }
+.c.near { background: var(--warn-soft); color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn-line); }
+.note { background: var(--surface); border: 1px solid var(--accent); color: var(--fg); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.8rem; color: var(--muted); }
+.legend span.c { margin-right: 4px; }
+.c.na { background: var(--surface-2); color: var(--muted); }
+
+/* Toggle switch */
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; white-space: nowrap; user-select: none; }
+.switch input { appearance: none; -webkit-appearance: none; width: 34px; height: 20px; border-radius: 999px; background: var(--bad); position: relative; cursor: pointer; margin: 0; flex: none; transition: background .15s; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: left .15s; }
+.switch input:checked { background: var(--good); }
+.switch input:checked::after { left: 16px; }
+.switch .lbl-keep { color: var(--good); }
+.switch .lbl-drop { color: var(--bad); }
+@media (prefers-reduced-motion: reduce) { .switch input, .switch input::after { transition: none; } }
+
+/* Balance panel */
+.panel { border-left: 1px solid var(--line); background: var(--surface-2); border-radius: 0 0 10px 0; }
+.panel-inner { position: sticky; top: calc(var(--strip-h) + 12px); padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.ledger { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 0.84rem; margin: 0; }
+.ledger dt { color: var(--muted); }
+.ledger dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.ledger .minus { color: var(--bad); }
+.ledger .total { border-top: 1px solid var(--line); padding-top: 6px; font-weight: 600; color: var(--fg); }
+.big { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.big-ac { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--muted); margin-top: -6px; }
+.big-ac.neg { color: var(--bad); }
+.big-ac.thin { color: var(--warn); }
+.big.neg { color: var(--bad); }
+.big.thin { color: var(--warn); }
+.alert { background: var(--bad); color: var(--surface); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; font-weight: 600; display: flex; gap: 8px; align-items: flex-start; }
+.alert svg { flex: none; margin-top: 2px; }
+.okmsg { color: var(--good); font-size: 0.82rem; font-weight: 600; }
+.thinmsg { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn-line); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; font-weight: 600; display: flex; gap: 8px; align-items: flex-start; }
+.thinmsg svg { flex: none; margin-top: 2px; }
+.moves { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; }
+.moves li { display: flex; justify-content: space-between; gap: 8px; }
+.moves .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.moves .short { color: var(--bad); font-weight: 600; }
+footer { font-size: 0.8rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px; max-width: 92ch; }
+.toast { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+.toast.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">SMP revegetation mitigation · scenario analysis</div>
+    <h1>Reveg Site Scenarios</h1>
+    <p>Switch a site off to drop it from maintenance and monitoring. The credits already allocated to it must then be covered by unused credit at the sites you keep in the same watershed. Each watershed's balance updates beside its sites and in the strip at the top.</p>
+  </header>
+
+  <div class="strip" id="strip"><div class="strip-inner" id="chips"></div></div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="eyebrow">Quick scenarios</span>
+      <div class="row">
+        <button class="btn" id="presetAll" type="button">Maintain all sites</button>
+        <button class="btn" id="presetFail" type="button">Drop sites failing a criterion</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="eyebrow">Sites relative to OHW</span>
+      <div class="seg" role="group" aria-label="Filter sites by OHW position">
+        <button type="button" data-ohw="all" aria-pressed="true">All</button>
+        <button type="button" data-ohw="Above" aria-pressed="false">Above OHW</button>
+        <button type="button" data-ohw="Below" aria-pressed="false">Below OHW</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="eyebrow">Allocations counted</span>
+      <div class="seg" role="group" aria-label="Allocations counted">
+        <button type="button" id="basis26" aria-pressed="true">Through 2026 NPW</button>
+        <button type="button" id="basis25" aria-pressed="false">Through 2025 ASR</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="eyebrow">Success criteria</span>
+      <div class="legend">
+        <span><span class="c ok">Pass</span>meets threshold</span>
+        <span><span class="c near">Near</span>misses by 10 points or less</span>
+        <span><span class="c no">Fail</span>misses by more than 10 points</span>
+      </div>
+    </div>
+    <div class="ctl">
+      <label class="check"><input type="checkbox" id="strictDonors"> Only count unused credit at sites meeting all success criteria</label>
+    </div>
+    <div class="ctl">
+      <span class="eyebrow">Saved scenarios (this browser)</span>
+      <div class="row">
+        <input type="text" id="scenName" placeholder="Scenario name" aria-label="Scenario name">
+        <button class="btn" id="saveScen" type="button">Save</button>
+        <select id="loadScen" aria-label="Load a saved scenario"><option value="">Load…</option></select>
+        <button class="btn" id="delScen" type="button">Delete</button>
+        <button class="btn primary" id="copySum" type="button">Copy summary</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ohwNote" class="note" role="status" hidden></div>
+  <div id="sections" style="display:flex;flex-direction:column;gap:16px"></div>
+
+  <footer>
+    <div><b>Source:</b> Reveg_Mitigation_Balance_20261111_TG-CF.xlsx, Sheet1, green columns. Credits = Final Total Reveg Credits (col V). Allocated = Total Credits Allocated as of 2026 NPW (col Y), or Credits Allocated as of 2025 ASR (col W) when that basis is selected. Unused = credits − allocated (matches col Z). Acres = sq ft ÷ 43,560.</div>
+    <div><b>Watershed balance</b> = unused credit at kept sites − credits allocated to dropped sites. Red means the balance is negative and the dropped allocations cannot be covered inside the watershed. Credit from dropped sites is moved to kept sites with the most unused credit first, preferring sites that meet all success criteria.</div>
+    <div><b>Basins:</b> North County (Santa Clara) covers Coyote, Guadalupe, Lower Peninsula and West Valley; South County (Pajaro) covers Uvas/Llagas. Basin and all-basin figures add up the positive watershed balances as excess credit and list any watershed shortfalls separately, because credit is not moved between watersheds.</div>
+    <div><b>Success criteria</b> (cols F–K): tree survivorship (TS) &gt;75%, native cover (NC) &gt;75% below OHW or &gt;50% above OHW, non-native cover (NNC) &lt;10%. Green meets the threshold. Yellow misses it by 10 percentage points or less (TS 65–75%, NC 40–50% or 65–75%, NNC 10–20%). Red misses it by more than 10 points. TS shows n/a for sites with no tree credits. Tree credits (col L) are shown for reference and are not balanced.</div>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const SITES = [{"id":"14-SR-001","ws":"West Valley","ohw":"Below","yr":9,"tsC":">75%","ncC":">75%","nncC":"<10%","ts":0.0,"nc":0.82,"nnc":0.046,"trees":0,"ratio":1.1,"credit":1015.3,"a25":922.9,"a26":0.0,"alloc":922.9,"rem":92.4},{"id":"16-SR-001","ws":"West Valley","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.0,"nc":1.157,"nnc":0.167,"trees":0,"ratio":1.3,"credit":3088.15,"a25":2375.5,"a26":533.7,"alloc":2909.2,"rem":178.95},{"id":"16-SR-004","ws":"Guadalupe","ohw":"Below","yr":9,"tsC":">75%","ncC":">75%","nncC":"<10%","ts":0.7931,"nc":1.019,"nnc":0.064,"trees":29,"ratio":1.3,"credit":97542.9,"a25":97542.6,"a26":0.0,"alloc":97542.6,"rem":0.3},{"id":"16-SR-007","ws":"Coyote","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":0.671,"nnc":0.119,"trees":8,"ratio":1.5,"credit":9850.5,"a25":9065.0,"a26":0.0,"alloc":9065.0,"rem":785.5},{"id":"16-SR-009","ws":"Lower Pen","ohw":"Above","yr":9,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.875,"nc":0.506,"nnc":0.008,"trees":32,"ratio":1.3,"credit":21239.4,"a25":19646.0,"a26":0.0,"alloc":19646.0,"rem":1593.4},{"id":"16-SR-011","ws":"Lower Pen","ohw":"Above","yr":9,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8974,"nc":0.603,"nnc":0.01,"trees":39,"ratio":1.29383,"credit":13034.04,"a25":10074.0,"a26":0.0,"alloc":10074.0,"rem":2960.04},{"id":"16-SR-013","ws":"West Valley","ohw":"Above","yr":9,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.9444,"nc":0.359,"nnc":0.017,"trees":18,"ratio":1.1,"credit":13908.4,"a25":13276.9,"a26":631.5,"alloc":13908.4,"rem":0.0},{"id":"17-SR-001","ws":"West Valley","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":0.283,"nnc":0.032,"trees":161,"ratio":1.1,"credit":66110.11,"a25":66110.1,"a26":0.0,"alloc":66110.1,"rem":0.01},{"id":"18-PR-001","ws":"Uvas/Llagas","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8501,"nc":0.43,"nnc":0.105,"trees":387,"ratio":1.29232,"credit":225954.12,"a25":133163.0,"a26":975.0,"alloc":134138.0,"rem":91816.12},{"id":"18-SR-001","ws":"Coyote","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.7978,"nc":0.779,"nnc":0.158,"trees":89,"ratio":1.5,"credit":96967.5,"a25":52108.0,"a26":8208.0,"alloc":60316.0,"rem":36651.5},{"id":"18-SR-002","ws":"Guadalupe","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.0,"nc":0.63,"nnc":0.169,"trees":0,"ratio":1.3,"credit":72313.41,"a25":72313.0,"a26":0.0,"alloc":72313.0,"rem":0.41},{"id":"18-SR-003","ws":"Coyote","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.7636,"nc":0.206,"nnc":0.006,"trees":55,"ratio":1.3,"credit":47030.17,"a25":36435.0,"a26":180.0,"alloc":36615.0,"rem":10415.17},{"id":"18-SR-004","ws":"Lower Pen","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8304,"nc":0.501,"nnc":0.06,"trees":112,"ratio":1.3,"credit":60121.1,"a25":60121.1,"a26":0.0,"alloc":60121.1,"rem":0.0},{"id":"18-SR-006","ws":"Guadalupe","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.7708,"nc":0.689,"nnc":0.012,"trees":48,"ratio":1.3,"credit":36495.6,"a25":36495.0,"a26":0.0,"alloc":36495.0,"rem":0.6},{"id":"18-SR-007","ws":"Guadalupe","ohw":"Above","yr":7,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8593,"nc":0.691,"nnc":0.025,"trees":135,"ratio":1.1,"credit":42865.93,"a25":41517.0,"a26":1122.0,"alloc":42639.0,"rem":226.93},{"id":"18-SR-008","ws":"Lower Pen","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":0.984,"nnc":0.019,"trees":4,"ratio":1.1,"credit":6846.07,"a25":6240.0,"a26":0.0,"alloc":6240.0,"rem":606.07},{"id":"19-SR-003","ws":"Lower Pen","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":0.987,"nnc":0.099,"trees":3,"ratio":1.3,"credit":5164.9,"a25":5099.0,"a26":0.0,"alloc":5099.0,"rem":65.9},{"id":"19-SR-004","ws":"West Valley","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.85,"nc":0.636,"nnc":0.039,"trees":20,"ratio":1.3,"credit":12205.15,"a25":9492.0,"a26":2713.0,"alloc":12205.0,"rem":0.15},{"id":"19-SR-005","ws":"West Valley","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.75,"nc":0.69,"nnc":0.15,"trees":36,"ratio":1.1,"credit":28072.04,"a25":27875.0,"a26":0.0,"alloc":27875.0,"rem":197.04},{"id":"19-SR-006","ws":"Lower Pen","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.0,"nc":0.541,"nnc":0.051,"trees":0,"ratio":1.1,"credit":23687.4,"a25":2180.0,"a26":0.0,"alloc":2180.0,"rem":21507.4},{"id":"19-SR-007","ws":"Lower Pen","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8462,"nc":0.971,"nnc":0.0,"trees":26,"ratio":1.23822,"credit":6415.29,"a25":6415.0,"a26":0.0,"alloc":6415.0,"rem":0.29},{"id":"20-SR-001","ws":"Coyote","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.9583,"nc":0.401,"nnc":0.001,"trees":24,"ratio":1.1,"credit":23745.7,"a25":23087.0,"a26":0.0,"alloc":23087.0,"rem":658.7},{"id":"20-SR-002","ws":"Guadalupe","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8125,"nc":0.433,"nnc":0.015,"trees":32,"ratio":1.2,"credit":20007.6,"a25":19989.5,"a26":0.0,"alloc":19989.5,"rem":18.1},{"id":"20-SR-003","ws":"Guadalupe","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.7949,"nc":0.527,"nnc":0.056,"trees":117,"ratio":1.1,"credit":106713.2,"a25":51591.2,"a26":3768.0,"alloc":55359.2,"rem":51354.0},{"id":"20-SR-004","ws":"Guadalupe","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":1.246,"nnc":0.051,"trees":7,"ratio":1.26,"credit":19590.48,"a25":19590.0,"a26":0.0,"alloc":19590.0,"rem":0.48},{"id":"20-SR-008","ws":"Guadalupe","ohw":"Above","yr":5,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.7636,"nc":0.444,"nnc":0.116,"trees":55,"ratio":1.3,"credit":24832.47,"a25":24832.1,"a26":0.0,"alloc":24832.1,"rem":0.37},{"id":"21-SR-001","ws":"Coyote","ohw":"Below","yr":5,"tsC":">75%","ncC":">75%","nncC":"<10%","ts":0.9792,"nc":0.487,"nnc":0.107,"trees":96,"ratio":1.1,"credit":104654.0,"a25":58569.5,"a26":9871.0,"alloc":68440.5,"rem":36213.5},{"id":"22-SR-001","ws":"West Valley","ohw":"Above","yr":3,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.8659,"nc":0.276,"nnc":0.037,"trees":82,"ratio":1.3,"credit":52478.4,"a25":39575.5,"a26":5003.0,"alloc":44578.5,"rem":7899.9},{"id":"22-SR-002","ws":"Lower Pen","ohw":"Above","yr":3,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":1.0,"nc":0.642,"nnc":0.02,"trees":7,"ratio":1.12,"credit":2510.84,"a25":2400.5,"a26":0.0,"alloc":2400.5,"rem":110.34},{"id":"23-SR-001","ws":"Guadalupe","ohw":"Above","yr":1,"tsC":">75%","ncC":">50%","nncC":"<10%","ts":0.6222,"nc":0.141,"nnc":0.044,"trees":45,"ratio":1.18,"credit":60133.38,"a25":1407.5,"a26":29220.0,"alloc":30627.5,"rem":29505.88}];
+
+const BASINS = [
+  { key: "north", name: "North County", area: "Santa Clara", ws: ["Coyote", "Guadalupe", "Lower Pen", "West Valley"] },
+  { key: "south", name: "South County", area: "Pajaro", ws: ["Uvas/Llagas"] },
+];
+const WS_ORDER = BASINS.flatMap(b => b.ws);
+const WS_NAME = { "Lower Pen": "Lower Peninsula", "Uvas/Llagas": "Uvas/Llagas" };
+const EPS = 0.5;
+const state = { drop: {}, basis: "26", strict: false, ohw: "all" };
+const inFilter = s => state.ohw === "all" || s.ohw === state.ohw;
+const ohwLabel = () => state.ohw === "all" ? "" : `${state.ohw.toLowerCase()}-OHW `;
+
+// ---------- criteria ----------
+function parseCrit(s) { const m = /([<>])\s*(\d+(?:\.\d+)?)%/.exec(s || ""); return m ? { op: m[1], v: +m[2] / 100 } : null; }
+function test(val, crit) { const c = parseCrit(crit); if (!c) return null; return c.op === ">" ? val >= c.v : val < c.v; }
+// failing, but within 10 percentage points of the threshold: e.g. >50% is near at 40–50%; <10% is near at 10–20%
+const NEAR_PTS = 0.10;
+function near(val, crit) {
+  const c = parseCrit(crit); if (!c || test(val, crit)) return false;
+  return c.op === ">" ? val >= c.v - NEAR_PTS : val <= c.v + NEAR_PTS;
+}
+SITES.forEach(s => {
+  const ts = s.trees > 0 ? test(s.ts, s.tsC) : null, nc = test(s.nc, s.ncC), nnc = test(s.nnc, s.nncC);
+  s.crit = { ts, nc, nnc, allPass: ![ts, nc, nnc].includes(false),
+    near: { ts: ts !== null && near(s.ts, s.tsC), nc: near(s.nc, s.ncC), nnc: near(s.nnc, s.nncC) } };
+});
+
+// ---------- model ----------
+function compute() {
+  const out = {};
+  for (const ws of WS_ORDER) {
+    const rows = SITES.filter(s => s.ws === ws && inFilter(s)).sort((a, b) => a.id.localeCompare(b.id)).map(s => {
+      const alloc = state.basis === "26" ? s.alloc : s.a25;
+      const dropped = !!state.drop[s.id];
+      const unused = Math.max(0, s.credit - alloc);
+      return { s, alloc, dropped, unused, eligible: !dropped && (!state.strict || s.crit.allPass), gives: [], gets: [], short: 0 };
+    });
+    const donors = rows.filter(r => r.eligible && r.unused > EPS)
+      .sort((a, b) => (b.s.crit.allPass - a.s.crit.allPass) || (b.unused - a.unused))
+      .map(r => ({ r, left: r.unused }));
+    const transfers = [];
+    for (const n of rows.filter(r => r.dropped && r.alloc > EPS).sort((a, b) => b.alloc - a.alloc)) {
+      let left = n.alloc;
+      for (const d of donors) {
+        if (left <= EPS) break;
+        if (d.left <= EPS) continue;
+        const amt = Math.min(left, d.left);
+        d.left -= amt; left -= amt;
+        transfers.push({ from: n, to: d.r, amt });
+        d.r.gets.push({ from: n.s.id, amt }); n.gives.push({ to: d.r.s.id, amt });
+      }
+      n.short = left > EPS ? left : 0;
+    }
+    const available = rows.filter(r => r.eligible).reduce((a, r) => a + r.unused, 0);
+    const needed = rows.filter(r => r.dropped).reduce((a, r) => a + r.alloc, 0);
+    const excluded = rows.filter(r => !r.dropped && !r.eligible).reduce((a, r) => a + r.unused, 0);
+    out[ws] = {
+      rows, transfers, available, needed, excluded, balance: available - needed,
+      droppedN: rows.filter(r => r.dropped).length,
+      keptTrees: rows.filter(r => !r.dropped).reduce((a, r) => a + r.s.trees, 0),
+      lostTrees: rows.filter(r => r.dropped).reduce((a, r) => a + r.s.trees, 0),
+    };
+  }
+  return out;
+}
+
+// ---------- format ----------
+const fmt = n => Math.round(n).toLocaleString("en-US");
+const signed = n => (n < -EPS ? "−" : n > EPS ? "+" : "") + fmt(Math.abs(n));
+const SF_PER_AC = 43560;
+const acres = n => (Math.abs(n) / SF_PER_AC).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const signedAc = n => (n < -EPS ? "−" : n > EPS ? "+" : "") + acres(n);
+function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+const wsName = ws => WS_NAME[ws] || ws;
+const wsKey = ws => "ws-" + ws.replace(/\W/g, "");
+function level(w) { return w.balance < -EPS ? "neg" : "ok"; }
+function critTag(label, val, pass, isNear, crit) {
+  if (pass === null) return `<span class="c na" title="${label}: no tree credits">${label} n/a</span>`;
+  const cls = pass ? "ok" : isNear ? "near" : "no";
+  const why = pass ? "meets" : isNear ? "misses by 10 points or less:" : "misses by more than 10 points:";
+  return `<span class="c ${cls}" title="${label} ${Math.round(val * 100)}% ${why} threshold ${esc(crit)}">${label} ${Math.round(val * 100)}%</span>`;
+}
+const WARN_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l7 13H1L8 1zm-.9 5v4h1.8V6H7.1zm0 5v1.8h1.8V11H7.1z"/></svg>';
+
+// ---------- render ----------
+let lastRes = null;
+// basin/total roll-up: excess sums positive watershed balances; shortfalls are reported separately (no cross-watershed netting)
+function rollup(res, list) {
+  const bals = list.map(ws => res[ws]).filter(w => w.rows.length).map(w => w.balance);
+  return {
+    excess: bals.filter(b => b > 0).reduce((a, b) => a + b, 0),
+    shortfall: bals.filter(b => b < -EPS).reduce((a, b) => a - b, 0),
+    shortN: bals.filter(b => b < -EPS).length,
+  };
+}
+function render() {
+  const res = compute(); lastRes = res;
+
+  const ohwTag = state.ohw === "all" ? "" : ` · ${state.ohw} OHW`;
+  const rollChip = (cls, name, r, jump) => `<${jump ? "button type=\"button\"" : "div"} class="chip ${cls}" ${jump ? `data-jump="${jump}"` : ""} title="Sum of positive watershed balances. Credit does not move between watersheds.">
+      <span class="name">${name}</span>
+      <span class="bal">+${fmt(r.excess)} sf</span>
+      <span class="sub" style="font-weight:600">+${acres(r.excess)} ac excess</span>
+      <span class="sub ${r.shortN ? "short" : ""}">${r.shortN ? `⚠ ${fmt(r.shortfall)} sf (${acres(r.shortfall)} ac) short in ${r.shortN}` : "All watersheds covered"}</span>
+    </${jump ? "button" : "div"}>`;
+  const wsChip = ws => {
+    const w = res[ws], lv = level(w);
+    if (!w.rows.length) return `<div class="chip" style="cursor:default"><span class="name">${esc(wsName(ws))}</span><span class="bal muted">—</span><span class="sub">No ${ohwLabel()}sites</span></div>`;
+    return `<button type="button" class="chip ${lv}" data-jump="${esc(ws)}" title="Jump to ${esc(wsName(ws))}">
+      <span class="name">${esc(wsName(ws))}</span>
+      <span class="bal">${lv === "neg" ? "⚠ " : ""}${signed(w.balance)} sf</span>
+      <span class="sub" style="font-weight:600">${signedAc(w.balance)} ac</span>
+      <span class="sub">${lv === "neg" ? "Shortfall" : w.droppedN ? `${w.droppedN} dropped · ${fmt(w.needed)} sf to cover` : "No sites dropped"}</span>
+    </button>`;
+  };
+  document.getElementById("chips").innerHTML =
+    `<div class="grp grp-total">${rollChip("total", "All basins" + ohwTag, rollup(res, WS_ORDER))}</div>` +
+    BASINS.map(b => `<div class="grp" style="flex:${b.ws.length + 1}">${rollChip("basin", `${b.name}${ohwTag}`, rollup(res, b.ws), "basin-" + b.key)}${b.ws.map(wsChip).join("")}</div>`).join("");
+
+  const note = document.getElementById("ohwNote");
+  note.hidden = state.ohw === "all";
+  note.textContent = `Showing ${state.ohw.toLowerCase()}-OHW sites only. Balances, credit moves and the total count only these sites, so credit is not moved between above- and below-OHW sites.`;
+  const wsHtml = ws => {
+    const w = res[ws], lv = level(w);
+    if (!w.rows.length) return `<section class="ws" id="${wsKey(ws)}"><div class="ws-head"><h2>${esc(wsName(ws))}</h2><span class="muted">No ${ohwLabel()}sites in this watershed</span></div></section>`;
+    const rows = w.rows.map(r => {
+      const s = r.s, c = s.crit;
+      let effect = "";
+      if (r.dropped) {
+        effect = r.gives.map(g => `→ ${g.to}`).join(", ");
+        if (r.short > EPS) effect += `${effect ? ", " : ""}<span style="color:var(--bad);font-weight:600">${fmt(r.short)} sf uncovered</span>`;
+      } else if (r.gets.length) {
+        effect = `<span style="color:var(--fg)">takes ${fmt(r.gets.reduce((a, g) => a + g.amt, 0))} sf</span>`;
+      } else if (!r.eligible && r.unused > EPS) {
+        effect = "not counted";
+      }
+      const unusedAfter = r.unused - r.gets.reduce((a, g) => a + g.amt, 0);
+      return `<tr class="${r.dropped ? "dropped" : ""}">
+        <td><label class="switch"><input type="checkbox" id="keep-${s.id}" data-site="${s.id}" ${r.dropped ? "" : "checked"} aria-label="Maintain ${s.id}"><span class="${r.dropped ? "lbl-drop" : "lbl-keep"}">${r.dropped ? "Drop" : "Keep"}</span></label></td>
+        <td><div class="site-id">${s.id}</div><div class="site-meta">${s.ohw} OHW · Yr ${s.yr} · ${s.trees} tree cr.</div></td>
+        <td><span class="crit">${critTag("TS", s.ts, c.ts, c.near.ts, s.tsC)}${critTag("NC", s.nc, c.nc, c.near.nc, s.ncC)}${critTag("NNC", s.nnc, c.nnc, c.near.nnc, s.nncC)}</span></td>
+        <td class="r">${fmt(s.credit)}</td>
+        <td class="r alloc">${fmt(r.alloc)}</td>
+        <td class="r">${r.dropped ? "—" : fmt(unusedAfter)}</td>
+        <td class="muted" style="font-size:.78rem">${effect}</td>
+      </tr>`;
+    }).join("");
+
+    let status;
+    if (lv === "neg") status = `<div class="alert" role="alert">${WARN_ICON}<span>Short ${fmt(-w.balance)} sf. Kept sites in ${esc(wsName(ws))} cannot cover the credits allocated to the dropped site${w.droppedN > 1 ? "s" : ""}.</span></div>`;
+    else if (lv === "thin") status = `<div class="thinmsg" role="status">${WARN_ICON}<span>Within 10% of target. Covered, but only ${fmt(w.balance)} sf is left after replacing ${fmt(w.needed)} sf.</span></div>`;
+    else if (w.droppedN) status = `<div class="okmsg">Covered within the watershed.</div>`;
+    else status = `<div class="muted" style="font-size:.82rem">All sites maintained. Switch a site off to test dropping it.</div>`;
+
+    const moves = w.transfers.length || w.rows.some(r => r.short > EPS)
+      ? `<div class="eyebrow">Credit moves</div><ul class="moves">
+          ${w.transfers.map(t => `<li><span>${t.from.s.id} → ${t.to.s.id}</span><span class="num">${fmt(t.amt)} sf</span></li>`).join("")}
+          ${w.rows.filter(r => r.short > EPS).map(r => `<li class="short"><span>${r.s.id} → none</span><span class="num">${fmt(r.short)} sf</span></li>`).join("")}
+        </ul>` : "";
+
+    return `<section class="ws ${lv === "ok" ? "" : lv}" id="${wsKey(ws)}">
+      <div class="ws-head"><h2>${esc(wsName(ws))}</h2><span class="muted">${w.rows.length} site${w.rows.length > 1 ? "s" : ""} · ${w.rows.length - w.droppedN} kept</span></div>
+      <div class="ws-body">
+        <div class="tablebox"><table>
+          <thead><tr><th>Maintain</th><th>Site</th><th>Success criteria</th><th class="r">Credits (sf)</th><th class="r">Allocated (sf)</th><th class="r">Unused (sf)</th><th>Effect</th></tr></thead>
+          <tbody>${rows}</tbody></table></div>
+        <aside class="panel" aria-label="${esc(wsName(ws))} balance"><div class="panel-inner">
+          <div class="eyebrow">Watershed balance</div>
+          <div class="big ${lv === "neg" ? "neg" : lv === "thin" ? "thin" : ""}">${signed(w.balance)} sf</div>
+          <div class="big-ac ${lv === "neg" ? "neg" : lv === "thin" ? "thin" : ""}">${signedAc(w.balance)} acres</div>
+          ${status}
+          <dl class="ledger">
+            <dt>Unused credit at kept sites</dt><dd>${fmt(w.available)} sf<br><span class="muted">${acres(w.available)} ac</span></dd>
+            <dt>Allocated to dropped sites</dt><dd class="minus">−${fmt(w.needed)} sf<br><span class="muted">−${acres(w.needed)} ac</span></dd>
+            <dt class="total">Balance</dt><dd class="total" style="color:var(${lv === "neg" ? "--bad" : "--fg"})">${signed(w.balance)} sf<br>${signedAc(w.balance)} ac</dd>
+            ${w.excluded > EPS ? `<dt>Not counted (criteria not met)</dt><dd class="muted">${fmt(w.excluded)}</dd>` : ""}
+            <dt>Tree credits kept / lost</dt><dd>${w.keptTrees} / ${w.lostTrees}</dd>
+          </dl>
+          ${moves}
+        </div></aside>
+      </div>
+    </section>`;
+  };
+  document.getElementById("sections").innerHTML = BASINS.map(b => {
+    const r = rollup(res, b.ws);
+    return `<div class="basin" id="basin-${b.key}">
+      <div class="basin-head">
+        <div><div class="eyebrow">Basin</div><h2 class="basin-name">${b.name} <span class="muted" style="font-weight:500">${b.area}</span></h2>
+          <span class="muted">${b.ws.map(wsName).join(", ")}</span></div>
+        <div class="basin-tot">
+          <div><div class="eyebrow">Excess credit</div><b>+${fmt(r.excess)} sf</b> <span class="muted">+${acres(r.excess)} ac</span></div>
+          <div><div class="eyebrow">Shortfall</div><b style="color:var(${r.shortN ? "--bad" : "--muted"})">${r.shortN ? `−${fmt(r.shortfall)} sf` : "None"}</b>${r.shortN ? ` <span style="color:var(--bad)">−${acres(r.shortfall)} ac · ${r.shortN} watershed${r.shortN > 1 ? "s" : ""}</span>` : ""}</div>
+        </div>
+      </div>
+      ${b.ws.map(wsHtml).join("")}
+    </div>`;
+  }).join("");
+  syncStripHeight();
+}
+function syncStripHeight() {
+  const h = document.getElementById("strip").offsetHeight;
+  if (h) document.documentElement.style.setProperty("--strip-h", h + "px");
+}
+addEventListener("resize", syncStripHeight);
+
+// ---------- events ----------
+document.addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.site;
+  if (!id) return;
+  if (e.target.checked) delete state.drop[id]; else state.drop[id] = true;
+  render();
+  const el = document.getElementById("keep-" + id); if (el) el.focus();
+});
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-jump]");
+  if (!t) return;
+  const el = document.getElementById(t.dataset.jump.startsWith("basin-") ? t.dataset.jump : wsKey(t.dataset.jump));
+  if (el) el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+});
+function setBasis(b) { state.basis = b; document.getElementById("basis26").setAttribute("aria-pressed", b === "26"); document.getElementById("basis25").setAttribute("aria-pressed", b === "25"); render(); }
+function setOhw(v) {
+  state.ohw = v;
+  document.querySelectorAll("[data-ohw]").forEach(b => b.setAttribute("aria-pressed", b.dataset.ohw === v));
+  render();
+}
+document.querySelectorAll("[data-ohw]").forEach(b => b.onclick = () => setOhw(b.dataset.ohw));
+document.getElementById("basis26").onclick = () => setBasis("26");
+document.getElementById("basis25").onclick = () => setBasis("25");
+document.getElementById("strictDonors").onchange = e => { state.strict = e.target.checked; render(); };
+document.getElementById("presetAll").onclick = () => { state.drop = {}; render(); toast("All sites maintained"); };
+document.getElementById("presetFail").onclick = () => { state.drop = {}; SITES.forEach(s => { if (!s.crit.allPass) state.drop[s.id] = true; }); render(); toast("Dropped every site that misses at least one criterion"); };
+
+// ---------- saved scenarios ----------
+const KEY = "reveg-scenarios-v1";
+function loadAll() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } }
+function saveAll(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); return true; } catch { return false; } }
+function refreshList() {
+  const sel = document.getElementById("loadScen"), all = loadAll();
+  sel.innerHTML = '<option value="">Load…</option>' + Object.keys(all).sort().map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join("");
+}
+document.getElementById("saveScen").onclick = () => {
+  const name = document.getElementById("scenName").value.trim();
+  if (!name) { toast("Type a scenario name first"); return; }
+  const all = loadAll(); all[name] = { drop: state.drop, basis: state.basis, strict: state.strict, ohw: state.ohw };
+  toast(saveAll(all) ? `Saved “${name}”` : "This browser blocked saving"); refreshList();
+};
+document.getElementById("loadScen").onchange = e => {
+  const s = loadAll()[e.target.value]; if (!s) return;
+  state.drop = s.drop || {}; state.strict = !!s.strict;
+  document.getElementById("strictDonors").checked = state.strict;
+  document.getElementById("scenName").value = e.target.value;
+  state.ohw = s.ohw || "all";
+  document.querySelectorAll("[data-ohw]").forEach(b => b.setAttribute("aria-pressed", b.dataset.ohw === state.ohw));
+  setBasis(s.basis || "26"); toast(`Loaded “${e.target.value}”`);
+};
+document.getElementById("delScen").onclick = () => {
+  const n = document.getElementById("loadScen").value;
+  if (!n) { toast("Pick a saved scenario to delete"); return; }
+  const all = loadAll(); delete all[n]; saveAll(all); refreshList(); toast(`Deleted “${n}”`);
+};
+
+// ---------- summary ----------
+function summaryText() {
+  const name = document.getElementById("scenName").value.trim(), lines = [];
+  lines.push(`Reveg site scenario${name ? ": " + name : ""}`);
+  lines.push(`Allocations counted: ${state.basis === "26" ? "through 2026 NPW" : "through 2025 ASR"}${state.strict ? "; only sites meeting all criteria can absorb credit" : ""}${state.ohw === "all" ? "" : `; ${state.ohw.toLowerCase()}-OHW sites only`}`);
+  const rl = (label, list) => { const r = rollup(lastRes, list); return `${label}: +${fmt(r.excess)} sf (+${acres(r.excess)} ac) excess${r.shortN ? `; ${fmt(r.shortfall)} sf (${acres(r.shortfall)} ac) short in ${r.shortN} watershed(s)` : ""}`; };
+  lines.push(rl("All basins", WS_ORDER));
+  BASINS.forEach(b => lines.push(rl(`${b.name} basin`, b.ws)));
+  for (const ws of WS_ORDER) {
+    const w = lastRes[ws], lv = level(w);
+    lines.push("", `${wsName(ws)}: balance ${signed(w.balance)} sf (${signedAc(w.balance)} ac)${lv === "neg" ? "  ** SHORTFALL **" : ""}`);
+    const dropped = w.rows.filter(r => r.dropped).map(r => r.s.id);
+    lines.push(dropped.length ? `  Dropped: ${dropped.join(", ")}` : "  All sites maintained");
+    w.transfers.forEach(t => lines.push(`  ${t.from.s.id} -> ${t.to.s.id}: ${fmt(t.amt)} sf`));
+    w.rows.filter(r => r.short > EPS).forEach(r => lines.push(`  ${r.s.id}: ${fmt(r.short)} sf NOT COVERED`));
+  }
+  return lines.join("\n");
+}
+document.getElementById("copySum").onclick = () => {
+  const txt = summaryText();
+  navigator.clipboard.writeText(txt).then(() => toast("Summary copied"), () => {
+    const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); toast("Summary copied"); } catch { toast("Copy blocked; select the text manually"); }
+    ta.remove();
+  });
+};
+let toastTimer;
+function toast(m) { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200); }
+
+refreshList();
+render();
+</script>
+
+</body>
+</html>
