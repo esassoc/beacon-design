@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CFG=\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"; grep -sq '\"ecology\"' \"$CFG/settings.json\" \"$CFG/plugins/known_marketplaces.json\" || echo 'WARNING: the ecology plugin marketplace is not installed — component-first enforcement and the spoke skills are OFF. Accept the plugin install prompt, or run: claude plugin marketplace add esassoc/ecology && enable spoke-kit@ecology via /plugin.'"
+            "command": "CFG=\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"; if [ \"$CLAUDE_CODE_REMOTE\" = true ]; then [ -f \"$CFG/skills/component-first/SKILL.md\" ] || echo 'WARNING: the spoke-kit skills are not installed in this cloud session. Plugins do not install in the cloud; the environment setup script copies them from ../ecology/plugins/spoke-kit into ~/.claude.'; else grep -sq '\"ecology\"' \"$CFG/settings.json\" \"$CFG/plugins/known_marketplaces.json\" || echo 'WARNING: the ecology plugin marketplace is not installed — component-first enforcement and the spoke skills are OFF. Accept the plugin install prompt, or run: claude plugin marketplace add esassoc/ecology && enable spoke-kit@ecology via /plugin.'; fi"
           }
         ]
       }
